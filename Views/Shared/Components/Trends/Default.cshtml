@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
+@{
+	int index = 1;
+}
+@* @helper Truncate(string input, int length)
+{if (string.IsNullOrEmpty(input))
+	{<text> </text>}
+else if (input.Length <= length)
+{@input}
+else
+{@input.Substring(0, length)<text>...</text>}} *@
+@if (ViewBag.filter == "Trends")
+{
+	foreach (var item in Model)
+	{
+		<div class="media p-b-10">
+			<span class="trend-number">@index</span> @if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
+			{
+				var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+				<div class="media-left">
+					<a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">
+						<img class="img-rounded lazy" data-src="@newsImage?width=80&height=80&format=jpg&mode=crop" src="~/Content/transparent.png?width=80&height=80&format=jpg&mode=crop" alt="@item.Title" />
+					</a>
+				</div>
+			}<div class="media-body">
+				@if (item.Type == "Event" || item.Type == "LiveBlog")
+				{
+					<span class="pull-right infocus-badge">@item.Type</span>
+				}
+				else if (item.Type == "Blog")
+				{
+					if (!String.IsNullOrEmpty(@item.SubType))
+					{
+						<span class="pull-right infocus-badge">@item.SubType</span>
+					}
+					else
+					{
+						<span class="pull-right infocus-badge">Blog</span>
+					}
+				}<a href="@Url.RouteUrl("ArticleDetailswithprefix",
+				new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration">
+					<h4 class="media-heading trend-title">@* @Truncate(item.Title,76) *@</h4>
+				</a>
+				<small class="media-meta font-sans-serif ls-1 text-uppercase text-muted">
+					@if (!String.IsNullOrEmpty(item.Country))
+					{
+						var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
+						{
+							@t
+						}
+					}
+					else
+					{
+						var country = "Global";
+						@country
+					}
+				</small>
+			</div>
+		</div>
+		index++;
+	}
+}
+else
+{
+	if (Model.Any())
+	{
+		<div class="section-title"> <span>TRENDING</span> </div>
+		<div class="row">
+			@foreach (var item in Model)
+			{
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-b-20">
+					<div class="blog-card">
+						<div class="media">
+							<div class="media-left">
+								<a href="@Url.Action("Index", "Article",
+							new{id=item.GenerateSecondSlug()})">
+									<div class="bg-gray left-card lazy" data-src="@item.ImageUrl?w=130&h=105&mode=crop">
+										<span class="sr-only">@item.Country</span>
+									</div>
+								</a>
+							</div>
+							<div class="media-body">
+								<a href="@Url.Action("Index", "Article",
+									new{id=item.GenerateSecondSlug()})" class="text-decoration p-b-10">
+									<h4 class="no-margin">@item.Title</h4>
+								</a>
+								<div class="p-t-5">
+									<small>@item.TimeAgo()</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	}
+}

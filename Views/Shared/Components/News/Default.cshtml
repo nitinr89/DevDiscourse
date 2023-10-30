@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
+@{
+    string domainUrl = "https://www.devdiscourse.com";
+}
+@*
+@helper CountryHelper(string country)
+{
+    if (!string.IsNullOrEmpty(country))
+    {
+        var countryArr = country.Split(','); foreach (var t in countryArr.Take(1))
+        {@t}
+    }else
+    {<span>Global</span>}
+}
+
+@helper MediaTempate(DevDiscourse.Models.ViewModel.LatestNewsView item, string border)
+{<a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+    <div class="p-t-10 p-b-10 m-b-10" style="@border">
+        <h3 class="trend-title no-margin">@item.Title</h3>
+    </div>
+</a>}
+ *@
+@if (ViewBag.skipCount == 0)
+{
+    <h2 class="section-title"> <span title="Latest News">LATEST STORIES</span> </h2>
+}<div class="row">
+    @foreach (var item in Model.Skip(0).Take(3))
+    {
+        <div class="col-xs-12 col-sm-12 col-md-4 p-t-10">
+            @if (item.Type == "Event")
+            {
+                <span class="pull-right infocus-badge">@item.Type</span>
+            }
+            else if (item.Type == "Blog")
+            {
+                <span class="pull-right infocus-badge">@item.SubType</span>
+            }<div class="row">
+                @{
+                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                }
+                <div class="col-md-12 col-sm-6">
+                    <img src="~/Content/transparent.png?width=36&height=20&mode=crop" data-src="@domainUrl@newsImage?width=360&height=200&mode=crop" class="img-responsive lazy" alt="@item.Title" />
+                </div>
+                <div class="col-md-12 col-sm-6">
+                    @* @MediaTempate(item, "margin-top:10px;") *@
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@for (int index = 1; index < 4; index++)
+{
+    <div class="row">
+        @foreach (var item in Model.Skip(index * 3).Take(3))
+        {
+            <div class="col-xs-12 col-sm-12 col-md-4">
+                @if (item.Type == "Event")
+                {
+                    <span class="pull-right infocus-badge">@item.Type</span>
+                }
+                else if (item.Type == "Blog")
+                {
+                    <span class="pull-right infocus-badge">@item.SubType</span>
+                }
+                @* @MediaTempate(item, "border-top:1px solid #ececec") *@
+            </div>
+        }
+    </div>
+}
+<a href="@Url.RouteUrl("NewsAnalysis")" class="read-more-btn">Read More</a>

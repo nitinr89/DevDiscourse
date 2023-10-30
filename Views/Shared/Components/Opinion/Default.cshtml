@@ -1,0 +1,95 @@
+﻿@model List<Devdiscourse.Models.ViewModel.NewsViewModel>
+@using System.Text.RegularExpressions;
+@{
+	var domainUrl = "";/* var domainUrl = "https://www.devdiscourse.com";*/
+}
+<div class="row">
+	<div class="col-md-3 col-md-push-3">
+		@foreach (var item in Model.Take(1))
+		{
+			var newsImage = ""; newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+			<a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+				<div class="row">
+					<div class="col-md-12 col-sm-5">
+						<img src="@domainUrl@newsImage?width=265&height=165&mode=crop" class="img-responsive full-width m-t-10" alt="@item.Title" />
+					</div>
+					<div class="col-md-12 col-sm-7">
+						<h3 class="f-20 no-margin p-t-5 fg-black">@item.Title</h3>
+					</div>
+				</div>
+			</a>
+		}
+	</div>
+	<div class="col-md-3 col-md-push-3">
+		@foreach (var item in Model.Skip(1).Take(1))
+		{
+			var newsImage = ""; newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+			<a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+				<div class="row">
+					<div class="col-md-12 col-sm-5">
+						<img src="@domainUrl@newsImage?width=265&height=165&mode=crop" class="img-responsive full-width m-t-10" alt="@item.Title" />
+					</div>
+					<div class="col-md-12 col-sm-5">
+						<h3 class="f-20 no-margin p-t-5 fg-black">@item.Title</h3>
+					</div>
+				</div>
+			</a>
+		}
+		@*<a href="/article/technology/1553504-blockchain-in-healthcare-opportunities-and-challenges" class="text-decoration">
+		<div class="row">
+		<div class="col-md-12 col-sm-5">
+		<img src="/remote.axd?https://devdiscourse.blob.core.windows.net/devnews/06_05_2020_01_29_21_265113.jpg?width=265&amp;height=165&amp;mode=crop" class="img-responsive full-width m-t-10" alt="Blockchain in Healthcare: Opportunities and challenges">
+		</div>
+		<div class="col-md-12 col-sm-7">
+		<h3 class="f-20 no-margin p-t-5 fg-black">Blockchain in Healthcare: Opportunities and challenges</h3>
+		</div>
+		</div>
+		</a>*@
+	</div>
+	<div class="col-md-3 col-md-pull-6">
+		@foreach (var item in Model.Skip(2).Take(4))
+		{
+			<a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+				<h3 class="f-16 fg-black opinion-title">@item.Title</h3>
+			</a>
+		}
+		@*<a href="https://www.devdiscourse.com/article/health/1554631-debate-surrounding-vaccine-passports-and-development-misses-bigger-picture" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">Debate surrounding vaccine passports and development misses bigger picture</h3>
+		</a>
+		<a href="https://www.devdiscourse.com/article/technology/1553167-blockchain-vs-iota-looking-for-a-better-alternative" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">Blockchain vs IOTA: Looking for a better alternative</h3>
+		</a>
+		<a href="https://www.devdiscourse.com/article/law-order/1549052-for-stability-iraq-needs-to-crack-down-on-corruption" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">For stability, Iraq needs to crack down on corruption</h3>
+		</a>*@
+	</div>
+	<div class="col-md-3">
+		@*<a href="https://www.devdiscourse.com/article/health/1273325-uganda-covid-19-response-was-off-to-a-good-start-but-reopening-dwindled-prospects" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">Uganda COVID-19 response: Was off to a good start but reopening dwindled prospects</h3>
+		</a>
+		<a href="https://www.devdiscourse.com/article/headlines/1263264-farkhad-akhmedov-calculating-the-price-of-impunity-from-the-law" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">Farkhad Akhmedov: Calculating the price of impunity from the law</h3>
+		</a>
+		<a href="https://www.devdiscourse.com/article/health/1264886-kenyas-covid-19-response-chaos-amid-lack-of-information" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">Kenya’s COVID-19 response: Chaos amid lack of information</h3>
+		</a>
+		<a href="https://www.devdiscourse.com/article/other/1266679-new-farm-bills-in-india-focusing-on-farms-or-farmers" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">New farm bills in India: Focusing on farms or farmers?</h3>
+		</a>*@
+		@foreach (var item in Model.Skip(6).Take(4))
+		{
+			<a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+				<h3 class="f-16 fg-black opinion-title">@item.Title</h3>
+			</a>
+		}
+		@*<a href="https://www.devdiscourse.com/article/business/1541718-east-african-women-traders-celebrating-the-past-planning-for-the-future" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">East African women traders: 'Celebrating the past, planning for the future'</h3>
+		</a>
+		<a href="https://www.devdiscourse.com/article/health/1533600-viral-variants-and-vaccine-nationalism-pose-two-pronged-threat-to-covid-victory" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">Viral variants and vaccine nationalism pose two-pronged threat to Covid victory</h3>
+		</a>
+		<a href="https://www.devdiscourse.com/article/business/1523701-tracking-fintech-during-covid-19-harnessing-power-of-technology" class="text-decoration">
+		<h3 class="f-16 fg-black opinion-title">Tracking Fintech during COVID-19: Harnessing power of technology</h3>
+		</a>*@
+	</div>
+</div>

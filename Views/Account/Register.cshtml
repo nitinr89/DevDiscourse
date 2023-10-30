@@ -1,0 +1,120 @@
+﻿@model Devdiscourse.Models.RegisterViewModel
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Register for Latest Development News | Devdiscourse";
+    string domainUrl = "http://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "http://www.devdiscourse.com/Account/Register";
+    ViewBag.pageKeywords = "Register | Global development news";
+}
+<style>
+    #CaptchaInputText {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #f0f3f5;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+    .validation-summary-errors ul{
+        list-style: none;
+        padding-left: 0;
+        font-size: 12px;
+    }
+    .field-validation-error {
+        color: #a94442;
+    }
+</style>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<div class="card m-t-20">
+    <div class="container-fluid">
+        <div class="row m-t-30">
+            <div class="col-lg-2 col-md-4 col-lg-offset-5  col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                <h5 class="text-muted text-uppercase text-center m-t-20 m-b-20 f-16">CREATE A NEW ACCOUNT</h5>
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal m-t-30", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="">
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control inputBox", @placeholder = "FIRST NAME" })
+                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="">
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control inputBox", @placeholder = "LAST NAME" })
+                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control inputBox", @placeholder = "EMAIL" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control inputBox", @placeholder = "USERNAME" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control inputBox", @placeholder = "PASSWORD" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control inputBox", @placeholder = "CONFIRM PASSWORD" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <div class="col-md-12 no-padding">
+                            @*@Html.MathCaptcha()*@
+                            @* @Html.Captcha("Try another", "Enter the text you see above:", 5, "The Captcha field is required", true) *@
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <input type="submit" class="btn btn-block btn-primary" value="Sign Up" />
+                        </div>
+                    </div>
+                    <p class="text-muted fontSize text-center" style="margin-bottom:20px;margin-top:20px;">
+                        <a style="color:#4d4d4d !important" href="@Url.Action("Login","Account")" title="Login" rel="nofollow">Login <span class="fa fa-user theme-fg-color"></span></a>
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#loginLink').addClass('active');
+             $(document).find('#regDropDown').change(function () {
+        var date = new Date();
+        date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+        document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+        window.location.href = $(this).find('option:selected').attr('data-to');
+    });
+        });
+    </script>
+}

@@ -9,85 +9,85 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Devdiscourse
 build_property.RootNamespace = Devdiscourse
-build_property.ProjectDir = C:\Users\OM\source\repos\Devdiscourse\
+build_property.ProjectDir = D:\projectcode\DevDiscourse\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\OM\source\repos\Devdiscourse
+build_property.MSBuildProjectDirectory = D:\projectcode\DevDiscourse
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/About/Index.cshtml]
+[D:/projectcode/DevDiscourse/Views/About/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Account/Login.cshtml]
+[D:/projectcode/DevDiscourse/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Account/Register.cshtml]
+[D:/projectcode/DevDiscourse/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Account/_ExternalLoginsListPartial.cshtml]
+[D:/projectcode/DevDiscourse/Views/Account/_ExternalLoginsListPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxfRXh0ZXJuYWxMb2dpbnNMaXN0UGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Home/Index.cshtml]
+[D:/projectcode/DevDiscourse/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Home/Privacy.cshtml]
+[D:/projectcode/DevDiscourse/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/Infocus/Default.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/Components/Infocus/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcSW5mb2N1c1xEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/News/Default.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/Components/News/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTmV3c1xEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/Opinion/Default.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/Components/Opinion/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcT3BpbmlvblxEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/Team/Default.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/Components/Team/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVGVhbVxEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/Trends/Default.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/Components/Trends/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVHJlbmRzXERlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_coeSlides.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/_coeSlides.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9jb2VTbGlkZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_Footer.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/_Footer.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_Layout.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_LoginPartial.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_socialPartial.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/_socialPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9zb2NpYWxQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/projectcode/DevDiscourse/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/_ViewImports.cshtml]
+[D:/projectcode/DevDiscourse/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/_ViewStart.cshtml]
+[D:/projectcode/DevDiscourse/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

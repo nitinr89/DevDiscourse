@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\OM\\source\\repos\\Devdiscourse\\Devdiscourse.csproj": {}
+    "D:\\DevDiscourseCode_9-11-2023\\DevDiscourseCode\\Devdiscourse.csproj": {}
   },
   "projects": {
-    "C:\\Users\\OM\\source\\repos\\Devdiscourse\\Devdiscourse.csproj": {
+    "D:\\DevDiscourseCode_9-11-2023\\DevDiscourseCode\\Devdiscourse.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\OM\\source\\repos\\Devdiscourse\\Devdiscourse.csproj",
+        "projectUniqueName": "D:\\DevDiscourseCode_9-11-2023\\DevDiscourseCode\\Devdiscourse.csproj",
         "projectName": "Devdiscourse",
-        "projectPath": "C:\\Users\\OM\\source\\repos\\Devdiscourse\\Devdiscourse.csproj",
-        "packagesPath": "C:\\Users\\OM\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\OM\\source\\repos\\Devdiscourse\\obj\\",
+        "projectPath": "D:\\DevDiscourseCode_9-11-2023\\DevDiscourseCode\\Devdiscourse.csproj",
+        "packagesPath": "C:\\Users\\VisionRI-Ankit\\.nuget\\packages\\",
+        "outputPath": "D:\\DevDiscourseCode_9-11-2023\\DevDiscourseCode\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\OM\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\VisionRI-Ankit\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -63,6 +60,10 @@
               "target": "Package",
               "version": "[7.0.12, )"
             },
+            "Microsoft.AspNetCore.Mvc.TagHelpers": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -71,7 +72,7 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[7.0.12, )"
+              "version": "[7.0.13, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
@@ -90,6 +91,14 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[7.0.10, )"
+            },
+            "PagedList": {
+              "target": "Package",
+              "version": "[1.17.0, )"
+            },
+            "PagedList.Mvc": {
+              "target": "Package",
+              "version": "[4.5.0, )"
             }
           },
           "imports": [

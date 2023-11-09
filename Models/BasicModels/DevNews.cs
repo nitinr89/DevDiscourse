@@ -39,7 +39,7 @@ namespace Devdiscourse.Models.BasicModels
         public string SubType { get; set; }
         [Display(Name = "Labels")]
         public string NewsLabels { get; set; }
-        public string Category { get; set; }
+        public string? Category { get; set; }
         [Required]
         public string Sector { get; set; }
         public string Themes { get; set; }
@@ -61,7 +61,7 @@ namespace Devdiscourse.Models.BasicModels
         [Display(Name = "IsVideo")]
         public bool IsVideo { get; set; }
         [Display(Name = "IsGlobal")]
-        public bool IsGlobal { get; set; }
+        public bool? IsGlobal { get; set; }
         public bool IsStandout { get; set; }
         public bool IsIndexed { get; set; }
         public string Region { get; set; }

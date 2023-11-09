@@ -14,8 +14,9 @@ namespace DevDiscourse.Controllers.ViewComponents
 		}
 
 		public async Task<IViewComponentResult> InvokeAsync(string reg)
-		{
-			reg = reg == "Global Edition" ? "" : reg;
+        {
+            await Task.Yield();
+            reg = reg == "Global Edition" ? "" : reg;
 			DateTime thirtyDays = DateTime.Today.AddDays(-150);
 			if (reg == "")
 			{
@@ -32,6 +33,7 @@ namespace DevDiscourse.Controllers.ViewComponents
 								  Country = a.Author,
 								  NewsId = a.NewsId,
 								  Label = a.NewsLabels
+
 							  }).Take(10);
 				//.AsNoTracking();
 				return View(search.ToList());
@@ -51,6 +53,7 @@ namespace DevDiscourse.Controllers.ViewComponents
 								  Country = a.Author,
 								  NewsId = a.NewsId,
 								  Label = a.NewsLabels
+
 							  }).Take(10);
 				//.AsNoTracking();
 				return View(search.ToList());

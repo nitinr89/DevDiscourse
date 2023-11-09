@@ -9,85 +9,181 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Devdiscourse
 build_property.RootNamespace = Devdiscourse
-build_property.ProjectDir = C:\Users\OM\source\repos\Devdiscourse\
+build_property.ProjectDir = D:\DevDiscourseCode_9-11-2023\DevDiscourseCode\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\OM\source\repos\Devdiscourse
+build_property.MSBuildProjectDirectory = D:\DevDiscourseCode_9-11-2023\DevDiscourseCode
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/About/Index.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/About/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Account/Login.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Account/Register.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Account/_ExternalLoginsListPartial.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Account/_ExternalLoginsListPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxfRXh0ZXJuYWxMb2dpbnNMaXN0UGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Home/Index.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Home/Privacy.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/Infocus/Default.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Livediscourse/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGl2ZWRpc2NvdXJzZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/NewsCategory/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c0NhdGVnb3J5XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/AgroForestoryNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQWdyb0ZvcmVzdG9yeU5ld3NcRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/ArtCultureNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQXJ0Q3VsdHVyZU5ld3NcRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/CategoryNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcnlOZXdzXERlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/CategoryTopStories/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcnlUb3BTdG9yaWVzXERlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/EconomyNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcRWNvbm9teU5ld3NcRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/EducationNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcRWR1Y2F0aW9uTmV3c1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/EnergyNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcRW5lcmd5TmV3c1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/HealthNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcSGVhbHRoTmV3c1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/InfocusLiveDiscourse/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcSW5mb2N1c0xpdmVEaXNjb3Vyc2VcRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/Infocus/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcSW5mb2N1c1xEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/News/Default.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/LawGovernanceNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTGF3R292ZXJuYW5jZU5ld3NcRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/News/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTmV3c1xEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/Opinion/Default.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/Opinion/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcT3BpbmlvblxEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/Team/Default.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/PoliticsNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcUG9saXRpY3NOZXdzXERlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/Region/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcUmVnaW9uXERlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/ScienceNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2NpZW5jZU5ld3NcRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/SectorMenu/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2VjdG9yTWVudVxEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/Sector/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2VjdG9yXERlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/SocialNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU29jaWFsTmV3c1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/SportsNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU3BvcnRzTmV3c1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/Team/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVGVhbVxEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/Components/Trends/Default.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/TechnologyNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVGVjaG5vbG9neU5ld3NcRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/TransportNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVHJhbnNwb3J0TmV3c1xEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/Trends/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVHJlbmRzXERlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_coeSlides.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/UrbanDevelopmentNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVXJiYW5EZXZlbG9wbWVudE5ld3NcRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/Components/WashNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcV2FzaE5ld3NcRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/_coeSlides.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9jb2VTbGlkZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_Footer.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/_Footer.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_Layout.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/_getSectorNews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9nZXRTZWN0b3JOZXdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_LoginPartial.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_socialPartial.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/_socialPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9zb2NpYWxQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/_ViewImports.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/OM/source/repos/Devdiscourse/Views/_ViewStart.cshtml]
+[D:/DevDiscourseCode_9-11-2023/DevDiscourseCode/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

@@ -27,30 +27,30 @@ namespace Devdiscourse.Models.BasicModels
         public string Title { get; set; }
 
         [Display(Name = "Alternate Headline")]
-        public string AlternateHeadline { get; set; }
+        public string? AlternateHeadline { get; set; }
 
         [Display(Name = "SubTitle")]
-        public string SubTitle { get; set; }
+        public string? SubTitle { get; set; }
         [Required]
         [Display(Name = "Summary")]
         //[AllowHtml]
         public string Description { get; set; }
-        public string Type { get; set; }
-        public string SubType { get; set; }
+        public string? Type { get; set; }
+        public string? SubType { get; set; }
         [Display(Name = "Labels")]
-        public string NewsLabels { get; set; }
-        public string Category { get; set; }
+        public string? NewsLabels { get; set; }
+        public string? Category { get; set; }
         [Required]
         public string Sector { get; set; }
-        public string Themes { get; set; }
+        public string? Themes { get; set; }
         [Display(Name = "Image")]
-        public string ImageUrl { get; set; }
-        public string FileMimeType { get; set; }        // File Mime Type
+        public string? ImageUrl { get; set; }
+        public string? FileMimeType { get; set; }        // File Mime Type
         [Display(Name = "Image Copyright")]
-        public string ImageCopyright { get; set; }
+        public string? ImageCopyright { get; set; }
         [Display(Name = "Image Caption")]
-        public string ImageCaption { get; set; }
-        public string Tags { get; set; }
+        public string? ImageCaption { get; set; }
+        public string? Tags { get; set; }
         [Display(Name = "Admin Check")]
         public bool AdminCheck { get; set; }
         public bool IsSponsored { get; set; }
@@ -64,26 +64,25 @@ namespace Devdiscourse.Models.BasicModels
         public bool IsGlobal { get; set; }
         public bool IsStandout { get; set; }
         public bool IsIndexed { get; set; }
-        public string Region { get; set; }
-        public string Country { get; set; }
-        public string Source { get; set; }
-        public string OriginalSource { get; set; }
-        public string SourceUrl { get; set; }
-        public string Author { get; set; }
+        public string? Region { get; set; }
+        public string? Country { get; set; }
+        public string? Source { get; set; }
+        public string? OriginalSource { get; set; }
+        public string? SourceUrl { get; set; }
+        public string? Author { get; set; }
         public int ViewCount { get; set; }
         public int LikeCount { get; set; }
-        public string FileSize { get; set; }
-        public string WorkStage { get; set; }
+        public string? FileSize { get; set; }
+        public string? WorkStage { get; set; }
         public string Creator { get; set; }
         public DateTime PublishedOn { get; set; }
         //public virtual IList<Tag> NewsTags { get; set; }
-        
         public long ReferenceId { get; set; }
         [ForeignKey("Creator")]
         public virtual ApplicationUser ApplicationUsers { get; set; }
-        public virtual ICollection<UserNewsFile> UserNewsFiles { get; set; }
-        public virtual ICollection<NewsTagstb> NewsTagstb { get; set; }
-        public virtual ICollection<RegionNewsRanking> RegionNewsRankings { get; set; }
+        public virtual ICollection<UserNewsFile>? UserNewsFiles { get; set; }
+        public virtual ICollection<NewsTagstb>? NewsTagstb { get; set; }
+        public virtual ICollection<RegionNewsRanking>? RegionNewsRankings { get; set; }
         public string GenerateSlug()
         {
             string phrase = string.Format("{0}-{1}", Id, Title);

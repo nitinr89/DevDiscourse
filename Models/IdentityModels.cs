@@ -22,19 +22,19 @@ namespace Devdiscourse.Models
         [Display(Name = "Profile Image")]
         public string ProfilePic { get; set; }
         [Display(Name = "About Me")]
-        public string AboutMe { get; set; }
+        public string? AboutMe { get; set; }
         [Display(Name = "Date of Birth")]
         public DateTime DateOfBirth { get; set; }
-        public string Address { get; set; }
-        public string Country { get; set; }
+        public string? Address { get; set; }
+        public string? Country { get; set; }
         // Company Details
-        public string CompanyName { get; set; }
-        public string OrganizationType { get; set; }
-        public string Position { get; set; }    // Company Position
+        public string? CompanyName { get; set; }
+        public string? OrganizationType { get; set; }
+        public string? Position { get; set; }    // Company Position
         public DateTime CreatedOn { get; set; }
-        public string DigitCode { get; set; }
-        public bool isActive { get; set; }
-        public bool isPRManager { get; set; }
+        public string? DigitCode { get; set; }
+        public bool? isActive { get; set; }
+        public bool? isPRManager { get; set; }
         // Foreign Key Members
         public virtual ICollection<DevNews> DevNews { get; set; }
         public virtual ICollection<Event> Events { get; set; }

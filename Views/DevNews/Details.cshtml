@@ -1,0 +1,844 @@
+﻿@model Devdiscourse.Models.BasicModels.DevNews
+@using System.Globalization;
+@using System.Text.RegularExpressions;
+@using System.Threading;
+@{
+    ViewBag.Title = Model.Title + " | Devdiscourse News";
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.HasAmpPage = true;
+    string imageUrl = @Model.ImageUrl ?? "";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=920" : string.Concat(domainUrl, imageUrl) + "?width=920";
+    ViewBag.PageImage = newsImage;
+    string NewsLabel = Model.NewsLabels ?? "agency-wire";
+    string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();
+    ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
+    TempData["pageUrl"] = pageUrl;
+    var bodykeywords = @Model.Tags;
+    var dataTags = (@Model.Tags ?? "").Split(',').Where(item => item != "").Select(s => s.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
+    var keywords = String.Join(", ", dataTags.Take(15)).Trim();
+    ViewBag.pageKeywords = keywords;
+    var DataDesc = Model.Description;
+    ViewBag.PageDescription = "Read more about " + Model.Title + " on Devdiscourse";
+    string sourceCategory = "International";
+    // string imgwidth = Request.Browser.IsMobileDevice ? "?width=480" : "?width=920";
+    var schemaSource = string.IsNullOrEmpty(Model.NewsLabels) ? Model.Source : "Devdiscourse News Desk";
+    TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+    DateTime createdDate = TimeZoneInfo.ConvertTimeFromUtc(Model.CreatedOn, INDIAN_ZONE);
+    DateTime publishedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.PublishedOn, INDIAN_ZONE);
+    DateTime modifiedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.ModifiedOn, INDIAN_ZONE);
+    var schemaType = Model.Type;
+    var schemaAuthor = Model.Source;
+    CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+    TextInfo textInfo = cultureInfo.TextInfo;
+}
+@if (!string.IsNullOrEmpty(bodykeywords))
+{
+    var tagArray = bodykeywords.Split(',').ToList();
+    foreach (var tag in tagArray.OrderBy(a => a.Length))
+    {
+        var replaceTag = tag.Replace("(", "");
+        replaceTag = replaceTag.Replace(")", "");
+        DataDesc = Regex.Replace(DataDesc, "\"" + replaceTag.Trim() + "\"", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">\"" + replaceTag.Trim() + "\"</a> ");
+        DataDesc = Regex.Replace(DataDesc, " " + replaceTag.Trim() + ", ", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">" + replaceTag.Trim() + "</a>, ");
+        DataDesc = Regex.Replace(DataDesc, " " + replaceTag.Trim() + " ", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">" + replaceTag.Trim() + "</a> ");
+    }
+}
+@* @helper GetFirstParagraph(string htmltext)
+{
+    Match m = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
+    if (m.Success)
+    {
+        @m.Groups[1].Value;
+    }
+    else
+    {
+        @htmltext;
+    }
+}
+@helper FirstCharToUpper(string s)
+{
+    if (string.IsNullOrEmpty(s))
+    {
+        var outData = "";
+        @outData
+    }
+    var output = char.ToUpper(s[0]) + s.Substring(1);
+    @output
+}
+@helper GetslugLabel(string text)
+{
+    byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+    string str = System.Text.Encoding.ASCII.GetString(bytes).ToLower();
+    str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+    str = Regex.Replace(str, @"\s+", " ").Trim();
+    str = str.Substring(0, str.Length <= 150 ? str.Length : 150).Trim();
+    str = Regex.Replace(str, @"\s", "-"); // hyphens
+    @str;
+}
+@helper GetDescriptionText(string htmltext)
+{
+    const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
+    const string stripFormatting = @"<[^>]*(>|$)";
+    const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
+    var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+    var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+    var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+    var text = htmltext.Replace("&nbsp;", " ");
+    text = System.Net.WebUtility.HtmlDecode(text);
+    text = tagWhiteSpaceRegex.Replace(text, "><");
+    text = lineBreakRegex.Replace(text, Environment.NewLine);
+    text = stripFormattingRegex.Replace(text, string.Empty);
+    @text;
+}
+@helper GetCleanDescription(string htmltext)
+{
+    htmltext = htmltext.Replace("&nbsp;", " ");
+    htmltext = htmltext.Replace("&rsquo;", "'");
+    htmltext = htmltext.Replace("&lsquo;", "'");
+    htmltext = htmltext.Replace("&rdquo;", "\"");
+    htmltext = htmltext.Replace("&ldquo;", "\"");
+    @Html.Raw(htmltext);
+} *@
+<style>
+    .renderBody {
+        margin-top: 10px;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+    }
+
+        .renderBody a {
+            color: #ff7b00;
+            text-decoration: none;
+        }
+
+    .title {
+        font-size: 42px;
+        font-weight: 500;
+        color: #181818;
+        line-height: 1.18;
+        margin-bottom: 0;
+    }
+
+    .sub-title {
+        font-size: 20px;
+        font-weight: 300;
+        line-height: 1.5;
+        color: #444444;
+    }
+
+    .author-avatar {
+        margin-right: 10px;
+    }
+
+    .metadata {
+        margin-top: 20px;
+        color: #777777;
+    }
+
+    .figure {
+        margin-bottom: 25px;
+    }
+
+    .fig-caption {
+        background-color: #cccccc;
+        font-size: 13px;
+        font-weight: 300;
+        line-height: 1.33;
+        color: #444444;
+        padding: 3px 10px;
+    }
+
+    .article-cont p, .article-cont ul, .article-cont ol {
+        font-size: 21px;
+        line-height: 1.58;
+        color: #111111;
+        font-weight: 400;
+        margin-top: 2.4rem;
+    }
+
+    .article-cont b, .article-cont strong {
+        font-weight: 600;
+    }
+
+    .article-cont .bg-highlight + p:first-letter, .article-cont::first-letter {
+        font-size: 120px;
+        vertical-align: sub;
+        color: #ff7b00;
+        line-height: 70px;
+        margin: 15px 10px 10px 0;
+        float: left;
+    }
+
+    .article-cont img, .article-cont iframe {
+        max-width: 100%;
+        border: none;
+    }
+
+    .article-cont img {
+        height: auto;
+    }
+
+    .admin-section {
+        position: absolute;
+        padding: 10px;
+        background-color: #fff;
+        right: 0;
+        border-radius: 5px;
+        margin: 5px 20px;
+        box-shadow: 0px 0px 5px #cfcfcf;
+    }
+
+    .list-inline > li.list-divider {
+        padding: 0;
+    }
+
+    .renderBody a.tag {
+        line-height: 22px;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 5px 10px;
+        border-radius: 3px;
+        font-size: 15px;
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.54);
+        display: block;
+        margin-top: 10px;
+        font-weight: 400;
+    }
+
+    .left-section {
+        border-radius: 4px;
+        border: solid 1px #cccccc;
+        padding: 15px 20px;
+        color: #777;
+    }
+
+    .social-btn .fa {
+        width: 22px;
+        height: 22px;
+        background-color: #444444;
+        color: #fff;
+        border-radius: 50%;
+        margin-right: 5px;
+        display: inline-block;
+        line-height: 24px;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 11px;
+    }
+
+        .social-btn .fa.fb {
+            background-color: #3f5d9a;
+        }
+
+        .social-btn .fa.tw {
+            background-color: #55acee;
+        }
+
+        .social-btn .fa.ln {
+            background-color: #007ab9;
+        }
+
+        .social-btn .fa.wa {
+            background-color: #4caf50;
+        }
+
+        .social-btn .fa.yt {
+            background-color: #ff0000;
+        }
+
+    .renderBody a.social-btn {
+        color: #555;
+    }
+
+    .also-container {
+        border-top: 2px solid #ff7b00;
+        border-bottom: 2px solid #ff7b00;
+        background-color: rgba(0, 0, 0, 0.02);
+        padding: 25px;
+        margin: 30px 0;
+        display: flex
+    }
+
+    .ar-title {
+        padding-left: 10px;
+        font-size: 23px
+    }
+
+    .ar-ul {
+        padding-left: 30px
+    }
+
+    .also-title {
+        list-style-type: square;
+        padding: 5px 0;
+        font-size: 21px
+    }
+
+        .also-title a {
+            color: #333;
+        }
+
+    .trend-img {
+        background-color: #f1f1f1;
+        background-size: cover;
+        background-position: center;
+        padding-bottom: 54.9%;
+    }
+
+    .trend-title {
+        margin-top: 5px;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.39;
+        color: #222;
+    }
+
+    .highlight-containter {
+        border: 1px solid #e6e6e6;
+    }
+
+        .highlight-containter h3 {
+            margin: 0;
+        }
+
+        .highlight-containter ul {
+            font-weight: 500;
+            color: #666;
+            list-style: square;
+        }
+
+        .highlight-containter .top-line {
+            width: 95%;
+            height: 3px;
+            margin-bottom: 20px;
+            background-color: #ff6a00;
+        }
+
+        .highlight-containter .bottom-line {
+            width: 95%;
+            margin-top: 20px;
+            height: 3px;
+            background-color: #ff6a00;
+        }
+
+    .video-cover {
+        padding-bottom: 52.3%;
+        position: relative;
+        background-color: #f1f1f1;
+        background-size: cover;
+        background-position: center;
+    }
+
+        .video-cover.small {
+            width: 100px;
+            height: 90px;
+            position: relative;
+            background-color: #f1f1f1;
+        }
+
+    .cover-overlay {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+        background-color: rgba(0,0,0,.5)
+    }
+
+    .video-title {
+        font-size: 18px;
+        font-weight: 400;
+        color: #fff;
+        line-height: 1.43;
+        margin: 0;
+    }
+
+    .video-btn {
+        background-color: rgba(0,0,0,.7);
+        padding: 15px 30px;
+        border-radius: 8px;
+        color: #fff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+        .video-btn.small {
+            padding: 8px 16px;
+        }
+
+    .l-h {
+        line-height: 1.43;
+    }
+
+    .title-min-height {
+        min-height: 80px;
+    }
+
+    .list-padding {
+        padding-left: 0;
+    }
+
+    .article-divider {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        border-bottom: 2px solid #cdcdcd;
+        font-size: 12px;
+        font-family: sans-serif;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+        .article-divider span {
+            background-color: #373737;
+            color: #fff;
+            padding: 2px;
+        }
+
+        .article-divider:after {
+            display: block;
+            margin: auto;
+            margin-bottom: -12px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #373737
+        }
+
+    .make-me-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 15px;
+        padding: 0 15px;
+    }
+
+    .twitter-tweet {
+        margin-left: auto;
+        margin-right: auto
+    }
+
+    .instagram-media {
+        margin: 15px auto !important
+    }
+
+    .blockquote {
+        border-top: 3px solid #ccc;
+        border-bottom: 3px solid #ccc;
+        border-left: none;
+        padding: 40px 20px 30px 20px;
+        margin: 30px 0 30px 0;
+    }
+
+        .blockquote h3 {
+            font-size: 22px;
+        }
+
+        .blockquote:before {
+            content: '“';
+            display: block;
+            text-align: center;
+            position: absolute;
+            margin-top: -47px;
+            font-size: 102px;
+        }
+
+        .blockquote footer {
+            font-size: 90%;
+            text-align: right;
+        }
+
+    @@media(max-width:640px) {
+        .title {
+            font-size: 28px;
+        }
+
+        .sub-title {
+            font-size: 18px;
+        }
+
+        .article-cont p, .article-cont ul, .article-cont ol {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-top: 2rem;
+        }
+
+        .also-container {
+            padding: 10px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .list-padding {
+            padding-left: 15px;
+        }
+
+        .title-min-height {
+            min-height: 100%;
+        }
+    }
+
+    @@media screen and (max-width: 2560px) and (min-width: 1500px) {
+        .renderBody .container {
+            width: 1170px !important;
+        }
+    }
+</style>
+<div class="container">
+    <ul class="breadcrumb breadcrumb_new m-t-10" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+            <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a>
+            <meta itemprop="position" content="1" />
+        </li>@if (Model.Type == "News" && Model.Category != "15")
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="/news" target="_top" itemprop="item"><span itemprop="name">News</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        else if (Model.Type == "News" && Model.Category == "15")
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.Action("Index", "Sports", new{cat="INDvsENG"})" target="_top" itemprop="item"><span itemprop="name">News</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        else
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.Action("DevBlogs", "Home", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">@Model.SubType</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        @* @{Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "NewsSector" });} *@
+        <li class="active">Article</li>
+    </ul>
+    <div class="article-divider clearfix" style="display:none;" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div>
+    <article>
+        <h1 class="title">@Model.Title</h1>
+        <h2 class="sub-title">@Model.SubTitle</h2>
+        <ul class="list-inline metadata">
+            @if (!string.IsNullOrEmpty(Model.Source) && Model.Type != "Blog")
+            {
+                switch (Model.Source)
+                {
+                    case "PTI":
+                        <li><a href="/pti-stories">@Model.Source.Trim()</a></li>
+                        break;
+                    case "Reuters":
+                        <li><a href="/reuters-stories">@Model.Source.Trim()</a></li>
+                        break;
+                    case "IANS":
+                        <li><a href="/ians-stories">@Model.Source.Trim()</a></li>
+                        break;
+                    case "Devdiscourse News Desk":
+                        <li><a href="/devdiscourse-stories">@Model.Source.Trim()</a></li>
+                        break;
+                    case "ANI":
+                        <li><a href="/ani-stories">@Model.Source.Trim()</a></li>
+                        break;
+                    case "PR Newswire":
+                        <li><a href="/pr-newswire">@Model.Source.Trim()</a></li>
+                        break;
+                    default:
+                        <li><a href="/news-source/@Model.Source.Trim()">@Model.Source.Trim()</a></li>
+                        break;
+                }
+                <li class="list-divider">|</li>
+            }
+
+            @if (Model.Type == "Blog" && !string.IsNullOrEmpty((Model.Author ?? "").Trim()))
+            {
+                <li>
+                    <a href="/Home/AuthorArticles?fl=@Model.Author.Trim()">
+                        @if (!string.IsNullOrEmpty(Model.Themes))
+                        {
+                            var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + Model.Themes : string.Concat(domainUrl, Model.Themes);
+                            <img class="img-circle author-avatar" src="@authorImage?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />
+                        }
+                        else
+                        {
+                            <img class="img-circle author-avatar" src="@domainUrl@Model.ApplicationUsers.ProfilePic?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />
+                        }@Model.Author.Trim()
+                    </a>
+                </li>
+                <li class="list-divider">|</li>
+            }
+            @if (!string.IsNullOrEmpty(Model.SourceUrl))
+            {
+                if (Model.SourceUrl.ToLower().Contains("washington"))
+                {
+                    <li>Washington DC</li>
+                }
+                else if (@Model.SourceUrl.ToLower() == "losangeles")
+                {
+                    <li>Los Angeles</li>
+                }
+                else
+                {
+                    <li class="text-capitalize">@textInfo.ToTitleCase(@Model.SourceUrl.ToLower())</li>
+                }
+                <li class="list-divider">|</li>
+            }
+            <li>Updated: @modifiedDate.ToString("dd-MM-yyyy HH:mm") IST</li>
+            <li class="list-divider">|</li>
+            <li>Created: @publishedDate.ToString("dd-MM-yyyy HH:mm") IST</li>
+        </ul>
+        <hr class="seperator" />
+        <div class="row">
+            <div class="col-md-9 col-md-push-3 col-sm-9 col-sm-push-3">
+
+                @if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "News")
+                {
+                    <section class="admin-section">
+                        <a href="@Url.Action("Edit", "DevNews", new{id=Model.Id})" target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a> @if (!string.IsNullOrWhiteSpace(@Model.WorkStage))
+                        {
+                            <span>( Last edited by @Model.WorkStage.Split(',')[0].Split('-')[0] )</span>
+                        }
+                    </section>
+                }
+                else if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "Blog")
+                {
+                    <section class="admin-section">
+                        <a href="@Url.Action("EditBlog", "DevNews", new{id=Model.Id})" target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a> @if (!string.IsNullOrWhiteSpace(@Model.WorkStage))
+                        {
+                            <span>( Last edited by @Model.WorkStage.Split(',')[0].Split('-')[0] )</span>
+                        }
+                    </section>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
+                {
+                    if (Model.UserNewsFiles.Count == 0)
+                    {
+                        <figure class="figure">
+                            <img src="@newsImage&format=jpeg" class="img-responsive" alt="@Model.Title" />
+                            <figcaption class="fig-caption">@Model.ImageCaption @Model.ImageCopyright</figcaption>
+                        </figure>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.UserNewsFiles.Take(1))
+                        {
+                            @section taboolaAd{
+                    <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
+                    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+                    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+                }
+                            <script type="application/ld+json">
+                                {
+                                "@@context": "https://schema.org/",
+                                "@@type": "VideoObject",
+                                "name": "@Model.Title",
+                                "@@id": "@domainUrl@pageUrl",
+                                "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
+                                @* "description" : "@GetDescriptionText(@Model.Description)", *@
+                                "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg",
+                                "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg",
+                                "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
+                                "contentUrl": "@item.FilePath",
+                                "author": {
+                                "@@type": "Person",
+                                "name": "Devdiscourse News Desk"
+                                }
+                                }
+                            </script>
+                            <video id="my-video"
+                                   class="video-js center-block"
+                                   controls
+                                   preload="auto"
+                                   width="640"
+                                   height="360"
+                            @*poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"*@
+                                   poster="@item.FileThumbUrl"
+                                   data-setup='{"fluid": true}'>
+                                <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" />
+                                <p class="vjs-no-js">
+                                    To view this video please enable JavaScript, and consider upgrading to a
+                                    web browser that
+                                    <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                                </p>
+                            </video>
+                        }
+                    }
+                }
+                else
+                {
+                    <figure class="hidden figure">
+                        <img src="@domainUrl/images/newstheme.jpg" class="img-responsive m-b-10" alt="@Model.Title" />
+                        <figcaption class="fig-caption">@Model.Title</figcaption>
+                    </figure>
+                }
+                <section class="article-cont">
+                    @* @GetCleanDescription(@DataDesc) *@
+                    @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk")
+                    {
+                        <p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>
+                    }
+                    else if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() == "Devdiscourse News Desk")
+                    {
+                        <p>(With inputs from agencies.)</p>
+                    }
+                </section>
+                <hr />
+                <section class="m-b-20 visible-xs">
+                    <ul class="list-inline no-margin">
+                        <li class="f-18 l-h">Share</li>
+                        <li><a class="social-btn f-16" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook"> <span class="fa fa-facebook fb"></span> </a> </li>
+                        <li><a class="social-btn" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp; 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li>
+                        <li><a class="social-btn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span></a> </li>
+                        <li><a class="social-btn" aria-label="Subscribe on Youtube" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span></a> </li>
+                        @*  @if (Request.Browser.IsMobileDevice)
+                        {
+                        <li><a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> </a> </li>
+                        } *@
+                    </ul>
+                </section>
+                @*   @if (!string.IsNullOrEmpty(Model.Tags) && !Request.Browser.Crawler)
+                {
+                <section>
+                <ul class="list-inline">
+                <li class="f-18">READ MORE ON: </li>
+                @{var tag = (Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
+                {
+                if (!string.IsNullOrEmpty(t.Trim()))
+                {
+                <li> <a href="/news?tag=@t.Trim()" class="tag">@t.Trim()</a> </li>
+                }
+                }}
+                </ul>
+                </section>} *@
+                @if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Source))
+                {
+                    <section class="m-t-30">
+                        <ul class="list-inline">
+                            <li class="f-18">FIRST PUBLISHED IN: </li>
+                            <li><span class="badge tag">@Model.Source</span></li>
+                        </ul>
+                    </section>
+                }
+                @if (!string.IsNullOrEmpty(Model.Tags))
+                {
+                    @* Html.RenderAction("GetTagNews", "Agencywire", new { id = Model.NewsId, tag = Model.Tags });  *@
+                }
+                @if (!string.IsNullOrEmpty(Model.Country))
+                {
+                    <div>
+                        <span class="fg-black f-18"> COUNTRY : </span> @{
+                            var countryarr = Model.Country.Split(','); foreach (var cou in countryarr)
+                            {
+                                <span class="badge">@cou</span>
+                            }
+                        }
+                    </div>
+                }
+                <div>
+                    <span class="fg-black f-18">
+                        EDITION :
+                    </span>
+                    @Html.DisplayFor(model => model.Region)
+                </div>
+                <div>
+                    <span class="fg-black f-18">
+                        SECTOR :
+                    </span>
+                    @{
+                        /*  Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "Plane" }); */
+                    }
+                </div>
+                <div>
+                    <span class="fg-black f-18">
+                        SOURCE :
+                    </span>
+                    @Html.DisplayFor(model => model.Source)
+                </div>
+                <div>
+                    <span class="fg-black f-18">
+                        CATEGORY :
+                    </span>
+                    @Html.DisplayFor(model => model.Category)
+                </div>
+                <div>
+                    <span class="fg-black f-18">
+                        LABEL :
+                    </span>
+                    @Html.DisplayFor(model => model.Category)
+                </div>
+                <div>
+                    <span class="fg-black f-18">
+                        ADMIN CHECK :
+                    </span>
+                    @Html.DisplayFor(model => model.AdminCheck)
+                </div>
+                <hr />
+                @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                {
+                    <label>Featured News</label>
+                    <select class="form-control" id="featuredNews" style="max-width:350px;">
+                        <option value="true">Add to Featured News</option>
+                        <option value="false">Remove from Featured News</option>
+                    </select>
+                    <button class="btn btn-primary m-t-10" id="submitFeature">Add to feature News</button>
+                }
+            </div>
+            <div class="col-md-3 col-md-pull-9 col-sm-3 col-sm-pull-9 hidden-xs make-me-sticky">
+                <div class="">
+                    @if (!string.IsNullOrEmpty(Model.Country))
+                    {
+                        <section class="left-section m-b-20">
+                            <div class="fg-black f-18 m-b-10"> Country</div><ul class="list-unstyled no-margin">
+                                @{
+                                    var countryarr = Model.Country.Split(',');
+                                    foreach (var cou in countryarr)
+                                    {
+                                        <li>@cou</li>
+                                    }
+                                }
+                            </ul>
+                        </section>
+                    }
+                    <section class="left-section m-b-20">
+                        <div class="fg-black f-18 m-b-10"> Share </div>
+                        <ul class="list-unstyled no-margin">
+                            <li><a class="social-btn" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook"> <span class="fa fa-facebook fb"></span> Facebook</a> </li>
+                            <li><a class="social-btn" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;, 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> Twitter</a> </li>
+                            <li><a class="social-btn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span> LinkedIn</a> </li>
+                            <li><a class="social-btn" aria-label="Subscribe on Youtube" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span> Youtube</a> </li>
+                            @*  @if (Request.Browser.IsMobileDevice)
+                            {
+                            <li><a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> Whatsapp</a> </li>
+                            } *@
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+@section scripts{
+    <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#submitFeature").click(function () {
+                var featureNews = $("#featuredNews").val();
+                $.ajax({
+                    cache: false,
+                    url: '/CricketWorldCup/AddToFeaturedNews',
+                    type: 'Get',
+                    data: { id: '@(Model.Id)', isFeatured: featureNews },
+                    dataType: 'Json',
+                    success: function (data) {
+                        if (data == "Success") {
+                            $.notify({ message: "Submit successfully!" }, { type: "success", delay: 1e3, placement: { from: "top", align: "right" } });
+                        } else {
+                            $.notify({ message: "Something went wrong!" }, { type: "danger", delay: 1e3, placement: { from: "top", align: "right" } });
+                        }
+                    },
+                    error: function () {
+                    },
+                });
+            });
+        });
+    </script>
+    }

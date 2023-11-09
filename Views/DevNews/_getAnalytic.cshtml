@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.AnalyticView>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @* @{ Html.RenderAction("GetSector", "Home", new { sector = item.Sector, filter = "Plane" });} *@
+        </td>
+        <td>
+            @item.Title
+        </td>
+        <td>
+            @item.Region
+        </td>
+        <td>
+            @if (!String.IsNullOrEmpty(item.Country))
+            {
+                string country = item.Country.Replace(",", ", ");
+                @country
+            }
+        </td>
+        <td>
+            @item.CreatedOn
+        </td>
+        <td>
+            <input type="checkbox" class="checkedInput" id="@item.Id" />
+        </td>
+    </tr>
+}
+@if (Model.Count() == 10)
+{
+    <tr>
+        <td colspan="6">
+            <div class="loadMoreButton load_More m-t-40 text-center">
+                SHOW MORE <span class="fa fa-chevron-circle-down"></span>
+            </div>
+        </td>
+    </tr>
+}

@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "News Analysis";
+}
+
+<div class="container-fluid">
+    <h2>News Analysis</h2>
+    <h4 id="total"></h4>
+    <div class="table-responsive">
+        <table class="table bordered table-hover">
+            <tbody id="tBody"></tbody>
+        </table>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $.getJSON('/api/search/getNewsAnalysis', function (data) {
+                console.log(data);
+                var tbData = '';
+                $('#total').html('Total News :'+data.total);
+                var headerdata = '<th>Edition \\ Sector</th>';
+                $.each(data.results, function (i, item) {
+                    // console.log(item);
+                    var tddata = '';                    
+                    $.each(item, function (index, dataitem) {
+                        if (i == 0) {
+                            headerdata += '<th>' + dataitem.Sector + '</th>';
+                        }
+                        tddata += '<td>' + dataitem.NewsCount + '</td>';
+                    });
+                    tbData += '<tr><th>'+item[0].Edition+'</th>' + tddata+'</tr>'
+                });
+                $('#tBody').html('<tr>'+headerdata+'</tr>'+tbData);
+            });
+        })
+    </script>
+    }

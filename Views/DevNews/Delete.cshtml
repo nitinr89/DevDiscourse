@@ -1,0 +1,103 @@
+﻿@model Devdiscourse.Models.BasicModels.DevNews
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<link href="~/Content/admin.css" rel="stylesheet" />
+<div class="bg-white p-20">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "DevNews")">DevNews</a></li>
+        <li class="breadcrumb-item active">Delete</li>
+    </ol>
+    <h4>Are you sure you want to delete this?</h4>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sector)
+            </dt>
+
+            <dd>
+                @* @{ Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "Plane" });} *@
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Themes)
+            </dt>
+
+            <dd>
+                @if (!String.IsNullOrEmpty(Model.Themes))
+                {
+                    @* { Html.RenderAction("GetThemes", "Home", new { theme = Model.Themes, filter = "Plane" });} *@
+                }
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Country)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Country)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </dt>
+
+            <dd>
+                <img src="@Html.DisplayFor(model => model.ImageUrl)?w=70&h=70&mode=crop" />
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tags)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Tags)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ModifiedOn)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        }
+    </div>
+</div>

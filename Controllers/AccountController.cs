@@ -18,40 +18,19 @@ namespace DevDiscourse.Controllers
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly ApplicationDbContext _db;
 
         public AccountController(SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             ApplicationDbContext _db)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.roleManager = roleManager;
             this._db = _db;
         }
-
-        //public ApplicationSignInManager SignInManager
-        //{
-        //    get
-        //    {
-        //        return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        //    }
-        //    private set 
-        //    { 
-        //        _signInManager = value; 
-        //    }
-        //}
-
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
 
         //
         // GET: /Account/Login
@@ -170,7 +149,7 @@ namespace DevDiscourse.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public async Task<ActionResult> Register()
         {
             string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
@@ -185,6 +164,13 @@ namespace DevDiscourse.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            //var result = await roleManager.CreateAsync(new IdentityRole { Name = roleName });
+            //if (result.Succeeded)
+            //{
+
+            //}
+
             return View();
         }
 
@@ -199,7 +185,21 @@ namespace DevDiscourse.Controllers
             {
                 //if (this.IsCaptchaValid("Captcha is not valid"))
                 //{
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = DateTime.UtcNow.AddYears(-20), PhoneNumber = "", Country = "", ProfilePic = "/AdminFiles/Logo/img_avatar.png", EmailConfirmed = true };
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    DateOfBirth = DateTime.UtcNow.AddYears(-20),
+                    PhoneNumber = "",
+                    Country = "",
+                    ProfilePic = "/AdminFiles/Logo/img_avatar.png",
+                    EmailConfirmed = true,
+                    isActive = true,
+                    isPRManager = true,
+                    CreatedOn = DateTime.Now
+                };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -232,7 +232,7 @@ namespace DevDiscourse.Controllers
                     //    var response = client.UploadValues("https://localhost:44331/Account/ExternalRegister/", values);
                     //    var responseString = Encoding.Default.GetString(response);
                     //}
-                    //await this.userManager.AddToRoleAsync(user, "Subscriber");
+                    await userManager.AddToRoleAsync(user, "Admin");
                     // return RedirectToAction("AccountConfirmation", "Account");
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");

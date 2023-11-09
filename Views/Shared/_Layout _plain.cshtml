@@ -1,0 +1,76 @@
+﻿@inject UserManager<ApplicationUser> userManager;
+@using Microsoft.AspNetCore.Identity;
+@{
+    string? loginUserId = userManager.GetUserId(User);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title | Devdiscourse</title>
+    <meta name="Keywords" content="sustainable development,urban development news,sdgs,sustainable development goals sdgs,latest news on SDGs,development sector news,southern African development, energy market news, poverty news, sustainable development news articles, Agriculture, Fishing and Forestry, Digital Development, Economy, Education, Energy and Extractives, Financial Sector, Health, Industry, Trade and Services, Public Administration, Social Protection, Transportation, Water, Sanitation and Waste Management, Business Enabling Environment, Climate change, Cultural Heritage, Data Development and Capacity Building, Demographics and Aging, Disaster Risk Management, Disease Control, Economic Growth and Planning, Education, Energy, Enterprise Development, Environmental Health and Pollution Management, Environmental Health and Pollution Management, Environmental policies and institutions, Finance for Development, Financial Infrastructure and Access, Financial Stability, Fiscal Policy, Fragility, Conflict and Violence, Gender, Health systems and Policies, ICT, Jobs, Labor Market Policy and Programs, Macro-financial policies, Public Administration, Public Finance Management, Public Private Partnerships, Regional Integration, Renewable Natural Resources Asset Management, Road Safety, Rule of Law, Rural Development, Social Inclusion, Social Protection, Trade, Urban Development, Water Resource Management">
+    <link rel="apple-touch-icon" sizes="180x180" href="/AdminFiles/Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/AdminFiles/Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/AdminFiles/Favicon/favicon-16x16.png">
+    <link rel="manifest" href="/AdminFiles/Favicon/manifest.json">
+    <link rel="mask-icon" href="/AdminFiles/Favicon/safari-pinned-tab.svg" color="#ff6a00">
+    <link rel="shortcut icon" href="/AdminFiles/Favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-config" content="/AdminFiles/Favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ff6a00">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/SiteNew.css" />
+</head>
+<body>
+    <style>
+        .btn-primary {
+            color: #fff;
+            background-color: #ff9c46;
+            border-color: #ff9c46;
+        }
+    </style>
+    <div>
+        <div class="p-10 bg-white" style="border-bottom:1px solid #eee;">
+            <a href="@Url.Action("Index","Home")"><img src="/AdminFiles/Logo/devdiscourse_logo.svg" style="max-height:55px;" alt="Devdiscourse" class="img-responsive" /></a>
+        </div>@RenderBody()
+    </div>
+    <div class="bg-white p-t-20"> @Html.Partial("_Footer") </div>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" async rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
+    @* @Scripts.Render("~/bundles/bootstrap") *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @RenderSection("scripts", required: false)
+    @*<script src="~/Scripts/jquery-cookie-plugin.min.js"></script>*@
+    <script>
+        var loginUserId = '@(loginUserId)';
+        //$(document).ready(function ()
+        //{
+        //    $.ajax("/Home/GetTags?reg=Global Edition").done(function (data)
+        //    { $("#footer-tags").html(data); });
+        //    $(document).on('click', '.regicon', function () { var date = new Date(); date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); document.cookie = "Edition" + "=" + $(this).attr("id") + "; expires=" + date.toGMTString() + "; path=/"; window.location.href = "/"; });
+        //});
+        function showalert(message, type) { $.notify({ message: message }, { type: type, delay: 1000, placement: { from: "top", align: "right" }, }); }
+        $(function () {
+            var chat = $.connection.chatHub;
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Press Release Manager"))
+        {
+            <text>
+                    chat.client.SendPRNewsNotification = function (message) {
+                        showalert(message, "success");
+                    }; </text>
+        }
+
+                chat.client.NewsAssignNotification = function (message, userId) {
+                    if (loginUserId == userId) {
+                        showalert(message, "success");
+                    }
+                };
+            $.connection.hub.start().done(function () { });
+        });
+                                                //$(function () { setTimezoneCookie(); }); function setTimezoneCookie() { var timezone_cookie = "timezoneoffset"; if (!$.cookie(timezone_cookie)) { var test_cookie = 'test cookie'; $.cookie(test_cookie, true); if ($.cookie(test_cookie)) { $.cookie(test_cookie, null); $.cookie(timezone_cookie, new Date().getTimezoneOffset()); location.reload(); } } else { var storedOffset = parseInt($.cookie(timezone_cookie)); var currentOffset = new Date().getTimezoneOffset(); if (storedOffset !== currentOffset) { $.cookie(timezone_cookie, new Date().getTimezoneOffset()); location.reload(); } } }</script>
+</body>
+</html>

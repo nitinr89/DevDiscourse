@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<style>
+    body {
+        background-color: #efefef;
+    }
+    .main-title {
+        height: 40px;
+        background-color: #e6e6e6;
+        color:#333;
+        font-size:18px;
+        padding-top:10px;
+    }
+        .main-title a{
+            text-decoration:unset;
+            color:#333;
+        } 
+        .main-title img {
+            width: 20px;
+            margin-right: 5px;
+            margin-left: 20px;
+        }
+    body div + div.p-t-20 {
+        padding-top: 0;
+        border-top: 1px solid #d9d7d7;
+    }
+</style>
+<div class="container bg-white p-t-40 p-b-20">
+    <div class="row">
+        <div class="col-xs-8">
+            <h3 style="margin-top:0px">ADMIN HOME</h3>
+        </div>
+        <div class="col-xs-4 text-right">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-default btn-sm" title="Back To Home"><span class="fa fa-arrow-circle-left"></span> Back</a>
+        </div>
+    </div>
+    <div class="row m-t-30">
+        <div class="col-md-2"></div>
+        @if (User.IsInRole("SuperAdmin"))
+        {
+            <div class="col-md-4 col-sm-6 col-xs-12 m-b-20">
+                <div class="main-div">
+                    <img src="~/images/admin/admin.jpg" class="img-responsive center-block" alt="admin" />
+                </div>
+                <div class="main-title">
+                    <a href="@Url.Action("AdminView", "Admin")">
+                        <img src="~/images/admin/arrow-right.svg" />
+                        Admin
+                    </a>
+                </div>
+            </div>
+        }
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="main-div">
+                <img src="~/images/admin/media.jpg" class="img-responsive center-block" alt="media" />
+            </div>
+            <div class="main-title">
+                <a href="@Url.Action("Media", "Admin")">
+                    <img src="~/images/admin/arrow-right.svg" />
+                    Media
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row m-t-30 p-b-20">
+        <div class="col-md-2"></div>
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+        {
+            <div class="col-md-4 col-sm-6 col-xs-12 m-b-20">
+                <div class="main-div">
+                    <img src="~/images/admin/jobs.jpg" class="img-responsive center-block" alt="jobs" />
+                </div>
+                <div class="main-title">
+                    <img src="~/images/admin/arrow-right.svg" />
+                    Jobs
+                </div>
+            </div>
+        }
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 m-b-20">
+            <div class="main-div">
+                <img src="~/images/admin/training.jpg" class="img-responsive center-block" alt="training" />
+            </div>
+            <div class="main-title">
+                <a href="@Url.Action("Index", "Training")">
+                    <img src="~/images/admin/arrow-right.svg" />
+                    Training
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row m-t-30 p-b-20">
+        <div class="col-md-2"></div>
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+        {
+            <div class="col-md-4 col-sm-6 col-xs-12 m-b-20">
+                <script type="text/javascript" src="https://www.cutestat.com/widget.php?domain=devdiscourse.com"></script>
+            </div>
+        }       
+    </div>
+</div>

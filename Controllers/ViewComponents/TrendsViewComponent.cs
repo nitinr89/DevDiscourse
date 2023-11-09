@@ -13,8 +13,9 @@ namespace DevDiscourse.Controllers.ViewComponents
 		}
 
 		public async Task<IViewComponentResult> InvokeAsync(Guid? id, string reg = "Global Edition", string filter = "")
-		{
-			ViewBag.filter = filter;
+        {
+            await Task.Yield();
+            ViewBag.filter = filter;
 			DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
 			DateTime weekend = todayDate.AddDays(-2).AddTicks(1);
 			if (reg == "Global Edition")

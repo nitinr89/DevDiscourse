@@ -13,7 +13,9 @@ namespace DevDiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(string reg = "Global Edition")
         {
-            var lastThreeHour = DateTime.UtcNow.AddHours(-12);
+                await Task.Yield();
+
+                var lastThreeHour = DateTime.UtcNow.AddHours(-12);
             var infocus = _db.RegionNewsRankings
               .Where(a => a.DevNews.AdminCheck == true
                           && a.Region.Title == reg
@@ -34,11 +36,13 @@ namespace DevDiscourse.Controllers.ViewComponents
                   Country = s.DevNews.Country,
                   Label = s.DevNews.NewsLabels,
                   Ranking = s.Ranking
-              })
-              .OrderByDescending(a => a.CreatedOn)
-              .Take(65)
-              .ToList();
-            return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+              }).OrderByDescending(a => a.CreatedOn)
+                  .Take(65)
+                  .ToList();
+                return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+
+            }
         }
+
     }
-}
+

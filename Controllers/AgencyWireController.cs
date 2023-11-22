@@ -1,7 +1,7 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-using PagedList.Core;
+using X.PagedList;
 
 namespace Devdiscourse.Controllers
 {

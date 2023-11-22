@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Devdiscourse.Data;
 using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.Azure;
+//using Microsoft.Azure;
 
 namespace DevDiscourse.Controllers.Main
 {

@@ -1,5 +1,4 @@
-﻿using Microsoft.Azure;
-using Microsoft.WindowsAzure.Storage;
+﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Net;
 
@@ -64,7 +63,11 @@ namespace Devdiscourse.Utility
         }
         private CloudBlobContainer GetCloudBlobImageContainer(string blobContainerName)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("devdiscourse_AzureStorageConnectionString"));
+            var config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .Build();
+            string connectionString = config.GetConnectionString("devdiscourse_AzureStorageConnectionString");
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
             CloudBlobContainer container = blobClient.GetContainerReference(blobContainerName);
             //if (container.CreateIfNotExistsAsync())

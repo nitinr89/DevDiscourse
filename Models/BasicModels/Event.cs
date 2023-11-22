@@ -25,35 +25,34 @@ namespace Devdiscourse.Models.BasicModels
         [Required]
         public string Title { get; set; }
         [Display(Name = "SubTitle")]
-        public string SubTitle { get; set; }
+        public string? SubTitle { get; set; }
         [Required]
         [Display(Name = "Summary")]
         //[AllowHtml]
         public string Description { get; set; }
         [Required]
         public string Sector { get; set; }
-        public string Themes { get; set; }
-        public string Category { get; set; }
+        public string? Themes { get; set; }
+        public string? Category { get; set; }
         [Display(Name = "Image")]
-        [Required]
-        public string FileUrl { get; set; }
-        public string Source { get; set; }
-        public string FileMimeType { get; set; }
-        public string Tags { get; set; }
-        public string Region { get; set; }
-        public string Country { get; set; }
-        public string Location { get; set; }
+        public string? FileUrl { get; set; }
+        public string? Source { get; set; }
+        public string? FileMimeType { get; set; }
+        public string? Tags { get; set; }
+        public string? Region { get; set; }
+        public string? Country { get; set; }
+        public string? Location { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         [Display(Name = "Admin Check")]
         public bool AdminCheck { get; set; }
         public bool IsInfocus { get; set; }
         public bool IsGlobal { get; set; }
-        public string Creator { get; set; }
+        public string? Creator { get; set; }
         public int ViewCount { get; set; }
-        public string FileSize { get; set; }
+        public string? FileSize { get; set; }
         [ForeignKey("Creator")]
-        public virtual ApplicationUser ApplicationUsers { get; set; }
+        public virtual ApplicationUser? ApplicationUsers { get; set; }
 
         public string GenerateSlug()
         {
@@ -85,7 +84,8 @@ namespace Devdiscourse.Models.BasicModels
         }
         private string RemoveAccent(string text)
         {
-            byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+            //byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
             return System.Text.Encoding.ASCII.GetString(bytes);
         }
     }

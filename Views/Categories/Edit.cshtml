@@ -1,0 +1,154 @@
+﻿@model Devdiscourse.Models.BasicModels.Category
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<link href="~/Content/admin.css" rel="stylesheet" />
+@* @Styles.Render("~/Content/admincss") *@
+<style>
+
+</style>
+<div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
+    <ol class="breadcrumb no-margin">
+        <li class="breadcrumb-item"><a href="@Url.Action("AdminView", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Categories")">Category</a></li>
+        <li class="breadcrumb-item active">Edit</li>
+    </ol>
+</div>
+<div class="container bg-white m-b-10">
+    @using (Html.BeginForm("Edit", "Categories", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal p-20">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SrNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SrNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SrNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Slug, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Slug, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Slug, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { } })
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PageTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PageTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PageTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PageImage, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 m-b-20" id="viewImage">
+                        <img src="@Model.PageImage" class="img-responsive" style="max-width:240px" />
+                    </div>
+                    <br />
+                    <div class="col-md-12">
+                        @Html.HiddenFor(model => model.PageImage)
+                        <input type="file" class="form-control" id="PageImageUrlUpdate" name="PageImageUrlUpdate" />
+                        @Html.ValidationMessageFor(model => model.PageImage, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BannerImage, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    <div class="col-xs-12 col-sm-12 col-md-6 m-b-20" id="viewImg">
+                        <img src="@Model.BannerImage" class="img-responsive" style="max-width:240px" />
+                    </div>
+                    <br />
+                    <div class="col-md-12">
+                        @Html.HiddenFor(model => model.BannerImage)
+                        <input type="file" class="form-control" id="BannerImageUrlUpdate" name="BannerImageUrlUpdate" />
+                        @Html.ValidationMessageFor(model => model.BannerImage, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PageDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PageDescription, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PageDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Keywords, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Keywords, new { htmlAttributes = new { @class = "form-control input-tags" } })
+                    @Html.ValidationMessageFor(model => model.Keywords, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    @* @Scripts.Render("~/bundles/jqueryadmin") *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.lazy').lazy();
+            $('.input-tags').tagsInput();
+            $('#PageImageUrlUpdate').change(function () {
+                // Checking whether FormData is available in browser
+                if (window.FormData !== undefined) {
+                    var _url = URL.createObjectURL(event.target.files[0]);
+                    Console.log(_url);
+                    $('#viewImage').html('<img src=' + _url + ' class="img-responsive" style="max-width:200px" />');
+                    $('#ChooseImage').val('');
+                }
+            });
+            $('#BannerImageUrlUpdate').change(function () {
+                // Checking whether FormData is available in browser
+                if (window.FormData !== undefined) {
+                    var _url = URL.createObjectURL(event.target.files[0]);
+                    Console.log(_url);
+                    $('#viewImg').html('<img src=' + _url + ' class="img-responsive" style="max-width:200px" />');
+                    $('#bannerimage').val('');
+                }
+
+            });
+        })
+    </script>
+}

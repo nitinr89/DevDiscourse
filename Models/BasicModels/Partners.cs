@@ -19,14 +19,13 @@ namespace Devdiscourse.Models.BasicModels
         [Display(Name = "Description")]
         //[AllowHtml]
         public string Description { get; set; }
-        [Required]
-        public string ImageUrl { get; set; }
-        public string Country { get; set; }
-        public PartnerType Type { get; set; }
-        public string SubType { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public bool IsActive { get; set; }
-        public string Creator { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? Country { get; set; }
+        public PartnerType? Type { get; set; }
+        public string? SubType { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public bool? IsActive { get; set; }
+        public string? Creator { get; set; }
         public Partners()
         {
             if (CreatedOn == new DateTime())

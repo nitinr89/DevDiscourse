@@ -1,0 +1,278 @@
+﻿@{
+    string domainUrl= "https://www.devdiscourse.com";
+    ViewBag.Title = "Global Warming-2019: A Forum for a Better Sustainable Tomorrow | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "Global Warming-2019: A Forum for a Better Sustainable Tomorrow";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/Global_warming_2019_banner.jpg?width=920";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    string pageUrl = "/events/global-warming-2019";
+    ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
+    ViewBag.pageKeywords = "Global Warming, Global Warming-2019, 2nd World Congress, Global Warming & Climate Change, Kuala Lumpur, Malaysia";
+    ViewBag.PageDescription = "2nd World Congress on Global Warming & Climate Change (Global Warming-2019), which will be held during December 06-07, 2019 Kuala Lumpur, Malaysia is now an established event, attracting global participant’s intent on sharing, exchanging and exploring new avenues of 2nd World Congress on Global Warming & Climate Change and related research and latest developments.";
+}
+<style>
+    .renderBody{
+        margin:0;
+    }
+    .fg-color {
+        color: #082d01;
+    }
+    .bg-color {
+        color: #082d01;
+    }
+    .why-abu {
+        color: #234e5e;
+        font-size: 28px;
+        font-weight: 500;
+    }
+    .bg-container {
+        background-image: url('/images/mediapartners/Global_warming_2019.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 60px 0 120px 0;
+        background-position: center center;
+    }
+
+    .border-card {
+        background-color: #e4ffca;
+        border: 2px solid #082d01;
+        color: #082d01;
+        padding: 5px;
+        font-weight: 500;
+        font-family: sans-serif;
+    }
+
+    .f-25 {
+        font-size: 32px;
+        font-weight: 600;
+        margin: 60px 0 40px 0;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .f-24 {
+        font-size: 24px;
+    }
+    .news-container {
+        background-color: #326500;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+    .mid-container {
+        background-color: #082d01;
+        color: #fff;
+    } 
+    .btn-css {
+        background-color: #082d01;
+        color: #fff;
+        margin-top: 40px;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 10px 60px;
+        font-family:sans-serif;
+    }
+        .btn-css:active {
+            background-color: #082d01;
+            color: #fff;
+        }
+        .btn-css:hover {
+            background-color: #234e5e;
+            color: #fff;
+        }
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align:center
+    }
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+    .item-right {
+        float: right
+    }
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+    }
+        /*nav.navscrollmenubar .linkBtn:hover {
+            background-color: #234e5e;
+        }*/
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+    @@media screen and (max-width:768px) {
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+    @@media screen and (max-width:425px){
+        .why-abu{
+            margin-top:30px;
+        }
+        .bg-container{
+            padding:20px 0;
+        }
+        .f-24{
+            font-size:18px;
+        }
+        .f-25 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 30px 0 30px 0;
+        }
+        .btn-css {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+    }
+</style>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="bg-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-xs-12 text-center">
+                <div class="border-card f-24">Devdiscourse is proud media partner of 2<sup>nd</sup> World Congress on Global Warming & Climate Change</div>
+                <div class="f-25 font-sans-serif">
+                    Global Warming-2019: A Forum for a Better Sustainable Tomorrow
+                </div>
+                <div class="border-card f-24">December 06-07, 2019 | Kuala Lumpur, Malaysia</div>
+                <a href="https://www.scientificfederation.com/global-warming-2019/registration.php" target="_blank" class="btn btn-css">REGISTER NOW</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="https://www.scientificfederation.com/global-warming-2019/index.php#sessions" target="_blank" class="linkBtn" title="Call for Papers">CALL FOR PAPERS</a>
+            </div>
+            <div class="item">
+                <a href="https://www.scientificfederation.com/global-warming-2019/committee.php" target="_blank" class="linkBtn" title="Committee">COMMITTEE</a>
+            </div>
+            <div class="item">
+                <a href="https://www.scientificfederation.com/global-warming-2019/index.php" target="_blank" class="linkBtn" title="Program">PROGRAM</a>
+            </div>
+            <div class="item">
+                <a href="https://www.scientificfederation.com/global-warming-2019/speakers.php" target="_blank" class="linkBtn" title="Speakers">SPEAKERS</a>
+            </div>
+            <div class="item">
+                <a href="https://scientificfederation.com/scientific-events.php" target="_blank" class="linkBtn" title="Conferences">CONFERENCES</a>
+            </div>
+            <div class="item">
+                <a href="https://www.scientificfederation.com/global-warming-2019/index.php#contact" target="_blank" class="linkBtn" title="Contact">CONTACT</a>
+            </div>            
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-sm-6">
+            <img src="~/images/mediapartners/About_Global_warming_2019.jpg" style="max-height:370px" class="img-responsive center-block" alt="why-abu-dhabi" />
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="why-abu font-sans-serif text-uppercase"><b>About Conference</b></div>
+            <div class="content text-muted font-sans-serif f-16">
+                <p class="m-t-20">On behalf of the Organizing and Program Committees we take great pleasure in welcoming academic scientists, researchers, research scholars, students and experts of application fields to Kuala Lumpur, Malaysia for the 2nd World Congress on Global Warming & Climate Change conference to foster the progress in the field by contributing with your expertise to what promises to be a very comprehensive and exciting meeting, and to enjoy the immense unique artistic heritage and wonderful landscape of  Malaysia.</p>
+                <p>2nd World Congress on Global Warming & Climate Change  (Global Warming-2019), which will be held during December 06-07, 2019 Kuala Lumpur, Malaysia is now an established event, attracting global participant’s intent on sharing, exchanging and exploring new avenues of  2nd World Congress on Global Warming & Climate Change and related research and latest developments. The event will have 5-6 world level (Highly cited class) plenary speakers, established Keynote speakers, active Invited speakers and fresh contributed speakers. In addition, a variety of poster presentations along with workshops and special sessions would be interested in the audience. <a href="https://www.scientificfederation.com/global-warming-2019/index.php#about" target="_blank" style="color:#234e5e">Read More</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container">
+    <div class="p-t-30 container content-container">
+        <h2 class="font-sans-serif">EVENT NEWS</h2>
+        <div>
+            <div id="moreEventNews">
+                @{ Html.RenderAction("EventNews", "Events", new { id = "1", skip = 0, take = 5 });}
+            </div>
+            <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+        </div>
+    </div>
+</div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

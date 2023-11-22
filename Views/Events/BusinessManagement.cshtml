@@ -1,0 +1,336 @@
+﻿
+@{
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "Business Management, Social Sciences & Entrepreneurship | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "Business Management, Social Sciences & Entrepreneurship";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/business_management_cover.jpg?width=920";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/business-management-social-sciences-entrepreneurship";
+    ViewBag.pageKeywords = "Business Management, Social Sciences, Entrepreneurship, Global Warming, Climate Change, Abu Dhabi, UAE";
+    ViewBag.PageDescription = "The BusinessManagement 2019, Abu Dhabi, UAE in the month of December 11-12,2019 will focus on current advances in the research and Technology of BusinessManagement & Economics with the whole concept of this advanced technologyis to agenise from past, analyse the present and implement for the future thelatest innovative evolving theories and technologies to surpass the hurdles andmake modish frontiers.";
+
+}
+<style>
+    .renderBody {
+        margin: 0;
+    }
+
+    .fg-color {
+        color: #1d2f36;
+    }
+
+    .bg-color {
+        background-color: #1d2f36;
+    }
+    .bg-secondary {
+        background-color: #a7d7ff;
+    }
+    .fg-secondary {
+        color: #a7d7ff;
+    }
+
+    .why-abu {
+        color: #1d2f36;
+        font-size: 28px;
+        font-weight: 500;
+    }
+    .blank-container{
+        padding-top:35%;
+    }
+    .banner-content-container{
+        padding:100px 50px;
+    }
+    .bg-container {
+        background-image: url('/images/mediapartners/business_management_event.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+    .f-40 {
+        font-size: 40px;
+        font-weight: 600;
+    }
+    .f-25 {
+        font-size: 25px;
+        font-weight: 400;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .f-20 {
+        font-size: 20px;
+    }
+
+    .news-container {
+        background-color: #a7d7ff;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+    .mid-container {
+        background-color: #a7d7ff;
+        color: #1d2f36;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .btn-css {
+        background-color: #a7d7ff;
+        color: #1d2f36;
+        margin-top: 40px;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 10px 30px;
+        font-family: sans-serif;
+        border-radius: 30px;
+        box-shadow: 0 15px 30px 0 rgba(8, 31, 62, 0.25);
+    }
+
+        .btn-css:active {
+            background-color: #a7d7ff;
+            color: #fff;
+        }
+
+        .btn-css:hover {
+            background-color: #49a7f5;
+            color: #fff;
+        }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #1d2f36;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+        .f-40 {
+            font-size: 32px;
+        }
+
+        .f-25 {
+            font-size: 21px;
+        }
+
+        .f-20 {
+            font-size: 18px;
+        }
+        .f-18 {
+            font-size: 16px;
+        }
+        .btn-css{
+            font-size:20px;
+        }
+    }
+    
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+    @@media screen and (max-width:768px) {
+        .bg-container {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top;
+        }
+        .text-right.banner-content-container{
+            text-align:left;
+        }
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 30px;
+        }
+        .why-abu {
+            margin-top: 30px;
+        }
+        .btn-css {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+    }
+</style>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="bg-container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <div class="blank-container"></div>
+            </div>
+            <div class="col-lg-5 col-md-6 bg-color col-sm-12 col-xs-12 text-right banner-content-container">
+                <div class="f-20 font-sans-serif fg-white">
+                    Devdiscourse is proud media partner of<br class="hidden-xs hidden-sm" />
+                    International conference on
+                </div>
+                <div class="f-40 m-t-10 m-b-30 fg-secondary font-sans-serif">
+                    Business Management, Social<br class="hidden-xs hidden-sm hidden-md" />
+                    Sciences & Entrepreneurship
+                </div>
+                <div class="f-25 font-sans-serif fg-white m-t-50">
+                    Theme:<br />
+                    Innovation and Latest Trends of Entrepreneurship
+                </div>
+                <div class="f-18 m-t-10 fg-secondary font-sans-serif">December 11-12, 2019 | Abu Dhabi, UAE</div>
+                <a href="http://businessmanagement.alliedacademies.com/registration" target="_blank" class="btn btn-css">REGISTER NOW</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="http://businessmanagement.alliedacademies.com/abstract-submission" target="_blank" class="linkBtn" title="Submit Abstract">SUBMIT ABSTRACT</a>
+            </div>
+            <div class="item">
+                <a href="http://businessmanagement.alliedacademies.com/brochure-download" target="_blank" class="linkBtn" title="Download Brochure">DOWNLOAD BROCHURE</a>
+            </div>
+            <div class="item">
+                <a href="http://businessmanagement.alliedacademies.com/scientific-program-pdfs" target="_blank" class="linkBtn" title="Scientific Program">SCIENTIFIC PROGRAM</a>
+            </div>
+            <div class="item">
+                <a href="http://businessmanagement.alliedacademies.com/venue-and-hospitality" target="_blank" class="linkBtn" title="Vanue & Hospitality">VENUE & HOSPITALITY</a>
+            </div>
+            <div class="item">
+                <a href="http://businessmanagement.alliedacademies.com/cancellation-policy" target="_blank" class="linkBtn" title="Terms & Conditions">TERMS & CONDITIONS</a>
+            </div>
+            <div class="item">
+                <a href="http://businessmanagement.alliedacademies.com/help-desk" target="_blank" class="linkBtn" title="Help Desk">HELP DESK</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <img src="~/images/mediapartners/About_business_management_event.jpg" style="max-height:370px" class="img-responsive center-block m-b-30" alt="About Innovation and Latest Trends of Entrepreneurship" />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="why-abu font-sans-serif text-uppercase"><b>About Conference</b></div>
+            <div class="content text-muted font-sans-serif f-16">
+                <p class="m-t-20">The BusinessManagement 2019, Abu Dhabi, UAE in the month of December 11-12,2019 will focus on current advances in the research and Technology of BusinessManagement & Economics with the whole concept of this advanced technologyis to agenise from past, analyse the present and implement for the future thelatest innovative evolving theories and technologies to surpass the hurdles andmake modish frontiers. Allied Academies Organizes 1000+ Conferences Every Yearacross USA, Europe & Asia with support from 1000 more scientific societies and Publishes 1000+ Open access Journals whichcontains over 50000 eminent personalities, reputed scientists as editorialboard members.</p>
+                <p>Business Management Conference will be a multidisciplinary gathering andpresent of areas such as BusinessManagement, Social Sciences,Economics,New Technology’s, Education and policies. The forum of Scientists,students and researchers from all corners of the globe, come together todiscuss future science & Technology. <a href="http://businessmanagement.alliedacademies.com/" target="_blank" style="color:#234e5e">Read More</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container">
+    <div class="p-t-30 container content-container">
+        <h2 class="font-sans-serif">EVENT NEWS</h2>
+        <div>
+            <div id="moreEventNews">
+                @{ Html.RenderAction("EventNews", "Events", new { id = "1", skip = 0, take = 5 });}
+            </div>
+            <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+        </div>
+    </div>
+</div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=1&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

@@ -12,8 +12,8 @@ namespace Devdiscourse.Models.BasicModels
         public int Id { get; set; }
         public int SrNo { get; set; }
         public string Title { get; set; }
-        public string Slug { get; set; }
-        public virtual ICollection<DiscourseTag> DiscourseTag { get; set; }
-        public virtual ICollection<VideoNewsSector> VideoNewsSectors { get; set; }
+        public string? Slug { get; set; }
+        public virtual ICollection<DiscourseTag>? DiscourseTag { get; set; }
+        public virtual ICollection<VideoNewsSector>? VideoNewsSectors { get; set; }
     }
 }

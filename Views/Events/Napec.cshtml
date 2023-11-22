@@ -1,0 +1,388 @@
+﻿@{
+    ViewBag.Title = "NAPEC 2020 | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/mediapartners/napecbackground.jpg";
+    ViewBag.PageDescription = "NAPEC 2020 10th NORTH AFRICA PETROLEUM EXHIBTION & CONFERENCE";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/Napec";
+    ViewBag.pageKeywords = "NAPEC 2020, 10th NORTH AFRICA PETROLEUM EXHIBTION & CONFERENCE";
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+    }
+
+    .gard {
+        background-color: #393a3c;
+        background-image: url('/images/mediapartners/napecbackground.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+        font-size:2px;
+    }
+
+    .why-abu {
+        color: #1d2f36;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .btncss {
+        background-color: #fff;
+        color: #0c0809;
+        font-size: 24px;
+        font-weight: 500;
+        border: 0;
+        border-radius: 0;
+        padding: 10px 45px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+
+        .btncss:hover {
+            background-color: #fff;
+            color: #ea1379;
+        }
+
+    .news-container {
+        padding-bottom: 30px;
+        color: #0c0809;
+    }
+
+    .mid-container {
+        background-color: #21337D;
+        color: #0c0809;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .bg-white.p-t-20 {
+        padding: 0;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #EEEEEE;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif;
+        font-weight: bold;
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+  
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .f-40 {
+        font-size: 40px;
+        line-height: 1.4;
+        margin-top: 0;
+        letter-spacing: 1px;
+    }
+
+    .napecTxt {
+        font-family: 'Oswald',sans-serif;
+        font-size: 60px;
+        color: #FFFFFF;
+        text-align: center;
+        font-weight:bold;
+    }
+
+    .eventDes {
+        font-family: 'Oswald',sans-serif;
+        font-size: 40px;
+        color: #FFFFFF;
+        text-align: center;
+    }
+
+    .eventAdd {
+        font-family: 'Oswald',sans-serif;
+        font-size: 25px;
+        color: #FFFFFF;
+        text-align: center;
+    }
+
+    .gard-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.7);
+    }
+
+    .event-container {
+        padding-top: 180px;
+        padding-bottom: 180px;
+    }
+
+    .contentTXt {
+
+        font-size:18px;
+    }
+    
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .text-five {
+            font-size: 200px;
+        }
+
+        .text-go-green {
+            font-size: 43px;
+        }
+
+        .remedies {
+            font-size: 18px;
+        }
+
+        .ev-date {
+            font-size: 20px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        .f-40 {
+            font-size: 35px;
+        }
+
+        .media-partner {
+            text-align: center;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .text-five {
+            font-size: 160px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-go-green {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .text-slogan {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .remedies {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+    }
+</style>
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Event",
+    "name": "NAPEC 2020",
+    "startDate": "2021-03-15T18:00",
+    "endDate": "2021-03-18T22:00",
+    "location": {
+    "@@type": "Place",
+    "name": "Oran International Convention Center",
+    "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "Le Meridien Oran Hotel ",
+    "addressLocality": "Convention Center",
+    "postalCode": "Oran 31000",
+    "addressRegion": "Algeria",
+    "addressCountry": "Algeria"
+    }
+    },
+    "image": [
+    "https://www.devdiscourse.com/images/mediapartners/napecbackground.jpg"
+    ],
+    "description": "NAPEC is the largest international trade fair for hydrocarbons and energy in Africa and the Mediterranean, dedicated to the North African market, dedicated to the activities of Upstream, Midstream and Downstream (Onshore & Offshore) and all suppliers products, services and technologies that revolve around oil and gas activity.",
+    "offers": {
+    "@@type": "Offer",
+    "url": "https://www.example.com/event_offer/12345_201803180430",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "http://www.napec-dz.com/presentationsalon.aspx?lg=fr",
+    "validFrom": "2020-03-15T18:00"
+    }
+    }
+</script>
+<div class="gard">
+    <div class="gard-overlay"></div>
+    <div class="container event-container">
+      <div class="p-t-20 p-b-20 row">
+            <div class="col-xs-12">
+                <p class="napecTxt"><b>NAPEC 2021</b></p>
+                <p class="eventDes">10<sup>th</sup> NORTH AFRICA PETROLEUM EXHIBTION & CONFERENCE</p>
+                <p class="eventAdd">15<sup>th</sup>-18<sup>th</sup> March <b>2021</b></p>
+                <p class="eventAdd">at Oran International Convention Center, Algeria</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+
+            <div class="item">
+                <a href="http://www.napec-dz.com/default.aspx" target="_blank" class="linkBtn" title="Home">HOME</a>
+            </div>
+            <div class="item">
+                <a href="http://www.napec-dz.com/presentationsalon.aspx?lg=fr" target="_blank" class="linkBtn" title="A Propos De Napec">A PROPOS DE NAPEC</a>
+            </div>
+            <div class="item">
+                <a href="http://www.napec-dz.com/SteeringCommitteeNAPEC2019.aspx?lg=fr" target="_blank" class="linkBtn" title="Steering Commitee">STEERING COMMITEE</a>
+            </div>
+            <div class="item">
+                <a href="http://www.napec-dz.com/SpeakersNAPEC2019.aspx?lg=fr" target="_blank" class="linkBtn" title="Speakers">SPEAKERS</a>
+            </div>
+            @*<div class="item">
+                <a href="http://www.napec-dz.com/NAPECYoungProfessional.aspx?lg=fr" target="_blank" class="linkBtn" title="Napec Jeunes Professionals">NAPEC JEUNES PROFESSIONALS</a>
+            </div>*@
+            <div class="item">
+                <a href="http://www.napec-dz.com/mediaparteners.aspx?lg=fr" target="_blank" class="linkBtn" title="Partenaires Media">PARTENAIRES MEDIA</a>
+            </div>
+            <div class="item">
+                <a href="http://www.napec-dz.com/NewFreightForwarders.aspx?lg=fr" target="_blank" class="linkBtn" title="Transitaire Officiel Du Napec">TRANSITAIRE OFFICIEL DU NAPEC</a>
+            </div>
+            <div class="item">
+                <a href="http://www.napec-dz.com/Contacts.aspx?lg=fr" target="_blank" class="linkBtn" title="Contacts">CONTACTS</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <img src="~/images/mediapartners/conferenceNapec.jpg" style="max-height:300px" class="img-responsive center-block m-b-30" alt="About Innovation and Latest Trends of Entrepreneurship" />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="why-abu font-sans-serif text-uppercase"><b>About Conference</b></div>
+            <div>
+                <p class="m-t-20 contentTXt ">NAPEC est le plus grand salon professionnel international des hydrocarbures et de l'energie en afrique et en méditerranée, dédié au marché nord-africain, Consacré aux activités de l’Upstream, le Midstream et le Downstream (Onshore & Offshore) et tous les fournisseurs de produits, services et technologies qui gravitent autour de l’activité pétrolière et gazière.</p>
+                <p class="contentTXt" >Un mélange unique de 650 opérateurs, sociétés de technologies et de services venant de 45 pays.
+                   Plus de 29 000 visiteurs professionnels venant du monde entier sont attendus.</p>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=1&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

@@ -149,7 +149,7 @@ namespace DevDiscourse.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public async Task<ActionResult> Register()
+        public ActionResult Register()
         {
             string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
@@ -164,16 +164,8 @@ namespace DevDiscourse.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-
-            //var result = await roleManager.CreateAsync(new IdentityRole { Name = roleName });
-            //if (result.Succeeded)
-            //{
-
-            //}
-
             return View();
         }
-
 
         //POST: /Account/Register
         [HttpPost]
@@ -232,7 +224,22 @@ namespace DevDiscourse.Controllers
                     //    var response = client.UploadValues("https://localhost:44331/Account/ExternalRegister/", values);
                     //    var responseString = Encoding.Default.GetString(response);
                     //}
-                    await userManager.AddToRoleAsync(user, "Admin");
+                    //bool roleExists = await roleManager.RoleExistsAsync("SuperAdmin");
+                    //if (!roleExists)
+                    //{
+                    //    // Create the role "SuperAdmin"
+                    //    var newRole = new IdentityRole("SuperAdmin");
+                    //    await roleManager.CreateAsync(newRole);
+                    //}
+                    //bool roleExists2 = await roleManager.RoleExistsAsync("Admin");
+                    //if (!roleExists2)
+                    //{
+                    //    // Create the role "SuperAdmin"
+                    //    var newRole = new IdentityRole("Admin");
+                    //    await roleManager.CreateAsync(newRole);
+                    //}
+                    await userManager.AddToRoleAsync(user, "Subscriber");
+                    await userManager.AddToRoleAsync(user, "SuperAdmin");
                     // return RedirectToAction("AccountConfirmation", "Account");
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");

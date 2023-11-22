@@ -1,0 +1,254 @@
+﻿@{
+    string domainUrl= "https://www.devdiscourse.com";
+    ViewBag.Title = "Blockchain 2.0 Singapore August 1, 2019 | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "Blockchain 2.0 Singapore August 1, 2019";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/blockchain_singapore_banner.jpg?width=920";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    string pageUrl = "/events/plastic-free-world-conference";
+    ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
+    ViewBag.pageKeywords = "Blockchain 2.0, Singapore, Blockchain Singapore, blockchain";
+    ViewBag.PageDescription = "The event weaves global blockchain gurus and technology players in this space including emerging startups with regional businesses and IT leaders from across key industry verticals. The Summit features inspirational, thought-provoking keynotes, panel discussions, tech talks, workshops, real life applications and a host of networking opportunities.";
+}
+<style>
+    .renderBody{
+        margin:0;
+    }
+    .bg-container {
+        background-image: url('/images/mediapartners/blockchain_2_singapore.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 90px 0 160px 0;
+        background-position: center center;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .trend-card, .event-news {
+        filter: grayscale(100%);
+    }
+
+        .trend-card:hover, .event-news:hover {
+            filter: grayscale(0);
+        }
+
+    .fg-white {
+        color: #f0f0f0;
+    }
+
+    .main-heading {
+        color: #e74538;
+        font-size: 5.5rem;
+        font-weight: 700;
+    }
+    .fg-color {
+        color: #e74538;
+    }
+    .bg-color {
+        color: #e74538;
+    }
+    .main-right {
+        height: 600px;
+    }
+    .why-abu {
+        color: #234e5e;
+        font-size: 28px;
+        font-weight: 500;
+    }
+    .news-container {
+        background-color: #e74538;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+    .mid-container {
+        background-color: #e74538;
+        color: #fff;
+    } 
+    .btn-css {
+        background-color: #e74538;
+        color: #fff;
+        margin-top: 40px;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 10px 60px;
+        font-family:sans-serif;
+    }
+        .btn-css:active {
+            background-color: #e74538;
+            color: #fff;
+        }
+        .btn-css:hover {
+            background-color: #234e5e;
+            color: #fff;
+        }
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align:center
+    }
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+    .item-right {
+        float: right
+    }
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+    /*@@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }*/
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+    }
+        /*nav.navscrollmenubar .linkBtn:hover {
+            background-color: #234e5e;
+        }*/
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+    @@media screen and (max-width:768px) {
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+        .main-right {
+            height: 500px;
+        }
+    }
+    @@media screen and (max-width:425px){
+        .bg-container {
+            padding: 20px 0 30px 0;
+        }
+        .main-right {
+            margin-top:30px;
+            height: 400px;
+        }
+        .why-abu{
+            margin-top:30px;
+        }
+        .main-heading{
+            font-size:3.5rem;
+        }
+        .h3{
+            font-size:18px;
+            margin-top:15px;
+            line-height:1.4;
+        }
+        .btn-css {
+            background-color: #e74538;
+            color: #fff;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 20px;
+            font-family: sans-serif;
+        }
+    }
+    .bg-white.p-t-20{
+        padding:0;
+    }
+</style>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="bg-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div class="border-card">
+                    <img src="~/images/mediapartners/clavent_logo.png" class="img-responsive" style="max-width:110px" />
+                    <div class="h3 font-sans-serif fg-white">AUGUST 1, 2019</div>
+                    <div class="h3 font-sans-serif fg-white">Devdiscourse is proud media partner of</div>
+                    <a href="https://www.clavent.com/blockchain-2-0-singapore/" class="text-decoration" target="_blank">
+                        <div class="main-heading font-sans-serif">Blockchain 2.0<br /> Singapore</div>
+                    </a>
+                    <div class="h3 font-sans-serif fg-white">Discussing how Blockchain is changing lives</div>
+                    <a href="https://www.townscript.com/e/blockchain-20-singapore-123444/booking" target="_blank" class="btn btn-css">BOOK NOW</a>
+                    @*
+
+
+                    *@
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container">
+    <div class="p-t-30 container content-container">
+        <h2 class="font-sans-serif">EVENT NEWS</h2>
+        <div>
+            <div id="moreEventNews">
+                @{ Html.RenderAction("EventNews", "Events", new { id = "1", skip = 0, take = 5 });}
+            </div>
+        </div>
+    </div>
+</div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+        });
+    </script>
+}

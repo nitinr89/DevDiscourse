@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Devdiscourse.Models.BasicModels
 {
     public class Career
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -23,10 +26,10 @@ namespace Devdiscourse.Models.BasicModels
         [DisplayName("Area Of Expertise")]
         public string AreaOfExpertise { get; set; }
         [DisplayName("Upload CV")]
-        public string UploadCV { get; set; }
-        public string FileExtension { get; set; }
+        public string? UploadCV { get; set; }
+        public string? FileExtension { get; set; }
         public long JobId { get; set; }
-        public string JobTitle { get; set; }
+        public string? JobTitle { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
         public Career()

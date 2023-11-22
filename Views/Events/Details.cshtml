@@ -1,0 +1,107 @@
+﻿@model Devdiscourse.Models.BasicModels.DevNews
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<link href="~/Content/admin.css" rel="stylesheet" />
+<div class="bg-grayLighter" style="padding: 10px 0;">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("EventList", "Events")">Events</a></li>
+        <li class="breadcrumb-item active">Details</li>
+    </ol>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Sector)
+        </dt>
+
+        <dd>
+            @* @{ Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "Plane" });} *@
+            @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "Plane" });
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Themes)
+        </dt>
+
+        <dd>
+            @if (!String.IsNullOrEmpty(Model.Themes))
+            {
+                @* { Html.RenderAction("GetThemes", "Home", new { theme = Model.Themes, filter = "Plane" }); } *@
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+
+        <dd>
+            <img src="@Html.DisplayFor(model => model.ImageUrl)?w=70&h=70&mode=crop" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageCopyright)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageCopyright)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Source)
+        </dt>
+
+        <dd>
+            <a href="@Html.DisplayFor(model => model.SourceUrl)">@Html.DisplayFor(model => model.Source)</a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdminCheck)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdminCheck)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSponsored)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSponsored)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditorPick)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditorPick)
+        </dd>
+
+    </dl>
+</div>

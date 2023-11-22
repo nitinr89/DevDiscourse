@@ -1,5 +1,10 @@
-﻿@model PagedList.IPagedList<Devdiscourse.Models.ViewModel.PublisherView>
-@using PagedList.Core
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.ViewModel.PublisherView>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.ViewModel.PublisherView> model = Model;
+}
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Latest News Headlines from Devdiscourse, Development News, Africa News, Breaking News, India News, World News";
@@ -57,7 +62,7 @@
         </a>
     }<div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;"> <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small> @* @Html.PagedListPager(Model, page => Url.Action("Index", "AgencyWire", new { page })) *@ </div>
 </div>
-@section scripts{
+@section scripts {
     <script>
         $(document).ready(function () {
             $(document).find('#regDropDown').change(function () {

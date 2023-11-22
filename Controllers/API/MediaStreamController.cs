@@ -2,7 +2,6 @@
 using Devdiscourse.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage;
 using System.Net;
@@ -298,7 +297,11 @@ namespace Devdiscourse.Controllers.API
         }
         private CloudBlobContainer GetCloudBlobImageContainer()
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("devdiscourse_AzureStorageConnectionString"));
+            var config = new ConfigurationBuilder()
+                   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                   .Build();
+            string connectionString = config.GetConnectionString("devdiscourse_AzureStorageConnectionString");
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
             CloudBlobContainer container = blobClient.GetContainerReference("imagegallery");
             var created = Convert.ToBoolean(container.CreateIfNotExistsAsync());

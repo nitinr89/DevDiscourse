@@ -70,7 +70,7 @@ namespace Devdiscourse.Models.BasicModels
         public string? Source { get; set; }
         public string? OriginalSource { get; set; }
         public string? SourceUrl { get; set; }
-        public string? Author { get; set; }
+        public string Author { get; set; }
         public int ViewCount { get; set; }
         public int LikeCount { get; set; }
         public string? FileSize { get; set; }

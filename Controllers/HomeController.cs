@@ -77,19 +77,20 @@ namespace DevDiscourse.Controllers
         //    return View();
         //}
         //[OutputCache(Duration = 60, VaryByParam = "none")]
-        //public ActionResult PrivacyPolicy()
-        //{
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.edition = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.edition = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
+        public ActionResult PrivacyPolicy()
+        {
+            //HttpCookie cookie = Request.Cookies["Edition"];
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.edition = "Global Edition";
+            }
+            else
+            {
+                ViewBag.edition = cookie ?? "Global Edition";
+            }
+            return View();
+        }
         public ActionResult Index(string reg = "")
         {
             ViewBag.edition = "Global Edition";

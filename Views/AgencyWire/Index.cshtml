@@ -1,0 +1,71 @@
+﻿@model PagedList.IPagedList<Devdiscourse.Models.ViewModel.PublisherView>
+@using PagedList.Core
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Latest News Headlines from Devdiscourse, Development News, Africa News, Breaking News, India News, World News";
+    ViewBag.PageDescription = "Devdiscourse: Latest News from PTI, ANI, Reuters and PR Newswire.";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/agency-wire";
+    ViewBag.pageKeywords = "Latest News, PTI, ANI, Reuters, PR Newswire, Breaking News, India News, Development news, Energy News, Urban development news, transport news ,economy news, finance news, sports news, art and culture news, education news, latest news, Agro-Forestry, Social Protection, Public Administration, Water and Sanitation, Health News";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "?width=640";
+
+}
+<link href="~/Content/PagedList.min.css" rel="stylesheet" />
+<style>
+    .no-text-decoration {
+        text-decoration: none !important
+    }
+
+    .globalDevelopmentCard {
+        border-top: 1px solid #eee !important;
+    }
+
+    @@media (max-width: 425px) {
+        .globalDevelopmentCard .image-card {
+            height: 65px;
+        }
+    }
+</style>
+<div class="container m-t-30">
+    <h1 class="section-title" title="Latest News from PTI, ANI, Reuters and PR Newswire"> <span>AGENCY WIRE</span></h1> @foreach (var item in Model)
+    {
+        <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix= item.Label??"agency-wire", id=@item.GenerateSlug()})" class="no-text-decoration">
+            <div class="globalDevelopmentCard">
+                <div class="media" title="@item.Title">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg")
+                    {
+                        var newsthumbImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                        <div class="media-left"> <div class="image-card bg-gray" style="background-image:url(@newsthumbImage?width=100&height=80&quality=80&mode=crop)"></div></div>
+                    }<div class="media-body">
+                        <div class="title fg-black hover-color" style="font-stretch:extra-condensed;line-height:1.1">@item.Title</div><p class="one-line-text text-muted p-t-10">
+                            @if (!String.IsNullOrEmpty(item.Country))
+                            {
+                                @item.Country
+                            }
+                            else
+                            {
+                                var country = "Global";
+                                @country
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    }<div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;"> <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small> @* @Html.PagedListPager(Model, page => Url.Action("Index", "AgencyWire", new { page })) *@ </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+        })
+    </script>
+}

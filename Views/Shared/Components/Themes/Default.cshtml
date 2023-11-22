@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.ItemView>
+@if (ViewBag.filter == "Plane")
+{
+    foreach (var item in Model)
+    {
+        <span>@item.Title</span>
+
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+        <span class="f-14 badge text-center p-l-r-20" style="margin:5px !important;">@item.Title</span>
+    }
+}

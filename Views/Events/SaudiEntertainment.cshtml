@@ -1,0 +1,428 @@
+@{
+    ViewBag.Title = "Saudia Entertainment & Amusement | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/mediapartners/saudienterbg.jpg";
+    ViewBag.PageDescription = "Saudi Entertainment and Amusement (SEA) expo is the first trade event dedicated to Saudi Arabia’s budding entertainment and leisure sector.";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/SaudiEntertainment";
+    ViewBag.pageKeywords = "Saudi Entertainment And Amusement , 3 - 5 FEBRUARY 2020 HALL 1, RIYADH INTERNATIONAL CONVENTION & EXHIBITION CENTER(RICEC)";
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+    }
+
+    .gard {
+        background-color: #2e2e2e;
+        background-image: url('/images/mediapartners/saudienterbg.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center top;
+        /*padding-top: 140px;
+        padding-bottom: 60px;*/
+        color: #000000;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .ev-date {
+        background-color: #fff;
+        color: #222;
+        padding: 3px 10px;
+        display: inline-block;
+    }
+
+    .why-abu {
+        color: #141414;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .fg-theme {
+        color: #e45914;
+    }
+
+    .btncss {
+        color: #fff;
+        background-color: #E7235B;
+        font-size: 24px;
+        font-weight: 500;
+        border: 0;
+        border-radius: 0px;
+        padding: 10px 45px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+
+        .btncss:hover {
+            color: #fff;
+            background-color: #EF665B;
+        }
+
+    .news-container {
+        background-color: #e45914;
+        margin-top: 30px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+    .mid-container {
+        background-color: #1A3965;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .bg-white.p-t-20 {
+        padding: 0;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .f-40 {
+        font-size: 42px;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .text-five {
+            font-size: 200px;
+        }
+
+        .text-go-green {
+            font-size: 43px;
+        }
+
+        .remedies {
+            font-size: 18px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+
+        .f-20{
+            font-size:14px;
+        }
+
+        .f-40{
+            font-size:30px;
+        }
+
+        .btncss {
+            font-size:18px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+
+
+        .media-partner {
+            text-align: center;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        .f-20 {
+            font-size: 14px;
+        }
+
+        .f-40 {
+            font-size: 20px;
+        }
+
+        .btncss {
+            font-size: 18px;
+        }
+
+        .gard {
+            padding: 0;
+            background-position: right;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .text-five {
+            font-size: 160px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-go-green {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .text-slogan {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .remedies {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+
+        .gard .media-left, .gard .media-body {
+            display: block;
+            width: 100%;
+        }
+
+        .gard .media-left {
+            padding-bottom: 20px;
+        }
+
+        .f-40 {
+            font-size: 30px;
+        }
+
+        .f-20 {
+            font-size: 16px;
+        }
+    }
+</style>
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Event",
+    "name": "Saudia Entertainment & Amusement",
+    "startDate": "2020-02-03T18:00",
+    "endDate": "2020-02-05T22:00",
+    "location": {
+    "@@type": "Place",
+    "name": "Saudia Entertainment & Amusement",
+    "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "HALL 1",
+    "addressLocality": "RIYADH INTERNATIONAL CONVENTION & EXHIBITION CENTER (RICEC)",
+    "postalCode": "12451",
+    "addressRegion": "King Abdullah Rd",
+    "addressCountry": "Saudi Arabia"
+    }
+    },
+    "image": [
+    "https://www.devdiscourse.com/images/mediapartners/saudienterbg.jpg"
+    ],
+    "description": "Saudi Entertainment and Amusement (SEA) expo is the first trade event dedicated to Saudi Arabia’s budding entertainment and leisure sector. We are focused on bringing the best products, services and technology brands in the industry.",
+    "offers": {
+    "@@type": "Offer",
+    "url": "https://www.example.com/event_offer/12345_201803180430",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://register.saudientertainmentexpo.com/Registration.aspx?utm_source=&utm_medium=&utm_campaign=&utm_content=&utm_term=",
+    "validFrom": "2020-02-03T18:00"
+    }
+    }
+</script>
+
+<div class="gard">
+
+    <div class="container-fluid font-sans-serif p-t-10">
+      <div class="row">
+          <div class="col-sm-7 col-md-7">
+              <img src="~/images/mediapartners/saudienter2bg.png" class="img-responsive" />
+          </div>
+          <div class="col-sm-5 col-md-5">
+              <div class="p-t-40">
+                  <p class="f-20">Devdiscourse is proud media partner of </p>
+                  <h1 class="f-40">
+                      SAUDI ENTERTAINMENT AND AMUSEMENT
+                  </h1>
+                  <p class="f-20">
+                      3 - 5 FEBRUARY 2020<br />
+                      HALL 1, RIYADH INTERNATIONAL CONVENTION & EXHIBITION CENTER (RICEC)
+                  </p>
+
+                  <div class="p-t-20 m-b-30">
+                      <a href="http://www.saudientertainmentexpo.com/visitor/register-to-visit/" target="_blank" class="btn btn-default btn-lg btncss">REGISTER TO VISIT</a>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="https://www.saudientertainmentexpo.com/" target="_blank" class="linkBtn" title="Home">HOME</a>
+            </div>
+            <div class="item">
+                <a href="https://www.saudientertainmentexpo.com/visitor/why-visit/" target="_blank" class="linkBtn" title="Visitor">VISITOR</a>
+            </div>
+            <div class="item">
+                <a href="https://www.saudientertainmentexpo.com/exhibitor-list/" target="_blank" class="linkBtn" title="Exhibitor List">EXHIBITOR LIST</a>
+            </div>
+            <div class="item">
+                <a href="https://register.saudientertainmentexpo.com/Registration.aspx" target="_blank" class="linkBtn" title="Register">REGISTER</a>
+            </div>
+            <div class="item">
+                <a href="https://www.saudientertainmentexpo.com/sea-summit/" target="_blank" class="linkBtn" title="Sea Summit">SEA SUMMIT</a>
+            </div>
+            <div class="item">
+                <a href="https://www.saudientertainmentexpo.com/exhibitor/invest-in-saudi-arabia/" target="_blank" class="linkBtn" title="Exhibitor">EXHIBITOR</a>
+            </div>
+            <div class="item">
+                <a href="https://www.saudientertainmentexpo.com/about-us/organisers/" target="_blank" class="linkBtn" title="About Us">ABOUT US</a>
+            </div>
+            <div class="item">
+                <a href="https://www.saudientertainmentexpo.com/contact-us/" target="_blank" class="linkBtn" title="Contact Us">CONTACT US</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+
+            <iframe width="500" height="300" src="https://www.youtube.com/embed/lLLpQogLwTM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:100%;"></iframe>
+
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="why-abu font-sans-serif text-uppercase"><b>SAUDI ENTERTAINMENT AND AMUSEMENT</b></div>
+            <div  class="content text-muted font-sans-serif f-16">
+                <p class="m-t-20">
+                   <b>Saudi Entertainment and Amusement (SEA)</b>  expo is the first trade event dedicated to Saudi Arabia’s budding entertainment and leisure sector. We are focused on bringing the best products, services and technology brands in the industry, from across 25+ countries, right here to Riyadh, in support of the Kingdom’s vision to transform into the entertainment and leisure hub of the Middle East.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container">
+        <div class="p-t-30 container content-container">
+            <h2 class="font-sans-serif">EVENT NEWS</h2>
+            <div>
+                <div id="moreEventNews">
+                    @{ Html.RenderAction("EventNews", "Events", new { id = "2", skip = 0, take = 5 });}
+                </div>
+                <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+            </div>
+        </div>
+    </div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=1&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,127 @@
+﻿@model Devdiscourse.Models.BasicModels.Partners
+@using Devdiscourse.Models
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<link href="~/Content/admin.css" rel="stylesheet" />
+<div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
+    <ol class="breadcrumb no-margin">
+        <li class="breadcrumb-item"><a href="@Url.Action("AdminView", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Partners")">Partners</a></li>
+        <li class="breadcrumb-item active">Create</li>
+    </ol>
+</div>
+<div class="container bg-white m-b-10">
+    @using (Html.BeginForm("Create", "Partners", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal p-20">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", style = "min-height:100px" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
+                    @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @* @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" }) *@
+                    @Html.DropDownListFor(model => model.Type, Enum.GetNames(typeof(PartnerType)).Select(t => new SelectListItem
+           {
+               Text = t,
+               Value = t
+           }), "Type", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <select class="form-control" id="SubType" name="SubType">
+                        <option value="">Select SubType</option>
+                        <option value="Individuals">Individuals </option>
+                        <option value="Organisation">Organisation</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.SubType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section scripts {
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            tinymce.init({
+                selector: '#Description',
+                height: 300,
+                menubar: false,
+                relative_urls: false,
+                remove_script_host: false,
+                invalid_elements: 'br',
+                //entity_encoding: 'raw',
+                convert_urls: true,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen wordcount',
+                    'insertdatetime media table contextmenu paste textcolor colorpicker imagetools'
+                ],
+                setup: function (ed) {
+                    ed.on('init', function () {
+                        this.getDoc().body.style.fontFamily = 'sans-serif';
+                    });
+                    ed.on('keyup', function (evt) {
+                        var theEditor = tinymce.activeEditor;
+                        var wordCount = theEditor.plugins.wordcount.getCount();
+                        $("#wordCount").html("[ Words entered: " + wordCount + " ]");
+                    });
+                    ed.addButton('mybutton', {
+                        text: '✓',
+                        title: "Strip html",
+                        icon: false,
+                        onclick: function () {
+                            ed.setContent($(ed.getContent()).text());
+                        }
+                    });
+                },
+                toolbar: 'undo redo | styleselect | table charmap | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat pastetext | code | print | mybutton',
+                imagetools_cors_hosts: ['www.tinymce.com', 'http://localhost:61834']
+            });
+        });
+    </script>
+}

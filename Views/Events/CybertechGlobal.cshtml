@@ -1,0 +1,430 @@
+@{
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "Cybertech | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "Cybertech Global";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/cybertechbg.png";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/CybertechGlobal";
+    ViewBag.pageKeywords = "28 - 30 JAN 2020 TEL | AVIV CYBERTECH GLOBAL IN TEL AVIV IS GOING TO BE BIG!";
+    ViewBag.PageDescription = "From Tel Aviv and Rome, to Tokyo, Singapore, Panama, and more, Cybertech is the cyber industry’s foremost B2B networking platform conducting industry-related events all around the globe.";
+
+}
+<style>
+    .renderBody {
+        margin: 0;
+        background: #F4A7A3;
+    }
+
+    .fg-color {
+        color: #133100;
+    }
+
+    .bg-color {
+        background-color: #133100;
+    }
+
+    .bg-secondary {
+        background-color: #2e9e02;
+    }
+
+    .fg-secondary {
+        color: #2e9e02;
+    }
+
+    .why-abu {
+        color: #133100;
+        font-size: 60px;
+        font-weight: 500;
+    }
+
+
+    .banner-content-container {
+        padding: 100px 50px 100px 100px;
+    }
+
+    .gard {
+        background-color: #0c0809;
+        background-image: url('/images/mediapartners/cybertechbg.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+    }
+
+    .gard-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.3);
+    }
+
+    .f-40 {
+        font-size: 50px;
+        font-weight: 600;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+        color: white;
+    }
+
+    .f-20 {
+        font-size: 20px;
+    }
+
+    .logo-container {
+        text-align: right;
+    }
+
+    .news-container {
+        background-color: #2e9e02;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+    .seperator {
+        margin: 30px auto;
+        width: 70%;
+        height: 7px;
+        background-color: #ffe926;
+    }
+
+    .mid-container {
+        background-color: #CF2127;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .btn-css {
+        background-color: #E81B1B;
+        color: #fff;
+        margin-top: 40px;
+        font-size: 20px;
+        font-weight: 700;
+        padding: 10px 30px;
+        font-family: sans-serif;
+        box-shadow: 0 15px 30px 0 rgba(8, 31, 62, 0.25);
+    }
+
+
+        .btn-css:active {
+            background-color: #eeda2b;
+            color: #133100;
+        }
+
+    btn-css:visited {
+        color: #133100;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .event-container {
+        padding-top: 140px;
+        padding-bottom: 160px;
+    }
+
+    .eventVenue {
+        font-size: 20px;
+        color: white;
+        font-family: sans-serif;
+    }
+
+    .eventDesc {
+        font-size: 50px;
+        color: white;
+        font-family: sans-serif;
+        font-weight: bolder;
+        letter-spacing: -1px;
+        font-stretch:condensed;
+    }
+
+    .bg-white.p-t-20 {
+        padding-top: 0;
+    }
+
+    .imagecss {
+
+        width:400px;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .f-40 {
+            font-size: 40px;
+        }
+
+        .btn-css {
+            font-size: 20px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        .bg-container {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top;
+        }
+
+        .f-40 {
+            font-size: 50px;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+
+        .btn-css {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+
+        .eventDesc {
+            font-size: 20px;
+        }
+
+        .imagecss {
+            width:300px;
+        }
+    }
+</style>
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Event",
+    "name": "CYBERTECH GLOBAL",
+    "startDate": "2020-01-28T18:00",
+    "endDate": "2020-01-30T22:00",
+    "location": {
+    "@@type": "Place",
+    "name": "Expo Tel Aviv",
+    "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "Expo Tel Aviv",
+    "addressLocality": "Tel Aviv-Yafo",
+    "postalCode": "",
+    "addressRegion": "",
+    "addressCountry": "Israel"
+    }
+    },
+    "image": [
+    "https://www.devdiscourse.com/images/mediapartners/cybertechbg.png"
+    ],
+    "description": "From Tel Aviv and Rome, to Tokyo, Singapore, Panama, and more, Cybertech is the cyber industry’s foremost B2B networking platform conducting industry-related events all around the globe. ",
+    "offers": {
+    "@@type": "Offer",
+    "url": "https://www.example.com/event_offer/12345_201803180430",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://www.cybertechisrael.com/registration",
+    "validFrom": "2020-01-28T18:00"
+    }
+    }
+</script>
+
+<div class="gard">
+    <div class="gard-overlay"></div>
+    <div class="container event-container">
+        <div class="p-t-20 p-b-20">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+
+                    <p class="eventVenue" >Devdiscourse is proud media partner of</p>
+
+                    <img src="~/images/mediapartners/cybertechlogo.png" class="imagecss" />
+                </div>
+            </div>
+            <div style="padding-top:15px;padding-bottom:15px;" class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                    <p class="eventVenue">28 - 30 JAN 2020 TEL | AVIV</p>
+                    <p class="eventDesc">
+                       CYBERTECH GLOBAL IN TEL AVIV IS GOING TO BE BIG!
+                    </p>
+                    <a href="https://www.cybertechisrael.com/registration" target="_blank" class="btn btn-css">REGISTRATION</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="https://www.cybertechisrael.com/About" target="_blank" class="linkBtn" title="About">ABOUT</a>
+            </div>
+            <div class="item">
+                <a href="https://www.cybertechisrael.com/side-events" target="_blank" class="linkBtn" title="Program">PROGRAM</a>
+            </div>
+            <div class="item">
+                <a href="https://www.cybertechisrael.com/contact_form" target="_blank" class="linkBtn" title="Startup Pavilion">STARTUP PAVILION</a>
+            </div>
+            <div class="item">
+                <a href="https://www.cybertechisrael.com/speakers-1" target="_blank" class="linkBtn" title="Speakers">SPEAKERS</a>
+            </div>
+            <div class="item">
+                <a href="https://www.cybertechisrael.com/book_booth" target="_blank" class="linkBtn" title="Attend">ATTEND</a>
+            </div>
+            <div class="item">
+                <a href="https://www.cybertechisrael.com/venue" target="_blank" class="linkBtn" title="Information">INFORMATION</a>
+            </div>
+            <div class="item">
+                <a href="https://www.cybertechisrael.com/upcoming-events" target="_blank" class="linkBtn" title="Events">EVENTS</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30 p-b-20">
+    <div class="row m-t-20 p-b-20">
+
+        <div class="col-sm-6 col-md-6">
+
+            <p style="font-size:30px;color:black;font-family:fantasy;" >ABOUT CYBERTECH</p>
+            <p style="font-size:20px;color:black;font-family:none;word-spacing:-1px;" >From Tel Aviv and Rome, to Tokyo, Singapore, Panama, and more, Cybertech is the cyber industry’s foremost B2B networking platform conducting industry-related events all around the globe. Our conferences and exhibitions serve as the go-to place to make business happen and learn all about the latest technological innovations, challenges, and solutions to combating threats within the global cyber arena.</p>
+
+
+        </div>
+
+        <div class="col-sm-6 col-md-6">
+
+           <p style="background-color:#00DBDB;padding:10px;font-size:20px;font-family:sans-serif;text-align:center;font-weight:bold;" ><a style="color:white;" href="https://www.cybertechisrael.com/sites/cyber2020/files/inline-files/brochure_tlv2020%20%283%29.pdf">BROCHURE ></a></p>
+            <p style="background-color:#000000;padding:10px;font-size:20px;font-family:sans-serif;text-align:center;font-weight:bold;"><a style="color:white;" href="https://cybertechisrael.com/sites/cyber2020/files/movie.mp4">THE CYBERTECH VIDEO ></a></p>
+            <p style="background-color:#D9EC1E;padding:10px;font-size:20px;font-family:sans-serif;text-align:center;font-weight:bold;"><a style="color:black;" href="https://www.cybertechisrael.com/get_involved">GET INVOLVED ></a></p>
+            <p style="background-color:#CF2127;padding:10px;font-size:20px;font-family:sans-serif;text-align:center;font-weight:bold;"><a style="color:white;" href="https://www.cybertechisrael.com/book_booth">SAVE YOUR SPOT ></a></p>
+
+        </div>
+       
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=25&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

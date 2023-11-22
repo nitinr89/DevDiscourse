@@ -1,0 +1,149 @@
+﻿@model Devdiscourse.Models.BasicModels.Category
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<link href="~/Content/admin.css" rel="stylesheet" />
+@* @Styles.Render("~/Content/admincss") *@
+<style>
+    #image-div {
+        width: 200px;
+        border: 1px dotted #777;
+        background-color: #eee;
+    }
+
+    .imag-text {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        text-align: center;
+    }
+</style>
+
+<div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
+    <ol class="breadcrumb no-margin">
+        <li class="breadcrumb-item"><a href="@Url.Action("AdminView", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Categories")">Category</a></li>
+        <li class="breadcrumb-item active">Create</li>
+    </ol>
+</div>
+<div class="container bg-white m-b-10">
+    @using (Html.BeginForm("Create", "Categories", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal p-20">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.SrNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SrNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SrNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Slug, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Slug, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Slug, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new {  } })
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PageTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PageTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PageTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PageImage, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="col-xs-12 col-sm-12 col-md-6 m-b-20">
+                        <div id="show-image-div"><div class="img-text">Image <p>Preview</p></div></div>
+                    </div>
+                    @Html.EditorFor(model => model.PageImage, new { htmlAttributes = new { @class = "form-control", type = "file" } })
+                    @Html.ValidationMessageFor(model => model.PageImage, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BannerImage, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="col-xs-12 col-sm-12 col-md-6 m-b-20">
+                        <div id="image-div"><div class="imag-text">Image <p>Preview</p></div></div>
+                    </div>
+                    @Html.EditorFor(model => model.BannerImage, new { htmlAttributes = new { @class = "form-control", type = "file" } })
+                    @Html.ValidationMessageFor(model => model.BannerImage, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PageDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PageDescription, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PageDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Keywords, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Keywords, new { htmlAttributes = new { @class = "form-control input-tags" } })
+                    @Html.ValidationMessageFor(model => model.Keywords, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @* @Scripts.Render("~/bundles/jqueryadmin") *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#PageImage').change(function () {
+                // Checking whether FormData is available in browser
+                if (window.FormData !== undefined) {
+                    var _url = URL.createObjectURL(event.target.files[0]);
+                    $('#show-image-div').html('<img src=' + _url + ' class="img-responsive" style="max-width:200px" />');
+                    $('#ChooseImage').val('');
+                }
+            });
+
+            $('#BannerImage').change(function () {
+                // Checking whether FormData is available in browser
+                if (window.FormData !== undefined) {
+                    var _url = URL.createObjectURL(event.target.files[0]);
+                    $('#image-div').html('<img src=' + _url + ' class="img-responsive" style="max-width:200px" />');
+                    $('#bannerimage').val('');
+                }
+            });
+            $('.input-tags').tagsInput();
+        });
+    </script>
+}

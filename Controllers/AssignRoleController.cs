@@ -6,12 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace DevDiscourse.Controllers
 {
@@ -29,7 +24,7 @@ namespace DevDiscourse.Controllers
             this.roleManager = roleManager;
         }
 
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         // GET: AssignRole
         public ActionResult Index(string text = "", string role = "", int? page = 1)
         {
@@ -97,16 +92,14 @@ namespace DevDiscourse.Controllers
             };
             return obj;
         }
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public ActionResult Users(string name, string role, int? page)
         {
             name = name ?? "";
             ViewBag.name = name;
             ViewBag.role = role;
 
-            var query = (from ur in _db.UserRoles
-                         join u in _db.Users on ur.UserId equals u.Id
-                         join r in _db.Roles on ur.RoleId equals r.Id
+            var query = (from u in _db.Users
                          select new AssignedRoleView
                          {
                              Id = u.Id,
@@ -115,7 +108,7 @@ namespace DevDiscourse.Controllers
                              User = u.FirstName,
                              CreatedOn = u.CreatedOn,
                              OrganizationType = u.OrganizationType,
-                             Role = r.Name,
+                             Role = "",
                          });
             if (!string.IsNullOrEmpty(name))
             {
@@ -153,7 +146,7 @@ namespace DevDiscourse.Controllers
             return PartialView("_getUsers");
         }
 
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public ActionResult Create(string id)
         {
             ViewBag.id = id;
@@ -170,7 +163,7 @@ namespace DevDiscourse.Controllers
             ViewBag.role = userRole;
             return View();
         }
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public ActionResult Update(string id, string roleId)
         {
             ViewBag.id = id;
@@ -184,7 +177,7 @@ namespace DevDiscourse.Controllers
             ViewBag.user = user.FirstName + " " + user.LastName;
             return View();
         }
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public ActionResult Delete(string id, string role)
         {
             ViewBag.id = id;
@@ -209,7 +202,7 @@ namespace DevDiscourse.Controllers
             dt.AcceptChanges();
             return dt;
         }
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public ActionResult ExportUsers()
         {
             DataTable dt = GetData();

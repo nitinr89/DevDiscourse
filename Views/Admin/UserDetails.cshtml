@@ -1,5 +1,10 @@
-﻿@* @model PagedList.IPagedList<DevDiscourse.Models.ApplicationUser>
-@using PagedList.Mvc;
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.ApplicationUser>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.ApplicationUser> model = Model;
+}
 @{
     ViewBag.Title = "UserDetails";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
@@ -94,4 +99,4 @@
             });
         });
     </script>
-} *@
+}

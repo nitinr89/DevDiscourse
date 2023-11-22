@@ -1,0 +1,359 @@
+@{
+    ViewBag.Title = "Waste Management Expo 2020 | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/mediapartners/wmebg.jpg";
+    ViewBag.PageDescription = "WME intends to provide people with the necessary knowledge and tools required for processing domestic waste and industry waste. WME plans to create a decentralized system for segregating, recycling and transforming waste.";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/WasteManagementExpo";
+    ViewBag.pageKeywords = "Waste Management Expo, 12 - 13 March 2020 Bengaluru International Exhibition Center(BIEC)";
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+    }
+
+    .gard {
+        background-color: #2e2e2e;
+        background-image: url('/images/mediapartners/wmebg.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center top;
+        padding-top: 120px;
+        padding-bottom: 60px;
+        color: #67BC01;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .ev-date {
+        background-color: #fff;
+        color: #222;
+        padding: 3px 10px;
+        display: inline-block;
+    }
+
+    .why-abu {
+        color: #67BC01;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .fg-theme {
+        color: #e45914;
+    }
+
+    .btncss {
+        color: #fff;
+        background: linear-gradient(to bottom, #33ccff 0%, #33cc33 100%);
+        font-size: 24px;
+        font-weight: 500;
+        border: 0;
+        border-radius: 25px;
+        padding: 10px 45px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+
+        .btncss:hover {
+            color: #fff;
+            background-color: #ff5e00;
+        }
+
+    .news-container {
+        background-color: #e45914;
+        margin-top: 30px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+    .mid-container {
+        background-color: #87D134;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .bg-white.p-t-20 {
+        padding: 0;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .f-40 {
+        font-size: 42px;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .text-five {
+            font-size: 200px;
+        }
+
+        .text-go-green {
+            font-size: 43px;
+        }
+
+        .remedies {
+            font-size: 18px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+
+
+        .media-partner {
+            text-align: center;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        .f-40 {
+            font-size: 36px;
+        }
+
+        .f-20 {
+            font-size: 18px;
+        }
+
+        .gard {
+            padding: 0;
+            background-position:right;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .text-five {
+            font-size: 160px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-go-green {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .text-slogan {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .remedies {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+
+        .gard .media-left, .gard .media-body {
+            display: block;
+            width: 100%;
+        }
+
+        .gard .media-left {
+            padding-bottom: 20px;
+        }
+
+        .f-40 {
+            font-size: 30px;
+        }
+
+        .f-20 {
+            font-size: 16px;
+        }
+    }
+</style>
+<div class="gard">
+    <div class="container font-sans-serif p-t-50 p-b-20">
+   
+        <div class="text-right">
+            <p class="f-20">Devdiscourse is proud media partner of </p>
+            <h1 class="f-40">
+                WASTE MANAGEMENT EXPO
+            </h1>
+            <p class="f-20">
+                12 – 13 March 2020<br />
+                Bengaluru International Exhibition Center (BIEC) 
+            </p>
+
+            <div class="p-t-20 m-t-50 m-b-30">
+                <a href="https://www.icitexpo.com/waste-management-expo/#register" target="_blank" class="btn btn-default btn-lg btncss">REGISTER NOW</a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+
+            <div class="item">
+                <a href="https://www.icitexpo.com/waste-management-expo/#about" target="_blank" class="linkBtn" title="About">ABOUT</a>
+            </div>
+            <div class="item">
+                <a href="https://www.icitexpo.com/waste-management-expo/exhibitor/" target="_blank" class="linkBtn" title="To Exhibit">TO EXHIBIT</a>
+            </div>
+            <div class="item">
+                <a href="https://www.icitexpo.com/waste-management-expo/sponsor/" target="_blank" class="linkBtn" title="To Sponsor">TO SPONSOR</a>
+            </div>
+            <div class="item">
+                <a href="https://www.icitexpo.com/waste-management-expo/#gallery" target="_blank" class="linkBtn" title="Gallery">GALLERY</a>
+            </div>
+            <div class="item">
+                <a href="https://www.icitexpo.com/waste-management-expo/#contact" target="_blank" class="linkBtn" title="Contact">CONTACT</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <img src="~/images/mediapartners/wmebottomimg.jpg" style="max-height:370px" class="img-responsive center-block m-b-30" alt="Waste Management Expo" />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <img src="~/images/mediapartners/wmelogo.png" style="max-height:150px" class="img-responsive" />
+            <div class="why-abu font-sans-serif text-uppercase m-t-30"><b>ABOUT EVENT</b></div>
+            <div class="content text-muted font-sans-serif f-16">
+                <p class="m-t-20">
+                    We have been inspired by the “Clean India” mission, an initiative taken by the Indian government. The purpose of the mission is to incorporate effective waste management systems across the nation. Waste Management Expo (WME) will contribute to this mission by bringing together technology providers, experts, manufacturers, end-users, government bodies, waste recyclers, local authorities, stakeholders, retailers and dealers at one place.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container">
+        <div class="p-t-30 container content-container">
+            <h2 class="font-sans-serif">EVENT NEWS</h2>
+            <div>
+                <div id="moreEventNews">
+                    @{ Html.RenderAction("EventNews", "Events", new { id = "2", skip = 0, take = 5 });}
+                </div>
+                <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+            </div>
+        </div>
+    </div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=1&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

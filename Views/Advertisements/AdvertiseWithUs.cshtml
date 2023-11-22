@@ -1,0 +1,374 @@
+﻿@{
+    ViewBag.Title = "Advertise With Us | Devdiscourse";
+    string domainUrl = "http://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com/advertisewithus";
+    ViewBag.webEdition = @ViewBag.edition;
+    ViewBag.pageKeywords = "Advertise with Us, Devdiscourse";
+}
+<style>
+    ol {
+        font-size: 16px;
+    }
+
+    .renderBody {
+        margin-top: 0px;
+    }
+
+    .input-margin10 {
+        margin-top: 10px;
+    }
+
+    .send-btn {
+        background-color: #ff9c46;
+        color: white;
+        border-radius: 0
+    }
+
+    .btn:hover, .btn:focus, .btn.focus {
+        background-color: #dc761d;
+        color: white !important;
+    }
+
+    .box-shadow {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .ad-form {
+        margin-top: -225px;
+        padding: 60px 30px;
+    }
+
+    #adWithUs {
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+
+    .pos-abs {
+        position: absolute;
+    }
+
+    @@media(max-width:1440px) {
+        .pos-abs {
+            position: absolute;
+            margin-top: 70px;
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .pos-abs {
+            position: absolute;
+            margin-top: 110px;
+        }
+    }
+
+    @@media(max-width:768px) {
+        .ad-form {
+            padding: 30px 20px;
+            margin-top: -130px;
+        }
+
+        .pos-abs {
+            position: absolute;
+            margin-top: 140px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .ad-form {
+            margin-top: 0;
+            padding: 35px 20px;
+        }
+
+        .pos-abs {
+            position: unset;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .f-20 {
+            font-size: 17px !important;
+        }
+
+        .f-18 {
+            font-size: 15px !important;
+        }
+
+        select.input-lg {
+            height: 26px !important;
+        }
+
+        #submitBtn {
+            font-size: 1em;
+            padding: 6px 12px;
+        }
+
+        #adWithUs {
+            padding-top: 35px;
+            padding-bottom: 35px;
+        }
+    }
+
+    @@media(max-width:320px) {
+        .f-18 {
+            font-size: 14px;
+        }
+
+        .member-name {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .member-desig {
+            font-size: 12px;
+        }
+    }
+</style>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="p-t-20 container">
+    <ul class="breadcrumb breadcrumb_new">
+        <li><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li class="active">Advertisement</li>
+    </ul>
+</div>
+<div>
+    <div style="background-color: #c5f4fe;">
+        @*  @if (Request.Browser.IsMobileDevice)
+        {
+        <img src="~/images/work_with_us_mobile.jpg" class="img-responsive center-block" alt="WorkwithUs" />
+        }
+        else
+        { *@
+        <img src="~/images/work_with_us.jpg" class="img-responsive center-block" alt="WorkwithUs" />
+        @* } *@
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-7"></div>
+            <div class="pos-abs col-lg-3 col-lg-offset-6 col-md-offset-6 col-md-5 col-sm-offset-6 col-sm-6 col-xs-offset-0 col-xs-12">
+                <div class="box-shadow bg-white ad-form">
+                    <div class="input-margin10">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control input-lg" id="name" placeholder="Enter Your Name Here" />
+                    </div>
+                    <div class="input-margin10">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control input-lg" id="email" placeholder="Enter Your Email Here" />
+                    </div>
+                    <div class="input-margin10">
+                        <label for="details">Advertisement Details</label>
+                        <textarea class="form-control input-lg" id="details" placeholder="Enter Your Text Here..."></textarea>
+                    </div>
+                    <div class="input-margin10">
+                        <label for="phone">Phone</label>
+                        <div class="row">
+                            <div class="col-xs-4" style="padding-right:0;">
+                                <select aria-label="Country code" class="form-control input-lg" id="selectCode" style="padding-left:2px;">
+                                    <option value=+91>+91</option>
+                                    <option value=+355>+355</option>
+                                    <option value=+213>+213</option>
+                                    <option value=+244>+244</option>
+                                    <option value=+54>+54</option>
+                                    <option value=+374>+374</option>
+                                    <option value=+61>+61</option>
+                                    <option value=+43>+43</option>
+                                    <option value=+994>+994</option>
+                                    <option value=+1>+1</option>
+                                    <option value=+973>+973</option>
+                                    <option value=+880>+880</option>
+                                    <option value=+32>+32</option>
+                                    <option value=+591>+591</option>
+                                    <option value=+387>+387</option>
+                                    <option value=+267>+267</option>
+                                    <option value=+55>+55</option>
+                                    <option value=+359>+359</option>
+                                    <option value=+673>+673</option>
+                                    <option value=+855>+855</option>
+                                    <option value=+237>+237</option>
+                                    <option value=+56>+56</option>
+                                    <option value=+86>+86</option>
+                                    <option value=+57>+57</option>
+                                    <option value=+243>+243</option>
+                                    <option value=+225>+225</option>
+                                    <option value=+506>+506</option>
+                                    <option value=+385>+385</option>
+                                    <option value=+53>+53</option>
+                                    <option value=+357>+357</option>
+                                    <option value=+420>+420</option>
+                                    <option value=+45>+45</option>
+                                    <option value=1>1</option>
+                                    <option value=+593>+593</option>
+                                    <option value=+20>+20</option>
+                                    <option value=+503>+503</option>
+                                    <option value=+44>+44</option>
+                                    <option value=+372>+372</option>
+                                    <option value=+251>+251</option>
+                                    <option value=+679>+679</option>
+                                    <option value=+358>+358</option>
+                                    <option value=+33>+33</option>
+                                    <option value=+689>+689</option>
+                                    <option value=+220>+220</option>
+                                    <option value=+995>+995</option>
+                                    <option value=+49>+49</option>
+                                    <option value=+256>+256</option>
+                                    <option value=+371>+371</option>
+                                    <option value=+961>+961</option>
+                                    <option value=+218>+218</option>
+                                    <option value=+423>+423</option>
+                                    <option value=+370>+370</option>
+                                    <option value=+352>+352</option>
+                                    <option value=+853>+853</option>
+                                    <option value=+389>+389</option>
+                                    <option value=+261>+261</option>
+                                    <option value=+60>+60</option>
+                                    <option value=+960>+960</option>
+                                    <option value=+356>+356</option>
+                                    <option value=+230>+230</option>
+                                    <option value=+52>+52</option>
+                                    <option value=+373>+373</option>
+                                    <option value=+377>+377</option>
+                                    <option value=+976>+976</option>
+                                    <option value=+31>+31</option>
+                                    <option value=+64>+64</option>
+                                    <option value=+47>+47</option>
+                                    <option value=+968>+968</option>
+                                    <option value=+92>+92</option>
+                                    <option value=+970>+970</option>
+                                    <option value=+507>+507</option>
+                                    <option value=+595>+595</option>
+                                    <option value=+51>+51</option>
+                                    <option value=+63>+63</option>
+                                    <option value=+48>+48</option>
+                                    <option value=+351>+351</option>
+                                    <option value=49> 49</option>
+                                    <option value=+974>+974</option>
+                                    <option value=+375>+375</option>
+                                    <option value=216> 216</option>
+                                    <option value=+263>+263</option>
+                                    <option value=+262>+262</option>
+                                    <option value=+40>+40</option>
+                                    <option value=+7>+7</option>
+                                    <option value=+378>+378</option>
+                                    <option value=+966>+966</option>
+                                    <option value=+381>+381</option>
+                                    <option value=+65>+65</option>
+                                    <option value=+421>+421</option>
+                                    <option value=+386>+386</option>
+                                    <option value=+27>+27</option>
+                                    <option value=+91>+91</option>
+                                    <option value=+82>+82</option>
+                                    <option value=+34>+34</option>
+                                    <option value=+94>+94</option>
+                                    <option value=+249>+249</option>
+                                    <option value=+46>+46</option>
+                                    <option value=+41>+41</option>
+                                    <option value=+963>+963</option>
+                                    <option value=+886>+886</option>
+                                    <option value=+225>+225</option>
+                                    <option value=+66>+66</option>
+                                    <option value=+993>+993</option>
+                                    <option value=+90>+90</option>
+                                    <option value=+971>+971</option>
+                                    <option value=+256>+256</option>
+                                    <option value=+380>+380</option>
+                                    <option value=+598>+598</option>
+                                    <option value=+998>+998</option>
+                                    <option value=+39>+39</option>
+                                    <option value=+58>+58</option>
+                                    <option value=+84>+84</option>
+                                    <option value=+967>+967</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-8" style="padding-left:0;">
+                                <input type="number" min="0" id="phone" class="form-control input-lg" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-margin10">
+                        <button type="button" class="btn btn-lg send-btn btn-block fa-2x" id="submitBtn" style="border-radius:6px;">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="background-color:#f3f3f3">
+    <div class="container" style="padding-bottom:80px;">
+        <div class="row">
+            <div class="p-t-50 col-xs-12 col-sm-6 col-md-6 col-lg-7">
+                <p style="font-size:34px;font-family: 'Oswald', sans-serif;">
+                    <i><strong>Advertise With Us!</strong></i>
+                </p>
+                <p class="f-18">Advertise with us to gain National and International exposure for your business, accomplishing Global Business Prospects or Targeted Business Prospects for sustainable and continual development of your organisation/products.</p>
+                <h4 class="p-t-30">Three reasons to advertise with us:</h4>
+                <ol>
+                    <li>Gaining Global Business Opportunities/Prospects.</li>
+                    <li>Customized/Targeted Market Segments.</li>
+                    <li>Getting Multiple Sectors under one Aegis.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var _name, _email, _advertisement, _phone, _code = "";
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $('#submitBtn').click(function () {
+                _name = $('#name').val();
+                _email = $('#email').val();
+                _advertisement = $('#details').val();
+                _phone = $('#phone').val();
+                _code = $('#selectCode option:selected').val();
+                if (_name == "") {
+                    showAlert("Please enter your name", "danger");
+                }
+                else if (!(/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(_email))) {
+                    showAlert("Please enter your valid email", "danger");
+                }
+                else if (_advertisement == "") {
+                    showAlert("Please enter advertisement details", "danger");
+                }
+                else if (_phone == "") {
+                    showAlert("Please enter your phone number", "danger");
+                }
+                else {
+                    $('#submitBtn').prop('disabled', true);
+                    submitForm();
+                }
+            });
+            function submitForm() {
+                _phone = _code + "" + _phone;
+                $.ajax({
+                    url: '/About/SubmitAdvertisement',
+                    type: 'Post',
+                    data: { name: _name, email: _email, details: _advertisement, phone: _phone },
+                    dataType: 'Json',
+                    success: function (data) {
+                        showAlert("Submit your advertisement details successfully", "success");
+                        $('#submitBtn').prop('disabled', false);
+                        $('#name').val("");
+                        $('#email').val("");
+                        $('#details').val("");
+                        $('#phone').val("");
+                        $('#selectCode').val("+91");
+                        _name = "";
+                        _email = "";
+                        _advertisement = "";
+                        _phone = "";
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        });
+    </script>
+}

@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using Devdiscourse.Data;
-using PagedList;
+using X.PagedList;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Devdiscourse.Controllers

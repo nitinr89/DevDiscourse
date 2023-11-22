@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
+@{
+    var domainUrl = "https://www.devdiscourse.com";
+}
+@if (Model.Count() > 0)
+{
+    <h3 class="page-title">Interview</h3>
+    <amp-carousel height="270"
+                  layout="fixed-height"
+                  type="slides">
+        @foreach (var item in Model)
+        {
+            <div>
+                @{
+                    var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                }
+                <a target="_top" class="no-text-decoration" title="@item.Title" href="@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label ?? "agency-wire", id = item.GenerateSecondSlug() })?amp" role="listitem">
+                    <div class="square-cardss">
+                        <amp-img width="240" height="130" alt="@item.Title" src="@domainUrl@newsImage?width=240&amp;height=130&amp;mode=crop" layout="responsive"></amp-img>
+                        <div class="title-cont">
+                            <h4 class="font-title">@item.Title</h4>
+                        </div>
+                    </div>
+                </a>
+                <div class="blue-box">
+                </div>
+            </div>
+        }
+
+    </amp-carousel>
+}

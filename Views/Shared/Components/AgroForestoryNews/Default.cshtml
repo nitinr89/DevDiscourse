@@ -2,13 +2,15 @@
 @model IEnumerable<Devdiscourse.Models.ViewModel.NewsViewModel>
 
 @functions {
-   async Task MediaTempate(Devdiscourse.Models.ViewModel.NewsViewModel item)
+    async Task MediaTempate(Devdiscourse.Models.ViewModel.NewsViewModel item)
     {
-
+        
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            
+            newsImage = item.ImageUrl;
         }
         <div class="media p-b - 20 m - t - 20">
             <div class="media-left"> 
@@ -35,12 +37,14 @@
 
 @functions
 {
-   async Task MediaTempate_two(Devdiscourse.Models.ViewModel.NewsViewModel item)
+    async Task MediaTempate_two(Devdiscourse.Models.ViewModel.NewsViewModel item)
     {
+      
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+             newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_05_2019_11_51_19_0419949.jpg";
         }
         <div class="media p-b-20 m-t-20">
             <div class="media-left"> 
@@ -71,7 +75,7 @@
         <div class="col-md-7">
             @foreach (var item in Model.Take(2))
             {
-                var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
+                var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {  newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;   }
                 <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">
                     <div style="padding-bottom:57%;background-size:cover;background-repeat:no-repeat;" class="lazy" data-src="@newsImage?width=360&height=240&mode=crop&format=jpeg">
                         <p class="font-sans-serif text-uppercase badge-tag ls-1">
@@ -127,7 +131,7 @@ else if (ViewBag.Sector == "11")
 {
     foreach (var item in Model.Take(5))
     {
-        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
+        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {  newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;  }
         <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">
             <div style="padding-bottom:45%;background-size:cover;background-repeat:no-repeat;" class="lazy bg-highlight" data-src="@newsImage?width=360&height=240&mode=crop&format=jpeg">
                 <p class="font-sans-serif text-uppercase badge-tag hidden-xs ls-1">
@@ -151,7 +155,7 @@ else if (ViewBag.Sector == "15")
 {
     foreach (var item in Model.Take(6))
     {
-        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
+        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {  newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;  }
         <div class="media p-b-20 m-t-20">
             <div class="media-left"> <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" aria-label="@item.Title"> <img class="lazy width-100" src="/Content/transparent.png?width=330&height=185&mode=crop" data-src="@newsImage?width=330&height=185&mode=crop&format=jpeg" alt="@item.Title" /> </a> </div><div class="media-body">
                 <p class="font-sans-serif text-uppercase text-muted ls-1 hidden-xs">

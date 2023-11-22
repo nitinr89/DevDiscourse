@@ -1,0 +1,439 @@
+﻿@using System.Globalization;
+@using System.Text.RegularExpressions;
+@{
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "Videos News | Devdiscourse";
+    ViewBag.alertnateHeadline = "Videos News | Devdiscourse";
+    ViewBag.pageKeywords = "Devdiscourse News, Latest Trending News, Breaking News, Development News | Devdiscourse";
+    ViewBag.PageDescription = "Devdiscourse news, Daily News, International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    ViewBag.PostUrl = "https://www.devdiscourse.com/news/videos";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    string region = ViewBag.region;
+    ViewBag.webEdition = region;
+    //ViewBag.HasAmpPage = true;
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "?w=920";
+}
+<style>
+    .isDisabled {
+        color: #222;
+        cursor: not-allowed;
+        opacity: 0.8;
+        text-decoration: none;
+        pointer-events: none;
+    }
+
+    .infocus-badge {
+        padding: 3px 5px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: #ff7b00;
+        color: #fff;
+    }
+
+    .cover-img {
+        padding-bottom: 54%;
+        position: relative;
+        background-size: cover;
+    }
+
+    .cover-img-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgb(0,0,0);
+        background: linear-gradient(0deg, rgba(0,0,0,0.9360119047619048) 4%, rgba(0,0,0,0.8491771708683473) 16%, rgba(0,212,255,0) 100%);
+    }
+
+        .cover-img-overlay .play-icon {
+            width: 46px;
+            height: 42px;
+            border: 2px solid #ff7b00;
+            border-radius: 25%;
+            margin-top: 20%;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            line-height: 42px;
+            background-color: rgba(0,0,0,0.4);
+            transition-duration: .3s;
+            transition-delay: .1s;
+        }
+
+        .cover-img-overlay:hover .play-icon {
+            background-color: rgba(0,0,0,0.6);
+            transform: scale(1.2);
+        }
+
+    .text-cont {
+        position: absolute;
+        bottom: 0;
+        padding: 20px;
+    }
+
+    .title-main {
+        font-weight: 500;
+        font-size: 36px;
+    }
+
+    .country-main {
+        float: right;
+        font-family: sans-serif;
+        background-color: #000;
+        color: #fff;
+        padding: 8px 24px;
+    }
+
+    .title-sub {
+        font-weight: 500;
+        margin-top: 5px;
+        line-height: 1.38;
+        font-size: 20px
+    }
+
+    .country-sub {
+        display: inline-block;
+        font-family: sans-serif;
+        z-index: 10;
+        background-color: #000;
+        color: #fff;
+        padding: 2px 7px;
+        font-size: 10px;
+        margin-top: 5px
+    }
+
+    .media-heading {
+        font-weight: 400;
+    }
+
+    .news-list-div {
+        border-bottom: 1px solid #ddd;
+        height: 100px;
+    }
+
+        .news-list-div .media h4 {
+            font-size: 17px;
+        }
+
+    .renderBody {
+        margin-top: 15px;
+    }
+
+    .m-b-0 {
+        margin-bottom: 0;
+    }
+
+    .vjs-matrix.video-js {
+        color: #fff;
+    }
+
+    .vjs-matrix .vjs-big-play-button {
+        border-color: #ff7b00;
+    }
+
+    .vjs-matrix .vjs-volume-level, .vjs-matrix .vjs-play-progress, .vjs-matrix .vjs-slider-bar {
+        background: #ff7b00;
+    }
+
+    .social-btn {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        text-decoration: none;
+        color: #333;
+        font-size: 2rem;
+        border: 1px solid #e1e1e1;
+        display: inline-block;
+    }
+
+        .social-btn.fb {
+            color: #3b5998;
+        }
+
+            .social-btn.fb:hover {
+                background-color: #3b5998;
+                color: #fff;
+            }
+
+        .social-btn.tw {
+            color: #00acee;
+        }
+
+            .social-btn.tw:hover {
+                background-color: #00acee;
+                color: #fff;
+            }
+
+        .social-btn.ln {
+            color: #0e76a8;
+        }
+
+            .social-btn.ln:hover {
+                background-color: #0e76a8;
+                color: #fff;
+            }
+
+        .social-btn.yt {
+            color: #c4302b;
+        }
+
+            .social-btn.yt:hover {
+                background-color: #c4302b;
+                color: #fff;
+            }
+
+        .social-btn.wt {
+            color: #25d366;
+        }
+
+            .social-btn.wt:hover {
+                background-color: #25d366;
+                color: #fff;
+            }
+
+    @@media(max-width:1440px) {
+        .news-list-div {
+            height: 120px;
+        }
+    }
+
+    @@media(max-width:768px) {
+        .news-list-div {
+            height: 105px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .news-list-div {
+            height: auto;
+        }
+    }</style>
+@section taboolaAd{
+    <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+}
+@functions {
+    public async Task GetDescriptionText(string htmltext = "")
+    {
+        await Task.Yield();
+        const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
+        const string stripFormatting = @"<[^>]*(>|$)";
+        const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
+        var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+        var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+        var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+        var text = (htmltext ?? "").Replace("&nbsp;", " ");
+        text = Regex.Replace(text, @"\r\n?|\n", " ");
+        text = System.Net.WebUtility.HtmlDecode(text);
+        text = tagWhiteSpaceRegex.Replace(text, "><");
+        text = lineBreakRegex.Replace(text, Environment.NewLine);
+        text = stripFormattingRegex.Replace(text, string.Empty);
+        text = Regex.Replace(text, @"[^,.A-Za-z0-9\s-]", "");
+        @text
+        ;
+    }
+}
+<div style="background-color:#f1f1f1" class="p-b-20">
+    <div class="container p-t-20 p-b-20">
+        <ul class="breadcrumb breadcrumb_new" itemscope itemtype="http://schema.org/BreadcrumbList"> <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsSector", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsVideo")" target="_top" class="isDisabled" itemprop="item"><span itemprop="name">DevShots</span></a> <meta itemprop="position" content="3" /> </li></ul> @if (ViewBag.videoNews != null)
+        {
+            <div class="row clearfix" id="videoContainer">
+                @{
+                    var posterImage = (ViewBag.videoNews.VideoThumbUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + ViewBag.videoNews.VideoThumbUrl : ViewBag.videoNews.VideoThumbUrl; string pageUrl = "/news/videos/" + ViewBag.videoNews.GenerateSecondSlug(); ViewBag.Title = @ViewBag.videoNews.Title + " | Devdiscourse"; ViewBag.alertnateHeadline = @ViewBag.videoNews.Title + " | Devdiscourse"; ViewBag.pageKeywords = @ViewBag.Tags; ViewBag.PageDescription = "Devdiscourse news, Daily News, International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News"; ViewBag.PostUrl = string.Concat(domainUrl, pageUrl); ViewBag.webEdition = region; ViewBag.PageImage = string.Concat(domainUrl, posterImage + "?width=960"); TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"); DateTime createdDate = TimeZoneInfo.ConvertTimeFromUtc(ViewBag.videoNews.CreatedOn, INDIAN_ZONE); DateTime publishedDate = TimeZoneInfo.ConvertTimeFromUtc(ViewBag.videoNews.PublishedOn, INDIAN_ZONE); DateTime modifiedDate = TimeZoneInfo.ConvertTimeFromUtc(ViewBag.videoNews.ModifiedOn, INDIAN_ZONE);
+                }<div class="col-md-8"> <video id="my-video" class="vjs-matrix video-js center-block" controls preload="auto" width="640" height="360" poster="@domainUrl@posterImage?width=1280&height=720&mode=crop" data-setup='{"fluid": true,"autoplay":true}'> <source id="videosource" src="/api/MediaStream/GetVideoStream/@ViewBag.videoNews.Id" type="video/mp4" /> <p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a> </p></video> <script type="application/ld+json">{"@@context":"https://schema.org/", "@@type":"VideoObject", "name":"@ViewBag.videoNews.Title", "@@id":"@domainUrl@pageUrl", "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "description":"@GetDescriptionText(@ViewBag.videoNews.Description)", "thumbnailURL":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "thumbnail":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "contentUrl":"https://www.devdiscourse.com/videos/embed/@ViewBag.videoNews.Id", "author":{"@@type":"Person", "name":"Devdiscourse News Desk"}}</script> <div class="modal fade" id="embedVideoDialog" role="dialog"> <div class="modal-dialog modal-sm"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Embed This Media</h4> </div><div class="modal-body"> <input type="text" id="embedCode" class="form-control" value='<iframe width="640" height="360" frameborder="0" src="https://www.devdiscourse.com/videos/embed/@ViewBag.videoNews.Id"></iframe>' /> </div></div></div></div></div><div class="col-md-4 col-sm-12">
+                    <div class="font-sans-serif text-uppercase text-muted m-t-10" style="letter-spacing:2px;">@ViewBag.videoNews.CreatedOn.ToString("dd MMMM yyyy")</div><h3 class="m-t-10 m-b-0" style="line-height:1.24">@ViewBag.videoNews.Title</h3> <div class="f-16 m-t-20"> @Html.Raw(ViewBag.videoNews.Description) </div><ul class="list-inline no-margin">
+                        <li> <a class="social-btn fb" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook"> <span class="fa fa-facebook fb"></span> </a> </li>
+                      @*   <li> <a class="social-btn tw" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@Server.UrlEncode(@ViewBag.videoNews.Title)', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li> *@
+                       @*  <li> <a class="social-btn ln" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=@Server.UrlEncode(@ViewBag.videoNews.Title)&summary=@Server.UrlEncode(@ViewBag.videoNews.Title)&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span></a> </li>
+                        <li> <a class="social-btn yt" aria-label="Subscribe on Youtube" rel="noopener" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span></a> </li>@if (Request.Browser.IsMobileDevice) *@
+                        {
+                            <li> <a class="social-btn wt" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share"><span class="fa fa-whatsapp wa"></span> </a> </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row clearfix" id="videoContainer"> <div class="col-md-8"> <div style="padding-bottom:56.2%;background-color:#333"></div></div></div>
+        }<div id="topDevshots">
+            <h2 class="section-title" style="margin-bottom:15px;"> <span style="background-color:#f1f1f1"> TOP DevShots</span> </h2> @{
+                // Html.RenderAction("GetVideoTopStories", "Search", new { sector = ViewBag.sector, reg = "Global Edition" });
+                    @await Component.InvokeAsync("VideoTopStories",new { sector=ViewBag.sector, reg="Global Edition" });
+            }
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <h1 class="section-title"> <span>LATEST DevShots</span> </h1> <div class="row" id="newsContainer">
+                @{
+            // Html.RenderAction("GetVideoNews", "Search", new { reg = ViewBag.region });
+                @await Component.InvokeAsync("VideoNews", new { reg=ViewBag.region });
+                }
+            </div><div id="loading" style="display:none;"> <p class="text-center"> <span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div>
+        </div><div class="col-xs-12 col-md-4">
+            <div class="clearfix" id="opinion"></div><div class="clearfix m-t-30">
+                <h2 class="section-title2"> <span>TRENDING</span> </h2> @{
+                    // Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.region });
+                        @await Component.InvokeAsync("Trends", new { filter="Trends" , reg=ViewBag.region });
+                }
+            </div><div class="m-t-20 clearfix" id="latestNews"></div><div id="AfricaEditionNews"></div><div id="EditionNews"></div><div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+    <script>
+        $(document).ready(function () {
+            var region = '@(ViewBag.region)';
+            var page = 1;
+            var inCallback = false;
+            var showMoreCounter = 0;
+            var isReachedScrollEnd = false;
+            var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+
+            var VjsButton = videojs.getComponent("Button");
+            var customButton = videojs.extend(VjsButton, {
+                constructor: function (player, options) {
+                    VjsButton.call(this, player, options);
+                    this.controlText("Embed Code");
+                },
+                handleClick: function () {
+                    $('#embedVideoDialog').modal();
+                },
+                buildCSSClass: function () {
+                    return "vjs-icon-custombutton vjs-control vjs-button fa fa-code";
+                }
+            });
+        @if (ViewBag.videoNews != null)
+        {
+            <text>
+                                    var player = videojs('my-video');
+                videojs.registerComponent("customButton", customButton);
+                player.getChild("controlBar").addChild("customButton", {});
+                player.play();
+            </text>
+        }
+                $('.playVideo').click(function () {
+                    $('#nowplaying').remove();
+                    var url = $(this).attr('data-url');
+                    var title = $(this).attr('title');
+                    $('#videoContainer').load($(this).attr('data-src'), function () {
+                        if (videojs.getPlayers()["my-video"]) {
+                            delete videojs.getPlayers()["my-video"];
+                        }
+                        var player = videojs('my-video');
+                        videojs.registerComponent("customButton", customButton);
+                        player.getChild("controlBar").addChild("customButton", {});
+                        player.play();
+                        if (typeof (history.pushState) != "undefined") {
+                            var obj = { Title: title, Url: url }; history.replaceState(obj, title, url); $('html head').find('title').text(title)
+                        } else { alert("Browser does not support HTML5."); }
+                    });
+                    $(this).children().prepend('<span class="pull-right text-uppercase country-sub" id="nowplaying">Now Playing</span>');
+                });
+            if ('@(ViewBag.videoNews)' == '') {
+                if ($('.playVideo').length != 0) {
+                    $('.playVideo')[0].click();
+                } else {
+                    $('#topDevshots').hide();
+                    $('#videoContainer').hide();
+                }
+            }
+            if ($('.playVideo').length == 0) {
+                $('#topDevshots').hide();
+            }
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#newsLink').addClass('active');
+            // Region Search
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + ";expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            GetOpinion(); function GetOpinion() { var ApiDataUrl = "/api/Search/GetAnalysis/" + region + "/0"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.NewsId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var Image = item.Image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.Image : item.Image; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.Title + '</h3></div><div class="media-right"><img src="https://www.devdiscourse.com' + Image + '?width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right"/></div></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) }
+            $(window).scroll(function () {
+                if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height()) && showMoreCounter < 5) {
+                    loadNewsData();
+                }
+            });
+            function convertToSlug(newsId, str) {
+                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return newsId + "-" + str;
+            }
+            function loadNewsData() {
+                if (page > -1 && !inCallback) {
+                    inCallback = true;
+                    page++;
+                    $("#loading").show();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Search/GetVideoNews/' + region + '/' + page,
+                        dataType: "json",
+                        success: function (data) {
+                            showMoreCounter = showMoreCounter + 1;
+                            if (data.length == 0) {
+                                isReachedScrollEnd == true;
+                                $("#loading").hide();
+                                return;
+                            }
+                            var html = '';
+                            $.each(data, function (i, item) {
+                                var imageContent = '';
+                                var urlSlug = convertToSlug(item.Id, item.Title);
+                                if (item.FileThumbUrl != null && item.FileThumbUrl != "/images/defaultImage.jpg" && item.FileThumbUrl != "/images/newstheme.jpg" && item.FileThumbUrl != "/images/sector/all_sectors.jpg") {
+                                    var newsImage = item.FileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.FileThumbUrl : item.FileThumbUrl;
+                                    imageContent = '<div class="bg-gray cover-img lazy" style = "background-image: url(&quot;https://www.devdiscourse.com/' + newsImage + '?width=295&amp;height=160&amp;mode=crop&amp;format=jpeg&quot;);"><div class="cover-img-overlay"><div class="play-icon"> <span class="fa fa-play"></span></div></div></div>';
+                                }
+                                var createdOn = new Date(item.CreatedOn);
+                                createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
+                                html += '<a href="/news/videos/' + urlSlug + '" class="text-decoration">' +
+                                    '<div class="m-b-30 col-md-12">' +
+                                    '<div class="row">' +
+                                    '<div class="col-md-5 col-sm-4">' + imageContent +
+                                    '</div>' +
+                                    '<div class="col-md-7 col-sm-8 p-l-0">' +
+                                    '<div class="text-uppercase country-sub">' + item.Duration + '</div>' +
+                                    '<h3 class="title-sub">' + item.Title + '</h3>' +
+                                    '<h5 class="no-margin font-oswald fg-black">' + createdOn.getDate() + ' ' + monthArray[createdOn.getMonth()] + ' ' + createdOn.getFullYear() + '</h5>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</a>';
+                            });
+                            inCallback = false;
+                            $("#newsContainer").append(html);
+                            if (showMoreCounter == 5) {
+                                $("#newsContainer").append('<div class="col-xs-12"><div style="padding:10px;border:1px solid #eee;" class="loadMoreButton m-t-10 m-b-10 text-center">SHOW MORE <span class="fa fa-chevron-circle-down" aria-hidden="true"></span></div></div>');
+                            }
+                            $("#loading").hide();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        }
+                    });
+                }
+            }
+            $(document).on("click", ".loadMoreButton", function () {
+                $(this).remove();
+                showMoreCounter = 0;
+                loadNewsData();
+            });
+
+        });
+    </script>
+}

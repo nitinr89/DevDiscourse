@@ -1,0 +1,263 @@
+﻿@{
+    Layout = "~/Views/Shared/_ampLayout.cshtml";
+    ViewBag.Title = "Global Development News | Blogs | Research";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse provides international development news. Get todays Headline from Economy, Transport, Energy, Digital Development, WASH, Health, Technology, Art and culture, Urban Development, live news coverage across the world";
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com";
+    ViewBag.pageKeywords = "Development news, International Breaking News, energy news,urban development news,transport news,economy news,finance news,sports news,art and culture news,education news,latest news,Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+@section headerScripts{
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+    <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+    <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+    <script async custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"></script>
+}
+@section customCss{
+        *{box-sizing: border-box;}
+        .single-news-post .title,.badge-title {
+        font-weight: 500;
+        font-size: 20px;
+        margin: 0;
+        line-height: 24px;
+        }
+        .ad{margin:20px 0}
+        .single-news-post{
+
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+        }
+        .single-news-post .title{
+        font-weight:500;
+        font-size:20px;
+        margin:0;
+        line-height:24px;
+        }
+        .single-news-post .country{color:#666;margin:0;}
+        .single-news-post .post-image,.single-news-post .post-content{display: table-cell;
+        vertical-align: top;}
+        .single-news-post .post-image{padding-right: 10px;}
+        .more-btn{text-decoration: none;
+        float: right;
+        color: #222;
+        background-color: #eee;
+        padding: 2px 10px;
+        border-color: #999;
+        border-width: 2px 0;
+        border-style: solid;
+        margin-bottom:20px;
+        margin-top:10px;
+        clear:both;
+        cursor: pointer;}
+        .divider{height:50px;}
+        div.scrollmenu {margin:10px 0; background-color: #fff;overflow: auto;white-space: nowrap;}
+        div.scrollmenu span {display: inline-block;color: #333;text-align: center;padding: 14px;text-decoration: none;border-bottom:2px solid #fff;outline:0px;}
+        div.scrollmenu span[selected] {border-bottom-color: #ff6a00;color: #ff6a00;}
+        amp-selector [option][selected]{outline:0;}
+    @*.blog-card {background-color:#fff;border-bottom:1px solid #eee;margin: 10px auto;}
+        .blog-card .title{margin:0;padding:10px 20px;color:#222;border-bottom:1px solid #ddd;font-family:sans-serif;font-weight:400;line-height: 1.5;}
+        .blog-card .read{margin:0;padding:10px 20px;color:#444;font-family:monospace;}
+        .blogList{min-height:1000px;}
+        .infocus-cover{height:270px;}
+        amp-img.cover img{object-fit:cover;}
+        amp-img.contain img{object-fit:contain;}
+        .m-t-20{margin-top:20px;}
+    *@
+}
+<script type="application/ld+json">
+    {
+    "@@context": "http://schema.org",
+    "@@type": "Organization",
+    "name":"Devdiscourse",
+    "url": "https://www.devdiscourse.com",
+    "logo": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png",
+    "sameAs": [
+    "https://www.facebook.com/devdiscourse",
+    "https://www.twitter.com/dev_discourse",
+    "https://www.linkedin.com/showcase/dev_discourse/",
+    "https://plus.google.com/u/1/115595246144382616671"
+    ]
+    }
+</script>
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "WebSite",
+    "url": "https://www.devdiscourse.com",
+    "description": "Devdiscourse provides International development news. Get todays Headline from Economy, Transport, Energy, Digital Development, WASH, Health, Technology, Art and culture, Urban Development, live news coverage across the world",
+    "publisher": "Devdiscourse",
+    "potentialAction": {
+    "@@type": "SearchAction",
+    "target": "https://www.devdiscourse.com/Home/AdvancedSearch?text={search_term_string}",
+    "query-input": "required name=search_term_string"
+    }
+    }
+</script>
+<div class="container">
+    <h2 class="page-title">INFOCUS</h2>
+    <amp-carousel class="news-top-slider bg-white border-bottom" width="400" height="330" layout="responsive" type="slides" autoplay>
+        @{
+            // Html.RenderAction("GetampInfocus", "Home", new { reg = ViewBag.edition });
+                @await Component.InvokeAsync("AmpInfocus", new { reg = ViewBag.edition })
+        }
+    </amp-carousel>
+</div>
+<div class="container">
+    <div class="ad">
+        <a href="@Url.Action("Index", "Research")?amp" rel="nofollow" title="SDGs Research" target="_blank">
+            <amp-img src="https://www.devdiscourse.com/images/SDGs/app-banner.jpg"
+                     width="728"
+                     height="90"
+                     layout="responsive"
+                     alt="SDGs Research"></amp-img>
+        </a>
+    </div>
+    <h2 class="page-title">Latest Stories</h2>
+    @{
+        // Html.RenderAction("GetAmpNews", "Home", new { reg = ViewBag.edition, skip = 0, take = 12 });
+            @await Component.InvokeAsync("AmpNews", new { reg=ViewBag.edition, skip=0, take=12 })
+    }
+    <div class="divider">
+        <a href="/news/all" class="more-btn">
+            Read More
+        </a>
+    </div>
+    <div class="scrollmenu">
+        <amp-selector role="tablist"
+                      layout="container" class="ampTabContainer">
+            <span role="tab" tabindex="1" selected option="1" class="tabButton" on="tap: AMP.setState({ news: { sector: 10 }}),dataForm.submit;">Agro-Forestry</span>
+            <span role="tab" tabindex="2" option="2" class="tabButton" on="tap: AMP.setState({ news: { sector: 6 }}),dataForm.submit;">Technology</span>
+            <span role="tab" tabindex="3" option="3" class="tabButton" on="tap: AMP.setState({ news: { sector: 1 }}),dataForm.submit;">Economy & Business</span>
+            <span role="tab" tabindex="4" option="4" class="tabButton" on="tap: AMP.setState({ news: { sector: 4 }}),dataForm.submit;">Education</span>
+            <span role="tab" tabindex="5" option="5" class="tabButton" on="tap: AMP.setState({ news: { sector: 7 }}),dataForm.submit;">Energy & Extractives</span>
+            <span role="tab" tabindex="6" option="6" class="tabButton" on="tap: AMP.setState({ news: { sector: 15 }}),dataForm.submit;">Science & Environment</span>
+            <span role="tab" tabindex="8" option="8" class="tabButton" on="tap: AMP.setState({ news: { sector: 11 }}),dataForm.submit;">Law & Governance</span>
+            <span role="tab" tabindex="9" option="9" class="tabButton" on="tap: AMP.setState({ news: { sector: 2 }}),dataForm.submit;">Health</span>
+            <span role="tab" tabindex="10" option="10" class="tabButton" on="tap: AMP.setState({ news: { sector: 9 }}),dataForm.submit;">Social & Gender</span>
+            <span role="tab" tabindex="11" option="11" class="tabButton" on="tap: AMP.setState({ news: { sector: 3 }}),dataForm.submit;">Transport</span>
+            <span role="tab" tabindex="12" option="12" class="tabButton" on="tap: AMP.setState({ news: { sector: 17 }}),dataForm.submit;">Urban Development</span>
+            <span role="tab" tabindex="13" option="13" class="tabButton" on="tap: AMP.setState({ news: { sector: 12 }}),dataForm.submit;">WASH</span>
+        </amp-selector>
+    </div>
+    <amp-state id="news">
+        <script type="application/json">
+            {
+            "sector":10
+            }
+        </script>
+    </amp-state>
+    <amp-state id="newsState" src="@Url.Action("GetsectorNewsforAmp","Home",new { sectorId = 10,edition = @ViewBag.edition })"></amp-state>
+    <amp-list src="@Url.Action("GetsectorNewsforAmp","Home",new { sectorId = 10,edition = @ViewBag.edition })" [src]="newsState.items" width="auto" height="950" [height]="newsState.items.length * 95" class="blogList">
+        <template type="amp-mustache">
+            <a href="{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    {{^defaultImage}}
+                    <div class="post-image">
+                        <amp-img src="{{ImageUrl}}?width=100&height=85&mode=crop&quality=80" layout="fixed" width="100" alt="{{Title}}" height="85"></amp-img>
+                    </div>
+                    {{/defaultImage}}
+                    <div class="post-content">
+                        <h4 class="title">{{Title}}</h4>
+                        <p class="country">{{Country}}</p>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+    <form method="GET"
+          action="@Url.Action("GetsectorNewsforAmp","Home")"
+          action-xhr="@Url.Action("GetsectorNewsforAmp","Home")"
+          target="_top"
+          id="dataForm"
+          on="submit-success: AMP.setState({
+              newsState: {
+                items: event.response.items
+              }
+            });">
+        <input type="hidden" name="sectorId" value="10" [value]="news.sector" />
+        <input type="hidden" name="edition" value="@ViewBag.edition" />
+    </form>
+    <h2 class="page-title">SCIENCE & ENVIRONMENT</h2>
+    <amp-list src="@Url.Action("GetLabelNewsForAmp","Home",new { label = "science-environment",region = @ViewBag.edition })" width="auto" height="980">
+        <template type="amp-mustache">
+            <a href="{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    {{^defaultImage}}
+                    <div class="post-image">
+                        <amp-img src="{{ImageUrl}}?width=100&height=85&mode=crop&quality=80" layout="fixed" width="100" alt="{{Title}}" height="85"></amp-img>
+                    </div>
+                    {{/defaultImage}}
+                    <div class="post-content">
+                        <h4 class="title">{{Title}}</h4>
+                        <p class="country">{{Country}}</p>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+    <h2 class="page-title">Politics</h2>
+    <amp-list src="@Url.Action("GetsectorNewsforAmp","Home",new { sectorId = 19,edition = @ViewBag.edition })" width="auto" height="950">
+        <template type="amp-mustache">
+            <a href="{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    <h4 class="title">{{Title}}</h4>
+                    <p class="country">{{Country}}</p>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+    <h2 class="page-title">Sports</h2>
+    <amp-list src="@Url.Action("GetsectorNewsforAmp","Home",new { sectorId = 18,edition = @ViewBag.edition })" width="auto" height="750">
+        <template type="amp-mustache">
+            <a href="{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    <h4 class="title">{{Title}}</h4>
+                    <p class="country">{{Country}}</p>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+    <h2 class="page-title">Art & Culture</h2>
+    <amp-list src="@Url.Action("GetsectorNewsforAmp","Home",new { sectorId = 14,edition = @ViewBag.edition })" width="auto" height="960">
+        <template type="amp-mustache">
+            <a href="{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    {{^defaultImage}}
+                    <div class="post-image">
+                        <amp-img src="{{ImageUrl}}?width=100&height=85&mode=crop&quality=80" layout="fixed" width="100" alt="{{Title}}" height="85"></amp-img>
+                    </div>
+                    {{/defaultImage}}
+                    <div class="post-content">
+                        <h4 class="title">{{Title}}</h4>
+                        <p class="country">{{Country}}</p>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+</div>
+<amp-analytics type="googleanalytics">
+    <script type="application/json">
+        {
+        "vars": {
+        "account": "UA-106388823-1"
+        },
+        "triggers": {
+        "default pageview": {
+        "on": "visible",
+        "request": "pageview",
+        "vars": {
+        "title": "Google AMP"
+        }
+        }
+        }
+        }
+    </script>
+</amp-analytics>

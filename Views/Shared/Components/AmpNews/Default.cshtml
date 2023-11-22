@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
+@{
+    string domainUrl = "https://www.devdiscourse.com";
+}
+@functions {
+    public async Task CountryHelper(string country)
+    {
+        await Task.Yield();
+        if (!string.IsNullOrEmpty(country))
+        {
+            var countryArr = country.Split(',');
+            foreach (var t in countryArr.Take(1))
+            {
+                <span>@t</span>
+            }
+        }
+        else
+        {
+            <span>Global</span>
+        }
+    }
+}
+<div>
+    @foreach (var item in Model)
+    {
+        <a href="@domainUrl@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})?amp" title="@item.Title" class="no-text-decoration">
+            <div class="single-news-post">
+                <h4 class="title">@item.Title</h4>
+                <p class="country">@CountryHelper(item.Country)</p>
+            </div>
+        </a>
+    }
+</div>

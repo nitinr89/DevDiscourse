@@ -6,24 +6,24 @@ namespace Devdiscourse.Models.ViewModel
     public class SearchView
     {
         public Guid Id { get; set; }
-        public string Title { get; set; }
+        public string? Title { get; set; }
         public DateTime CreatedOn { get; set; }
-        public string ImageUrl { get; set; }
-        public string Sector { get; set; }
-        public string Country { get; set; }
-        public string Region { get; set; }
-        public string Tags { get; set; }
-        public bool IsGlobal { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? Sector { get; set; }
+        public string? Country { get; set; }
+        public string? Region { get; set; }
+        public string? Tags { get; set; }
+        public bool? IsGlobal { get; set; }
         public long NewsId { get; set; }
         public bool IsVideo { get; set; }
         public bool IsSponsored { get; set; }
         public bool EditorPick { get; set; }
-        public string Category { get; set; }
-        public string Type { get; set; }
-        public string SubType { get; set; }
-        public string Label { get; set; }
-        public string Source { get; set; }
-        public string Description { get; set; }
+        public string? Category { get; set; }
+        public string? Type { get; set; }
+        public string? SubType { get; set; }
+        public string? Label { get; set; }
+        public string? Source { get; set; }
+        public string? Description { get; set; }
         public float Ranking { get; set; }
 
         public string GenerateSlug()

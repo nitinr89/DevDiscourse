@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
+@foreach (var item in Model)
+{
+    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})?amp" class=" no-text-decoration">
+        <div class="">
+            <div class="infocus-cover">
+                @{
+                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                }
+                <amp-img src="@newsImage?width=400&height=270&mode=crop"
+                         width="400"
+                         height="270"
+                         layout="responsive"
+                         class="cover"
+                         alt="@item.Title">
+                </amp-img>
+            </div>
+            <div class="badge-title">@item.Title</div>
+        </div>
+    </a>
+}
+

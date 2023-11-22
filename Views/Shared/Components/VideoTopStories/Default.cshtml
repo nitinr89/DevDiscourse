@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.VideoViewModel>
+@{
+    string domainUrl = "https://www.devdiscourse.com";
+}
+<div class="row p-t-30 clearfix">
+    @foreach (var item in Model.Take(3))
+    {
+        var newsImage = (item.FileThumbUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.FileThumbUrl : item.FileThumbUrl;
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="cover-img m-b-20 clearfix playVideo" data-src="@Url.Action("GetVideo", "VideoNews", new { id = item.Id })" data-url="@Url.RouteUrl("NewsVideo", new { id = item.GenerateSecondSlug() })" title="@item.Title" style="background-image:url('@domainUrl@newsImage?width=555&height=300&mode=crop&format=jpeg');">
+                <div class="cover-img-overlay">
+                    <div class="play-icon"> <span class="fa fa-play"></span></div>
+                    <div style="position:absolute;bottom:0;padding:10px;color:#fff">
+                        <span class="">@item.Duration</span>
+                        <h4 class="m-t-5 m-b-0">@item.Title</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

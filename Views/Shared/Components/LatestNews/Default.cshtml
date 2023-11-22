@@ -1,0 +1,58 @@
+﻿@model List<Devdiscourse.Models.ViewModel.NewsViewModel>
+@using System.Text.RegularExpressions;
+@functions {
+    public async Task Truncate(string input, int length)
+    {
+        await Task.Yield();
+        if (string.IsNullOrEmpty(input))
+        {
+            <text>...</text>
+        }
+        else if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)
+        }
+    }
+}
+@functions {
+    public async Task GetDescriptionText(string htmltext)
+    {
+        await Task.Yield();
+        const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
+        const string stripFormatting = @"<[^>]*(>|$)";
+        const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
+        var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+        var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+        var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+        var text = (htmltext ?? "").Replace("&nbsp;", " ");
+        text = Regex.Replace(text, @"\r\n?|\n", " ");
+        text = System.Net.WebUtility.HtmlDecode(text);
+        text = tagWhiteSpaceRegex.Replace(text, "><");
+        text = lineBreakRegex.Replace(text, Environment.NewLine);
+        text = stripFormattingRegex.Replace(text, string.Empty);
+        text = Regex.Replace(text, @"[^,.A-Za-z0-9\s-]", "");
+        @text
+        ;
+    }
+}
+<ul class="ar-ul">
+    @foreach (var item in Model)
+    {
+        var newsImage = "";
+        if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
+        {
+            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+        }
+        <li class="also-title">
+            <h3 class="f-18 no-margin font-normal l-h">
+                <a href="@Url.RouteUrl("ArticleDetailswithprefix",new { prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                    @item.Title
+                </a>
+            </h3>
+        </li>
+    }
+</ul>

@@ -30,6 +30,23 @@ namespace Devdiscourse.Controllers.ViewComponents
                                             children = _db.Livediscourses.Where(a => a.ParentId == s.Id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new DiscourseChildViewModel { Id = s.Id, Title = s.Title, ImageUrl = s.ImageUrl }).Take(2).ToList()
                                         }).Take(3);
             return View(InfocusLiveDiscourse);
+            //var infocus = (from dn in _db.DevNews
+            //               select new DiscourseViewModel
+            //               {
+            //                   Id = Convert.ToInt64(dn.Id),
+            //                   //NewId = dn.NewsId,
+            //                   Title = dn.Title,
+            //                   ImageUrl = dn.ImageUrl,
+            //                   //CreatedOn = dn.ModifiedOn,
+            //                   //Type = dn.Type,
+            //                   //SubType = dn.SubType,
+            //                   //Country = dn.Country,
+            //                   //Label = dn.NewsLabels,
+            //                  // Ranking = 0
+            //               }).OrderByDescending(a => a.Title)
+            //    .Take(65)
+            //    .ToList();
+            //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Title).Take(6).ToList());
         }
     }
 }

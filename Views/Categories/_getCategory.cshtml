@@ -1,0 +1,5 @@
+﻿@model IEnumerable<Devdiscourse.Models.BasicModels.Category>
+@foreach (var item in Model)
+{
+    <option value="@item.Id">@item.Title</option>
+}

@@ -1,0 +1,184 @@
+﻿
+@{
+    ViewBag.Title = "IRU World Congress 2018 | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = "Global Edition";
+    ViewBag.PostUrl = "https://www.devdiscourse.com";
+    ViewBag.pageKeywords = "International Road Transport Union";
+}
+<style>
+    .p-t-90{
+        padding-top:90px;
+    }
+    .p-b-90 {
+        padding-bottom: 90px;
+    }
+    .p-b-50 {
+        padding-bottom: 50px;
+    }
+    .renderBody {
+        margin-top: 0px;
+    }
+    .bg-blue {
+        background-color: #18AEE1;
+        color:#fff;
+    }
+    .col-div {
+        background-color: #fff;
+        color:#222;
+        padding:20px;
+        border-radius:5px;
+    }
+        .col-div span{
+            padding-left:25px;
+            font-size:18px;
+        }
+    .btn:hover {
+        color: #fff;
+    }
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+    .eventcard-title {
+        height: 80px;
+        color: #222;
+        background-color:#fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color:#fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+    }
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+        .col-div span {
+            padding-left: 5px;
+            font-size: 16px;
+        }
+    }
+    @@media(max-width:768px){
+        .eventcard-title {
+            height: 120px;
+        }
+        h2{
+            font-size:18px;
+        }
+    }
+    @@media (max-width: 2560px) and (min-width: 1500px){
+        .content-container {
+            width: 1100px!important;
+        }
+    }
+</style>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<img src="~/images/mediapartners/iru-banner.jpg" class="img-responsive" alt="IRU-Banner" />
+<div style="background-color:#EFEFEF">
+    <div class="container p-t-30">
+        <ol class="breadcrumb breadcrumb_new">
+            <li><a href="@Url.Action("Index", "MediaPartnership")">Media Partner</a></li>
+            <li class="active">IRU</li>
+        </ol>
+        <div class="p-b-90 row">
+            <div class="p-t-30 col-xs-12 col-sm-4 text-center">
+                <img src="~/images/mediapartners/iru-wc.png" class="img-responsive center-block" alt="IRU-World-Congress" />
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                <h2 style="color:#18AEE1">WHAT IS IRU WORLD CONGRESS?</h2>
+                <p>The revolution has begun: road transport is rapidly becoming digital, connected and automated. But what will the future look like?</p>
+                <p>The IRU World Congress is the platform for global decision-makers to exchange ideas, debate solutions and define the future of our industry.</p>
+                <p><b>Who is coming?</b> Leading companies including Volvo, AXA, PWC, Mercedes Benz, MAN, IBM and transport associations from 30+ countries including Belgium, Switzerland, UK, USA, Germany, Netherlands, Sweden, Poland, Romania, Russia, Ukraine, UAE, Saudi Arabia, Japan...</p>
+                <p>The IRU World Congress takes place in Muscat, Oman, on the 6-8th November 2018. To register as a delegate or to find out more information, please visit <a href="https://www.iruworldcongress.com/">www.iruworldcongress.com</a></p>
+                <a href="https://www.iruworldcongress.com/about-iru-world-congress" target="_blank" class="bg-blue btn text-uppercase">READ MORE</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="background-color:#18AEE1;color:#fff">
+    <div class="container p-b-50">
+        <div class="row" style="margin-top:-40px;">
+            <a href="https://www.iruworldcongress.com/#footer" target="_blank">
+                <div class="p-b-10 col-xs-12 col-sm-6 col-md-3">
+                    <div class="col-div"><img src="~/images/mediapartners/register.png" class="img-responsive" style="display:unset" /><span>Register Now</span></div>
+                </div>
+            </a>
+            <a href="https://www.iruworldcongress.com/programme" target="_blank">
+                <div class="p-b-10 col-xs-12 col-sm-6 col-md-3">
+                    <div class="col-div"><img src="~/images/mediapartners/event schedule.png" class="img-responsive" style="display:unset" /><span>Event Schedule</span></div>
+                </div>
+            </a>
+            <a href="https://www.iruworldcongress.com/speakers" target="_blank">
+                <div class="p-b-10 col-xs-12 col-sm-6 col-md-3">
+                    <div class="col-div">
+                        <img src="~/images/mediapartners/speakers.png" class="img-responsive" style="display:unset" /><span>Know the Speakers</span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://www.iruworldcongress.com/practical-information" target="_blank">
+                <div class="p-b-10 col-xs-12 col-sm-6 col-md-3">
+                    <div class="col-div">
+                        <img src="~/images/mediapartners/venue.png" class="img-responsive" style="display:unset" /><span>See Venue</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="p-b-20 container content-container">
+        <h2 class="text-center">EVENT NEWS</h2>
+        <div class="p-t-20">
+            <div id="moreEventNews">
+                @* @{ Html.RenderAction("GetEventNews", "Events", new { skip = 0, take = 5 });} *@
+                @await Component.InvokeAsync("GetEventNews", new { skip = 0, take = 5 });
+            </div>
+            <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = "/"//$(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+            $('.tabDiv').click(function () {
+                $('.eventSchedule').hide();
+                $('.tabDiv').removeClass('bg-blue').addClass('bg-gray');
+                var _id = $(this).attr("id");
+                $('#' + _id).addClass('bg-blue');
+                $('#' + _id + "Event").show();
+            });
+        });
+    </script>
+}

@@ -65,15 +65,43 @@ namespace DevDiscourse.Controllers.Main
             ViewBag.editorPick = editorPick;
             ViewBag.loginId = userManager.GetUserId(User);
             DateTime fifteenDay = DateTime.Today.AddDays(-5);
-            DateTime threeMonth = DateTime.Today.AddDays(-45);
-            IQueryable<NewsListView> devNews;
+            DateTime threeMonth = DateTime.Today.AddDays(-25);
+            IQueryable<NewsListView> devNews = (from a in _db.DevNews
+                                                where a.Type == "News"
+                                                select new NewsListView
+                                                {
+                                                    Id = a.Id,
+                                                    NewsId = a.NewsId,
+                                                    Label = a.NewsLabels,
+                                                    Sector = a.Sector,
+                                                    Category = a.Category,
+                                                    Title = a.Title,
+                                                    SubTitle = a.SubTitle,
+                                                    Creator = a.Creator,
+                                                    CreatorName = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName,
+                                                    Region = a.Region,
+                                                    Country = a.Country,
+                                                    ImageUrl = a.ImageUrl,
+                                                    Source = a.Source,
+                                                    SourceUrl = a.SourceUrl,
+                                                    AdminCheck = a.AdminCheck,
+                                                    IsInfocus = a.IsInfocus,
+                                                    EditorPick = a.EditorPick,
+                                                    IsGlobal = a.IsGlobal,
+                                                    IsFifa = a.IsStandout,
+                                                    IsIndex = a.IsIndexed,
+                                                    CreatedOn = a.CreatedOn,
+                                                    WorkStage = a.WorkStage,
+                                                    ViewCount = a.ViewCount,
+                                                    ModifiedOn = a.ModifiedOn
+                                                });
             if (string.IsNullOrEmpty(text))
             {
-                devNews = _db.DevNews.Where(a => a.Type == "News" && a.CreatedOn > threeMonth).Select(a => new NewsListView { Id = a.Id, NewsId = a.NewsId, Label = a.NewsLabels, Sector = a.Sector, Category = a.Category, Title = a.Title, SubTitle = a.SubTitle, Creator = a.Creator, CreatorName = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, Region = a.Region, Country = a.Country, ImageUrl = a.ImageUrl, Source = a.Source, SourceUrl = a.SourceUrl, AdminCheck = a.AdminCheck, IsInfocus = a.IsInfocus, EditorPick = a.EditorPick, IsGlobal = a.IsGlobal, IsFifa = a.IsStandout, IsIndex = a.IsIndexed, CreatedOn = a.CreatedOn, WorkStage = a.WorkStage, ViewCount = a.ViewCount, ModifiedOn = a.ModifiedOn });
+                devNews = devNews.Where(a => a.CreatedOn > threeMonth);
             }
             else
             {
-                devNews = _db.DevNews.Where(a => a.Type == "News" && a.Title.Contains(text) && a.CreatedOn > fifteenDay).Select(a => new NewsListView { Id = a.Id, NewsId = a.NewsId, Label = a.NewsLabels, Sector = a.Sector, Category = a.Category, Title = a.Title, SubTitle = a.SubTitle, Creator = a.Creator, CreatorName = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, Region = a.Region, Country = a.Country, ImageUrl = a.ImageUrl, Source = a.Source, SourceUrl = a.SourceUrl, AdminCheck = a.AdminCheck, IsInfocus = a.IsInfocus, EditorPick = a.EditorPick, IsGlobal = a.IsGlobal, IsFifa = a.IsStandout, IsIndex = a.IsIndexed, CreatedOn = a.CreatedOn, WorkStage = a.WorkStage, ViewCount = a.ViewCount, ModifiedOn = a.ModifiedOn });
+                devNews = devNews.Where(a => a.Title.Contains(text) && a.CreatedOn > fifteenDay);
             }
             if (label != "0")
             {

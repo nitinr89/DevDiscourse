@@ -26,10 +26,10 @@ namespace Devdiscourse.Models.BasicModels
         [Required]
         public TeamType Type { get; set; }
         [Display(Name = "About Me")]
-        public string AboutMe { get; set; }
+        public string? AboutMe { get; set; }
         [Required]
         [Display(Name = "Profile Image")]
-        public string ProfilePic { get; set; }
+        public string ProfilePic { get; set; } = "/AdminFiles/TeamProfile/user.jpg";
         public bool Active { get; set; }
     }
 }

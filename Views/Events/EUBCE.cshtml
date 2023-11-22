@@ -1,0 +1,420 @@
+﻿@{
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "EUBCE 2020 | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "European Biomass Conference & Exhibition";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/eubcebg.jpg";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/EUBCE";
+    ViewBag.pageKeywords = "The 28th European Biomass Conference and Exhibition will be held in Marseille, France,From 27 to 30 of April 2020.";
+    ViewBag.PageDescription = "The 28th EUBCE will expand its portfolio from energy related biomass production and conversion of bio-based feedstock to other sectors of the economy and will now integrate the bioeconomy into its conference programme.";
+
+}
+<style>
+    .renderBody {
+        margin: 0;
+        background: #004283;
+    }
+
+    .fg-color {
+        color: #133100;
+    }
+
+    .bg-color {
+        background-color: #133100;
+    }
+
+    .bg-secondary {
+        background-color: #2e9e02;
+    }
+
+    .fg-secondary {
+        color: #2e9e02;
+    }
+
+    .why-abu {
+        color: #133100;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+
+    .banner-content-container {
+        padding: 100px 50px 100px 100px;
+    }
+
+    .gard {
+        background-color: #0c0809;
+        background-image: url('/images/mediapartners/eubcebg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+    }
+
+    .gard-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.5);
+    }
+
+    .f-40 {
+        font-size: 50px;
+        font-weight: 600;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+        color: white;
+    }
+
+    .f-20 {
+        font-size: 20px;
+    }
+
+    .logo-container {
+        text-align: right;
+    }
+
+    .news-container {
+        background-color: #2e9e02;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+    .seperator {
+        margin: 30px auto;
+        width: 70%;
+        height: 7px;
+        background-color: #ffe926;
+    }
+
+    .mid-container {
+        background-color: #fff;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .btn-css {
+        background-color: #80BC7B;
+        color: white;
+        margin-top: 40px;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 10px 30px;
+        font-family: sans-serif;
+        box-shadow: 0 15px 30px 0 rgba(8, 31, 62, 0.25);
+    }
+
+        .btn-css:active {
+            background-color: #eeda2b;
+            color: #133100;
+        }
+
+    btn-css:visited {
+        color: #133100;
+    }
+
+    .btn-css:hover {
+        background-color: #60BC7B;
+        color: #fff;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: black;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .event-container {
+        padding-top: 140px;
+        padding-bottom: 60px;
+    }
+
+    .bg-white.p-t-20 {
+        padding-top: 0;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .f-40 {
+            font-size: 40px;
+        }
+
+        .btn-css {
+            font-size: 20px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        .bg-container {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top;
+        }
+
+        .f-40 {
+            font-size: 50px;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+
+        .btn-css {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+    }
+</style>
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Event",
+    "name": "European Biomass Conference & Exhibition",
+    "startDate": "2020-04-27T18:00",
+    "endDate": "2020-04-30T22:00",
+    "location": {
+    "@@type": "Place",
+    "name": "",
+    "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "Marseille Chanot Convention & Exhibition Centre",
+    "addressLocality": "Marseille",
+    "postalCode": "",
+    "addressRegion": "Marseille",
+    "addressCountry": "FRANCE"
+    }
+    },
+    "image": [
+    "https://www.devdiscourse.com/images/mediapartners/eubcebg.jpg"
+    ],
+    "description": "The 28th EUBCE will expand its portfolio from energy related biomass production and conversion of bio-based feedstock to other sectors of the economy and will now integrate the bioeconomy into its conference programme.",
+    "offers": {
+    "@@type": "Offer",
+    "url": "https://www.example.com/event_offer/12345_201803180430",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "http://www.eubce.com/wp-content/uploads/2019/11/intro_eng.pdf",
+    "validFrom": "2020-04-27T18:00"
+    }
+    }
+</script>
+
+<div class="gard">
+    <div class="gard-overlay"></div>
+    <div class="container event-container">
+        <div class="p-t-20 p-b-20">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <img src="~/images/mediapartners/eubcelogo.png" width="300" style="max-width:100%;" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                    <p style="font-size:30px; color:#fff;font-weight:bold;font-family:sans-serif;" >The 28<sup>th</sup> European Biomass Conference and Exhibition will be held in Marseille,France,From 27 to 30 of April 2020.</p>
+                    <a href="http://www.eubce.com/wp-content/uploads/2019/11/intro_eng.pdf" target="_blank" class="btn btn-css">Eubce 2020 Brochure</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="http://www.eubce.com/" target="_blank" class="linkBtn" title="Home">HOME</a>
+            </div>
+            <div class="item">
+                <a href="http://www.eubce.com/wp-content/uploads/2019/11/intro_eng.pdf" target="_blank" class="linkBtn" title="About">ABOUT</a>
+            </div>
+            <div class="item">
+                <a href="http://www.eubce.com/conference/eubce-conference.html" target="_blank" class="linkBtn" title="Conference">CONFERENCE</a>
+            </div>
+            <div class="item">
+                <a href="http://www.eubce.com/exhibition/list-of-exhibitors.html" target="_blank" class="linkBtn" title="Exhibition">EXHIBITION</a>
+            </div>
+            <div class="item">
+                <a href="http://www.eubce.com/sponsorship.html" target="_blank" class="linkBtn" title="Sponsorship">SPONSORSHIP</a>
+            </div>
+            <div class="item">
+                <a href="http://www.eubce.com/networking/welcome-reception.html" target="_blank" class="linkBtn" title="Networking">NETWORKING</a>
+            </div>
+            <div class="item">
+                <a href="http://www.eubce.com/mediapress/newsletters-press-releases.html" target="_blank" class="linkBtn" title="Media/Press">MEDIA/PRESS</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30 p-b-20">
+    <div class="row m-t-20 p-b-20">
+        <div class="col-sm-4 col-md-4">
+
+            <p style="color:#fff;font-size:20px;font-family:sans-serif;" >
+                <b>Late Abstracts</b>
+            </p>
+
+            <p style="color:#fff;font-size:15px;font-family:sans-serif;">
+                Be a part of the cutting edge of research and innovation for biomass and bioeconomy.
+            </p>
+
+            <img src="~/images/mediapartners/eubcebottom1.jpg" width="500" height="300" style="max-width:100%;" />
+
+        </div>
+        <div class="col-sm-4 col-md-4">
+
+            <p style="color:#fff;font-size:20px;font-family:sans-serif;">
+                <b>Exhibit</b>
+            </p>
+
+            <p style="color:#fff;font-size:15px;font-family:sans-serif;">
+               Gain high visibility among top leaders in the Biomass sector. 5% discount until 15th December 2019.
+            </p>
+
+            <img src="~/images/mediapartners/eubcebottom2.jpg" width="500" height="300" style="max-width:100%;" />
+        </div>
+        <div class="col-sm-4 col-md-4">
+
+            <p style="color:#fff;font-size:20px;font-family:sans-serif;">
+                <b>Publications</b>
+            </p>
+
+            <p style="color:#fff;font-size:15px;font-family:sans-serif;">
+                EUBCE offers a wide range of open access publication opportunities for your papers.
+            </p>
+
+            <img src="~/images/mediapartners/eubcebottom3.jpg" width="500" height="300" style="max-width:100%;" />
+        </div>
+    
+    </div>
+</div>
+
+@section scripts{
+    <script>
+            $(document).ready(function () {
+                var _skip = 0;
+
+                $('.lazy').lazy();
+                $(document).find('#regDropDown').change(function () {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                    document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                    window.location.href = $(this).find('option:selected').attr('data-to');
+                });
+                $(document).on("click", ".load_more", function () {
+                    $(this).remove();
+                    $('.loadmore').show();
+                    _skip = _skip + 6;
+                    $.ajax("/Events/GetEventNews?id=25&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+                });
+            });
+    </script>
+}

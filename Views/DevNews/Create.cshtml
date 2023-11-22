@@ -261,8 +261,8 @@
                                             <input type="text" class="form-control hidden" id="ChooseImage" name="ChooseImage" />
                                         </div>
                                         @*<div class="col-md-12 text-center m-t-10">
-                                                <strong>OR</strong>
-                                            </div>*@
+                                    <strong>OR</strong>
+                                    </div>*@
                                         <div class="col-md-12 m-t-20" style="display:none;">
                                             <input type="button" class="btn btn-primary btn-block" value="Choose image from old gallery" id="selFromPrevGallery" />
                                             <input type="text" class="form-control hidden" id="ChooseFromOld" name="ChooseFromOld" />
@@ -328,10 +328,12 @@
                             @Html.LabelFor(model => model.EditorPick, htmlAttributes: new { @class = "control-label", @style = "margin-left:10px" })
                             @Html.ValidationMessageFor(model => model.EditorPick, "", new { @class = "text-danger" })
 
-                            <div class="p-t-10">@Html.CheckBoxFor(model => model.IsSponsored, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.LabelFor(model => model.IsSponsored, htmlAttributes: new { @class = "control-label", @style = "margin-left:10px" })
-                            @Html.ValidationMessageFor(model => model.IsSponsored, "", new { @class = "text-danger" })</div>
-                          
+                            <div class="p-t-10">
+                                @Html.CheckBoxFor(model => model.IsSponsored, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.LabelFor(model => model.IsSponsored, htmlAttributes: new { @class = "control-label", @style = "margin-left:10px" })
+                                @Html.ValidationMessageFor(model => model.IsSponsored, "", new { @class = "text-danger" })
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -364,6 +366,7 @@
                             <select class="form-control" id="selSector">
                                 <option value="0">All Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                                @await Component.InvokeAsync("SectorMenu",new { filter = "AdminPage" });
                             </select>
                         </div>
                     </div>
@@ -373,6 +376,7 @@
                             <select class="form-control" id="imgSector">
                                 <option value="0">Select Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                                @await Component.InvokeAsync("SectorMenu",new { filter = "AdminPage" });
                             </select>
                         </div>
                         <div class="col-sm-6 col-xs-12">
@@ -428,6 +432,7 @@
                             <select class="form-control" id="selSec">
                                 <option value="0">All Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                                @await Component.InvokeAsync("SectorMenu",new { filter = "AdminPage" });
                             </select>
                         </div>
                     </div>
@@ -567,7 +572,7 @@
                 //entity_encoding: 'raw',
                 convert_urls: true,
                 default_link_target: '_blank',
-                rel_list: [             
+                rel_list: [
                     { title: 'Do Follow', value: '' },
                     { title: 'No Follow', value: 'nofollow' },
                     { title: 'No Follow/Referer/Opener', value: 'nofollow noopener noreferrer' }

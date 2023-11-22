@@ -62,7 +62,7 @@ namespace Devdiscourse.Models.BasicModels
         [Display(Name = "IsVideo")]
         public bool IsVideo { get; set; }
         [Display(Name = "IsGlobal")]
-        public bool? IsGlobal { get; set; }
+        public bool IsGlobal { get; set; }
         public bool IsStandout { get; set; }
         public bool IsIndexed { get; set; }
         public string? Region { get; set; }

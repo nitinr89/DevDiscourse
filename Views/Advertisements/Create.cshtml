@@ -1,0 +1,63 @@
+﻿@model Devdiscourse.Models.BasicModels.Advertisement
+@{
+    ViewBag.Title = "Create";
+}
+<div class="container">
+    <div class="row m-t-20">
+        <div class="col-md-8">
+            <div class="section-title">
+                <span>Advertisement</span>
+            </div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Advertisor, htmlAttributes: new { @class = "control-label f-14" })
+                            @Html.EditorFor(model => model.Advertisor, new { htmlAttributes = new { @class = "form-control m-t-10" } })
+                            @Html.ValidationMessageFor(model => model.Advertisor, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label f-14" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control m-t-10" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label f-14" })
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control m-t-10", @style = "height:100px" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label f-14" })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control m-t-10" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input type="submit" value="Submit" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            @{
+                Html.RenderPartial("_socialPartial");
+            }
+        </div>
+    </div>
+</div>

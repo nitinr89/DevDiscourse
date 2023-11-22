@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevDiscourse.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class RoleController : Controller
     {
         private ApplicationDbContext _db;
@@ -28,17 +28,17 @@ namespace DevDiscourse.Controllers
         public async Task<ActionResult> Index()
         {
 
-            if (User.Identity.IsAuthenticated)
-            {
-                if (!await isAdminUser())
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    if (!await isAdminUser())
+            //    {
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             var Roles = _db.Roles.ToList();
             return View(Roles);
@@ -67,17 +67,17 @@ namespace DevDiscourse.Controllers
         /// <returns></returns>
         public async Task<ActionResult> Create()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                if (!await isAdminUser())
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    if (!await isAdminUser())
+            //    {
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
 
             var Role = new IdentityRole();
             return View(Role);
@@ -91,20 +91,21 @@ namespace DevDiscourse.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(IdentityRole Role)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                if (!await isAdminUser())
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            _db.Roles.Add(Role);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    if (!await isAdminUser())
+            //    {
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+            var result = await roleManager.CreateAsync(Role);
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+            else return View();
         }
         /// <summary>
         /// Create  a New role
@@ -151,35 +152,65 @@ namespace DevDiscourse.Controllers
             return RedirectToAction("Index");
         }
         // By Default First Role Create
-        public void CreateRole()
-        {
-            List<string> roleList = new List<string>();
-            roleList.Add("Admin");
-            roleList.Add("Subscriber");
-            foreach (var item in roleList)
-            {
-                IdentityRole Role = new IdentityRole();
-                Role.Name = item;
-                _db.Roles.Add(Role);
-                _db.SaveChanges();
-            }
-        }
-        public void CreateSubscriberRole()
-        {
-            IdentityRole Role = new IdentityRole();
-            Role.Name = "Subscriber";
-            _db.Roles.Add(Role);
-            _db.SaveChanges();
-        }
+        //public void CreateRole()
+        //{
+        //    List<string> roleList = new List<string>();
+        //    roleList.Add("Admin");
+        //    roleList.Add("Subscriber");
+        //    foreach (var item in roleList)
+        //    {
+        //        IdentityRole Role = new IdentityRole();
+        //        Role.Name = item;
+        //        _db.Roles.Add(Role);
+        //        _db.SaveChanges();
+        //    }
+        //}
+        //public void CreateSubscriberRole()
+        //{
+        //    IdentityRole Role = new IdentityRole();
+        //    Role.Name = "Subscriber";
+        //    _db.Roles.Add(Role);
+        //    _db.SaveChanges();
+        //}
         // Assign Admin Role To User
-        public async void AssignRole()
+
+        public async Task<IActionResult> AssignRole()
         {
-            var user = _db.Users.Where(a => a.UserName == "visionri").FirstOrDefault();
+            var user = await userManager.FindByNameAsync("uttam");
             if (user != null)
             {
-                await userManager.AddToRoleAsync(user, "Admin");
+                var roleExists = await roleManager.RoleExistsAsync("Admin");
+                if (!roleExists)
+                {
+                    var role = new IdentityRole("Admin");
+                    var result = await roleManager.CreateAsync(role);
+                    if (result.Succeeded)
+                    {
+
+                    }
+                    else
+                    {
+                        return Ok(result.Errors.ToString());
+                    }
+                }
+                bool isAdmin = await userManager.IsInRoleAsync(user, "Admin");
+                if (isAdmin) return Ok("You are already Admin!!");
+                else
+                {
+                    var result = await userManager.AddToRoleAsync(user, "Admin");
+                    if (result.Succeeded)
+                    {
+                        return Ok("You are Admin now!!");
+                    }
+                    else
+                    {
+                        return Ok(result.Errors.ToString());
+                    }
+                }
             }
+            return Ok("User Not Found, Try Again!!");
         }
+
         public async Task<JsonResult> AssignRoleToUser(string id, string role)
         {
             var user = await userManager.FindByIdAsync(id);
@@ -187,8 +218,8 @@ namespace DevDiscourse.Controllers
             {
                 var result = await userManager.AddToRoleAsync(user, role);
                 if (result.Succeeded)
-                    return Json(new { status = "Success", msg = "User's Role Updated Successfully" });
-                else return Json(new { status = "Error", msg = "Role can't assign" });
+                    return Json(new { status = "Success", msg = "Role Assigned Successfully" });
+                else return Json(new { status = "Error", msg = "Role can't Assign" });
             }
             else
             {
@@ -196,49 +227,50 @@ namespace DevDiscourse.Controllers
             }
         }
         // Assigned Role Change
-        public async void ChangeRole()
-        {
-            var user = await userManager.FindByIdAsync(userManager.GetUserId(User));
-            var userRoles = await userManager.GetRolesAsync(user);
-            if (userRoles.Count == 1 && userRoles.Contains("Subscriber"))
-            {
-                await userManager.AddToRoleAsync(user, "Author");
-            }
-        }
+        //public async void ChangeRole()
+        //{
+        //    var user = await userManager.FindByIdAsync(userManager.GetUserId(User));
+        //    var userRoles = await userManager.GetRolesAsync(user);
+        //    if (userRoles.Count == 1 && userRoles.Contains("Subscriber"))
+        //    {
+        //        await userManager.AddToRoleAsync(user, "Author");
+        //    }
+        //}
         public async Task<JsonResult> UpdateRole(string userId, string oldRole, string newrole)
         {
-            var user = await userManager.FindByIdAsync(userId);
-            var userRoles = await userManager.GetRolesAsync(user);
+            ApplicationUser? user = await userManager.FindByIdAsync(userId);
+            if (user == null) { return Json(new { status = "Error", msg = "User ID is Invalid" }); }
+            IList<string>? userRoles = await userManager.GetRolesAsync(user);
             foreach (var role in userRoles)
             {
-                await userManager.RemoveFromRoleAsync(user, role);
+                if (role == oldRole) await userManager.RemoveFromRoleAsync(user, role);
             }
             var result = await userManager.AddToRoleAsync(user, newrole);
             if (result.Succeeded)
                 return Json(new { status = "Success", msg = "User's Role Updated Successfully" });
-            else return Json(new { status = "Error", msg = "Role can't update" });
+            else return Json(new { status = "Error", msg = "User's Role can't Update" });
         }
-        public async Task<ActionResult> UpdateUserRole(string role)
-        {
-            var user = await userManager.FindByIdAsync(userManager.GetUserId(User));
-            var userRoles = await userManager.GetRolesAsync(user);
-            foreach (var r in userRoles)
-            {
-                await userManager.RemoveFromRoleAsync(user, r);
-            }
-            if (role == "Contributor" || role == "PressRelease")
-            {
-                await userManager.AddToRoleAsync(user, role);
-            }
-            if (role == "Contributor")
-            {
-                return RedirectToAction("Index", "ContentCreator");
-            }
-            else
-            {
-                return RedirectToAction("Dashboard", "NewsWire");
-            }
-        }
+        //public async Task<ActionResult> UpdateUserRole(string role)
+        //{
+        //    var user = await userManager.FindByIdAsync(userManager.GetUserId(User));
+        //    var userRoles = await userManager.GetRolesAsync(user);
+        //    foreach (var r in userRoles)
+        //    {
+        //        await userManager.RemoveFromRoleAsync(user, r);
+        //    }
+        //    if (role == "Contributor" || role == "PressRelease")
+        //    {
+        //        await userManager.AddToRoleAsync(user, role);
+        //    }
+        //    if (role == "Contributor")
+        //    {
+        //        return RedirectToAction("Index", "ContentCreator");
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Dashboard", "NewsWire");
+        //    }
+        //}
         public async Task<JsonResult> DeleteRole(string userId, string role)
         {
             var user = await userManager.FindByIdAsync(userId);
@@ -246,8 +278,8 @@ namespace DevDiscourse.Controllers
             {
                 var result = await userManager.RemoveFromRoleAsync(user, role);
                 if (result.Succeeded)
-                    return Json(new { status = "Success", msg = "User's Role Deleted Successfully" });
-                else return Json(new { status = "Error", msg = "Role can't delete" });
+                    return Json(new { status = "Success", msg = "User's Role Removed Successfully" });
+                else return Json(new { status = "Error", msg = "User's Role can't Remove" });
             }
             else
             {

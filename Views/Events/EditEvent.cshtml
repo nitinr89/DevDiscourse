@@ -1,0 +1,902 @@
+﻿@model Devdiscourse.Models.BasicModels.DevNews
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+@* @Styles.Render("~/Content/admincss") *@
+<link href="~/Content/admin.css" rel="stylesheet" />
+
+<div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
+    <ol class="breadcrumb no-margin">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("EventList", "Events")">Events</a></li>
+        <li class="breadcrumb-item active">Edit</li>
+    </ol>
+</div>
+<div class="container no-padding m-b-30">
+    @using (Html.BeginForm("EditEvent", "Events", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.NewsId)
+            <div class="bg-white box-shadow m-t-40 p-b-10">
+                <div class="label-tag">Content</div>
+                <div class="p-20">
+                    <div class="row m-t-20">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control inputText" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            <div id="title_character"></div>
+                        </div>
+                    </div>
+                    <div class="row m-t-20">
+                        @Html.LabelFor(model => model.SubTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.SubTitle, new { htmlAttributes = new { @class = "form-control inputText" } })
+                            @Html.ValidationMessageFor(model => model.SubTitle, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row m-t-20">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", style = "height:120px;" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            <div id="wordCount">[ Words entered: 0 ]</div>
+                        </div>
+                    </div>
+                    <div class="row m-t-20">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="row">
+                                @Html.LabelFor(model => model.Source, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    <input id="Source" name="Source" value="@Model.Source" class="form-control" type="text" list="sourceList" />
+                                    <datalist id="sourceList">
+                                        <option value="Reuters" tabindex="(With inputs from Reuters)">Reuters</option>
+                                        <option value="GOV.UK" tabindex="(With inputs from GOV.UK)">GOV.UK</option>
+                                        <option value="PTI" tabindex="(This is a reproduced story from PTI as it is)">PTI</option>
+                                        <option value="IRU" tabindex="">IRU</option>
+                                        <option value="IANS" tabindex="(With inputs from IANS)">IANS</option>
+                                        <option value="AfDB" tabindex="(With inputs from AfDB)">AfDB</option>
+                                        <option value="ADB" tabindex="(With inputs from ADB)">ADB</option>
+                                        <option value="IDB" tabindex="(With inputs from IDB)">IDB</option>
+                                        <option value="IAEA" tabindex="(With inputs from IAEA)">IAEA</option>
+                                        <option value="A2i" tabindex="(With inputs from A2i)">A2i</option>
+                                        <option value="South Africa Government Press Release" tabindex="(With inputs from SAnews)">South Africa Government Press Release</option>
+                                        <option value="US Government Press Release" tabindex="(With inputs from USDS)">US Government Press Release</option>
+                                        <option value="UN" tabindex="(With inputs from UN)">UN</option>
+                                        <option value="EIB" tabindex="(With inputs from EIB)">EIB</option>
+                                        <option value="IMF" tabindex="(With inputs from IMF)">IMF</option>
+                                        <option value="WHO" tabindex="(With inputs from WHO)">WHO</option>
+                                        <option value="UNDP" tabindex="(With inputs from UNDP)">UNDP</option>
+                                    </datalist>
+                                    @Html.ValidationMessageFor(model => model.Source, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        @Html.HiddenFor(model => model.OriginalSource)
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="row">
+                                @Html.LabelFor(model => model.SourceUrl, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.SourceUrl, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.SourceUrl, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-5">
+                    <div class="bg-white box-shadow m-t-40">
+                        <div class="label-tag">Location</div>
+                        <div class="p-20">
+                            <div class="row m-t-10">
+                                <div class="col-sm-6 col-xs-12">
+                                    @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label" })
+                                    <div class="">
+                                        <div id="RegionList" class="showListDiv"></div>
+                                        <input type="text" class="form-control hidden" id="Region" name="Region" />
+                                        @Html.DropDownList("Region", null, htmlAttributes: new { @class = "form-control", id = "Region_multi", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
+                                    <div class="">
+                                        <div id="CountryList" class="showListDiv"></div>
+                                        <input type="text" class="form-control hidden" id="Country" name="Country" />
+                                        <select class="form-control" id="Country_multi" multiple="multiple" style="height:100px"></select>
+                                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-7">
+                    <div class="bg-white box-shadow m-t-40 p-b-20">
+                        <div class="label-tag">Sector/Label/Category</div>
+                        <div class="p-20">
+                            <div class="row m-t-10">
+                                <div class="col-sm-4 col-xs-12">
+                                    @Html.LabelFor(model => model.Sector, htmlAttributes: new { @class = "control-label" })
+                                    <div class="">
+                                        <div id="SectorList" class="showListDiv"></div>
+                                        <input type="text" class="form-control hidden" value="0" id="Sector" name="Sector" />
+                                        @Html.DropDownList("Sector", null, htmlAttributes: new { @class = "form-control", id = "Sector_multi", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(model => model.Sector, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    @Html.LabelFor(model => model.NewsLabels, htmlAttributes: new { @class = "control-label" })
+                                    <div class="">
+                                        @Html.DropDownList("NewsLabels", null, "Select", htmlAttributes: new { @class = "form-control", @size = "26" })
+                                        @Html.ValidationMessageFor(model => model.NewsLabels, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <input type="hidden" name="ret" value="@ViewBag.ret" id="ret" />
+                                <div class="col-sm-4 col-xs-12">
+                                    @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
+                                    <div class="">
+                                        @Html.DropDownList("Category", null, htmlAttributes: new { @class = "form-control", @size = "26" })
+                                        @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.Type)
+            @Html.HiddenFor(model => model.Author)
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="bg-white box-shadow m-t-40 p-b-10">
+                        <div class="label-tag">Image</div>
+                        <div class="p-20">
+                            <div class="row m-t-20">
+                                <div class="col-xs-12 col-sm-12 col-md-6 m-b-20" id="viewImage">
+                                    @if (!String.IsNullOrEmpty(Model.ImageUrl))
+                                    {
+                                        var newsImage = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.ImageUrl : Model.ImageUrl;
+                                        <img src="~/Content/transparent.png" data-src="@newsImage?width=240&height=180&mode=crop" style="max-width:200px;" class="img-responsive lazy" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/transparent.png" data-src="~/images/newstheme.jpg?width=240&height=180&mode=crop" style="max-width:200px;" class="img-responsive lazy" />
+                                    }
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6">
+                                    <div class="row p-t-10">
+                                        <div class="col-md-12">
+                                            @Html.HiddenFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+                                            <input type="file" class="form-control" id="ImageUrlUpdate" name="ImageUrlUpdate" />
+                                            @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-12 text-center m-t-10">
+                                            <strong>OR</strong>
+                                        </div>
+                                        <div class="col-md-12 m-t-20">
+                                            <input type="button" class="btn btn-primary btn-block" value="Choose image from gallery" id="selFromGallery" />
+                                            <input type="text" class="form-control hidden" id="ChooseImage" name="ChooseImage" />
+                                        </div>
+                                        <div class="col-md-12 text-center m-t-10">
+                                            <strong>OR</strong>
+                                        </div>
+                                        <div class="col-md-12 m-t-20">
+                                            <input type="button" class="btn btn-primary btn-block" value="Choose image from old gallery" id="selFromPrevGallery" />
+                                            <input type="text" class="form-control hidden" id="ChooseFromOld" name="ChooseFromOld" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-t-20">
+                                @Html.LabelFor(model => model.ImageCaption, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.ImageCaption, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ImageCaption, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row m-t-20">
+                                @Html.LabelFor(model => model.ImageCopyright, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.ImageCopyright, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ImageCopyright, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="bg-white box-shadow m-t-40">
+                        <div class="label-tag">Other Inputs</div>
+                        <div class="p-20 p-t-40">
+                            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Upfront"))
+                            {
+                                <div class="m-t-10">
+                                    @Html.CheckBoxFor(model => model.AdminCheck, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.AdminCheck, htmlAttributes: new { @class = "control-label", @style = "margin-left:10px" })
+                                    @Html.ValidationMessageFor(model => model.AdminCheck, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="m-t-10">
+                                    @Html.CheckBoxFor(model => model.IsVideo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.IsVideo, htmlAttributes: new { @class = "control-label", @style = "margin-left:10px" })
+                                    @Html.ValidationMessageFor(model => model.IsVideo, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="m-t-10">
+                                    @Html.CheckBoxFor(model => model.IsSponsored, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.IsSponsored, htmlAttributes: new { @class = "control-label", @style = "margin-left:10px" })
+                                    @Html.ValidationMessageFor(model => model.IsSponsored, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="m-t-10">
+                                    @Html.CheckBoxFor(model => model.EditorPick, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.EditorPick, htmlAttributes: new { @class = "control-label", @style = "margin-left:10px" })
+                                    @Html.ValidationMessageFor(model => model.EditorPick, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="m-t-10">
+                                    @Html.CheckBoxFor(model => model.IsStandout, new { htmlAttributes = new { @class = "form-control" } })
+                                    <label class="control-label" for="IsStandout" style="margin-left:10px">Send Notification</label>
+                                    @Html.ValidationMessageFor(model => model.IsStandout, "", new { @class = "text-danger" })
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.HiddenFor(model => model.AdminCheck)
+                                @Html.HiddenFor(model => model.IsSponsored)
+                                @Html.HiddenFor(model => model.EditorPick)
+                                @Html.HiddenFor(model => model.IsVideo)
+                                @Html.HiddenFor(model => model.IsStandout)
+                            }
+                        </div>
+                    </div>
+                    <div class="m-t-20">
+                        <input type="submit" value="Save" class="btn btn-primary" style="padding:8px 30px; font-size:16px;" />
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.IsGlobal)
+            @Html.HiddenFor(model => model.SubType)
+            @Html.HiddenFor(model => model.IsInfocus)
+            @Html.HiddenFor(model => model.IsIndexed)
+            @Html.HiddenFor(model => model.Creator)
+            @Html.HiddenFor(model => model.CreatedOn)
+            @Html.HiddenFor(model => model.ModifiedOn)
+            @Html.HiddenFor(model => model.PublishedOn)
+            @Html.HiddenFor(model => model.ViewCount)
+            @Html.HiddenFor(model => model.FileSize)
+            @Html.HiddenFor(model => model.WorkStage)
+        </div>
+    }
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" style="z-index:700000">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <span class="pull-right fa fa-times cursor-pointer p-10" id="closeBtn"></span>
+                <h3 class="no-margin">Image Gallery</h3>
+            </div>
+            <div class="modal-body m-b-20" style="overflow:auto; height:700px;">
+                <div class="p-b-20">
+                    <div class="row p-b-10" style="border-bottom:1px solid #eee">
+                        <div class="col-lg-12 col-md-12"><h4>Search Filters</h4></div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <input id="inputText" class="form-control" type="text" list="suggestList" />
+                            <datalist id="suggestList">
+                                <option value="Breaking">Breaking</option>
+                            </datalist>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <select class="form-control" id="selSector">
+                                <option value="0">All Sector</option>
+                                @* @{
+                                Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });
+                                } *@
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-t-10 p-b-10">
+                        <div class="col-lg-12 col-md-12"><h4>Upload New Image</h4></div>
+                        <div class="col-sm-6 col-xs-12">
+                            <select class="form-control" id="imgSector">
+                                <option value="0">Select Sector</option>
+                                @*  @{
+                                Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });
+                                } *@
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                            </select>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <input type="file" class="form-control" id="uploadImage" />
+                        </div>
+                    </div>
+                    <div class="row m-t-10 p-b-10">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="text" class="form-control img-text" placeholder="Enter image title" id="imageTitle" />
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="text" class="form-control img-text" placeholder="Enter image copyright" id="imgcopyright" />
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="text" class="form-control img-text" placeholder="Enter image caption" id="imgcaption" />
+                        </div>
+                    </div>
+                    <div class="row m-t-10 p-b-10">
+                        <div class="col-xs-12" id="showTags">
+                            <input type="text" class="form-control img-text input-tags" id="imgtags" />
+                        </div>
+                    </div>
+                    <div class="row m-t-10 p-b-10" style="border-bottom:1px solid #eee">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <button class="btn btn-sm btn-primary" id="saveImageBtn">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="savedImages"></div>
+                <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" style="z-index:700000">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <span class="pull-right fa fa-times cursor-pointer p-10" id="cancelBtn"></span>
+                <h3 class="no-margin">Image Gallery</h3>
+            </div>
+            <div class="modal-body m-b-20" style="overflow:auto; height:700px;">
+                <div class="p-b-20">
+                    <div class="row p-b-10" style="border-bottom:1px solid #eee">
+                        <div class="col-lg-12 col-md-12"><h4>Search Filters</h4></div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <label for="searchIcon"></label>
+                                <input type="text" class="form-control" name="searchIcon" style="border-right:none !important;border-top-left-radius:4px;border-bottom-left-radius:4px;" id="textInput" placeholder="Search...">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" aria-label="Search" id="searchClick" style="border-left:none !important;color:#aeaeae;" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <select class="form-control" id="selSec">
+                                <option value="0">All Sector</option>
+                                @*  @{
+                                Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });
+                                } *@
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="imageList"></div>
+                <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mydialog" tabindex="-1" role="dialog" style="z-index:700000">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="pull-right fa fa-times cursor-pointer p-10" id="canceldialog"></span>
+                <h3 class="no-margin">Search News</h3>
+            </div>
+            <div class="modal-body m-b-20" style="overflow:auto;">
+                <div class="p-b-20">
+                    <div class="row p-b-10" style="border-bottom:1px solid #eee">
+                        <div class="col-xs-12"><h4>Search</h4></div>
+                        <div class="col-xs-12">
+                            <input id="newstxt" class="form-control" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div id="newsList"></div>
+                <div class="text-center searching f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Search...</div>
+            </div>
+            <div class="modal-footer" style="display:none;">
+                <button class="btn btn-primary" id="addNews">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    @* @Scripts.Render("~/bundles/jqueryadmin") *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var _selSector = '@Model.Sector';
+            var _selThemes = '@Model.Themes';
+            var _selCategory = '@Model.Category';
+            var _selLabels = '@Model.NewsLabels';
+            var _selRegion = '@Model.Region';
+            var _country = '@Model.Country';
+            var _type = '@Model.Type';
+            var _skip = 0;
+            var _sector = "";
+            var _imgTitle = "";
+            var _imgUrl = "";
+            var _imgSector = "0";
+            var _imgCaption = "";
+            var _imgCopyright = "";
+            var _mimetype = "";
+            var _filesize = "";
+            var _imgTags = "";
+            var _title = "";
+            var _skipCount = 0;
+            var _fromOldGallery = false;
+
+            $("#title_character").html('Character  Count: ' + $("#Title").val().length);
+            $('#Title').keydown(function () {
+                $("#title_character").html('Character  Count: ' + $(this).val().length);
+            });
+            $('#Type').val(_type);
+            $('.input-tags').tagsInput();
+
+            if ('@(Model.ImageCopyright)' == "") {
+                $('#ImageCopyright').val("Image Credit:");
+            }
+
+            tinymce.init({
+                selector: '#Description',
+                height: 300,
+                menubar: false,
+                relative_urls: false,
+                remove_script_host: false,
+                invalid_elements: 'br',
+                //entity_encoding: 'raw',
+                convert_urls: true,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table contextmenu paste textcolor wordcount colorpicker imagetools'
+                ],
+                setup: function (ed) {
+                    ed.on('init', function () {
+                        this.getDoc().body.style.fontFamily = 'sans-serif';
+                        var theEditor = tinymce.activeEditor;
+                        var wordCount = theEditor.plugins.wordcount.getCount();
+                        $("#wordCount").html("[ Words entered: " + wordCount + " ]");
+                    });
+                    ed.on('keyup', function (evt) {
+                        var theEditor = tinymce.activeEditor;
+                        var wordCount = theEditor.plugins.wordcount.getCount();
+                        $("#wordCount").html("[ Words entered: " + wordCount + " ]");
+                    });
+                    ed.on('dblclick', function (evt) {
+                        var selectedText = tinymce.activeEditor.selection.getContent({ format: 'text' });
+                        var _tags = $('#Tags').val();
+                        var newTag = _tags + ',' + selectedText;
+                        var tagarr = newTag.split(',');
+                        for (var i = 0; i < tagarr.length; i++) {
+                            $('.tagsinput input').val(tagarr[i]);
+                            $('.tagsinput input').blur().removeClass("not_valid");
+                        }
+                    });
+                    ed.addButton('mybutton', {
+                        text: '✓',
+                        title: "Strip html",
+                        icon: false,
+                        onclick: function () {
+                            ed.setContent($(ed.getContent()).text());
+                        }
+                    });
+                    ed.addButton('ecButton', {
+                        text: 'EC',
+                        title: "Embed Code",
+                        icon: false,
+                        onclick: function () {
+                            ed.windowManager.open({
+                                title: 'Embed Code',
+                                width: 300,
+                                height: 90,
+                                body: [
+                                    { type: 'textbox', name: 'code', multiline: true, label: '' }
+                                ],
+                                onsubmit: function (e) {
+                                    ed.execCommand('mceInsertContent', false, e.data.code);
+                                }
+                            });
+                        }
+                    });
+                    ed.addButton('searchButton', {
+                        text: 'Search',
+                        title: "Search News",
+                        icon: false,
+                        onclick: function () {
+                            $('#mydialog').modal('show');
+                            $('#newstxt').keydown(function () {
+                                $('.searching').show();
+                                var _searchText = $('#newstxt').val();
+                                $.ajax({
+                                    url: `/api/GetSearchedNews/${_searchText}`,
+                                    type: 'Get',
+                                    dataType: 'Json',
+                                    success: function (data) {
+                                        $('.searching').hide();
+                                        $('.modal-footer').show();
+                                        $('#newsList').html("");
+                                        $.each(data, function (i, item) {
+                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.NewsId + '" tabindex="' + item.Title + '" value="' + item.Label + '">' + item.Title + '</div>');
+                                        });
+                                    },
+                                    error: function (req, status, error) {
+                                        console.log(req.responseText);
+                                    },
+                                });
+                            });
+                            $(document).on('click', '.searchNews', function () {
+                                $(document).find('.searchNews').removeClass('select-News');
+                                $(this).addClass('select-News');
+                            });
+                            $('#addNews').click(function () {
+                                var _title = $('.select-News').attr('tabindex');
+                                var _newsId = $('.select-News').attr('id');
+                                var _prefix = $('.select-News').attr('value') != "" ? $('.select-News').attr('value') : "agency-wire";
+                                var resultHtml = `<p>Also Read: <a href="/article/${_prefix}/${convertToSlug(_newsId, _title)}">${_title}</a></p>`;
+                                $('#mydialog').modal('hide');
+                                ed.execCommand('mceInsertContent', false, resultHtml);
+                                $('#newsList').html("");
+                                $('#newstxt').val("");
+                                $(document).find('.searchNews').removeClass('select-News');
+                            });
+                        }
+                    });
+                },
+                toolbar: 'undo redo | styleselect | table charmap | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | removeformat pastetext | code | print | mybutton ecButton searchButton',
+                imagetools_cors_hosts: ['www.tinymce.com', 'http://localhost:61834']
+            });
+            $('#canceldialog').click(function () {
+                $('#mydialog').modal('hide');
+            });
+            function convertToSlug(newsId, str) {
+                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return newsId + "-" + str;
+            }
+
+            // For Multiple Select
+            $('#Sector_multi').multiselect();
+            $('#Themes_multi').multiselect();
+            $('#Region_multi').multiselect();
+            $('#Category_multi').multiselect();
+            $('.actionButtons').hide();
+            // For Sector
+            $('#Sector').val(_selSector);
+            var sectorArray = _selSector.split(",");
+            $.each(sectorArray, function (i, item) {
+                var sectorValue = item.split(" ").join("_");
+                var _itemList = [];
+                $("#Sector_multi_" + sectorValue).prop("checked", "checked");
+                $("input[name='Sector_multi[]']:checked").each(function () {
+                    _itemList.push($('label[for="' + this.id + '"]').text());
+                });
+                $("#SectorList").html(_itemList.join(", "));
+            });
+            $('input[name="Sector_multi[]"]').on("change", function () {
+                var valueArray = [];
+                var textArray = [];
+                $("input[name='Sector_multi[]']:checked").each(function () {
+                    valueArray.push($(this).val().toString());
+                    textArray.push($('label[for="' + this.id + '"]').text());
+                });
+                if (valueArray == "") {
+                    $("#Sector").val("0");
+                }
+                else {
+                    $("#Sector").val(valueArray);
+                }
+                $("#SectorList").html(textArray.join(", "));
+            });
+            // For Category
+            $('#Category').val(_selCategory);
+            var cateArray = _selCategory.split(",");
+            $.each(cateArray, function (i, item) {
+                var categValue = item.split(" ").join("_");
+                var _itemList = [];
+                $("#Category_multi_" + categValue).prop("checked", "checked");
+                $("input[name='Category_multi[]']:checked").each(function () {
+                    _itemList.push($('label[for="' + this.id + '"]').text());
+                });
+                $("#CategoryList").html(_itemList.join(", "));
+            });
+            $('input[name="Category_multi[]"]').on("change", function () {
+                var valueArray = [];
+                var textArray = [];
+                $("input[name='Category_multi[]']:checked").each(function () {
+                    valueArray.push($(this).val().toString());
+                    textArray.push($('label[for="' + this.id + '"]').text());
+                });
+                $("#Category").val(valueArray);
+                $("#CategoryList").html(textArray.join(", "));
+            });
+            // For Region
+            $('#Region').val(_selRegion);
+            var regionArray = _selRegion.split(",");
+            $.each(regionArray, function (i, item) {
+                var regionValue = item.split(" ").join("_");
+                var _itemList = [];
+                $("#Region_multi_" + regionValue).prop("checked", "checked");
+                $("input[name='Region_multi[]']:checked").each(function () {
+                    _itemList.push($('label[for="' + this.id + '"]').text());
+                });
+                $("#RegionList").html(_itemList.join(", "));
+            });
+            $('input[name="Region_multi[]"]').on("change", function () {
+                var valueArray = [];
+                $("input[name='Region_multi[]']:checked").each(function () {
+                    valueArray.push($('label[for="' + this.id + '"]').text());
+                });
+                $("#Region").val(valueArray);
+                $("#RegionList").html(valueArray.join(", "));
+                _selRegion = valueArray.toString();
+                getCountries();
+            });
+            getCountries();
+            function getCountries() {
+                $.ajax({
+                    url: '/Home/GetCountry',
+                    type: 'Post',
+                    data: { region: _selRegion },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $('#Country_multi').replaceWith(' <select class="form-control" id="Country_multi" multiple="multiple" style="height:100px"></select>');
+                        $.each(data, function (i, item) {
+                            $('#Country_multi').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                        });
+                        $('#Country_multi').multiselect('refresh');
+                        $('.actionButtons').hide();
+                        // Auto select Country
+                        $('#Country').val(_country);
+                        var _carray = _country.split(",");
+                        $.each(_carray, function (i, item) {
+                            var _value = item.split(" ").join("_");
+                            var _itemList = [];
+                            $("#Country_multi_" + _value).prop("checked", "checked");
+                            $("input[name='Country_multi[]']:checked").each(function () {
+                                _itemList.push($('label[for="' + this.id + '"]').text());
+                            });
+                            $("#CountryList").html(_itemList.join(", "));
+                        });
+                        $('input[name="Country_multi[]"]').on("change", function () {
+                            var valueArray = [];
+                            $("input[name='Country_multi[]']:checked").each(function () {
+                                valueArray.push($('label[for="' + this.id + '"]').text());
+                            });
+                            $("#Country").val(valueArray);
+                            $("#CountryList").html(valueArray.join(", "));
+                        });
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            // Saved Image Gallery
+            $(document).on('click', '.mce-filepicker', function () {
+                if ($("label[for=" + $(this).attr("id") + "]").text() == "Source") {
+                    _skip = 0;
+                    $('#myModal').modal();
+                    $('.loadmore').show();
+                    $.ajax("/Home/GetSavedImages?skip=" + _skip).done(function (data) { $('#savedImages').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                }
+            });
+
+            $('#closeBtn').click(function () {
+                $('#myModal').modal('hide');
+            });
+            $(document).on("click", ".load_MorePics", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 20;
+                $.ajax("/Home/GetSavedImages?skip=" + skip + "&sector=" + _sector).done(function (data) { $('#savedImages').append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+            });
+            $(document).on('click', '.galleryImage', function () {
+                var _imageUrl = $(this).attr("id");
+                $('#myModal').modal('hide');
+                $(document).find('.mce-filepicker .mce-textbox').val(_imageUrl);
+            });
+            // Double Click select text
+            $(".inputText").dblclick(function (e) {
+                var selectedText = window.getSelection();
+                var _tags = $('#Tags').val();
+                var newTag = _tags + ',' + selectedText;
+                var tagarr = newTag.split(',');
+                for (var i = 0; i < tagarr.length; i++) {
+                    $('.tagsinput input').val(tagarr[i]);
+                    $('.tagsinput input').blur().removeClass("not_valid");
+                }
+            });
+            // Upload image into gallery
+            $('#selSector').change(function () {
+                _sector = $('#selSector').val();
+                $.ajax("/Home/GetSavedImages?sector=" + _sector + "&title=" + _title).done(function (data) { $('#savedImages').html("").append(data); $('.lazy').lazy(); });
+            });
+            $('#textBtn').click(function () {
+                _title = $('#inputText').val();
+                $.ajax("/Home/GetSavedImages?sector=" + _sector + "&title=" + _title).done(function (data) { $('#savedImages').html("").append(data); $('.lazy').lazy(); });
+            });
+            $("#inputText").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    _title = $('#inputText').val();
+                    $.ajax("/Home/GetSavedImages?sector=" + _sector + "&title=" + _title).done(function (data) { $('#savedImages').html("").append(data); $('.lazy').lazy(); });
+                }
+            });
+            $('#ImageUrlUpdate').change(function () {
+                // Checking whether FormData is available in browser
+                if (window.FormData !== undefined) {
+                    var _url = URL.createObjectURL(event.target.files[0]);
+                    $('#viewImage').html('<img src=' + _url + ' class="img-responsive" style="max-width:200px" />');
+                }
+            });
+            $('#uploadImage').change(function () {
+                // Checking whether FormData is available in browser
+                if (window.FormData !== undefined) {
+                    var fileUpload = $("#uploadImage").get(0);
+                    var files = fileUpload.files;
+                    // Create FormData object
+                    var fileData = new FormData();
+                    if (files[0].size > parseInt(4048576)) {
+                        //show an alert to the user
+                        alert("File size must be less than 4MB", "danger");
+                    }
+                    else {
+                        // Looping over all files and add it to FormData object
+                        for (var i = 0; i < files.length; i++) {
+                            fileData.append(files[i].name, files[i]);
+                        }
+                        $.ajax({
+                            url: '/UserFiles/UploadFile',
+                            type: "POST",
+                            contentType: false, // Not to set any content header
+                            processData: false, // Not to process data
+                            data: fileData,
+                            success: function (result) {
+                                if (result == "Error") {
+                                    showAlert('Something went wrong!', "danger")
+                                } else {
+                                    var data = JSON.parse(result);
+                                    _imgUrl = data.FileUrl;
+                                    _mimetype = data.MimeType;
+                                    _filesize = data.FileSize;
+                                    $('#imageTitle').val(data.FileName);
+                                    $('#imgcaption').val(data.Caption);
+                                    $('#showTags').html('<input type="text" id="imgtags" class="form-control input-tags" value="' + data.Tags + '" />');
+                                    $('.input-tags').tagsInput();
+                                    $("#Source").val("Source: ");
+                                }
+                            },
+                            error: function (err) {
+                                showAlert('Something went wrong!', "danger")
+                            }
+                        });
+                    }
+                }
+                else {
+                    alert("FormData is not supported.");
+                }
+            });
+            $('#saveImageBtn').click(function () {
+                _imgTitle = $('#imageTitle').val();
+                _imgSector = $('#imgSector option:selected').val();
+                _imgCaption = $('#imgcaption').val();
+                _imgCopyright = $('#imgcopyright').val();
+                _imgTags = $('#imgtags').val();
+                if (_imgUrl == "") {
+                    alert("Please upload image");
+                }
+                else {
+                    saveImage();
+                }
+            });
+            function saveImage() {
+                $.ajax({
+                    url: '/UserFiles/SaveGalleryImage',
+                    type: 'Post',
+                    data: { title: _imgTitle, url: _imgUrl, sector: _imgSector, caption: _imgCaption, copyright: _imgCopyright, tags: _imgTags, mimetype: _mimetype, filesize: _filesize },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $.ajax("/Home/GetSavedImages?sector=" + _sector + "&title=" + _title).done(function (data) { $('#savedImages').html("").append(data); $('.lazy').lazy(); });
+                        $('.img-text').val("");
+                        $("#uploadImage").val("");
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            // Image From Gallery
+            $('#selFromGallery').click(function () {
+                _skipCount = 0;
+                _fromOldGallery = false;
+                $('#newModal').modal();
+                $('.loadmore').show();
+                $('#textInput').val("");
+                $.ajax("/Home/GetSavedImages?skip=" + _skipCount).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+            });
+            $('#selFromPrevGallery').click(function () {
+                _skipCount = 0;
+                _fromOldGallery = true;
+                $('#newModal').modal();
+                $('.loadmore').show();
+                $('#textInput').val("");
+                $.ajax("/Home/GetOldSavedImages?skip=" + _skipCount).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+            });
+            $('#cancelBtn').click(function () {
+                $('#newModal').modal('hide');
+            });
+            $(document).on("click", ".load-more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skipCount = _skipCount + 20;
+                if (_fromOldGallery == true) {
+                    $.ajax("/Home/GetOldSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                }
+                else {
+                    $.ajax("/Home/GetSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                }
+            });
+            $(document).on('click', '.selectedImage', function () {
+                var _iurl = $(this).attr("id");
+                var _ititle = $(this).attr("tabindex");
+                var _imgcopyright = $(this).attr("value");
+                var _imgcaption = $(this).attr("caption");
+                $('#newModal').modal('hide');
+                $('#viewImage').html('<img src=' + _iurl + ' class="img-responsive" style="max-width:200px" />');
+                $('#ChooseImage').val(_iurl);
+                $('#selFromGallery').val(_ititle);
+                $('#ImageCaption').val(_imgcaption);
+                $('#ImageCopyright').val("Image Credit: " + _imgcopyright.replace("Image Credit: ", ""));
+            });
+            $('#selSec').change(function () {
+                _sector = $('#selSec').val();
+                if (_fromOldGallery == true) {
+                    $.ajax("/Home/GetOldSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                }
+                else {
+                    $.ajax("/Home/GetSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                }
+            });
+            $('#searchClick').click(function () {
+                _title = $('#textInput').val();
+                if (_fromOldGallery == true) {
+                    $.ajax("/Home/GetOldSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                }
+                else {
+                    $.ajax("/Home/GetSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                }
+            });
+            $("#textInput").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    _title = $('#textInput').val();
+                    if (_fromOldGallery == true) {
+                        $.ajax("/Home/GetOldSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                    }
+                    else {
+                        $.ajax("/Home/GetSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                    }
+                }
+            });
+            $(document).on('change', '#textInput', function () {
+                _title = $(this).val();
+                if (_fromOldGallery == true) {
+                    $.ajax("/Home/GetOldSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                }
+                else {
+                    $.ajax("/Home/GetSavedImages?skip=" + _skipCount + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#imageList').html("").append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
+                }
+            });
+        });
+    </script>
+}

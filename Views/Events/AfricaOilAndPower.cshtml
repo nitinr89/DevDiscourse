@@ -1,0 +1,305 @@
+﻿@{
+    ViewBag.Title = "Africa Oil & Power (AOP) 2019 | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/mediapartners/africa_oil_and_power_cover.jpg";
+    ViewBag.PageDescription = "Devdiscourse is proud media partner of Diversity In Energy Summit 2019 - Tuesday, October 8, 2019 8:00 AM 5:00 PM, IET Savoy Place 2 Savoy Place London, England, WC2R 0BL United Kingdom";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/africa-oil-and-power";
+    ViewBag.pageKeywords = "Africa Oil & Power, AOP, Africa Oil & Power 2019, AOP 2019, Cape Town";
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+    }
+
+    .gard {
+        background-color: #0c0809;
+        padding-top: 40px;
+        padding-bottom: 60px;
+        background-image: url('/images/mediapartners/africa_oil_and_power_bg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: top center;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .why-abu {
+        color: #36424f;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .btncss {
+        color: #fff;
+        background-color: #f68a27;
+        font-size: 24px;
+        font-weight: 500;
+        border: 0;
+        border-radius: 0;
+        padding: 10px 45px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+
+        .btncss:hover {
+            background-color: #db6900;
+            color: #fff;
+        }
+
+    .news-container {
+        padding-bottom: 30px;
+        color: #0c0809;
+    }
+
+    .mid-container {
+        background-color: #36424f;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .bg-white.p-t-20 {
+        padding: 0;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .f-40 {
+        font-size: 44px;
+        line-height: 1.4;
+        margin-top: 0;
+        letter-spacing: 1px;
+        font-weight:600;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .text-five {
+            font-size: 200px;
+        }
+
+        .text-go-green {
+            font-size: 43px;
+        }
+
+        .remedies {
+            font-size: 18px;
+        }
+
+        .ev-date {
+            font-size: 20px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        .f-40 {
+            font-size: 35px;
+        }
+
+        .media-partner {
+            text-align: center;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .text-five {
+            font-size: 160px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-go-green {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .text-slogan {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .remedies {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+    }
+</style>
+<div class="gard">
+    <div class="container p-b-20">
+        <div class="p-t-20 p-b-20">
+            <div class="p-t-50 text-center fg-white font-sans-serif">
+                <p class="f-18 m-t-30 fg-white text-center font-sans-serif">Devdiscourse is proud media partner of </p>
+                <h1 class="p-t-20 f-40">
+                    Africa Oil & Power (AOP) 2019
+                </h1>
+                <p class="f-18 m-t-20" style="border:2px solid #fff;padding:5px 15px; display:inline-block;">9-11 October 2019 | Cape Town</p>
+                <div class="p-t-20 m-t-50 m-b-30">
+                    <a href="https://www.regonline.com/registration/Checkin.aspx?EventID=2539325" target="_blank" class="btn btn-default btn-lg btncss">REGISTER NOW</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="https://africaoilandpower.com/event/aop-2019/" target="_blank" class="linkBtn" title="Africa Oil And Power (AOP)">HOME</a>
+            </div>
+            <div class="item">
+                <a href="https://africaoilandpower.com/what-is-aop/" target="_blank" class="linkBtn" title="About">ABOUT</a>
+            </div>
+            <div class="item">
+                <a href="https://africaoilandpower.com/about/who-speaks/" target="_blank" class="linkBtn" title="Who Speaks">WHO SPEAKS?</a>
+            </div>
+            <div class="item">
+                <a href="https://africaoilandpower.com/about/sponsors/" target="_blank" class="linkBtn" title="Sponsorship & Exhibition">SPONSORSHIP & EXHIBITION</a>
+            </div>
+            <div class="item">
+                <a href="https://africaoilandpower.com/plan-your-trip/" target="_blank" class="linkBtn" title="Plan you trip">PLAN YOUR TRIP</a>
+            </div>
+            <div class="item">
+                <a href="https://africaoilandpower.com/contact/" target="_blank" class="linkBtn" title="Contact">CONTACT</a>
+            </div>
+        </nav>
+    </div>
+</div>
+@*<div class="news-container" style="display:normal;">
+        <div class="p-t-30 container content-container">
+            <h2 class="font-sans-serif">EVENT NEWS</h2>
+            <div>
+                <div id="moreEventNews">
+                    @{ Html.RenderAction("EventNews", "Events", new { id = "2", skip = 0, take = 5 });}
+                </div>
+                <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+            </div>
+        </div>
+    </div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=1&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

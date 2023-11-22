@@ -551,16 +551,16 @@
             @if (Model.Type == "Blog" && !string.IsNullOrEmpty((Model.Author ?? "").Trim()))
             {
                 <li>
-                    <a href="/Home/AuthorArticles?fl=@Model.Author.Trim()">
+                    <a href="/Home/AuthorArticles?fl=@Model.Author?.Trim()">
                         @if (!string.IsNullOrEmpty(Model.Themes))
                         {
                             var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + Model.Themes : string.Concat(domainUrl, Model.Themes);
-                            <img class="img-circle author-avatar" src="@authorImage?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />
+                            <img class="img-circle author-avatar" src="@authorImage?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author?.Trim()" />
                         }
                         else
                         {
-                            <img class="img-circle author-avatar" src="@domainUrl@Model.ApplicationUsers.ProfilePic?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />
-                        }@Model.Author.Trim()
+                            <img class="img-circle author-avatar" src="@domainUrl@Model.ApplicationUsers.ProfilePic?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author?.Trim()" />
+                        }@Model.Author?.Trim()
                     </a>
                 </li>
                 <li class="list-divider">|</li>
@@ -610,14 +610,14 @@
 
                 @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
                 {
-                    if (Model.UserNewsFiles.Count == 0)
+                    if (Model.UserNewsFiles?.Count == 0)
                     {
                         <figure class="figure">
                             <img src="@newsImage&format=jpeg" class="img-responsive" alt="@Model.Title" />
                             <figcaption class="fig-caption">@Model.ImageCaption @Model.ImageCopyright</figcaption>
                         </figure>
                     }
-                    else
+                    else if(Model.UserNewsFiles != null)
                     {
                         foreach (var item in Model.UserNewsFiles.Take(1))
                         {

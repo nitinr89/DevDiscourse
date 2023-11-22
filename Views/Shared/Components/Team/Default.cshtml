@@ -4,7 +4,10 @@
     {
         <div class="p-b-20 col-xs-6 col-sm-4 col-md-3">
             <div class="team-tile" title="@item.TeamMember">
-                <div class="profile-img bg-gray lazy center-block" data-src="@item.ProfilePic?width=160&height=160&mode=crop&anchor=top">
+                <div class="profile-img bg-gray lazy center-block"
+                     style="background-image:url(@item.ProfilePic);
+                            background-repeat: no-repeat;
+                            background-position: center;">
                     <span class="sr-only">@item.TeamMember</span>
                 </div>
                 <h4 class="member-name title text-center">

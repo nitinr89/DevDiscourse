@@ -1,0 +1,315 @@
+﻿@{
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "6th World Nuclear Industry Congress 2019 - Sept 25-26 | London, UK | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "6th World Nuclear Industry Congress 2019 - Sept 25-26 | London, UK";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/world_nuclear_industry_congress_card.png?width=920";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/6th-world-nuclear-industry-congress";
+    ViewBag.pageKeywords = "6th World Nuclear Industry Congress 2019, Sept 25-26 | London, UK";
+    ViewBag.PageDescription = "Devdiscourse is proud media partner of 6th World Nuclear Industry Congress 2019";
+}
+<style>
+    .renderBody {
+        margin: 0;
+    }
+
+    .bg-container {
+        background-image: url('/images/mediapartners/world_nucler_industry_congress_bg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        padding: 50px 0;
+    }
+
+    .fg-secondary {
+        color: #004a80;
+    }
+
+    .mid-container {
+        background-color: #004a80;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .why-abu {
+        color: #1c1b1c;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .f-20 {
+        font-size: 20px;
+    }
+
+    .bg-op {
+        padding: 40px;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .text-five {
+        font-size: 280px;
+        color: #133100;
+        line-height: 0.85;
+        font-family: sans-serif;
+        font-weight: 600;
+    }
+
+    .text-th {
+        position: absolute;
+        font-size: 37px;
+        top: 35px;
+        font-weight: 500;
+    }
+
+    .text-go-green {
+        font-size: 55px;
+        font-weight: 700;
+    }
+
+    .remedies {
+        font-size: 24px;
+    }
+
+    .ev-date {
+        font-size: 24px;
+        color: #fff;
+        background-color: #133100;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .text-slogan {
+        font-size: 25px;
+        font-style: italic;
+    }
+
+    .news-container {
+        background-color: #fff;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .text-five {
+            font-size: 200px;
+        }
+
+        .text-go-green {
+            font-size: 43px;
+        }
+
+        .remedies {
+            font-size: 18px;
+        }
+
+        .ev-date {
+            font-size: 20px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        .media-partner {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .text-five {
+            font-size: 160px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-go-green {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .text-slogan {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .remedies {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+    }
+</style>
+<div class="bg-container">
+    <img src="~/images/mediapartners/world_nuclear_industry_congress_card.png" class="img-responsive center-block" />
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="http://szwgroup.com/nuclear-industry-congress-uk-2019/" target="_blank" class="linkBtn" title="Home">HOME</a>
+            </div>
+            <div class="item">
+                <a href="http://szwgroup.force.com/registerproject?prjcode=NUUK20199SZW&uname=Vivien&ind=Nuclear" target="_blank" class="linkBtn" title="Register">REGISTER</a>
+            </div>
+            <div class="item">
+                <a href="http://szwgroup.com/nuclear-industry-congress-uk-2019/about.aspx#Agenda" target="_blank" class="linkBtn" title="Agenda">AGENDA</a>
+            </div>
+            <div class="item">
+                <a href="http://szwgroup.com/nuclear-industry-congress-uk-2019/speaker.aspx" target="_blank" class="linkBtn" title="Speakers">SPEAKERS</a>
+            </div>
+            <div class="item">
+                <a href="http://szwgroup.com/nuclear-industry-congress-uk-2019/sponsor.aspx" target="_blank" class="linkBtn" title="Sponsor">SPONSOR</a>
+            </div>
+            <div class="item">
+                <a href="http://szwgroup.com/nuclear-industry-congress-uk-2019/partner.aspx" target="_blank" class="linkBtn" title="Partners">PARTNERS</a>
+            </div>
+            <div class="item">
+                <a href="http://szwgroup.com/nuclear-industry-congress-uk-2019/contact.aspx" target="_blank" class="linkBtn" title="Contact Us">CONTACT US</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="news-container">
+    <div class="p-t-30 container content-container">
+        <h2 class="font-sans-serif fg-secondary"><b>EVENT NEWS</b></h2>
+        <div>
+            <div id="moreEventNews">
+                @* @{ Html.RenderAction("EventNews", "Events", new { id = "29", skip = 0, take = 5 });} *@
+                @await Component.InvokeAsync("EventNews", new { id = "29", skip = 0, take = 5 });
+            </div>
+            <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=29&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

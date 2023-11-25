@@ -1,15 +1,42 @@
 ﻿@model IEnumerable<Devdiscourse.Models.ViewModel.DiscourseViewModel>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var newWidth = 178;
+        var newHeight = 135;
+        var $imageContainer = $('#InfocusLiveDiscourse');
+        var $images = $imageContainer.find('img');
+        $images.each(function (index, element) {
+            var $img = $(element);
+            var image = $img.attr('data-src');
+            $img.attr('src', image);
+            var src = $img.attr('src');
+            $img.attr('src', src.substring(12));
+            $img.width(newWidth);
+            $img.height(newHeight);
+        });
+    });
+</script>
+ 
+
+
+
 <div class="row">
     <div class="col-md-7">
         @foreach (var item in Model.Take(1))
         {
-            //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-            var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/04_06_2020_12_24_02_9070784.jpg?";
+            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
             foreach (var child in item.children.Take(1)) 
             { 
                 if (!string.IsNullOrEmpty(@child.ImageUrl) && child.ImageUrl != "/images/sector/all_sectors.jpg")
                 { 
                     newsImage = child.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + child.ImageUrl : child.ImageUrl; 
+                }
+                else
+                {
+                    newsImage = "https://devdiscourse.blob.core.windows.net/devnews/04_06_2020_12_24_02_9070784.jpg?";
                 }
             }
             <a href="@Url.RouteUrl("LivediscourseArticle",new{id=item.GenerateSlug()})" aria-label="@item.Title"> <div style="padding-bottom:54%;background-size:cover;background-image:url(@newsImage?width=80&height=53&mode=crop&format=jpeg)" class="infocus-bg lazy" data-src="@newsImage?width=360&height=240&mode=crop&format=jpeg"></div></a> <h3 class="trend-title no-margin p-t-5"><a href="@Url.RouteUrl("LivediscourseArticle",new{id=item.GenerateSlug()})" class="text-decoration">@item.Title</a></h3> <hr /> <ul class="f-16 p-l-20">
@@ -19,11 +46,10 @@
                 }
             </ul>
         }
-    </div><div class="col-md-5">
+    </div><div class="col-md-5" id="InfocusLiveDiscourse">
         @foreach (var item in Model.Skip(1))
         {
-            // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-            var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/04_06_2020_12_24_02_9070784.jpg?";
+             var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
             <a href="@Url.RouteUrl("LivediscourseArticle",new{id=item.GenerateSlug()})" class="text-decoration"> <img class="lazy img-responsive full-width" data-src="@newsImage?width=295&height=120&mode=crop" src="~/Content/transparent.png?width=width=37&height=15&mode=crop" alt="@item.Title" /> <h3 class="trend-title no-margin p-b-20 p-t-5">@item.Title</h3> </a>
         }
     </div>

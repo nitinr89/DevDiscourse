@@ -16,7 +16,8 @@ else
 		<div class="media p-b-10">
 			<span class="trend-number">@index</span> @if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
 			{
-				var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+				//var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+				var newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_05_2019_11_51_19_0419949.jpg?width=80&height=80&format=jpg&m";
 				<div class="media-left">
 					<a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">
 						<img class="img-rounded lazy" data-src="@newsImage?width=80&height=80&format=jpg&mode=crop" src="~/Content/transparent.png?width=80&height=80&format=jpg&mode=crop" alt="@item.Title" />

@@ -6,6 +6,8 @@
     var domainUrl = "https://www.devdiscourse.com";
     var index = 1;
 }
+
+
 <div class="row">
     <div class="col-md-6 col-lg-6 p-b-10">
         @foreach (var item in Model.Take(1))
@@ -14,16 +16,14 @@
         new{prefix=item.Label??"agency-wire"
         ,id=item.GenerateSecondSlug()})" class="infocus-item">
                 @{
-                    // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1
-                    // ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
 
                     // var newsImage = item.ImageUrl.Contains("devdiscourse.blob.core.windows.net")
                     // ? Url.ImageSharp(item.ImageUrl, 100, 200, "crop")
                     // : item.ImageUrl;
-
-                     var newsImage = item.ImageUrl;
+                     //var newsImage = item.ImageUrl;
                 }
-                <div class="bg-highlight infocus-bg" style="background-image:url(@newsImage?w=360&h=240&format=jpg&mode=crop);">
+                <div class="bg-highlight infocus-bg" style="background-image:url(@newsImage);">
                     <div class="infocus-bg-overlay">
                         @if (!String.IsNullOrEmpty(item.Country))
                         {
@@ -49,12 +49,12 @@
             <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire",id=item.GenerateSecondSlug()})" class="text-decoration p-b-10">
                 <div class="media p-b-20">
                     @{
-                        // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
+                        //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
                        
                         var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
                     }<div class="media-left">
-                        <img src="@newsImage?w=100&h=200&mode=crop" alt="@item.Title" />
-                     @*    <img src="@newsImage"  imagesharp-height="100" imagesharp-width="200" alt="@item.Title" /> *@
+                        <img src="@newsImage" class="imgOne" alt="@item.Title" />
+                       @*  <img src="@newsImage"imagesharp-height="100" imagesharp-width="200" alt="@item.Title" /> *@
                      
                     </div>
                     <div class="media-body">
@@ -92,11 +92,11 @@
             <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire",id=item.GenerateSecondSlug()})" class="text-decoration p-b-10">
                 <div class="media p-b-20">
                     @{
-                        // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd/" + item.ImageUrl : item.ImageUrl;
+                         var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
                       
-                        var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
+                        //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
                     }<div class="media-left">
-                        <img src="@newsImage?w=100&h=200&mode=crop" alt="@item.Title" />
+                        <img src="@newsImage?w=10&h=20&mode=crop" class="imgOne" alt="@item.Title" />
                     
                           @*  <img src="@Url.ImageSharp(@newsImage, 100, 200, "crop")" alt="@item.Title" /> *@
                     </div>
@@ -128,6 +128,7 @@
         </div>
     }
 </div>
+
 <script type="application/ld+json">
         {"@@context":"https://schema.org", "@@type":"ItemList", "itemListElement":[ @foreach (var item in Model.Take(4))
     {
@@ -140,3 +141,4 @@
         index = index + 1;
     }]}
 </script>
+

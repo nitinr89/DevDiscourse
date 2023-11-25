@@ -14,6 +14,26 @@
 @section lastModified{
     <meta http-equiv="last-modified" content="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz")" />
 }
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var newWidth = 178;
+        var newHeight = 135;
+        var $imageContainer = $('.media-left');
+        var $images = $imageContainer.find('img');
+        $images.each(function (index, element) {
+            var $img = $(element);
+            var image = $img.attr('data-src');
+            $img.attr('src', image);
+            // var src = $img.attr('src');
+            // $img.attr('src', src.substring(12));
+            $img.width(newWidth);
+            $img.height(newHeight);
+        });
+    });
+</script>
+
 <script type="application/ld+json">
     {"@@context":"https://schema.org","@@type":"NewsMediaOrganization","name":"Devdiscourse","alternateName":"Devdiscourse","url":"https://www.devdiscourse.com","logo":"https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png","contactPoint":{"@@type":"ContactPoint","telephone":"+91-130-6444012","contactType":"customer service","areaServed":"IN","availableLanguage":"en"},"sameAs":["https://www.facebook.com/devdiscourse","https://twitter.com/dev_discourse","https://www.instagram.com/devdiscourse","https://www.youtube.com/c/Devdiscourse","https://www.linkedin.com/showcase/dev_discourse","https://in.pinterest.com/devdiscourse"]}
 </script>
@@ -25,6 +45,7 @@
     },"url" : "https://www.devdiscourse.com","publisher": {"@@type": "Organization","name": "Devdiscourse","url" : "https://www.devdiscourse.com","logo" : {"@@type": "ImageObject","contentUrl": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"
     }}}
 </script>
+
 <style>
     .frame-ad {
         height: 90px;

@@ -1,34 +1,23 @@
-﻿using System;
-//using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Microsoft.AspNetCore.Identity;
-using System.IO;
 using X.PagedList;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using Devdiscourse.Models.ViewModel;
-using System.Threading.Tasks;
-//using System.Web.Script.Serialization;
 using System.Text;
 using Microsoft.AspNetCore.SignalR;
-//using Devdiscourse.Hubs;
+using Devdiscourse.Hubs;
 using Microsoft.WindowsAzure.Storage;
-//using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Devdiscourse.Models.Others;
-using System.Data.SqlClient;
-using MetadataExtractor;
 using Newtonsoft.Json;
-//using System.Web.Hosting;
-using System.Configuration;
-using Microsoft.AspNetCore.Authorization;
 using Devdiscourse.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nancy.Json;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace DevDiscourse.Controllers.Main
 {
@@ -47,7 +36,7 @@ namespace DevDiscourse.Controllers.Main
             _webHostEnvironment = webHostEnvironment;
         }
 
-        //[Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
+        [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         // GET: DevNews
         public ActionResult Index(DateTime? bfd, DateTime? afd, int? page = 1, string region = "", string label = "0", string sector = "0", string category = "0", string country = "", string source = "", string text = "", string uid = "", bool editorPick = false)
         {
@@ -65,7 +54,7 @@ namespace DevDiscourse.Controllers.Main
             ViewBag.editorPick = editorPick;
             ViewBag.loginId = userManager.GetUserId(User);
             DateTime fifteenDay = DateTime.Today.AddDays(-5);
-            DateTime threeMonth = DateTime.Today.AddDays(-25);
+            DateTime threeMonth = DateTime.Today.AddDays(-28);
             IQueryable<NewsListView> devNews = (from a in _db.DevNews
                                                 where a.Type == "News"
                                                 select new NewsListView
@@ -234,6 +223,7 @@ namespace DevDiscourse.Controllers.Main
             {
                 devNews = devNews.Where(a => a.Creator == uid);
             }
+            devNews = devNews.Where(a => a.CreatedOn > DateTime.Today.AddDays(-28));
             return View(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
         }
 
@@ -253,7 +243,7 @@ namespace DevDiscourse.Controllers.Main
             return View(devNews);
         }
         // GET: DevNews/Create
-        //[Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
+        [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult Create(string ret = "")
         {
             ViewBag.ret = ret;
@@ -268,182 +258,185 @@ namespace DevDiscourse.Controllers.Main
         // POST: DevNews/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "Id,Title,AlternateHeadline,SubTitle,Description,NewsLabels,Category,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,SourceUrl,EditorPick,ReferenceId,IsSponsored")] DevNews devNews, string ChooseImage, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileSize, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (Request.Files.Count > 0)
-        //        {
-        //            for (var i = 0; i < Request.Files.Count; i++)
-        //            {
-        //                var file = Request.Files[i];
-        //                if (file == null || file.ContentLength <= 0) continue;
-        //                var fileName = RandomName();
-        //                var fileExtension = Path.GetExtension(file.FileName);
-        //                var actName = Path.GetFileNameWithoutExtension(file.FileName);
-        //                string mimeType = MimeMapping.GetMimeMapping(file.FileName);
-        //                string fileSize = file.ContentLength.ToString();
-        //                var fileKey = Request.Files.Keys[i];
-        //                if (fileKey == "ImageUrl")
-        //                {
-        //                    //var path = Path.Combine(Server.MapPath("~/AdminFiles/NewsImages/"), fileName + fileExtension);
-        //                    //file.SaveAs(path);
-        //                    //devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind("Id,Title,AlternateHeadline,SubTitle,Description,NewsLabels,Category,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,SourceUrl,EditorPick,ReferenceId,IsSponsored")] DevNews devNews, IFormFile? ImageUrl, string? ChooseImage, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileSize, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ImageUrl != null && ImageUrl.Length > 0)
+                {
+                    var fileName = RandomName(); // method to generate a random name.
+                    var fileExtension = Path.GetExtension(ImageUrl.FileName);
+                    var actName = Path.GetFileNameWithoutExtension(ImageUrl.FileName);
+                    string mimeType = GetMimeType(ImageUrl.FileName);
+                    string fileSize = ImageUrl.Length.ToString();
 
-        //                    //CloudBlobContainer blobContainer = GetCloudBlobContainer();
-        //                    //CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-        //                    //blob.UploadFromStream(file.InputStream);
-        //                    //devNews.ImageUrl = blob.Uri.ToString();
+                    CloudBlobContainer blobContainer;
+                    CloudBlockBlob blob;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        await ImageUrl.CopyToAsync(ms);
+                        ms.Position = 0;
 
-        //                    devNews.FileMimeType = mimeType;
-        //                    devNews.FileSize = fileSize;
-        //                    // Saved Image in Image Gallery
-        //                    string imgcopyright = "";
-        //                    if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                    {
-        //                        imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                    }
-        //                    ImageGallery fileobj = new ImageGallery()
-        //                    {
-        //                        Title = actName,
-        //                        ImageUrl = devNews.ImageUrl,
-        //                        ImageCopyright = imgcopyright,
-        //                        Caption = "",
-        //                        FileMimeType = mimeType,
-        //                        FileSize = fileSize,
-        //                        Sector = devNews.Sector,
-        //                        Tags = "",
-        //                        UseCount = 1,
-        //                    };
-        //                    _db.ImageGallery.Add(fileobj);
-        //                    _db.SaveChanges();
-        //                }
-        //            }
-        //        }
-        //        if (!String.IsNullOrEmpty(ChooseImage))
-        //        {
-        //            devNews.ImageUrl = ChooseImage;
-        //            // Find Image in Old Image Gallery
-        //            var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
-        //            if (findimage != null)
-        //            {
-        //                // Saved Image in New Image Gallery
-        //                string imgcopyright = "";
-        //                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                {
-        //                    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                }
-        //                ImageGallery fileobj = new ImageGallery()
-        //                {
-        //                    Title = findimage.Title,
-        //                    ImageUrl = findimage.FileUrl,
-        //                    ImageCopyright = imgcopyright,
-        //                    Caption = "",
-        //                    FileMimeType = findimage.FileMimeType,
-        //                    FileSize = findimage.FileSize,
-        //                    Sector = findimage.FileFor,
-        //                    Tags = "",
-        //                    UseCount = 1,
-        //                };
-        //                _db.ImageGallery.Add(fileobj);
-        //                _db.SaveChanges();
-        //                // Remove from old gallery
-        //                _db.UserFiles.Remove(findimage);
-        //                _db.SaveChanges();
-        //            }
-        //        }
-        //        else if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
-        //        {
-        //            devNews.ImageUrl = "/images/sector/all_sectors.jpg";
-        //            devNews.FileMimeType = "image/jpg";
-        //            devNews.FileSize = "88,651";
-        //        }
-        //        devNews.Id = Guid.NewGuid();
-        //        devNews.AdminCheck = false;
-        //        devNews.IsSponsored = false;
-        //        devNews.IsInfocus = false;
-        //        devNews.IsVideo = false;
-        //        devNews.IsStandout = false;
-        //        devNews.IsGlobal = false;
-        //        devNews.IsIndexed = false;
-        //        devNews.Author = "";
-        //        devNews.Type = "News";
-        //        devNews.SubType = "";
-        //        devNews.ViewCount = 0;
-        //        devNews.LikeCount = 0;
-        //        devNews.WorkStage = "";
-        //        devNews.OriginalSource = devNews.Source;
-        //        devNews.Creator = userManager.GetUserId(User);
-        //        _db.DevNews.Add(devNews);
-        //        _db.SaveChanges();
+                        blobContainer = await GetCloudBlobContainer();
+                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                        await blob.UploadFromStreamAsync(ms);
 
-        //        var edition = ML_Edition(devNews.Description);
-        //        List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-        //        if (edition.Any())
-        //        {
-        //            foreach (var item in edition)
-        //            {
-        //                var regObj = new RegionNewsRanking()
-        //                {
-        //                    RegionId = item.RegionId,
-        //                    NewsId = devNews.Id,
-        //                    Ranking = item.Ranking
-        //                };
-        //                newsRankingList.Add(regObj);
-        //            };
-        //            _db.RegionNewsRankings.AddRange(newsRankingList);
-        //            _db.SaveChanges();
-        //        }
+                        var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
 
-        //        if (FileTitle != null)
-        //        {
-        //            List<UserNewsFile> userFileList = new List<UserNewsFile>();
-        //            foreach (var item in FileTitle)
-        //            {
-        //                var index = FileTitle.IndexOf(item);
-        //                var filepath = FilePath[index];
-        //                var mimetype = MimeType[index];
-        //                var fileSize = FileSize[index];
-        //                var caption = FileCaption[index];
-        //                var thumbUrl = FileThumbUrl[index];
-        //                var fDuration = FileDuration[index];
-        //                var newsid = devNews.Id;
-        //                UserNewsFile obj = new UserNewsFile();
-        //                obj.Title = item;
-        //                obj.FilePath = filepath;
-        //                obj.FileMimeType = mimetype;
-        //                obj.FileSize = fileSize;
-        //                obj.FileCaption = caption;
-        //                obj.FileThumbUrl = thumbUrl;
-        //                obj.Duration = fDuration;
-        //                obj.NewsId = newsid;
-        //                userFileList.Add(obj);
-        //            }
-        //            if (userFileList.Count > 0)
-        //            {
-        //                _db.UserNewsFiles.AddRange(userFileList);
-        //                _db.SaveChanges();
-        //            }
-        //        }
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await ImageUrl.CopyToAsync(fileStream);
+                        }
+                        devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                        devNews.FileMimeType = mimeType;
+                        devNews.FileSize = fileSize;
+                        // Saved Image in Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = actName,
+                            ImageUrl = devNews.ImageUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = mimeType,
+                            FileSize = fileSize,
+                            Sector = devNews.Sector,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                    }
+                }
+                if (!String.IsNullOrEmpty(ChooseImage))
+                {
+                    devNews.ImageUrl = ChooseImage;
+                    // Find Image in Old Image Gallery
+                    var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
+                    if (findimage != null)
+                    {
+                        // Saved Image in New Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = findimage.Title,
+                            ImageUrl = findimage.FileUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = findimage.FileMimeType,
+                            FileSize = findimage.FileSize,
+                            Sector = findimage.FileFor,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                        // Remove from old gallery
+                        _db.UserFiles.Remove(findimage);
+                        _db.SaveChanges();
+                    }
+                }
+                else if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
+                {
+                    devNews.ImageUrl = "/images/sector/all_sectors.jpg";
+                    devNews.FileMimeType = "image/jpg";
+                    devNews.FileSize = "88,651";
+                }
+                devNews.Id = Guid.NewGuid();
+                devNews.AdminCheck = false;
+                devNews.IsSponsored = false;
+                devNews.IsInfocus = false;
+                devNews.IsVideo = false;
+                devNews.IsStandout = false;
+                devNews.IsGlobal = false;
+                devNews.IsIndexed = false;
+                devNews.Author = "";
+                devNews.Type = "News";
+                devNews.SubType = "";
+                devNews.ViewCount = 0;
+                devNews.LikeCount = 0;
+                devNews.WorkStage = "";
+                devNews.OriginalSource = devNews.Source;
+                devNews.Creator = userManager.GetUserId(User);
+                _db.DevNews.Add(devNews);
+                _db.SaveChanges();
 
-        //        if (TempData["ret"].ToString() == "auth")
-        //        {
-        //            return RedirectToAction("NewsList");
-        //        }
-        //        else
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-        //    ViewBag.ret = TempData["ret"].ToString();
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
-        //    return View(devNews);
-        //}
+                var edition = ML_Edition(devNews.Description);
+                List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                if (edition.Any())
+                {
+                    foreach (var item in edition)
+                    {
+                        var regObj = new RegionNewsRanking()
+                        {
+                            RegionId = item.RegionId,
+                            NewsId = devNews.Id,
+                            Ranking = item.Ranking
+                        };
+                        newsRankingList.Add(regObj);
+                    };
+                    _db.RegionNewsRankings.AddRange(newsRankingList);
+                    _db.SaveChanges();
+                }
+
+                if (FileTitle != null)
+                {
+                    List<UserNewsFile> userFileList = new List<UserNewsFile>();
+                    foreach (var item in FileTitle)
+                    {
+                        var index = FileTitle.IndexOf(item);
+                        var filepath = FilePath[index];
+                        var mimetype = MimeType[index];
+                        var fileSize = FileSize[index];
+                        var caption = FileCaption[index];
+                        var thumbUrl = FileThumbUrl[index];
+                        var fDuration = FileDuration[index];
+                        var newsid = devNews.Id;
+                        UserNewsFile obj = new UserNewsFile();
+                        obj.Title = item;
+                        obj.FilePath = filepath;
+                        obj.FileMimeType = mimetype;
+                        obj.FileSize = fileSize;
+                        obj.FileCaption = caption;
+                        obj.FileThumbUrl = thumbUrl;
+                        obj.Duration = fDuration;
+                        obj.NewsId = newsid;
+                        userFileList.Add(obj);
+                    }
+                    if (userFileList.Count > 0)
+                    {
+                        _db.UserNewsFiles.AddRange(userFileList);
+                        _db.SaveChanges();
+                    }
+                }
+
+                if (TempData["ret"].ToString() == "auth")
+                {
+                    return RedirectToAction("NewsList");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            ViewBag.ret = TempData["ret"].ToString();
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+            return View(devNews);
+        }
+
         public List<NewsRankingViewModel> ML_Edition(string content)
         {
             List<NewsRankingViewModel> newsRankingList = new List<NewsRankingViewModel>();
@@ -481,214 +474,225 @@ namespace DevDiscourse.Controllers.Main
         // POST: DevNews/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult CreateBlog([Bind(Include = "Id,Title,SubTitle,Description,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,SourceUrl,EditorPick,ReferenceId,IsSponsored")] DevNews devNews, string ChooseImage, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileSize, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (Request.Files.Count > 0)
-        //        {
-        //            for (var i = 0; i < Request.Files.Count; i++)
-        //            {
-        //                var file = Request.Files[i];
-        //                if (file == null || file.ContentLength <= 0) continue;
-        //                var fileName = RandomName();
-        //                var fileExtension = Path.GetExtension(file.FileName);
-        //                var actName = Path.GetFileNameWithoutExtension(file.FileName);
-        //                string mimeType = MimeMapping.GetMimeMapping(file.FileName);
-        //                string fileSize = file.ContentLength.ToString();
-        //                var fileKey = Request.Files.Keys[i];
-        //                if (fileKey == "ImageUrl")
-        //                {
-        //                    //CloudBlobContainer blobContainer = GetCloudBlobContainer();
-        //                    //CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-        //                    //blob.UploadFromStream(file.InputStream);
-        //                    //devNews.ImageUrl = blob.Uri.ToString();
-        //                    devNews.FileMimeType = mimeType;
-        //                    devNews.FileSize = fileSize;
-        //                    // Saved Image in Image Gallery
-        //                    string imgcopyright = "";
-        //                    if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                    {
-        //                        imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                    }
-        //                    ImageGallery fileobj = new ImageGallery()
-        //                    {
-        //                        Title = actName,
-        //                        ImageUrl = devNews.ImageUrl,
-        //                        ImageCopyright = imgcopyright,
-        //                        Caption = "",
-        //                        FileMimeType = mimeType,
-        //                        FileSize = fileSize,
-        //                        Sector = devNews.Sector,
-        //                        Tags = "",
-        //                        UseCount = 1,
-        //                    };
-        //                    _db.ImageGallery.Add(fileobj);
-        //                    _db.SaveChanges();
-        //                }
-        //            }
-        //        }
-        //        if (!String.IsNullOrEmpty(ChooseImage))
-        //        {
-        //            devNews.ImageUrl = ChooseImage;
-        //            // Find Image in Old Image Gallery
-        //            var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
-        //            if (findimage != null)
-        //            {
-        //                // Saved Image in New Image Gallery
-        //                string imgcopyright = "";
-        //                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                {
-        //                    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                }
-        //                ImageGallery fileobj = new ImageGallery()
-        //                {
-        //                    Title = findimage.Title,
-        //                    ImageUrl = findimage.FileUrl,
-        //                    ImageCopyright = imgcopyright,
-        //                    Caption = "",
-        //                    FileMimeType = findimage.FileMimeType,
-        //                    FileSize = findimage.FileSize,
-        //                    Sector = findimage.FileFor,
-        //                    Tags = "",
-        //                    UseCount = 1,
-        //                };
-        //                _db.ImageGallery.Add(fileobj);
-        //                _db.SaveChanges();
-        //                // Remove from old gallery
-        //                _db.UserFiles.Remove(findimage);
-        //                _db.SaveChanges();
-        //            }
-        //        }
-        //        else if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
-        //        {
-        //            var sec = devNews.Sector.Split(',')[0];
-        //            devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
-        //            devNews.FileMimeType = "image/jpg";
-        //            devNews.FileSize = "88,651";
-        //        }
-        //        devNews.Id = Guid.NewGuid();
-        //        devNews.AdminCheck = false;
-        //        devNews.IsSponsored = false;
-        //        devNews.IsInfocus = false;
-        //        devNews.IsVideo = false;
-        //        devNews.IsStandout = false;
-        //        devNews.IsGlobal = false;
-        //        devNews.IsIndexed = false;
-        //        devNews.Type = "Blog";
-        //        devNews.ViewCount = 0;
-        //        devNews.LikeCount = 0;
-        //        devNews.WorkStage = "";
-        //        devNews.OriginalSource = devNews.Source;
-        //        devNews.Creator = userManager.GetUserId(User);
-        //        _db.DevNews.Add(devNews);
-        //        _db.SaveChanges();
-        //        var edition = ML_Edition(devNews.Description);
-        //        List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-        //        if (edition.Any())
-        //        {
-        //            foreach (var item in edition)
-        //            {
-        //                var regObj = new RegionNewsRanking()
-        //                {
-        //                    RegionId = item.RegionId,
-        //                    NewsId = devNews.Id,
-        //                    Ranking = item.Ranking
-        //                };
-        //                newsRankingList.Add(regObj);
-        //            };
-        //            _db.RegionNewsRankings.AddRange(newsRankingList);
-        //            _db.SaveChanges();
-        //        }
-        //        if (FileTitle != null)
-        //        {
-        //            List<UserNewsFile> userFileList = new List<UserNewsFile>();
-        //            foreach (var item in FileTitle)
-        //            {
-        //                var index = FileTitle.IndexOf(item);
-        //                var filepath = FilePath[index];
-        //                var mimetype = MimeType[index];
-        //                var fileSize = FileSize[index];
-        //                var caption = FileCaption[index];
-        //                var thumbUrl = FileThumbUrl[index];
-        //                var fDuration = FileDuration[index];
-        //                var newsid = devNews.Id;
-        //                UserNewsFile obj = new UserNewsFile();
-        //                obj.Title = item;
-        //                obj.FilePath = filepath;
-        //                obj.FileMimeType = mimetype;
-        //                obj.FileSize = fileSize;
-        //                obj.NewsId = newsid;
-        //                obj.FileCaption = caption;
-        //                obj.FileThumbUrl = thumbUrl;
-        //                obj.Duration = fDuration;
-        //                userFileList.Add(obj);
-        //            }
-        //            if (userFileList.Count > 0)
-        //            {
-        //                _db.UserNewsFiles.AddRange(userFileList);
-        //                _db.SaveChanges();
-        //            }
-        //        }
-        //        return RedirectToAction("Blog");
-        //    }
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title");
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
-        //    return View(devNews);
-        //}
-        //// GET: DevNews/Edit/5
-        //[Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
-        //public ActionResult Edit(Guid? id, string ret)
-        //{
-        //    if (id == null)
-        //    {
-        //        return StatusCode(400);
-        //    }
-        //    DevNews devNews = _db.DevNews.Find(id);
-        //    if (devNews == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewBag.ret = ret;
-        //    TempData["AdminCheck"] = devNews.AdminCheck;
-        //    TempData["IsStandout"] = devNews.IsStandout;
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateBlog([Bind("Id,Title,SubTitle,Description,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,SourceUrl,EditorPick,ReferenceId,IsSponsored")] DevNews devNews, IFormFile? ImageUrl, string? ChooseImage, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileSize, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ImageUrl != null && ImageUrl.Length > 0)
+                {
+                    var fileName = RandomName(); // method to generate a random name.
+                    var fileExtension = Path.GetExtension(ImageUrl.FileName);
+                    var actName = Path.GetFileNameWithoutExtension(ImageUrl.FileName);
+                    string mimeType = GetMimeType(ImageUrl.FileName);
+                    string fileSize = ImageUrl.Length.ToString();
 
-        //    string userId = userManager.GetUserId(User);
-        //    var user = _db.Users.Find(userId);
-        //    var userWork = _db.UserWorks.FirstOrDefault(a => a.UserId == userId);
+                    CloudBlobContainer blobContainer;
+                    CloudBlockBlob blob;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        await ImageUrl.CopyToAsync(ms);
+                        ms.Position = 0;
 
-        //    var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-        //    if (userWork != null && userWork.WorkStage != "Image Change")
-        //    {
-        //        devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
-        //        _db.DevNews.Update(devNews);
-        //        _db.SaveChanges();
-        //        context.Clients.All.NewsOpenNotification(devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
-        //    }
-        //    else
-        //    {
-        //        UserWork obj = new UserWork
-        //        {
-        //            WorkStage = "Editing",
-        //            ColorCode = "bg-red",
-        //            UserName = user.FirstName + " " + user.LastName,
-        //            UserId = userId,
-        //            CreatedOn = DateTime.UtcNow
-        //        };
-        //        _db.UserWorks.Add(obj);
-        //        _db.SaveChanges();
-        //        context.Clients.All.NewsOpenNotification(devNews.NewsId, user.FirstName + " " + user.LastName + " - " + "Editing", "bg-red");
-        //    }
-        //    return View(devNews);
-        //}
+                        blobContainer = await GetCloudBlobContainer();
+                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                        await blob.UploadFromStreamAsync(ms);
+
+                        //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
+
+                        //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        //{
+                        //    await ImageUrl.CopyToAsync(fileStream);
+                        //}
+                        //devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                        devNews.ImageUrl = blob.Uri.ToString();
+                        devNews.FileMimeType = mimeType;
+                        devNews.FileSize = fileSize;
+                        // Saved Image in Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = actName,
+                            ImageUrl = devNews.ImageUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = mimeType,
+                            FileSize = fileSize,
+                            Sector = devNews.Sector,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(ChooseImage))
+                {
+                    devNews.ImageUrl = ChooseImage;
+                    // Find Image in Old Image Gallery
+                    var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
+                    if (findimage != null)
+                    {
+                        // Saved Image in New Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = findimage.Title,
+                            ImageUrl = findimage.FileUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = findimage.FileMimeType,
+                            FileSize = findimage.FileSize,
+                            Sector = findimage.FileFor,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                        // Remove from old gallery
+                        _db.UserFiles.Remove(findimage);
+                        _db.SaveChanges();
+                    }
+                }
+                else if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
+                {
+                    var sec = devNews.Sector.Split(',')[0];
+                    devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
+                    devNews.FileMimeType = "image/jpg";
+                    devNews.FileSize = "88,651";
+                }
+                devNews.Id = Guid.NewGuid();
+                devNews.AdminCheck = false;
+                devNews.IsSponsored = false;
+                devNews.IsInfocus = false;
+                devNews.IsVideo = false;
+                devNews.IsStandout = false;
+                devNews.IsGlobal = false;
+                devNews.IsIndexed = false;
+                devNews.Type = "Blog";
+                devNews.ViewCount = 0;
+                devNews.LikeCount = 0;
+                devNews.WorkStage = "";
+                devNews.OriginalSource = devNews.Source;
+                devNews.Creator = userManager.GetUserId(User);
+                _db.DevNews.Add(devNews);
+                _db.SaveChanges();
+                var edition = ML_Edition(devNews.Description);
+                List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                if (edition.Any())
+                {
+                    foreach (var item in edition)
+                    {
+                        var regObj = new RegionNewsRanking()
+                        {
+                            RegionId = item.RegionId,
+                            NewsId = devNews.Id,
+                            Ranking = item.Ranking
+                        };
+                        newsRankingList.Add(regObj);
+                    };
+                    _db.RegionNewsRankings.AddRange(newsRankingList);
+                    _db.SaveChanges();
+                }
+                if (FileTitle != null)
+                {
+                    List<UserNewsFile> userFileList = new List<UserNewsFile>();
+                    foreach (var item in FileTitle)
+                    {
+                        var index = FileTitle.IndexOf(item);
+                        var filepath = FilePath[index];
+                        var mimetype = MimeType[index];
+                        var fileSize = FileSize[index];
+                        var caption = FileCaption[index];
+                        var thumbUrl = FileThumbUrl[index];
+                        var fDuration = FileDuration[index];
+                        var newsid = devNews.Id;
+                        UserNewsFile obj = new UserNewsFile();
+                        obj.Title = item;
+                        obj.FilePath = filepath;
+                        obj.FileMimeType = mimetype;
+                        obj.FileSize = fileSize;
+                        obj.NewsId = newsid;
+                        obj.FileCaption = caption;
+                        obj.FileThumbUrl = thumbUrl;
+                        obj.Duration = fDuration;
+                        userFileList.Add(obj);
+                    }
+                    if (userFileList.Count > 0)
+                    {
+                        _db.UserNewsFiles.AddRange(userFileList);
+                        _db.SaveChanges();
+                    }
+                }
+                return RedirectToAction("Blog");
+            }
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title");
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+            return View(devNews);
+        }
+
+        // GET: DevNews/Edit/5
+        [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
+        public ActionResult Edit(Guid? id, string ret)
+        {
+            if (id == null)
+            {
+                return StatusCode(400);
+            }
+            DevNews? devNews = _db.DevNews.Find(id);
+            if (devNews == null)
+            {
+                return NotFound();
+            }
+            ViewBag.ret = ret;
+            TempData["AdminCheck"] = devNews.AdminCheck;
+            TempData["IsStandout"] = devNews.IsStandout;
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+
+            string userId = userManager.GetUserId(User);
+            var user = _db.Users.Find(userId);
+            var userWork = _db.UserWorks.FirstOrDefault(a => a.UserId == userId);
+
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            if (userWork != null && userWork.WorkStage != "Image Change")
+            {
+                devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
+                _db.DevNews.Update(devNews);
+                _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
+                _db.SaveChanges();
+                //context.Clients.All.NewsOpenNotification(devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+            }
+            else
+            {
+                UserWork obj = new UserWork
+                {
+                    WorkStage = "Editing",
+                    ColorCode = "bg-red",
+                    UserName = user.FirstName + " " + user.LastName,
+                    UserId = userId,
+                    CreatedOn = DateTime.UtcNow
+                };
+                _db.UserWorks.Add(obj);
+                _db.SaveChanges();
+                //context.Clients.All.NewsOpenNotification(devNews.NewsId, user.FirstName + " " + user.LastName + " - " + "Editing", "bg-red");
+            }
+            return View(devNews);
+        }
 
         // POST: DevNews/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -950,39 +954,40 @@ namespace DevDiscourse.Controllers.Main
         //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
         //    return View(devNews);
         //}
-        // GET: DevNews/Edit/5
-        //[Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
-        //public ActionResult EditBlog(Guid? id, string ret)
-        //{
-        //    ViewBag.ret = ret;
-        //    if (id == null)
-        //    {
-        //        return StatusCode(400);
-        //    }
-        //    DevNews devNews = _db.DevNews.Find(id);
-        //    if (devNews == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    TempData["AdminCheck"] = devNews.AdminCheck;
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.SubType);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+        //GET: DevNews/Edit/5
+        [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
+        public ActionResult EditBlog(Guid? id, string ret)
+        {
+            ViewBag.ret = ret;
+            if (id == null)
+            {
+                return StatusCode(400);
+            }
+            DevNews? devNews = _db.DevNews.Find(id);
+            if (devNews == null)
+            {
+                return NotFound();
+            }
+            TempData["AdminCheck"] = devNews.AdminCheck;
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.SubType);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
 
-        //    string userId = userManager.GetUserId(User);
-        //    var userWork = _db.UserWorks.FirstOrDefault(a => a.UserId == userId);
+            string userId = userManager.GetUserId(User);
+            var userWork = _db.UserWorks.FirstOrDefault(a => a.UserId == userId);
 
-        //    var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-        //    if (userWork != null && userWork.WorkStage != "Image Change")
-        //    {
-        //        devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
-        //        _db.Entry(devNews).State = EntityState.Modified;
-        //        _db.SaveChanges();
-        //        context.Clients.All.NewsOpenNotification(devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
-        //    }
-        //    return View(devNews);
-        //}
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            if (userWork != null && userWork.WorkStage != "Image Change")
+            {
+                devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
+                _db.DevNews.Update(devNews);
+                _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
+                _db.SaveChanges();
+                //context.Clients.All.NewsOpenNotification(devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+            }
+            return View(devNews);
+        }
 
         // POST: DevNews/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -1143,28 +1148,28 @@ namespace DevDiscourse.Controllers.Main
         //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
         //    return View(devNews);
         //}
-        //// GET: DevNews/Clone/5
-        //[Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
-        //public ActionResult Clone(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return StatusCode(400);
-        //    }
-        //    DevNews devNews = _db.DevNews.Find(id);
-        //    if (devNews == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    TempData["AdminCheck"] = devNews.AdminCheck;
-        //    TempData["IsStandout"] = devNews.IsStandout;
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+        // GET: DevNews/Clone/5
+        [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
+        public ActionResult Clone(Guid? id)
+        {
+            if (id == null)
+            {
+                return StatusCode(400);
+            }
+            DevNews? devNews = _db.DevNews.Find(id);
+            if (devNews == null)
+            {
+                return NotFound();
+            }
+            TempData["AdminCheck"] = devNews.AdminCheck;
+            TempData["IsStandout"] = devNews.IsStandout;
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
 
-        //    return View(devNews);
-        //}
+            return View(devNews);
+        }
 
         // POST: DevNews/Clone/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -1269,28 +1274,28 @@ namespace DevDiscourse.Controllers.Main
         //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
         //    return View(devNews);
         //}
-        //// GET: DevNews/Clone/5
-        //[Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
-        //public ActionResult BlogClone(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return StatusCode(400);
-        //    }
-        //    DevNews devNews = _db.DevNews.Find(id);
-        //    if (devNews == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    TempData["AdminCheck"] = devNews.AdminCheck;
-        //    TempData["IsStandout"] = devNews.IsStandout;
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+        // GET: DevNews/Clone/5
+        [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
+        public ActionResult BlogClone(Guid? id)
+        {
+            if (id == null)
+            {
+                return StatusCode(400);
+            }
+            DevNews? devNews = _db.DevNews.Find(id);
+            if (devNews == null)
+            {
+                return NotFound();
+            }
+            TempData["AdminCheck"] = devNews.AdminCheck;
+            TempData["IsStandout"] = devNews.IsStandout;
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
 
-        //    return View(devNews);
-        //}
+            return View(devNews);
+        }
 
         // POST: DevNews/BlogClone/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -1395,16 +1400,16 @@ namespace DevDiscourse.Controllers.Main
         //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
         //    return View(devNews);
         //}
-        //// GET: DevNews/BreakingNews
-        //[Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
-        //public ActionResult BreakingNews()
-        //{
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title");
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title");
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
-        //    return View();
-        //}
+        // GET: DevNews/BreakingNews
+        [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
+        public ActionResult BreakingNews()
+        {
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title");
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title");
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
+            return View();
+        }
 
         // POST: DevNews/BreakingNews
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -1540,66 +1545,70 @@ namespace DevDiscourse.Controllers.Main
         //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
         //    return View(devNews);
         //}
-        //public string RandomName()
-        //{
-        //    var time = DateTime.UtcNow.ToLocalTime();
-        //    return time.ToString("dd_MM_yyyy_HH_mm_ss_FFFFFFF");
-        //}
-        //// Send mail to subscriber
-        //public void SaveNews(Guid id, string title, string description)
-        //{
-        //    SubscribeNews obj = new SubscribeNews
-        //    {
-        //        ItemId = id,
-        //        Title = title,
-        //        Description = description
-        //    };
-        //    _db.SubscribeNews.Add(obj);
-        //    _db.SaveChanges();
-        //}
-        //public void CreateLog(string title, string logFor, string creator, string activityToUser, string activityUrl)
-        //{
-        //    ActivityLog logs = new ActivityLog
-        //    {
-        //        LogTitle = title,
-        //        LogDescription = title,
-        //        CreatorId = creator,
-        //        ActivityUserId = activityToUser,
-        //        Activity = logFor,
-        //        ActivityUrl = activityUrl,
-        //        ActivityDate = DateTime.Now,
-        //        IsRead = false
-        //    };
-        //    _db.ActivityLogs.Add(logs);
-        //    _db.SaveChanges();
-        //}
-        //// GET: DevNews/Delete/5
-        //[Authorize(Roles = "SuperAdmin")]
-        //public ActionResult Delete(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return StatusCode(400);
-        //    }
-        //    DevNews devNews = _db.DevNews.Find(id);
-        //    if (devNews == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(devNews);
-        //}
+        public string RandomName()
+        {
+            var time = DateTime.UtcNow.ToLocalTime();
+            return time.ToString("dd_MM_yyyy_HH_mm_ss_FFFFFFF");
+        }
+        // Send mail to subscriber
+        public void SaveNews(Guid id, string title, string description)
+        {
+            SubscribeNews obj = new SubscribeNews
+            {
+                ItemId = id,
+                Title = title,
+                Description = description
+            };
+            _db.SubscribeNews.Add(obj);
+            _db.SaveChanges();
+        }
+        public void CreateLog(string title, string logFor, string creator, string activityToUser, string activityUrl)
+        {
+            ActivityLog logs = new ActivityLog
+            {
+                LogTitle = title,
+                LogDescription = title,
+                CreatorId = creator,
+                ActivityUserId = activityToUser,
+                Activity = logFor,
+                ActivityUrl = activityUrl,
+                ActivityDate = DateTime.Now,
+                IsRead = false
+            };
+            _db.ActivityLogs.Add(logs);
+            _db.SaveChanges();
+        }
+        // GET: DevNews/Delete/5
+        [Authorize(Roles = "SuperAdmin")]
+        public ActionResult Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return StatusCode(400);
+            }
+            DevNews? devNews = _db.DevNews.Find(id);
+            if (devNews == null)
+            {
+                return NotFound();
+            }
+            return View(devNews);
+        }
 
-        // POST: DevNews/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(Guid id)
-        //{
-        //    DevNews devNews = _db.DevNews.Find(id);
-        //    _db.DevNews.Remove(devNews);
-        //    _db.SaveChanges();
-        //    CreateLog(devNews.Title + "" + devNews.Type, devNews.Title + " has been deleted", devNews.Creator, userManager.GetUserId(User), "/Home/NewsDetail/" + devNews.NewsId);
-        //    return RedirectToAction("Index");
-        //}
+        //POST: DevNews/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(Guid id)
+        {
+            DevNews? devNews = _db.DevNews.Find(id);
+            if (devNews == null)
+            {
+                return NotFound();
+            }
+            _db.DevNews.Remove(devNews);
+            _db.SaveChanges();
+            CreateLog(devNews.Title + "" + devNews.Type, devNews.Title + " has been deleted", devNews.Creator, userManager.GetUserId(User), "/Home/NewsDetail/" + devNews.NewsId);
+            return RedirectToAction("Index");
+        }
         public JsonResult UpdateIndexed(Guid id)
         {
             var search = _db.DevNews.Find(id);
@@ -1959,107 +1968,117 @@ namespace DevDiscourse.Controllers.Main
             var search = _db.Labels.ToList();
             return PartialView("_getLabels", search);
         }
-        //private CloudBlobContainer GetCloudBlobContainer()
-        //{
-        //    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("devdiscourse_AzureStorageConnectionString"));
-        //    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-        //    CloudBlobContainer container = blobClient.GetContainerReference("devnews");
-        //    if (container.CreateIfNotExists())
-        //    {
-        //        container.SetPermissions(new BlobContainerPermissions
-        //        {
-        //            PublicAccess = BlobContainerPublicAccessType.Blob
-        //        });
-        //    }
-        //    return container;
-        //}
+        private async Task<CloudBlobContainer> GetCloudBlobContainer()
+        {
+            var config = new ConfigurationBuilder()
+                   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                   .Build();
+            string connectionString = config.GetConnectionString("devdiscourse_AzureStorageConnectionString");
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference("devnews");
+            if (await container.CreateIfNotExistsAsync())
+            {
+                await container.SetPermissionsAsync(new BlobContainerPermissions
+                {
+                    PublicAccess = BlobContainerPublicAccessType.Blob
+                });
+            }
+            return container;
+        }
 
-        //public JsonResult AssignNewsToUser(long id, string user)
-        //{
-        //    AssignNews obj = new AssignNews()
-        //    {
-        //        UserId = user,
-        //        NewsId = id,
-        //        CreatedOn = DateTime.UtcNow,
-        //        Creator = userManager.GetUserId(User),
-        //    };
-        //    _db.AssignNews.Add(obj);
-        //    _db.SaveChanges();
-        //    var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
-        //    search.IsIndexed = true;
-        //    _db.Entry(search).State = EntityState.Modified;
-        //    _db.SaveChanges();
-        //    return Json("Success", JsonRequestBehavior.AllowGet);
-        //}
-        //public string GetShiftUser()
-        //{
-        //    var User = _db.Users.Where(a => a.isActive == true).OrderByDescending(o => o.CreatedOn).Select(s => s.Id).ToArray();
-        //    int counter = 0;
-        //    if (System.IO.File.Exists(Server.MapPath("~/Content/counter.txt")))
-        //    {
-        //        string noOfVisitors = System.IO.File.ReadAllText(Server.MapPath("~/Content/counter.txt"));
-        //        counter = Int32.Parse(noOfVisitors);
-        //    }
-        //    ++counter;
-        //    System.IO.File.WriteAllText(Server.MapPath("~/Content/counter.txt"), counter.ToString());
-        //    if (User.Length > 0)
-        //    {
-        //        var userlength = User.Length;
-        //        var userIndex = counter % userlength;
-        //        counter = userIndex;
-        //        System.IO.File.WriteAllText(Server.MapPath("~/Content/counter.txt"), counter.ToString());
-        //        return User[userIndex].ToString();
-        //    }
-        //    return "No User";
-        //}
-        //public JsonResult AutoAssign(long id)
-        //{
-        //    var user = GetShiftUser();
-        //    if (user == "No User")
-        //    {
-        //        return Json("NoUser", JsonRequestBehavior.AllowGet);
-        //    }
-        //    AssignNews obj = new AssignNews()
-        //    {
-        //        UserId = user,
-        //        NewsId = id,
-        //        CreatedOn = DateTime.UtcNow,
-        //        Creator = userManager.GetUserId(User),
-        //    };
-        //    _db.AssignNews.Add(obj);
-        //    _db.SaveChanges();
-        //    var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
-        //    search.IsIndexed = true;
-        //    _db.Entry(search).State = EntityState.Modified;
-        //    _db.SaveChanges();
-        //    return Json("Success", JsonRequestBehavior.AllowGet);
-        //}
-        //public JsonResult AutoAssignWithAlert(long id)
-        //{
-        //    var user = GetShiftUser();
-        //    if (user == "No User")
-        //    {
-        //        return Json("NoUser", JsonRequestBehavior.AllowGet);
-        //    }
-        //    AssignNews obj = new AssignNews()
-        //    {
-        //        UserId = user,
-        //        NewsId = id,
-        //        CreatedOn = DateTime.UtcNow,
-        //        Creator = userManager.GetUserId(User),
-        //    };
-        //    _db.AssignNews.Add(obj);
-        //    _db.SaveChanges();
-        //    var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
-        //    search.IsIndexed = true;
-        //    _db.Entry(search).State = EntityState.Modified;
-        //    _db.SaveChanges();
+        public JsonResult AssignNewsToUser(long id, string user)
+        {
+            AssignNews obj = new AssignNews()
+            {
+                UserId = user,
+                NewsId = id,
+                CreatedOn = DateTime.UtcNow,
+                Creator = userManager.GetUserId(User),
+            };
+            _db.AssignNews.Add(obj);
+            _db.SaveChanges();
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            search.IsIndexed = true;
+            _db.DevNews.Update(search);
+            _db.SaveChanges();
+            return Json("Success");
+        }
+        public string GetShiftUser()
+        {
+            var users = _db.Users.Where(a => a.isActive == true).OrderByDescending(o => o.CreatedOn).Select(s => s.Id).ToArray();
+            int counter = 0;
+            string contentRoot = AppDomain.CurrentDomain.BaseDirectory; // Get the current application's root directory
+            string filePath = Path.Combine(contentRoot, "Content", "counter.txt"); // Full path to the file
 
-        //    var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-        //    context.Clients.All.NewsAssignNotification("New news assign to you", user);
+            if (System.IO.File.Exists(filePath))
+            {
+                string noOfVisitors = System.IO.File.ReadAllText(filePath);
+                counter = int.TryParse(noOfVisitors, out int parsedCounter) ? parsedCounter : 0;
+            }
 
-        //    return Json("Success", JsonRequestBehavior.AllowGet);
-        //}
+            counter++;
+            System.IO.File.WriteAllText(filePath, counter.ToString());
+
+            if (users.Length > 0)
+            {
+                var userLength = users.Length;
+                var userIndex = counter % userLength;
+                counter = userIndex;
+                System.IO.File.WriteAllText(filePath, counter.ToString());
+                return users[userIndex].ToString();
+            }
+
+            return "No User";
+        }
+        public JsonResult AutoAssign(long id)
+        {
+            var user = GetShiftUser();
+            if (user == "No User")
+            {
+                return Json("NoUser");
+            }
+            AssignNews obj = new AssignNews()
+            {
+                UserId = user,
+                NewsId = id,
+                CreatedOn = DateTime.UtcNow,
+                Creator = userManager.GetUserId(User),
+            };
+            _db.AssignNews.Add(obj);
+            _db.SaveChanges();
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            search.IsIndexed = true;
+            _db.DevNews.Update(search);
+            _db.SaveChanges();
+            return Json("Success");
+        }
+        public JsonResult AutoAssignWithAlert(long id)
+        {
+            var user = GetShiftUser();
+            if (user == "No User")
+            {
+                return Json("NoUser");
+            }
+            AssignNews obj = new AssignNews()
+            {
+                UserId = user,
+                NewsId = id,
+                CreatedOn = DateTime.UtcNow,
+                Creator = userManager.GetUserId(User),
+            };
+            _db.AssignNews.Add(obj);
+            _db.SaveChanges();
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            search.IsIndexed = true;
+            _db.DevNews.Update(search);
+            _db.SaveChanges();
+
+            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            context.Clients.All.NewsAssignNotification("New news assign to you", user);
+
+            return Json("Success");
+        }
         // Author News NewsList
         [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         // GET: DevNews
@@ -2210,21 +2229,40 @@ namespace DevDiscourse.Controllers.Main
         //    //};
         //    //ffMpeg.ConvertMedia(fileUrl, inputExtension, outputfileUrl, Format.mp4, convertSettings);
         //}
+        static string GetMimeType(string fileName)
+        {
+            string mimeType;
 
-        //private CloudBlobContainer GetCloudBlobImageContainer()
-        //{
-        //    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("devdiscourse_AzureStorageConnectionString"));
-        //    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-        //    CloudBlobContainer container = blobClient.GetContainerReference("imagegallery");
-        //    if (container.CreateIfNotExists())
-        //    {
-        //        container.SetPermissions(new BlobContainerPermissions
-        //        {
-        //            PublicAccess = BlobContainerPublicAccessType.Blob
-        //        });
-        //    }
-        //    return container;
-        //}
+            // Using FileExtensionContentTypeProvider to get MIME types
+            FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
+
+            if (!provider.TryGetContentType(fileName, out mimeType))
+            {
+                // If MIME type is not found, set a default value or handle as needed
+                mimeType = "application/octet-stream"; // Default MIME type for unknown files
+            }
+
+            return mimeType;
+        }
+
+        private async Task<CloudBlobContainer> GetCloudBlobImageContainer()
+        {
+            var config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .Build();
+            string connectionString = config.GetConnectionString("devdiscourse_AzureStorageConnectionString");
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference("imagegallery");
+            if (await container.CreateIfNotExistsAsync())
+            {
+                await container.SetPermissionsAsync(new BlobContainerPermissions
+                {
+                    PublicAccess = BlobContainerPublicAccessType.Blob
+                });
+            }
+            return container;
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing && _db != null)

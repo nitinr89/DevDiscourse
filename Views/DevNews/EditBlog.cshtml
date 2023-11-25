@@ -3,7 +3,7 @@
     ViewBag.Title = "EditBlog";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
 }
-<link rel="stylesheet" href="~/Content/admincss" />
+<link rel="stylesheet" href="~/Content/admin.css" />
 @* @Styles.Render("~/Content/admincss") *@
 <div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
     <ol class="breadcrumb no-margin">
@@ -323,7 +323,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (Model.UserNewsFiles.Count > 0)
+                                        @if (Model.UserNewsFiles?.Count > 0)
                                         {
                                             foreach (var item in Model.UserNewsFiles)
                                             {

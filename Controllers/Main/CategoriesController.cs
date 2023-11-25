@@ -94,7 +94,7 @@ namespace DevDiscourse.Controllers.Main
                             Tags = "",
                             UseCount = 1,
                         };
-                        db.ImageGallery.Add(fileobj);
+                        db.ImageGalleries.Add(fileobj);
                         db.SaveChanges();
                     }
                 }
@@ -130,7 +130,7 @@ namespace DevDiscourse.Controllers.Main
                             Tags = "",
                             UseCount = 1,
                         };
-                        db.ImageGallery.Add(fileobj);
+                        db.ImageGalleries.Add(fileobj);
                         db.SaveChanges();
                     }
                 }
@@ -260,7 +260,7 @@ namespace DevDiscourse.Controllers.Main
                             Tags = "",
                             UseCount = 1,
                         };
-                        db.ImageGallery.Add(fileobj);
+                        db.ImageGalleries.Add(fileobj);
                         db.SaveChanges();
                     }
                 }
@@ -296,7 +296,7 @@ namespace DevDiscourse.Controllers.Main
                             Tags = "",
                             UseCount = 1,
                         };
-                        db.ImageGallery.Add(fileobj);
+                        db.ImageGalleries.Add(fileobj);
                         db.SaveChanges();
                     }
                 }

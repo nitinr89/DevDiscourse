@@ -6,7 +6,7 @@
     var newsTag = Model.Tags == null ? "" : Model.Tags.Trim();
     newsTag = Regex.Replace(newsTag, @"\t|\n|\r", "");
 }
-<link rel="stylesheet" href="~/Content/admincss" />
+<link href="~/Content/admin.css" rel="stylesheet" />
 @* @Styles.Render("~/Content/admincss") *@
 <style>
     .badge-success {
@@ -51,7 +51,7 @@
                 <div class="p-20">
                     <div class="row m-t-10">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            @*<button type="button" class="btn btn-primary btn-sm" id="fetchkeyword" style="margin-bottom:5px;">Fetch Keywords</button>*@
+                            <button type="button" class="btn btn-primary btn-sm" id="fetchkeyword" style="margin-bottom:5px;">Fetch Keywords</button>
                             <ul class="list-group" id="msKeyword"></ul>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -64,7 +64,8 @@
                                     {
                                         if (!string.IsNullOrEmpty(@t))
                                         {
-                                            <li class="list-group-item deleteFinalTag" data-title="@t" style="padding:2px 10px;">@t</li>}
+                                            <li class="list-group-item deleteFinalTag" data-title="@t" style="padding:2px 10px;">@t</li>
+                                        }
                                     }
                                 }
                             </ul>
@@ -102,11 +103,11 @@
                         </div>
                     </div>
                     @if (!User.IsInRole("Upfront"))
-                {
+                    {
                         <div class="row m-t-20">
                             @Html.LabelFor(model => model.SubTitle, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.TextAreaFor(model => model.SubTitle, new { @class = "form-control inputText",style="height:120px" } )
+                                @Html.TextAreaFor(model => model.SubTitle, new { @class = "form-control inputText", style = "height:120px" })
                                 @Html.ValidationMessageFor(model => model.SubTitle, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -281,8 +282,8 @@
                                             <input type="text" class="form-control hidden" id="ChooseImage" name="ChooseImage" />
                                         </div>
                                         @*<div class="col-md-12 text-center m-t-10">
-                                                <strong>OR</strong>
-                                            </div>*@
+                                    <strong>OR</strong>
+                                    </div>*@
                                         <div class="col-md-12 m-t-20" style="display:none;">
                                             <input type="button" class="btn btn-primary btn-block" value="Choose image from old gallery" id="selFromPrevGallery" />
                                             <input type="text" class="form-control hidden" id="ChooseFromOld" name="ChooseFromOld" />
@@ -321,39 +322,39 @@
                             </div>
                             <div class="row m-t-20">
                                 <div class="col-md-12">
-                                    <div class="progress" id="fileUploadProgress" style="display:none">                                        
+                                    <div class="progress" id="fileUploadProgress" style="display:none">
                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%"><span>70%</span></div>
                                     </div>
                                 </div>
                             </div>
                             <div id="appendTo"></div>
-                            <div id="appendDelete"></div>                           
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table" id="ListFiles">
-                                            <thead>
-                                                <tr>
-                                                    <th>Title</th>
-                                                    <th>
-                                                        Action
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (Model.UserNewsFiles.Count > 0)
+                            <div id="appendDelete"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table" id="ListFiles">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.UserNewsFiles?.Count > 0)
+                                            {
+                                                foreach (var item in Model.UserNewsFiles)
                                                 {
-                                                    foreach (var item in Model.UserNewsFiles)
-                                                    {
-                                                        <tr>
-                                                            <td>@item.Title</td>
-                                                            <td><button type="button" class="removeMedia btn btn-xs btn-danger" id="@item.Id"><span class="glyphicon glyphicon-remove"></span></button></td>
-                                                        </tr>
-                                                    }
+                                                    <tr>
+                                                        <td>@item.Title</td>
+                                                        <td><button type="button" class="removeMedia btn btn-xs btn-danger" id="@item.Id"><span class="glyphicon glyphicon-remove"></span></button></td>
+                                                    </tr>
                                                 }
-                                                </tbody>
-                                        </table>
-                                    </div>
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -417,20 +418,20 @@
                     </div>
                 }
             </div>
-                    @Html.HiddenFor(model => model.IsGlobal)
-                    @Html.HiddenFor(model => model.IsInfocus)
-                    @Html.HiddenFor(model => model.IsIndexed)
-                    @Html.HiddenFor(model => model.Creator)
-                    @Html.HiddenFor(model => model.CreatedOn)
-                    @Html.HiddenFor(model => model.ModifiedOn)
-                    @Html.HiddenFor(model => model.PublishedOn)
-                    @Html.HiddenFor(model => model.ViewCount)
-                    @Html.HiddenFor(model => model.FileSize)
-                    @Html.HiddenFor(model => model.WorkStage)
-                    @Html.HiddenFor(model => model.ReferenceId)
-                </div>
-                }
-            </div>
+            @Html.HiddenFor(model => model.IsGlobal)
+            @Html.HiddenFor(model => model.IsInfocus)
+            @Html.HiddenFor(model => model.IsIndexed)
+            @Html.HiddenFor(model => model.Creator)
+            @Html.HiddenFor(model => model.CreatedOn)
+            @Html.HiddenFor(model => model.ModifiedOn)
+            @Html.HiddenFor(model => model.PublishedOn)
+            @Html.HiddenFor(model => model.ViewCount)
+            @Html.HiddenFor(model => model.FileSize)
+            @Html.HiddenFor(model => model.WorkStage)
+            @Html.HiddenFor(model => model.ReferenceId)
+        </div>
+    }
+</div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" style="z-index:700000">
     <div class="modal-dialog" role="document">
         <div class="modal-content modal-lg">
@@ -452,6 +453,7 @@
                             <select class="form-control" id="selSector">
                                 <option value="0">All Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
                             </select>
                         </div>
                     </div>
@@ -461,6 +463,7 @@
                             <select class="form-control" id="imgSector">
                                 <option value="0">Select Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
                             </select>
                         </div>
                         <div class="col-sm-6 col-xs-12">
@@ -516,6 +519,7 @@
                             <select class="form-control" id="selSec">
                                 <option value="0">All Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
                             </select>
                         </div>
                     </div>
@@ -579,11 +583,13 @@
     </div>
 </div>
 <video id="vid" style="display:none" controls></video>
-@section scripts{
+@section scripts {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @* @Scripts.Render("~/bundles/jqueryadmin") *@
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
     <script>
         $(document).ready(function () {
             var _newsId = '@(Model.NewsId)';
@@ -608,7 +614,7 @@
             var _skipCount = 0;
             var _fromOldGallery = false;
             var msKeywords = [];
-            var imageFor ="news";
+            var imageFor = "news";
             var tagString = `@(Html.Raw(@newsTag))`;
             var FinalTag = $('<div>').html(tagString.trim()).text().split(',');
             var lastTwoTag = FinalTag.slice().reverse().splice(0, 2).reverse();
@@ -618,9 +624,9 @@
                 $("#headlineDisable").val($(this).val());
                 $("#title_character").html('Character  Count: ' + $(this).val().length);
             });
-            //$('#Title').keydown(function () {
-            //    $("#title_character").html('Character  Count: ' + $(this).val().length);
-            //});
+            $('#Title').keydown(function () {
+                $("#title_character").html('Character  Count: ' + $(this).val().length);
+            });
             var InfocusEditions = '';
             $('#addToInfocus').click(function () {
                 var infocusEditionHtml = `<option>Universal Edition</option>`;
@@ -628,7 +634,7 @@
                     var editionTitle = $('label[for="' + this.id + '"]').text();
                     if (editionTitle != "Global Edition") {
                         infocusEditionHtml += `<option>${editionTitle}</option>`;
-                    }                    
+                    }
                 });
                 $('#multi_select').html('<select class="form-control" multiple="multiple" id="infocusEdition" style="width:100%">' + infocusEditionHtml + '</select>');
                 $('#infocusEdition').multiselect("destroy").multiselect();
@@ -678,8 +684,8 @@
                 }
             });
             $('#Type').val(_type);
-            $('.input-tags').tagsInput();
-            $('.lazy').lazy();
+            // $('.input-tags').tagsInput();
+            // $('.lazy').lazy();
 
             tinymce.init({
                 selector: '#Description',
@@ -710,7 +716,7 @@
                     });
                     ed.addButton('mybutton', {
                         text: '✓',
-                        title:"Strip html",
+                        title: "Strip html",
                         icon: false,
                         onclick: function () {
                             ed.setContent($(ed.getContent()).text());
@@ -924,7 +930,7 @@
                         $("#CountryList").html("");
                         $('#Country_multi').replaceWith(' <select class="form-control" id="Country_multi" multiple="multiple" style="height:100px"></select>');
                         $.each(data, function (i, item) {
-                            $('#Country_multi').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                            $('#Country_multi').append('<option value="' + item.title + '">' + item.title + '</option>');
                         });
                         $('#Country_multi').multiselect('refresh');
                         $('.actionButtons').hide();
@@ -1009,7 +1015,7 @@
                 if (window.FormData !== undefined) {
                     var _url = URL.createObjectURL(event.target.files[0]);
                     $('#viewImage').html('<img src=' + _url + ' class="img-responsive" style="max-width:200px" />');
-                     $('#ChooseImage').val('');
+                    $('#ChooseImage').val('');
                 }
             });
             $('#uploadImage').change(function () {
@@ -1036,7 +1042,7 @@
                             data: fileData,
                             success: function (result) {
                                 if (result == "Error") {
-                                    showAlert('Something went wrong!', "danger")
+                                    // showAlert('Something went wrong!', "danger")
                                 } else {
                                     var data = JSON.parse(result);
                                     _imgUrl = data.FileUrl;
@@ -1045,11 +1051,11 @@
                                     $('#imageTitle').val(data.FileName);
                                     $('#imgcaption').val(data.Caption);
                                     $('#showTags').html('<input type="text" id="imgtags" class="form-control input-tags" value="' + data.Tags + '" />');
-                                    $('.input-tags').tagsInput();
+                                    // $('.input-tags').tagsInput();
                                 }
                             },
                             error: function (err) {
-                                showAlert('Something went wrong!', "danger")
+                                // showAlert('Something went wrong!', "danger")
                             }
                         });
                     }
@@ -1090,7 +1096,7 @@
                             },
                             success: function (result) {
                                 if (result == "Error") {
-                                    showAlert('Something went wrong!', "danger")
+                                    // showAlert('Something went wrong!', "danger")
                                 } else {
                                     var videoDuration = $("#vid")[0].duration;
                                     var data = JSON.parse(result);
@@ -1286,7 +1292,7 @@
                         $("#fetchTrendkeyword").show();
                     },
                     error: function (err) {
-                        showAlert('Something went wrong!', "danger")
+                        // showAlert('Something went wrong!', "danger")
                     }
                 });
             });
@@ -1329,7 +1335,7 @@
             function fetchNewsLocalKeyword() {
                 msKeywords = [];
                 $.ajax({
-                    url: 'https://localhost:86/LocalNewsTags/"' + _newsId+'"',
+                    url: 'https://localhost:86/LocalNewsTags/"' + _newsId + '"',
                     type: "GET",
                     success: function (result) {
                         console.log(result);
@@ -1381,7 +1387,7 @@
                 var deletedItem = $(this).attr('data-title');
                 FinalTag = FinalTag.filter(item => item != deletedItem);
                 $(this).css({ 'text-decoration': 'line-through' });
-                $(this).append('<span class="badge badge-success float-right addFinalTag" data-title="' + deletedItem +'" style="padding-top:2px;cursor:pointer;margin-top:2px;">+</span>');
+                $(this).append('<span class="badge badge-success float-right addFinalTag" data-title="' + deletedItem + '" style="padding-top:2px;cursor:pointer;margin-top:2px;">+</span>');
                 $('#Tags').val(FinalTag.join(','));
                 $(this).removeClass('deleteFinalTag');
             });

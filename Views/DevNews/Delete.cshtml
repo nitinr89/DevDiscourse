@@ -36,6 +36,7 @@
 
             <dd>
                 @* @{ Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "Plane" });} *@
+                @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "Plane" });
             </dd>
 
             <dt>

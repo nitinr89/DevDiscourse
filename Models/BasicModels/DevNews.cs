@@ -70,17 +70,17 @@ namespace Devdiscourse.Models.BasicModels
         public string? Source { get; set; }
         public string? OriginalSource { get; set; }
         public string? SourceUrl { get; set; }
-        public string Author { get; set; }
+        public string? Author { get; set; }
         public int ViewCount { get; set; }
         public int LikeCount { get; set; }
         public string? FileSize { get; set; }
         public string? WorkStage { get; set; }
-        public string Creator { get; set; }
+        public string? Creator { get; set; }
         public DateTime PublishedOn { get; set; }
         //public virtual IList<Tag> NewsTags { get; set; }
         public long ReferenceId { get; set; }
         [ForeignKey("Creator")]
-        public virtual ApplicationUser ApplicationUsers { get; set; }
+        public virtual ApplicationUser? ApplicationUsers { get; set; }
         public virtual ICollection<UserNewsFile>? UserNewsFiles { get; set; }
         public virtual ICollection<NewsTagstb>? NewsTagstb { get; set; }
         public virtual ICollection<RegionNewsRanking>? RegionNewsRankings { get; set; }

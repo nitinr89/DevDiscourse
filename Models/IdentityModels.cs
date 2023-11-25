@@ -33,37 +33,37 @@ namespace Devdiscourse.Models
         public string? Position { get; set; }    // Company Position
         public DateTime CreatedOn { get; set; }
         public string? DigitCode { get; set; }
-        public bool? isActive { get; set; }
-        public bool? isPRManager { get; set; }
+        public bool isActive { get; set; }
+        public bool isPRManager { get; set; }
         // Foreign Key Members
-        public virtual ICollection<DevNews> DevNews { get; set; }
-        public virtual ICollection<Event> Events { get; set; }
-        public virtual ICollection<Article> Articles { get; set; }
-        public virtual ICollection<DevResearch> DevResearches { get; set; }
-        public virtual ICollection<Response> Responses { get; set; }
-        public virtual ICollection<UserInterest> UserInterests { get; set; }
-        public virtual ICollection<ActivityLog> ActivityLogs { get; set; }
-        public virtual ICollection<SDGSamurai> SDGSamurais { get; set; }
-        public virtual ICollection<ResponseReport> ResponseReports { get; set; }
-        public virtual ICollection<UserBehaviour> UserBehaviours { get; set; }
-        public virtual ICollection<UserComment> UserComments { get; set; }
-        public virtual ICollection<Content> NewsContents { get; set; }
-        public virtual ICollection<NewsWireModel> NewsWire { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
-        public virtual ICollection<Earnings> Earnings { get; set; }
-        public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
-        public virtual ICollection<DiscourseComment> DiscourseComment { get; set; }
-        public virtual ICollection<Livediscourse> Livediscourse { get; set; }
-        public virtual ICollection<DiscourseTopic> DiscourseTopic { get; set; }
-        public virtual ICollection<FollowTag> FollowTag { get; set; }
+        public virtual ICollection<DevNews>? DevNews { get; set; }
+        public virtual ICollection<Event>? Events { get; set; }
+        public virtual ICollection<Article>?     Articles { get; set; }
+        public virtual ICollection<DevResearch>? DevResearches { get; set; }
+        public virtual ICollection<Response>? Responses { get; set; }
+        public virtual ICollection<UserInterest>? UserInterests { get; set; }
+        public virtual ICollection<ActivityLog>? ActivityLogs { get; set; }
+        public virtual ICollection<SDGSamurai>? SDGSamurais { get; set; }
+        public virtual ICollection<ResponseReport>? ResponseReports { get; set; }
+        public virtual ICollection<UserBehaviour>? UserBehaviours { get; set; }
+        public virtual ICollection<UserComment>? UserComments { get; set; }
+        public virtual ICollection<Content>? NewsContents { get; set; }
+        public virtual ICollection<NewsWireModel>? NewsWire { get; set; }
+        public virtual ICollection<Payment>? Payments { get; set; }
+        public virtual ICollection<Earnings>? Earnings { get; set; }
+        public virtual ICollection<PaymentHistory>? PaymentHistory { get; set; }
+        public virtual ICollection<DiscourseComment>? DiscourseComment { get; set; }
+        public virtual ICollection<Livediscourse>? Livediscourse { get; set; }
+        public virtual ICollection<DiscourseTopic>? DiscourseTopic { get; set; }
+        public virtual ICollection<FollowTag>? FollowTag { get; set; }
 
-        public virtual ICollection<FollowLivediscourse> FollowLivediscourse { get; set; }
-        public virtual ICollection<React> React { get; set; }
-        public virtual ICollection<UserNewsLabel> UserNewsLabel { get; set; }
-        public virtual ICollection<Infocus> Infocus { get; set; }
-        public virtual ICollection<LiveDiscourseInfocus> LiveDiscourseInfocus { get; set; }
-        public virtual ICollection<VideoNews> VideoNews { get; set; }
-        public virtual ICollection<MediaInternship> MediaInternships { get; set; }
+        public virtual ICollection<FollowLivediscourse>? FollowLivediscourse { get; set; }
+        public virtual ICollection<React>? React { get; set; }
+        public virtual ICollection<UserNewsLabel>? UserNewsLabel { get; set; }
+        public virtual ICollection<Infocus>? Infocus { get; set; }
+        public virtual ICollection<LiveDiscourseInfocus>? LiveDiscourseInfocus { get; set; }
+        public virtual ICollection<VideoNews>? VideoNews { get; set; }
+        public virtual ICollection<MediaInternship>? MediaInternships { get; set; }
         //public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         //{
         //    // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

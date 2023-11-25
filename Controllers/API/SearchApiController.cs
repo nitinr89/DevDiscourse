@@ -463,7 +463,7 @@ namespace Devdiscourse.Controllers.API
         [Route("api/Search/GetSearchImage/{text}")]
         public IQueryable<ImageView> GetSearchImage(string text)
         {
-            var search = db.ImageGallery.Where(a => a.Title.ToUpper() == text.ToUpper() || a.Tags.ToUpper() == text.ToUpper()).OrderByDescending(a => a.CreatedOn).Select(a => new ImageView { Title = a.Title, ImageUrl = a.ImageUrl, ImageCopyright = a.ImageCopyright }).Take(1);
+            var search = db.ImageGalleries.Where(a => a.Title.ToUpper() == text.ToUpper() || a.Tags.ToUpper() == text.ToUpper()).OrderByDescending(a => a.CreatedOn).Select(a => new ImageView { Title = a.Title, ImageUrl = a.ImageUrl, ImageCopyright = a.ImageCopyright }).Take(1);
             return search;
         }
 

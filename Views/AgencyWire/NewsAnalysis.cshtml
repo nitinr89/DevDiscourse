@@ -1,0 +1,267 @@
+﻿@{
+    ViewBag.Title = "Breaking News, Development News, Latest News, Politics News, Sports News | Devdiscourse";
+    ViewBag.alternateHeadline = "News & Analysis - International Development News | Devdiscourse";
+    ViewBag.pageKeywords = "News & Analysis, Breaking news, World news, Today's news headlines, Stock Market News, Sports news, Entertainment News";
+    ViewBag.PageDescription = "Read News and Analysis on Politics, Development, Science, Education, Transport, Health and more";
+    ViewBag.PostUrl = "https://www.devdiscourse.com/news-analysis";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.webEdition = ViewBag.region;
+    var newsImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+<style>
+    .news-media-card {
+        height: 100px;
+    }
+
+    .cover-img {
+        padding-bottom: 54%;
+        position: relative;
+        background-size: cover;
+    }
+
+    .cover-img-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.2)
+    }
+
+    .text-cont {
+        position: absolute;
+        bottom: 0;
+        padding: 20px;
+    }
+
+    .title-main {
+        font-weight: 500;
+        font-size: 36px;
+    }
+
+    .country-main {
+        float: right;
+        font-family: sans-serif;
+        background-color: #000;
+        color: #fff;
+        padding: 8px 24px;
+    }
+
+    .title-sub {
+        font-weight: 500;
+        margin-top: 5px;
+        line-height: 1.38;
+        font-size: 18px
+    }
+
+    .country-sub {
+        display: inline-block;
+        font-family: sans-serif;
+        z-index: 10;
+        background-color: #000;
+        color: #fff;
+        padding: 2px 7px;
+        font-size: 10px;
+        margin-top: 5px
+    }
+
+    .news-media-card .media-title, .media-title {
+        font-size: 18px;
+        line-height: 1.38;
+    }
+
+    .p-l-0 {
+        padding-left: 0;
+    }
+
+    .m-b-40 {
+        margin-bottom: 40px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #4c5766;
+        display: block;
+        line-height: 30px;
+        border: 1px solid #f6f9fc;
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .loadMoreButton:hover {
+            background-color: #ff9c46;
+        }
+
+    .image-card {
+        width: 90px;
+        height: 90px;
+        background-size: cover;
+    }
+
+    .infocus-badge {
+        padding: 3px 5px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: #ff7b00;
+        color: #fff
+    }
+
+    .isDisabled {
+        color: #222;
+        cursor: not-allowed;
+        opacity: 0.8;
+        text-decoration: none;
+        pointer-events: none;
+    }
+
+    .opinion-card {
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ddd;
+        display: block;
+    }
+
+    @@media(max-width:1440px) {
+        .news-media-card {
+            height: 120px;
+        }
+    }
+
+    @@media(max-width:768px) {
+        .news-media-card {
+            height: 105px;
+        }
+
+        .title-sub {
+            font-size: 20px;
+            margin-bottom: 5px;
+            line-height: 1.28;
+        }
+
+        h5 {
+            font-size: 13px;
+        }
+
+        .country-main {
+            padding: 2px 10px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .p-l-0 {
+            padding-left: 15px;
+        }
+
+        .news-media-card {
+            height: auto;
+        }
+
+        .title-main {
+            font-weight: 500;
+            font-size: 24px;
+        }
+
+        .text-cont {
+            padding: 10px;
+        }
+    }</style>
+<div class="container">
+    <div class="advertisement-area" style="min-height:122px"> <div class="advertisement-title">Advertisement</div></div><ul class="breadcrumb breadcrumb_new m-t-10" itemscope itemtype="http://schema.org/BreadcrumbList"> <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsSector", new{sector=""})" target="_top" class="isDisabled" itemprop="item"><span itemprop="name">News & Analysis</span></a> <meta itemprop="position" content="2" /> </li></ul> <div class="row">
+        <div class="col-xs-12 col-md-7 col-lg-8">
+            <h2 class="section-title"> <span>News & Analysis</span></h2> <div id="newsContainer">
+                @{
+                    // Html.RenderAction("GetNewsAnalysisItems", "Agencywire", new { region = ViewBag.region, type = ViewBag.type, page = 1 });
+                    @await Component.InvokeAsync("NewsAnalysisItems", new {region = ViewBag.region, type = ViewBag.type, page = ViewBag.page} )
+                    ;
+                }
+            </div><div id="loading" style="display:none;"> <p class="text-center"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div>
+        </div><div class="col-xs-12 col-md-5 col-lg-4">
+            <div class="clearfix" id="opinion"></div><div class="clearfix m-t-20">
+                <h2 class="section-title"><span>TRENDING</span></h2> @{
+                    // Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.region });
+                    await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.region });
+                }
+            </div><div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div><div id="videoNews" class="m-t-20"></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _region = '@(ViewBag.region)';
+            var _type = '@(ViewBag.type)';
+            var showMoreCounter = 0;
+            var region = _region.replace("Edition=", "");
+            var page = 1,
+                inCallback = false,
+                isReachedScrollEnd = false;
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            GetOpinion();
+            function GetOpinion() { var ApiDataUrl = "/api/Search/GetAnalysis/" + _region + "/0"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.NewsId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var Image = item.Image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.Image : item.Image; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="opinion-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.Title + '</h3></div><div class="media-right"><img src="/content/transparent.png" data-src="' + Image + '?width=60&height=60&mode=crop&format=jpeg" width="60" height="60" alt="' + item.Title + '" class="img-rounded pull-right lazy"/></div></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) }
+            function convertToSlug(newsId, str) {
+                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return newsId + "-" + str;
+            }
+            $.ajax("/Home/GetVideoNews?reg=" + '@(ViewBag.edition)').done(function (data) {
+                $("#videoNews").html(data);
+                $('.lazy').lazy();
+            });
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#newsLink').addClass('active');
+
+            $(window).scroll(function () {
+                if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height()) && showMoreCounter < 5) {
+                    loadNewsData();
+                }
+            });
+            function loadNewsData() {
+                if (page > -1 && !inCallback) {
+                    inCallback = true;
+                    page++;
+                    $("div#loading").show();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Agencywire/GetNewsAnalysisItems',
+                        dataType: "Html",
+                        data: { region: region, type: _type, page: page },
+                        success: function (data, textstatus) {
+                            showMoreCounter = showMoreCounter + 1;
+                            if (data.trim() != '') {
+                                $("#newsContainer").append(data);
+                                $(".lazy").lazy();
+                                if (showMoreCounter == 5) {
+                                    $("#newsContainer").append('<div class="col-xs-12"><div style="padding:10px;border:1px solid #eee;" class="loadMoreButton m-t-10 m-b-10 text-center">SHOW MORE <span class="fa fa-chevron-circle-down" aria-hidden="true"></span></div></div>');
+                                }
+                            }
+                            else {
+                                page = -1;
+                            }
+                            inCallback = false;
+                            $("div#loading").hide();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            //alert(errorThrown);
+                        }
+                    });
+                }
+            }
+            $(document).on("click", ".loadMoreButton", function () {
+                $(this).remove();
+                showMoreCounter = 0;
+                loadNewsData();
+            });
+        });
+    </script>
+}

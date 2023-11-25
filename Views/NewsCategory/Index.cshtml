@@ -248,6 +248,7 @@
     @{
         // Html.RenderAction("GetSectorTopStories", "NewsCategory", new { category = Model.Id });
         // @await Component.InvokeAsync("CategoryTopStories",new { category=Model.Id });
+        @await Component.InvokeAsync("SectorTopStories",new { category=Model.Id });
     }
 </div>
 <div class="container m-t-10">

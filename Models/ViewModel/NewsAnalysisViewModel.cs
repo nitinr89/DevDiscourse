@@ -6,13 +6,13 @@ namespace Devdiscourse.Models.ViewModel
     public class NewsAnalysisViewModel
     {
         public long NewsId { get; set; }
-        public string Title { get; set; }
-        public string ImageUrl { get; set; }
-        public string Country { get; set; }
+        public string? Title { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? Country { get; set; }
         public DateTime CreatedOn { get; set; }
-        public string SubType { get; set; }
-        public string Type { get; set; }
-        public string Label { get; set; }
+        public string? SubType { get; set; }
+        public string? Type { get; set; }
+        public string? Label { get; set; }
         public float Ranking { get; set; }
 
         public string GenerateSecondSlug()

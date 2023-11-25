@@ -29,5 +29,21 @@ namespace Devdiscourse.Controllers
             var search = _db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > oneMonth && a.Type == "News" && (a.Source == "PTI" || a.Source == "Reuters" || a.Source == "IANS")).Select(a => new PublisherView { ModifiedOn = a.CreatedOn, Title = a.Title, Id = a.NewsId, ImageUrl = a.ImageUrl, Country = a.Country, Label = a.NewsLabels }).OrderByDescending(a => a.ModifiedOn);
             return View(search.ToPagedList((page ?? 1), 40));
         }
+
+        public ActionResult NewsAnalysis(string type)
+        {
+            string? cookie = Request.Cookies["Edition"];
+            switch (cookie)
+            {
+                case null:
+                    ViewBag.region = "Global Edition";
+                    break;
+                default:
+                    ViewBag.region = cookie ?? "Global Edition";
+                    break;
+            }
+            ViewBag.type = type;
+            return View();
+        }
     }
 }

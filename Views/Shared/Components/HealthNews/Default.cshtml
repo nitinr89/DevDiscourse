@@ -1,6 +1,8 @@
 ﻿@* @model IEnumerable<DevDiscourse.Models.ViewModel.NewsViewModel> *@
 @model IEnumerable<Devdiscourse.Models.ViewModel.NewsViewModel>
 
+
+
 @functions {
     async Task MediaTempate(Devdiscourse.Models.ViewModel.NewsViewModel item)
     {
@@ -8,12 +10,15 @@
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            //newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            newsImage = "https://devdiscourse.blob.core.windows.net/devnews/27_07_2022_09_49_39_348629.jpg?width=250&height=120&mode=crop&format=jpeg&quotsss";
         }
         <div class="media p-b - 20 m - t - 20">
             <div class="media-left">
-                <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" aria-label="@item.Title"> <img class="lazy width-100" src="/Content/transparent.png?width=178&height=135&mode=crop" data-src="@newsImage?width=178&height=135&mode=crop&format=jpeg" alt="@item.Title" /> </a>
-            </div>
+             <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" aria-label="@item.Title"> <img class="lazy width-100" src="/Content/transparent.png?width=178&height=135&mode=crop" data-src="@newsImage?width=178&height=135&mode=crop&format=jpeg" alt="@item.Title" /> </a>
+
+            
+                </div>
             <div class="media-body">
                 <p class="font-sans-serif text-uppercase text-muted ls-1 hidden-xs">
                     @if (!String.IsNullOrEmpty(item.Country))
@@ -120,7 +125,7 @@ else if (ViewBag.Sector == "4" || ViewBag.Sector == "7" || ViewBag.Sector == "12
 {
     foreach (var item in Model.Take(5))
     {
-        @MediaTempate_two(item)
+        await MediaTempate_two(item)
         ;
     }
 }
@@ -177,14 +182,14 @@ else if (ViewBag.Sector == "9")
     <div class="col-md-6">
         @foreach (var item in Model.Take(3))
         {
-            @MediaTempate(item)
+            await MediaTempate(item)
             ;
         }
     </div>
     <div class="col-md-6">
         @foreach (var item in Model.Skip(3).Take(3))
         {
-            @MediaTempate(item)
+            await MediaTempate(item)
             ;
         }
     </div>
@@ -193,7 +198,7 @@ else
 {
     foreach (var item in Model.Take(5))
     {
-        @MediaTempate(item)
+        await MediaTempate(item)
         ;
     }
 }

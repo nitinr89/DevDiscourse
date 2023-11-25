@@ -60,7 +60,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Earnings> Earnings { get; set; }
     public DbSet<PaymentHistory> PaymentHistory { get; set; }
     public DbSet<ContentLog> ContentLogs { get; set; }
-    public DbSet<ImageGallery> ImageGallery { get; set; }
+    public DbSet<ImageGallery> ImageGalleries { get; set; }
     public DbSet<DiscourseComment> DiscourseComments { get; set; }
     public DbSet<Livediscourse> Livediscourses { get; set; }
     public DbSet<DiscourseTopic> DiscourseTopics { get; set; }

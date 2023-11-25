@@ -384,7 +384,7 @@ namespace DevDiscourse.Controllers.Main
                             Tags = "",
                             UseCount = 1,
                         };
-                        db.ImageGallery.Add(fileobj);
+                        db.ImageGalleries.Add(fileobj);
                         db.SaveChanges();
                         // Remove from old gallery
                         db.UserFiles.Remove(findimage);
@@ -513,7 +513,7 @@ namespace DevDiscourse.Controllers.Main
                             Tags = "",
                             UseCount = 1,
                         };
-                        db.ImageGallery.Add(fileobj);
+                        db.ImageGalleries.Add(fileobj);
                         db.SaveChanges();
                         // Remove from old gallery
                         db.UserFiles.Remove(findimage);

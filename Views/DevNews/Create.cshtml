@@ -3,7 +3,7 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
 }
-<link rel="stylesheet" href="~/Content/admincss" />
+<link href="~/Content/admin.css" rel="stylesheet" />
 @* @Styles.Render("~/Content/admincss") *@
 <style>
     .ui-widget-header {
@@ -195,7 +195,7 @@
                                     <div class="">
                                         <div id="CategoryList" class="showListDiv"></div>
                                         <input type="text" class="form-control hidden" value="0" id="Category" name="Category" />
-                                        @Html.DropDownList("Category", null, htmlAttributes: new { @class = "form-control", id="Category_multi", @multiple = "multiple" })
+                                        @Html.DropDownList("Category", null, htmlAttributes: new { @class = "form-control", id = "Category_multi", @multiple = "multiple" })
                                         @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -366,7 +366,7 @@
                             <select class="form-control" id="selSector">
                                 <option value="0">All Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
-                                @await Component.InvokeAsync("SectorMenu",new { filter = "AdminPage" });
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
                             </select>
                         </div>
                     </div>
@@ -376,7 +376,7 @@
                             <select class="form-control" id="imgSector">
                                 <option value="0">Select Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
-                                @await Component.InvokeAsync("SectorMenu",new { filter = "AdminPage" });
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
                             </select>
                         </div>
                         <div class="col-sm-6 col-xs-12">
@@ -432,7 +432,7 @@
                             <select class="form-control" id="selSec">
                                 <option value="0">All Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
-                                @await Component.InvokeAsync("SectorMenu",new { filter = "AdminPage" });
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
                             </select>
                         </div>
                     </div>
@@ -480,7 +480,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @* @Scripts.Render("~/bundles/jqueryadmin") *@
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
-    @*<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>*@
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
@@ -502,28 +502,28 @@
             var msKeywords = [];
             var FinalTag = [];
             var imageFor = "news";
-            $('.input-tags').tagsInput();
-            var signalConnectionId;
+            // $('.input-tags').tagsInput();
+            // var signalConnectionId;
 
-            var myHub = $.connection.fileHub;
+            // var myHub = $.connection.fileHub;
 
-            // The callback function returning the connection id from the hub
-            myHub.client.signalConnectionId = function (data) {
-                signalConnectionId = data;
-                console.log(data);
-            }
-            myHub.client.SendFileProgress = function (Id, msg) {
-                console.log(Id, msg)
-                //if (signalConnectionId == Id) {
-                //    showalert(msg, "success");
-                //}
-            };
+            // // The callback function returning the connection id from the hub
+            // myHub.client.signalConnectionId = function (data) {
+            //     signalConnectionId = data;
+            //     console.log(data);
+            // }
+            // myHub.client.SendFileProgress = function (Id, msg) {
+            //     console.log(Id, msg)
+            //     //if (signalConnectionId == Id) {
+            //     //    showalert(msg, "success");
+            //     //}
+            // };
 
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                // load event definitions here for sending to the hub
-                console.log("start");
-            });
+            // // Start the connection.
+            // $.connection.hub.start().done(function () {
+            //     // load event definitions here for sending to the hub
+            //     console.log("start");
+            // });
 
             $("#headlineTextarea").on('input', function () {
                 $('#Title').val($(this).val());
@@ -552,7 +552,7 @@
                     success: function (data) {
                         $('#Country_multi').replaceWith('<select class="form-control" id="Country_multi" size="27"></select>');
                         $.each(data, function (i, item) {
-                            $('#Country_multi').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                            $('#Country_multi').append('<option value="' + item.title + '">' + item.title + '</option>');
                         });
                         $('#Country_multi').change(function () {
                             $("#Country").val($(this).val());
@@ -962,7 +962,7 @@
                                     $('#imageTitle').val(data.FileName);
                                     $('#imgcaption').val(data.Caption);
                                     $('#showTags').html('<input type="text" id="imgtags" class="form-control input-tags" value="' + data.Tags + '" />');
-                                    $('.input-tags').tagsInput();
+                                    // $('.input-tags').tagsInput();
                                     $("#Source").val("Source: ");
                                 }
                             },
@@ -998,7 +998,7 @@
                         for (var i = 0; i < files.length; i++) {
                             fileData.append(files[i].name, files[i]);
                         }
-                        fileData.append("signalConnectionId", signalConnectionId);
+                        // fileData.append("signalConnectionId", signalConnectionId);
                         $.ajax({
                             url: '/api/MediaStream/UploadMedia',
                             type: "POST",

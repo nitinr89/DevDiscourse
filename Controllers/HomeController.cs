@@ -1325,29 +1325,45 @@ namespace DevDiscourse.Controllers
         //    _db.CommentLogs.Add(logs);
         //    await _db.SaveChangesAsync();
         //}
-        //public JsonResult GetCountry(string region)
-        //{
-        //    var regList = region.Split(',').ToList();
-        //    if (regList.Contains("Global Edition"))
-        //    {
-        //        var search = from m in _db.Countries
-        //                     select new
-        //                     {
-        //                         m.Title,
-        //                     };
-        //        return Json(search.OrderBy(a => a.Title).ToList(), JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
-        //        var search = from m in _db.Countries
-        //                     join s in regList on m.Regions.Title equals s
-        //                     select new
-        //                     {
-        //                         m.Title,
-        //                     };
-        //        return Json(search.OrderBy(a => a.Title).ToList(), JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public JsonResult GetCountry(string region)
+        {
+            var regList = region?.Split(',').ToList();
+            if (regList == null || regList.Contains("Global Edition"))
+            {
+                var search = from m in _db.Countries
+                             select new
+                             {
+                                 m.Title,
+                             };
+                return Json(search.OrderBy(a => a.Title).ToList());
+            }
+            else
+            {
+                //var search = from m in _db.Countries
+                //             join s in regList on m.Regions.Title equals s
+                //             select new
+                //             {
+                //                 m.Title,
+                //             };
+                //return Json(search.OrderBy(a => a.Title).ToList());
+                var query = from m in _db.Countries
+                            select new
+                            {
+                                m.Title,
+                                RegionTitle = m.Regions.Title // Include the region title for comparison
+                            };
+
+                var fetchedData = query.ToList(); // Fetch the data from the database
+
+                var search = fetchedData
+                    .Where(m => regList.Contains(m.RegionTitle)) // Filter based on regList
+                    .Select(m => new { m.Title })
+                    .OrderBy(a => a.Title)
+                    .ToList();
+
+                return Json(search);
+            }
+        }
         //public JsonResult UpdateProfilePic()
         //{
         //    if (Request.Files.Count > 0)

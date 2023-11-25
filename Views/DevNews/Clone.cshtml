@@ -6,7 +6,7 @@
     var newsTag = Model.Tags == null ? "" : Model.Tags.Trim();
     newsTag = Regex.Replace(newsTag, @"\t|\n|\r", "");
 }
-<link rel="stylesheet" href="~/Content/admincss" />
+<link href="~/Content/admin.css" rel="stylesheet" />
 @* @Styles.Render("~/Content/admincss") *@
 <style>
     .badge-success {
@@ -42,7 +42,7 @@
                 <div class="p-20">
                     <div class="row m-t-10">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            @*<button type="button" class="btn btn-primary btn-sm" id="fetchkeyword" style="margin-bottom:5px;">Fetch Keywords</button>*@
+                            <button type="button" class="btn btn-primary btn-sm" id="fetchkeyword" style="margin-bottom:5px;">Fetch Keywords</button>
                             <ul class="list-group" id="msKeyword"></ul>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -366,6 +366,7 @@
                             <select class="form-control" id="selSector">
                                 <option value="0">All Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
                             </select>
                         </div>
                     </div>
@@ -375,6 +376,7 @@
                             <select class="form-control" id="imgSector">
                                 <option value="0">Select Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
                             </select>
                         </div>
                         <div class="col-sm-6 col-xs-12">
@@ -430,6 +432,7 @@
                             <select class="form-control" id="selSec">
                                 <option value="0">All Sector</option>
                                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
                             </select>
                         </div>
                     </div>
@@ -465,7 +468,7 @@
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @* @Scripts.Render("~/bundles/jqueryadmin") *@
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
@@ -503,9 +506,9 @@
                 $("#headlineDisable").val($(this).val());
                 $("#title_character").html('Character  Count: ' + $(this).val().length);
             });
-            //$('#Title').keydown(function () {
-            //    $("#title_character").html('Character  Count: ' + $(this).val().length);
-            //});
+            $('#Title').keydown(function () {
+                $("#title_character").html('Character  Count: ' + $(this).val().length);
+            });
             $('#Type').val(_type);
             $('.input-tags').tagsInput();
             $('.lazy').lazy();
@@ -547,7 +550,7 @@
                     });
                     ed.addButton('mybutton', {
                         text: '✓',
-                        title:"Strip html",
+                        title: "Strip html",
                         icon: false,
                         onclick: function () {
                             ed.setContent($(ed.getContent()).text());
@@ -1030,7 +1033,7 @@
             function fetchNewsLocalKeyword() {
                 msKeywords = [];
                 $.ajax({
-                    url: 'https://localhost:86/LocalNewsTags/"' + _newsId+'"',
+                    url: 'https://localhost:86/LocalNewsTags/"' + _newsId + '"',
                     type: "GET",
                     success: function (result) {
                         console.log(result);
@@ -1082,7 +1085,7 @@
                 var deletedItem = $(this).attr('data-title');
                 FinalTag = FinalTag.filter(item => item != deletedItem);
                 $(this).css({ 'text-decoration': 'line-through' });
-                $(this).append('<span class="badge badge-success float-right addFinalTag" data-title="' + deletedItem +'" style="padding-top:2px;cursor:pointer;margin-top:2px;">+</span>');
+                $(this).append('<span class="badge badge-success float-right addFinalTag" data-title="' + deletedItem + '" style="padding-top:2px;cursor:pointer;margin-top:2px;">+</span>');
                 $('#Tags').val(FinalTag.join(','));
                 $(this).removeClass('deleteFinalTag');
             });

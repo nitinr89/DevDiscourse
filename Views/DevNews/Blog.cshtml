@@ -234,7 +234,8 @@
                     <td>
                         @if (item.ImageUrl != null)
                         {
-                            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                            @* var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; *@
+                            var newsImage = item.ImageUrl;
                             <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
                         }
                     </td>
@@ -317,7 +318,7 @@
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script src="~/Scripts/jquery.multiselect.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>

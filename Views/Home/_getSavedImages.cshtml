@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.SavedImagesView>
+<style>
+    .gallery-card {
+        width: 200px;
+        height: 150px;
+        background-size: cover;
+    }
+
+    .header-title {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 6px 6px 0 rgba(0, 0, 0, 0.1);
+        padding: 5px;
+        font-size: large;
+        width: 200px;
+        height: 50px;
+        word-break: break-word;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #4c5766;
+        display: block;
+        line-height: 30px;
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+        .loadMoreButton:hover {
+            background-color: #ff9c46;
+        }
+</style>
+@if (Model.Count() < 0)
+{
+    <h4 class="text-muted p-20">No Images to show.</h4>
+}
+<div class="row no-margin p-t-10">
+    @foreach (var item in Model)
+    {
+        @* var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; *@
+        var newsImage = item.ImageUrl;
+        <div class="col-md-3 col-xs-12 col-sm-12 col-lg-3 no-padding m-b-20 galleryImage selectedImage" id="@item.ImageUrl" tabindex="@item.Title" value="@item.ImageCopyright" caption="@item.Caption">
+            <div class="gallery-card bg-gray lazy" data-src="@newsImage?width=190&height=140&mode=crop" style="background-image:url(/AdminFiles/Logo/ic_notFound.png)"></div>
+            <div class="header-title one-line-text" title="@item.Title">@item.Title</div>
+        </div>
+    }
+</div>
+@if (Model.Count() == 20)
+{
+    <div class="col-md-12 col-xs-12">
+        <div class="loadMoreButton text-center load_MorePics load-more">
+            SHOW MORE <span class="fa fa-chevron-circle-down"></span>
+        </div>
+    </div>
+}
+
+

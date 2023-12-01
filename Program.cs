@@ -5,6 +5,13 @@ using Devdiscourse.Models;
 //using ImageResizer.AspNetCore.Helpers;
 //using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.Extensions.FileProviders;
+using Devdiscourse.Utility;
+using Devdiscourse.Helper;
+using System.Web.Mvc;
+using System.Web.Http;
+using Devdiscourse.Models.BasicModels;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNetCore.Rewrite;
 //using SixLabors.ImageSharp.Web.DependencyInjection;
 //using SixLabors.ImageSharp.Web.Providers.Azure;
 
@@ -21,8 +28,18 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();//To detect mobile device request from browser
-//builder.Services.AddImageSharp();
-//builder.Services.AddImageSharp();
+                                          //builder.Services.AddImageSharp();
+                                          //builder.Services.AddImageSharp();
+                                          // Enable CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder
+            .WithOrigins("http://example.com") // Add the allowed origin(s)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
 
 IFileProvider physicalProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
 builder.Services.AddSingleton<IFileProvider>(physicalProvider);
@@ -38,6 +55,7 @@ builder.Configuration.SetBasePath(env.ContentRootPath)
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseDeveloperExceptionPage();
 }
 else
 {
@@ -51,26 +69,37 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.MapControllerRoute(
+              name: "DefaulApi",
+              pattern: "api/controller/{id?}");
+
 app.UseAuthorization();
+
 //app.UseStaticFiles();
 //app.UseImageResizer();
 //app.UseImageSharp();
+
+// Enable CORS
+app.UseCors("AllowSpecificOrigin");
+
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllers().RequireCors("AllowSpecificOrigin"); // Add this line to enable CORS for controllers
+//});
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllerRoute(
-//                    name: "AgroForestoryNews",
-//                    pattern: "AgroForestoryNews",
-//                    defaults: new { controller = "AgroForestoryNewsViewComponent", action = "InvokeAsync" });
 
 
-//    endpoints.MapControllerRoute(
-//        name: "default",
-//        pattern: "{controller=Home}/{action=index}/{id?}");
-//});
+app.MapControllerRoute(
+              name: "NewsSector",
+              pattern: "news/{sector}",
+              defaults: new { controller = "Search", action = "Index", sector = UrlParameter.Optional }
+            );
+
 
 app.MapRazorPages();
 

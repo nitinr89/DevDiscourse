@@ -82,12 +82,6 @@ app.UseAuthorization();
 // Enable CORS
 app.UseCors("AllowSpecificOrigin");
 
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllers().RequireCors("AllowSpecificOrigin"); // Add this line to enable CORS for controllers
-//});
-
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

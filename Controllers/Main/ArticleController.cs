@@ -85,7 +85,7 @@ namespace Devdiscourse.Controllers.Main
         //[OutputCache(Duration = 60)]
         //[HttpGet("ArticleDetailsWithPrefix/Index/{id:long}")]
         //[HttpGet]2685046,2685043,768045,2477150,1690196,386335,2175293,1180893,386335,2369506,2685010
-        [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "*" })]
+        //[ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "*" })]
         public async Task<ActionResult> Index([FromQuery] string prefix, long? id, string reg = "")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;

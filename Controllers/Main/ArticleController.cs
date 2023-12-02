@@ -4,6 +4,8 @@ using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
 using DevDiscourse.Controllers;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Html2Amp;
 using Html2Amp.Sanitization;
 using Html2Amp.Sanitization.Implementation;
@@ -17,6 +19,8 @@ using ServiceStack.Host;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
+using System.Web.Http;
+using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 
 namespace Devdiscourse.Controllers.Main
 {
@@ -26,7 +30,7 @@ namespace Devdiscourse.Controllers.Main
         private readonly UserManager<ApplicationUser> userManager;
         public ArticleController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
-         
+
             this.db = db;
             this.userManager = userManager;
         }
@@ -79,9 +83,10 @@ namespace Devdiscourse.Controllers.Main
             return View();
         }
         //[OutputCache(Duration = 60)]
-        //[HttpGet("Article/Index/{id:int}")]
-        [HttpGet]
-        public async Task<ActionResult> Index(string prefix, long? id, string reg = "")
+        //[HttpGet("ArticleDetailsWithPrefix/Index/{id:long}")]
+        //[HttpGet]2685046,2685043,768045,2477150,1690196,386335,2175293,1180893,386335,2369506,2685010
+        [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "*" })]
+        public async Task<ActionResult> Index([FromQuery] string prefix, long? id, string reg = "")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string scheme = "";//Request.Url.AbsoluteUri; do later
@@ -90,7 +95,8 @@ namespace Devdiscourse.Controllers.Main
                 throw new HttpException(404, "Error 404");
             }
             //NewsCache search = null;
-            var search = await db.DevNews.FirstOrDefaultAsync(a => a.NewsId == id && a.AdminCheck == true);
+            //var search = await db.DevNews.FirstOrDefaultAsync(a => a.NewsId == id && a.AdminCheck == true);
+            var search = await db.DevNews.Where(dn => dn.NewsId == id && dn.AdminCheck).FirstOrDefaultAsync();
             if (search == null)
             {
                 throw new HttpException(404, "Error 404");
@@ -160,6 +166,7 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.MACAddress = MACAddress;
             return View(search);
         }
+
         public GeoLocationViewModel GetGeoLocation()
         {
             GeoLocationViewModel location = new GeoLocationViewModel();
@@ -185,6 +192,7 @@ namespace Devdiscourse.Controllers.Main
 
             return location;
         }
+
         public async Task<string> UpdateViewCount(long id, string title, string user, GeoLocationViewModel location, string MACAddress)
         {
             // Get Mac Address
@@ -260,7 +268,7 @@ namespace Devdiscourse.Controllers.Main
             {
                 throw new HttpException(404, "Error 404");
             }
-            string ? cookie = Request.Cookies["Edition"];
+            string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
             {
                 ViewBag.region = "Global Edition";

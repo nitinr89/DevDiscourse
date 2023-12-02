@@ -16,7 +16,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             await Task.Yield();
 
-            //    var lastThreeHour = DateTime.UtcNow.AddDays(-23);
+            //var lastThreeHour = DateTime.UtcNow.AddDays(-23);
             //var infocus = _db.RegionNewsRankings
             //  .Where(a => a.DevNews.AdminCheck == true
             //              && a.Region.Title == reg
@@ -40,6 +40,8 @@ namespace DevDiscourse.Controllers.ViewComponents
             //  }).OrderByDescending(a => a.CreatedOn)
             //      .Take(65)
             //      .ToList();
+
+
             var infocus = (from dn in _db.DevNews
                            select new LatestNewsView
                            {

@@ -49,7 +49,8 @@
         </div>
     }
     }
-@if (ViewBag.Sector == "2")
+@*@if (ViewBag.Sector == "2")*@
+@if (ViewBag.Sector == 2)
 {
     <div class="row">
         <div class="col-md-7">
@@ -107,7 +108,8 @@
         </div>
     </div>
 }
-@if (ViewBag.Sector == "1" || ViewBag.Sector == "18" || ViewBag.Sector == "19")
+@*@if (ViewBag.Sector == "1" || ViewBag.Sector == "18" || ViewBag.Sector == "19")*@
+@if (ViewBag.Sector == 1 || ViewBag.Sector == 18 || ViewBag.Sector == 19)
 {
     <div class="row">
         <div class="col-md-7">
@@ -157,15 +159,18 @@
         </div>
     </div>
 }
-else if (ViewBag.Sector == "4" || ViewBag.Sector == "7" || ViewBag.Sector == "12")
+@*else if (ViewBag.Sector == "4" || ViewBag.Sector == "7" || ViewBag.Sector == "12")*@
+else if (ViewBag.Sector == 4 || ViewBag.Sector == 7 || ViewBag.Sector == 12)
 {
     foreach (var item in Model.Take(5))
     {
-        @MediaTempate_two(item)
+       // @MediaTempate_two(item)
+        await MediaTempate_two(item)
         ;
     }
 }
-else if (ViewBag.Sector == "11")
+@*else if (ViewBag.Sector == "11")*@
+else if (ViewBag.Sector == 11)
 {
     foreach (var item in Model.Take(5))
     {
@@ -189,7 +194,8 @@ else if (ViewBag.Sector == "11")
         </a>
     }
 }
-else if (ViewBag.Sector == "15")
+@*else if (ViewBag.Sector == "15")*@
+else if (ViewBag.Sector == 15)
 {
     foreach (var item in Model.Take(6))
     {
@@ -213,28 +219,33 @@ else if (ViewBag.Sector == "15")
         </div>
     }
 }
-else if (ViewBag.Sector == "9")
+@*else if (ViewBag.Sector == "9")*@
+else if (ViewBag.Sector == 9)
 {
     <div class="col-md-6">
         @foreach (var item in Model.Take(3))
         {
-            @MediaTempate(item)
+           // @MediaTempate(item)
+            await MediaTempate(item)
             ;
         }
     </div>
     <div class="col-md-6">
         @foreach (var item in Model.Skip(3).Take(3))
         {
-            @MediaTempate(item)
+          //  @MediaTempate(item)
+            await MediaTempate(item)
             ;
         }
     </div>
 }
-else if (ViewBag.Sector == "6")
+@*else if (ViewBag.Sector == "6")*@
+else if (ViewBag.Sector == 6)
 {
     foreach (var item in Model.Take(5))
     {
-        @MediaTempate_two(item)
+        // @MediaTempate_two(item)
+        await MediaTempate_two(item)
         ;
     }
     <div class="media p-b-20 m-t-20">
@@ -249,7 +260,8 @@ else
 {
     foreach (var item in Model.Take(5))
     {
-        @MediaTempate(item)
+        // @MediaTempate(item)
+        await MediaTempate(item)
         ;
     }
 }

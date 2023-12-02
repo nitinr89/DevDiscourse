@@ -3,32 +3,41 @@
     string domainUrl = "https://www.devdiscourse.com";
 }
 
-
 @functions {
-   
- async Task CountryHelper(string country)
-{
-    if (!string.IsNullOrEmpty(country))
+    async Task CountryHelper(string country)
     {
-        var countryArr = country.Split(','); foreach (var t in countryArr.Take(1))
-        {@t}
-    }else
-    {<span>Global</span>}
-}
-
+        if (!string.IsNullOrEmpty(country))
+        {
+            var countryArr = country.Split(','); foreach (var t in countryArr.Take(1))
+            {
+                @t
+            }
+        }
+        else
+        {
+            <span>Global</span>
+        }
+    }
 }
 @functions {
     async Task MediaTempate(Devdiscourse.Models.ViewModel.LatestNewsView item, string border)
-{
-    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
-    <div class="p-t-10 p-b-10 m-b-10" style="@border">
-        <h3 class="trend-title no-margin">@item.Title</h3>
-    </div>
-</a>
-}
+    {
+        string controller = "ArticleDetailswithprefix";
+        string action = item.Label ?? "agency-wire";
+        // string id = item.GenerateSecondSlug();
+        long id = item.NewId;
+        @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">*@
+       @* <a href="@controller/@actiong/@id" class="text-decoration">*@
+
+        <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+
+            <div class="p-t-10 p-b-10 m-b-10" style="@border">
+                <h3 class="trend-title no-margin">@item.Title</h3>
+            </div>
+        </a>
+    }
 }
 
- 
 @if (ViewBag.skipCount == 0)
 {
     <h2 class="section-title"> <span title="Latest News">LATEST STORIES</span> </h2>
@@ -45,25 +54,16 @@
                 <span class="pull-right infocus-badge">@item.SubType</span>
             }<div class="row">
                 @{
-                    // var newsImage = "";
-                    // if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
-                    // {
-                        //newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                    var newsImage = "https://www.devdiscourse.com/remote.axd?https://devdiscourse.blob.core.windows.net/devnews/28_09_2022_05_08_05_7911892.jpg?width=360&height=200&mode=crop";
-                    // }
-                    // else
-                    // {
-                    //     newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_05_2019_16_40_20_5035785.jpg?width=178&height=135&mode=crop&format=jpeg";
-                    // }
+                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
                 }
-                <div class="col-md-12 col-sm-6" id="news">
-                    @*<img src="~/Content/transparent.png?width=36&height=20&mode=crop" data-src="@domainUrl@newsImage?width=360&height=200&mode=crop" class="img-responsive lazy" alt="@item.Title" />*@
-                    <img src="@newsImage" width="360" , height="200" class="img-responsive lazy" alt="@item.Title" />
-
-
+                <div class="col-md-12 col-sm-6">
+                    <img src="~/Content/transparent.png?width=36&height=20&mode=crop" data-src="@domainUrl@newsImage?width=360&height=200&mode=crop" class="img-responsive lazy" alt="@item.Title" />
                 </div>
                 <div class="col-md-12 col-sm-6">
-                   @{ await MediaTempate(item, "margin-top:10px;"); }
+                    @{
+                        await MediaTempate(item, "margin-top:10px;");
+                    }
+
                 </div>
             </div>
         </div>
@@ -83,12 +83,11 @@
                 {
                     <span class="pull-right infocus-badge">@item.SubType</span>
                 }
-
                 @{
                     await MediaTempate(item, "border-top:1px solid #ececec");
                 }
 
-              </div>
+            </div>
         }
     </div>
 }

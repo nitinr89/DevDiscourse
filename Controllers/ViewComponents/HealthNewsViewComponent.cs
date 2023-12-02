@@ -37,7 +37,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                            select new NewsViewModel
                            {
                               // Id = dn.Id,
-                               //NewId = dn.NewsId,
+                               NewsId = dn.NewsId,
                                Title = dn.Title,
                                ImageUrl = dn.ImageUrl,
                                CreatedOn = dn.ModifiedOn,

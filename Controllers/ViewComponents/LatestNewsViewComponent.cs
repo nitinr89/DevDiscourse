@@ -33,23 +33,26 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //    }).OrderByDescending(a => a.CreatedOn).AsNoTracking().Take(4);
                 //return View(result.ToList());
 
-                var infocus = (from dn in _db.DevNews
-                               select new LatestNewsView
+                var result = (from dn in _db.DevNews
+                               select new NewsViewModel
                                {
-                                   Id = dn.Id,
-                                   NewId = dn.NewsId,
+                                 //  Id = dn.Id,
+                                   //NewId = dn.NewsId,
                                    Title = dn.Title,
                                    ImageUrl = dn.ImageUrl,
                                    CreatedOn = dn.ModifiedOn,
-                                   Type = dn.Type,
+                                   //Type = dn.Type,
                                    SubType = dn.SubType,
                                    Country = dn.Country,
                                    Label = dn.NewsLabels,
                                    Ranking = 0
-                               }).OrderByDescending(a => a.CreatedOn)
-                     .Take(65)
-                     .ToList();
-                return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+                               }).OrderByDescending(a => a.CreatedOn).AsNoTracking()
+                     .Take(5);
+                return View(result.ToList());
+
+                //     .Take(65)
+                //     .ToList();
+                //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
             }
             else
             {
@@ -65,23 +68,24 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //    }).OrderByDescending(a => a.CreatedOn).AsNoTracking().Take(4);
                 //return View(result.ToList());
 
-                var infocus = (from dn in _db.DevNews
-                               select new LatestNewsView
+                var result
+                    = (from dn in _db.DevNews
+                               select new NewsViewModel
                                {
-                                   Id = dn.Id,
-                                   NewId = dn.NewsId,
+                                   // Id = dn.Id,
+                                   //NewId = dn.NewsId,
                                    Title = dn.Title,
                                    ImageUrl = dn.ImageUrl,
                                    CreatedOn = dn.ModifiedOn,
-                                   Type = dn.Type,
+                                   // Type = dn.Type,
                                    SubType = dn.SubType,
                                    Country = dn.Country,
                                    Label = dn.NewsLabels,
                                    Ranking = 0
-                               }).OrderByDescending(a => a.CreatedOn)
-                     .Take(65)
-                     .ToList();
-                return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+                               }).OrderByDescending(a => a.CreatedOn).AsNoTracking()
+                     .Take(5);
+                return View(result.ToList());
+                //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
             }
         }
     }

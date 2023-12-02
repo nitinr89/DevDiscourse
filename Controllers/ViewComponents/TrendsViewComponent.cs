@@ -43,7 +43,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                                select new LatestNewsView
                                {
                                    Id = dn.Id,
-                                   NewId = dn.NewsId,
+                                   //NewsId = dn.NewsId,
                                    Title = dn.Title,
                                    ImageUrl = dn.ImageUrl,
                                    CreatedOn = dn.ModifiedOn,

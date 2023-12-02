@@ -15,11 +15,12 @@ namespace Devdiscourse.Controllers.ViewComponents
             _db = db;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string sector, string reg = "Global Edition")
+        public async Task<IViewComponentResult> InvokeAsync(int sector, string reg = "Global Edition")
         {
             await Task.Yield();
-            DateTime twoMonth = DateTime.UtcNow.AddDays(-3);
-            var result = _db.RegionNewsRankings.Where(a => a.DevNews.CreatedOn > twoMonth && a.DevNews.AdminCheck == true && a.DevNews.Sector == sector && a.Region.Title == reg && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn)
+           // DateTime twoMonth = DateTime.UtcNow.AddDays(-3);
+            var result = _db.RegionNewsRankings
+                //.Where(a => a.DevNews.CreatedOn > twoMonth && a.DevNews.AdminCheck == true && a.DevNews.Sector == sector && a.Region.Title == reg && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn)
                 .Select(a => new NewsViewModel
                 {
                     Title = a.DevNews.Title,

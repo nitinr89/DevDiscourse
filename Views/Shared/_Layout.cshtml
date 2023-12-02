@@ -420,8 +420,13 @@
         <div id="NewsSector">
             <nav class="container-fluid text-center m-t-10">
                 <ul class="scrollmenu no-margin">
+                 @*    <li> <a href="@UrlHelper.Action("NewsSector", new{sector="agro-forestry"})" title="AGRO-Forestry">Agro-Forestry</a> </li> *@
+                   @*  <li> <a href="@UrlHelper.Action("NewseSctor", new{sector="art-culture"})" title="Art &amp; Culture">Art &amp; Culture</a> </li> *@
+
                     <li> <a href="@Url.RouteUrl("NewsSector", new{sector="agro-forestry"})" title="AGRO-Forestry">Agro-Forestry</a> </li>
                     <li> <a href="@Url.RouteUrl("NewsSector", new{sector="art-culture"})" title="Art &amp; Culture">Art &amp; Culture</a> </li>
+
+
                     <li> <a href="@Url.RouteUrl("NewsSector", new{sector="technology"})" title="Technology">Technology</a> </li>
                     <li> <a href="@Url.RouteUrl("NewsSector", new{sector="economy-business"})" title="Economy & Business">Economy</a> </li>
                     <li> <a href="@Url.RouteUrl("NewsSector", new{sector="education"})" title="Education">Education</a> </li>

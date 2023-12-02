@@ -54,17 +54,35 @@ namespace Devdiscourse.Controllers.API
         //}
 
         [HttpGet]
-        [Route("GetVideoNews/{reg}")]
-        public IQueryable<VideoViewModel> GetHomeVideoNews([FromRoute] string reg = "Global Edition")
+        [Route("GetHomeVideoNews/{reg}")]
+        public IQueryable<VideoViewModel> GetHomeVideoNews(string reg = "Global Edition")
         {
             if (reg == "Global Edition")
             {
-                var result = db.VideoNews.Where(a => a.AdminCheck == true).Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Take(5);
+                var result = db.VideoNews
+                    //.Where(a => a.AdminCheck == true)
+                    .Select(a => new VideoViewModel
+                    {
+                        Id = a.Id,
+                        Title = a.Title,
+                        CreatedOn = a.CreatedOn,
+                        FileThumbUrl = a.VideoThumbUrl,
+                        Duration = a.Duration
+                    }).OrderByDescending(m => m.CreatedOn).Take(5);
                 return result;
             }
             else
             {
-                var result = db.VideoNews.Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg)).Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Take(5);
+                var result = db.VideoNews
+                    //.Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
+                    .Select(a => new VideoViewModel
+                    {
+                        Id = a.Id,
+                        Title = a.Title,
+                        CreatedOn = a.CreatedOn,
+                        FileThumbUrl = a.VideoThumbUrl,
+                        Duration = a.Duration
+                    }).OrderByDescending(m => m.CreatedOn).Take(5);
                 return result;
             }
         }
@@ -75,23 +93,23 @@ namespace Devdiscourse.Controllers.API
         {
             var skipCount = (page - 1) * 20;
             var result = db.RegionNewsRankings
-                
+
                 //Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector && a.Region.Title == reg && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).ThenByDescending(s => s.Ranking).Skip(skipCount)
-                
-                
+
+
                 .Select(a => new NewsViewModel
                 {
-                Title = a.DevNews.Title,
-                NewsId = a.DevNews.NewsId,
-                ImageUrl = a.DevNews.ImageUrl,
-                Subtitle = a.DevNews.SubTitle,
-                Country = a.DevNews.Country,
-                CreatedOn = a.DevNews.ModifiedOn,
-                Sector = a.DevNews.Type,
-                SubType = a.DevNews.SubType,
-                Label = a.DevNews.NewsLabels,
-                Ranking = a.Ranking
-            }).AsNoTracking().Take(10).ToList();
+                    Title = a.DevNews.Title,
+                    NewsId = a.DevNews.NewsId,
+                    ImageUrl = a.DevNews.ImageUrl,
+                    Subtitle = a.DevNews.SubTitle,
+                    Country = a.DevNews.Country,
+                    CreatedOn = a.DevNews.ModifiedOn,
+                    Sector = a.DevNews.Type,
+                    SubType = a.DevNews.SubType,
+                    Label = a.DevNews.NewsLabels,
+                    Ranking = a.Ranking
+                }).AsNoTracking().Take(10).ToList();
             //var result = db.DevNews.Where(a => a.AdminCheck == true && (a.Sector.Contains("," + sector + ",") || a.Sector.StartsWith("," + sector) || a.Sector.EndsWith(sector + ",") || a.Sector.Equals(sector)) && a.Region.Contains(reg)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
             return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
         }
@@ -565,7 +583,14 @@ namespace Devdiscourse.Controllers.API
         public async Task<IActionResult> GetNewsAlert()
         {
             DateTime threeDays = DateTime.Today.AddDays(-2);
-            var newsAlerts = await db.DevNews.Where(a => a.NewsLabels == "Newsalert" && a.CreatedOn > threeDays && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new { s.NewsId, s.Title, s.CreatedOn, Label = s.NewsLabels }).Take(10).ToListAsync();
+            var newsAlerts = await db.DevNews//.Where(a => a.NewsLabels == "Newsalert" && a.CreatedOn > threeDays && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn)
+                                             .Select(s => new
+                                             {
+                                                 s.NewsId,
+                                                 s.Title,
+                                                 s.CreatedOn,
+                                                 Label = s.NewsLabels
+                                             }).Take(10).ToListAsync();
             return Ok(newsAlerts);
         }
 
@@ -636,12 +661,26 @@ namespace Devdiscourse.Controllers.API
             }
         }
         [Route("GetEditionNews/{reg}/{edition}")]
-        public IHttpActionResult GetEditionNews(string reg = "South Asia", string edition = "")
+        public IActionResult GetEditionNews(string reg = "South Asia", string edition = "")
         {
             DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
             DateTime weekend = todayDate.AddDays(-3).AddTicks(1);
-            var result = db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region.Contains(reg)).Select(a => new { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country, a.Region, a.Type, a.SubType }).OrderByDescending(m => m.CreatedOn).Take(5);
-            return (IHttpActionResult)Ok(new { news = result, edition });
+            var result = db.DevNews
+                //.Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region.Contains(reg))
+                .Select(a => new
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CreatedOn = a.CreatedOn,
+                    ImageUrl = a.ImageUrl,
+                    NewId = a.NewsId,
+                    Label = a.NewsLabels,
+                    Country = a.Country,
+                    a.Region,
+                    a.Type,
+                    a.SubType
+                }).OrderByDescending(m => m.CreatedOn).Take(5);
+            return Ok(new { news = result, edition });
         }
 
         [HttpGet]

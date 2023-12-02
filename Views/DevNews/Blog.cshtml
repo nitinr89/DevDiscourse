@@ -408,7 +408,7 @@
                     });
                 }
             });
-            $('.lazy').lazy();
+            // $('.lazy').lazy();
             getCountries();
             $("#selRegion").change(function () {
                 _region = $('#selRegion').val();
@@ -430,7 +430,7 @@
                     success: function (data) {
                         $('#selCountry').html("").append('<option value="">Select</option>');
                         $.each(data, function (i, item) {
-                            $('#selCountry').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                            $('#selCountry').append('<option value="' + item.title + '">' + item.title + '</option>');
                         });
                         $('#selCountry').val(_country);
                     },

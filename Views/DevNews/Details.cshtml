@@ -44,62 +44,78 @@
         DataDesc = Regex.Replace(DataDesc, " " + replaceTag.Trim() + " ", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">" + replaceTag.Trim() + "</a> ");
     }
 }
-@* @helper GetFirstParagraph(string htmltext)
-{
-    Match m = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
-    if (m.Success)
+@functions {
+    async Task GetFirstParagraph(string htmltext)
     {
-        @m.Groups[1].Value;
+        Match m = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
+        if (m.Success)
+        {
+            @m.Groups[1].Value
+            ;
+        }
+        else
+        {
+            @htmltext
+            ;
+        }
     }
-    else
+}
+@functions {
+    async Task FirstCharToUpper(string s)
     {
-        @htmltext;
+        if (string.IsNullOrEmpty(s))
+        {
+            var outData = "";
+            @outData
+        }
+        var output = char.ToUpper(s[0]) + s.Substring(1);
+        @output
     }
 }
-@helper FirstCharToUpper(string s)
-{
-    if (string.IsNullOrEmpty(s))
+@functions {
+    async Task GetslugLabel(string text)
     {
-        var outData = "";
-        @outData
+        // byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
+        string str = System.Text.Encoding.ASCII.GetString(bytes).ToLower();
+        str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+        str = Regex.Replace(str, @"\s+", " ").Trim();
+        str = str.Substring(0, str.Length <= 150 ? str.Length : 150).Trim();
+        str = Regex.Replace(str, @"\s", "-"); // hyphens
+        @str
+        ;
     }
-    var output = char.ToUpper(s[0]) + s.Substring(1);
-    @output
 }
-@helper GetslugLabel(string text)
-{
-    byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
-    string str = System.Text.Encoding.ASCII.GetString(bytes).ToLower();
-    str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
-    str = Regex.Replace(str, @"\s+", " ").Trim();
-    str = str.Substring(0, str.Length <= 150 ? str.Length : 150).Trim();
-    str = Regex.Replace(str, @"\s", "-"); // hyphens
-    @str;
+@functions {
+    async Task GetDescriptionText(string htmltext)
+    {
+        const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
+        const string stripFormatting = @"<[^>]*(>|$)";
+        const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
+        var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+        var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+        var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+        var text = htmltext.Replace("&nbsp;", " ");
+        text = System.Net.WebUtility.HtmlDecode(text);
+        text = tagWhiteSpaceRegex.Replace(text, "><");
+        text = lineBreakRegex.Replace(text, Environment.NewLine);
+        text = stripFormattingRegex.Replace(text, string.Empty);
+        @text
+        ;
+    }
 }
-@helper GetDescriptionText(string htmltext)
-{
-    const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
-    const string stripFormatting = @"<[^>]*(>|$)";
-    const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
-    var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
-    var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
-    var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
-    var text = htmltext.Replace("&nbsp;", " ");
-    text = System.Net.WebUtility.HtmlDecode(text);
-    text = tagWhiteSpaceRegex.Replace(text, "><");
-    text = lineBreakRegex.Replace(text, Environment.NewLine);
-    text = stripFormattingRegex.Replace(text, string.Empty);
-    @text;
+@functions {
+    async Task GetCleanDescription(string htmltext)
+    {
+        htmltext = htmltext.Replace("&nbsp;", " ");
+        htmltext = htmltext.Replace("&rsquo;", "'");
+        htmltext = htmltext.Replace("&lsquo;", "'");
+        htmltext = htmltext.Replace("&rdquo;", "\"");
+        htmltext = htmltext.Replace("&ldquo;", "\"");
+        @Html.Raw(htmltext)
+        ;
+    }
 }
-@helper GetCleanDescription(string htmltext)
-{
-    htmltext = htmltext.Replace("&nbsp;", " ");
-    htmltext = htmltext.Replace("&rsquo;", "'");
-    htmltext = htmltext.Replace("&lsquo;", "'");
-    htmltext = htmltext.Replace("&rdquo;", "\"");
-    htmltext = htmltext.Replace("&ldquo;", "\"");
-    @Html.Raw(htmltext);
-} *@
 <style>
     .renderBody {
         margin-top: 10px;
@@ -512,6 +528,7 @@
             </li>
         }
         @* @{Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "NewsSector" });} *@
+        @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "NewsSector" });
         <li class="active">Article</li>
     </ul>
     <div class="article-divider clearfix" style="display:none;" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div>
@@ -559,7 +576,7 @@
                         }
                         else
                         {
-                            <img class="img-circle author-avatar" src="@domainUrl@Model.ApplicationUsers.ProfilePic?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author?.Trim()" />
+                            <img class="img-circle author-avatar" src="@domainUrl@Model.ApplicationUsers?.ProfilePic?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author?.Trim()" />
                         }@Model.Author?.Trim()
                     </a>
                 </li>
@@ -617,15 +634,15 @@
                             <figcaption class="fig-caption">@Model.ImageCaption @Model.ImageCopyright</figcaption>
                         </figure>
                     }
-                    else if(Model.UserNewsFiles != null)
+                    else if (Model.UserNewsFiles != null)
                     {
                         foreach (var item in Model.UserNewsFiles.Take(1))
                         {
-                            @section taboolaAd{
+                            @section taboolaAd {
                     <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
                     <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
                     <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
-                }
+                            }
                             <script type="application/ld+json">
                                 {
                                 "@@context": "https://schema.org/",
@@ -633,7 +650,7 @@
                                 "name": "@Model.Title",
                                 "@@id": "@domainUrl@pageUrl",
                                 "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
-                                @* "description" : "@GetDescriptionText(@Model.Description)", *@
+                                "description" : "@GetDescriptionText(@Model.Description)",
                                 "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg",
                                 "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg",
                                 "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
@@ -671,7 +688,7 @@
                     </figure>
                 }
                 <section class="article-cont">
-                    @* @GetCleanDescription(@DataDesc) *@
+                    @GetCleanDescription(@DataDesc)
                     @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk")
                     {
                         <p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>
@@ -745,6 +762,8 @@
                     </span>
                     @{
                         /*  Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "Plane" }); */
+                        @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "Plane" })
+                        ;
                     }
                 </div>
                 <div>
@@ -816,7 +835,7 @@
         </div>
     </article>
 </div>
-@section scripts{
+@section scripts {
     <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -841,4 +860,4 @@
             });
         });
     </script>
-    }
+}

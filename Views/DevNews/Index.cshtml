@@ -14,7 +14,6 @@
 @functions {
     async Task Truncate(string input, int length)
     {
-
         if (string.IsNullOrEmpty(input))
         {
             <text> </text>
@@ -26,7 +25,6 @@
         else
         {
             @input.Substring(0, length)
-
             <text>..</text>
         }
     }
@@ -439,7 +437,7 @@
                         $("#twitterConetent").val('');
                         $("#TwitterShareModal").modal('hide');
                         alert("Success");
-                        // $.notify({ message: "Successfully shared on twitter!" }, { type: "success", delay: 1e3, placement: { from: "top", align: "right" } });
+                        $.notify({ message: "Successfully shared on twitter!" }, { type: "success", delay: 1e3, placement: { from: "top", align: "right" } });
                     },
                     error: function () {
                     },
@@ -513,7 +511,7 @@
                     data: { status: $(this).prop("checked") },
                     success: function (data) {
                         alert(data);
-                        // $.notify({ message: "Success" }, { type: "success", delay: 1e3, placement: { from: "top", align: "right" } });
+                        $.notify({ message: "Success" }, { type: "success", delay: 1e3, placement: { from: "top", align: "right" } });
                     },
                     error: function () {
                     },
@@ -626,7 +624,7 @@
                     success: function (data) {
                         if (data == "NoUser") {
                             alert("No User in shift");
-                            // $.notify({ message: "No User in shift" }, { type: "warning", delay: 1e3, placement: { from: "top", align: "right" } });
+                            $.notify({ message: "No User in shift" }, { type: "warning", delay: 1e3, placement: { from: "top", align: "right" } });
                         } else if (data == "Success") {
                             $("#AssignNewsModal").modal("hide");
                             $('#td' + _assingnNewsId).html('<div class="indexedView">Assigned</div>');
@@ -647,7 +645,7 @@
                     success: function (data) {
                         if (data == "NoUser") {
                             alert("No User in shift");
-                            // $.notify({ message: "No User in shift!" }, { type: "warning", delay: 1e3, placement: { from: "top", align: "right" } });
+                            $.notify({ message: "No User in shift!" }, { type: "warning", delay: 1e3, placement: { from: "top", align: "right" } });
                         } else {
                             $("#AssignNewsModal").modal("hide");
                             $('#td' + _assingnNewsId).html('<div class="indexedView">Assigned</div>');

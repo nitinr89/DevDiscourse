@@ -3,8 +3,10 @@
     ViewBag.Title = "CreateBlog";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
 }
-<link rel="stylesheet" href="~/Content/admin.css" />
-@* @Styles.Render("~/Content/admincss") *@
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<link href="~/Content/admin.css" rel="stylesheet" />
+<link href="~/Scripts/tagsInput/css/jquery.tagsinput.min.css" rel="stylesheet" />
+
 <div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
     <ol class="breadcrumb no-margin">
         <li class="breadcrumb-item"><a href="@Url.Action("Media", "Admin")">Admin</a></li>
@@ -441,8 +443,8 @@
 </div>
 <video id="vid" style="display:none" controls></video>
 @section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @*  @Scripts.Render("~/bundles/jqueryadmin") *@
+    <script src="~/Scripts/jquery.multiselect.js"></script>
+    <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script type="text/javascript">
         var _region = "Global Edition";
@@ -469,7 +471,7 @@
         //$('#Title').keydown(function () {
         //    $("#title_character").html('Character  Count: ' + $(this).val().length);
         //});
-        // $('.input-tags').tagsInput();
+        $('.input-tags').tagsInput();
         tinymce.init({
             selector: '#Description',
             height: 300,
@@ -575,7 +577,7 @@
                                 dataType: 'Json',
                                 success: function (data) {
                                     $('.searching').hide();
-                                    $('.modal-footer').show();
+                                    $('.modal-footer').show();                                  
                                     $.each(data, function (i, item) {
                                         $('#newsList').append('<div class="news-div searchNews" id="' + item.newsId + '" tabindex="' + item.title + '" value="' + item.label + '">' + item.title + '</div>');
                                     });
@@ -841,7 +843,7 @@
                                 $('#imageTitle').val(data.FileName);
                                 $('#imgcaption').val(data.Caption);
                                 $('#showTags').html('<input type="text" id="imgtags" class="form-control input-tags" value="' + data.Tags + '" />');
-                                // $('.input-tags').tagsInput();
+                                $('.input-tags').tagsInput();
                                 $("#Source").val("Source: ");
                             }
                         },
@@ -1019,7 +1021,7 @@
             if (forAuthor == "author") {
                 $('#Themes').val(_iurl);
                 $('.author-img').html('<img src=' + _iurl + ' class="img-responsive" style="max-width:200px" />');
-            } else if (forAuthor == "default") {
+            } else if (forAuthor=="default") {                
                 $('#ChooseImage').val(_iurl);
                 $('#selFromGallery').val(_ititle);
                 $('#ImageCaption').val(_imgcaption);

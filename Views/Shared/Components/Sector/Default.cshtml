@@ -3,31 +3,33 @@
 @{
     string region = ViewBag.reg == "Global Edition" ? "" : ViewBag.reg;
 }
-@functions{
- public async Task GetslugLabel(string text)
-{
-    byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
-    string str = System.Text.Encoding.ASCII.GetString(bytes).ToLower();
-    str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
-    str = Regex.Replace(str, @"\s+", " ").Trim();
-    str = str.Substring(0, str.Length <= 150 ? str.Length : 150).Trim();
-    str = Regex.Replace(str, @"\s", "-"); // hyphens
-    @str;
-}
-}
-
-@functions{
-
- public async Task FirstCharToUpper(string s)
-{
-    if (string.IsNullOrEmpty(s))
+@functions {
+    public async Task GetslugLabel(string text)
     {
-        var outData = "";
-        @outData
+        // byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
+        string str = System.Text.Encoding.ASCII.GetString(bytes).ToLower();
+        str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+        str = Regex.Replace(str, @"\s+", " ").Trim();
+        str = str.Substring(0, str.Length <= 150 ? str.Length : 150).Trim();
+        str = Regex.Replace(str, @"\s", "-"); // hyphens
+        @str
+        ;
     }
-    var output = char.ToUpper(s[0]) + s.Substring(1);
-    @output
 }
+
+@functions {
+
+    public async Task FirstCharToUpper(string s)
+    {
+        if (string.IsNullOrEmpty(s))
+        {
+            var outData = "";
+            @outData
+        }
+        var output = char.ToUpper(s[0]) + s.Substring(1);
+        @output
+    }
 }
 
 @if (Model != null)

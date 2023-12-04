@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.ItemView>
+@using System.Text.RegularExpressions;
+@{
+    string region = ViewBag.reg == "Global Edition" ? "" : ViewBag.reg;
+}
+@functions {
+    public async Task GetslugLabel(string text)
+    {
+        // byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
+        string str = System.Text.Encoding.ASCII.GetString(bytes).ToLower();
+        str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+        str = Regex.Replace(str, @"\s+", " ").Trim();
+        str = str.Substring(0, str.Length <= 150 ? str.Length : 150).Trim();
+        str = Regex.Replace(str, @"\s", "-"); // hyphens
+        @str
+        ;
+    }
+}
+
+@functions {
+
+    public async Task FirstCharToUpper(string s)
+    {
+        if (string.IsNullOrEmpty(s))
+        {
+            var outData = "";
+            @outData
+        }
+        var output = char.ToUpper(s[0]) + s.Substring(1);
+        @output
+    }
+}
+
+@if (Model != null)
+{
+    @*if (ViewBag.filter == "Single")
+        {
+            foreach (var item in Model)
+            {
+                <span>@item.Title</span>
+            }
+        }*@
+    // For User Profile
+    if (ViewBag.filter == "All")
+    {
+        foreach (var item in Model)
+        {
+            <a href="@Url.Action("Search", "Home", new { sector = item.Id, region = region })" title="@item.Title" class="f-14 badge btn-primary text-center p-l-r-20" style="margin:5px !important;font-weight:500;">@item.Title</a>
+        }
+    }
+    else if (ViewBag.filter == "Plane")
+    {
+        foreach (var item in Model)
+        {
+            <span style="padding-right:10px;">@item.Title</span>
+        }
+    }
+    else if (ViewBag.filter == "NewsSector")
+    {
+        foreach (var item in Model.Take(1))
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="/news/@GetslugLabel(item.Title)" target="_top" itemprop="item"><span itemprop="name" class="text-capitalize">@FirstCharToUpper(item.Title)</span></a>
+                <meta itemprop="position" content="3" />
+            </li>
+        }
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <span class="badge" style="color:#ffffff; background-color:#4d4d4d;border-radius:2px;font-weight:500; margin:5px !important;">@item.Title</span>
+        }
+    }
+}

@@ -15,6 +15,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="CaptchaMvc.Mvc5" Version="1.5.0" />
+		<PackageReference Include="ClosedXML" Version="0.102.1" />
+		<PackageReference Include="MetadataExtractor" Version="2.8.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12" />
@@ -31,6 +33,19 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="Nancy" Version="2.0.0" />
+		<PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+		<PackageReference Include="X.PagedList" Version="8.4.7" />
+		<PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.7" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Data\Migrations\" />
+	  <Folder Include="wwwroot\AdminFiles\ArticleFiles\" />
+	  <Folder Include="wwwroot\AdminFiles\MediaInternshipCVs\" />
+	  <Folder Include="wwwroot\AdminFiles\ReserachFiles\" />
+	  <Folder Include="wwwroot\AdminFiles\UserFiles\" />
+	  <Folder Include="wwwroot\images\output\" />
 	</ItemGroup>
 
 </Project>

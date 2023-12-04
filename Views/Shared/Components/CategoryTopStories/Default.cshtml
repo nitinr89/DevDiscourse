@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.SearchView>
+@{
+    string domainUrl = "https://www.devdiscourse.com";
+}
+<div class="clearfix">
+
+    <div class="row">
+        <div class="col-md-6">
+            @foreach (var item in Model.Take(1))
+            {
+                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                    <div class="m-b-30">
+                        <div class="bg-gray cover-img" style="background-image:url(@domainUrl@newsImage?width=640&height=344&mode=crop&anchor=top&format=jpeg)">
+                            <div class="cover-img-overlay">
+                                <div class="text-cont">
+                                    <h3 class="fg-white no-margin">@item.Title</h3>
+                                </div>
+                                @if (!String.IsNullOrEmpty(item.Country))
+                                {
+                                    var countryArr = item.Country.Split(',');
+                                    foreach (var t in countryArr.Take(1))
+                                    {
+                                        <div class="text-uppercase country-main">@t</div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="text-uppercase country-main">Global</div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+        <div class="col-md-6 p-l-0">
+            @foreach (var item in Model.Skip(1).Take(3))
+            {
+                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                    <div class="m-b-20 col-md-12">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-3">
+                                <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&anchor=top&format=jpeg"></div>
+                            </div>
+                            <div class="col-md-8 col-sm-9 p-l-0">
+                                @if (!String.IsNullOrEmpty(item.Country))
+                                {
+                                    var countryArr = item.Country.Split(',');
+                                    foreach (var t in countryArr.Take(1))
+                                    {
+                                        <div class="text-uppercase country-sub">@t</div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="text-uppercase country-sub">Global</div>
+                                }
+                                <h3 class="trend-title no-margin p-t-5">@item.Title</h3>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+@*<div class="clearfix">
+        <h2 class="section-title"><span> TOP STORIES</span></h2>
+        <div class="row">
+            @foreach (var item in Model.Take(1))
+            {
+                var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                <div class="col-md-6 m-b-20">
+                    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                        <div class="bg-gray t-s-img" style="background-image:url(@domainUrl@newsImage?width=360&height=290&mode=crop)">
+                            <div class="top-overlay">
+                                @if (!string.IsNullOrEmpty(@item.Country))
+                                {
+                                    var country = item.Country.Split(',').First().Trim();
+                                    <span class="label label-primary text-uppercase no-border-radius">@country</span>
+                                }
+                                else
+                                {
+                                    <span class="label label-primary text-uppercase no-border-radius">Global</span>
+                                }
+                                <h2 class="font-oswald fg-white top-title">@item.Title</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+
+            <div class="col-md-6">
+                @foreach (var item in Model.Skip(1))
+                {
+                    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                        <div class="media t-s-item">
+                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                                <div class="media-left">
+                                    <img src="@domainUrl@newsImage?width=90&height=70&mode=crop" alt="@item.Title.Trim()">
+                                </div>}
+                            <div class="media-body">
+                                <h4 class="media-heading" title="@item.Title.Trim()">@item.Title.Trim()</h4>
+                                <p class="no-margin text-muted">
+                                    @if (!string.IsNullOrEmpty(@item.Country))
+                                    {
+                                        var country = item.Country.Split(',').First().Trim();
+                                        <text>@country</text>
+                                    }
+                                    else
+                                    {
+                                        <text>Global</text>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>*@
+

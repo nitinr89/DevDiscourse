@@ -1,0 +1,241 @@
+﻿@{
+    ViewBag.Title = "Analytic";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/admin.css" rel="stylesheet" />
+<style>
+    input, textarea, select {
+        max-width: 100% !important;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #4c5766;
+        display: block;
+        line-height: 30px;
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+        .loadMoreButton:hover {
+            background-color: #ff9c46;
+        }
+
+</style>
+<div class="bg-white p-20">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Analytic", "DevNews")">Analytic</a></li>
+    </ol>
+    <div class="row m-b-30">
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Region</label>
+            <select class="form-control newsfilter" id="selRegion">
+                @* @{ Html.RenderAction("GetRegion", "Home");} *@
+                @await Component.InvokeAsync("Region");
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Country</label>
+            <select class="form-control newsfilter" id="selCountry"></select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Sector</label>
+            <select class="form-control newsfilter" id="selSector">
+                <option value="0">All Sector</option>
+                @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Text Search</label>
+            <div class="input-group" id="searchDiv">
+                <label for="searchBtn"></label>
+                <input type="text" class="form-control" style="border-right:none !important;border-top-left-radius:4px;border-bottom-left-radius:4px;" id="inputText" placeholder="Search...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" name="searchBtn" id="textBtn" style="border-left:none !important;color:#aeaeae;" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+            <label for="beforeDate">Before Date </label>
+            <input type="date" id="beforeDate" class="form-control newsfilter" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+            <label for="afterDate">After Date </label>
+            <input type="date" id="afterDate" class="form-control newsfilter" />
+        </div>
+    </div>
+    <div class="row pull-right" style="padding:0px 20px 20px 0px">
+        <button class="btn btn-primary" id="sendBulk"><span class="fa fa-send"></span> Send Bulk Email</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Sectors
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Region
+                </th>
+                <th>
+                    Country
+                </th>
+                <th>
+                    Created On
+                </th>
+                <th>
+                    <input type="checkbox" style="position:absolute;" id="CheckAll" /> <span style="padding-left:20px;">Select</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="showData">
+            @* @{ Html.RenderAction("GetAnalytic", "DevNews");} *@
+            @await Component.InvokeAsync("Analytic");
+        </tbody>
+    </table>
+    <div class="text-center loadSpin f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border:unset">
+                <span class="fa fa-times pull-right cursor-pointer" id="closeBtn"></span>
+                <label class="m-t-10">Description</label>
+                <textarea class="form-control m-t-10" style="height:100px;" id="inputDesc"></textarea>
+            </div>
+            <div class="modal-footer" style="border:unset">
+                <button type="button" class="btn btn-primary" id="sendMailBtn"><span class="fa fa-send"></span> Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var _region = "Global Edition";
+            var _selSector = "0";
+            var _country = "";
+            var _beforeDate = "";
+            var _afterDate = "";
+            var _inputSearchText = "";
+            var _skip = 0;
+            var _newsIdArr = [];
+            var _description = "";
+
+            $('#selRegion').change(function () {
+                _region = $('#selRegion').val();
+                getCountries();
+            });
+            getCountries();
+            function getCountries() {
+                $.ajax({
+                    url: '/Home/GetCountry',
+                    type: 'Post',
+                    data: { region: _region },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $('#selCountry').html("").append('<option value="">Select</option>');
+                        $.each(data, function (i, item) {
+                            $('#selCountry').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                        });
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $('.newsfilter').on("input", function () {
+                updateVarible();
+            });
+            function updateVarible() {
+                _selSector = $("#selSector option:selected").val();
+                _region = $("#selRegion option:selected").val();
+                _country = $("#selCountry option:selected").val();
+                _beforeDate = $("#beforeDate").val();
+                _afterDate = $("#afterDate").val();
+                $.ajax("/DevNews/GetAnalytic?bfd=" + _beforeDate + "&afd=" + _afterDate + "&skip=" + _skip + "&reg=" + _region + "&sec=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText).done(function (data) { $("#showData").html(data); });
+            }
+            $('#textBtn').click(function () {
+                _inputSearchText = $('#inputText').val();
+                $.ajax("/DevNews/GetAnalytic?bfd=" + _beforeDate + "&afd=" + _afterDate + "&skip=" + _skip + "&reg=" + _region + "&sec=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText).done(function (data) { $("#showData").html(data); });
+            });
+            $("#inputText").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    _inputSearchText = $('#inputText').val();
+                    $.ajax("/DevNews/GetAnalytic?bfd=" + _beforeDate + "&afd=" + _afterDate + "&skip=" + _skip + "&reg=" + _region + "&sec=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText).done(function (data) { $("#showData").html(data); });
+                }
+            });
+            $(document).on("click", ".load_More", function () {
+                $(this).remove();
+                $(".loadSpin").show();
+                _skip = _skip + 10;
+                $.ajax("/DevNews/GetAnalytic?bfd=" + _beforeDate + "&afd=" + _afterDate + "&skip=" + _skip + "&reg=" + _region + "&sec=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText).done(function (data) { $("#showData").append(data); $(".loadSpin").hide(); });
+            });
+
+            $(document).on("click", "#CheckAll", function () {
+                if ($(this).prop("checked")) {
+                    $('.checkedInput').prop("checked", true);
+                }
+                else {
+                    $('.checkedInput').prop("checked", false);
+                }
+            });
+            $('#sendBulk').click(function () {
+                $('.checkedInput').each(function () {
+                    if ($(this).prop("checked")) {
+                        var _itemId = $(this).attr("id");
+                        _newsIdArr.push(_itemId);
+                    }
+                });
+                if (_newsIdArr.length > 0) {
+                    $('#myModal').modal();
+                }
+                else {
+                    showalert("Please select news first!", "danger");
+                }
+            });
+            $('#closeBtn').click(function () {
+                $('#myModal').modal('hide');
+            });
+            $('#sendMailBtn').click(function () {
+                _description = $('#inputDesc').val();
+                if (_description == "") {
+                    showalert("Please input description!", "danger");
+                }
+                else {
+                    $('#sendMailBtn').prop('disabled', true);
+                    sendEmail();
+                }
+            });
+            function sendEmail() {
+                $.ajax({
+                    url: '/DevNews/SendNotification',
+                    type: 'Post',
+                    data: { idArr: _newsIdArr, description: _description },
+                    dataType: 'Json',
+                    success: function (data) {
+                        showalert("Email send successfully!", "danger");
+                        $('#myModal').modal('hide');
+                        $('#sendMailBtn').prop('disabled', false);
+                        $('.checkedInput').prop("checked", false);
+                        $('#CheckAll').prop("checked", false);
+                        $('#inputDesc').val("");
+                        _newsIdArr = [];
+                        _description = "";
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        });
+    </script>
+}

@@ -1,0 +1,938 @@
+﻿
+@model Devdiscourse.Models.BasicModels.DevNews
+@using System.Globalization;
+@using System.Text.RegularExpressions;
+@using System.Threading;
+@using System.Text;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+    TextInfo textInfo = cultureInfo.TextInfo;
+    string domainUrl = "https://www.devdiscourse.com";
+    //string domainUrl = "";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.HasAmpPage = true;
+    ViewBag.pageType = "article";
+    ViewBag.pageAuthor = Model.Source;
+    string imageUrl = @Model.ImageUrl ?? "";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=920" : string.Concat(domainUrl, imageUrl) + "?width=920";
+    ViewBag.PageImage = newsImage;
+    string NewsLabel = Model.NewsLabels ?? "agency-wire";
+    string newsTitle = Model.Title.Trim() + " | " + @textInfo.ToTitleCase(NewsLabel);
+    ViewBag.Title = @newsTitle;
+    ViewBag.alternateHeadline = @newsTitle;
+    string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();
+    ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
+    TempData["pageUrl"] = pageUrl;
+    var bodykeywords = @Model.Tags;
+    var dataTags = (@Model.Tags ?? "").Split(',').Where(item => item != "").Select(s => s.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
+    var keywords = String.Join(", ", dataTags.Take(15)).Trim();
+    ViewBag.pageKeywords = keywords;
+    StringBuilder DataDesc = new StringBuilder(Model.Description);
+    //string DataDesc = Model.Description;
+    //var modifiedDescription = GetFirstParagraph(@Model.Description).ToString();//do later
+    var schemaDescription = !string.IsNullOrEmpty(Model.SubTitle) ? Model.SubTitle : "Read more about " + Model.Title + " on Devdiscourse";
+    ViewBag.PageDescription = schemaDescription.ToString().Trim();
+    var schemaSource = string.IsNullOrEmpty(Model.NewsLabels) ? Model.Source : "Devdiscourse News Desk";
+    TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+    DateTime createdDate = TimeZoneInfo.ConvertTimeFromUtc(Model.CreatedOn, INDIAN_ZONE);
+    DateTime publishedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.PublishedOn, INDIAN_ZONE);
+    DateTime modifiedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.ModifiedOn, INDIAN_ZONE);
+    var schemaType = Model.Type;
+    var schemaAuthor = Model.Source;
+    //var found = 0;
+    var userAgent = Context.Request.Headers["User-Agent"].ToString();
+    bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase); 
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+    string encodedTitle = System.Net.WebUtility.UrlEncode(Model.Title);
+    string valueToEncode = @Model.Title;
+    string encodedValue = Uri.EscapeDataString(valueToEncode);
+    string valueToEncodevalue = @Model.SubTitle;
+   //string encodeValue = Uri.EscapeDataString(valueToEncodevalue);
+   string encodeValue =  System.Net.WebUtility.UrlEncode(Model.Title);
+  
+
+}
+@functions {
+async Task GetFirstParagraph(string htmltext)
+{
+    htmltext = htmltext.Replace("&nbsp;", " ");
+    var match = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
+    var output = match.Success ? match.Groups[1].Value : htmltext;
+    output = Regex.Replace(output, @"[^A-Za-z0-9\s-]", "");
+    @output;
+}
+}
+
+
+@functions {
+async Task Truncate(string input, int length)
+{
+    if (string.IsNullOrEmpty(input))
+    {
+        <text> </text>
+    }
+    else if (input.Length <= length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)
+    }
+}
+}
+
+@functions {
+async Task GetCleanDescription(string htmltext)
+{
+    if (!string.IsNullOrEmpty(htmltext))
+    {
+    var sb = new StringBuilder(htmltext);
+    sb.Replace(" ", " ");
+    sb.Replace("’", "'");
+    sb.Replace("‘", "'");
+    sb.Replace("'", "'");
+    sb.Replace("”", "\"");
+    sb.Replace("“", "\"");
+    htmltext = sb.ToString();
+    }
+    @Html.Raw(htmltext);
+}
+}
+@functions {
+async Task GetDescriptionText(string htmltext = "")
+{
+    var sb = new StringBuilder();
+    var regex = new Regex(@"[^,.A-Za-z0-9\s-]", RegexOptions.Compiled);
+    var text = (htmltext ?? "").Replace("&nbsp;", " ");
+    text = Regex.Replace(text, @"(?i)<(br|BR)\s{0,1}\/{0,1}>", Environment.NewLine, RegexOptions.Compiled);
+    text = Regex.Replace(text, @"(?i)<[^>]*(>|$)", string.Empty, RegexOptions.Compiled);
+    text = System.Net.WebUtility.HtmlDecode(text);
+    text = regex.Replace(text, "");
+    sb.Append(text);
+    @sb.ToString();
+}
+}
+<style>
+    .renderBody {
+        margin-top: 10px;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased
+    }
+
+        .renderBody a {
+            color: #ff7b00;
+            text-decoration: none
+        }
+
+    .title {
+        font-size: 38px;
+        font-weight: 400;
+        color: #181818;
+        line-height: 1.18;
+        margin-bottom: 0
+    }
+
+    .section-title3 {
+        font-size: 23px;
+        line-height: 1.6;
+        border-bottom: 3px solid #ff7b00;
+        color: #454545;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 1;
+        font-family: 'Oswald',sans-serif;
+        margin-bottom: 20px;
+        margin-top: 30px;
+        font-weight: 400;
+    }
+
+    .sub-title {
+        font-size: 20px;
+        font-weight: 300;
+        line-height: 1.5;
+        color: #444
+    }
+
+    .author-avatar {
+        margin-right: 10px
+    }
+
+    .metadata {
+        margin-top: 20px;
+        color: #777
+    }
+
+    .fig-caption {
+        background-color: #eee;
+        font-size: 13px;
+        font-weight: 300;
+        line-height: 1.33;
+        color: #444;
+        padding: 3px 10px;
+        font-family: sans-serif;
+    }
+
+    .article-cont p, .article-cont ul, .article-cont ol {
+        font-size: 21px;
+        line-height: 1.58;
+        color: #111;
+        font-weight: 400;
+        margin-top: 2.4rem
+    }
+
+    .article-cont table p {
+        margin-top: 0;
+        margin-bottom: 5px;
+        font-size: 18px
+    }
+
+    .article-cont b, .article-cont strong {
+        font-weight: 600
+    }
+
+    .article-cont a {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -ms-word-break: break-all;
+        word-break: break-all;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto
+    }
+
+    .article-cont .bg-highlight + p:first-letter, .article-cont::first-letter {
+        font-size: 120px;
+        vertical-align: sub;
+        color: #ff7b00;
+        line-height: 70px;
+        margin: 15px 10px 10px 0;
+        float: left
+    }
+
+    .article-cont img, .article-cont iframe {
+        max-width: 100%;
+        border: none
+    }
+
+    .article-cont img {
+        height: auto
+    }
+
+    .admin-section {
+        position: absolute;
+        padding: 10px;
+        background-color: #fff;
+        right: 0;
+        border-radius: 5px;
+        margin: 5px 20px;
+        box-shadow: 0 0 5px #cfcfcf
+    }
+
+    .list-inline > li.list-divider {
+        padding: 0
+    }
+
+    .renderBody a.tag, .badge.tag {
+        line-height: 22px;
+        padding: 2px 9px;
+        font-family: sans-serif;
+        border-radius: 15px;
+        font-size: 14px;
+        text-decoration: none;
+        color: rgba(0,0,0,.54);
+        display: block;
+        margin-top: 10px;
+        font-weight: 400;
+        border: 1px solid #888;
+    }
+
+    .left-section {
+        padding: 5px 0;
+        color: #777
+    }
+
+    .social-btn .fa {
+        width: 30px;
+        height: 30px;
+        background-color: transparent;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666;
+        color: #fff;
+        border-radius: 50%;
+        display: inline-block;
+        line-height: 30px;
+        text-align: center;
+        font-size: 14px
+    }
+
+        .social-btn .fa.fb {
+            border-color: #3f5d9a;
+            color: #3f5d9a
+        }
+
+        .social-btn .fa.tw {
+            border-color: #55acee;
+            color: #55acee
+        }
+
+        .social-btn .fa.ln {
+            border-color: #007ab9;
+            color: #007ab9
+        }
+
+        .social-btn .fa.wa {
+            border-color: #4caf50;
+            color: #4caf50
+        }
+
+        .social-btn .fa.yt {
+            border-color: red;
+            color: red
+        }
+
+    .social-btn:hover .fa.fb {
+        background-color: #3f5d9a;
+        color: #fff
+    }
+
+    .social-btn:hover .fa.tw {
+        background-color: #55acee;
+        color: #fff
+    }
+
+    .social-btn:hover .fa.ln {
+        background-color: #007ab9;
+        color: #fff
+    }
+
+    .social-btn:hover .fa.wa {
+        background-color: #4caf50;
+        color: #fff
+    }
+
+    .social-btn:hover .fa.yt {
+        background-color: red;
+        color: #fff
+    }
+
+    .renderBody a.social-btn {
+        color: #555
+    }
+
+    .also-container {
+        border-top: 2px solid #ff7b00;
+        border-bottom: 2px solid #ff7b00;
+        background-color: rgba(0,0,0,.02);
+        padding: 25px;
+        margin: 30px 0;
+        display: flex
+    }
+
+    .ar-title {
+        padding-left: 10px;
+        font-size: 23px
+    }
+
+    .ar-ul {
+        padding-left: 30px
+    }
+
+    .also-title {
+        list-style-type: square;
+        padding: 5px 0;
+        font-size: 21px
+    }
+
+        .also-title a {
+            color: #333
+        }
+
+    .trend-img {
+        background-color: #f1f1f1;
+        background-size: cover;
+        background-position: center;
+        padding-bottom: 54.9%
+    }
+
+    .trend-title {
+        margin-top: 5px;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.39;
+        color: #222
+    }
+
+    .highlight-containter {
+        border: 1px solid #e6e6e6
+    }
+
+        .highlight-containter h3 {
+            margin: 0
+        }
+
+        .highlight-containter ul {
+            font-weight: 500;
+            color: #666;
+            list-style: square
+        }
+
+        .highlight-containter .top-line {
+            width: 95%;
+            height: 3px;
+            margin-bottom: 20px;
+            background-color: #ff6a00
+        }
+
+        .highlight-containter .bottom-line {
+            width: 95%;
+            margin-top: 20px;
+            height: 3px;
+            background-color: #ff6a00
+        }
+
+    .video-cover {
+        padding-bottom: 58.3%;
+        position: relative;
+        background-color: #f1f1f1;
+        background-size: cover;
+        background-position: center
+    }
+
+        .video-cover.small {
+            width: 100px;
+            height: 90px;
+            position: relative;
+            background-color: #f1f1f1
+        }
+
+        .video-cover:before {
+            content: " ";
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: rgba(0,0,0,.5)
+        }
+
+    .cover-overlay {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .video-title {
+        font-size: 18px;
+        font-weight: 400;
+        color: #fff;
+        line-height: 1.43;
+        margin: 0
+    }
+
+    .video-btn {
+        border: 2px solid #fff;
+        display: inline-block;
+        width: 44px;
+        height: 44px;
+        padding: 0 15px;
+        line-height: 44px;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 20px;
+    }
+
+        .video-btn.small {
+            padding: 8px 16px
+        }
+
+    .l-h {
+        line-height: 1.43
+    }
+
+    .title-min-height {
+        min-height: 80px
+    }
+
+    .list-padding {
+        padding-left: 0
+    }
+
+    .article-divider {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        border-bottom: 2px solid #cdcdcd;
+        font-size: 12px;
+        font-family: sans-serif;
+        text-transform: uppercase;
+        text-align: center
+    }
+
+        .article-divider span {
+            background-color: #fff;
+            display: inline-block;
+            color: #373737;
+            padding: 2px 5px;
+            border-radius: 10px;
+            border: 2px solid #373737;
+        }
+
+        .article-divider:after {
+            display: block;
+            margin: auto;
+            margin-bottom: -12px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #373737
+        }
+
+    .make-me-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 15px;
+        padding: 0 15px
+    }
+
+    .twitter-tweet {
+        margin-left: auto;
+        margin-right: auto
+    }
+
+    .instagram-media {
+        margin: 15px auto !important
+    }
+
+    .blockquote {
+        border-top: 3px solid #ccc;
+        border-bottom: 3px solid #ccc;
+        border-left: none;
+        padding: 40px 20px 30px 20px;
+        margin: 30px 0 30px 0
+    }
+
+        .blockquote h3 {
+            font-size: 22px
+        }
+
+        .blockquote:before {
+            content: '“';
+            display: block;
+            text-align: center;
+            position: absolute;
+            margin-top: -47px;
+            font-size: 102px
+        }
+
+        .blockquote footer {
+            font-size: 90%;
+            text-align: right
+        }
+
+    .container.full-width {
+        margin-top: 30px
+    }
+
+    hr.seperator {
+        margin-top: 0;
+        margin-bottom: 0;
+        border: 0;
+        border-top: 1px dotted #9a9a9a;
+    }
+
+    .l-h-28 {
+        line-height: 28px;
+        font-size: 15px;
+    }
+
+    .fg-orange {
+        color: #ff6a00;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .btn-connect {
+        color: #fff !important;
+        background-color: #333;
+        font-family: sans-serif;
+        border-radius: 20px;
+        margin: 5px;
+    }
+
+        .btn-connect .fa {
+            padding: 5px;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .btn-connect.facebook {
+            background-color: #3f5d9a
+        }
+
+        .btn-connect.twitter {
+            background-color: #55acee
+        }
+
+        .btn-connect.linkedin {
+            background-color: #007ab9
+        }
+
+        .btn-connect.quora {
+            background-color: #b92b27
+        }
+
+        .btn-connect.youtube {
+            background-color: #FF0000
+        }
+
+        .btn-connect.rss {
+            background-color: #ff6a00
+        }
+
+        .btn-connect.facebook .fa {
+            color: #3f5d9a
+        }
+
+        .btn-connect.twitter .fa {
+            color: #55acee
+        }
+
+        .btn-connect.linkedin .fa {
+            color: #007ab9
+        }
+
+        .btn-connect.quora .fa {
+            color: #b92b27
+        }
+
+        .btn-connect.youtube .fa {
+            color: #FF0000
+        }
+
+        .btn-connect.rss .fa {
+            color: #ff6a00
+        }
+
+    .share-button-list {
+        float: right;
+    }
+
+    @@media(max-width:640px) {
+        .title {
+            font-size: 28px
+        }
+
+        .sub-title {
+            font-size: 18px
+        }
+
+        .article-cont p, .article-cont ul, .article-cont ol {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-top: 2rem
+        }
+
+        .also-container {
+            padding: 10px
+        }
+
+        .container.full-width {
+            margin-top: -20px;
+            padding-left: 0;
+            padding-right: 0
+        }
+
+        .share-button-list {
+            float: left;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .list-padding {
+            padding-left: 15px
+        }
+
+        .title-min-height {
+            min-height: 100%
+        }
+
+        .container.mt-minus-30 {
+            margin-top: -20px;
+        }
+
+        .video-title {
+            font-size: 16px;
+        }
+    }
+
+    @@media screen and (max-width:2560px) and (min-width:1500px) {
+        .renderBody .container {
+            width: 1170px !important
+        }
+    }
+</style>
+@section lastModified{
+    <meta itemprop="datePublished" content="@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
+    <meta itemprop="dateModified" content="@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
+}
+@if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Author))
+{
+    schemaAuthor = Model.Author;
+}
+@if (Model.SubType == "Opinion")
+{
+    schemaType = "OpinionNewsArticle";
+    newsTitle = "Opinion: " + newsTitle;
+}
+<script type="application/ld+json">
+    {
+    "@@context": "http://schema.org",
+    "@@type": "NewsArticle",
+    "mainEntityOfPage":{
+    "@@type":"WebPage",
+    "@@id":"@domainUrl@pageUrl"
+    },
+    "headline": "@newsTitle",
+    "image": {
+    "@@context": "http://schema.org", "@@type": "ImageObject", "width": "100px", "height": "100px", "url": "@newsImage"
+    },
+    "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
+    "dateModified": "@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
+    "author": {
+    "@@type": "Person",
+    "name": "@schemaAuthor"
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Devdiscourse",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png"
+    }
+    },
+    "description": "@GetFirstParagraph(@Model.Description)"
+    }
+</script>
+@if (@schemaAuthor == "PR Newswire")
+{
+    <style>
+        .article-image-container {
+            display: none
+        }
+    </style>
+}
+<div class="container full-width mt-minus-30">
+    @if (!isCrawler)
+    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div>@*<div class="text-center" style="min-height:100px"></div>*@ </div>}
+</div><div class="container">
+    <ul class="breadcrumb breadcrumb_new m-t-20" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li>
+        @if (Model.Type == "News" && Model.Category != "15")
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="/news" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
+}
+        else if (Model.Type == "News" && Model.Category == "15")
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Sports", new{cat="INDvsENG"})" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
+}
+        else
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("DevBlogs", "Home", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">@Model.SubType</span></a> <meta itemprop="position" content="2" /> </li>
+}
+
+@* @{Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "NewsSector" });} *@  @* do later *@
+@await Component.InvokeAsync("Sector", new { sector=Model.Sector, filter="NewsSector"} );
+
+<li class="active">Article</li>
+</ul> <div class="article-divider clearfix" style="display:none;" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div><div class="row">
+    <div class="col-md-8">
+        <article>
+            <h1 class="title">@Model.Title</h1> @if (!string.IsNullOrEmpty(@Model.SubTitle))
+            {<h2 class="sub-title">@Model.SubTitle</h2> }<hr class="seperator" /> <div class="m-b-10 m-t-10">
+                @if (!string.IsNullOrEmpty(Model.Source) && Model.Type != "Blog")
+                {
+                    switch (Model.Source)
+                    {
+                        case "PTI":<span><a href="/pti-stories">@Model.Source.Trim()</a></span> break;
+                    case "Reuters": <span><a href="/reuters-stories">@Model.Source.Trim()</a></span> break;
+                case "IANS": <span><a href="/ians-stories">@Model.Source.Trim()</a></span> break;
+            case "UN News": <span><a href="/un-news">@Model.Source.Trim()</a></span> break;
+        case "Devdiscourse News Desk": <span><a href="/devdiscourse-stories">@Model.Source.Trim()</a></span> break;
+    case "ANI": <span><a href="/ani-stories">@Model.Source.Trim()</a></span> break;
+case "PR Newswire": <span><a href="/pr-newswire">@Model.Source.Trim()</a></span> break;
+default: <span><a href="/news-source/@Model.Source.Trim()">@Model.Source.Trim()</a></span> break;
+}<span class="list-divider"> | </span>}@if (Model.Type == "Blog" && !string.IsNullOrEmpty((Model.Author ?? "").Trim()))
+                {<a href="/Home/AuthorArticles?fl=@Model.Author.Trim()">
+                        @if (!string.IsNullOrEmpty(Model.Themes))
+                        {
+                            var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + Model.Themes : string.Concat(domainUrl, Model.Themes);<img class="img-circle author-avatar" src="@authorImage?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />}
+                        else
+                        {<img class="img-circle author-avatar" src="@domainUrl/?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />}@Model.Author.Trim()
+                    </a> <span class="list-divider"> | </span>}@if (!string.IsNullOrEmpty(Model.SourceUrl))
+{
+    if (Model.SourceUrl.ToLower().Contains("washington"))
+    {<span>Washington DC</span>}
+    else if (@Model.SourceUrl.ToLower() == "losangeles")
+    {<span>Los Angeles</span>}
+    else
+    {<span class="text-capitalize">@textInfo.ToTitleCase(@Model.SourceUrl.ToLower())</span>}<span class="list-divider"> | </span>}<span>Updated: @modifiedDate.ToString("dd-MM-yyyy HH:mm") IST | Created: @publishedDate.ToString("dd-MM-yyyy HH:mm") IST</span>
+</div>
+@* @if (Model.UserNewsFiles.Count == 0) *@
+@if ( Model.UserNewsFiles == null )
+{
+    if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "News")
+    {<section class="admin-section">
+            <a href="@Url.Action("Edit", "DevNews", new{id=Model.Id})" target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a> @if (!string.IsNullOrWhiteSpace(@Model.WorkStage))
+            {<span>( Last edited by @Model.WorkStage.Split(',')[0].Split('-')[0] )</span>}
+        </section>}
+    else if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "Blog")
+    {<section class="admin-section">
+            <a href="@Url.Action("EditBlog", "DevNews", new{id=Model.Id})" target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a> @if (!string.IsNullOrWhiteSpace(@Model.WorkStage))
+            {<span>( Last edited by @Model.WorkStage.Split(',')[0].Split('-')[0] )</span>}
+        </section>}
+    if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
+    {<figure class="figure"> <picture> <source srcset="@newsImage&format=webp" type="image/webp"> <source srcset="@newsImage&format=jpeg" type="image/jpeg"> <img data-src="@Model.ImageUrl" src="@Model.ImageUrl" class="img-responsive lazyload" alt="@Model.Title" /> </picture> <figcaption class="fig-caption">@Model.ImageCaption @Model.ImageCopyright</figcaption> </figure>}
+else
+{<figure class="hidden figure"> <img src="@domainUrl/images/newstheme.jpg" class="img-responsive m-b-10" alt="@Model.Title" /> <figcaption class="fig-caption">@Model.Title</figcaption> </figure>}
+}
+else
+{
+
+   
+foreach (var item in Model.UserNewsFiles.Take(1))
+{
+    @section taboolaAd{
+       @*  <link href="https://vjs.zencdn.net/7.6.6/video-js.min.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> *@
+} 
+
+
+
+<script type="application/ld+json">
+    {"@@context":"https://schema.org/","@@type":"VideoObject","name":"@newsTitle","@@id":"@domainUrl@pageUrl","datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","description":"@GetDescriptionText(@Model.Description)","thumbnailURL":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","thumbnail":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","contentUrl":"@item.FilePath","author":{"@@type":"Person","name":"Devdiscourse News Desk"}}
+</script>
+<video id="my-video" class="video-js center-block" controls preload="auto" width="640" height="360" @*poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"*@ poster="@item.FileThumbUrl" data-setup='{"fluid": true}' autoplay> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a> </p></video> <div class="modal fade" id="embedVideoDialog" role="dialog"> <div class="modal-dialog modal-sm"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Embed This Media</h4> </div><div class="modal-body"> <input type="text" id="embedCode" class="form-control" value='<iframe width="640" height="360" frameborder="0" src="https://www.devdiscourse.com/videos/embedmedia/@item.Id"></iframe>' /> </div></div></div></div>}<div>
+    @if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "News")
+    {<section class="admin-section">
+            <a href="@Url.Action("Edit", "DevNews", new{id=Model.Id})" target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a> @if (!string.IsNullOrWhiteSpace(@Model.WorkStage))
+            {<span>( Last edited by @Model.WorkStage.Split(',')[0].Split('-')[0] )</span>}
+        </section>}
+    else if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "Blog")
+    {<section class="admin-section">
+            <a href="@Url.Action("EditBlog", "DevNews", new{id=Model.Id})" target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a> @if (!string.IsNullOrWhiteSpace(@Model.WorkStage))
+            {<span>( Last edited by @Model.WorkStage.Split(',')[0].Split('-')[0] )</span>}
+        </section>}
+</div>}<section class="left-section clearfix">
+    @if (!string.IsNullOrEmpty(Model.Country))
+    {<ul class="list-inline no-margin pull-left l-h-28">
+            <li>Country:</li>
+            @{var countryarr = Model.Country.Split(','); foreach (var cou in countryarr)
+                {
+                    <li class="fg-orange">@cou</li>
+}}
+        </ul>}<ul class="list-inline no-margin share-button-list">
+        <li class="l-h-28">SHARE</li>
+        <li> <a class="social-btn" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook"> <span class="fa fa-facebook fb"></span> @*Facebook*@</a> </li>
+        <li> <a class="social-btn" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@encodedValue', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> @*Twitter*@</a> </li>
+        <li> <a class="social-btn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=@encodedValue&summary=@encodeValue&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span> @*LinkedIn*@</a> </li>
+        <li> <a class="social-btn" aria-label="Subscribe on Youtube" rel="noopener" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span> @*Youtube*@</a> </li>
+        @if (isMobile)
+        {
+            <li> <a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> @*Whatsapp*@</a> </li>
+         }
+    </ul>
+</section> <hr class="seperator m-b-20" /> <section class="article-cont">
+    @GetCleanDescription(@DataDesc.ToString()) @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk" && !isCrawler)
+    {
+        if (!isCrawler)
+        {<p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>}
+    }
+    else if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() == "Devdiscourse News Desk" && !isCrawler)
+    {<p>(With inputs from agencies.)</p>}@*@if (!Request.Browser.Crawler){<p> Download The Devdiscourse <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" target="_blank">News App</a> for Latest News.</p>}*@
+</section>@if (!string.IsNullOrEmpty(Model.Tags) && !isCrawler)
+{<section> <ul class="list-inline"> <li class="f-18">READ MORE ON:</li> @{ var tag = (Model.Tags ?? "").Split(',').Where(s => !string.IsNullOrEmpty(s.Trim())).Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
+        {
+            if (!string.IsNullOrEmpty(t.Trim()))
+            { <li> <a href="/news?tag=@encodedTitle" class="tag">@t.Trim()</a> </li> }
+    } } </ul> </section>@*<section> <ul class="list-inline"> <li class="f-18">READ MORE ON:</li>@{var tag = (Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
+        {
+            if (!string.IsNullOrEmpty(t.Trim()))
+            {<li> <a href="/news?tag=@Url.Encode(@t.Trim())" class="tag">@t.Trim()</a> </li>}
+    }}</ul> </section>*@}@if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Source))
+{<section class="m-t-30"> <ul class="list-inline"> <li class="f-18">FIRST PUBLISHED IN:</li><li> <span class="badge tag" style="color:#fff">@Model.Source</span> </li></ul> </section>}<div class="advertisement-area m-t-10">
+    <div class="advertisement-title">Advertisement</div>
+    <div id="v-devdiscourse-v2"></div>
+    <script>(function (v, d, o, ai) { ai = d.createElement('script'); ai.defer = true; ai.async = true; ai.src = v.location.protocol + o; d.head.appendChild(ai); })(window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');</script>
+</div>@if (!string.IsNullOrEmpty(Model.Tags)) @* { 
+    Html.RenderAction("GetTagNews", "Agencywire", new { id = Model.NewsId, tag = Model.Tags }); } *@
+    @await Component.InvokeAsync("TagsNews", new { id=Model.NewsId, tag=Model.Tags} );
+
+    <button onclick="reset('https://www.devdiscourse.com/Article/@Model.GenerateSecondSlug()',@Model.NewsId);" class="btn btn-default btn-lg m-b-20 m-t-20 btn-block"> <img src="~/images/icons/comment_bubble.svg" alt="comments" /> POST / READ COMMENTS </button> <section id="art_@Model.NewsId" class="commentbox"> <div id="disqus_thread" style="display:none;"> <img data-src="/images/icons/disqus_loader.svg" class="center-block lazy" /> </div></section>
+</article> <div id="NewsNews"></div>
+</div><div class="col-md-4">
+    @if (Model.NewsId == 1813875)
+    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><div class="p-10"> <a href="https://www.papasocial.com/instagram/likes?utm_source=devdiscourse&utm_medium=banner&utm_campaign=1813875&utm_term=buy+instagram+likes" title="buy instagram likes 1$"><img src="https://uploads.papasocial.com/cdn/gallery/szbam1j77wbd0jft7dnl.png" class="img-responsive" alt="buy instagram likes"></a> </div></div>}
+    else if (Model.NewsId == 1837471)
+    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><div class="p-10"> <a href="https://www.tikroyal.com/tiktok-followers?utm_source=devdiscourse&utm_medium=banner&utm_campaign=1837471&utm_term=buy+tiktok+followers" title="buy tiktok followers"><img src="https://uploads.tikroyal.com/cdn/gallery/xqdqn37oenjyyxbrs2yr.png" class="img-responsive" alt="buy tiktok followers"></a> </div></div>}
+    else
+    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div>@*<div id="div-gpt-ad-1583931793021-2" style="min-height:265px"> </div>*@ </div>}<section class="clearfix m-t-10"> <h2 class="section-title3"> <span>TRENDING</span> </h2>
+    @* @{Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.edition });} do later*@
+    @await Component.InvokeAsync("Trends", new { filter="Trends", reg=ViewBag.edition });
+    </section> <section class="m-t-10" id="video_section"> <h2 class="section-title3"> <span>DevShots</span> </h2> </section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Latest News</span> </h2> 
+    @* @{Html.RenderAction("GetlatestNews", "Search", new { reg = ViewBag.region });} *@
+     @await Component.InvokeAsync("LatestNews", new{ reg=ViewBag.region } );
+    </section> <div class="clearfix m-t-10">
+     @Html.Partial("_socialPartial") 
+    </div><section class="clearfix m-t-10"> <h2 class="section-title3"> <span>OPINION / BLOG / INTERVIEW</span> </h2>
+    @* @{Html.RenderAction("getOpinion", "Search", new { reg = ViewBag.region });} *@
+    @await Component.InvokeAsync("Opinion", new { reg=ViewBag.region } );
+    </section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Connect us on</span> </h2> <a target="_blank" href="https://www.facebook.com/devdiscourse" rel="noreferrer" aria-label="Devdiscourse Facebook Page" class="btn btn-connect facebook"><span class="fa fa-facebook" aria-hidden="true"></span> Facebook</a> <a target="_blank" href="https://twitter.com/dev_discourse" rel="noreferrer" aria-label="Devdiscourse Twitter Page" class="btn btn-connect twitter"><span class="fa fa-twitter" aria-hidden="true"></span> Twitter</a> <a target="_blank" href="https://www.linkedin.com/showcase/dev_discourse/" rel="noreferrer" aria-label="Devdiscourse LinkedIn Page" class="btn btn-connect linkedin"><span class="fa fa-linkedin" aria-hidden="true"></span> LinkedIn</a> <a target="_blank" href="https://www.quora.com/profile/DevDiscourse" rel="noreferrer" aria-label="Devdiscourse Quora Page" class="btn btn-connect quora"><span class="fa fa-quora" aria-hidden="true"></span> Quora</a> <a target="_blank" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" rel="noreferrer" aria-label="Subscribe on Youtube" class="btn btn-connect youtube"><span class="fa fa-youtube" aria-hidden="true"></span> Youtube</a> <a target="_blank" href="https://news.google.com/publications/CAAqBwgKMMDbhQsw7_-CAw?hl=en-AU&gl=AU&ceid=AU%3Aen" rel="noreferrer" aria-label="Subscribe on Google News" class="btn btn-connect facebook"> <img src="~/images/icons/google_news.svg" /> Google News </a> <a target="_blank" href="http://feeds.feedburner.com/devdiscourse/NCFS" rel="noreferrer" aria-label="Devdiscourse RSS Feed" class="btn btn-connect rss"><span class="fa fa-rss" aria-hidden="true"></span> RSS</a> </section>
+</div>
+</div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+@if (isMobile) { <text>var _ismobile = true;</text>} else {<text>var _ismobile = false;</text> } var _sector = '@(Model.Sector)'; var _region = '@(ViewBag.region)'; var label = '@(Model.NewsLabels)' == "" ? "agency-wire" : '@(Model.NewsLabels)'; var _id = '@(Model.Id)'; var skip = -1; var inCallback = !1; var newsId = '@(Model.NewsId)'; var newsUrl = '@pageUrl'; var news_image_url = '@newsImage'; var news_title = '@Model.Title'; var news_country = '@Model.Country'; var published = '@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")'; var bannerArr = ["/AdminFiles/COE/pharma_728x90.jpg", "/AdminFiles/COE/retail_728x90.jpg", "/AdminFiles/COE/supply_chain_728x90.jpg", "/AdminFiles/COE/telehealth_728x90.jpg", "/AdminFiles/COE/workplace_728x90.jpg", "/AdminFiles/Ads/Banner/vithi_banner2.jpg", "/AdminFiles/Ads/Banner/IDEA_kms_banner.jpg", "/AdminFiles/Ads/Banner/natural_resourse_banner.jpg", "/AdminFiles/Ads/Banner/transport_banner.png"]; var mobileBannerArr = [ "/AdminFiles/COE/pharma_300x300.jpg", "/AdminFiles/COE/retail_300x300.jpg", "/AdminFiles/COE/supply_chain_300x300.jpg", "/AdminFiles/COE/telehealth_300x300.jpg", "/AdminFiles/COE/workplace_300x300.jpg", "/AdminFiles/Ads/Banner/vithi_mobile.jpg", "/AdminFiles/Ads/Banner/IDEA_kms_mobile.jpg", "/AdminFiles/Ads/Banner/natural_resourse_mobile.jpg", "/AdminFiles/Ads/Banner/transport_mobile.jpg"]; var urlLinkArr = ["https://www.visionri.com/insight/13-pharma-post-covid-19-reducing-political-clout-can-alter-business-models", "https://www.visionri.com/insight/14-retail-post-covid-19-knocking-down-persistent-barriers-to-change", "https://www.visionri.com/insight/15--supply-chains-post-covid-19-disruptions-to-accelerate-long-pending-revamping", "https://www.visionri.com/insight/16-telehealth-post-covid-19-breaking-stereotypes-and-embracing-the-potential-of-technology", "https://www.visionri.com/insight/17--workplaces-post-covid-19-tech-innovations-to-catalyse-a-remote-working-culture", "http://visionri.com/Home/Vithi", "http://www.visionri.com/Home/IdeaKM", "http://visionri.com/Markets/NaturalResourceManagement", "http://visionri.com/Markets/Transport"]; $(".linkBtn").removeClass("active"), $('#newsLink').addClass("active");@if(isMobile){<text>var initHeight = 70;</text>}else{<text>var initHeight = 10;</text>}@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) { <text>var _isAdmin = true;</text> } else {<text> var _isAdmin = false; </text>}function twitterLoaded() { twttr.events.bind('loaded', function (event) { @*$('.twitter-tweet').css({ display: 'flex' })*@ }) }</script>
+    <script src="~/Scripts/article_new.js"></script>
+    <script type="text/javascript">var disqus_shortname = 'www-devdiscourse-com-1'; var disqus_url = ''; var disqus_config = function () { this.language = "en"; }; var reset = function (newUrl, data_id) { if (typeof DISQUS === "undefined") { $('#disqus_thread').show(); var dsq = document.createElement('script'); dsq.type = 'text/javascript'; /*dsq.async=true;*/ dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq); } else { $('.commentbox').html(''); $('#art_' + data_id).html('<div id="disqus_thread"></div>'); DISQUS.reset({ reload: true, config: function () { this.page.identifier = __newId; this.page.url = newUrl; } }); } };</script>
+    <script src="~/Scripts/lazysizes.min.js" async></script>
+    @if (Model.UserNewsFiles == null)
+    {
+        <script src="https://vjs.zencdn.net/7.6.6/video.min.js"></script>
+        <script>
+            var VjsButton = videojs.getComponent("Button");
+            var customButton = videojs.extend(VjsButton, {
+                constructor: function (player, options) {
+                    VjsButton.call(this, player, options);
+                    this.controlText("Embed Code");
+                },
+                handleClick: function () {
+                    $('#embedVideoDialog').modal();
+                },
+                buildCSSClass: function () {
+                    return "vjs-icon-custombutton vjs-control vjs-button fa fa-code";
+                }
+            });
+            var player = videojs('my-video');
+            videojs.registerComponent("customButton", customButton);
+            player.getChild("controlBar").addChild("customButton", {});
+        </script>
+    }
+    @if (!isCrawler)
+    {
+        <script async src="//www.instagram.com/embed.js"></script>
+        <script async src="https://platform.twitter.com/widgets.js" onload="twitterLoaded()" charset="utf-8"></script>
+        <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
+        @* <script type="text/javascript">@if (!Request.Browser.Crawler){<text> addLog(); function addLog(){$.post('https://devdiscourse-app.herokuapp.com/news_log',{event_type: "VIEW", article_id: newsId, url: 'https://www.devdiscourse.com' + newsUrl, article_image_url: news_image_url, published_datetime: published, article_sector: _sector.split(',')[0], article_headline: news_title, article_country: news_country, article_region: _region,user_mac_address:'@(ViewBag.MACAddress)',ip_address:'@(ViewBag.publicIP)'}, function (data){console.log(data);});}</text>}</script>*@
+    }
+}

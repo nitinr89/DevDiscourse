@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.SearchView>
+@{
+    @*string domainUrl = "https://www.devdiscourse.com";*@
+    string domainUrl = ""; Layout = null; var Take = 3;
+}
+@if (Model.Count() > 0)
+{
+    <div class="clearfix">
+        <h2 class="section-title"><span> MOST POPULAR @TempData["Sector"].ToString()</span></h2>
+        <div class="row">
+
+            @foreach (var item in Model.Take(Take))
+            {
+                string controller = "ArticleDetailswithprefix";
+                string action = item.Label ?? "agency-wire";
+                string id = item.GenerateSecondSlug();
+                var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+
+               @* <a href="@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label ?? "agency-wire", id = item.GenerateSecondSlug() })" class=" text-decoration">*@
+
+
+                    <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+
+                    <div class="col-md-4">
+                        <div class="m-p-img m-b-5 lazy" data-src="@domainUrl@newsImage?width=230&height=130&mode=crop&format=jpeg"></div>
+                        @if (!string.IsNullOrEmpty(@item.Country))
+                        {
+                            var country = item.Country.Split(',').First().Trim();
+                            <small class="text-uppercase country-sub">@country</small>
+                        }
+                        else
+                        {
+                            <small class="text-uppercase country-sub">Global</small>
+                        }
+                        <span class="time-badge font-sans-serif text-muted">@item.CreatedOn.ToString("dd MMM yyyy")</span>
+                        <h3 class="trend-title m-t-5">@item.Title</h3>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+}

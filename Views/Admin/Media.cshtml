@@ -1,0 +1,473 @@
+﻿@{
+    ViewBag.Title = "Media";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<style>
+    body {
+        background-color: #efefef;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    .divMinHeight {
+        min-height: 776px;
+        padding: 20px;
+        border-top: 1px solid #ddd;
+    }
+
+    .my-card {
+        margin-bottom: 20px;
+    }
+
+    .main-title {
+        background-color: #e6e6e6;
+        color: #333;
+        padding: 10px;
+    }
+
+        .main-title img {
+            width: 18px;
+            margin-left: 10px;
+            margin-right: 5px;
+        }
+
+        .main-title h4 {
+            margin-top: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .main-title a {
+            text-decoration: none;
+            color: #333;
+        }
+    body div + div.p-t-20 {
+        padding-top: 0 !important;
+        border-top: 1px solid #d9d7d7;
+    }
+</style>
+<div class="container bg-white p-b-10">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-sm-6">
+            <h3 style="margin-top:0px">MEDIA VIEW</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6 text-right">
+            <button class="btn btn-primary btn-sm" id="editWS" style="margin-right:20px;"><span class="fa fa-pencil"></span> Edit Work Stage </button>
+            <a href="@Url.Action("Index", "Admin")" class="btn btn-default btn-sm" title="Back To Home"><span class="fa fa-arrow-circle-left"></span> Back</a>
+        </div>
+    </div>
+</div>
+<div class="bg-white container divMinHeight">
+    <div class="row">
+        <div class="col-xs-12 p-b-10">
+            <h3>Devdiscourse News Desk</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color: #b8e5f8;">
+                <div class="main-img">
+                    <img src="~/images/admin/news.png" class="img-responsive center-block" alt="news" />
+                </div>
+                <div class="main-title">
+                    <h4>NEWS</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "DevNews")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "DevNews")"><img src="~/images/admin/arrow-right.svg" /> News</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color: #e5952e;">
+                <div class="main-img">
+                    <img src="~/images/admin/blog.png" class="img-responsive center-block" alt="blog" />
+                </div>
+                <div class="main-title">
+                    <h4>BLOGS</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("CreateBlog", "DevNews")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Blog", "DevNews")"><img src="~/images/admin/arrow-right.svg" /> Blogs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card ">
+            <div style="background-color: #b5d6ca;">
+                <div class="main-img">
+                    <img src="~/images/admin/event.png" class="img-responsive center-block" alt="event" />
+                </div>
+                <div class="main-title">
+                    <h4>EVENTS</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("CreateEvent", "Events")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("EventList", "Events")"><img src="~/images/admin/arrow-right.svg" /> Events</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color: #f3c4b5;">
+                <div class="main-img">
+                    <img src="~/images/admin/live-blog.png" class="img-responsive center-block" alt="live-blog" />
+                </div>
+                <div class="main-title">
+                    <h4>LIVE BLOGS</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("CreateBlog", "LiveBlogs")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("BlogList", "LiveBlogs")"><img src="~/images/admin/arrow-right.svg" /> Live Blogs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color: #5063b7;">
+                <div class="main-img">
+                    <img src="~/images/admin/breaking-news.png" class="img-responsive center-block" alt="breaking-news" />
+                </div>
+                <div class="main-title">
+                    <h4>BREAKING NEWS</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("BreakingNews", "DevNews")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color: #be2136">
+                <div class="main-img">
+                    <img src="~/images/admin/video-news.jpg" class="img-responsive center-block" alt="breaking-news" />
+                </div>
+                <div class="main-title">
+                    <h4>VIDEO NEWS</h4>
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <a href="@Url.Action("Create", "VideoNews")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-7">
+                            <a href="@Url.Action("Index", "VideoNews")"><img src="~/images/admin/arrow-right.svg" /> Video News</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color: #0ead99;">
+                <div class="main-img">
+                    <img src="~/images/admin/live_discourse.jpg" style="max-height: 210px;" class="img-responsive center-block" alt="contribute">
+                </div>
+                <div class="main-title">
+                    <h4>LIVE DISCOURSE</h4>
+                    <div class="row">
+                        <div class="col-xs-12 p-t-5">
+                            <a href="/Livediscourse"><img src="/images/admin/arrow-right.svg"> Live Discourse</a>
+                        </div>
+                        <div class="col-xs-12 p-t-5">
+                            <a href="/DiscourseTag"><img src="/images/admin/arrow-right.svg"> Live Discourse Tag</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color: #0ead99;">
+                <div class="main-img">
+                    <img src="~/images/admin/Interview_cover.jpg" style="max-height: 210px;" class="img-responsive center-block" alt="contribute">
+                </div>
+                <div class="main-title">
+                    <h4>INTERVIEW</h4>
+                    <div class="row">
+                        <div class="col-xs-12 p-t-5">
+                            <a href="/Interview"><img src="/images/admin/arrow-right.svg"> Interview</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 p-b-10">
+            <h3>Agency Wire</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color: #a5dde3;">
+                <div class="main-img">
+                    <img src="~/images/admin/assigned-news.png" class="img-responsive center-block" alt="assigned-news" />
+                </div>
+                <div class="main-title">
+                    <h4>ASSIGNED NEWS</h4>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="@Url.Action("AssignedNews", "PTI")"><img src="~/images/admin/arrow-right.svg" /> Assigned News</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (ViewBag.userName == "Parag" || User.IsInRole("SuperAdmin"))
+        {
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+                <div style="background-color: #a5dde3;">
+                    <div class="main-img">
+                        <img src="~/images/admin/assigned-list.png" class="img-responsive center-block" alt="assigned-news" />
+                    </div>
+                    <div class="main-title">
+                        <h4>ASSIGNED NEWS LIST</h4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a href="@Url.Action("AssignedNewsList", "PTI")"><img src="~/images/admin/arrow-right.svg" /> Assigned To</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+                <div style="background-color: #40c8c2;">
+                    <div class="main-img">
+                        <img src="~/images/admin/manage-shift.png" class="img-responsive center-block" alt="manage-shift" />
+                    </div>
+                    <div class="main-title">
+                        <h4>MANAGE SHIFT</h4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a href="@Url.Action("ManageShift", "Admin")"><img src="~/images/admin/arrow-right.svg" /> Manage Shift</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#eaab3d">
+                <div class="main-img">
+                    <img src="~/images/admin/infocus.png" class="img-responsive center-block" alt="infocus" />
+                </div>
+                <div class="main-title">
+                    <h4>INFOCUS</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Infocus")"><img src="~/images/admin/arrow-right.svg" /> Infocus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#9bccf2">
+                <div class="main-img">
+                    <img src="~/images/admin/image-gallery.png" class="img-responsive center-block" alt="image-gallery" />
+                </div>
+                <div class="main-title">
+                    <h4>IMAGE GALLERY</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("UploadImages", "UserFiles")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Images", "UserFiles")"><img src="~/images/admin/arrow-right.svg" /> Images</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#f3f2ee">
+                <div class="main-img">
+                    <img src="~/images/Campaign/admin_campaign_cover.jpg" class="img-responsive center-block" alt="image-gallery" />
+                </div>
+                <div class="main-title">
+                    <h4>Mother, Not Patient!</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Pledges", "Campaign")"><img src="~/images/admin/arrow-right.svg" /> Pledges</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+    {
+        <div class="row">
+            <div class="col-xs-12 p-b-10">
+                <h3>Contributions</h3>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+                <div style="background-color: #4ba5a5;">
+                    <div class="main-img">
+                        <img src="~/images/admin/contribute.png" class="img-responsive center-block" alt="contribute" />
+                    </div>
+                    <div class="main-title">
+                        <h4>CONTRIBUTION CONTENT</h4>
+                        <div class="row">
+                            <div class="col-xs-12 p-t-5">
+                                <a href="@Url.Action("NewsList", "ContentCreator")"><img src="~/images/admin/arrow-right.svg" /> News</a>
+                            </div>
+                            <div class="col-xs-12 p-t-5">
+                                <a href="@Url.Action("Contents", "ContentCreator")"><img src="~/images/admin/arrow-right.svg" /> Pending Contents</a>
+                            </div>
+                            <div class="col-xs-12 p-t-5">
+                                <a href="@Url.Action("PublishContent", "ContentCreator")"><img src="~/images/admin/arrow-right.svg" /> Published Contents</a>
+                            </div>
+                            <div class="col-xs-12 p-t-5">
+                                <a href="@Url.Action("RejectContent", "ContentCreator")"><img src="~/images/admin/arrow-right.svg" /> Rejected Contents</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+                <div style="background-color: #3f9fb0;">
+                    <div class="main-img">
+                        <img src="~/images/admin/press-release-content.png" class="img-responsive center-block" alt="press-release-content" />
+                    </div>
+                    <div class="main-title">
+                        <h4>PRESS-RELEASE CONTENT</h4>
+                        <div class="row">
+                            <div class="col-xs-12 p-t-5">
+                                <a href="@Url.Action("NewsList", "NewsWire")"><img src="~/images/admin/arrow-right.svg" /> News</a>
+                            </div>
+                            <div class="col-xs-12 p-t-5">
+                                <a href="@Url.Action("ContentList", "NewsWire")"><img src="~/images/admin/arrow-right.svg" /> Pending Contents</a>
+                            </div>
+                            <div class="col-xs-12 p-t-5">
+                                <a href="@Url.Action("PublishContent", "NewsWire")"><img src="~/images/admin/arrow-right.svg" /> Published Contents</a>
+                            </div>
+                            <div class="col-xs-12 p-t-5">
+                                <a href="@Url.Action("RejectContent", "NewsWire")"><img src="~/images/admin/arrow-right.svg" /> Rejected Contents</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+                <div style="background-color: #3f9fb0;">
+                    <div class="main-img">
+                        <img src="~/images/admin/press-release-content.png" class="img-responsive center-block" alt="press-release-content" />
+                    </div>
+                    <div class="main-title">
+                        <h4>PRESS-RELEASE MANAGER</h4>
+                        <div class="row">
+                            <div class="col-xs-12 p-t-5">
+                                <a href="@Url.Action("PressReleaseManager", "Admin")"><img src="~/images/admin/arrow-right.svg" /> Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div class="col-xs-12 p-b-10">
+            <h3>News Sources</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#4ba5a5">
+                <div class="main-img">
+                    <img src="~/images/admin/website.png" class="img-responsive center-block" alt="website" />
+                </div>
+                <div class="main-title">
+                    <h4>WEBSITE</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "Websites")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Websites")"><img src="~/images/admin/arrow-right.svg" /> Website</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#c8d1da">
+                <div class="main-img">
+                    <img src="~/images/admin/press-release.png" class="img-responsive center-block" alt="press-release" />
+                </div>
+                <div class="main-title">
+                    <h4>PRESS-RELEASE</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("CreateNew", "Websites")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("PressRelease", "Websites")"><img src="~/images/admin/arrow-right.svg" /> Press-Release</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="workModalDialog" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="cursor-pointer fa fa-times pull-right" id="cancelBtn"></span>
+                <h3>Work Stage</h3>
+            </div>
+            <div class="modal-body">
+                <label class="control-label">Select your work stage</label>
+                <select class="form-control m-t-20" id="workStage">
+                    <option value="Title Change" tabindex="bg-green">Title Change</option>
+                    <option value="Image Change" tabindex="bg-blue">Image Change</option>
+                    <option value="Fully Edit" tabindex="bg-red">Fully Edit</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveworkBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+    <script>
+        $(document).ready(function () {
+            @*if ('@(ViewBag.workStage)' == "Allow") {
+                $('#workModalDialog').modal('show');
+            }*@
+            $('#editWS').click(function () {
+                $('#workModalDialog').modal('show');
+            });
+            $('#saveworkBtn').click(function () {
+                var _stage = $('#workStage option:selected').val();
+                var _bgclass = $('#workStage option:selected').attr("tabindex");
+                $('#workModalDialog').modal('hide');
+                $.ajax({
+                    url: '/Admin/SaveWorkStage',
+                    type: 'Post',
+                    data: { stage: _stage, bgclass: _bgclass },
+                    dataType: 'Json',
+                    success: function (data) {
+                        showalert("Save successfully!", "success");
+                    },
+                    error: function () {
+                    },
+                });
+            });
+            $('#cancelBtn').click(function () {
+                $('#workModalDialog').modal('hide');
+            });
+        });
+    </script>
+}

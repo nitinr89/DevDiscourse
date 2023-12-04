@@ -77,19 +77,20 @@ namespace DevDiscourse.Controllers
         //    return View();
         //}
         //[OutputCache(Duration = 60, VaryByParam = "none")]
-        //public ActionResult PrivacyPolicy()
-        //{
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.edition = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.edition = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
+        public ActionResult PrivacyPolicy()
+        {
+            //HttpCookie cookie = Request.Cookies["Edition"];
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.edition = "Global Edition";
+            }
+            else
+            {
+                ViewBag.edition = cookie ?? "Global Edition";
+            }
+            return View();
+        }
         public ActionResult Index(string reg = "")
         {
             ViewBag.edition = "Global Edition";
@@ -1075,31 +1076,38 @@ namespace DevDiscourse.Controllers
         //        return PartialView("_getEditorsPick", result);
         //    }
         //}
-        //public PartialViewResult GetVideoNews(long id = 0, string reg = "Global Edition", string filter = "")
-        //{
-        //    ViewBag.filter = filter;
-        //    //if (reg != "Global Edition")
-        //    //{
-        //    //    var result = _db.DevNews.Where(a => a.NewsId != id && a.AdminCheck == true && a.Region.Contains(reg) && a.IsVideo == true && a.EditorPick == false  && a.IsSponsored == false).OrderByDescending(m => m.CreatedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId,Label = a.NewsLabels }).AsNoTracking().Take(5).ToList();
-        //    //    return PartialView("_getVideoNews", result);
-        //    //}
-        //    //else
-        //    //{
-        //    //    var result = _db.DevNews.Where(a => a.NewsId != id && a.AdminCheck == true && a.IsVideo == true && a.EditorPick == false && a.IsSponsored == false).OrderByDescending(m => m.CreatedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId,Label = a.NewsLabels }).AsNoTracking().Take(5).ToList();
-        //    //    return PartialView("_getVideoNews", result);
-        //    //}
-
-        //    if (reg == "Global Edition")
-        //    {
-        //        var result = _db.VideoNews.Where(a => a.AdminCheck == true).Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Take(5);
-        //        return PartialView("_getVideoNews", result);
-        //    }
-        //    else
-        //    {
-        //        var result = _db.VideoNews.Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg)).Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Take(5);
-        //        return PartialView("_getVideoNews", result);
-        //    }
-        //}
+        public PartialViewResult GetVideoNews(long id = 0, string reg = "Global Edition", string filter = "")
+        {
+            ViewBag.filter = filter;
+            if (reg == "Global Edition")
+            {
+                var result = _db.VideoNews
+                //.Where(a => a.AdminCheck == true)
+                .Select(a => new VideoViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CreatedOn = a.CreatedOn,
+                    FileThumbUrl = a.VideoThumbUrl,
+                    Duration = a.Duration
+                }).OrderByDescending(m => m.CreatedOn).Take(5);
+                return PartialView("_getVideoNews", result);
+            }
+            else
+            {
+                var result = _db.VideoNews
+                //.Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
+                .Select(a => new VideoViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CreatedOn = a.CreatedOn,
+                    FileThumbUrl = a.VideoThumbUrl,
+                    Duration = a.Duration
+                }).OrderByDescending(m => m.CreatedOn).Take(5);
+                return PartialView("_getVideoNews", result);
+            }
+        }
         ////public PartialViewResult GetComments(long id, string type, int skip)
         ////{
         ////    ViewBag.loginUser = User.Identity.GetUserId();
@@ -1324,29 +1332,45 @@ namespace DevDiscourse.Controllers
         //    _db.CommentLogs.Add(logs);
         //    await _db.SaveChangesAsync();
         //}
-        //public JsonResult GetCountry(string region)
-        //{
-        //    var regList = region.Split(',').ToList();
-        //    if (regList.Contains("Global Edition"))
-        //    {
-        //        var search = from m in _db.Countries
-        //                     select new
-        //                     {
-        //                         m.Title,
-        //                     };
-        //        return Json(search.OrderBy(a => a.Title).ToList(), JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
-        //        var search = from m in _db.Countries
-        //                     join s in regList on m.Regions.Title equals s
-        //                     select new
-        //                     {
-        //                         m.Title,
-        //                     };
-        //        return Json(search.OrderBy(a => a.Title).ToList(), JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public JsonResult GetCountry(string region)
+        {
+            var regList = region?.Split(',').ToList();
+            if (regList == null || regList.Contains("Global Edition"))
+            {
+                var search = from m in _db.Countries
+                             select new
+                             {
+                                 m.Title,
+                             };
+                return Json(search.OrderBy(a => a.Title).ToList());
+            }
+            else
+            {
+                //var search = from m in _db.Countries
+                //             join s in regList on m.Regions.Title equals s
+                //             select new
+                //             {
+                //                 m.Title,
+                //             };
+                //return Json(search.OrderBy(a => a.Title).ToList());
+                var query = from m in _db.Countries
+                            select new
+                            {
+                                m.Title,
+                                RegionTitle = m.Regions.Title // Include the region title for comparison
+                            };
+
+                var fetchedData = query.ToList(); // Fetch the data from the database
+
+                var search = fetchedData
+                    .Where(m => regList.Contains(m.RegionTitle)) // Filter based on regList
+                    .Select(m => new { m.Title })
+                    .OrderBy(a => a.Title)
+                    .ToList();
+
+                return Json(search);
+            }
+        }
         //public JsonResult UpdateProfilePic()
         //{
         //    if (Request.Files.Count > 0)

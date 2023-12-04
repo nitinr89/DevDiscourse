@@ -1,0 +1,296 @@
+﻿@model Devdiscourse.Models.BasicModels.Livediscourse
+@inject UserManager<ApplicationUser> userManager;
+@using Microsoft.AspNetCore.Identity;
+@{
+    string? loginUserId = userManager.GetUserId(User);
+}
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+    var IsModerator = ViewBag.IsModerator;
+}
+<style>
+    body {
+        background-color: #efefef;
+    }
+
+    .custom-button {
+        margin-top: -5px;
+        margin-right: 5px;
+    }
+</style>
+@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Upfront") || Model.Creator == loginUserId)
+{
+    <div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
+
+        <ol class="breadcrumb no-margin">
+            <li class="breadcrumb-item"><a href="@Url.Action("Media", "Admin")">Admin</a></li>
+            @if (Model.ParentId == 0)
+            {
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Livediscourse")">Livediscourse</a></li>
+            }
+            else
+            {
+                <li class="breadcrumb-item"><a href="@Url.Action("Details", "Livediscourse", new { id = Model.Id })">Livediscourse</a></li>
+            }
+            <li class="breadcrumb-item active">Details</li>
+        </ol>
+    </div>
+}
+    <div class="container bg-white p-20">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sector)
+            </dt>
+
+            <dd>
+                        @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "Plane" });
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </dt>
+
+            <dd>
+                <img src="@Model.ImageUrl" class="img-responsive m-b-10" title="@Model.Title" alt="@Model.Title" />
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ImageCopyright)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ImageCopyright)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ImageCaption)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ImageCaption)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tags)
+            </dt>
+
+            <dd>
+                @if (!string.IsNullOrEmpty(Model.Tags))
+                {
+                    var tag = Model.Tags.Split(','); foreach (var t in tag.OrderBy(x => Guid.NewGuid()).Take(20))
+                    {
+                        if (!string.IsNullOrEmpty(t.Trim()))
+                        {<a href="/news?tag=@t.Trim()" class="badge tag">@t.Trim()</a>}
+                }
+            }
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.AdminCheck)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AdminCheck)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Region)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Region)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Country)
+            </dt>
+
+            <dd>
+                @if (!string.IsNullOrEmpty(Model.Country))
+                {
+                    var country = Model.Country.Split(','); foreach (var c in country)
+                    {
+                        if (!string.IsNullOrEmpty(c.Trim()))
+                        {<span class="badge tag">@c.Trim()</span>}
+                }
+            }
+
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Author)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Author)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ViewCount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ViewCount)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LikeCount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LikeCount)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModifiedOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ModifiedOn)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Close_Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Close_Date)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+        </dl>
+        @if (Model.ParentId == 0 && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Upfront") || Model.Creator == loginUserId))
+    {
+        <a href="@Url.Action("Create", "DiscourseIndex", new { id = Model.Id})" class="btn btn-primary m-b-20 m-t-10">Create Livediscourse Index</a>
+}
+        @if (Model.ParentId == 0 && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Upfront") || Model.Creator == loginUserId))
+    {
+        <a href="@Url.Action("DiscourseFollower", "Livediscourse", new { id = Model.Id})" class="btn btn-success m-b-20 m-t-10"> Livediscourse Follower</a>
+}
+        <ul class="list-group" id="index"></ul>
+        @if (Model.ParentId == 0 && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Upfront") || Model.Creator == loginUserId || IsModerator.ToString() == "True"))
+    {
+        <a href="@Url.Action("Create", "Livediscourse", new { id = Model.Id})" class="btn btn-primary m-b-20 m-t-10" style="display:none;" id="create-update">Create Livediscourse Update</a>
+        <p id="update-para" style="display:none;">Create Live discourse Index before creating livediscourse update.</p> 
+        <div style="overflow:auto">
+            <table class="table">
+                <thead><tr><th>Edition</th><th>Country</th><th>Title</th><th>Image</th><th>Created On</th><th>Action</th></tr></thead>
+                <tbody id="tbody"></tbody>
+            </table>
+            <div class="btn btn-block btn-default" style="display:none;" id="loadMore">LOAD MORE</div>
+        </div>
+}
+    </div>
+@section scripts{
+    <script>
+        var id = '@(Model.Id)';
+        var page = 1;
+        $(document).ready(function () {
+            function formating(input) { return input < 10 ? '0' + input : input }
+            $('#loadMore').click(function () {
+                page = page + 1;
+                $(this).hide();
+                GetUpladates();
+            });
+            GetUpladates();
+            function GetUpladates() {
+                $.ajax({
+                    url: `/api/Discourse/SubLivediscourse/${id}/${page}`,
+                    type: 'Get',
+                    dataType: 'Json',
+                    success: function (data) {
+                        if (data.length == 20) {
+                            $('#loadMore').show();
+                        }
+                        $.each(data, function (i, item) {
+                            var imghtml = '';
+                            var createdOn = new Date(item.CreatedOn); createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
+                            if (item.ImageUrl != null) {
+                                var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                                imghtml = '<img class="img-responsive" src="' + newsImage + '?width=90"/>';
+                            }
+                            var buttons = '';
+                            @if(Model.Creator == loginUserId||User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Upfront"))
+                            {
+                                <text>
+                            buttons = `<a href="/Livediscourse/Edit?id=${item.Id}" class="btn btn-xs btn-success" target="_blank" title="Edit"><span class="fa fa-pencil"></span></a>
+                                    <a href="/Livediscourse/Details?id=${item.Id}" class="btn btn-xs btn-info" target="_blank" title="Details"><span class="fa fa-eye"></span></a>
+                                    <a href="/Livediscourse/Delete?id=${item.Id}" class="btn btn-xs btn-danger" target="_blank" title="Delete"><span class="fa fa-trash"></span></a>`;
+                                </text>
+                            }
+                            $('#tbody').append(`
+                                        <tr>
+                                        <td>${item.Region}</td>
+                                        <td>${item.Country}</td>
+                                        <td>${item.Title}</td>
+                                        <td>${imghtml}</td>
+                                        <td>${formating(createdOn.getDate())}-${formating(createdOn.getMonth() + 1)}-${createdOn.getFullYear()} ${formating(createdOn.getHours())}:${formating(createdOn.getMinutes())}</td>
+                                        <td>${buttons}</td>
+                            </tr>`);
+                        });
+                    },
+                    error: function (req, status, error) {
+                        console.log(req.responseText);
+                    },
+                });
+            }
+            GetDiscourseIndex();
+            function GetDiscourseIndex() {
+                $.ajax({
+                    url: `/api/Discourse/GetDiscourseIndex/${id}/1`,
+                    type: 'Get',
+                    dataType: 'Json',
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $('#create-update').show()
+                        } else {
+                            $('#update-para').show();
+                        }
+                        var contentHtml = "";
+                        $.each(data, function (i, item) {
+                            var buttons = '';
+                            @if(Model.Creator == loginUserId||User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <text>
+                                buttons = `<a href="/DiscourseIndex/Delete?id=${item.Id}" class="btn btn-sm btn-danger custom-button pull-right">Delete</a>
+                                        <a href="/DiscourseIndex/Edit?id=${item.Id}" class="btn btn-sm btn-success custom-button pull-right">Edit</a>`;
+                                </text>
+                            }
+                            contentHtml += `<li class="list-group-item"><span class="fa fa-caret-right"></span> ${item.Title} ${buttons}</li>`;
+                        });
+                        $('#index').append(contentHtml)
+                    },
+                    error: function (req, status, error) {
+                        console.log(req.responseText);
+                    },
+                });
+            }
+        });
+    </script>
+}

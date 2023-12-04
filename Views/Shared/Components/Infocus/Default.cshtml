@@ -1,125 +1,180 @@
-﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
+﻿@* @inject IUrlHelper Url *@
+@* @using SixLabors.ImageSharp.Web
+@using SixLabors.ImageSharp.Web.DependencyInjection *@
+@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
 @{
-	var domainUrl = "https://www.devdiscourse.com";
-	var index = 1;
+    var domainUrl = "https://www.devdiscourse.com";
+    var index = 1;
 }
+
+
 <div class="row">
-	<div class="col-md-6 col-lg-6 p-b-10">
-		@foreach (var item in Model.Take(1))
-		{
-			<a href="@Url.RouteUrl("ArticleDetailswithprefix",
-        new{prefix=item.Label??"agency-wire"
-        ,id=item.GenerateSecondSlug()})" class="infocus-item">
-				@{
-					var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1
-					? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-				}
-				<div class="bg-highlight infocus-bg" style="background-image:url(@newsImage?width=360&height=240&format=jpg&mode=crop);">
-					<div class="infocus-bg-overlay">
-						@if (!String.IsNullOrEmpty(item.Country))
-						{
-							var country = item.Country.Split(',');
-							foreach (var cou in country)
-							{
-								<div class="font-sans-serif ls-1 badge-tag">@cou.ToUpper()</div>
-							}
-						}
-						else
-						{
-							<div class="font-sans-serif ls-1 badge-tag">GLOBAL</div>
-						}
-						<h3 class="no-margin fg-white infocus-bg-heading" title="@item.Title">@item.Title</h3>
-					</div>
-				</div>
-			</a>
-		}
-	</div>
-	<div class="col-md-6 col-lg-6">
-		@foreach (var item in Model.Skip(1).Take(3))
-		{
-			<a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire",id=item.GenerateSecondSlug()})" class="text-decoration p-b-10">
-				<div class="media p-b-20">
-					@{
-						var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-					}<div class="media-left">
-						<img src="@newsImage?width=120&height=87&mode=crop" alt="@item.Title" />
-					</div>
-					<div class="media-body">
-						@if (item.Type == "Event")
-						{
-							<span class="pull-right infocus-badge">@item.Type</span>
-						}
-						else if (item.Type == "Blog")
-						{
-							<span class="pull-right infocus-badge">@item.SubType</span>
-						}<h3 class="no-margin trend-title">@item.Title</h3>
-						<small class="country-sub text-uppercase ls-1">
-							@if (!String.IsNullOrEmpty(item.Country))
-							{
-								var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
-								{
-									@t
-								}
-							}
-							else
-							{
-								<text>Global</text>
-							}
-						</small>
-					</div>
-				</div>
-			</a>
-		}
-	</div>
+    <div class="col-md-6 col-lg-6 p-b-10">
+        @foreach (var item in Model.Take(1))
+        {
+            string controller = "ArticleDetailswithprefix";
+            string action = item.Label ?? "agency-wire";
+         @*      string id = item.GenerateSecondSlug();  *@
+            long id = item.NewId;
+
+            // string prefix = item.Label ?? "agency-wire";
+
+            @*    <a href="@controller/@action/@id" class="infocus-item"> *@
+
+            <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action" class="infocus-item">
+
+                @{
+                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
+
+                    // var newsImage = item.ImageUrl.Contains("devdiscourse.blob.core.windows.net")
+                    // ? Url.ImageSharp(item.ImageUrl, 100, 200, "crop")
+                    // : item.ImageUrl;
+                    //var newsImage = item.ImageUrl;
+                }
+                <div class="bg-highlight infocus-bg" style="background-image:url(@newsImage);">
+                    <div class="infocus-bg-overlay">
+                        @if (!String.IsNullOrEmpty(item.Country))
+                        {
+                            var country = item.Country.Split(',');
+                            foreach (var cou in country)
+                            {
+                                <div class="font-sans-serif ls-1 badge-tag">@cou.ToUpper()</div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="font-sans-serif ls-1 badge-tag">GLOBAL</div>
+                        }
+                        <h3 class="no-margin fg-white infocus-bg-heading" title="@item.Title">@item.Title</h3>
+
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+    <div class="col-md-6 col-lg-6">
+        @foreach (var item in Model.Skip(1).Take(3))
+        {
+
+            string controller = "ArticleDetailswithprefix";
+            string action = item.Label ?? "agency-wire";
+            @*      string id = item.GenerateSecondSlug(); *@
+            long id = item.NewId;
+
+
+                // string prefix = item.Label ?? "agency-wire";
+            @*     <a href="@controller/@action/@id" class="text-decoration p-b-10"> *@
+            <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10">
+
+
+
+                <div class="media p-b-20">
+                    @{
+                        //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
+
+                        var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
+                    }<div class="media-left">
+                        <img src="@newsImage" class="imgOne" alt="@item.Title" />
+                        @*  <img src="@newsImage"imagesharp-height="100" imagesharp-width="200" alt="@item.Title" /> *@
+
+                    </div>
+                    <div class="media-body">
+                        @if (item.Type == "Event")
+                        {
+                            <span class="pull-right infocus-badge">@item.Type</span>
+                        }
+                        else if (item.Type == "Blog")
+                        {
+                            <span class="pull-right infocus-badge">@item.SubType</span>
+                        }<h3 class="no-margin trend-title">@item.Title</h3>
+                        <small class="country-sub text-uppercase ls-1">
+                            @if (!String.IsNullOrEmpty(item.Country))
+                            {
+                                var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
+                                {
+                                    @t
+                                }
+                            }
+                            else
+                            {
+                                <text>Global</text>
+                            }
+                        </small>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
 </div>
 <div class="row">
-	@foreach (var item in Model.Skip(4).Take(2))
-	{
-		<div class="col-md-6">
-			<a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire",id=item.GenerateSecondSlug()})" class="text-decoration p-b-10">
-				<div class="media p-b-20">
-					@{
-						var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-					}<div class="media-left">
-						<img src="@newsImage?width=120&height=87&mode=crop" alt="@item.Title" />
-					</div>
-					<div class="media-body">
-						@if (item.Type == "Event")
-						{
-							<span class="pull-right infocus-badge">@item.Type</span>
-						}
-						else if (item.Type == "Blog")
-						{
-							<span class="pull-right infocus-badge">@item.SubType</span>
-						}<h3 class="no-margin trend-title">@item.Title</h3>
-						<small class="country-sub text-uppercase ls-1">
-							@if (!String.IsNullOrEmpty(item.Country))
-							{
-								var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
-								{
-									@t
-								}
-							}
-							else
-							{
-								<text>Global</text>
-							}
-						</small>
-					</div>
-				</div>
-			</a>
-		</div>
-	}
+    @foreach (var item in Model.Skip(4).Take(2))
+    {
+        string controller = "ArticleDetailswithprefix";
+        string action = item.Label ?? "agency-wire";
+     @*    string id =item.GenerateSecondSlug(); *@
+        long id = item.NewId;
+
+
+        //string prefix = item.Label ?? "agency-wire";
+
+        <div class="col-md-6">
+
+            @*    <a href="@controller/@action/@id" class="text-decoration p-b-10"> *@
+
+            <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10">
+
+
+
+                <div class="media p-b-20">
+                    @{
+                        var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
+
+                        //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
+                    }<div class="media-left">
+                        <img src="@newsImage?w=10&h=20&mode=crop" class="imgOne" alt="@item.Title" />
+
+                        @*  <img src="@Url.ImageSharp(@newsImage, 100, 200, "crop")" alt="@item.Title" /> *@
+                    </div>
+                    <div class="media-body">
+                        @if (item.Type == "Event")
+                        {
+                            <span class="pull-right infocus-badge">@item.Type</span>
+                        }
+                        else if (item.Type == "Blog")
+                        {
+                            <span class="pull-right infocus-badge">@item.SubType</span>
+                        }<h3 class="no-margin trend-title">@item.Title</h3>
+                        <small class="country-sub text-uppercase ls-1">
+                            @if (!String.IsNullOrEmpty(item.Country))
+                            {
+                                var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
+                                {
+                                    @t
+                                }
+                            }
+                            else
+                            {
+                                <text>Global</text>
+                            }
+                        </small>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+    }
 </div>
+
 <script type="application/ld+json">
-		{"@@context":"https://schema.org", "@@type":"ItemList", "itemListElement":[ @foreach (var item in Model.Take(4))
-	{
-		<text>{"@@type":"ListItem", "position":@index, "url":"@domainUrl@Url.RouteUrl("ArticleDetailswithprefix",
-			new { prefix = item.Label ?? "agency-wire", id = item.GenerateSecondSlug() })"}</text>
-		if (index < 4)
-		{
-			<text>,</text>
-		}
-		index = index + 1;
-	}]}
+        {"@@context":"https://schema.org", "@@type":"ItemList", "itemListElement":[ @foreach (var item in Model.Take(4))
+    {
+        <text>{"@@type":"ListItem", "position":@index, "url":"@domainUrl@Url.RouteUrl("ArticleDetailswithprefix",
+            new { prefix = item.Label ?? "agency-wire", id = item.GenerateSecondSlug() })"}</text>
+        if (index < 4)
+        {
+            <text>,</text>
+        }
+        index = index + 1;
+    }]}
 </script>
+

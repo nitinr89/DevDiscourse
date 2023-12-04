@@ -1,0 +1,419 @@
+﻿@{
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "INPSC - The 4th International Conference | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "INPSC - The 4th International Conference";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/inpscbg";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/INPSC";
+    ViewBag.pageKeywords = "4th INTERNATIONAL PROCESS SAFETY CONFERENCE , INSPC,  Next Generation Safety, Excellence through Culture & Transformation";
+    ViewBag.PageDescription = "Devdiscourse is proud media partner of 4th INTERNATIONAL PROCESS SAFETY CONFERENCE will be held this year (2020).";
+
+}
+<style>
+    .renderBody {
+        margin: 0;
+        background: #0F260E;
+    }
+
+    .fg-color {
+        color: #133100;
+    }
+
+    .bg-color {
+        background-color: #133100;
+    }
+
+    .bg-secondary {
+        background-color: #2e9e02;
+    }
+
+    .fg-secondary {
+        color: #2e9e02;
+    }
+
+    .why-abu {
+        color: #133100;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .themeTXt {
+        color: #fff;
+        background-color: #120500;
+        font-size:40px;
+        opacity:0.8;
+    }
+
+
+    .banner-content-container {
+        padding: 100px 50px 100px 100px;
+    }
+
+    .gard {
+        background-color: #0c0809;
+        background-image: url('/images/mediapartners/inpscbg.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+    }
+
+    .gard-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.7);
+    }
+
+    .f-40 {
+        font-size: 50px;
+        font-weight: 600;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+        color: white;
+    }
+
+    .f-20 {
+        font-size: 20px;
+    }
+
+    .logo-container {
+        text-align: right;
+    }
+
+    .news-container {
+        background-color: #2e9e02;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+    .seperator {
+        margin: 30px auto;
+        width: 70%;
+        height: 7px;
+        background-color: #ffe926;
+    }
+
+    .mid-container {
+        background-color: #0082CE;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .btn-css {
+        background-color:   #0082CE;
+        color: white;
+        margin-top: 40px;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 10px 30px;
+        font-family: sans-serif;
+        border-radius: 30px;
+        box-shadow: 0 15px 30px 0 rgba(8, 31, 62, 0.25);
+        opacity: 0.8;
+    }
+
+        .btn-css:active {
+            background-color: #eeda2b;
+            color: #133100;
+        }
+
+    btn-css:visited {
+        color: #133100;
+    }
+
+    .btn-css:hover {
+        background-color: #484449;
+        color: white;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventDt {
+        font-size: 40px;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .eventVenue {
+        font-size: 20px;
+        color: #fff;
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .event-container {
+        padding-top: 180px;
+        padding-bottom: 160px;
+    }
+
+    .image-css{
+        float:right;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .f-40 {
+            font-size: 40px;
+        }
+
+        .btn-css {
+            font-size: 20px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        .bg-container {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top;
+        }
+
+        .eventDt{
+            font-size:38px;
+        }
+
+        .image-css{
+            float:left;
+        }
+
+        .f-40 {
+            font-size: 50px;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+
+        .btn-css {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+    }
+</style>
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Event",
+    "name": "4th INTERNATIONAL PROCESS SAFETY CONFERENCE",
+    "startDate": "2020-02-11T18:00",
+    "endDate": "2020-02-12T22:00",
+    "location": {
+    "@@type": "Place",
+    "name": "Hotel Le Meridien",
+    "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "Windsor Place",
+    "addressLocality": "Windsor Place",
+    "postalCode": "110001",
+    "addressRegion": "New Delhi",
+    "addressCountry": "INDIA"
+    }
+    },
+    "image": [
+    "https://www.devdiscourse.com/images/mediapartners/inpscbg.png"
+    ],
+    "description": "The International Process Safety Conference (INPSC) is the region's flagship & most influential multidisciplinary process
+                    industry forum fostering the development and deployment of engineering, management & technology skills in preventing catastrophic accidents, particularly explosions, fires, and toxic releases, associated with the use of chemicals and petroleum products.",
+    "offers": {
+    "@@type": "Offer",
+    "url": "https://www.example.com/event_offer/12345_201803180430",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "http://inpsc.com/delegate-registration.php",
+    "validFrom": "2020-02-11T18:00"
+    }
+    }
+</script>
+
+
+<div class="gard">
+    <div class="gard-overlay"></div>
+    <div class="container event-container">
+        <div class="p-t-20 p-b-20">
+            <div class="row">
+                <div class="col-sm-12 col-md-4 text-right">
+                    <img src="~/images/mediapartners/inpscLogo.png" class="img-responsive image-css" />
+                </div>
+
+                <div class="col-sm-12 col-md-8 text-left ">
+                    <p class="eventDt">4<sup>th</sup> INTERNATIONAL PROCESS SAFETY CONFERENCE</p>
+                    <p class="eventVenue">11 - 12 February 2020, Hotel Le Meridien, New Delhi, India</p>
+                </div>
+            </div>
+
+            <div class="col-xs-12 text-center ">
+                <p class="themeTXt">Theme: Next Generation Safety - Excellence through Culture & Transformation</p>
+                <a href="http://inpsc.com/delegate-registration.php" target="_blank" class="btn btn-css">REGISTER NOW</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="http://inpsc.com/index.php" target="_blank" class="linkBtn" title="Home">HOME</a>
+            </div>
+            <div class="item">
+                <a href="http://inpsc.com/invitation.php" target="_blank" class="linkBtn" title="About Inpsc">ABOUT INPSC</a>
+            </div>
+            <div class="item">
+                <a href="http://inpsc.com/theme.php" target="_blank" class="linkBtn" title="Conference">Conference</a>
+            </div>
+            <div class="item">
+                <a href="http://inpsc.com/inpsc-expo.php" target="_blank" class="linkBtn" title="Exhibition">EXHIBITION</a>
+            </div>
+            <div class="item">
+                <a href="http://inpsc.com/industry&stragy.php" target="_blank" class="linkBtn" title="Partners">PARTNERS</a>
+            </div>
+            <div class="item">
+                <a href="http://inpsc.com/the-venue.php" target="_blank" class="linkBtn" title="Venue & Travel">VENUE & TRAVEL</a>
+            </div>
+            <div class="item">
+                <a href="http://inpsc.com/encis.php" target="_blank" class="linkBtn" title="Organiser">ORGNISER</a>
+            </div>
+            <div class="item">
+                <a href="http://inpsc.com/inpsc2019-speaker.php" target="_blank" class="linkBtn" title="Retrospect">RETROSPECT</a>
+            </div>
+            <div class="item">
+                <a href="http://inpsc.com/contact.php" target="_blank" class="linkBtn" title="Contact">CONTACT</a>
+            </div>
+        </nav>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=25&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

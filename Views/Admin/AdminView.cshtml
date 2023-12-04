@@ -1,0 +1,937 @@
+﻿@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<style>
+    body {
+        background-color: #efefef;
+    }
+    .divMinHeight {
+        min-height: 776px;
+        padding: 20px;
+        border-top: 1px solid #ddd;
+    }
+    .progress-alert {
+        background-color: green;
+        color: white;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        width: 300px;
+        padding: 10px;
+        border-radius: 3px;
+        display: none;
+    }
+    .my-card {
+        min-height: 200px;
+        margin-bottom: 20px;
+    }
+    .main-title {
+        background-color: #e6e6e6;
+        color: #333;
+        padding:10px;
+    }
+        .main-title img {
+            width: 18px;
+            margin-left: 10px;
+            margin-right: 5px;
+        }
+        .main-title h4 {
+            margin-top:0;
+            font-size:16px;
+            font-weight:600;
+        }
+        .main-title a {
+            text-decoration:none;
+            color:#333;
+        }
+    body div + div.p-t-20 {
+        padding-top: 0;
+        border-top: 1px solid #d9d7d7;
+    }
+</style>
+<div class="container bg-white p-b-10">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <h3 class="m-t-20">ADMIN VIEW</h3>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <a href="@Url.Action("Index", "Admin")" class="btn btn-default btn-sm pull-right m-t-20" title="Back To Home" style="margin-bottom:10px;"><span class="fa fa-arrow-circle-left"></span> Back</a>
+            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+            {
+                <button class="btn btn-primary btn-sm pull-right m-t-20" id="sendEmail" style="margin-right:20px;margin-bottom:10px;" title="Send Email"><span class="fa fa-send"></span> Send Bulk Email</button>
+                @*<button class="btn btn-primary btn-sm pull-right" id="ptiAdmin" style="margin-right:20px;margin-bottom:10px;" title="PTI"><span class="fa fa-user"></span> PTI Admin Check</button>
+                <button class="btn btn-primary btn-sm pull-right" id="reutersAdmin" style="margin-right:20px;margin-bottom:10px;" title="Reuters"><span class="fa fa-user"></span> Reuter Admin Check</button>
+                <button class="btn btn-primary btn-sm pull-right" id="iansAdmin" style="margin-right:20px;margin-bottom:10px;" title="IANS"><span class="fa fa-user"></span> IANS Admin Check</button>*@
+            }
+        </div>
+    </div>
+</div>
+<div class="bg-white container divMinHeight">
+    <div class="row m-t-30">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#e5ceff">
+                <div class="main-img">
+                    <img src="~/images/admin/label.png" class="img-responsive center-block" alt="labels" />
+                </div>
+                <div class="main-title">
+                    <h4>NEWS LABELS</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "Labels")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Labels")"><img src="~/images/admin/arrow-right.svg" /> Labels</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color: #b1dfa4;">
+                <div class="main-img">
+                    <img src="~/images/admin/sector.png" class="img-responsive center-block" alt="sector" />
+                </div>
+                <div class="main-title">
+                    <h4>SECTOR</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "DevSectors")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "DevSectors")"><img src="~/images/admin/arrow-right.svg" /> Sector</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#c7f4fb">
+                <div class="main-img">
+                    <img src="~/images/admin/region.png" class="img-responsive center-block" alt="region" />
+                </div>
+                <div class="main-title">
+                    <h4>REGION</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "Regions")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Regions")"><img src="~/images/admin/arrow-right.svg" /> Region</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#6ed2c9">
+                <div class="main-img">
+                    <img src="~/images/admin/country.png" class="img-responsive center-block" alt="country" />
+                </div>
+                <div class="main-title">
+                    <h4>COUNTRY</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "Countries")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Countries")"><img src="~/images/admin/arrow-right.svg" /> Country</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#96c9b9">
+                <div class="main-img">
+                    <img src="~/images/admin/category.png" class="img-responsive center-block" alt="category" />
+                </div>
+                <div class="main-title">
+                    <h4>CATEGORY</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "Categories")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Categories")"><img src="~/images/admin/arrow-right.svg" /> Category</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#feddc4">
+                <div class="main-img">
+                    <img src="~/images/admin/team.png" class="img-responsive center-block" alt="team" />
+                </div>
+                <div class="main-title">
+                    <h4>TEAM</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "Teams")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Teams")"><img src="~/images/admin/arrow-right.svg" /> Team</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#c6c7bc">
+                <div class="main-img">
+                    <img src="~/images/admin/advertisement.png" class="img-responsive center-block" alt="advertisement" />
+                </div>
+                <div class="main-title">
+                    <h4>ADVERTISEMENT</h4>
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <a href="@Url.Action("Create", "Advertisements")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-7">
+                            <a href="@Url.Action("Index", "Advertisements")"><img src="~/images/admin/arrow-right.svg" /> Advertisement</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#5f47af">
+                <div class="main-img">
+                    <img src="~/images/admin/career.png" class="img-responsive center-block" alt="career" />
+                </div>
+                <div class="main-title">
+                    <h4>CAREER</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Careers")"><img src="~/images/admin/arrow-right.svg" /> Career</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#f9ffbc">
+                <div class="main-img">
+                    <img src="~/images/admin/jobs.png" class="img-responsive center-block" alt="jobs" />
+                </div>
+                <div class="main-title">
+                    <h4>JOBS</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "Jobs")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Jobs")"><img src="~/images/admin/arrow-right.svg" /> Jobs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#ffe2e2">
+                <div class="main-img">
+                    <img src="~/images/admin/partners.png" class="img-responsive center-block" alt="partners" />
+                </div>
+                <div class="main-title">
+                    <h4>PARTNERS</h4>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Create", "Partners")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="@Url.Action("Index", "Partners")"><img src="~/images/admin/arrow-right.svg" /> Partners</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#bbcbff">
+                <div class="main-img text-center" style="height:195px;">
+                    <img src="~/images/admin/events_admin.jpg" class="img-responsive center-block" alt="Events" />
+                </div>
+                <div class="main-title">
+                    <h4>EVENTS</h4>
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <a href="@Url.Action("Create", "commonevent")"><img src="~/images/admin/arrow-right.svg" /> Add</a>
+                        </div>
+                        <div class="col-xs-7">
+                            <a href="@Url.Action("GetEventsList", "commonevent")"><img src="~/images/admin/arrow-right.svg" /> Events</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 my-card">
+            <div style="background-color:#bbcbff">
+                <div class="main-img">
+                    <img src="~/images/admin/role.png" class="img-responsive center-block" alt="role" />
+                </div>
+                <div class="main-title">
+                    <h4>ROLE</h4>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="@Url.Action("Create", "Role")"><img src="~/images/admin/arrow-right.svg" /> Add Role</a>
+                        </div>
+                        <div class="col-xs-12 p-t-10">
+                            <a href="@Url.Action("Index", "Role")"><img src="~/images/admin/arrow-right.svg" /> Roles</a>
+                        </div>
+                        <div class="col-xs-12 p-t-10">
+                            <a href="@Url.Action("Index", "AssignRole")"><img src="~/images/admin/arrow-right.svg" /> Assigned Role</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="bg-white container divMinHeight" style="display:none;">
+    <div class="row">
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+        {
+
+            <div class="col-md-4 my-card">
+                <label>News</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/news.png" alt="News" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "DevNews")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "DevNews")">News</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Blogs</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/blog.png" alt="Blogs" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("CreateBlog", "DevNews")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Blog", "DevNews")">Blog</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Events</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/calander.png" alt="Events" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("CreateEvent", "Events")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("EventList", "Events")">Events</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Live Blogs</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/live_feed.png" alt="Live Blog" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("CreateBlog", "LiveBlogs")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("BlogList", "LiveBlogs")">Live Blogs</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Breaking News</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/breaking_news.png" alt="Breaking News" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("BreakingNews", "DevNews")">Add</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Contribution Content</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/contribute.png" alt="Contribution" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("NewsList", "ContentCreator")">News</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Contents", "ContentCreator")">Pending Contents</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("PublishContent", "ContentCreator")">Published Contents</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("RejectContent", "ContentCreator")">Rejected Contents</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Press-Release Content</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/press release.png" alt="Press-Release" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("NewsList", "NewsWire")">News</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("ContentList", "NewsWire")">Pending Contents</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("PublishContent", "NewsWire")">Published Contents</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("RejectContent", "NewsWire")">Rejected Contents</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Infocus</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/infocus.png" alt="Infocus" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Index", "Infocus")">Infocus</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-4 my-card">
+                    <label>PTI News</label>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-6 col-md-4">
+                            <img src="~/images/icons/news.png" alt="News" class="icons" />
+                        </div>
+                        <div class="col-xs-6 col-md-8">
+                            <p>
+                                <a href="@Url.Action("Create", "PTI")">Add</a>
+                            </p>
+                            <p>
+                                <a href="@Url.Action("AssignedNews", "PTI")">News</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 my-card">
+                    <label>Reuters News</label>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-6 col-md-4">
+                            <img src="~/images/icons/news.png" alt="News" class="icons" />
+                        </div>
+                        <div class="col-xs-6 col-md-8">
+                            <p>
+                                <a href="@Url.Action("Create", "Reuters")">Add</a>
+                            </p>
+                            <p>
+                                <a href="@Url.Action("Index", "Reuters")">News</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>*@
+        }
+
+        @if (User.IsInRole("Author"))
+        {
+            <div class="col-md-4 my-card">
+                <label>News</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/news.png" alt="News" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "DevNews", new { ret = "auth" })">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("NewsList", "DevNews")">News</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-md-4 my-card">
+            <label>Image Gallery</label>
+            <hr />
+            <div class="row">
+                <div class="col-xs-6 col-md-4">
+                    <img src="~/images/icons/image_gallery.png" alt="Gallery" class="icons" />
+                </div>
+                <div class="col-xs-6 col-md-8">
+                    <p>
+                        <a href="@Url.Action("UploadImages", "UserFiles")">Add</a>
+                    </p>
+                    <p>
+                        <a href="@Url.Action("Images", "UserFiles")">Images</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        @if (!User.IsInRole("Author"))
+        {
+            <div class="col-md-4 my-card">
+                <label>Assigned News</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/assigned news.png" alt="Assigned news" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("AssignedNews", "PTI")">Assigned News</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+        {
+            <div class="col-md-4 my-card">
+                <label>Manage Shift</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/Role.png" alt="Manage Shift" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("ManageShift", "Admin")">Manage Shift</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+        @*<div class="row">
+                <div class="col-md-4 my-card">
+                    <label>IANS News</label>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-6 col-md-4">
+                            <img src="~/images/icons/news.png" alt="IANS News" class="icons" />
+                        </div>
+                        <div class="col-xs-6 col-md-8">
+                            <p>
+                                <a href="@Url.Action("Index", "IANS")">IANS News</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                {
+                    <div class="col-md-4 my-card">
+                        <label>News Tags</label>
+                        <hr />
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4">
+                                <img src="~/images/icons/Category.png" alt="Tags" class="icons" />
+                            </div>
+                            <div class="col-xs-6 col-md-8">
+                                <p>
+                                    <a href="@Url.Action("Create", "NewsTags")">Add</a>
+                                </p>
+                                <p>
+                                    <a href="@Url.Action("Index", "NewsTags")">NewsTags</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>*@
+        @if (User.IsInRole("SuperAdmin"))
+        {
+
+            <div class="col-md-4 my-card">
+                <label>Category</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/Category.png" alt="Category" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "Categories")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "Categories")">Category</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Partners</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/partners.png" alt="Partners" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "Partners")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "Partners")">Partners</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Labels</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/label.png" alt="Labels" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "Labels")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "Labels")">Labels</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 my-card">
+                <label>Team</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/Team.png" alt="Teams" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "Teams")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "Teams")">Teams</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Region</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/Region.png" alt="Region" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "Regions")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "Regions")">Region</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Country</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/Country.png" alt="Country" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "Countries")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "Countries")">Country</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-md-4 my-card">
+            <label>Website</label>
+            <hr />
+            <div class="row">
+                <div class="col-xs-6 col-md-4">
+                    <img src="~/images/icons/website.png" alt="Website" class="icons" />
+                </div>
+                <div class="col-xs-6 col-md-8">
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                    {
+                        <p>
+                            <a href="@Url.Action("Create", "Websites")">Add</a>
+                        </p>
+                    }
+                    <p>
+                        <a href="@Url.Action("Index", "Websites")">Website</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 my-card">
+            <label>Press Release</label>
+            <hr />
+            <div class="row">
+                <div class="col-xs-6 col-md-4">
+                    <img src="~/images/icons/website.png" alt="Website" class="icons" />
+                </div>
+                <div class="col-xs-6 col-md-8">
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                    {
+                        <p>
+                            <a href="@Url.Action("CreateNew", "Websites")">Add</a>
+                        </p>
+                    }
+                    <p>
+                        <a href="@Url.Action("PressRelease", "Websites")">Press Release</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+        {
+            <div class="col-md-4 my-card">
+                <label>Sector</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/Sector.png" alt="Sector" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "DevSectors")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "DevSectors")">Sector</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+        @*@if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+            {
+                <div class="row">
+                    <div class="col-md-4 my-card">
+                            <label>Subscribers</label>
+                            <hr />
+                            <div class="row">
+                                <div class="col-xs-6 col-md-4">
+                                    <img src="~/images/icons/Theme.png" class="icons" />
+                                </div>
+                                <div class="col-xs-6 col-md-8">
+                                    <p>
+                                        <a href="@Url.Action("Index", "Subscriptions")">Subscriber</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="col-md-4 my-card">
+                            <label>Assigned Role</label>
+                            <hr />
+                            <div class="row">
+                                <div class="col-xs-6 col-md-4">
+                                    <img src="~/images/icons/Role.png" class="icons" />
+                                </div>
+                                <div class="col-xs-6 col-md-8">
+                                    <p>
+                                        <a href="@Url.Action("Index", "AssignRole")">Assign</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 my-card">
+                            <label>Author Details</label>
+                            <hr />
+                            <div class="row">
+                                <div class="col-xs-6 col-md-4">
+                                    <img src="~/images/icons/Role.png" class="icons" />
+                                </div>
+                                <div class="col-xs-6 col-md-8">
+                                    <p>
+                                        <a href="@Url.Action("AuthorDetails", "Admin")">Author</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+            }*@
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+        {
+            <div class="col-md-4 my-card">
+                <label>Advertisement</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/advert.png" alt="Advertisement" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "Advertisements")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "Advertisements")">Advertisement</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Role</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/Role.png" alt="Role" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "Role")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "Role")">Role</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Career</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/career.png" alt="Career" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Index", "Careers")">Career</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 my-card">
+                <label>Jobs</label>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        <img src="~/images/icons/career.png" alt="Career" class="icons" />
+                    </div>
+                    <div class="col-xs-6 col-md-8">
+                        <p>
+                            <a href="@Url.Action("Create", "Jobs")">Add</a>
+                        </p>
+                        <p>
+                            <a href="@Url.Action("Index", "Jobs")">Jobs</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="cursor-pointer fa fa-times pull-right" id="closeBtn"></span>
+                <h3>Are you sure you want to send email to subscribers.</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="sendBtn">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="progress-alert">
+    <div class="media">
+        <div class="media-left" style="width:60px;">
+            <span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span>
+        </div>
+        <div class="media-body"><h4 class="no-margin">Sending Email Notification is in Progress</h4></div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ptiAdmin').click(function () {
+                $.ajax({
+                    url: '/Admin/PTIAdminCheck',
+                    type: 'Post',
+                    data: { },
+                    dataType: 'Json',
+                    success: function (data) {
+                        alert("Successfull!", "success");
+                    },
+                    error: function () {
+                    },
+                });
+            });
+            $('#reutersAdmin').click(function () {
+                $.ajax({
+                    url: '/Admin/ReutersAdminCheck',
+                    type: 'Post',
+                    data: { },
+                    dataType: 'Json',
+                    success: function (data) {
+                        alert("Successfull!", "success");
+                    },
+                    error: function () {
+                    },
+                });
+            });
+            $('#iansAdmin').click(function () {
+                $.ajax({
+                    url: '/Admin/IANSAdminCheck',
+                    type: 'Post',
+                    data: { },
+                    dataType: 'Json',
+                    success: function (data) {
+                        alert("Successfull!", "success");
+                    },
+                    error: function () {
+                    },
+                });
+            });
+        });
+    </script>
+}

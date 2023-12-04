@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Devdiscourse.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -60,9 +60,9 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Earnings> Earnings { get; set; }
     public DbSet<PaymentHistory> PaymentHistory { get; set; }
     public DbSet<ContentLog> ContentLogs { get; set; }
-    public DbSet<ImageGallery> ImageGallery { get; set; }
+    public DbSet<ImageGallery> ImageGalleries { get; set; }
     public DbSet<DiscourseComment> DiscourseComments { get; set; }
-    public DbSet<Livediscourse> Livediscourse { get; set; }
+    public DbSet<Livediscourse> Livediscourses { get; set; }
     public DbSet<DiscourseTopic> DiscourseTopics { get; set; }
     public DbSet<DiscourseTag> DiscourseTags { get; set; }
     public DbSet<FollowTag> FollowTags { get; set; }
@@ -74,7 +74,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<CommonEvent> CommonEvents { get; set; }
     public DbSet<EventNavLink> EventNavLinks { get; set; }
     public DbSet<UserNewsFile> UserNewsFiles { get; set; }
-    public DbSet<LiveDiscourseInfocus> LiveDiscourseInfocuses { get; set; }
+    public DbSet<LiveDiscourseInfocus> LiveDiscourseInfocus { get; set; }
     public DbSet<Tagstb> Tagstb { get; set; }
     public DbSet<NewsTagstb> NewsTagstb { get; set; }
     public DbSet<VideoNews> VideoNews { get; set; }

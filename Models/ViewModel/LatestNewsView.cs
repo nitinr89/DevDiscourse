@@ -6,15 +6,15 @@ namespace Devdiscourse.Models.ViewModel
     public class LatestNewsView
     {
         public Guid Id { get; set; }
-        public string Title { get; set; }
+        public string? Title { get; set; }
         public DateTime CreatedOn { get; set; }
-        public string ImageUrl { get; set; }
-        public string Sector { get; set; }
-        public string Country { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? Sector { get; set; }
+        public string? Country { get; set; }
         public long NewId { get; set; }
         public string Type { get; set; }
-        public string SubType { get; set; }
-        public string Label { get; set; }
+        public string? SubType { get; set; }
+        public string? Label { get; set; }
         public int SrNo { get; set; }
         public float Ranking { get; set; }
 
@@ -48,7 +48,8 @@ namespace Devdiscourse.Models.ViewModel
         }
         private string RemoveAccent(string text)
         {
-            byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+            //byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
             return System.Text.Encoding.ASCII.GetString(bytes);
         }
         public string TimeAgo()

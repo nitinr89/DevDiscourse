@@ -14,6 +14,6 @@ namespace Devdiscourse.Models.BasicModels
         [Display(Name = "Country")]
         public string Title { get; set; }
         [ForeignKey("RegionId")]
-        public virtual Region Regions { get; set; }
+        public virtual Region? Regions { get; set; }
     }
 }

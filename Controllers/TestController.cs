@@ -1,4 +1,5 @@
 ﻿using Devdiscourse.Data;
+using Devdiscourse.Models.BasicModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevDiscourse.Controllers
@@ -14,10 +15,10 @@ namespace DevDiscourse.Controllers
         {
             return View();
         }
-        public JsonResult getDevenews()
+        public JsonResult dev()
         {
-            var search = from m in _db.DevNews select m;
-            return Json(search.Take(10).ToList());
+            List<DevNews> news = _db.DevNews.Take(1).ToList();
+            return Json(news);
         }
     }
 }

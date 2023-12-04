@@ -1,0 +1,552 @@
+﻿@using System.Globalization;
+@{
+    string sectorSlug = ViewBag.sectorSlug.ToString();
+    //string domainUrl = "";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png?w=920";
+    string region = ViewBag.region;
+    ViewBag.webEdition = region;
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+    string coverImage = "";
+    TempData["Sector"] = ViewBag.sector;
+}
+@{
+    switch (sectorSlug)
+    {
+        case "health":
+            ViewBag.Title = "Health News: Medical Technology Development | Devdiscourse";
+            ViewBag.pageKeywords = "Health News, Latest Medical Technology, Health News, Human Medicare, Technology Development, Medical Technologist, Medical Development, Health Trends, Health Topics, WHO, International development";
+            ViewBag.PageDescription = "Health News: Get Latest Medical Technology Development Updates and News, Health Trends, Humana Medicare, WHO and all about International development.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/health";
+            coverImage = "/images/sector/health_bg.jpg";
+            break;
+        case "agro-forestry":
+            ViewBag.Title = "Agroforestry News: Latest Technology Development and Updates | Devdiscourse";
+            ViewBag.pageKeywords = "Agriculture News, Agriculture, Types of Agroforestry, Agroforestry Systems, World Agroforestry Center, Environment Portal, Agroforestry Definition, Agroforestry Research Trust, Technology Development";
+            ViewBag.PageDescription = "Agroforestry News: Get Latest Agroforestry Latest Updates, Technology and Development News";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/agro-forestry";
+            coverImage = "/images/sector/agro_sector_bg.jpg";
+            break;
+        case "technology":
+            ViewBag.Title = "Technology News Articles - Latest Tech News Today, New Gadgets | Devdiscourse";
+            ViewBag.pageKeywords = "Latest Tech News Today, New Gadgets, Technology news, Technology News Articles, About Technology News, Latest Smartphone, Technology Development, Latest Technology Updates, International Development";
+            ViewBag.PageDescription = "Technology News Articles: Get Latest Tech News today And All About Technology News On Gadgets, Smartphone, Technology Development and International Development";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/technology";
+            coverImage = "/images/sector/technology_bg.jpg";
+            break;
+        case "economy-business":
+            ViewBag.Title = "Todays Business News Headlines And Economic Growth | Devdiscourse";
+            ViewBag.pageKeywords = "Today's business news headlines, Latest Business News, Economy News, International Business News, Economy Growth, Employment, Stock Market, International development";
+            ViewBag.PageDescription = "Today's Business News Headlines, Find Latest Business News, Economy and International Business News Get Economy growth, Stock market and International development.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/economy-business";
+            coverImage = "/images/sector/economy_business_bg.jpg";
+            break;
+        case "education":
+            ViewBag.Title = "Education News - Latest Job Notifications, Education Development";
+            ViewBag.pageKeywords = "Education News, Education Development, Latest Job Notifications, Bank Exams List, Career News, Education Updates, Eucation, Higher Education, International Development";
+            ViewBag.PageDescription = "Education News: Get All Education Related news and Information on Devdiscourse, Latest Job Notifications, Bank Exams";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/education";
+            coverImage = "/images/sector/education_bg.jpg";
+            break;
+        case "energy-extractives":
+            ViewBag.Title = "Global Energy And Extractive Industry News | Devdiscourse";
+            ViewBag.pageKeywords = "Global Energy, Extractive Industry, Oil Extraction, Gas Extraction, Mining, Dredging And Quarrying, Extractive Industry News, International development";
+            ViewBag.PageDescription = "Get Global Energy And Extractive Industry News. Extractive Processes Includes Oil And Gas Extraction, Mining, Dredging and Quarrying and International development.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/energy-extractives";
+            coverImage = "/images/sector/energy_bg.jpg";
+            break;
+        case "art-culture":
+            ViewBag.Title = "Latest Art & Culture, Entertainment News | Devdiscourse";
+            ViewBag.pageKeywords = "Entertainment News, Art and culture, festivals, Hollywood, Bollywood, traditional arts, music, ethnic arts and culture";
+            ViewBag.PageDescription = "Devdiscourse provides News about art and culture, festivals, events, films, Hollywood, Bollywood, drama, dance, acting, painting, artefacts, traditional arts, music, ethnic arts and culture.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/art-culture";
+            coverImage = "/images/sector/art_culture_bg.jpg";
+            break;
+
+        case "politics":
+            ViewBag.Title = "Latest Politics News, Election news, Indian politics, International politics, Political parties";
+            ViewBag.pageKeywords = "politics, politicians, elections, democracy, political parties, political statements, political events, rallies, agitations, strikes, political violence, voters, public";
+            ViewBag.PageDescription = "Devdiscourse provides News about politics, politicians, elections, democracy, political parties, political statements, political events, rallies, agitations, strikes, political violence, voters, public.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/politics";
+            coverImage = "/images/sector/politics_bg.jpg";
+            break;
+        case "law-governance":
+            ViewBag.Title = "Latest Law & Governance News | Devdiscourse";
+            ViewBag.pageKeywords = "governance, public administration, e-governance, law and order, government ministries, departments, good governance, democratic practices, public services";
+            ViewBag.PageDescription = "Devdiscourse provides News about governance, public administration, e-governance, law and order, government ministries, departments, good governance, democratic practices, public services.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/law-governance";
+            coverImage = "/images/sector/law_bg.jpg";
+            break;
+        case "socialgender":
+            ViewBag.Title = "Latest Social & Gender News | Devdiscourse";
+            ViewBag.pageKeywords = "Social development, social order, gender issues, gender equality, women security, crimes against women, inequality, poverty, social welfare schemes, policies, programs, investments";
+            ViewBag.PageDescription = "Devdiscourse provides News about Social development, social order, gender issues, gender equality, women security, crimes against women, inequality, poverty, social welfare schemes, policies, programs, investments.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/socialgender";
+            coverImage = "/images/sector/social_and_gender_bg.jpg";
+            break;
+        case "sports":
+            ViewBag.Title = "Latest Sports News | Devdiscourse";
+            ViewBag.pageKeywords = "sports, football, cricket, hockey, players, coaches, FIFA, Asia Cup, sports policy, programs, investments, gold medal, silver medal, bronze medal, matches, scores, goals, runs";
+            ViewBag.PageDescription = "Devdiscourse provides latest Sports News. News about sports, football, cricket, hockey, players, coaches, FIFA, Asia Cup, sports policy, programs, investments, gold medal, silver medal, bronze medal, matches, scores, goals, runs.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/sports";
+            coverImage = "/images/sector/sports_bg.jpg";
+            break;
+        case "transport":
+            ViewBag.Title = "Latest Transport News, Electric vehicle | Devdiscourse";
+            ViewBag.pageKeywords = "Transport News, airport news, bus terminals, transport planning, ToD, electric vehicles, transport technology";
+            ViewBag.PageDescription = "Devdiscourse provides latest Transport News. Get news on transport planning, ToD, electric vehicles and transport technology.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/transport";
+            coverImage = "/images/sector/transport_bg.jpg";
+            break;
+        case "urban-development":
+            ViewBag.Title = "Latest Urban Development News | Devdiscourse";
+            ViewBag.pageKeywords = "cities, urban policies, programs, investment, regulation, urban planning, smart cities, urban transport, green cities, urbanization, urban poverty, land use";
+            ViewBag.PageDescription = "Devdiscourse provides News about cities, urban policies, programs, investment, regulation, urban planning, smart cities, urban transport, green cities, urbanization, urban poverty and land use.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/urban-development";
+            coverImage = "/images/sector/urban_development_bg.jpg";
+            break;
+        case "wash":
+            ViewBag.Title = " Latest Water and Sanitation News | Devdiscourse";
+            ViewBag.pageKeywords = "water and sanitation, hygiene, sanitation and health, sanitation trends, policy, programs, investments, sanitation awareness, solid waste management, water supply, sewerage system, rural sanitation, ODF";
+            ViewBag.PageDescription = "Devdiscourse provides News about water and sanitation, hygiene, sanitation and health, sanitation trends, policy, programs, investments, sanitation awareness, solid waste management, water supply, sewerage system, rural sanitation and ODF.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/wash";
+            coverImage = "/images/sector/wash_bg.jpg";
+            break;
+        case "science-environment":
+            ViewBag.Title = "Latest Science News, Space News, Science and technology, Environment News | Devdiscourse";
+            ViewBag.pageKeywords = "science news, Space News, Space exploration, Environment News, Science and technology, Astronomy news";
+            ViewBag.PageDescription = "Devdiscourse provides latest science and technology news, Environment News. Get latest space exploration, innovation and astronomy news";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/science-environment";
+            coverImage = "/images/sector/science_environment_bg.jpg";
+            break;
+
+        default:
+            ViewBag.Title = "Development News, Breaking News, Science News, Political News, Business News | Devdiscourse";
+            ViewBag.pageKeywords = "International Development News, Breaking News, Tech News, Science News";
+            ViewBag.PageDescription = "Devdiscourse provides Breaking News, Daily News, International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news";
+            coverImage = "/images/sector/news_all_bg.jpg";
+            break;
+    }
+}
+<style>
+    .renderBody {
+        margin-top: 15px;
+    }
+
+    .breadcrumb_new > li + li:before {
+        color: #fff;
+    }
+
+    .sector-head {
+        border-top: 1px solid #d9d9d9;
+    }
+
+    .isDisabled {
+        color: #222;
+        cursor: not-allowed;
+        opacity: 0.8;
+        text-decoration: none;
+        pointer-events: none;
+    }
+
+    .parallex-cont {
+        background-color: #474747;
+        height: 150px;
+        position: relative;
+        background-position: top;
+        background-attachment: fixed;
+    }
+
+    .m-p-img {
+        padding-bottom: 56%;
+        background-color: #eee;
+        background-size: cover;
+    }
+
+    .no-border-radius {
+        border-radius: 0;
+    }
+
+    .top-overlay {
+        position: absolute;
+        bottom: 0;
+        background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.3),rgba(0,0,0,.6),rgba(0,0,0,.8));
+        padding: 30px 10px 10px 10px;
+        width: 100%;
+    }
+
+    .top-title {
+        font-size: 22px;
+        margin: 1px 0 0 0;
+        color: #fff;
+    }
+
+    .t-s-img {
+        padding-bottom: 60%;
+        position: relative;
+        background-size: cover;
+    }
+
+    .t-s-item {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .f-25 {
+        font-size: 25px;
+    }
+
+    .sector-badge {
+        font-weight: 400;
+        background-color: #3d3d3d;
+        color: #fff;
+        border-radius: 0;
+    }
+
+    .time-badge {
+        padding: 3px 7px;
+        font-size: 12px;
+    }
+
+    .infocus-badge {
+        padding: 3px 5px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: #ff7b00;
+        color: #fff;
+    }
+
+    .media-heading {
+        font-weight: 400;
+    }
+
+    .news-list-div {
+        border-bottom: 1px solid #ddd;
+        height: 100px;
+    }
+
+        .news-list-div .media h4 {
+            font-size: 17px;
+        }
+
+    .label.label-primary {
+        background-color: red;
+        font-weight: 400;
+        font-family: monospace;
+        font-size: 80%;
+    }
+
+    .frame-ad {
+        width: 100%;
+        height: 90px;
+    }
+
+    .cover-img {
+        padding-bottom: 54%;
+        position: relative;
+        background-size: cover;
+    }
+
+    .cover-img-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4)
+    }
+
+    .text-cont {
+        position: absolute;
+        bottom: 0;
+        padding: 20px;
+    }
+
+    .title-main {
+        font-weight: 500;
+        font-size: 36px;
+    }
+
+    .country-main {
+        float: right;
+        font-family: sans-serif;
+        background-color: #000;
+        color: #fff;
+        padding: 8px 24px;
+    }
+
+    .title-sub {
+        font-weight: 500;
+        margin-top: 5px;
+        line-height: 1.38;
+        font-size: 20px
+    }
+
+    .country-sub {
+        display: inline-block;
+        font-family: sans-serif;
+        z-index: 10;
+        background-color: #000;
+        color: #fff;
+        padding: 2px 7px;
+        font-size: 10px;
+        margin-top: 5px
+    }
+
+    .news-media-card .media-title, .media-title {
+        font-size: 18px;
+        line-height: 1.38;
+    }
+
+    .l-h {
+        line-height: 1.39;
+    }
+
+    .p-l-0 {
+        padding-left: 0;
+    }
+
+    @@media(max-width:1440px) {
+        .news-list-div {
+            height: 120px;
+        }
+    }
+
+    @@media(max-width:768px) {
+        .news-list-div {
+            height: 105px;
+        }
+
+        .title-sub {
+            line-height: 1.28;
+        }
+
+        .country-main {
+            padding: 2px 10px;
+        }
+
+        body {
+            padding-top: 74px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .news-list-div {
+            height: auto;
+        }
+
+        .frame-ad {
+            max-width: 320px;
+            height: 50px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #newsContainer .p-l-0 {
+            padding-left: 15px;
+        }
+
+        .title-main {
+            font-weight: 500;
+            font-size: 24px;
+        }
+
+        .text-cont {
+            padding: 10px;
+        }
+
+        body {
+            padding-top: 37px;
+        }
+    }</style>
+<div class="parallex-cont lazy" data-src="@coverImage"> <div style="background-color:rgba(0,0,0,0.4);position:absolute;width:100%;height:100%;"> <div class="container"> <h1 class="font-oswald text-uppercase fg-white text-muted f-25 m-b-10 m-t-30">@ViewBag.sectorName</h1> <ul class="breadcrumb breadcrumb_new" itemscope itemtype="http://schema.org/BreadcrumbList"> <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" class="fg-white" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsSector", new{sector=""})" class="fg-white" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="#" target="_top" itemprop="item" class="fg-white"><span itemprop="name">@ViewBag.sectorName</span></a> <meta itemprop="position" content="3" /> </li></ul> </div></div></div>
+<div class="container p-t-10">
+    <div class="advertisement-area" style="min-height:122px"> <div class="advertisement-title">Advertisement</div>@*@if (!Request.Browser.Crawler){if (Request.Browser.IsMobileDevice){<div class="text-center" style="min-height:50px"> <a href="https://www.visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/tracking_telehealth_300x50.jpg" class="lazy"/> </a> </div>}else{<div class="text-center" style="min-height:100px"> <a href="https://www.visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/tracking_telehealth_728x90.jpg" class="lazy"/> </a> </div>}}*@ </div>@{
+
+                @await Component.InvokeAsync("SectorTopStories",new { sector=ViewBag.sector, reg=ViewBag.region })
+        ;
+    }
+</div>
+<div class="container m-t-10">
+    <div class="row m-t-10">
+        <div class="col-xs-12 col-md-8">
+            <div class="advertisement-area m-t-10 m-b-20"> <div class="advertisement-title">Advertisement</div><div id="v-devdiscourse-v2"></div><script>(function (v, d, o, ai) { ai = d.createElement('script'); ai.defer = true; ai.async = true; ai.src = v.location.protocol + o; d.head.appendChild(ai); })(window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');</script> </div> @{
+                        @await Component.InvokeAsync("SectorMostPopular",new { sector=ViewBag.sector, reg=ViewBag.region });
+            }<div class="clearfix m-t-20">
+                <h2 class="section-title m-t-30"><span> Latest News</span></h2> <div class="row" id="newsContainer">
+                    @{
+
+                                @await Component.InvokeAsync("SectorNews",new { sector=ViewBag.sector, reg=ViewBag.region });
+
+                    }
+                </div>
+            </div><div id="loading" style="display:none;"> <p class="text-center"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div>
+        </div><div class="col-xs-12 col-md-4">
+            <div class="clearfix" id="opinion">
+
+            </div>
+            <div class="clearfix m-t-30">
+                <h2 class="section-title"> <span>TRENDING</span> </h2> @{
+
+                            @await Component.InvokeAsync("Trends",new { filter="Trends" , reg = ViewBag.region });
+                }
+            </div><div id="AfricaEditionNews"></div><div id="EditionNews"></div><div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div><div class="clearfix m-t-30" id="videoNews"></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            
+            var region = '@(ViewBag.region)';
+            var sector = '@(ViewBag.sector)';
+            var page = 1;
+            var inCallback = false;
+            var showMoreCounter = 0;
+            var isReachedScrollEnd = false;
+            var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#newsLink').addClass('active');
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + ";expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(window).scroll(function () {
+                if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height()) && showMoreCounter < 5) {
+                    loadNewsData();
+                }
+            });
+
+     
+       
+            GetOpinion(); function GetOpinion() 
+            { 
+            var ApiDataUrl = "/api/Searchapi/GetAnalysis/" + region + "/0";
+            $.getJSON(ApiDataUrl, function (data)
+            { 
+            var alertHtml = '';
+            $.each(data, function (i, item) { 
+
+                       var slugUrl = convertToSlug(item.newsId, item.title); 
+
+                       var label = item.label != null ? item.label : "agency-wire"; 
+
+                       var Image = item.image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.image : item.image; 
+
+                       alertHtml += '<a href="/article/' + label + '/' + slugUrl + '"class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="/content/transparent.png?width=60&height=60" data-src="' + Image + '?width=60&height=60&mode=crop&format=jpeg" width="60" height="60" alt="News" class="img-rounded pull-right lazy"/></div></div></a>'});
+
+                       $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) 
+            }) 
+            }
+             
+                $.ajax("/Home/GetVideoNews?reg=" + '@(ViewBag.region)').done(function (data){             
+                $("#videoNews").html(data);
+                $('.lazy').lazy();
+            });
+            function GetEditionNews(region, title, editionSlug) {
+                $.ajax({
+                    url: '/api/Searchapi/GetEditionNews/' + region + '/' + title, type: "GET", success: function (result) {
+                        var latestItems = ''; if (result.news.length > 0) {
+                            var content = ''; $.each(result.news, function (i, item) {
+                                var slugUrl = convertToSlug(item.newId, item.title); var label = item.Label != null ? item.Label : "agency-wire"; var newsType = ''; if (item.Type == "Event") { newsType = '<span class="pull-right infocus-badge">' + item.type + '</span>' }
+                                else if (item.Type == "Blog") { if (item.SubType != "" || item.SubType != null) { newsType = '<span class="pull-right infocus-badge">' + item.SubType + '</span>' } else { newsType = '<span class="pull-right infocus-badge">Blog</span>' } }
+                                var imageContent = ""; if (item.imageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") { var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '?width=90&height=90&mode=crop&format=jpeg"></div></a></div>' }
+                                content += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="media news-media-card">' + newsType + imageContent + '<div class="media-body"><h3 class="media-title"><a href="/article/' + label + '/' + slugUrl + '" class="text-decoration">' + item.title + '</a></h3></div></div></a>'
+                            }); var urlhtml = ''; if (result.edition == "AFRICA EDITION") { urlhtml = result.edition } else { urlhtml = '<a href="' + editionSlug + '" class="text-decoration">' + result.edition + '</a>' }
+                            latestItems = '<div class="clearfix m-t-40"><h2 class="section-title"><span>' + urlhtml + '</span></h2>' + content + '</div>'; if (result.edition == "AFRICAN EDITIONS") { $('#AfricaEditionNews').append(latestItems) } else { $('#EditionNews').append(latestItems) }
+                            $('.lazy').lazy();
+                        }
+                    }, error: function (req, status, err) { console.log(req.responseText) }
+                })
+            }
+            function convertToSlug(newsId, str) {
+                str = str.replace(/^\s+|\s+$/g,'');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return newsId + "-" + str;
+            }
+            function loadNewsData() {
+                
+                if (page > -1 && !inCallback) {
+                    inCallback = true;
+                    page++;
+                    
+                    $("#loading").show();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/Searchapi/GetSectorNews/' + sector + '/' + region + '/' + page,
+                        dataType: "json",
+                        success: function (data) {
+                            showMoreCounter = showMoreCounter + 1;
+                            if (data.length == 0) {
+                                isReachedScrollEnd == true;
+                                $("#loading").hide();
+                                return;
+                            }
+                            
+                            var html = '';
+                            $.each(data, function (i, item) {
+                                
+                                var imageContent = '';
+                                var urlSlug = convertToSlug(item.newsId, item.title);
+                                var label = item.label != null ? item.label : "agency-wire";
+                                var country = item.country != null ? item.country : '';
+                                var newsImage = '/images/sector/all_sectors.jpg';
+                                if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
+                                   // newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl;
+                                    newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
+                                }
+                                var createdOn = new Date(item.createdOn);
+                                createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
+                                var countryHtml = 'Global';
+                                if (country.split(',').length > 0 && country != '') {
+                                    countryHtml = country.split(',')[0];
+                                }
+                                html += '<a href="/article/' + label + '/' + urlSlug + '" class="text-decoration">' +
+                                    '<div class="m-b-30 col-md-12">' +
+                                    '<div class="row">' +
+                                    '<div class="col-md-5 col-sm-4">' +
+                                    '<div class="bg-gray cover-img lazy" data-src="' + newsImage + '?width=295&height=160&mode=crop&format=jpeg"></div>' +
+                                    '</div>' +
+                                    '<div class="col-md-7 col-sm-8 p-l-0">' +
+                                    '<div class="text-uppercase country-sub">' + countryHtml + '</div>' +
+                                    '<h3 class="title-sub">' + item.title + '</h3>' +
+                                    '<h5 class="no-margin font-oswald fg-black">' + createdOn.getDate() + ' ' + monthArray[createdOn.getMonth()] + ' ' + createdOn.getFullYear() + '</h5>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</a>';
+                            })
+
+                            inCallback = false;
+
+                            $("#newsContainer").append(html);
+                            $('.lazy').lazy();
+                            if (showMoreCounter == 5) {
+                                $("#newsContainer").append('<div class="col-xs-12"><div style="padding:10px;border:1px solid #eee;" class="loadMoreButton m-t-10 m-b-10 text-center">SHOW MORE <span class="fa fa-chevron-circle-down" aria-hidden="true"></span></div></div>');
+                            }
+                            $("#loading").hide();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        }
+                    });
+                }
+            }
+            $(document).on("click", ".loadMoreButton", function () {
+                $(this).remove();
+                showMoreCounter = 0;
+                loadNewsData();
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.NewsViewModel>
+@{
+    string domainUrl = ""; @*string domainUrl = "https://www.devdiscourse.com";*@
+}
+<div class="clearfix">
+    <h2 class="section-title"><span> TOP STORIES</span></h2>
+    <div class="row">
+        <div class="col-md-6">
+            @foreach (var item in Model.Take(1))
+            {
+                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                    <div class="m-b-30">
+                        <div class="bg-gray cover-img" style="background-image:url(@domainUrl@newsImage?width=555&height=300&mode=crop&format=jpeg)">
+                            <div class="cover-img-overlay">
+                                <div class="text-cont">
+                                    <h3 class="fg-white no-margin">@item.Title</h3>
+                                </div>
+                                @if (!String.IsNullOrEmpty(item.Country))
+                                {
+                                    var countryArr = item.Country.Split(',');
+                                    foreach (var t in countryArr.Take(1))
+                                    {
+                                        <div class="text-uppercase country-main">@t</div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="text-uppercase country-main">Global</div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+        <div class="col-md-6 p-l-0">
+            @foreach (var item in Model.Skip(1).Take(3))
+            {
+                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                    <div class="m-b-20 col-md-12">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-3 col-xs-5">
+                                <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=160&height=85&mode=crop&format=jpeg"></div>
+                            </div>
+                            <div class="col-md-8 col-sm-9 p-l-0 col-xs-7">
+                                @if (!String.IsNullOrEmpty(item.Country))
+                                {
+                                    var countryArr = item.Country.Split(',');
+                                    foreach (var t in countryArr.Take(1))
+                                    {
+                                        <div class="text-uppercase country-sub">@t</div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="text-uppercase country-sub">Global</div>
+                                }
+                                <h2 class="trend-title no-margin p-t-5">@item.Title</h2>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+    @for (var i = 0; i < 3; i++)
+    {
+        var skipCount = 4 + (i * 2);
+        <div class="row">
+            @foreach (var item in Model.Skip(skipCount).Take(2))
+            {
+                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                <div class="col-md-6 p-l-0">
+                    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                        <div class="m-b-20 col-md-12">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-3 col-xs-5">
+                                    <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=160&height=85&mode=crop&format=jpeg"></div>
+                                </div>
+                                <div class="col-md-8 col-sm-9 p-l-0 col-xs-7">
+                                    @if (!String.IsNullOrEmpty(item.Country))
+                                    {
+                                        var countryArr = item.Country.Split(',');
+                                        foreach (var t in countryArr.Take(1))
+                                        {
+                                            <div class="text-uppercase country-sub">@t</div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="text-uppercase country-sub">Global</div>
+                                    }
+                                    <h2 class="trend-title no-margin p-t-5">@item.Title</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+

@@ -1,0 +1,369 @@
+
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.BasicModels.Livediscourse>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.BasicModels.Livediscourse> model = Model;
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@functions
+{
+    public async Task Truncate(string input, int length)
+    {
+
+        await Task.Yield();
+
+        if (string.IsNullOrEmpty(input))
+        {
+            <text> </text>
+        }
+        else if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)
+
+            <text>..</text>
+        }
+    }
+}
+
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/admin.css" rel="stylesheet" />
+<style>
+    body {
+        background-color: #efefef;
+    }
+
+    input, textarea, select {
+        max-width: 100% !important;
+    }
+
+    .badge {
+        border-radius: unset;
+    }
+
+    .indexedView, .indexedBtn {
+        font-size: 10px;
+        border-radius: 2px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .indexedView {
+        background-color: #0cb422;
+    }
+
+    .indexedBtn {
+        background-color: #bf0404;
+    }
+
+    #infocusEdition, #infocusEdition_findInList {
+        width: 100% !important;
+    }
+
+    .actionButtons {
+        display: unset;
+    }
+</style>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="container bg-white m-t-20 m-b-10 p-b-10 p-t-10">
+    <ol class="breadcrumb no-margin">
+        <li class="breadcrumb-item"><a href="@Url.Action("Media", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Livediscourse")">Livediscourse</a></li>
+        <li class="breadcrumb-item active"><a href="@Url.Action("Create", "Livediscourse")">Create New</a></li>
+    </ol>
+</div>
+<div class="container bg-white p-20">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Edition</label>
+            <select class="form-control newsfilter" id="selRegion">
+                @* @{
+                Html.RenderAction("GetRegion", "Home");
+                } *@
+
+                @await Component.InvokeAsync("Region" ,new { filter = ""});
+
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Country</label>
+            <select class="form-control newsfilter" id="selCountry"></select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Sector</label>
+            <select class="form-control newsfilter" id="selSector">
+                <option value="0">All Sector</option>
+                @*  @{
+                Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });
+                } *@
+
+                @await Component.InvokeAsync("SectorMenu" ,new { filter = "AdminPage"});
+
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Text Search</label>
+            <div class="input-group" id="searchDiv" style="margin-top:0">
+                <label for="searchBtn"></label>
+                <input type="text" class="form-control" name="searchBtn" style="border-right:none !important;border-top-left-radius:4px;border-bottom-left-radius:4px;" id="inputText" placeholder="Search...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" aria-label="Search" id="textBtn" style="border-left:none !important;color:#aeaeae;" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label for="beforeDate">Before Date </label>
+            <input type="date" id="beforeDate" class="form-control newsfilter" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label for="afterDate">After Date </label>
+            <input type="date" id="afterDate" class="form-control newsfilter" />
+        </div>
+    </div>
+    <div class="m-t-20" style="overflow:auto;font-size:14px;">
+        <table class="table">
+            <tr>
+                <th>
+                    Edition
+                </th>
+                <th>
+                    Country
+                </th>
+                <th>
+                    Sector
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Views
+                </th>
+                <th>Created On</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Region)
+                    </td>
+                    <td>
+                        @if (!String.IsNullOrEmpty(item.Country))
+                        {
+                            string country = item.Country.Replace(",", ", ");
+                            @country
+                        }
+                    </td>
+                    <td>
+                        @*     @{
+                    Html.RenderAction("GetSector", "Home", new { sector = item.Sector, filter = "Plane" });
+                    } *@
+
+
+
+                        @await Component.InvokeAsync("Sector" ,new {sector = item.Sector, filter = "Plane"});
+
+
+                    </td>
+                    <td>
+                        @if (!String.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                            <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                        }
+                        else
+                        {
+                            <img alt="news thumbnail" src="~/images/newstheme.jpg?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewCount)
+                    </td>
+                    <td>@item.CreatedOn.ToClientTime()</td>
+                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>
+                        @if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Author") || User.IsInRole("Upfront")) && item.AdminCheck == true)
+                        {
+                            <button class="btn btn-xs btn-success addToLivediscourse" data-region="@item.Region" data-id="@item.Id" title="Add To Livediscourse"><span class="fa fa-check"></span></button>
+                        }
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || item.Creator == ViewBag.loginId)
+                        {
+                            <a href="@Url.Action("Edit", "Livediscourse", new { id = item.Id })" class="btn btn-xs btn-success" target="_blank" title="Edit"><span class="fa fa-pencil"></span></a>
+                        }
+                        <a href="@Url.Action("Details", "Livediscourse", new { id = item.Id })" class="btn btn-xs btn-info" target="_blank" title="Details"><span class="fa fa-eye"></span></a>
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <a href="@Url.Action("Delete", "Livediscourse", new { id = item.Id })" class="btn btn-xs btn-danger" target="_blank" title="Delete"><span class="fa fa-trash"></span></a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
+        <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
+               @Html.PagedListPager(Model, page => Url.Action("Index", "Livediscourse", new { bfd = ViewBag.bfDate, afd = ViewBag.afDate, page, region = ViewBag.region, sector = ViewBag.sector, country = ViewBag.country, source = ViewBag.source, text = ViewBag.text })) 
+    </div>
+</div>
+
+<div id="LivediscourseModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">In Focus News</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger" id="infocus-notify"></p>
+                <label class="control-label">Edition <span class="text-danger"> *</span></label>
+                <input id="InfEdition" type="hidden" class="form-control" />
+                <div id="multi_select"></div>
+                <div class="text-danger info-text" id="infoEd"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="SaveInLivediscourse">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/jquery.multiselect.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var _selSector = '@(ViewBag.sector)';
+            var _region = '@(ViewBag.region)';
+            var _country = '@(ViewBag.country)';
+            var _inputSearchText = '@(ViewBag.text)';
+            var _afterDate = '@(ViewBag.afDate)';
+            var _beforeDate = '@(ViewBag.bfDate)';
+            var InfocusNewsId = '';
+            $("#selSector").val(_selSector)
+            $('#selRegion').val(_region);
+            $('#inputText').val(_inputSearchText);
+            $("#beforeDate").val(_beforeDate);
+            $("#afterDate").val(_afterDate);
+
+            // $('.lazy').lazy();
+            getCountries();
+            function getCountries() {
+                $.ajax({
+                    url: '/Home/GetCountry',
+                    type: 'Post',
+                    data: { region: _region },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $('#selCountry').html("").append('<option value="">Select</option>');
+                        $.each(data, function (i, item) {
+                            $('#selCountry').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                        });
+                        $('#selCountry').val(_country);
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $('.newsfilter').on("input", function () {
+                updateVarible();
+            });
+            function updateVarible() {
+                _selSector = $("#selSector option:selected").val();
+                _region = $("#selRegion option:selected").val();
+                _country = $("#selCountry").val();
+                _beforeDate = $("#beforeDate").val();
+                _afterDate = $("#afterDate").val();
+                window.location.href = "/Livediscourse/Index?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&sector=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText;
+            }
+            $('#textBtn').click(function () {
+                _inputSearchText = $('#inputText').val();
+                window.location.href = "/Livediscourse/Index?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&sector=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText;
+            });
+            $("#inputText").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    _inputSearchText = $('#inputText').val();
+                    window.location.href = "/Livediscourse/Index?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&sector=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText;
+                }
+            });
+
+            $('.addToLivediscourse').click(function () {
+                var infocusEdition = $(this).attr('data-region').split(',');
+                InfocusNewsId = $(this).attr('data-id');
+                var infocusEditionHtml = `<option>Universal Edition</option>`;
+                for (i = 0; i < infocusEdition.length; i++) {
+                    infocusEditionHtml += `<option>${infocusEdition[i]}</option>`;
+                }
+                $('#multi_select').html('<select class="form-control" multiple="multiple" id="infocusEdition">' + infocusEditionHtml + '</select>');
+                $('#infocusEdition').multiselect("destroy").multiselect();
+                $("#LivediscourseModal").modal('show');
+                $(document).find('input[name="infocusEdition[]"]').on("change", function () {
+                    var valueArray = [];
+                    $("input[name='infocusEdition[]']:checked").each(function () {
+                        valueArray.push($('label[for="' + this.id + '"]').text());
+                    });
+                    $("#InfEdition").val(valueArray);
+                });
+            });
+
+            $('#LivediscourseModal').on('hidden.bs.modal', function () {
+                InfocusEditions = '';
+                InfocusNewsId = '';
+                $("#InfEdition").val('');
+                $('.info-text').html('');
+            });
+
+            $("#SaveInLivediscourse").click(function () {
+                $('.info-text').html('');
+                InfocusEditions = $('#InfEdition').val();
+                if (InfocusEditions == '') {
+                    $('#infoEd').html('Edition is required.');
+                } else {
+                    $.ajax({
+                        url: '/Livediscourse/CreateLivediscourseInfocus',
+                        type: 'Get',
+                        dataType: 'Json',
+                        data: { editions: InfocusEditions, newsId: InfocusNewsId },
+                        success: function (data) {
+                            if (data == "") {
+                                $("#LivediscourseModal").modal('hide');
+                            }
+                            else {
+                                var _edition = data.split(',');
+                                if (_edition.length >= 1) {
+                                    $('#infocus-notify').html('This news already exist in ' + data + " edition infocus.");
+                                }
+                                else {
+                                    $("#LivediscourseModal").modal('hide');
+                                }
+                            }
+                        },
+                        error: function () {
+                        },
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+

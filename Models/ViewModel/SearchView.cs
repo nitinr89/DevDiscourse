@@ -56,7 +56,8 @@ namespace Devdiscourse.Models.ViewModel
         }
         private string RemoveAccent(string text)
         {
-            byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+            //byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
             return System.Text.Encoding.ASCII.GetString(bytes);
         }
         public string TimeAgo()

@@ -4,6 +4,7 @@
     <tr>
         <td>
             @* @{ Html.RenderAction("GetSector", "Home", new { sector = item.Sector, filter = "Plane" });} *@
+            @await Component.InvokeAsync("Sector", new { sector = item.Sector, filter = "Plane" });
         </td>
         <td>
             @item.Title

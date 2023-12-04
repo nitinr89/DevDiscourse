@@ -4,8 +4,10 @@
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
 }
 <link href="~/Content/jquery.datetimepicker.min.css" rel="stylesheet" />
-@* @Styles.Render("~/Content/admincss") *@
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
 <link href="~/Content/admin.css" rel="stylesheet" />
+<link href="~/Scripts/tagsInput/css/jquery.tagsinput.min.css" rel="stylesheet" />
+
 <style>
     .checklist {
         height: unset !important;
@@ -203,8 +205,8 @@
     </div>
 </div>
 @section scripts {
-    @* @Scripts.Render("~/bundles/jqueryadmin") *@
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.multiselect.js"></script>
+    <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
     <script src="~/Scripts/jquery.datetimepicker.full.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script>

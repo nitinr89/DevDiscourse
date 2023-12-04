@@ -47,6 +47,7 @@
                 @if (!String.IsNullOrEmpty(Model.Themes))
                 {
                     @* { Html.RenderAction("GetThemes", "Home", new { theme = Model.Themes, filter = "Plane" });} *@
+                    @await Component.InvokeAsync("Themes", new { theme = Model.Themes, filter = "Plane" });
                 }
             </dd>
 

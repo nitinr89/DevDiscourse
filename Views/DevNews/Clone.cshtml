@@ -6,8 +6,10 @@
     var newsTag = Model.Tags == null ? "" : Model.Tags.Trim();
     newsTag = Regex.Replace(newsTag, @"\t|\n|\r", "");
 }
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
 <link href="~/Content/admin.css" rel="stylesheet" />
-@* @Styles.Render("~/Content/admincss") *@
+<link href="~/Scripts/tagsInput/css/jquery.tagsinput.min.css" rel="stylesheet" />
+
 <style>
     .badge-success {
         background-color: #1c930e;
@@ -469,8 +471,8 @@
     </div>
 </div>
 @section scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @* @Scripts.Render("~/bundles/jqueryadmin") *@
+    <script src="~/Scripts/jquery.multiselect.js"></script>
+    <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -511,7 +513,7 @@
             });
             $('#Type').val(_type);
             $('.input-tags').tagsInput();
-            $('.lazy').lazy();
+            // $('.lazy').lazy();
 
             if (_city.indexOf(',') != -1) {
                 $('span[data-valmsg-for="SourceUrl"]').html('Single city is allowed');
@@ -623,7 +625,7 @@
                                         $('.modal-footer').show();
                                         $('#newsList').html("");
                                         $.each(data, function (i, item) {
-                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.NewsId + '" tabindex="' + item.Title + '" value="' + item.Label + '">' + item.Title + '</div>');
+                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.newsId + '" tabindex="' + item.title + '" value="' + item.label + '">' + item.title + '</div>');
                                         });
                                     },
                                     error: function (req, status, error) {
@@ -736,7 +738,7 @@
                         $("#CountryList").html("");
                         $('#Country_multi').replaceWith('<select class="form-control" id="Country_multi" size="27"></select>');
                         $.each(data, function (i, item) {
-                            $('#Country_multi').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                            $('#Country_multi').append('<option value="' + item.title + '">' + item.title + '</option>');
                         });
                         $('#Country').val(_country);
                         var _carray = _country.split(",");

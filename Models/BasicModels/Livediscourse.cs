@@ -13,21 +13,21 @@ namespace Devdiscourse.Models.BasicModels
         public long Id { get; set; }
         [Required]
         public string Title { get; set; }
-        public string SubTitle { get; set; }
+        public string? SubTitle { get; set; }
         
         [Display(Name = "Summary")]
         //[AllowHtml]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [Required]
         public string Sector { get; set; }
         [Display(Name = "Image")]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
         [Display(Name = "Image Copyright")]
-        public string ImageCopyright { get; set; }
+        public string? ImageCopyright { get; set; }
         [Display(Name = "Image Caption")]
-        public string ImageCaption { get; set; }
-        public string ParentStoryLink { get; set; }
-        public string Tags { get; set; }
+        public string? ImageCaption { get; set; }
+        public string? ParentStoryLink { get; set; }
+        public string? Tags { get; set; }
         [Display(Name = "Admin Check")]
         public bool AdminCheck { get; set; }
         public string Region { get; set; }
@@ -38,11 +38,11 @@ namespace Devdiscourse.Models.BasicModels
         public int CommentCount { get; set; }
         public int FollowCount { get; set; }
         public bool IsPublic { get; set; }
-        public string Author { get; set; }
+        public string? Author { get; set; }
         [Display(Name ="Close Date")]
         public DateTime? Close_Date { get; set; }
         public bool Status { get; set; }
-        public string Creator { get; set; }
+        public string? Creator { get; set; }
         [Required]
         public long LivediscourseIndex { get; set; }
         public DateTime CreatedOn { get; set; }
@@ -50,12 +50,12 @@ namespace Devdiscourse.Models.BasicModels
         public DateTime PublishedOn { get; set; }
         public long ParentId { get; set; }
         [ForeignKey("Creator")]
-        public virtual ApplicationUser ApplicationUsers { get; set; }
-        public virtual ICollection<FollowLivediscourse> FollowLivediscourse { get; set; }
-        public virtual ICollection<DiscourseIndex> DiscourseIndexs { get; set; }
-        public virtual ICollection<LivediscourseVideo> LivediscourseVideos { get; set; }
+        public virtual ApplicationUser? ApplicationUsers { get; set; }
+        public virtual ICollection<FollowLivediscourse>? FollowLivediscourse { get; set; }
+        public virtual ICollection<DiscourseIndex>? DiscourseIndexs { get; set; }
+        public virtual ICollection<LivediscourseVideo>? LivediscourseVideos { get; set; }
 
-        public virtual ICollection<LiveDiscourseInfocus> LiveDiscourseInfocus { get; set; }
+        public virtual ICollection<LiveDiscourseInfocus>? LiveDiscourseInfocus { get; set; }
         public Livediscourse()
         {
             if (CreatedOn == new DateTime())
@@ -83,7 +83,8 @@ namespace Devdiscourse.Models.BasicModels
         }
         private string RemoveAccent(string text)
         {
-            byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+            //byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
             return System.Text.Encoding.ASCII.GetString(bytes);
         }
     }

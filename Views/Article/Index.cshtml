@@ -48,7 +48,9 @@
     string valueToEncode = @Model.Title;
     string encodedValue = Uri.EscapeDataString(valueToEncode);
     string valueToEncodevalue = @Model.SubTitle;
-    string encodeValue = Uri.EscapeDataString(valueToEncodevalue);
+   //string encodeValue = Uri.EscapeDataString(valueToEncodevalue);
+   string encodeValue =  System.Net.WebUtility.UrlEncode(Model.Title);
+  
 
 }
 @functions {
@@ -749,6 +751,7 @@ async Task GetDescriptionText(string htmltext = "")
 }
 
 @* @{Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "NewsSector" });} *@  @* do later *@
+@await Component.InvokeAsync("Sector", new { sector=Model.Sector, filter="NewsSector"} );
 
 <li class="active">Article</li>
 </ul> <div class="article-divider clearfix" style="display:none;" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div><div class="row">
@@ -783,7 +786,9 @@ default: <span><a href="/news-source/@Model.Source.Trim()">@Model.Source.Trim()<
     {<span>Los Angeles</span>}
     else
     {<span class="text-capitalize">@textInfo.ToTitleCase(@Model.SourceUrl.ToLower())</span>}<span class="list-divider"> | </span>}<span>Updated: @modifiedDate.ToString("dd-MM-yyyy HH:mm") IST | Created: @publishedDate.ToString("dd-MM-yyyy HH:mm") IST</span>
-</div>@if (Model.UserNewsFiles.Count == 0)
+</div>
+@* @if (Model.UserNewsFiles.Count == 0) *@
+@if ( Model.UserNewsFiles == null )
 {
     if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "News")
     {<section class="admin-section">
@@ -870,6 +875,8 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <script>(function (v, d, o, ai) { ai = d.createElement('script'); ai.defer = true; ai.async = true; ai.src = v.location.protocol + o; d.head.appendChild(ai); })(window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');</script>
 </div>@if (!string.IsNullOrEmpty(Model.Tags)) @* { 
     Html.RenderAction("GetTagNews", "Agencywire", new { id = Model.NewsId, tag = Model.Tags }); } *@
+    @await Component.InvokeAsync("TagsNews", new { id=Model.NewsId, tag=Model.Tags} );
+
     <button onclick="reset('https://www.devdiscourse.com/Article/@Model.GenerateSecondSlug()',@Model.NewsId);" class="btn btn-default btn-lg m-b-20 m-t-20 btn-block"> <img src="~/images/icons/comment_bubble.svg" alt="comments" /> POST / READ COMMENTS </button> <section id="art_@Model.NewsId" class="commentbox"> <div id="disqus_thread" style="display:none;"> <img data-src="/images/icons/disqus_loader.svg" class="center-block lazy" /> </div></section>
 </article> <div id="NewsNews"></div>
 </div><div class="col-md-4">
@@ -878,7 +885,18 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     else if (Model.NewsId == 1837471)
     {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><div class="p-10"> <a href="https://www.tikroyal.com/tiktok-followers?utm_source=devdiscourse&utm_medium=banner&utm_campaign=1837471&utm_term=buy+tiktok+followers" title="buy tiktok followers"><img src="https://uploads.tikroyal.com/cdn/gallery/xqdqn37oenjyyxbrs2yr.png" class="img-responsive" alt="buy tiktok followers"></a> </div></div>}
     else
-    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div>@*<div id="div-gpt-ad-1583931793021-2" style="min-height:265px"> </div>*@ </div>}<section class="clearfix m-t-10"> <h2 class="section-title3"> <span>TRENDING</span> </h2> @* @{Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.edition });} do later*@ </section> <section class="m-t-10" id="video_section"> <h2 class="section-title3"> <span>DevShots</span> </h2> </section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Latest News</span> </h2> @* @{Html.RenderAction("GetlatestNews", "Search", new { reg = ViewBag.region });} *@ </section> <div class="clearfix m-t-10">@* @Html.Partial("_socialPartial") *@</div><section class="clearfix m-t-10"> <h2 class="section-title3"> <span>OPINION / BLOG / INTERVIEW</span> </h2>@* @{Html.RenderAction("getOpinion", "Search", new { reg = ViewBag.region });} *@</section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Connect us on</span> </h2> <a target="_blank" href="https://www.facebook.com/devdiscourse" rel="noreferrer" aria-label="Devdiscourse Facebook Page" class="btn btn-connect facebook"><span class="fa fa-facebook" aria-hidden="true"></span> Facebook</a> <a target="_blank" href="https://twitter.com/dev_discourse" rel="noreferrer" aria-label="Devdiscourse Twitter Page" class="btn btn-connect twitter"><span class="fa fa-twitter" aria-hidden="true"></span> Twitter</a> <a target="_blank" href="https://www.linkedin.com/showcase/dev_discourse/" rel="noreferrer" aria-label="Devdiscourse LinkedIn Page" class="btn btn-connect linkedin"><span class="fa fa-linkedin" aria-hidden="true"></span> LinkedIn</a> <a target="_blank" href="https://www.quora.com/profile/DevDiscourse" rel="noreferrer" aria-label="Devdiscourse Quora Page" class="btn btn-connect quora"><span class="fa fa-quora" aria-hidden="true"></span> Quora</a> <a target="_blank" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" rel="noreferrer" aria-label="Subscribe on Youtube" class="btn btn-connect youtube"><span class="fa fa-youtube" aria-hidden="true"></span> Youtube</a> <a target="_blank" href="https://news.google.com/publications/CAAqBwgKMMDbhQsw7_-CAw?hl=en-AU&gl=AU&ceid=AU%3Aen" rel="noreferrer" aria-label="Subscribe on Google News" class="btn btn-connect facebook"> <img src="~/images/icons/google_news.svg" /> Google News </a> <a target="_blank" href="http://feeds.feedburner.com/devdiscourse/NCFS" rel="noreferrer" aria-label="Devdiscourse RSS Feed" class="btn btn-connect rss"><span class="fa fa-rss" aria-hidden="true"></span> RSS</a> </section>
+    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div>@*<div id="div-gpt-ad-1583931793021-2" style="min-height:265px"> </div>*@ </div>}<section class="clearfix m-t-10"> <h2 class="section-title3"> <span>TRENDING</span> </h2>
+    @* @{Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.edition });} do later*@
+    @await Component.InvokeAsync("Trends", new { filter="Trends", reg=ViewBag.edition });
+    </section> <section class="m-t-10" id="video_section"> <h2 class="section-title3"> <span>DevShots</span> </h2> </section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Latest News</span> </h2> 
+    @* @{Html.RenderAction("GetlatestNews", "Search", new { reg = ViewBag.region });} *@
+     @await Component.InvokeAsync("LatestNews", new{ reg=ViewBag.region } );
+    </section> <div class="clearfix m-t-10">
+     @Html.Partial("_socialPartial") 
+    </div><section class="clearfix m-t-10"> <h2 class="section-title3"> <span>OPINION / BLOG / INTERVIEW</span> </h2>
+    @* @{Html.RenderAction("getOpinion", "Search", new { reg = ViewBag.region });} *@
+    @await Component.InvokeAsync("Opinion", new { reg=ViewBag.region } );
+    </section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Connect us on</span> </h2> <a target="_blank" href="https://www.facebook.com/devdiscourse" rel="noreferrer" aria-label="Devdiscourse Facebook Page" class="btn btn-connect facebook"><span class="fa fa-facebook" aria-hidden="true"></span> Facebook</a> <a target="_blank" href="https://twitter.com/dev_discourse" rel="noreferrer" aria-label="Devdiscourse Twitter Page" class="btn btn-connect twitter"><span class="fa fa-twitter" aria-hidden="true"></span> Twitter</a> <a target="_blank" href="https://www.linkedin.com/showcase/dev_discourse/" rel="noreferrer" aria-label="Devdiscourse LinkedIn Page" class="btn btn-connect linkedin"><span class="fa fa-linkedin" aria-hidden="true"></span> LinkedIn</a> <a target="_blank" href="https://www.quora.com/profile/DevDiscourse" rel="noreferrer" aria-label="Devdiscourse Quora Page" class="btn btn-connect quora"><span class="fa fa-quora" aria-hidden="true"></span> Quora</a> <a target="_blank" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" rel="noreferrer" aria-label="Subscribe on Youtube" class="btn btn-connect youtube"><span class="fa fa-youtube" aria-hidden="true"></span> Youtube</a> <a target="_blank" href="https://news.google.com/publications/CAAqBwgKMMDbhQsw7_-CAw?hl=en-AU&gl=AU&ceid=AU%3Aen" rel="noreferrer" aria-label="Subscribe on Google News" class="btn btn-connect facebook"> <img src="~/images/icons/google_news.svg" /> Google News </a> <a target="_blank" href="http://feeds.feedburner.com/devdiscourse/NCFS" rel="noreferrer" aria-label="Devdiscourse RSS Feed" class="btn btn-connect rss"><span class="fa fa-rss" aria-hidden="true"></span> RSS</a> </section>
 </div>
 </div>
 </div>
@@ -888,7 +906,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <script src="~/Scripts/article_new.js"></script>
     <script type="text/javascript">var disqus_shortname = 'www-devdiscourse-com-1'; var disqus_url = ''; var disqus_config = function () { this.language = "en"; }; var reset = function (newUrl, data_id) { if (typeof DISQUS === "undefined") { $('#disqus_thread').show(); var dsq = document.createElement('script'); dsq.type = 'text/javascript'; /*dsq.async=true;*/ dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq); } else { $('.commentbox').html(''); $('#art_' + data_id).html('<div id="disqus_thread"></div>'); DISQUS.reset({ reload: true, config: function () { this.page.identifier = __newId; this.page.url = newUrl; } }); } };</script>
     <script src="~/Scripts/lazysizes.min.js" async></script>
-    @if (Model.UserNewsFiles.Count > 0)
+    @if (Model.UserNewsFiles == null)
     {
         <script src="https://vjs.zencdn.net/7.6.6/video.min.js"></script>
         <script>

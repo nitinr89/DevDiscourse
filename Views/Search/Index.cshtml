@@ -362,22 +362,44 @@
         }
     }</style>
 <div class="parallex-cont lazy" data-src="@coverImage"> <div style="background-color:rgba(0,0,0,0.4);position:absolute;width:100%;height:100%;"> <div class="container"> <h1 class="font-oswald text-uppercase fg-white text-muted f-25 m-b-10 m-t-30">@ViewBag.sectorName</h1> <ul class="breadcrumb breadcrumb_new" itemscope itemtype="http://schema.org/BreadcrumbList"> <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" class="fg-white" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsSector", new{sector=""})" class="fg-white" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="#" target="_top" itemprop="item" class="fg-white"><span itemprop="name">@ViewBag.sectorName</span></a> <meta itemprop="position" content="3" /> </li></ul> </div></div></div>
-<div class="container p-t-10"> <div class="advertisement-area" style="min-height:122px"> <div class="advertisement-title">Advertisement</div>@*@if (!Request.Browser.Crawler){if (Request.Browser.IsMobileDevice){<div class="text-center" style="min-height:50px"> <a href="https://www.visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/tracking_telehealth_300x50.jpg" class="lazy"/> </a> </div>}else{<div class="text-center" style="min-height:100px"> <a href="https://www.visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/tracking_telehealth_728x90.jpg" class="lazy"/> </a> </div>}}*@ </div>@{
-        // Html.RenderAction("GetSectorTopStories", "Search", new { sector = ViewBag.sector, reg = ViewBag.region });
-            @await Component.InvokeAsync("SectorTopStories",new { sector=@ViewBag.sector, reg=@ViewBag.region });
-    }</div>
-<div class="container m-t-10"> <div class="row m-t-10"> <div class="col-xs-12 col-md-8"> <div class="advertisement-area m-t-10 m-b-20"> <div class="advertisement-title">Advertisement</div><div id="v-devdiscourse-v2"></div><script>(function (v, d, o, ai) { ai = d.createElement('script'); ai.defer = true; ai.async = true; ai.src = v.location.protocol + o; d.head.appendChild(ai); })(window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');</script> </div> @{
-            //     Html.RenderAction("GetSectorMostPopular", "Search", new { sector = ViewBag.sector, reg = ViewBag.region });
-            // }<div class="clearfix m-t-20"> <h2 class="section-title m-t-30"><span> Latest News</span></h2> <div class="row" id="newsContainer"> @{
-                        // Html.RenderAction("GetSectorNews", "Search", new { sector = ViewBag.sector, reg = ViewBag.region });
-                        @await Component.InvokeAsync("SectorNews",new { sector=@ViewBag.sector, reg=@ViewBag.region });
-                    }</div></div><div id="loading" style="display:none;"> <p class="text-center"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div></div><div class="col-xs-12 col-md-4"> <div class="clearfix" id="opinion"></div><div class="clearfix m-t-30"> <h2 class="section-title"> <span>TRENDING</span> </h2> @{
-                    // Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.region });
-                        @await Component.InvokeAsync("Trends",new { filter="Trends" , reg = @ViewBag.region });
-                }</div><div id="AfricaEditionNews"></div><div id="EditionNews"></div><div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div><div class="clearfix m-t-30" id="videoNews"></div></div></div></div>
+<div class="container p-t-10">
+    <div class="advertisement-area" style="min-height:122px"> <div class="advertisement-title">Advertisement</div>@*@if (!Request.Browser.Crawler){if (Request.Browser.IsMobileDevice){<div class="text-center" style="min-height:50px"> <a href="https://www.visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/tracking_telehealth_300x50.jpg" class="lazy"/> </a> </div>}else{<div class="text-center" style="min-height:100px"> <a href="https://www.visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/tracking_telehealth_728x90.jpg" class="lazy"/> </a> </div>}}*@ </div>@{
+
+                @await Component.InvokeAsync("SectorTopStories",new { sector=ViewBag.sector, reg=ViewBag.region })
+        ;
+    }
+</div>
+<div class="container m-t-10">
+    <div class="row m-t-10">
+        <div class="col-xs-12 col-md-8">
+            <div class="advertisement-area m-t-10 m-b-20"> <div class="advertisement-title">Advertisement</div><div id="v-devdiscourse-v2"></div><script>(function (v, d, o, ai) { ai = d.createElement('script'); ai.defer = true; ai.async = true; ai.src = v.location.protocol + o; d.head.appendChild(ai); })(window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');</script> </div> @{
+                        @await Component.InvokeAsync("SectorMostPopular",new { sector=ViewBag.sector, reg=ViewBag.region });
+            }<div class="clearfix m-t-20">
+                <h2 class="section-title m-t-30"><span> Latest News</span></h2> <div class="row" id="newsContainer">
+                    @{
+
+                                @await Component.InvokeAsync("SectorNews",new { sector=ViewBag.sector, reg=ViewBag.region });
+
+                    }
+                </div>
+            </div><div id="loading" style="display:none;"> <p class="text-center"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div>
+        </div><div class="col-xs-12 col-md-4">
+            <div class="clearfix" id="opinion">
+
+            </div>
+            <div class="clearfix m-t-30">
+                <h2 class="section-title"> <span>TRENDING</span> </h2> @{
+
+                            @await Component.InvokeAsync("Trends",new { filter="Trends" , reg = ViewBag.region });
+                }
+            </div><div id="AfricaEditionNews"></div><div id="EditionNews"></div><div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div><div class="clearfix m-t-30" id="videoNews"></div>
+        </div>
+    </div>
+</div>
 @section scripts{
     <script>
         $(document).ready(function () {
+            
             var region = '@(ViewBag.region)';
             var sector = '@(ViewBag.sector)';
             var page = 1;
@@ -398,20 +420,42 @@
                     loadNewsData();
                 }
             });
-            GetOpinion(); function GetOpinion() { var ApiDataUrl = "/api/Search/GetAnalysis/" + region + "/0"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.NewsId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var Image = item.Image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.Image : item.Image; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.Title + '</h3></div><div class="media-right"><img src="/content/transparent.png?width=60&height=60" data-src="' + Image + '?width=60&height=60&mode=crop&format=jpeg" width="60" height="60" alt="News" class="img-rounded pull-right lazy"/></div></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) }
-            $.ajax("/Home/GetVideoNews?reg=" + '@(ViewBag.region)').done(function (data) {
+
+     
+       
+            GetOpinion(); function GetOpinion() 
+            { 
+            var ApiDataUrl = "/api/Searchapi/GetAnalysis/" + region + "/0";
+            $.getJSON(ApiDataUrl, function (data)
+            { 
+            var alertHtml = '';
+            $.each(data, function (i, item) { 
+
+                       var slugUrl = convertToSlug(item.newsId, item.title); 
+
+                       var label = item.label != null ? item.label : "agency-wire"; 
+
+                       var Image = item.image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.image : item.image; 
+
+                       alertHtml += '<a href="/article/' + label + '/' + slugUrl + '"class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="/content/transparent.png?width=60&height=60" data-src="' + Image + '?width=60&height=60&mode=crop&format=jpeg" width="60" height="60" alt="News" class="img-rounded pull-right lazy"/></div></div></a>'});
+
+                       $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) 
+            }) 
+            }
+             
+                $.ajax("/Home/GetVideoNews?reg=" + '@(ViewBag.region)').done(function (data){             
                 $("#videoNews").html(data);
                 $('.lazy').lazy();
             });
             function GetEditionNews(region, title, editionSlug) {
                 $.ajax({
-                    url: '/api/Search/GetEditionNews/' + region + '/' + title, type: "GET", success: function (result) {
+                    url: '/api/Searchapi/GetEditionNews/' + region + '/' + title, type: "GET", success: function (result) {
                         var latestItems = ''; if (result.news.length > 0) {
                             var content = ''; $.each(result.news, function (i, item) {
-                                var slugUrl = convertToSlug(item.NewId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var newsType = ''; if (item.Type == "Event") { newsType = '<span class="pull-right infocus-badge">' + item.Type + '</span>' }
+                                var slugUrl = convertToSlug(item.newId, item.title); var label = item.Label != null ? item.Label : "agency-wire"; var newsType = ''; if (item.Type == "Event") { newsType = '<span class="pull-right infocus-badge">' + item.type + '</span>' }
                                 else if (item.Type == "Blog") { if (item.SubType != "" || item.SubType != null) { newsType = '<span class="pull-right infocus-badge">' + item.SubType + '</span>' } else { newsType = '<span class="pull-right infocus-badge">Blog</span>' } }
-                                var imageContent = ""; if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.Title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '?width=90&height=90&mode=crop&format=jpeg"></div></a></div>' }
-                                content += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="media news-media-card">' + newsType + imageContent + '<div class="media-body"><h3 class="media-title"><a href="/article/' + label + '/' + slugUrl + '" class="text-decoration">' + item.Title + '</a></h3></div></div></a>'
+                                var imageContent = ""; if (item.imageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") { var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '?width=90&height=90&mode=crop&format=jpeg"></div></a></div>' }
+                                content += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="media news-media-card">' + newsType + imageContent + '<div class="media-body"><h3 class="media-title"><a href="/article/' + label + '/' + slugUrl + '" class="text-decoration">' + item.title + '</a></h3></div></div></a>'
                             }); var urlhtml = ''; if (result.edition == "AFRICA EDITION") { urlhtml = result.edition } else { urlhtml = '<a href="' + editionSlug + '" class="text-decoration">' + result.edition + '</a>' }
                             latestItems = '<div class="clearfix m-t-40"><h2 class="section-title"><span>' + urlhtml + '</span></h2>' + content + '</div>'; if (result.edition == "AFRICAN EDITIONS") { $('#AfricaEditionNews').append(latestItems) } else { $('#EditionNews').append(latestItems) }
                             $('.lazy').lazy();
@@ -420,7 +464,7 @@
                 })
             }
             function convertToSlug(newsId, str) {
-                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.replace(/^\s+|\s+$/g,'');
                 str = str.toLowerCase();
                 var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
                 var to = "aaaaeeeeiiiioooouuuunc------";
@@ -431,13 +475,15 @@
                 return newsId + "-" + str;
             }
             function loadNewsData() {
+                
                 if (page > -1 && !inCallback) {
                     inCallback = true;
                     page++;
+                    
                     $("#loading").show();
                     $.ajax({
                         type: 'GET',
-                        url: '/api/Search/GetSectorNews/' + sector + '/' + region + '/' + page,
+                        url: '/api/Searchapi/GetSectorNews/' + sector + '/' + region + '/' + page,
                         dataType: "json",
                         success: function (data) {
                             showMoreCounter = showMoreCounter + 1;
@@ -446,17 +492,20 @@
                                 $("#loading").hide();
                                 return;
                             }
+                            
                             var html = '';
                             $.each(data, function (i, item) {
+                                
                                 var imageContent = '';
-                                var urlSlug = convertToSlug(item.NewsId, item.Title);
-                                var label = item.Label != null ? item.Label : "agency-wire";
-                                var country = item.Country != null ? item.Country : '';
+                                var urlSlug = convertToSlug(item.newsId, item.title);
+                                var label = item.label != null ? item.label : "agency-wire";
+                                var country = item.country != null ? item.country : '';
                                 var newsImage = '/images/sector/all_sectors.jpg';
-                                if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {
-                                    newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                                if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
+                                   // newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl;
+                                    newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
                                 }
-                                var createdOn = new Date(item.CreatedOn);
+                                var createdOn = new Date(item.createdOn);
                                 createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
                                 var countryHtml = 'Global';
                                 if (country.split(',').length > 0 && country != '') {
@@ -470,7 +519,7 @@
                                     '</div>' +
                                     '<div class="col-md-7 col-sm-8 p-l-0">' +
                                     '<div class="text-uppercase country-sub">' + countryHtml + '</div>' +
-                                    '<h3 class="title-sub">' + item.Title + '</h3>' +
+                                    '<h3 class="title-sub">' + item.title + '</h3>' +
                                     '<h5 class="no-margin font-oswald fg-black">' + createdOn.getDate() + ' ' + monthArray[createdOn.getMonth()] + ' ' + createdOn.getFullYear() + '</h5>' +
                                     '</div>' +
                                     '</div>' +

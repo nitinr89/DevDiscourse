@@ -41,7 +41,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                                select new NewsViewModel
                                {
                                    //Id = dn.Id,
-                                   //NewId = dn.NewsId,
+                                   NewsId = dn.NewsId,
                                    Title = dn.Title,
                                    ImageUrl = dn.ImageUrl,
                                    CreatedOn = dn.ModifiedOn,
@@ -50,10 +50,10 @@ namespace DevDiscourse.Controllers.ViewComponents
                                    Country = dn.Country,
                                    Label = dn.NewsLabels,
                                    Ranking = 0
-                               }).OrderByDescending(a => a.CreatedOn)
-                .Take(65)
-                .ToList();
-                return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+                               })
+                .Take(10);
+                //.ToList();
+                return View(infocus.ToList());
             }
 			else
 			{
@@ -77,20 +77,20 @@ namespace DevDiscourse.Controllers.ViewComponents
                 var infocus = (from dn in _db.DevNews
                                select new NewsViewModel
                                {
-                                  // Id = dn.Id,
-                                 //  NewId = dn.NewsId,
+                                   // Id = dn.Id,
+                                   //  NewId = dn.NewsId,
                                    Title = dn.Title,
                                    ImageUrl = dn.ImageUrl,
                                    CreatedOn = dn.ModifiedOn,
-                                  // Type = dn.Type,
+                                   // Type = dn.Type,
                                    SubType = dn.SubType,
                                    Country = dn.Country,
                                    Label = dn.NewsLabels,
                                    Ranking = 0
-                               }).OrderByDescending(a => a.CreatedOn)
-                .Take(65)
-                .ToList();
-                return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+                               })
+                .Take(10);
+                //.ToList();
+                return View(infocus.ToList());
             }
 		}
 	}

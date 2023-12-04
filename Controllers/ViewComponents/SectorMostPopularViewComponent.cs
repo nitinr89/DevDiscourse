@@ -15,11 +15,12 @@ namespace Devdiscourse.Controllers.ViewComponents
             _db = db;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string sector, string reg = "Global Edition")
+        public async Task<IViewComponentResult> InvokeAsync(int sector, string reg = "Global Edition")
         {
             await Task.Yield();
             DateTime weekend = DateTime.Today.AddDays(-4);
-            var resultList = _db.DevNews.AsNoTracking().Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region == reg && a.Sector == sector).OrderByDescending(o => o.ViewCount)
+            var resultList = _db.DevNews.AsNoTracking()
+                //.Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region == reg && a.Sector == sector).OrderByDescending(o => o.ViewCount)
                 .Select(a =>
             new SearchView
             {

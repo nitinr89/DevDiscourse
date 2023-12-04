@@ -14,7 +14,9 @@
 @section lastModified{
     <meta http-equiv="last-modified" content="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz")" />
 }
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+ <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -32,11 +34,23 @@
             $img.height(newHeight);
         });
     });
-</script>
+</script> 
 
 <script type="application/ld+json">
-    {"@@context":"https://schema.org","@@type":"NewsMediaOrganization","name":"Devdiscourse","alternateName":"Devdiscourse","url":"https://www.devdiscourse.com","logo":"https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png","contactPoint":{"@@type":"ContactPoint","telephone":"+91-130-6444012","contactType":"customer service","areaServed":"IN","availableLanguage":"en"},"sameAs":["https://www.facebook.com/devdiscourse","https://twitter.com/dev_discourse","https://www.instagram.com/devdiscourse","https://www.youtube.com/c/Devdiscourse","https://www.linkedin.com/showcase/dev_discourse","https://in.pinterest.com/devdiscourse"]}
+    {"@@context":"https://schema.org",
+    "@@type":"NewsMediaOrganization",
+    "name":"Devdiscourse",
+    "alternateName":"Devdiscourse",
+    "url":"https://www.devdiscourse.com",
+    "logo":"https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png",
+    "contactPoint":{"@@type":"ContactPoint",
+    "telephone":"+91-130-6444012",
+    "contactType":"customer service",
+    "areaServed":"IN",
+    "availableLanguage":"en"},
+    "sameAs":["https://www.facebook.com/devdiscourse","https://twitter.com/dev_discourse","https://www.instagram.com/devdiscourse","https://www.youtube.com/c/Devdiscourse","https://www.linkedin.com/showcase/dev_discourse","https://in.pinterest.com/devdiscourse"]}
 </script>
+
 <script type="application/ld+json">
     {"@@context": "http://schema.org","@@type": "WebPage","name": "Devdiscourse","description": "World's leading Website for International Development News. Breaking News, Opinions, Technology, Social development, Urban Development, Entertainment, Sports news.", "speakable":
     {
@@ -426,7 +440,7 @@
     @await Component.InvokeAsync("Infocus",new { reg = "Global Edition" });
 </div>
 <div class="video-container m-t-20 m-t-20">
-    6
+    
     <div id="videoNews" class="container"></div>
 </div>
 <div class="container">
@@ -458,7 +472,7 @@
                 <span>TRENDING</span>
             </h3>
             @* @{Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.edition });} *@
-            @await Component.InvokeAsync("Trends",new { filter = "Trends", reg = ViewBag.edition });
+            @await Component.InvokeAsync("Trends",new { filter = "Trends", reg = @ViewBag.edition });
             <div class="p-t-10 p-b-20">
                 <a href="/research"> <img data-src="/images/SDGs/participatory-sdgs.jpg?width=445&quality=80" src="~/Content/transparent.png" alt="Participatory monitoring of SDGs" class="img-responsive center-block lazy" style="border:1px solid #eee" /> </a>
             </div>
@@ -511,7 +525,7 @@
                 <span>ECONOMY &amp; BUSINESS</span>
             </h2>
             @* @{Html.RenderAction("GetEconomyNews", "SectorNews", new { reg = @ViewBag.edition });} *@
-            @await Component.InvokeAsync("EconomyNews", new{ reg=ViewBag.edition });
+            @await Component.InvokeAsync("EconomyNews", new{ reg = @ViewBag.edition });
             <div class="clearfix">
                 <a href="/news/economy-business" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Economy and Business News">Read More</a>
             </div>
@@ -700,7 +714,14 @@
     @await Component.InvokeAsync("News",new { reg = ViewBag.edition, skip = 0, take = 12 });
 </div>
 <link href="~/Content/breaking-news-ticker.min.css" rel="stylesheet" async />
+<link rel="stylesheet" type="text/css" href="~/Content/SiteNew.min.css" />
 @section scripts{
+
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <script src="~/scripts/jquery.lazy.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="~/scripts/home/index.min.js"></script>
+    <script src="~/scripts/home/index.js"></script>
     <script src="~/Scripts/breaking-news-ticker.min.js" async></script>
     <script>
         var _edition = '@(ViewBag.edition)'; var _saveSector = [];

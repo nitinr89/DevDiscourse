@@ -1076,31 +1076,38 @@ namespace DevDiscourse.Controllers
         //        return PartialView("_getEditorsPick", result);
         //    }
         //}
-        //public PartialViewResult GetVideoNews(long id = 0, string reg = "Global Edition", string filter = "")
-        //{
-        //    ViewBag.filter = filter;
-        //    //if (reg != "Global Edition")
-        //    //{
-        //    //    var result = _db.DevNews.Where(a => a.NewsId != id && a.AdminCheck == true && a.Region.Contains(reg) && a.IsVideo == true && a.EditorPick == false  && a.IsSponsored == false).OrderByDescending(m => m.CreatedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId,Label = a.NewsLabels }).AsNoTracking().Take(5).ToList();
-        //    //    return PartialView("_getVideoNews", result);
-        //    //}
-        //    //else
-        //    //{
-        //    //    var result = _db.DevNews.Where(a => a.NewsId != id && a.AdminCheck == true && a.IsVideo == true && a.EditorPick == false && a.IsSponsored == false).OrderByDescending(m => m.CreatedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId,Label = a.NewsLabels }).AsNoTracking().Take(5).ToList();
-        //    //    return PartialView("_getVideoNews", result);
-        //    //}
-
-        //    if (reg == "Global Edition")
-        //    {
-        //        var result = _db.VideoNews.Where(a => a.AdminCheck == true).Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Take(5);
-        //        return PartialView("_getVideoNews", result);
-        //    }
-        //    else
-        //    {
-        //        var result = _db.VideoNews.Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg)).Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Take(5);
-        //        return PartialView("_getVideoNews", result);
-        //    }
-        //}
+        public PartialViewResult GetVideoNews(long id = 0, string reg = "Global Edition", string filter = "")
+        {
+            ViewBag.filter = filter;
+            if (reg == "Global Edition")
+            {
+                var result = _db.VideoNews
+                //.Where(a => a.AdminCheck == true)
+                .Select(a => new VideoViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CreatedOn = a.CreatedOn,
+                    FileThumbUrl = a.VideoThumbUrl,
+                    Duration = a.Duration
+                }).OrderByDescending(m => m.CreatedOn).Take(5);
+                return PartialView("_getVideoNews", result);
+            }
+            else
+            {
+                var result = _db.VideoNews
+                //.Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
+                .Select(a => new VideoViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CreatedOn = a.CreatedOn,
+                    FileThumbUrl = a.VideoThumbUrl,
+                    Duration = a.Duration
+                }).OrderByDescending(m => m.CreatedOn).Take(5);
+                return PartialView("_getVideoNews", result);
+            }
+        }
         ////public PartialViewResult GetComments(long id, string type, int skip)
         ////{
         ////    ViewBag.loginUser = User.Identity.GetUserId();

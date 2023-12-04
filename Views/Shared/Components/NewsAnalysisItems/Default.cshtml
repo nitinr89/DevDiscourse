@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.NewsAnalysisViewModel>
+@{
+    //string domainUrl = "https://www.devdiscourse.com";
+    string domainUrl = "";
+}
+@if (ViewBag.page == 1)
+{
+    foreach (var item in Model.Take(1))
+    {
+        var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+        <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+            <div class="bg-gray cover-img m-b-40" style="background-image:url(@domainUrl@newsImage?width=640&height=344&mode=crop&format=jpeg)">
+                <div class="cover-img-overlay">
+                    <div class="text-cont">
+                        <!--@item.Title-->
+                        <h3 class="fg-white">@item.Title</h3>
+                        <h6 class="fg-white no-margin font-oswald">@item.TimeAgo()</h6>
+                    </div>
+                    @if (!String.IsNullOrEmpty(item.Country))
+                    {
+                        var countryArr = item.Country.Split(',');
+                        foreach (var t in countryArr.Take(1))
+                        {
+                            <div class="text-uppercase country-main">@t</div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-uppercase country-main">Global</div>
+                    }
+
+                </div>
+
+            </div>
+        </a>
+    }
+    foreach (var item in Model.Skip(1))
+    {
+        var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+        <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+            <div class="row m-b-40">
+                <div class="col-md-5 col-sm-4">
+                    <picture>
+                        <source srcset="@domainUrl@newsImage?width=295&height=160&mode=crop&format=webp" type="image/webp">
+                        <source srcset="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg" type="image/jpeg">
+                        <img data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg" class="img-responsive lazy" />
+                    </picture>
+                    @*<div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg"></div>*@
+                </div>
+                <div class="col-md-7 col-sm-8 p-l-0">
+                    @if (!String.IsNullOrEmpty(item.Country))
+                    {
+                        var countryArr = item.Country.Split(',');
+                        foreach (var t in countryArr.Take(1))
+                        {
+                            <div class="text-uppercase country-sub">@t</div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-uppercase country-sub">Global</div>
+                    }
+                    <h2 class="title-sub">@item.Title</h2>
+                    <h5 class="no-margin font-oswald fg-black">@item.TimeAgo()</h5>
+                </div>
+            </div>
+        </a>
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+        var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+        <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+            <div class="row m-b-40">
+                <div class="col-md-5 col-sm-4">
+                    <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg"></div>
+                </div>
+                <div class="col-md-7 col-sm-8 p-l-0">
+                    @if (!String.IsNullOrEmpty(item.Country))
+                    {
+                        var countryArr = item.Country.Split(',');
+                        foreach (var t in countryArr.Take(1))
+                        {
+                            <div class="text-uppercase country-sub">@t</div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-uppercase country-sub">Global</div>
+                    }
+                    <h3 class="title-sub">@item.Title</h3>
+                    <h5 class="no-margin font-oswald fg-black">@item.TimeAgo()</h5>
+                </div>
+            </div>
+        </a>
+    }
+}

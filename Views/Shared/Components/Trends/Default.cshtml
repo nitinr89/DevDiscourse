@@ -9,6 +9,30 @@ else if (input.Length <= length)
 {@input}
 else
 {@input.Substring(0, length)<text>...</text>}} *@
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		var newWidth = 178;
+		var newHeight = 135;
+		var $imageContainer = $('.media-left');
+		var $images = $imageContainer.find('img');
+		$images.each(function (index, element) {
+			var $img = $(element);
+			var image = $img.attr('data-src');
+			$img.attr('src', image);
+			// var src = $img.attr('src');
+			// $img.attr('src', src.substring(12));
+			$img.width(newWidth);
+			$img.height(newHeight);
+		});
+	});
+</script>
+
+
 @if (ViewBag.filter == "Trends")
 {
 	foreach (var item in Model)

@@ -1,0 +1,1654 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "Research - Participatory monitoring of SDGs | Devdiscourse";
+    ViewBag.alternateHeadline = "Research - Participatory monitoring of SDGs | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/research";
+    ViewBag.PageDescription = "This research project has been structured around two activity streams – first, generating the ideas and proof of concepts to develop and upgrade IT tools for participatory monitoring of SDGs worldwide; second, actually using the developed tools for generation of data/information for participatory monitoring which will complement the monitoring of indicators based on recorded non-participatory data sets.";
+    ViewBag.pageKeywords = "Development news, Participatory monitoring, SDGs, Sustainable development goals, SDGs news, SDG indicators, League of SDG Samurai, SDGs Stories ";
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+      integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+      crossorigin="" />
+<link href="~/Content/Map/leaflet.fullscreen.min.css" defer rel="stylesheet" />
+<link href="~/Content/Map/leaflet.zoomhome.min.css" defer rel="stylesheet" />
+<link href="~/Content/jquery.multiselect.min.css" defer rel="stylesheet" />
+<link href="~/Content/researchmap.min.css" defer rel="stylesheet" />
+<style>
+    .renderBody {
+        margin-top: 15px;
+    }
+
+    .fg-black {
+        color: #333 !important
+    }
+
+    .owl-next, .owl-prev {
+        color: #a9a9a9 !important;
+        background-color: unset !important;
+        font-size: 60px !important
+    }
+
+    .rightDiv {
+        padding-top: 150px;
+        padding-left: 50px
+    }
+
+    .owl-carousel .owl-dots.disabled, .owl-carousel .owl-nav.disabled {
+        display: block
+    }
+
+    .owl-stage-outer {
+        padding-top: 40px;
+        z-index: 1000 !important
+    }
+
+    .owl-nav {
+        display: none !important
+    }
+
+    .owl-prev {
+        margin-left: -40px
+    }
+
+    .owl-next {
+        margin-right: -40px;
+        float: right
+    }
+
+        .owl-next:active, .owl-prev:active {
+            color: grey !important
+        }
+
+    #moreRP::-webkit-scrollbar {
+        width: 3px
+    }
+
+    #moreRP::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px
+    }
+
+    #moreRP::-webkit-scrollbar-thumb {
+        background: #ff6b00;
+        border-radius: 10px
+    }
+
+        #moreRP::-webkit-scrollbar-thumb:hover {
+            background: #ff6b00
+        }
+
+    .leftPanel {
+        padding-top: 45px;
+        padding-bottom: 35px
+    }
+
+    .leftPanelDiv {
+        padding-right: 50px;
+        padding-top: 10px;
+        overflow: auto
+    }
+
+    .rightPanel {
+        padding-top: 65px;
+        padding-bottom: 65px;
+        padding-left: 45px;
+        color: #fff
+    }
+
+        .rightPanel h3 a {
+            text-decoration: none;
+            color: #fff
+        }
+
+    .inst-card-title, .profile-title {
+        color: #888;
+        font-stretch: condensed
+    }
+
+    .rightPanel .media .media-left {
+        width: 50px
+    }
+
+    .rightPanel .media .media-body {
+        padding-left: 20px
+    }
+
+    .custom-container {
+        background-image: linear-gradient(to right,#eee 53%,#ff6b00 50%,#eee 49%,#ff6b00 51%)
+    }
+
+    .research-card {
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08);
+        border-radius: 3px;
+        padding: 10px;
+        background-color: #fff
+    }
+
+    .infocus-badge, .samuraibadge {
+        background-color: #ff7b00;
+        color: #fff
+    }
+
+    .inst-card-title {
+        height: 50px;
+        font-size: 14px;
+        padding-top: 5px
+    }
+
+    .mini-card {
+        height: 90px;
+        margin-top: 5px;
+        border-bottom: 1px solid #ddd
+    }
+
+        .mini-card .image-card {
+            width: 100px;
+            height: 90px;
+            background-size: cover
+        }
+
+    .p-l-15 {
+        padding-left: 15px
+    }
+
+    .p-l-20 {
+        padding-left: 20px
+    }
+
+    .profile-card {
+        box-shadow: 0 5px 5px 0 rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08);
+        height: 265px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 10px;
+        margin-top: -40px
+    }
+
+    .profile-title {
+        height: 60px;
+        font-size: 16px;
+        padding-top: 10px;
+        text-align: center
+    }
+
+    .sdgicon div, .sdgicon2 div {
+        margin-left: 10px;
+        display: inline-block;
+        cursor: pointer
+    }
+
+    .sdgsbtn {
+        font-size: 18px;
+        padding: 10px 30px
+    }
+
+    .text-left {
+        text-align: left !important
+    }
+
+    .allPadding {
+        padding: 15px 50px
+    }
+
+    .spanFontSize {
+        font-size: 36px
+    }
+
+    .infocus-badge {
+        padding: 3px 5px;
+        margin-top: 5px;
+        font-size: 12px
+    }
+
+    .tab-content {
+        padding-top: 20px;
+    }
+
+    .sdgicon div img, .sdgicon2 div img {
+        width: unset;
+    }
+
+    .bg-banner {
+        background: rgb(3,23,47);
+        background: linear-gradient( 90deg, rgba(3,23,47,1) 0%,rgba(3,23,47,1) 40%, rgba(1,51,125,1) 60%, rgb(1,51,125,1) 100%);
+    }
+
+    .bg-other {
+        background-color: #f9f9f9;
+    }
+
+    @@media(max-width:1440px) {
+        div .sectormenu div {
+            padding: 0;
+        }
+
+            div .sectormenu div svg {
+                width: 90px
+            }
+
+        .sdgicon div, .sdgicon2 div {
+            width: 100px
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .leftPanelDiv {
+            height: 980px
+        }
+
+        .sdgicon div, .sdgicon2 div {
+            width: 84px
+        }
+
+            .sdgicon div img, .sdgicon2 div img {
+                width: 100px;
+            }
+
+        .rightDiv {
+            padding-top: 70px
+        }
+    }
+
+    @@media(max-width:768px) {
+        .sdgicon div, .sdgicon2 div {
+            width: 60px;
+        }
+
+            .sdgicon div img, .sdgicon2 div img {
+                width: 75px;
+            }
+
+        .liveMonitoring {
+            padding-top: 20px;
+        }
+
+        .spanFontSize {
+            font-size: 30px;
+        }
+
+        .custom-container {
+            background-image: linear-gradient(to right,#eee 100%,#ff6b00 100%,#eee 100%,#ff6b00 100%)
+        }
+
+        .p-t-50 {
+            padding-top: 5px;
+        }
+
+        .leftPanel {
+            padding-top: 20px;
+        }
+
+        .leftPanelDiv {
+            height: 100% !important;
+        }
+
+        h2 {
+            font-size: 26px;
+        }
+
+        .rightDiv {
+            padding-top: 50px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .sdgicon div img, .sdgicon2 div img {
+            width: unset;
+        }
+
+        .allPadding {
+            padding: 15px 20px;
+        }
+
+        .spanFontSize {
+            font-size: 28px;
+        }
+
+        #sdgsamurai {
+            margin-top: 20px !important;
+            margin-bottom: 20px;
+        }
+
+        .f-18 {
+            font-size: 15px !important;
+        }
+    }
+
+    @@media(max-width:425px) and (min-width:320px) {
+        .rightPanel .media .media-body h3 {
+            font-size: 18px
+        }
+
+        .custom-container {
+            background-image: linear-gradient(to right,#eee 100%,#ff6b00 100%,#eee 100%,#ff6b00 100%)
+        }
+
+            .custom-container .leftPanel, .custom-container .rightPanel {
+                padding: 20px 15px
+            }
+
+        .rightPanel {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 10px;
+            color: #fff
+        }
+
+        .leftPanel h2 {
+            margin-top: 0
+        }
+
+        .leftPanelDiv {
+            font-size: 14px;
+            padding-right: 0
+        }
+
+        .rightPanel .media .media-left img {
+            width: 35px !important
+        }
+
+        h2 {
+            font-size: 22px
+        }
+
+        .sdgicon div, .sdgicon2 div {
+            margin-left: 0;
+            width: 110px
+        }
+
+        .rightDiv {
+            text-align: center;
+            padding-top: 0;
+            padding-left: 0
+        }
+
+        .sdgsbtn {
+            margin-top: 0 !important;
+            font-size: 16px;
+            padding: 5px 15px
+        }
+
+        .rightPanel .media .media-body {
+            padding-left: 0
+        }
+
+        div .sectormenu div svg {
+            width: 70px
+        }
+    }
+
+    @@media(max-width:320px) {
+        .sdgicon div, .sdgicon2 div {
+            width: 90px
+        }
+
+            .sdgicon div img, .sdgicon2 div img {
+                width: 85px;
+            }
+    }
+
+    #atthmArea_findInList, .checklist, .checklistContainer {
+        width: 100% !important
+    }
+
+    .checklist {
+        height: 100px !important
+    }
+
+    .samuraibadge {
+        border-radius: unset
+    }
+
+    .samuraibar {
+        margin-top: -40px;
+        padding-left: 5px;
+        color: #fff;
+        font-weight: 400;
+        width: 100%;
+        position: absolute;
+        background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5),rgba(0,0,0,.5),rgba(0,0,0,.5))
+    }
+
+    .image-cover, .video-cover {
+        height: 180px;
+        overflow: hidden
+    }
+
+        .image-cover img {
+            object-fit: cover
+        }
+
+        .video-cover video {
+            max-height: 180px;
+            width: auto;
+            margin: auto
+        }
+
+    .markerloader {
+        height: 4px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        background-color: #ddd
+    }
+
+        .markerloader:before {
+            display: block;
+            position: absolute;
+            content: "";
+            left: -200px;
+            width: 200px;
+            height: 4px;
+            background-color: #ff6b00;
+            animation: loading 2s linear infinite
+        }
+
+    @@keyframes loading {
+        from {
+            left: -200px;
+            width: 30%
+        }
+
+        50% {
+            width: 30%
+        }
+
+        70% {
+            width: 70%
+        }
+
+        80% {
+            left: 50%
+        }
+
+        95% {
+            left: 120%
+        }
+
+        to {
+            left: 100%
+        }
+    }
+</style>
+@if (ViewBag.edition == "South Asia")
+{
+    <div class="bg-banner">
+        <a href="/research/contest">
+            <img src="~/Content/transparent.png" data-src="/images/SDGs/pmsdbanner.png" alt="Contest - Participatory monitoring of SDGs" class="img-responsive lazy center-block" />
+        </a>
+    </div>
+}
+else
+{
+    <div class="bg-other">
+        @if (isMobile)
+        {
+            <img src="~/Content/transparent.png" data-src="/images/mobile_research_home.png" alt="SDGs Research" class="img-responsive lazy center-block" />
+        }
+        else
+        {
+            <img src="~/Content/transparent.png" data-src="/images/research-banner.jpg" alt="SDGs Research" class="img-responsive lazy center-block" />
+        }
+    </div>
+}
+
+<div class="custom-container" style="background-color:#eee">
+    <div class="container">
+        <div class="row">
+            <div class="leftPanel col-xs-12 col-md-6">
+                <h1 class="fg-Primary" style="font-weight:400">The Research</h1>
+                <div id="moreRP" class="f-16 leftPanelDiv">
+                    <p>Seventeen Sustainable Development Goals (SDGs) and 169 targets to be achieved by 2030 - the development agenda for the global community has been agreed upon and set. Each country will choose the indicators that are best suited to track its own progress towards sustainable development.</p>
+                    <p>Then there are a risks that, by focusing solely on the SDG indicators, governments may waste resources on data for data’s sake, rather than identifying local priorities. Understanding of local priorities require a simple but well-structured bottom-up approach to track the progress towards SDGs by taking into account the views of target beneficiaries and the people involved. Taking a bottom-up approach will be essential to successfully identify and deliver on priorities.</p>
+                    <p>Participatory monitoring is one way of generating the data needed to close the information gaps and achieve the evidence base needed for robust implementation of the SDGs. In this sense, the data/information pouring in from the participatory monitoring will complement, and not intended to substitute, the monitoring based on the non-participatory data compiled by the authorities at national, regional and global level.</p>
+                    <p>The use of IT tools is changing the face of participatory monitoring paradigm by enabling the citizens to provide and the government agencies to receive the feedback on developmental interventions and availability as well as quality of basic services such as roads, water and sanitation, public health facilities, etc.</p>
+                    <p>This research project has been structured around two activity streams – first, generating the ideas and proof of concepts to develop and upgrade IT tools for participatory monitoring of SDGs worldwide; second, actually using the developed tools for generation of data/information for participatory monitoring which will complement the monitoring of indicators based on recorded non-participatory data sets.</p>
+                    <p>Generating the ideas and proof of concepts to develop and upgrade IT tools is being steered by Digital Development Department (3D) of VisionRI guided by a designated research team. A panel of technical advisors provide the mentoring role and contribute for the generation of ideas through online and offline brain-storming and panel discussion sessions periodically.</p>
+                    <p>The web and android based tool being used for this research is a module of the software, IDEA-M&E, designed and developed by VisionRI for the monitoring and evaluation of developmental interventions.</p>
+                    <p>The execution modality of the research is generating crowd-sourced data through a well-designed program of voluntary participation named ‘League of SDG Samurai’.</p>
+                    <p>The online platform for the research project displays data pouring in for the research on an interactive map as ‘Live Monitoring’. With the help of maps, analytics, and other tools one can witness the continuous monitoring on her screen in real time.</p>
+                    <p>We understand that the crowd sourced data generated under the research project may be useful for governments, development agencies, research institutions, civil society organizations and community groups. For such institutions interested in getting the raw data feed as well as basic analytics for the geographical areas of their interest, we invite institutional partnerships under a simple arrangement called ‘Adopt the Research’. Under this arrangement, we expect the partner institution to duly declare and publicise that it has adopted this research on its website and other publicity material in order to catalyse the process of crowd-sourced data generation. In return, the partner institution will be provided free of cost access to dashboard displaying the crowd sourced data from geographical area of its interest.</p>
+                </div>
+            </div>
+            <div class="rightPanel col-xs-12 col-md-6" style="background-color:#ff6b00">
+                <div class="media">
+                    <div class="media-left">
+                        <img data-src="/images/SDGs/icons/live_monitoring.svg" src="~/Content/transparent.png" class="lazy" alt="Live Monitoring" style="width:50px" />
+                    </div>
+                    <div class="media-body">
+                        <h3 style="font-weight:400; margin-top:0px">
+                            <a href="/Research#lms">Live Monitoring Stream</a>
+                        </h3>
+                        <p>
+                            The platform that never takes a rest. You can witness the continuous monitoring of the march towards achieving the Sustainable Development Goals on your screen in real time as a crowd sourced data flow. To see live monitoring
+                            <a href="/Research#lms" style="color:#fff; font-weight:500;font-size:16px">click here.</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="m-t-20 media">
+                    <div class="media-left">
+                        <img data-src="/images/SDGs/icons/sdg_samurai.svg" src="~/Content/transparent.png" class="lazy" alt="SDG Samurai" style="width:50px" />
+                    </div>
+                    <div class="media-body">
+                        <h3 style="font-weight:400; margin-top:0px">
+                            <a href="/Research#ss">League of SDG Samurai</a>
+                        </h3>
+                        <p>In the present - daemons surrounds us in the form of inefficiencies, corruption, pollution, poverty, inequality, and what not. Our Earth is losing its sustainability, its balance, day in and day out.</p>
+                        <p>It’s now time for you to be the change, it’s now time to be the saviour, it’s now time to be the ‘Samurai’ for the Sustainable Development of our mother earth, a ‘SDG-Samurai’, by actively participating in monitoring of Sustainable Development Goals.</p>
+                        <p>Speak up for the ground realities in your community, your locality or any other area you are concerned about regarding basic services such as water and sanitation facilities, public health status and facilities, roads and transport, energy services, education facilities, environmental status, agriculture activities and gender equality and empowerment of women and girls. You can speak up your mind on government’s policies, plans, programs, projects and administration. The world will see and listen to you through this research platform.</p>
+                        <p>You can simply respond to few multiple choice questions posed under the research, click and send a picture or record and send audio and video clips. The whole world will see and listen to what you will speak out for. Starting as a volunteer you can rise in ranks in the ‘League of SDG Samurai’ as Second Lieutenant, Colonel, Brigadier or even higher than that up to General. Each contribution to research by you will add to your score as SDG Samurai and ensure your promotion to higher ranks.</p>
+                        <p>Your contribution will add to the collective voice of other fellow SDG Samurai and catalyse the process of change we aspire for our communities and localities by monitoring the march towards achieving the Sustainable Development Goals.</p>
+                        <p>
+                            We invite you to speak out and be the saviour! Please
+                            <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" style="color:#fff; font-weight:500;font-size:16px">download and install</a> our app from google play store and provide your contribution by selecting the thematic area about which you wish to speak out. To see who is there in league
+                            <a href="/Research#ss" style="color:#fff; font-weight:500;font-size:16px">click here.</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="m-t-20 media">
+                    <div class="media-left">
+                        <img data-src="/images/SDGs/icons/adopt_the_tools.svg" src="~/Content/transparent.png" class="lazy" alt="Adopt the tools" style="width:50px" />
+                    </div>
+                    <div class="media-body">
+                        <h3 style="font-weight:400; margin-top:0px">
+                            <a href="/Research#at">Institutional Partnership</a>
+                        </h3>
+                        <p>
+                            Interested in getting the raw data feed as well as basic analytics for the geographical areas of your interest? Want to communicate with volunteers providing data from geographical are of your interest? We invite your institution for partnership under a simple arrangement called ‘Adopt the Research’. Under this arrangement, we expect your institution to duly declare and publicise that it has adopted this research on its website and other publicity material in order to catalyse the process of crowd-sourced data generation. In return, your institution will be provided free of cost access to dashboard displaying the crowd sourced data from geographical area of its interest as well platform for communicating with volunteers providing data.
+                            Write us by
+                            <span id="adoptBtn" style="color:#fff; font-weight:500;font-size:16px; cursor:pointer">clicking here.</span>
+                        </p>
+                    </div>
+                </div>
+                @*<div class="media m-t-20">
+                <div class="media-left">
+                <img data-src="/images/SDGs/icons/technical_advisory_panel.svg" src="~/Content/transparent.png" class="lazy" alt="Advisory Penel"  style="width:50px" />
+                </div>
+                <div class="media-body">
+                <h3 style="font-weight:400; margin-top:0px"><a href="/Research#tap">Technical Advisory Panel</a></h3>
+                <p>The technical advisory panel is a diverse and dynamic group of industry experts and intellectuals who will advise us in our endeavours. These mentors will coordinate with our Digital Development Department (3D) team and guide our in-house research team as a powerhouse of ideas. To see panel members <a href="/Research#tap" style="color:#fff; font-weight:500;font-size:16px">click here.</a></p>
+                </div>
+                </div>*@
+                <div class="m-t-20 media">
+                    <div class="media-left">
+                        <img data-src="/images/SDGs/icons/sdg_news.svg" src="~/Content/transparent.png" class="lazy" alt="SDG Stories" style="width:50px" />
+                    </div>
+                    <div class="media-body">
+                        <h3 style="font-weight:400; margin-top:0px">
+                            <a href="/Research#sdgn">SDGs Stories</a>
+                        </h3>
+                        <p>
+                            World’s citizen need to be aware what SDGs are and how these goals contribute in enhancing the welfare of human society, and what are their rights to demand for better services. Information to world community on SDGs agenda and related actions especially at the local level are all crucial steps towards achieving mission SDGs. Creating awareness on the SDGs among community members and concerned government stakeholders improves and sustains interactions between government and the people, thereby setting a platform towards achieving the SDGs by 2030 through increased demand for improved services delivery.
+                        </p>
+                        <p>
+                            With an objective to disseminate the maximum information about SDGs and enhance the level of awareness we cover all related to SDGs here, may it be news stories, case studies, research briefings, events and discussions.
+                            To see SDGs news
+                            <a href="/Research#sdgn" style="color:#fff; font-weight:500;font-size:16px">click here.</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="m-t-20 media">
+                    <div class="media-left">
+                        <img data-src="/images/SDGs/icons/SDG.svg" src="~/Content/transparent.png" class="lazy" alt="SDG" style="width:50px" />
+                    </div>
+                    <div class="media-body">
+                        <h3 style="font-weight:400; margin-top:0px">
+                            <a href="/Research#sdg">Sustainable Development Goals</a>
+                        </h3>
+                        <p>
+                            The Sustainable Development Goals (SDGs), otherwise known as the Global Goals, are a universal call to action to end poverty, protect the planet and ensure that all people enjoy peace and prosperity. To know more about SDGs
+                            <a href="/Research#sdg" style="color:#fff; font-weight:500;font-size:16px">click here.</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-t-50 container" id="lms">
+    <h2 class="section-title">
+        <span>Live Monitoring Stream</span>
+    </h2>
+</div>
+<div class="m-t-20" style="position:relative;">
+    <div class="container">
+        <div class="sectormenu" itemscope="" itemtype="http://www.schema.org/SiteNavigationElement">
+            <div data-url="" class="form active" id="All" title="All" data-sector="">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g transform="translate(-6751 -1153)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 6751, 1153)"> <rect data-name="Rectangle 138" class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <text data-name="All" class="svg-text" transform="translate(6830 1286)"><tspan x="-10.165" y="0">All</tspan></text> <g transform="translate(6792 1174)"> <path data-name="Path 639" class="svg-icon" d="M3,4H73V74H3V4M7.118,8.118V36.941H35.941V8.118H7.118M68.882,36.941V8.118H40.059V36.941H68.882M7.118,69.882H35.941V41.059H7.118V69.882m61.765,0V41.059H40.059V69.882Z" /> </g> </g> </svg>
+            </div>
+            <div data-url="" class="form" id="058705cd-d4b5-4cd7-8ec1-48e413d5bafd" title="Status of Agriculture Sector">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g transform="translate(-6951 -957)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 6951, 957)"> <rect data-name="Rectangle 140" class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <g id="agriculture-2" data-name="agriculture" transform="translate(6995 986)"> <path class="svg-icon" d="M66.68,22.2a5.174,5.174,0,1,0-5.174,5.191A5.189,5.189,0,0,0,66.68,22.2Zm-5.174,3.411a3.412,3.412,0,1,1,3.4-3.411A3.41,3.41,0,0,1,61.505,25.612Z" transform="translate(-15.251 -11.036)" /> <path class="svg-icon" d="M62.94,13.833V11.184a.887.887,0,1,0-1.774,0v2.649a.887.887,0,1,0,1.774,0Z" transform="translate(-15.799 -10.294)" /> <path class="svg-icon" d="M68.044,11.927a.886.886,0,0,0-1.21.333l-1.308,2.3a.891.891,0,0,0,.332,1.213.885.885,0,0,0,1.21-.333l1.308-2.3A.892.892,0,0,0,68.044,11.927Z" transform="translate(-16.279 -10.461)" /> <path class="svg-icon" d="M68.665,18.651a.885.885,0,0,0,1.215.311l2.272-1.35a.889.889,0,0,0-.9-1.531l-2.272,1.35A.892.892,0,0,0,68.665,18.651Z" transform="translate(-16.634 -10.919)" /> <path class="svg-icon" d="M74.15,22.527a.882.882,0,0,0-.9-.874l-2.641.044a.89.89,0,0,0,.015,1.779h.015l2.641-.044A.889.889,0,0,0,74.15,22.527Z" transform="translate(-16.769 -11.548)" /> <path class="svg-icon" d="M71.884,29.017a.89.89,0,0,0,.427-1.67L70,26.073a.889.889,0,0,0-.853,1.559l2.315,1.274A.878.878,0,0,0,71.884,29.017Z" transform="translate(-16.65 -12.025)" /> <path class="svg-icon" d="M67.171,32.758a.887.887,0,1,0,1.511-.93L67.3,29.57a.888.888,0,1,0-1.511.931Z" transform="translate(-16.307 -12.376)" /> <path class="svg-icon" d="M62.309,30.412a.887.887,0,0,0-.857.918l.088,2.648a.888.888,0,0,0,.886.86h.03a.887.887,0,0,0,.857-.918l-.088-2.648A.878.878,0,0,0,62.309,30.412Z" transform="translate(-15.831 -12.515)" /> <path class="svg-icon" d="M56.258,33.449a.886.886,0,0,0,1.2-.373l1.231-2.344a.888.888,0,1,0-1.57-.829l-1.231,2.344A.892.892,0,0,0,56.258,33.449Z" transform="translate(-15.189 -12.407)" /> <path class="svg-icon" d="M52.318,29.66a.884.884,0,0,0,.476-.14L55.02,28.1a.889.889,0,0,0-.954-1.5L51.84,28.021a.89.89,0,0,0,.478,1.639Z" transform="translate(-14.697 -12.079)" /> <path class="svg-icon" d="M49.632,23.339a.887.887,0,0,0,.885.845h.045l2.637-.132a.89.89,0,0,0-.088-1.777l-2.637.132A.888.888,0,0,0,49.632,23.339Z" transform="translate(-14.493 -11.617)" /> <path class="svg-icon" d="M50.954,17.122a.892.892,0,0,0,.391,1.2L53.7,19.513a.887.887,0,0,0,1.192-.393.892.892,0,0,0-.391-1.2l-2.356-1.195A.885.885,0,0,0,50.954,17.122Z" transform="translate(-14.632 -10.994)" /> <path class="svg-icon" d="M57.137,16.2a.889.889,0,0,0,.739-1.381l-1.458-2.209a.887.887,0,1,0-1.478.982L56.4,15.8A.882.882,0,0,0,57.137,16.2Z" transform="translate(-15.077 -10.506)" /> <path class="svg-icon" d="M80.026,50.928a90.417,90.417,0,0,0-10.562,1.349V50.083c.17.01.357.016.564.016a6.379,6.379,0,0,0,4.5-1.526c2.036-2.042,1.449-5.749,1.423-5.907a.887.887,0,0,0-.729-.731,9.423,9.423,0,0,0-3.76.221,5.1,5.1,0,0,0,.79-2.6c0-2.889-3.028-5.094-3.157-5.185a.886.886,0,0,0-1.031,0c-.129.093-3.157,2.3-3.157,5.185a5.1,5.1,0,0,0,.793,2.606,9.376,9.376,0,0,0-3.777-.226.887.887,0,0,0-.729.731c-.026.157-.613,3.864,1.422,5.907a6.38,6.38,0,0,0,4.5,1.526c.213,0,.4-.007.577-.017v2.525a129.09,129.09,0,0,0-13.768,3.471c-2.544-1.244-5.07-2.353-7.55-3.35V50.146c.17.01.357.016.564.016a6.38,6.38,0,0,0,4.5-1.526c2.036-2.042,1.449-5.749,1.422-5.907A.887.887,0,0,0,52.13,42a9.392,9.392,0,0,0-3.759.22,5.1,5.1,0,0,0,.789-2.6c0-2.889-3.028-5.094-3.157-5.185a.886.886,0,0,0-1.031,0c-.129.093-3.157,2.3-3.157,5.185a5.1,5.1,0,0,0,.793,2.606A9.407,9.407,0,0,0,38.829,42a.887.887,0,0,0-.729.731c-.026.157-.613,3.864,1.423,5.907a6.379,6.379,0,0,0,4.5,1.526c.213,0,.4-.007.577-.017v1.889a127.092,127.092,0,0,0-21.5-6.1V43.86c.17.01.358.016.565.016a6.373,6.373,0,0,0,4.5-1.526c2.036-2.042,1.449-5.75,1.422-5.907a.888.888,0,0,0-.729-.731,9.414,9.414,0,0,0-3.76.221,5.1,5.1,0,0,0,.79-2.6c0-2.888-3.028-5.094-3.157-5.185a.886.886,0,0,0-1.031,0c-.129.093-3.157,2.3-3.157,5.185a5.1,5.1,0,0,0,.794,2.606,9.407,9.407,0,0,0-3.778-.227.888.888,0,0,0-.729.731c-.026.157-.614,3.864,1.422,5.907a6.374,6.374,0,0,0,4.5,1.526c.214,0,.4-.007.579-.017v1.747a90.409,90.409,0,0,0-10.4-1.3.9.9,0,0,0-.923.851.888.888,0,0,0,.849.926,119.521,119.521,0,0,1,40.6,10.792c-2.79.932-5.686,2.011-8.642,3.255a124.224,124.224,0,0,0-31.8-8.9.889.889,0,0,0-.242,1.762,122.709,122.709,0,0,1,29.783,8.113c-2.536,1.131-5.107,2.388-7.682,3.782a125.192,125.192,0,0,0-21.811-6.326.889.889,0,0,0-.337,1.746,123.733,123.733,0,0,1,20.116,5.71c-2.259,1.286-4.515,2.68-6.749,4.193a125.539,125.539,0,0,0-12.985-3.976.889.889,0,0,0-.425,1.727c3.938.977,7.832,2.158,11.611,3.5A92.724,92.724,0,0,0,10.269,81.605a.888.888,0,1,0,1.254,1.258C39.553,54.745,79.7,52.724,80.1,52.707a.888.888,0,0,0,.849-.926A.87.87,0,0,0,80.026,50.928Zm-5.766-7.3c.048.958-.016,2.716-.988,3.691a5.153,5.153,0,0,1-3.674,1c-.048-.958.016-2.716.988-3.691A5.137,5.137,0,0,1,74.26,43.625Zm-5.686-7.379c.709.643,1.9,1.931,1.9,3.311a5.154,5.154,0,0,1-1.9,3.311c-.709-.643-1.9-1.931-1.9-3.311A5.154,5.154,0,0,1,68.574,36.246ZM67.547,48.312a5.11,5.11,0,0,1-3.678-1,5.167,5.167,0,0,1-.993-3.69,5.1,5.1,0,0,1,3.678,1A5.167,5.167,0,0,1,67.547,48.312ZM51.168,43.689c.048.958-.016,2.716-.988,3.691a5.1,5.1,0,0,1-3.678,1,5.162,5.162,0,0,1,.993-3.69A5.141,5.141,0,0,1,51.168,43.689ZM45.482,36.31c.709.643,1.9,1.931,1.9,3.311a5.154,5.154,0,0,1-1.9,3.311c-.709-.643-1.9-1.931-1.9-3.311A5.152,5.152,0,0,1,45.482,36.31ZM44.455,48.375a5.1,5.1,0,0,1-3.678-1,5.167,5.167,0,0,1-.993-3.69,5.1,5.1,0,0,1,3.678,1A5.167,5.167,0,0,1,44.455,48.375ZM27.9,37.4a5.162,5.162,0,0,1-.993,3.69,5.1,5.1,0,0,1-3.678,1,5.16,5.16,0,0,1,.993-3.689A5.115,5.115,0,0,1,27.9,37.4Zm-5.689-7.382a5.158,5.158,0,0,1,1.9,3.314,5.154,5.154,0,0,1-1.9,3.314,5.158,5.158,0,0,1-1.9-3.314A5.162,5.162,0,0,1,22.214,30.021ZM21.184,42.09a5.113,5.113,0,0,1-3.678-1,5.167,5.167,0,0,1-.993-3.69,5.121,5.121,0,0,1,3.678,1A5.163,5.163,0,0,1,21.184,42.09Z" transform="translate(-10.007 -12.248)" /> <path class="svg-icon" d="M81.627,61.563c-12.313,1.7-36.016,7.044-56.41,23.689a.889.889,0,0,0,.56,1.579.874.874,0,0,0,.559-.2C46.395,70.26,69.739,65,81.869,63.324a.889.889,0,0,0-.242-1.761Z" transform="translate(-11.692 -15.955)" /> <path class="svg-icon" d="M84.521,70.507a.887.887,0,0,0-1.039-.7A119.155,119.155,0,0,0,42.092,86.1a.889.889,0,1,0,.961,1.5A117.383,117.383,0,0,1,83.819,71.549.89.89,0,0,0,84.521,70.507Z" transform="translate(-13.594 -16.865)" /> <path class="svg-icon" d="M86.717,79.076a.889.889,0,0,0-1.074-.649,121.339,121.339,0,0,0-23.972,8.645.89.89,0,0,0,.388,1.689.882.882,0,0,0,.388-.09,119.642,119.642,0,0,1,23.621-8.518A.891.891,0,0,0,86.717,79.076Z" transform="translate(-15.8 -17.816)" /> </g> <text data-name="Agriculture" class="svg-text" transform="translate(7030 1090)"><tspan x="-43.822" y="0">Agriculture</tspan></text> </g> </svg>
+            </div>
+            <div data-url="" class="form" id="b473735e-40f5-4b0a-aff7-f267ea3d3f4a" title="Education Facilities">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g transform="translate(-7573 -957.25)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 7573, 957.25)"> <rect class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <text class="svg-text" transform="translate(7652 1090)"><tspan x="-39.278" y="0">Education</tspan></text> <g transform="translate(7613 989)"> <path class="svg-icon" d="M7.814,966.362A1.953,1.953,0,0,0,6,968.176v56.232a1.885,1.885,0,0,0,1.814,1.814H36.808a12.2,12.2,0,0,1,5.215.907,3.45,3.45,0,0,1,2.1,2.976,1.8,1.8,0,0,0,3.571,0,3.45,3.45,0,0,1,2.1-2.976,12.2,12.2,0,0,1,5.215-.907H84a1.885,1.885,0,0,0,1.814-1.814V968.176A1.885,1.885,0,0,0,84,966.362H55a12.539,12.539,0,0,0-7.482,2.154,8.313,8.313,0,0,0-1.615,1.587,8.316,8.316,0,0,0-1.615-1.587,12.539,12.539,0,0,0-7.482-2.154H7.814Zm1.814,3.628H36.808a9.225,9.225,0,0,1,5.357,1.445,4.5,4.5,0,0,1,1.927,4v48.721a16.337,16.337,0,0,0-7.284-1.559H9.628Zm45.376,0H82.185v52.6H55a17.536,17.536,0,0,0-7.284,1.559V975.432a4.5,4.5,0,0,1,1.927-4A9.225,9.225,0,0,1,55,969.99Zm-39.028,8.163a1.814,1.814,0,0,0,0,3.628H37.744a1.814,1.814,0,0,0,0-3.628Zm38.092,0a1.814,1.814,0,0,0,0,3.628H75.836a1.814,1.814,0,0,0,0-3.628Zm-38.092,8.163a1.814,1.814,0,1,0,0,3.628H37.744a1.814,1.814,0,1,0,0-3.628Zm38.092,0a1.814,1.814,0,1,0,0,3.628H75.836a1.814,1.814,0,1,0,0-3.628Zm-38.092,8.163a1.814,1.814,0,1,0,0,3.628H37.744a1.814,1.814,0,1,0,0-3.628Zm38.092,0a1.814,1.814,0,1,0,0,3.628H75.836a1.814,1.814,0,1,0,0-3.628Zm-38.092,8.163a1.814,1.814,0,1,0,0,3.628H37.744a1.814,1.814,0,1,0,0-3.628Zm38.092,0a1.814,1.814,0,1,0,0,3.628H75.836a1.814,1.814,0,1,0,0-3.628ZM15.977,1010.8a1.814,1.814,0,0,0,0,3.628H37.744a1.814,1.814,0,0,0,0-3.628Zm38.092,0a1.814,1.814,0,0,0,0,3.628H75.836a1.814,1.814,0,0,0,0-3.628Z" transform="translate(-6 -966.362)" /> </g> </g> </svg>
+            </div>
+            <div data-url="" class="form" id="1c91b704-ae68-4d1b-a572-6e27f29af4bd" title="Energy Services">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g id="energy" transform="translate(-7774 -957.25)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 7774, 957.25)"> <rect class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <text data-name="Energy" class="svg-text" transform="translate(7853 1090)"><tspan x="-27.136" y="0">Energy</tspan></text> <g data-name="energy" transform="translate(7822 986)"> <path class="svg-icon" d="M38.626,74.544h.99a6.163,6.163,0,0,0,12.085,0h.99A3.047,3.047,0,0,0,55.736,71.5V67.9h.574a1.213,1.213,0,0,0,1.213-1.213v-.415a27.966,27.966,0,0,1,.356-4.426,1.2,1.2,0,0,0,.033-.176,24.3,24.3,0,0,1,4.285-10.4A20.473,20.473,0,0,0,46.95,18.78,20.311,20.311,0,0,0,31.639,24.3,20.477,20.477,0,0,0,28.832,50.87a27,27,0,0,1,4.963,15.4v.417A1.213,1.213,0,0,0,35.008,67.9h.574v3.6A3.047,3.047,0,0,0,38.626,74.544Zm16.481-9.066H36.21c-.026-.915-.114-1.825-.229-2.733H55.313C55.209,63.645,55.131,64.554,55.107,65.478ZM45.659,77.067a3.73,3.73,0,0,1-3.517-2.523h7.034A3.729,3.729,0,0,1,45.659,77.067ZM53.31,71.5a.619.619,0,0,1-.618.618H38.626a.619.619,0,0,1-.618-.618V67.9h15.3v3.6ZM27.616,39.21A18.045,18.045,0,0,1,46.8,21.2,18.046,18.046,0,0,1,60.237,49.847,26.577,26.577,0,0,0,55.7,60.319H35.562a30.2,30.2,0,0,0-4.736-10.831A17.949,17.949,0,0,1,27.616,39.21Z" transform="translate(-14.523 -8.549)" /> <path class="svg-icon" d="M50.676,9.98V7.352a1.213,1.213,0,0,0-2.426,0V9.98a1.213,1.213,0,0,0,2.426,0Z" transform="translate(-18.933 -6.139)" /> <path class="svg-icon" d="M25.029,19.806,23.17,17.947a1.213,1.213,0,1,0-1.715,1.715l1.859,1.859a1.213,1.213,0,1,0,1.715-1.715Z" transform="translate(-13.74 -8.329)" /> <path class="svg-icon" d="M13.213,44.889a1.213,1.213,0,1,0,0,2.426h2.628a1.213,1.213,0,1,0,0-2.426Z" transform="translate(-12 -13.55)" /> <path class="svg-icon" d="M82.963,46.815h2.628a1.213,1.213,0,1,0,0-2.426H82.963a1.213,1.213,0,1,0,0,2.426Z" transform="translate(-25.34 -13.454)" /> <path class="svg-icon" d="M77.178,19.309a1.213,1.213,0,0,0-1.715-1.715L73.6,19.452a1.213,1.213,0,1,0,1.715,1.715Z" transform="translate(-23.714 -8.262)" /> <path class="svg-icon" d="M39.517,49.334h4.868l-1.868,9.009A1.213,1.213,0,0,0,44.608,59.4L57.722,44.742a1.213,1.213,0,0,0-.9-2.022H49.934l2.672-6.947a1.213,1.213,0,0,0-1.133-1.648H44.806a1.213,1.213,0,0,0-1.121.75L38.4,47.657a1.213,1.213,0,0,0,1.121,1.677Zm6.1-12.783h4.09L47.035,43.5a1.213,1.213,0,0,0,1.132,1.648H54.1l-8.3,9.273,1.255-6.052a1.213,1.213,0,0,0-1.188-1.46H41.332Z" transform="translate(-17.031 -11.491)" /> </g> </g> </svg>
+            </div>
+            <div data-url="" class="form" id="70e7cff3-2a00-4fae-a4c9-80918fb67da7" title="Environmental status">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g id="environment" transform="translate(-7374 -957.25)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 7374, 957.25)"> <rect id="Rectangle_139-2" data-name="Rectangle 139" class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <text id="Environment-2" data-name="Environment" class="svg-text" transform="translate(7453 1090)"><tspan x="-50.234" y="0">Environment</tspan></text> <g id="envt_status" data-name="envt status" transform="translate(7418 988)"> <path class="svg-icon" d="M2.221,38.232H13.25a2.154,2.154,0,0,0,1.538-.641,2.1,2.1,0,0,0,.288-.431c10.355,6.073,15.956,6.67,20.737,6.67a35.648,35.648,0,0,0,8.68-1.532c4.4-1.4,19.13-6.37,23.888-11.822,2.313-2.658,2.919-5.556,1.624-7.76-1.461-2.474-4.861-2.967-7.323-2.652-2.388.312-5.669,2.248-8.933,4.169-1.348.8-3.094,1.829-4.264,2.373-3.629-4.478-9.063-4.561-13.158-4.624-.977-.018-1.909-.033-2.777-.1A55.007,55.007,0,0,0,15.415,15.85v-.621a2.169,2.169,0,0,0-2.165-2.165H2.221A2.167,2.167,0,0,0,.056,15.229V36.064A2.164,2.164,0,0,0,2.221,38.232ZM32.639,24.087a1.226,1.226,0,0,0,.454.14c.986.092,2.058.113,3.276.137,3.388.05,7.133.146,9.987,2.5H28.864a1.188,1.188,0,0,0,0,2.376H49.082a1.087,1.087,0,0,0,.276-.056c.024-.006.05.009.074,0s.056-.024.08-.033.039-.015.056-.024a38.685,38.685,0,0,0,5.476-2.9c2.83-1.672,6.037-3.561,7.944-3.81,1.319-.175,4.033-.077,4.968,1.5.766,1.3.267,3.118-1.369,4.995-3.454,3.961-14.049,8.345-22.816,11.121a33.28,33.28,0,0,1-7.962,1.417c-3.614,0-9.078-.039-20.4-6.839V18.258A53.238,53.238,0,0,1,32.639,24.087ZM2.432,15.446H13.039l0,1.342V16.8L13.1,34.938a1.159,1.159,0,0,0,0,.731v.187H2.432Z" transform="translate(-0.056 24.02)" /> <path class="svg-icon" d="M5.41,17.868a3.757,3.757,0,1,0,3.754,3.757A3.761,3.761,0,0,0,5.41,17.868ZM5.41,23a1.378,1.378,0,1,1,1.375-1.378A1.379,1.379,0,0,1,5.41,23Z" transform="translate(3.089 33.482)" /> <path class="svg-icon" d="M13.156,21.221l6.566.045h.006a1.039,1.039,0,0,0,1.039-1.042l-.018-8.746a1.037,1.037,0,0,0-1.033-1.036L11.773,10.4h-.006a1.039,1.039,0,0,0-1.027,1.2l1.4,8.746A1.034,1.034,0,0,0,13.156,21.221Zm5.518-8.71.015,6.667-4.639-.03-1.063-6.667Z" transform="translate(20.959 18.773)" /> <path class="svg-icon" d="M12.507,6.773l-1.7,8.787A1.036,1.036,0,0,0,11.824,16.8l7.665.012h0a1.039,1.039,0,0,0,1.039-1.033l.056-8.648a1.038,1.038,0,0,0-1.013-1.045L13.559,5.93A1.042,1.042,0,0,0,12.507,6.773Zm5.99,1.36-.039,6.6-5.375-.009,1.3-6.688Z" transform="translate(21.079 9.968)" /> <path class="svg-icon" d="M16.91,6.206a1.025,1.025,0,0,0-.814-.368l-.579.012c-1.624.015-3.249.036-4.864.122a2.24,2.24,0,0,0-1.342.609,1.009,1.009,0,0,0-.187.258,21.934,21.934,0,0,0-2.5,8.906,1.041,1.041,0,0,0,.995,1.081l6.7.288h.045a1.037,1.037,0,0,0,1.022-.843l1.758-9.2A1.037,1.037,0,0,0,16.91,6.206ZM13.507,15l-4.728-.2a20.417,20.417,0,0,1,2.067-6.753c1.33-.068,2.667-.092,4.009-.107Z" transform="translate(12.878 9.787)" /> <path class="svg-icon" d="M14.21,10.423h0l-6.539.027a1.064,1.064,0,0,0-.793.428,1.142,1.142,0,0,0-.2.912l.148.725a38.2,38.2,0,0,0,.9,3.718C9.121,20.7,9.524,21.538,14,21.538l1.007-.006c.214,0,.416-.006.606-.018a1.053,1.053,0,0,0,.742-.386,1.038,1.038,0,0,0,.22-.8l-1.336-9.013A1.044,1.044,0,0,0,14.21,10.423ZM14,19.457c-3.094,0-3.094,0-4.3-3.849-.3-.956-.526-1.978-.754-3.085l4.368-.018,1.033,6.952H14Z" transform="translate(12.935 18.818)" /> <path class="svg-icon" d="M15.3,10.081c1.146-2.022,2.26-4.057,3.427-6.2A1.044,1.044,0,0,0,18.578,2.7a1.056,1.056,0,0,0-1.167-.264A23.351,23.351,0,0,0,8.547,9.353a1.038,1.038,0,0,0-.062,1.117,1.149,1.149,0,0,0,1.007.579h.027c1.66-.045,3.127-.08,4.731-.187A1.823,1.823,0,0,0,15.3,10.081ZM11.736,8.908a22.5,22.5,0,0,1,3.474-2.931c-.526.953-1.051,1.907-1.589,2.851C13,8.86,12.381,8.884,11.736,8.908Z" transform="translate(16.285 2.928)" /> <path class="svg-icon" d="M21.808,10.874c1.455.086,2.922.125,4.642.169l.077,0h.039a1.039,1.039,0,0,0,.8-1.7A23.352,23.352,0,0,0,18.5,2.425a1.028,1.028,0,0,0-1.143.318,1.115,1.115,0,0,0-.113,1.238c1.114,2.043,2.233,4.083,3.385,6.109A1.867,1.867,0,0,0,21.808,10.874ZM24.181,8.9c-.641-.021-1.262-.048-1.883-.08-.535-.941-1.06-1.889-1.592-2.848A22.367,22.367,0,0,1,24.181,8.9Z" transform="translate(33.531 2.937)" /> <path class="svg-icon" d="M23.628,6.669A1.039,1.039,0,0,0,22.606,5.8L16.04,5.755a1.087,1.087,0,0,0-.739.3A1.03,1.03,0,0,0,15,6.8l.021,8.749a1.037,1.037,0,0,0,1.033,1.036l7.944.042H24a1.039,1.039,0,0,0,1.027-1.2Zm-6.533,7.837-.018-6.667,4.639.03,1.063,6.667Z" transform="translate(29.368 9.621)" /> <path class="svg-icon" d="M23.781,10.232l-7.665-.012h0a1.039,1.039,0,0,0-1.039,1.033L15.015,19.9a1.038,1.038,0,0,0,1.013,1.045l6.022.157h.027a1.04,1.04,0,0,0,1.022-.84l1.7-8.79a1.04,1.04,0,0,0-1.016-1.238ZM21.228,19,17.1,18.891l.045-6.593,5.375.009Z" transform="translate(29.408 18.418)" /> <path class="svg-icon" d="M19.973,21.454h.018l.692-.012c1.589-.018,3.172-.036,4.757-.119a2.241,2.241,0,0,0,1.324-.6A.981.981,0,0,0,27,20.42a22.427,22.427,0,0,0,2.471-8.864,1.035,1.035,0,0,0-.992-1.087l-6.694-.291a.97.97,0,0,0-1.066.843l-1.764,9.2a1.037,1.037,0,0,0,1.022,1.232Zm2.616-9.161,4.719.2a20.883,20.883,0,0,1-2.049,6.75c-1.336.071-2.676.092-4.021.107Z" transform="translate(37.124 18.335)" /> <path class="svg-icon" d="M20.7,5.656c-.211,0-.41.006-.6.015a1.043,1.043,0,0,0-.98,1.191l1.336,9.016a1.042,1.042,0,0,0,1.03.885h.006l6.536-.03a1.04,1.04,0,0,0,.8-.383,1.03,1.03,0,0,0,.211-.864L28.9,14.8c-.261-1.268-.532-2.578-.927-3.849-1.393-4.463-1.794-5.3-6.2-5.3Zm5.289,5.913c.309.992.54,2.046.757,3.094l-4.368.018L21.35,7.729h.425C24.792,7.729,24.792,7.729,25.989,11.568Z" transform="translate(37.466 9.417)" /> <path class="svg-icon" d="M16.052,10.852h.006l4.683-.024a1.035,1.035,0,0,0,.941-1.461c-.006-.015-.128-.255-.134-.27-1.235-2.471-2.515-5.025-4.793-6.723a1.044,1.044,0,0,0-1.081-.1A1.032,1.032,0,0,0,15.1,3.2l-.083,6.6a1.039,1.039,0,0,0,1.036,1.051Zm1.093-5.191a19.808,19.808,0,0,1,1.9,3.1l-1.942.012Z" transform="translate(29.407 2.564)" /> <path class="svg-icon" d="M18.725,9.8l-.083-6.6a1.036,1.036,0,0,0-.576-.918,1.02,1.02,0,0,0-1.078.1c-2.088,1.544-3.4,3.953-4.766,6.673l-.148.288a1.042,1.042,0,0,0,.056,1,1.03,1.03,0,0,0,.876.487l4.68.027h.006A1.029,1.029,0,0,0,18.725,9.8ZM14.7,8.763a21.082,21.082,0,0,1,1.895-3.08l.042,3.091Z" transform="translate(23.411 2.56)" /> <path class="svg-icon" d="M6.18,29.506h.006a1.039,1.039,0,0,0,1.039-1.033A25.843,25.843,0,0,1,51.443,10.313,25.681,25.681,0,0,1,58.89,28.638a1.039,1.039,0,0,0,1.033,1.045h.006a1.039,1.039,0,0,0,1.039-1.033A27.9,27.9,0,0,0,13.476,8.6,28.142,28.142,0,0,0,5.149,28.46,1.034,1.034,0,0,0,6.18,29.506Z" transform="translate(9.975 -0.576)" /> </g> </g> </svg>
+            </div>
+            <div data-url="" class="form" id="ebdb5f26-b98c-4186-bcfe-763006efb162" title="Gender equality and empowerment of women and girls">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g transform="translate(-6751 -957)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 6751, 957)"> <rect class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <path class="svg-icon" d="M-869.59,1009.651H-877.3a2.882,2.882,0,0,0,.562-1.445l.723-10.6,1.686-.08a1.676,1.676,0,0,0,1.285-.642,1.825,1.825,0,0,0,.4-1.445v-.08l-1.2-4.577a3.052,3.052,0,0,0,1.044-.723,2.235,2.235,0,0,0,.562-1.847l-1.927-12.686a2.983,2.983,0,0,0-2.65-2.489h-.642a5.362,5.362,0,0,0,2.65-4.657,5.38,5.38,0,0,0-5.38-5.38,5.38,5.38,0,0,0-5.38,5.38,5.363,5.363,0,0,0,2.65,4.657h-.642a2.984,2.984,0,0,0-2.65,2.489l-1.927,12.686a2.236,2.236,0,0,0,.562,1.847,2.444,2.444,0,0,0,1.044.723l-1.2,4.577v.08a1.914,1.914,0,0,0,.4,1.445,1.677,1.677,0,0,0,1.285.642l1.686.08.723,10.6a2.308,2.308,0,0,0,.562,1.445h-50.505a3.425,3.425,0,0,0,.562-1.927l1.124-16.3a3.418,3.418,0,0,0,2.891-3.131l.642-10.92a4.117,4.117,0,0,0-3.854-4.336l-1.2-.08h-.482a5.52,5.52,0,0,0,2.489-4.5,5.38,5.38,0,0,0-5.38-5.38,5.38,5.38,0,0,0-5.38,5.38,5.224,5.224,0,0,0,2.489,4.5h-.562l-1.2.08a4.174,4.174,0,0,0-3.854,4.336l.642,10.92a3.341,3.341,0,0,0,2.891,3.131l1.124,16.3a4.212,4.212,0,0,0,.562,1.927h-7.789a.719.719,0,0,0-.722.723.72.72,0,0,0,.722.723h37.739l-8.752,10.76a1.349,1.349,0,0,0-.16,1.445,1.406,1.406,0,0,0,1.2.8h18.227a1.236,1.236,0,0,0,1.2-.8,1.348,1.348,0,0,0-.161-1.445l-9.154-10.76h38.22a.72.72,0,0,0,.723-.723A.854.854,0,0,0-869.59,1009.651Zm-14.533-41.271a3.976,3.976,0,0,1,4.015-4.015,3.976,3.976,0,0,1,4.015,4.015,3.976,3.976,0,0,1-4.015,4.015A3.976,3.976,0,0,1-884.124,968.38Zm.562,27.862-2.328-.161a.418.418,0,0,1-.321-.161c-.08-.08-.08-.161-.08-.321l1.365-5.3a.667.667,0,0,0-.16-.642.73.73,0,0,0-.562-.241h-.161a.871.871,0,0,1-.722-.321,1.294,1.294,0,0,1-.241-.723l1.927-12.687a1.46,1.46,0,0,1,1.365-1.285h6.584a1.623,1.623,0,0,1,1.365,1.285l1.927,12.687a.647.647,0,0,1-.241.723.783.783,0,0,1-.723.321h-.161a.729.729,0,0,0-.562.241.866.866,0,0,0-.16.642l1.365,5.3c0,.161-.08.241-.08.321a.417.417,0,0,1-.321.161l-2.328.161a.691.691,0,0,0-.642.642l-.723,11.241a1.393,1.393,0,0,1-1.365,1.285h-1.2a1.338,1.338,0,0,1-1.365-1.285l-.723-11.241A.761.761,0,0,0-883.562,996.242Zm-57.33-27.862a3.976,3.976,0,0,1,4.015-4.015,3.976,3.976,0,0,1,4.015,4.015,3.976,3.976,0,0,1-4.015,4.015A3.976,3.976,0,0,1-940.892,968.38Zm-.321,21.6h-.161a1.886,1.886,0,0,1-1.927-1.847l-.642-10.92a2.679,2.679,0,0,1,2.489-2.81l1.124-.08h6.905l1.2.08h0a2.679,2.679,0,0,1,2.489,2.81l-.642,10.92a1.938,1.938,0,0,1-1.927,1.847h-.161a.772.772,0,0,0-.723.642l-1.124,16.942c-.08,1.124-.562,1.766-1.365,1.766h-2.168c-.8,0-1.365-.723-1.365-1.766l-1.124-16.942C-940.571,990.3-940.812,989.979-941.213,989.979Zm41.512,32.68h0v0Zm-18.146,0,8.832-10.84,9.234,10.84Z" transform="translate(7739.1 28.5)" /> <text class="svg-text" transform="translate(6830 1090)"><tspan x="-29.109" y="0">Gender</tspan></text> </g> </svg>
+            </div>
+            <div data-url="" class="form" id="e626e513-6e35-4e54-aa94-5689681a1a7a" title="Government’s policies, plans, programs, projects and administration">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g transform="translate(-7152 -957)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 7152, 957)"> <rect class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <g id="govt_policies" data-name="govt policies" transform="translate(7202 982)"> <g transform="translate(0 0)"> <path class="svg-icon" d="M77.022,14.93H30.1a5.417,5.417,0,0,0-5.411,5.411V89.33A5.419,5.419,0,0,0,30.1,94.743H77.022a5.418,5.418,0,0,0,5.411-5.413V20.341A5.417,5.417,0,0,0,77.022,14.93Zm3.172,74.4A3.181,3.181,0,0,1,77.022,92.5H30.1a3.182,3.182,0,0,1-3.172-3.175V20.341A3.181,3.181,0,0,1,30.1,17.169H77.022a3.18,3.18,0,0,1,3.172,3.172ZM71.4,64.324a.477.477,0,0,1-.476.477H37.488a.476.476,0,0,1,0-.953H70.92A.475.475,0,0,1,71.4,64.324Zm0,4.409a.476.476,0,0,1-.476.476H37.488a.476.476,0,0,1,0-.953H70.92A.477.477,0,0,1,71.4,68.733Zm0,4.413a.477.477,0,0,1-.476.477H37.488a.476.476,0,1,1,0-.951H70.92A.474.474,0,0,1,71.4,73.146Zm0,4.411a.477.477,0,0,1-.476.477H37.488a.476.476,0,0,1,0-.953H70.92A.476.476,0,0,1,71.4,77.557Zm0,4.409a.476.476,0,0,1-.476.476H37.488a.476.476,0,0,1,0-.953H70.92A.479.479,0,0,1,71.4,81.966Zm-17.2-30.2c-3.363-2.36-7.684-6.358-7.684-9.854V32H61.9l0,9.911C61.9,45.379,57.562,49.393,54.2,51.764Zm9.923-24.241H44.287a2.258,2.258,0,0,0-2.253,2.252V41.911c0,8.369,12.17,15.152,12.17,15.152S66.372,50.28,66.372,41.911V29.775A2.256,2.256,0,0,0,64.121,27.523Z" transform="translate(-24.689 -14.93)" /> </g> </g> <text class="svg-text" transform="translate(7231 1090)"><tspan x="-49.289" y="0">Governance</tspan></text> </g> </svg>
+            </div>
+            <div data-url="" class="form" id="ab014a17-70fd-4758-aa25-8783824d82d8" title="Public health status and facilities">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g id="health" transform="translate(-8178 -956.726)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 8178, 956.73)"> <rect class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <text id="Health-2" data-name="Health" class="svg-text" transform="translate(8257 1090)"><tspan x="-25.998" y="0">Health</tspan></text> <g transform="translate(8222 990)"> <path class="svg-icon" d="M6.85,34.284a1.646,1.646,0,0,0,3.285-.2A18.972,18.972,0,0,1,15.417,19.7a17.814,17.814,0,0,1,12.845-5.412c3.655,0,8.065,2.406,12.738,6.956a1.84,1.84,0,0,0,2.579,0,20.581,20.581,0,0,1,14.307-6.184h.123A15.325,15.325,0,0,1,69.12,19.7a19.1,19.1,0,0,1,0,26.4l-26.4,25.46a.731.731,0,0,1-1.027,0L23.629,54.1a1.644,1.644,0,0,0-2.283,2.365L39.415,73.919a4.008,4.008,0,0,0,5.593,0L71.5,48.418a22.372,22.372,0,0,0,0-31.02,18.545,18.545,0,0,0-13.436-5.634,23.6,23.6,0,0,0-15.785,6.16C37.279,13.316,32.565,11,28.261,11a21.074,21.074,0,0,0-15.194,6.414A22.257,22.257,0,0,0,6.85,34.284Z" transform="translate(-6.807 -11)" /> <path class="svg-icon" d="M18.527,51.27a1.643,1.643,0,0,0,1.4-.821L22.6,46.1l3.638,5.8a1.643,1.643,0,0,0,2.924-.279L33.943,39.3l4.41,17.469A1.643,1.643,0,0,0,39.757,58h.189a1.643,1.643,0,0,0,1.454-.879l5.478-10.5,2.094,3.737a1.643,1.643,0,0,0,1.429.821h7.63a1.643,1.643,0,0,0,0-3.285H51.379l-3.113-5.552a1.643,1.643,0,0,0-1.429-.821h0a1.643,1.643,0,0,0-1.495.953l-4.928,9.371L35.873,33.572a1.643,1.643,0,0,0-3.121-.189L27.274,47.427l-3.285-5.264A1.643,1.643,0,0,0,22.6,41.39h0a1.643,1.643,0,0,0-1.4.821l-3.589,5.815H11.793a1.643,1.643,0,0,0,0,3.285Z" transform="translate(-7.404 -14.813)" /> </g> </g> </svg>
+            </div>
+            <div data-url="" class="form" id="73bad475-0439-412a-80fc-916ef2c778b5" title="Transport">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g id="transport" transform="translate(-7978 -956.726)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 7978, 956.73)"> <rect class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <text class="svg-text" transform="translate(8057 1090)"><tspan x="-37.296" y="0">Transport</tspan></text> <g transform="translate(8029 986)"> <path class="svg-icon" d="M67.3,72.548a7.7,7.7,0,0,0,5.075-1.784A5.823,5.823,0,0,0,74.1,66.327l0-42.47a9.633,9.633,0,0,0-2.878-6.788C66.881,12.378,58.559,10,46.487,10c-12.114,0-20.45,2.383-24.774,7.081a9.58,9.58,0,0,0-2.844,6.708V67.456a5.092,5.092,0,0,0,5.086,5.086h4.67L23.28,79.517A.887.887,0,0,0,24.689,80.6l1.994-2.6H66.288l1.994,2.6a.887.887,0,1,0,1.409-1.079L64.345,72.54H67.01C67.031,72.543,67.132,72.548,67.3,72.548ZM20.641,28.879H72.329V48.486H20.641Zm2.377-10.6c2.733-2.97,9.022-6.509,23.468-6.509,14.327,0,20.623,3.5,23.38,6.443a7.936,7.936,0,0,1,2.462,5.572V27.1H20.641V23.715A7.853,7.853,0,0,1,23.018,18.282ZM20.643,67.456V50.26H72.329V66.327h0a4.124,4.124,0,0,1-1.168,3.137,6.173,6.173,0,0,1-4.1,1.3H23.955A3.315,3.315,0,0,1,20.643,67.456Zm44.286,8.766H28.043l2.819-3.679H62.109Z" transform="translate(-18.862 -9.999)" /> <path class="svg-icon" d="M32.058,61.062a4.863,4.863,0,1,0,4.863,4.864A4.869,4.869,0,0,0,32.058,61.062Zm0,7.953a3.089,3.089,0,1,1,3.089-3.089A3.093,3.093,0,0,1,32.058,69.015Z" transform="translate(-19.804 -15.768)" /> <path class="svg-icon" d="M66.58,61.062a4.863,4.863,0,1,0,4.864,4.864A4.869,4.869,0,0,0,66.58,61.062Zm0,7.953a3.089,3.089,0,1,1,3.09-3.089A3.092,3.092,0,0,1,66.58,69.015Z" transform="translate(-23.703 -15.768)" /> <path class="svg-icon" d="M42.043,24.126H55.435a3.241,3.241,0,0,0,3.237-3.238V20.65a3.24,3.24,0,0,0-3.237-3.237H42.043a3.241,3.241,0,0,0-3.238,3.237v.239A3.241,3.241,0,0,0,42.043,24.126ZM40.579,20.65a1.465,1.465,0,0,1,1.464-1.463H55.435A1.464,1.464,0,0,1,56.9,20.65v.239a1.465,1.465,0,0,1-1.463,1.464H42.043a1.465,1.465,0,0,1-1.464-1.464Z" transform="translate(-21.115 -10.837)" /> </g> </g> </svg>
+            </div>
+            <div data-url="" class="form" id="ef522de0-7892-46d1-88fa-32e5bc7c75ff" title="Water and sanitation facilities">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 158 158"> <g transform="translate(-8379 -956.726)"> <g class="svg-bg" transform="matrix(1, 0, 0, 1, 8379, 956.73)"> <rect class="svg-bg" width="140" height="140" transform="translate(9 6)" /> </g> <text class="svg-text" transform="translate(8458 1090)"><tspan x="-23.52" y="0">WASH</tspan></text> <g class="cls-4" transform="translate(8427 986)"> <g transform="translate(0.03 -0.029)"> <path class="svg-icon" d="M10.4,25.575l-8.609-.2H1.7a20.735,20.735,0,0,1-5.02-.613,6.07,6.07,0,0,0,1.634-2.072,5.928,5.928,0,0,0-2.831-7.88l-13.57-6.391a16,16,0,0,0-11.673-.759c-.058.029-.117.029-.175.058L-40,12.384a1.438,1.438,0,0,0-.7,1.926,1.438,1.438,0,0,0,1.926.7l9.981-4.64a13.086,13.086,0,0,1,9.455.642L-5.77,17.4a3.011,3.011,0,0,1,1.43,4,3,3,0,0,1-3.969,1.518l-9.485-4.465a1.471,1.471,0,0,0-1.955.7,1.471,1.471,0,0,0,.7,1.955l10.477,4.9a24.241,24.241,0,0,0,10.3,2.305h.029l8.609.175H10.4a2.736,2.736,0,0,1,2.714,2.656v.117a2.843,2.843,0,0,1-2.772,2.948c-1.518.029-4.2,0-7.033,0-2.918-.029-5.953-.029-7.734,0a21.372,21.372,0,0,1-9.952-2.276l-12.782-6.45a7.08,7.08,0,0,0-5.953-.2c-.058.029-.088.029-.146.058l-6.829,3.706a1.477,1.477,0,0,0-.584,1.984,1.477,1.477,0,0,0,1.984.584l6.741-3.706a4.356,4.356,0,0,1,3.473.146l12.782,6.45A24.213,24.213,0,0,0-4.37,37.073c1.751-.029,4.757-.029,7.646,0,1.693,0,3.327.029,4.728.029.934,0,1.751,0,2.364-.029a5.781,5.781,0,0,0,5.662-5.924v-.117A5.7,5.7,0,0,0,10.4,25.575Z" transform="translate(40.847 33.842)" /> <path class="svg-icon" d="M10.665-1.714c0-3.473-5.078-11.644-6.1-13.249a1.472,1.472,0,0,0-1.226-.671,1.472,1.472,0,0,0-1.226.671c-1.021,1.605-6.1,9.776-6.1,13.249A7.348,7.348,0,0,0,3.34,5.611,7.348,7.348,0,0,0,10.665-1.714Zm-11.732,0c0-1.605,2.276-6.1,4.407-9.689,2.1,3.59,4.407,8.084,4.407,9.689A4.422,4.422,0,0,1,3.34,2.693,4.422,4.422,0,0,1-1.067-1.714Z" transform="translate(32.058 39.215)" /> <path class="svg-icon" d="M28.885-36.062H11.958A4.758,4.758,0,0,0,7.2-31.305v3.414H-.386V-34.6A9.086,9.086,0,0,1,8.69-43.679H28.914a1.445,1.445,0,0,0,1.459-1.459A1.445,1.445,0,0,0,28.914-46.6H8.661A12.013,12.013,0,0,0-3.334-34.6v8.171a1.445,1.445,0,0,0,1.459,1.459H8.661a1.445,1.445,0,0,0,1.459-1.459v-4.874a1.831,1.831,0,0,1,1.839-1.839H28.885A1.445,1.445,0,0,0,30.344-34.6,1.463,1.463,0,0,0,28.885-36.062Z" transform="translate(31.903 46.597)" /> </g> </g> </g> </svg>
+            </div>
+        </div>
+        <main id="map"> </main>
+        <div class="markerloader"></div>
+        <div id="legendBox" style="padding:5px;display:none;background-color: rgba(255, 255, 255, 0.86);height: auto;bottom: 30px;z-index: 1000;margin-left: 10px;position: absolute;">
+            <ul class="list-unstyled no-margin">
+                <li id="li1" class="li">
+                    <span class="legend bg1"> </span>
+                    <span id="legend1"> Very Good</span>
+                </li>
+                <li id="li2" class="li">
+                    <span class="legend bg2"> </span>
+                    <span id="legend2"> Good</span>
+                </li>
+                <li id="li3" class="li">
+                    <span class="legend bg3"> </span>
+                    <span id="legend3"> Average</span>
+                </li>
+                <li id="li4" class="li">
+                    <span class="legend bg4"> </span>
+                    <span id="legend4"> Poor</span>
+                </li>
+                <li id="li5" class="li">
+                    <span class="legend bg5"> </span>
+                    <span id="legend5"> Very Poor</span>
+                </li>
+                <li id="li6" class="li">
+                    <span class="legend bg6"> </span>
+                    <span id="legend6"> Very Poor</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="m-t-50 container" id="sdgn">
+    <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" target="_blank"><img data-src="/images/SDGs/research-googleplay.jpg" src="~/Content/transparent.png" alt="Download Devdiscourse app on Playstore" class="img-responsive lazy center-block" /></a>
+</div>
+
+<div class="m-t-20" style="background-color:#f3f3f3">
+    <div class="container p-t-50 p-b-20">
+        <h4 class="section-title">
+            <span style="background-color:#f3f3f3">SDGs STORIES</span>
+        </h4>
+        @{
+            @* Html.RenderAction("GetSDGNews", "Research"); *@
+        }
+        <a href="@Url.RouteUrl("SDGStories")" id="sdg" class="read-more-btn m-t-5">Read More</a>
+    </div>
+</div>
+<div class="container-fluid m-t-50">
+    <div class="p-t-20 container">
+        <h2 class="section-title">
+            <span>Sustainable Development Goals</span>
+        </h2>
+    </div>
+</div>
+
+<div>
+    <div class="p-t-20 p-b-20 text-center container">
+        <div class="sdgicon">
+            <div id="sdgGoal">
+                <img data-src="/images/SDGs/goals-icon/18.jpg" class="lazy" src="~/Content/transparent.png" alt="Sustainable Development Goals" />
+            </div>
+            <div id="sdgGoal1">
+                <img data-src="/images/SDGs/goals-icon/1.jpg" class="lazy" src="~/Content/transparent.png" alt="No Poverty" />
+            </div>
+            <div id="sdgGoal2">
+                <img data-src="/images/SDGs/goals-icon/2.jpg" class="lazy" src="~/Content/transparent.png" alt="No Hunger" />
+            </div>
+            <div id="sdgGoal3">
+                <img data-src="/images/SDGs/goals-icon/3.jpg" class="lazy" src="~/Content/transparent.png" alt="Good Health and well being" />
+            </div>
+            <div id="sdgGoal4">
+                <img data-src="/images/SDGs/goals-icon/4.jpg" class="lazy" src="~/Content/transparent.png" alt="Quality Education" />
+            </div>
+            <div id="sdgGoal5">
+                <img data-src="/images/SDGs/goals-icon/5.jpg" class="lazy" src="~/Content/transparent.png" alt="Gender Equality" />
+            </div>
+            <div id="sdgGoal6">
+                <img data-src="/images/SDGs/goals-icon/6.jpg" class="lazy" src="~/Content/transparent.png" alt="Clean Water and Sanitation" />
+            </div>
+            <div id="sdgGoal7">
+                <img data-src="/images/SDGs/goals-icon/7.jpg" class="lazy" src="~/Content/transparent.png" alt="Affordable and clean energy" />
+            </div>
+            <div id="sdgGoal8">
+                <img data-src="/images/SDGs/goals-icon/8.jpg" class="lazy" src="~/Content/transparent.png" alt="Decent work and economic growth" />
+            </div>
+        </div>
+        <div class="sdgicon2 m-t-20">
+            <div id="sdgGoal9">
+                <img data-src="/images/SDGs/goals-icon/9.jpg" class="lazy" src="~/Content/transparent.png" alt="Innovation and infrastructure" />
+            </div>
+            <div id="sdgGoal10">
+                <img data-src="/images/SDGs/goals-icon/10.jpg" class="lazy" src="~/Content/transparent.png" alt="Reduced Inequality" />
+            </div>
+            <div id="sdgGoal11">
+                <img data-src="/images/SDGs/goals-icon/11.jpg" class="lazy" src="~/Content/transparent.png" alt="Sustainable cities and communities" />
+            </div>
+            <div id="sdgGoal12">
+                <img data-src="/images/SDGs/goals-icon/12.jpg" class="lazy" src="~/Content/transparent.png" alt="Responsible Consumption" />
+            </div>
+            <div id="sdgGoal13">
+                <img data-src="/images/SDGs/goals-icon/13.jpg" class="lazy" src="~/Content/transparent.png" alt="Climate Action" />
+            </div>
+            <div id="sdgGoal14">
+                <img data-src="/images/SDGs/goals-icon/14.jpg" class="lazy" src="~/Content/transparent.png" alt="Life below water" />
+            </div>
+            <div id="sdgGoal15">
+                <img data-src="/images/SDGs/goals-icon/15.jpg" class="lazy" src="~/Content/transparent.png" alt="Life on land" />
+            </div>
+            <div id="sdgGoal16">
+                <img data-src="/images/SDGs/goals-icon/16.jpg" class="lazy" src="~/Content/transparent.png" alt="Peace, Justice and Strong Institution" />
+            </div>
+            <div id="sdgGoal17">
+                <img data-src="/images/SDGs/goals-icon/17.jpg" class="lazy" src="~/Content/transparent.png" alt="Partnership for the goals" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-t-50 p-b-20 container" id="sdgGoalDetail"></div>
+<div class="modal fade" id="adopttoolModal" tabindex="-1" role="dialog" style="z-index:100000">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <span class="m-10 fg-white cursor-pointer fa fa-times pull-right" id="closeatDialog"></span>
+            <div class="allPadding" style="background-color:#4d4d4d;">
+                <div class="fg-white spanFontSize">Institutional Partnership</div>
+            </div>
+            <div class="allPadding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="atname" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Your Name</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <input type="text" class="form-control" id="atname" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="atinst" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Your institution</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <input type="text" class="form-control" id="atinst" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="atinstLoc" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Location of your institution</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <input type="text" class="form-control" id="atinstLoc" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="atemail" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Email</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <input type="text" class="form-control" id="atemail" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="atcontact" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Phone</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <input type="number" min="0" class="form-control" id="atcontact" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="atneedData" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Data is needed for</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+<textarea class="form-control" id="atneedData" style="min-height:80px"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="atgeoData" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Geographical for which data required</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+<textarea class="form-control" id="atgeoData" style="min-height:80px"></textarea>
+                            <small>Hints: Please specify your region, country, district.</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="atthmareatextlist" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Data is needed for themetic area</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <input type="text" class="form-control" id="atthmareatextlist" />
+                            <input type="text" class="form-control hidden" id="atthmarealist" />
+                            <select class="form-control" id="atthmArea" multiple> <option value="058705cd-d4b5-4cd7-8ec1-48e413d5bafd">Agriculture</option> <option value="b473735e-40f5-4b0a-aff7-f267ea3d3f4a">Education</option> <option value="1c91b704-ae68-4d1b-a572-6e27f29af4bd">Energy</option> <option value="70e7cff3-2a00-4fae-a4c9-80918fb67da7">Environment</option> <option value="ebdb5f26-b98c-4186-bcfe-763006efb162">Gender</option> <option value="e626e513-6e35-4e54-aa94-5689681a1a7a">Governance</option> <option value="ab014a17-70fd-4758-aa25-8783824d82d8">Health</option> <option value="73bad475-0439-412a-80fc-916ef2c778b5">Transport</option> <option value="ef522de0-7892-46d1-88fa-32e5bc7c75ff">WASH</option> </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="atmessage" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Other Message</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+<textarea class="form-control" id="atmessage" style="min-height:80px"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 col-xs-12">
+                            <button type="button" id="adoptToolBtn" class="btn btn-block f-20 p-10" style="background-color: #3b7911; color: #ffffff;">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="sdgsModal" tabindex="-1" role="dialog" style="z-index:100000">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <span class="m-10 fg-white cursor-pointer fa fa-times pull-right" id="closesdgsDialog"></span>
+            <div class="allPadding" style="background-color:#4d4d4d;">
+                <div class="spanFontSize fg-white">Be the Samurai</div>
+            </div>
+            <div class="allPadding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="sprofes" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Profession</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <input type="text" class="form-control" id="sprofes" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sdesc" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Description</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+<textarea class="form-control" id="sdesc" style="min-height:100px"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="snation" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Country</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <input type="text" class="form-control" id="snation" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sgender" class="control-label col-xs-12 col-sm-4 col-md-3 text-left">Gender</label>
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <select class="form-control" id="sgender"> <option value="Male">Male</option> <option value="FeMale">Female</option> </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 col-xs-12">
+                            <button type="button" id="joinSDGsBtn" class="btn btn-block f-20 p-10" style="background-color: #3b7911; color: #ffffff;">Join</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="questionModel" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Question Filter</h4>
+            </div>
+            <div class="modal-body">
+                <div id="questionContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="okBtn">ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="map-image-popup" style="display:none;position:fixed;height:100%;width:100%;z-index:1200;background-color:rgba(0,0,0,0.9);top:0;left:0;">
+    <span class="fg-white m-10 fa fa-close fa-2x pull-right" id="close-map-image"></span>
+    <div id="map-image-container"></div>
+</div>
+<div id="reportModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Report</h4>
+            </div>
+            <div class="modal-body">
+                <label for="reportText" class="control-label">Reason for reporting</label>
+<textarea class="form-control" id="reportText"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitReport">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
+    <script src="~/Scripts/Map/leaflet.Photo.min.js" defer></script>
+    <script src="~/Scripts/Map/Leaflet.fullscreen.min.js" defer></script>
+    <script src="~/Scripts/Map/leaflet.zoomhome.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/jquery.multiselect.min.js" defer></script>
+    <script>
+        var _clickId = "All";
+        var _sname = "";
+        var _institution = "";
+        var _location = "";
+        var _neededData = "";
+        var _geoData = "";
+        var _themeticArea = "";
+        var _message = "";
+        var _sprofession = "";
+        var _sdesc = "";
+        var _semail = "";
+        var _nationality = "";
+        var _contact = "";
+        var _resId = "";
+        var _repText = "";
+        var _repQues = "";
+        var _loginId = '@(ViewBag.loginId)';
+        var dataUrl = "https://ideame.io/Survey/GetSResponse";
+        var map = {};
+        var markerGroup = {};
+        var photoLayer = {};
+        var markerPage = 1;
+        var idArray = [];
+        var allowGetmarker = true;
+        // Active Menu Icon
+        $(document).find('.linkBtn').removeClass('active');
+        $(document).find('#researchLink').addClass('active');
+
+        $(document).find('#regDropDown').change(function () {
+            var date = new Date();
+            date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+            document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+            window.location.href = "/";//$(this).find('option:selected').attr('data-to');
+        });
+
+        function InitPhotoLayer() {
+            photoLayer = L.photo.cluster().on('click', function (evt) {
+                var photo = evt.layer.photo,
+                    template = '{headerContent}<div><div class="image-cover"><img src="{url}" onerror="this.parentElement.parentElement.style.display=' + "'none'" + '" class="popup-image"/></div><div class="fullscreenImage" data-url="{url}">[view in fullscreen]</div></div><div>{content}</div>';
+                if (photo.audio) {
+                    template = '{headerContent}<audio controls><source src="{audio}" onerror="this.parentElement.style.display=' + "'none'" + '" type="audio/wav"></audio><div>{content}</div>';
+                };
+                if (photo.video && (!!document.createElement('video').canPlayType('video/mp4; codecs=avc1.42E01E,mp4a.40.2'))) {
+                    template = '{headerContent}<div class="video-cover"><video controls><source src="{video}" onerror="this.parentElement.parentElement.style.display=' + "'none'" + '" type="video/mp4"/></video></div><div>{content}</div>';
+                };
+                if (photo.url == null && photo.video == null && photo.audio == null) {
+                    template = '{headerContent}<div>{content}</div>';
+                };
+                evt.layer.bindPopup(L.Util.template(template, photo), {
+                    className: 'leaflet-popup-photo',
+                    minWidth: 250
+                }).openPopup();
+            });
+            $(".markerloader").show();
+        }
+        // Map Code -----------------------------------------//
+        $(".form").click(function () {
+            $("#legendBox").hide();
+            allowGetmarker == true;
+            if (this.id == "All") {
+                $(".form").removeClass('active');
+                $('#' + this.id).addClass('active');
+                markerPage = 1;
+                dataUrl = "https://ideame.io/Survey/GetSResponse?page=" + markerPage;
+                if (photoLayer != undefined) {
+                    map.removeLayer(photoLayer);
+                    InitPhotoLayer();
+                };
+                PhotoLayer();
+            }
+            else {
+                getSdgQuestion("https://ideame.io/Survey/GetSdgQuestion/" + this.id);
+            }
+            _clickId = this.id;
+        });
+        function getSdgQuestion(url) {
+            $.getJSON(url, function (data) {
+                var html = '';
+                $('#questionContent').html('');
+                $.each(data, function (i, item) {
+                    var options = {};
+                    if (item.Type == 12) {
+                        options = item.colOptions;
+                    } else {
+                        options = item.rowOptions;
+                    }
+                    if (i == 0) {
+                        html += '<div class="radio"><label><input type="radio" class="component" value="' + item.Id + '" tabindex="' + options.join(",") + '" name="radio" checked><span style="margin-left:20px;">' + item.Title + '</span></label></div>';
+                    }
+                    else {
+                        html += '<div class="radio"><label><input type="radio" class="component" value="' + item.Id + '" tabindex="' + options.join(",") + '" name="radio"><span style="margin-left:20px;">' + item.Title + '</span></label></div>';
+                    }
+                });
+                $('#questionContent').html(html);
+                $("#questionModel").modal("show");
+            });
+        }
+        $('#okBtn').click(function () {
+            $(".form").removeClass('active');
+            $('#' + _clickId).addClass('active');
+
+            idArray = [];
+            var legend1 = [];
+            var legend2 = [];
+            var legend3 = [];
+            var legend4 = [];
+            var legend5 = [];
+            var legend6 = [];
+            $('.component').each(function () {
+                if ($(this).is(":checked")) {
+                    idArray.push($(this).val());
+                    var options = $(this).attr("tabindex");
+                    var optionArr = options.split(",");
+                    optionArr.forEach(function (opt, index) {
+                        switch (opt) {
+                            case "Very good":
+                            case "Very much":
+                            case "Very proficient":
+                            case "Free":
+                            case "No losses":
+                            case "Very much improved":
+                            case "Clean":
+                            case "Diabetes":
+                            case "Malaria":
+                            case "No road connectivity":
+                            case "Substantially reduced":
+                            case "Substantially decreased":
+                                legend1.push(opt);
+                                break;
+                            case "Good":
+                            case "Substantial":
+                            case "Proficient":
+                            case "Very cheap":
+                            case "Insignificant losses":
+                            case "Somewhat improved":
+                            case "Slightly polluted":
+                            case "Cancer":
+                            case "Tuberculosis":
+                            case "Accident blackspots":
+                            case "Somewhat reduced":
+                            case "Somewhat decreased":
+                                legend2.push(opt);
+                                break;
+                            case "Average":
+                            case "Intermediate":
+                            case "Affordable":
+                            case "Some losses":
+                            case "Same as earlier":
+                            case "Moderately polluted":
+                            case "Cardiovascular disease":
+                            case "Hepatitis B":
+                            case "Unclean roads":
+                                legend3.push(opt);
+                                break;
+                            case "Not so good":
+                            case "Very less":
+                            case "Costly":
+                            case "Beginner":
+                            case "Substantial losses":
+                            case "Polluted":
+                            case "Chronic respiratory disease":
+                            case "HIV infections":
+                            case "Congested roads":
+                            case "Somewhat deteriorated":
+                            case "Somewhat increased":
+                                legend4.push(opt);
+                                break;
+                            case "Poor":
+                            case "Never used":
+                            case "Very costly":
+                            case "Huge losses":
+                            case "Poisonous":
+                            case "Damaged roads":
+                            case "Deteriorated":
+                            case "Substantially increased":
+                                legend5.push(opt);
+                                break;
+                            case "Not available":
+                            case "Not at all":
+                            case "Very much deteriorated":
+                                legend6.push(opt);
+                                break;
+                        }
+                    });
+
+                    var unique1 = legend1.filter(function (optionArr, i, a) {
+                        return i == a.indexOf(optionArr);
+                    });
+                    var unique2 = legend2.filter(function (optionArr, i, a) {
+                        return i == a.indexOf(optionArr);
+                    });
+                    var unique3 = legend3.filter(function (optionArr, i, a) {
+                        return i == a.indexOf(optionArr);
+                    });
+                    var unique4 = legend4.filter(function (optionArr, i, a) {
+                        return i == a.indexOf(optionArr);
+                    });
+                    var unique5 = legend5.filter(function (optionArr, i, a) {
+                        return i == a.indexOf(optionArr);
+                    });
+                    var unique6 = legend6.filter(function (optionArr, i, a) {
+                        return i == a.indexOf(optionArr);
+                    });
+                    $('.li').show();
+                    $("#legend1").html(unique1.join(", "));
+                    $("#legend2").html(unique2.join(", "));
+                    $("#legend3").html(unique3.join(", "));
+                    $("#legend4").html(unique4.join(", "));
+                    $("#legend5").html(unique5.join(", "));
+                    $("#legend6").html(unique6.join(", "));
+                    if (unique1.length == 0) {
+                        $("#li1").hide();
+                    }
+                    if (unique2.length == 0) {
+                        $("#li2").hide();
+                    }
+                    if (unique3.length == 0) {
+                        $("#li3").hide();
+                    }
+                    if (unique4.length == 0) {
+                        $("#li4").hide();
+                    } if (unique5.length == 0) {
+                        $("#li5").hide();
+                    }
+                    if (unique6.length == 0) {
+                        $("#li6").hide();
+                    }
+                }
+            });
+            markerPage = 1;
+            dataUrl = "https://ideame.io/Survey/GetSResponse?list=" + idArray.join(',') + "&?page=" + markerPage;
+            //dataUrl = "http://localhost:53548/Survey/GetSResponse?list=" + idArray.join(',') + "&?page=" + markerPage;
+            $("#questionModel").modal("hide");
+            $("#legendBox").show();
+            if (photoLayer != undefined) {
+                map.removeLayer(photoLayer);
+                InitPhotoLayer();
+            };
+            PhotoLayer();
+        });
+        CreateMap();
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call back to display messages.
+            chat.client.updateDataonMap = function (recieveUrl) {
+                dataUrl = recieveUrl;
+                InitPhotoLayer();
+                PhotoLayer();
+            };
+            $.connection.hub.start().done(function () {
+                //var Url = 'https://ideame.io/Survey/GetSResponse/';
+                var Url = dataUrl;
+                chat.server.updateMap(Url);
+            });
+        });
+        function CreateMap() {
+            map = L.map('map', {
+                zoomControl: false, fullscreenControl: true, minZoom: 2,
+                maxZoom: 19
+            }).setView([29.00535, 77.00485], 2);
+            L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                maxZoom: 19,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                label: "Google Street"
+            }).addTo(map);
+            var zoomHome = L.Control.zoomHome();
+            zoomHome.addTo(map);
+        }
+        function PhotoLayer() {
+            $.getJSON(dataUrl, function (data) {
+                if (data.length == 0) {
+                    $(".markerloader").hide();
+                    allowGetmarker = false;
+                    return;
+                }
+                if (data.length < 100) {
+                    allowGetmarker = false;
+                    $(".markerloader").hide();
+                }
+                var photos = [];
+                $.each(data, function (i, item) {
+                    var locat = item.location.split(',');
+                    if (locat[0] != "" && locat[1] != "") {
+                        var iconUrl = "";
+                        switch (item.title) {
+                            case "Education facilities":
+                                iconUrl = '/AdminFiles/Monitoring/education.svg';
+                                break;
+                            case "Energy services":
+                                iconUrl = '/AdminFiles/Monitoring/energy.svg';
+                                break;
+                            case "Environmental status":
+                                iconUrl = '/AdminFiles/Monitoring/environment.svg';
+                                break;
+                            case "Gender equality and women empowerment":
+                                iconUrl = '/AdminFiles/Monitoring/gender.svg'
+                                break;
+                            case "Governance":
+                                iconUrl = '/AdminFiles/Monitoring/govt.svg';
+                                break;
+                            case "Public health status and facilities":
+                                iconUrl = '/AdminFiles/Monitoring/health.svg';
+                                break;
+                            case "Status of Agriculture sector":
+                                iconUrl = '/AdminFiles/Monitoring/agriculture.svg';
+                                break;
+                            case "Transport":
+                                iconUrl = '/AdminFiles/Monitoring/transport.svg';
+                                break;
+                            case "Water and sanitation facilities":
+                                iconUrl = '/AdminFiles/Monitoring/wash.svg';
+                                break;
+                        }
+
+                        var bg = "";
+
+                        var resLocation = item.locationTitle;
+                        resLocation = resLocation == null ? "" : resLocation;
+                        //resLocation = item.locationTitle.replace(new RegExp(null, 'g'), "");
+                        if (resLocation != " " && resLocation != "" && !resLocation.startsWith(',')) {
+                            resLocation = ", " + resLocation;
+                        }
+
+                        var responseValue = item.value;
+                        bg = getBgColor(responseValue);
+                        if (item.iurl != "") { bg = bg + " active"; }
+                        else if (item.vurl != "") { bg = bg + " active"; }
+                        else if (item.aurl != "") { bg = bg + " active"; }
+
+                        photos.push({
+                            lat: locat[0],
+                            lng: locat[1],
+                            url: (item.iurl ? "https://ideame.io/images/surveyfile/" + item.iurl : null),
+                            caption: item.question,
+                            headerContent: '<h4><img src="' + item.imageUrl + '" onerror="this.src=' + "'/AdminFiles/Logo/img_avatar.png'" + '" class="img-circle imgcss" /> ' + item.name + '<span style="font-size:12px">' + resLocation + '</span></h4>',
+                            content: '<h4>' + item.question + '</h4><p>' + responseValue + '</p><hr style="margin:8px 0;"/><span class="fa fa-comments-o"></span><a href="/Research/SurveyResponse?id=' + item.id + '" class="fg-black text-decoration"> Comment</a><span class="reportTo" style="float:right;cursor:pointer" id="' + item.id + '" tabindex="' + item.question + '"><img src="/images/SDGs/report_flag.svg" style="width:13px;display:inline" /> Report</span>',
+                            thumbnail: iconUrl,
+                            tranparentBg: '/Content/transparent.png',
+                            iconBg: bg,
+                            video: (item.vurl ? "https://ideame.io/images/surveyfile/" + item.vurl : null),
+                            audio: (item.aurl ? "https://ideame.io/images/surveyfile/" + item.aurl : null),
+                        });
+                        function getBgColor(responseValue) {
+                            var bg = "";
+                            switch (responseValue) {
+                                case "Very good":
+                                case "Very Good":
+                                case "Very much":
+                                case "Very proficient":
+                                case "Free":
+                                case "No losses":
+                                case "Very much improved":
+                                case "Clean":
+                                case "Diabetes":
+                                case "Malaria":
+                                case "No road connectivity":
+                                case "Substantially reduced":
+                                case "Substantially decreased":
+                                    bg = "bg1";
+                                    break;
+                                case "Good":
+                                case "Substantial":
+                                case "Proficient":
+                                case "Very cheap":
+                                case "Insignificant losses":
+                                case "Somewhat improved":
+                                case "Slightly polluted":
+                                case "Cancer":
+                                case "Tuberculosis":
+                                case "Accident blackspots":
+                                case "Somewhat reduced":
+                                case "Somewhat decreased":
+                                    bg = "bg2";
+                                    break;
+                                case "Average":
+                                case "Intermediate":
+                                case "Affordable":
+                                case "Some losses":
+                                case "Same as earlier":
+                                case "Moderately polluted":
+                                case "Cardiovascular disease":
+                                case "Hepatitis B":
+                                case "Unclean roads":
+                                    bg = "bg3";
+                                    break;
+                                case "Not so good":
+                                case "Very less":
+                                case "Costly":
+                                case "Beginner":
+                                case "Substantial losses":
+                                case "Polluted":
+                                case "Chronic respiratory disease":
+                                case "HIV infections":
+                                case "Congested roads":
+                                case "Somewhat deteriorated":
+                                case "Somewhat increased":
+                                    bg = "bg4";
+                                    break;
+                                case "Poor":
+                                case "Never used":
+                                case "Very costly":
+                                case "Huge losses":
+                                case "Poisonous":
+                                case "Damaged roads":
+                                case "Deteriorated":
+                                case "Substantially increased":
+                                    bg = "bg5";
+                                    break;
+                                case "Not available":
+                                case "Not at all":
+                                case "Very much deteriorated":
+                                    bg = "bg6";
+                                    break;
+                                default:
+                                    bg = "no-answer";
+                                    break;
+                            }
+                            return bg;
+                        }
+                    }
+                });
+                photoLayer.add(photos).addTo(map);
+                if (markerPage == 1) {
+                    map.fitBounds(photoLayer.getBounds());
+                }
+                markerPage = markerPage + 1;
+                if (_clickId == "All") {
+                    dataUrl = "https://ideame.io/Survey/GetSResponse?page=" + markerPage;
+                } else {
+                    dataUrl = "https://ideame.io/Survey/GetSResponse?list=" + idArray.join(',') + "&?page=" + markerPage;
+                }
+                if (allowGetmarker == true) {
+                    PhotoLayer();
+                }
+            });
+        }
+        $(document).on("click", ".fullscreenImage", function () {
+            var imgUrl = $(this).data("url");
+            $("#map-image-container").html('<img src="' + imgUrl + '" />');
+            $("#map-image-popup").show();
+
+        });
+        $("#close-map-image").click(function () {
+            $("#map-image-popup").hide();
+        });
+        $(document).on('click', '.reportTo', function () {
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <text>
+                        $('#reportModal').modal('show');
+                    _resId = this.id;
+                    _repQues = $(this).attr("tabindex");
+                </text>
+            }
+            else
+            {
+                <text>
+                        window.location.href = "/Account/Login?returnUrl=/Research/Index";
+                </text>
+            }
+        }
+                                });
+        $('#submitReport').click(function () {
+            $('#reportModal').modal('hide');
+            _repText = $('#reportText').val();
+            if (_repText == "") {
+                alert("Please enter report text!");
+            }
+            else {
+                responseReport();
+            }
+        });
+        function responseReport() {
+            $.ajax({
+                url: '/Research/ResponseReport',
+                type: 'Post',
+                data: { id: _resId, text: _repText, question: _repQues },
+                dataType: 'Json',
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {
+                },
+            });
+        }
+        // Map Code End--------------------------------------//
+        // Active Menu Icon
+        $(document).find('.listBtn').removeClass('active');
+        $(document).find('#researchLink').addClass('active');
+        // Institutional Partners
+        $(document).find('#insPartnerscarousel').owlCarousel({
+            items: 3,
+            nav: true,
+            margin: 45,
+            startPosition: '0',
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true,
+            loop: true,
+            responsive: {
+                320: {
+                    items: 1
+                },
+                425: {
+                    items: 1
+                },
+                550: {
+                    items: 2
+                }, 768: {
+                    items: 2
+                },
+                1024: {
+                    items: 3
+                }, 1200: {
+                    items: 4
+                }
+            }
+        });
+
+        // SDG Goal Deatils
+        if ('@ViewBag.sdgGoalId' != 0) {
+            var scrollPos = $("#sdg").offset().top;
+            $(window).scrollTop(scrollPos);
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=" + '@ViewBag.sdgGoalId');
+        }
+        $('#sdgGoal').click(function () {
+            $('#sdgGoalDetail').html("");
+        });
+        $('#sdgGoal1').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=1");
+        });
+        $('#sdgGoal2').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=2");
+        });
+        $('#sdgGoal3').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=3");
+        });
+        $('#sdgGoal4').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=4");
+        });
+        $('#sdgGoal5').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=5");
+        });
+        $('#sdgGoal6').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=6");
+        });
+        $('#sdgGoal7').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=7");
+        });
+        $('#sdgGoal8').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=8");
+        });
+        $('#sdgGoal9').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=9");
+        });
+        $('#sdgGoal10').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=10");
+        });
+        $('#sdgGoal11').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=11");
+        });
+        $('#sdgGoal12').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=12");
+        });
+        $('#sdgGoal13').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=13");
+        });
+        $('#sdgGoal14').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=14");
+        });
+        $('#sdgGoal15').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=15");
+        });
+        $('#sdgGoal16').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=16");
+        });
+        $('#sdgGoal17').click(function () {
+            $('#sdgGoalDetail').load("/Research/GoalDetails?id=17");
+        });
+        $(document).ready(function () {
+            // Adopt tool ---------------------------------//
+            $('#atthmArea').multiselect();
+            $('input[name="atthmArea[]"]').on("change", function () {
+                var valueArray = [];
+                var textArray = [];
+                $("input[name='atthmArea[]']:checked").each(function () {
+                    valueArray.push($(this).val().toString());
+                    textArray.push($('label[for="' + this.id + '"]').text());
+                });
+                $("#atthmarealist").val(valueArray);
+                $("#atthmareatextlist").val(textArray.join(", "));
+            });
+
+            $(document).on('click', '#adoptBtn', function () {
+                $('#adopttoolModal').modal();
+            });
+            $('#closeatDialog').click(function () {
+                $('#adopttoolModal').modal('hide');
+            });
+            $('#adoptToolBtn').click(function () {
+                _sname = $('#atname').val();
+                _institution = $('#atinst').val();
+                _location = $('#atinstLoc').val();
+                _semail = $('#atemail').val();
+                _contact = $('#atcontact').val();
+                _neededData = $('#atneedData').val();
+                _geoData = $('#atgeoData').val();
+                _themeticArea = $("#atthmarealist").val();
+                _message = $('#atmessage').val();
+                if (_sname == "") {
+                    alert("Please enter your name");
+                }
+                else if (_institution == "") {
+                    alert("Please enter your institution");
+                }
+                else if (_location == "") {
+                    alert("Please enter location of your institution");
+                }
+                else if (!(/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(_semail))) {
+                    alert("Please enter your valid email");
+                }
+                else {
+                    adoptTheTool();
+                }
+            });
+            function adoptTheTool() {
+                $.ajax({
+                    url: '/Research/AdoptTool',
+                    type: 'Post',
+                    data: { name: _sname, institution: _institution, location: _location, email: _semail, contact: _contact, neededData: _neededData, geoData: _geoData, themeticArea: _themeticArea, message: _message },
+                    dataType: 'Json',
+                    success: function (data) {
+                        alert(data);
+                        $('#adopttoolModal').modal('hide');
+                        assignNull();
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            // BE the Samurai --------------------------- //
+            $('#sdgsamurai').click(function () {
+                if (_loginId == "" || _loginId == null) {
+                    alert("Please login First");
+                }
+                else {
+                    $('#sdgsModal').modal();
+                }
+            });
+            $('#closesdgsDialog').click(function () {
+                $('#sdgsModal').modal('hide');
+            });
+            $('#joinSDGsBtn').click(function () {
+                _sprofession = $('#sprofes').val();
+                _sdesc = $('#sdesc').val();
+                _nationality = $('#snation').val();
+                _gender = $('#sgender option:selected').val();
+                if (_sprofession == "") {
+                    alert("Please enter your profession");
+                }
+                else if (_sdesc == "") {
+                    alert("Please enter description");
+                }
+                else if (_nationality == "") {
+                    alert("Please enter your nationality");
+                }
+                else {
+                    joinSDGs();
+                }
+            });
+            function joinSDGs() {
+                $.ajax({
+                    url: '/Research/SDGsJoin',
+                    type: 'Post',
+                    data: { profession: _sprofession, description: _sdesc, nationality: _nationality, gender: _gender },
+                    dataType: 'Json',
+                    success: function (data) {
+                        showAlert(data);
+                        $('#sdgsModal').modal('hide');
+                        assignNull();
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            function assignNull() {
+                _sName = _sprofession = _sdesc = _semail = _nationality = _institution = _location = _neededData = _geoData = _message = "";
+                $('#sname,#sprofes,#sdesc,#semail,#snation,#atname,#atinst,#atinstLoc,#atemail,#atcontact,#atneedData,#atgeoData,#atmessage').val("");
+            }
+
+            $("#sdgscarusal").owlCarousel({
+                items: 3,
+                nav: false,
+                margin: 25,
+                startPosition: '0',
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: true,
+                loop: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    767: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 4
+                    }
+                }
+            });
+        });
+    </script>
+}

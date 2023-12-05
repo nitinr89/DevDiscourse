@@ -10,8 +10,9 @@ namespace DevDiscourse.Controllers
         {
             if (HttpContext.Request.Cookies.ContainsKey("timezoneoffset"))
             {
-                string timezoneOffset = HttpContext.Request.Cookies["timezoneoffset"];
-                HttpContext.Session.SetString("timezoneoffset", timezoneOffset);
+                string? timezoneOffset = HttpContext.Request.Cookies["timezoneoffset"];
+                if (string.IsNullOrEmpty(timezoneOffset)) { }
+                else HttpContext.Session.SetString("timezoneoffset", timezoneOffset);
             }
 
             base.OnActionExecuting(context);

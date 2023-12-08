@@ -1,0 +1,128 @@
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.BasicModels.UserFiles>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.BasicModels.UserFiles> model = Model;
+}
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<script>
+    function imageLoaded(img) {
+        document.getElementById("dim-" + img.getAttribute('data-id')).innerHTML = "480 x " + img.height + " (in px)";
+    }
+</script>
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<style>
+    .gallery-card {
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+        padding: 8px;
+        border-radius: 3px;
+        height: auto;
+    }
+    .image-card-title {
+        height: 40px;
+        width:480px;
+        color: #888;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding-top: 5px;
+    }
+    .gallery {
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+        -webkit-column-width: 150px;
+        -moz-column-width: 150px;
+        column-width: 150px;
+    }
+
+        .gallery .pics {
+            -webkit-transition: all 350ms ease;
+            transition: all 350ms ease;
+        }
+
+        .gallery .animation {
+            -webkit-transform: scale(1);
+            -ms-transform: scale(1);
+            transform: scale(1);
+        }
+
+    @@media (max-width: 450px) {
+        .gallery {
+            -webkit-column-count: 1;
+            -moz-column-count: 1;
+            column-count: 1;
+            -webkit-column-width: 100%;
+            -moz-column-width: 100%;
+            column-width: 100%;
+        }
+    }
+</style>
+<link href="~/Content/admin.css" rel="stylesheet" />
+<div class="bg-white p-20">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "UserFiles")">Image Gallery</a></li>
+        <li class="breadcrumb-item active"><a href="@Url.Action("Create", "UserFiles")">Create New</a></li>
+    </ol>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Image Search</label>
+            <div class="input-group" id="searchDiv">
+                <label for="searchBtn"></label>
+                <input type="text" class="form-control" name="searchBtn" style="border-right:none !important;border-top-left-radius:4px;border-bottom-left-radius:4px;" id="inputText" placeholder="Title search...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" aria-label="Search" id="textBtn" style="border-left:none !important;color:#aeaeae;" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="gallery m-t-20" id="gallery">
+        @foreach (var item in Model)
+        {
+            var newsImage = item.FileUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.FileUrl : item.FileUrl;
+            <div class="pics animation all 2">
+                <div style="display:inline-block">
+                    <img class="img-fluid img-responsive" src="@newsImage?width=480" onload="imageLoaded(this)" data-id="@item.Id" alt="Image Gallery">
+                    <div class="image-card-title">
+                        <a href="@newsImage?width=480" download="@item.Title">Download</a> |
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <a href="@Url.Action("Delete", "UserFiles", new { id = item.Id, page = ViewBag.page })">Delete</a>
+                        }
+                        <div style="display:inline-block;float:right;" id="dim-@item.Id">Dimension</div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer m-t-30" style="background-color: transparent; border-top: none;">
+        <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
+        @Html.PagedListPager(Model, page => Url.Action("Index", "UserFiles", new { page, text = ViewBag.text }))
+    </div>
+</div>
+@section scripts{
+    <script>
+        var _inputSearchText = '@(ViewBag.text)';
+
+        $('.lazy').lazy();
+        $('#inputText').val(_inputSearchText);
+
+        $('#textBtn').click(function () {
+            _inputSearchText = $('#inputText').val();
+            window.location.href = "/UserFiles/Index?text=" + _inputSearchText;
+        });
+        $("#inputText").keydown(function (e) {
+            if (e.keyCode == 13) {
+                _inputSearchText = $('#inputText').val();
+                window.location.href = "/UserFiles/Index?text=" + _inputSearchText;
+            }
+        });
+    </script>
+}

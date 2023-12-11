@@ -69,9 +69,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.MapControllerRoute(
-              name: "DefaulApi",
-              pattern: "api/controller/{id?}");
+// Call the custom route configuration method
+app.UseEndpoints(endpoints =>
+{
+    RouteConfig.ConfigureRoutes(endpoints);
+});
 
 app.UseAuthorization();
 
@@ -81,19 +83,6 @@ app.UseAuthorization();
 
 // Enable CORS
 app.UseCors("AllowSpecificOrigin");
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-
-app.MapControllerRoute(
-              name: "NewsSector",
-              pattern: "news/{sector}",
-              defaults: new { controller = "Search", action = "Index", sector = UrlParameter.Optional }
-            );
-
 
 app.MapRazorPages();
 

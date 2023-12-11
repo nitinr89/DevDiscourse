@@ -1,4 +1,4 @@
-﻿using Devdiscourse.Hubs;
+using Devdiscourse.Hubs;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
 using Html2Amp;

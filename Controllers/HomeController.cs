@@ -9,6 +9,7 @@ using Devdiscourse.Models.ViewModel;
 //using Html2Amp.Sanitization.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 //using Newtonsoft.Json.Linq;
 //using PagedList;
@@ -22,6 +23,7 @@ using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using X.PagedList;
 //using System.Web.Mvc;
 
 namespace DevDiscourse.Controllers
@@ -284,35 +286,35 @@ namespace DevDiscourse.Controllers
         //    }
         //    return View();
         //}
-        //public async Task<ActionResult> AdvancedSearch(string text = "")
-        //{
-        //    ViewBag.text = text;
-        //    ViewBag.sectorList = await _db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToListAsync();
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.region = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.region = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
-        //public ActionResult DevBlogs(string type = "")
-        //{
-        //    ViewBag.type = type;
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.reg = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.reg = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
+        public async Task<ActionResult> AdvancedSearch(string text = "")
+        {
+            ViewBag.text = text;
+            ViewBag.sectorList = await _db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToListAsync();
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.region = "Global Edition";
+            }
+            else
+            {
+                ViewBag.region = cookie ?? "Global Edition";
+            }
+            return View();
+        }
+        public ActionResult DevBlogs(string type = "")
+        {
+            ViewBag.type = type;
+            string ? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.reg = "Global Edition";
+            }
+            else
+            {
+                ViewBag.reg = cookie ?? "Global Edition";
+            }
+            return View();
+        }
         //public JsonResult pledge()
         //{
         //    var search = (from m in _db.CampaignPetitions
@@ -910,58 +912,80 @@ namespace DevDiscourse.Controllers
         //    }
         //    return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
         //}
-        //public PartialViewResult GetAdvancedSearch(string text, string type, string sector, string region, string country, DateTime? beforeDate, DateTime? afterDate, int? page)
-        //{
-        //    // List<AdvancedSearchView> resultList = new List<AdvancedSearchView>();
-        //    var stringSearch = text ?? "";
-        //    var typeSearch = type ?? "";
-        //    var countrySearch = country ?? "";
-        //    var searchRegion = region == "Global Edition" ? "" : region;
+        public PartialViewResult GetAdvancedSearch(string text, string type, string sector, string region, string country, DateTime? beforeDate, DateTime? afterDate, int? page)
+        {
+            // List<AdvancedSearchView> resultList = new List<AdvancedSearchView>();
+            var stringSearch = text ?? "";
+            var typeSearch = type ?? "";
+            var countrySearch = country ?? "";
+            var searchRegion = region == "Global Edition" ? "" : region;
 
-        //    var newsSearch = _db.DevNews.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion)).Select(a => new AdvancedSearchView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.Sector, Themes = a.Themes, Country = a.Country, Region = a.Region, Tags = a.Tags, Type = a.Type, SubType = a.SubType, IsGlobal = a.IsGlobal, NewsId = a.NewsId, Label = a.NewsLabels });
-        //    //resultList = newsSearch.ToList();
-        //    if (sector != "0")
-        //    {
-        //        newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
-        //    }
-        //    if (beforeDate != null)
-        //    {
-        //        DateTime filterDate = DateTime.Parse(beforeDate.ToString());
-        //        newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
-        //    }
-        //    if (afterDate != null)
-        //    {
-        //        DateTime filterDate2 = DateTime.Parse(afterDate.ToString());
-        //        newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
-        //    }
-        //    int pageSize = 20;
-        //    int pageNumber = (page ?? 1);
-        //    return PartialView("_getAdvancedSearch", newsSearch.OrderByDescending(m => m.CreatedOn).ToPagedList(pageNumber, pageSize));
-        //}
-        //public PartialViewResult GetBlogItems(int? page, string type, string region = "Global Edition")
-        //{
-        //    DateTime LastSixMonth = DateTime.UtcNow.AddMonths(-24);
-        //    if (Request.IsAjaxRequest())
-        //    {
-        //        LastSixMonth = DateTime.UtcNow.AddMonths(-60);
-        //    }
-        //    var search = _db.DevNews.AsNoTracking().Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true).Select(a => new AdvancedSearchView { Id = a.Id, NewsId = a.NewsId, Title = a.Title, SubType = a.SubType, ImageUrl = a.ImageUrl, Region = a.Region, IsGlobal = a.IsGlobal, CreatedOn = a.PublishedOn, Label = a.NewsLabels, Country = a.Author }).OrderByDescending(m => m.CreatedOn).ToList();
-        //    if (region != "Global Edition")
-        //    {
-        //        search = search.Where(a => a.Region != null && a.Region.Contains(region)).ToList();
-        //    }
-        //    if (!string.IsNullOrEmpty(type))
-        //    {
-        //        search = search.Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase)).ToList();
-        //    }
-        //    else
-        //    {
-        //        search = search.Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase)).ToList();
-        //    }
-        //    int pageSize = 10;
-        //    int pageNumber = (page ?? 1);
-        //    return PartialView("_getBlogItems", search.ToPagedList(pageNumber, pageSize));
-        //}
+            var newsSearch = _db.DevNews
+                //.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion))
+                .Select(a => new AdvancedSearchView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.Sector, Themes = a.Themes, Country = a.Country, Region = a.Region, Tags = a.Tags, Type = a.Type, SubType = a.SubType, IsGlobal = a.IsGlobal, NewsId = a.NewsId, Label = a.NewsLabels });
+            //resultList = newsSearch.ToList();
+            if (sector != "0")
+            {
+                newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
+            }
+            if (beforeDate != null)
+            {
+                DateTime filterDate = DateTime.Parse(beforeDate.ToString());
+                newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
+            }
+            if (afterDate != null)
+            {
+                DateTime filterDate2 = DateTime.Parse(afterDate.ToString());
+                newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
+            }
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return PartialView("_getAdvancedSearch", newsSearch/*.OrderByDescending(m => m.CreatedOn)*/.ToPagedList(pageNumber, pageSize));
+        }
+        public PartialViewResult GetBlogItems(int? page, string type, string region = "Global Edition")
+        {
+            DateTime LastSixMonth = DateTime.UtcNow.AddMonths(-24);
+            //if (Request.IsAjaxRequest())
+            //{
+            //    LastSixMonth = DateTime.UtcNow.AddMonths(-60);
+            //}
+            var search = _db.DevNews
+                //Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
+                .Select(a => new AdvancedSearchView { 
+                    Id = a.Id, 
+                    NewsId = a.NewsId, 
+                    Title = a.Title,
+                    SubType = a.SubType,             
+                    ImageUrl = a.ImageUrl, 
+                    Region = a.Region, 
+                    IsGlobal = a.IsGlobal, 
+                    CreatedOn = a.PublishedOn,
+                    Label = a.NewsLabels, 
+                    Country = a.Author }).Take(50)
+                //.OrderByDescending(m => m.CreatedOn)
+                .ToList();
+            if (region != "Global Edition")
+            {
+                search = search.Take(50)
+                    //.Where(a => a.Region != null && a.Region.Contains(region))
+                    .ToList();
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                search = search.Take(50)
+                    //.Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            else
+            {
+                search = search.Take(50)
+                    //.Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return PartialView("_getBlogItems", search.ToPagedList(pageNumber, pageSize));
+        }
         //public JsonResult GetAmpBlogItems(string __amp_source_origin, int? moreItemsPageIndex)
         //{
         //    var search = _db.DevNews.Where(a => a.Type == "Blog" && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Select(a => new { a.Region, a.Title, a.IsGlobal, a.ImageUrl, Url = "/article/" + a.NewsLabels + "/" + a.NewsId.ToString() }).ToList();
@@ -1363,7 +1387,7 @@ namespace DevDiscourse.Controllers
                 var fetchedData = query.ToList(); // Fetch the data from the database
 
                 var search = fetchedData
-                    .Where(m => regList.Contains(m.RegionTitle)) // Filter based on regList
+                    //.Where(m => regList.Contains(m.RegionTitle)) // Filter based on regList
                     .Select(m => new { m.Title })
                     .OrderBy(a => a.Title)
                     .ToList();

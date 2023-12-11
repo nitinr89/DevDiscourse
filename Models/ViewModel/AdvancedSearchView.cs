@@ -6,19 +6,19 @@ namespace Devdiscourse.Models.ViewModel
     public class AdvancedSearchView
     {
         public Guid Id { get; internal set; }
-        public string Title { get; internal set; }
+        public string?   Title { get; internal set; }
         public DateTime CreatedOn { get; internal set; }
-        public string ImageUrl { get; internal set; }
-        public string Sector { get; internal set; }
-        public string Themes { get; internal set; }
-        public string Country { get; internal set; }
-        public string Region { get; internal set; }
-        public string Tags { get; internal set; }
-        public string Type { get; internal set; }
+        public string? ImageUrl { get; internal set; }
+        public string? Sector { get; internal set; }
+        public string? Themes { get; internal set; }
+        public string? Country { get; internal set; }
+        public string? Region { get; internal set; }
+        public string? Tags { get; internal set; }
+        public string? Type { get; internal set; }
         public bool IsGlobal { get; internal set; }
         public long NewsId { get; internal set; }
-        public string SubType { get; internal set; }
-        public string Label { get; internal set; }
+        public string? SubType { get; internal set; }
+        public string? Label { get; internal set; }
 
         public string GenerateSlug()
         {

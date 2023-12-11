@@ -47,7 +47,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //    Ranking =  a.Ranking
                 //}).GroupBy(a=>a.Title).Select(s=>s.FirstOrDefault()).AsNoTracking().OrderByDescending(o => o.CreatedOn).ThenByDescending(s => s.Ranking).ToPagedList(pageNumber, pageSize);
                 var search = (from a in _db.DevNews
-                              where a.AdminCheck && a.CreatedOn > oneMonth
+                              //where a.AdminCheck && a.CreatedOn > oneMonth
                               select new NewsAnalysisViewModel
                               {
                                   NewsId = a.NewsId,
@@ -58,7 +58,9 @@ namespace Devdiscourse.Controllers.ViewComponents
                                   Type = a.Type,
                                   SubType = a.SubType,
                                   Label = a.NewsLabels
-                              }).OrderByDescending(o => o.CreatedOn).AsNoTracking().ToPagedList(pageNumber, pageSize);
+                              })
+                              //.OrderByDescending(o => o.CreatedOn)
+                              .ToPagedList(pageNumber, pageSize);
                 return View(search);
             }
             else
@@ -85,7 +87,9 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //                  Category = a.Category,
                 //                  Label = a.NewsLabels
                 //              }).OrderByDescending(o => o.CreatedOn).AsNoTracking().ToPagedList(pageNumber, pageSize);
-                var search = _db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true && a.Region.Title == region && a.DevNews.CreatedOn > oneMonth).Select(a => new NewsAnalysisViewModel
+                var search = _db.RegionNewsRankings
+                    //.Where(a => a.DevNews.AdminCheck == true && a.Region.Title == region && a.DevNews.CreatedOn > oneMonth)
+                    .Select(a => new NewsAnalysisViewModel
                 {
                     NewsId = a.DevNews.NewsId,
                     Title = a.DevNews.Title,
@@ -96,8 +100,10 @@ namespace Devdiscourse.Controllers.ViewComponents
                     SubType = a.DevNews.SubType,
                     Label = a.DevNews.NewsLabels,
                     Ranking = a.Ranking
-                }).AsNoTracking().OrderByDescending(o => o.CreatedOn).ToPagedList(pageNumber, pageSize);
-                return View(search.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable());
+                })
+                    //.OrderByDescending(o => o.CreatedOn)
+                    .ToPagedList(pageNumber, pageSize);
+                return View(search/*.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable()*/);
             }
 
         }

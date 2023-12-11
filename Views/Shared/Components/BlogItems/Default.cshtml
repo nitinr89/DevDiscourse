@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.AdvancedSearchView>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    //string domainUrl = "https://www.devdiscourse.com";
+    string domainUrl = "";
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+@foreach (var item in Model)
+{
+    string pageUrl = "/article/" + item.GenerateSecondSlug();
+    <div class="p-b-20 col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <div class="blog-card">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title">
+                        @{ 
+                            var imageUrl = !string.IsNullOrEmpty(item.ImageUrl) ? item.ImageUrl : "";
+                            var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + imageUrl : imageUrl;
+
+                        }
+                        <div class="news-card bg-gray" style="background-image:url(@newsImage?width=350&height=240&mode=crop),url(/AdminFiles/Logo/ic_notFound.png)"></div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="clearfix p-t-10 f-12">
+                        <ul class="meta">
+                            <li class="pull-left" style="padding-top:2px;"><span>@item.CreatedOn.ToString("dd MMM yyyy")</span></li>
+                            <li class="pull-right"><a rel="nofollow" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on facebook"><div class="socialicon fb"><i class="fa fa-facebook"></i></div></a></li>
+                            <li class="pull-right"><a rel="nofollow" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=System.Net.WebUtility.UrlEncode(@item.Title)', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on twitter"><div class="socialicon tw"><i class="fa fa-twitter"></i></div></a></li>
+                            <li class="pull-right"><a rel="nofollow" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=System.Net.WebUtility.UrlEncode(item.Title)&summary=System.Net.WebUtility.UrlEncode(item.SubType)&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on google+"><div class="socialicon ln"><i class="fa fa-linkedin"></i></div></a></li>
+                            @if (isMobile)
+                            {
+                                <li class="pull-right visible-xs"><a href="whatsapp://send?text=@domainUrl@pageUrl" rel="nofollow" aria-label="Share on whatsapp" data-action="share/whatsapp/share"><div class="socialicon wp"><i class="fa fa-whatsapp"></i></div></a></li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="p-b-20 p-t-20">
+                        <div style="height:6px;width:100px;background-color:#a3a3a3;"></div>
+                    </div>
+                    <h3 style="margin-top:2px; margin-bottom:5px;line-height:1.25;" title="@item.Title">
+                        <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration">@item.Title</a>
+
+                    </h3>
+                    <p>@item.Country</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

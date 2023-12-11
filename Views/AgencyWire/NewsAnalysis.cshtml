@@ -173,7 +173,7 @@
 
                     @await Component.InvokeAsync("NewsAnalysisItems", new { region = ViewBag.region, type = ViewBag.type, page = 1 })
                     ;
-                }
+                } 
             </div><div id="loading" style="display:none;"> <p class="text-center"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div>
         </div><div class="col-xs-12 col-md-5 col-lg-4">
             <div class="clearfix" id="opinion"></div><div class="clearfix m-t-20">
@@ -181,7 +181,8 @@
                     @await Component.InvokeAsync("Trends",new { filter = "Trends", reg = ViewBag.edition })
                     ;
                 }
-            </div><div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div><div id="videoNews" class="m-t-20"></div>
+            </div>
+            <div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div><div id="videoNews" class="m-t-20"></div>
         </div>
     </div>
 </div>
@@ -197,9 +198,10 @@
             var _type = '@(ViewBag.type)';
             var showMoreCounter = 0;
             var region = _region.replace("Edition=", "");
-            var page = 1,
+            var _page = 1,
                 inCallback = false,
                 isReachedScrollEnd = false;
+            // loadNewsData();
             $(document).find('#regDropDown').change(function () {
                 var date = new Date();
                 date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
@@ -249,15 +251,16 @@
                 }
             });
             function loadNewsData() {
-                if (page > -1 && !inCallback) {
+                if (_page > -1 && !inCallback) {
+                    debugger;
                     inCallback = true;
-                    page++;
+                    _page++;
                     $("div#loading").show();
                     $.ajax({
-                       type: 'GET',
-                        url: '@await Component.InvokeAsync("NewsAnalysisItems")',
+                        type: 'GET',
+                        url: '/AgencyWire/GetNewsAnalysisItems',
                         dataType: "Html",
-                        data: { region: region, type: _type, page: page },
+                        data: { region: region, type: _type, page: _page },
                         success: function (data, textstatus) {
                             showMoreCounter = showMoreCounter + 1;
                             if (data.trim() != '') {

@@ -48,14 +48,11 @@ namespace Devdiscourse.Controllers.Main
             }
             return sMacAddress;
         }
-
-        //do later
-        //public string GetDeviceInfo()
-        //{
-        //    var deviceInfo = Request.UserAgent;
-        //    return deviceInfo;
-        //}
-
+        public string GetDeviceInfo()
+        {
+            var deviceInfo = Request.Headers["UserAgent"].ToString(); //Request.UserAgent;
+            return deviceInfo;
+        }
         public string GetIPAddress()
         {
             string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
@@ -82,7 +79,7 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.id = id;
             return View();
         }
-        //[OutputCache(Duration = 60)]
+         //[OutputCache(Duration = 60)]
         //[HttpGet("ArticleDetailsWithPrefix/Index/{id:long}")]
         //[HttpGet]2685046,2685043,768045,2477150,1690196,386335,2175293,1180893,386335,2369506,2685010
         //[ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "*" })]
@@ -132,7 +129,7 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.ampHtml = ampHtml;
             var geolocation = GetGeoLocation();
             var MACAddress = GetMACAddress();
-            //do it later
+            // do it later
             //if (!Request.Browser.Crawler)
             //{
             //    await UpdateViewCount(search.NewsId, search.Title, search.Creator, geolocation, MACAddress);
@@ -166,7 +163,6 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.MACAddress = MACAddress;
             return View(search);
         }
-
         public GeoLocationViewModel GetGeoLocation()
         {
             GeoLocationViewModel location = new GeoLocationViewModel();
@@ -192,11 +188,10 @@ namespace Devdiscourse.Controllers.Main
 
             return location;
         }
-
         public async Task<string> UpdateViewCount(long id, string title, string user, GeoLocationViewModel location, string MACAddress)
         {
             // Get Mac Address
-            //string deviceinfo = GetDeviceInfo();// do later
+            string deviceinfo = GetDeviceInfo();
             string ipaddress = GetPublicIP();
             if (ipaddress == "")
             {

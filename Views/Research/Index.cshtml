@@ -475,14 +475,14 @@
         }
     }
 </style>
-@if (ViewBag.edition == "South Asia")
-{
-    <div class="bg-banner">
-        <a href="/research/contest">
-            <img src="~/Content/transparent.png" data-src="/images/SDGs/pmsdbanner.png" alt="Contest - Participatory monitoring of SDGs" class="img-responsive lazy center-block" />
-        </a>
-    </div>
-}
+@* @if (ViewBag.edition == "South Asia")
+{ *@
+<div class="bg-banner">
+    <a href="/research/contest">
+        <img src="~/Content/transparent.png" data-src="/images/SDGs/pmsdbanner.png" alt="Contest - Participatory monitoring of SDGs" class="img-responsive lazy center-block" />
+    </a>
+</div>
+@* }
 else
 {
     <div class="bg-other">
@@ -495,7 +495,7 @@ else
             <img src="~/Content/transparent.png" data-src="/images/research-banner.jpg" alt="SDGs Research" class="img-responsive lazy center-block" />
         }
     </div>
-}
+} *@
 
 <div class="custom-container" style="background-color:#eee">
     <div class="container">
@@ -565,15 +565,6 @@ else
                         </p>
                     </div>
                 </div>
-                @*<div class="media m-t-20">
-                <div class="media-left">
-                <img data-src="/images/SDGs/icons/technical_advisory_panel.svg" src="~/Content/transparent.png" class="lazy" alt="Advisory Penel"  style="width:50px" />
-                </div>
-                <div class="media-body">
-                <h3 style="font-weight:400; margin-top:0px"><a href="/Research#tap">Technical Advisory Panel</a></h3>
-                <p>The technical advisory panel is a diverse and dynamic group of industry experts and intellectuals who will advise us in our endeavours. These mentors will coordinate with our Digital Development Department (3D) team and guide our in-house research team as a powerhouse of ideas. To see panel members <a href="/Research#tap" style="color:#fff; font-weight:500;font-size:16px">click here.</a></p>
-                </div>
-                </div>*@
                 <div class="m-t-20 media">
                     <div class="media-left">
                         <img data-src="/images/SDGs/icons/sdg_news.svg" src="~/Content/transparent.png" class="lazy" alt="SDG Stories" style="width:50px" />
@@ -691,8 +682,10 @@ else
             <span style="background-color:#f3f3f3">SDGs STORIES</span>
         </h4>
         @{
-            @* Html.RenderAction("GetSDGNews", "Research"); *@
+                @await Component.InvokeAsync("SDGNews")
+            ;
         }
+
         <a href="@Url.RouteUrl("SDGStories")" id="sdg" class="read-more-btn m-t-5">Read More</a>
     </div>
 </div>
@@ -926,15 +919,20 @@ else
     </div>
 </div>
 @section scripts{
-
+    <script src="~/Scripts/Map/reqwest.min.js"></script>
+@*     <script src="~/Scripts/Map/leaflet.js"></script>
+    <script src="~/Scripts/Map/leaflet.markerCluster.js"></script> *@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script> 
     <script src="~/Scripts/Map/leaflet.Photo.min.js" defer></script>
     <script src="~/Scripts/Map/Leaflet.fullscreen.min.js" defer></script>
     <script src="~/Scripts/Map/leaflet.zoomhome.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
+@* <script src="https://cdn.jsdelivr.net/npm/signalr@2.4.3/jquery.signalR.min.js"></script> *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="~/scripts/jquery.lazy.min.js"></script>
     <script src="~/Scripts/jquery.multiselect.min.js" defer></script>
+    <script src="~/signalr/hubs.js"></script>
     <script>
         var _clickId = "All";
         var _sname = "";
@@ -993,6 +991,7 @@ else
         }
         // Map Code -----------------------------------------//
         $(".form").click(function () {
+            debugger;
             $("#legendBox").hide();
             allowGetmarker == true;
             if (this.id == "All") {
@@ -1036,7 +1035,6 @@ else
         $('#okBtn').click(function () {
             $(".form").removeClass('active');
             $('#' + _clickId).addClass('active');
-
             idArray = [];
             var legend1 = [];
             var legend2 = [];
@@ -1176,8 +1174,10 @@ else
             };
             PhotoLayer();
         });
+        debugger;
         CreateMap();
         $(function () {
+            debugger;
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
             // Create a function that the hub can call back to display messages.
@@ -1186,11 +1186,14 @@ else
                 InitPhotoLayer();
                 PhotoLayer();
             };
-            $.connection.hub.start().done(function () {
-                //var Url = 'https://ideame.io/Survey/GetSResponse/';
-                var Url = dataUrl;
-                chat.server.updateMap(Url);
-            });
+
+            $.connection.hub.start({transport: 'longPolling'}).done(function () {
+                    //var Url = 'https://ideame.io/Survey/GetSResponse/';
+                    debugger;
+                    var Url = dataUrl;
+                    chat.server.updateMap(Url);
+                })
+          
         });
         function CreateMap() {
             map = L.map('map', {
@@ -1373,7 +1376,7 @@ else
                 }
             });
         }
-        $(document).on("click", ".fullscreenImage", function () {
+        $(document).on("click", ".fullscreenImage", function (){
             var imgUrl = $(this).data("url");
             $("#map-image-container").html('<img src="' + imgUrl + '" />');
             $("#map-image-popup").show();
@@ -1386,20 +1389,20 @@ else
         @{
             if (User.Identity.IsAuthenticated)
             {
-                <text>
-                        $('#reportModal').modal('show');
-                    _resId = this.id;
-                    _repQues = $(this).attr("tabindex");
-                </text>
+                    <text>
+                            $('#reportModal').modal('show');
+                        _resId = this.id;
+                        _repQues = $(this).attr("tabindex");
+                    </text>
             }
             else
             {
-                <text>
-                        window.location.href = "/Account/Login?returnUrl=/Research/Index";
-                </text>
+                    <text>
+                            window.location.href = "/Account/Login?returnUrl=/Research/Index";
+                    </text>
             }
         }
-                                });
+                                                });
         $('#submitReport').click(function () {
             $('#reportModal').modal('hide');
             _repText = $('#reportText').val();
@@ -1458,7 +1461,7 @@ else
         });
 
         // SDG Goal Deatils
-        if ('@ViewBag.sdgGoalId' != 0) {
+        if ('@ViewBag.sdgGoalId' != 0) {       
             var scrollPos = $("#sdg").offset().top;
             $(window).scrollTop(scrollPos);
             $('#sdgGoalDetail').load("/Research/GoalDetails?id=" + '@ViewBag.sdgGoalId');

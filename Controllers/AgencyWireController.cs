@@ -128,7 +128,7 @@ namespace Devdiscourse.Controllers
                 //    Ranking =  a.Ranking
                 //}).GroupBy(a=>a.Title).Select(s=>s.FirstOrDefault()).AsNoTracking().OrderByDescending(o => o.CreatedOn).ThenByDescending(s => s.Ranking).ToPagedList(pageNumber, pageSize);
                 var search = (from a in _db.DevNews
-                              where a.AdminCheck && a.CreatedOn > oneMonth
+                              //where a.AdminCheck && a.CreatedOn > oneMonth
                               select new NewsAnalysisViewModel
                               {
                                   NewsId = a.NewsId,
@@ -139,7 +139,9 @@ namespace Devdiscourse.Controllers
                                   Type = a.Type,
                                   SubType = a.SubType,
                                   Label = a.NewsLabels
-                              }).OrderByDescending(o => o.CreatedOn).AsNoTracking().ToPagedList(pageNumber, pageSize);
+                              })
+                              //.OrderByDescending(o => o.CreatedOn).AsNoTracking()
+                              .ToPagedList(pageNumber, pageSize);
                 return PartialView("_getNewsAnalysisItems", search);
             }
             else
@@ -166,7 +168,9 @@ namespace Devdiscourse.Controllers
                 //                  Category = a.Category,
                 //                  Label = a.NewsLabels
                 //              }).OrderByDescending(o => o.CreatedOn).AsNoTracking().ToPagedList(pageNumber, pageSize);
-                var search = _db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true && a.Region.Title == region && a.DevNews.CreatedOn > oneMonth).Select(a => new NewsAnalysisViewModel
+                var search = _db.RegionNewsRankings
+                    //.Where(a => a.DevNews.AdminCheck == true && a.Region.Title == region && a.DevNews.CreatedOn > oneMonth)
+                    .Select(a => new NewsAnalysisViewModel
                 {
                     NewsId = a.DevNews.NewsId,
                     Title = a.DevNews.Title,
@@ -177,8 +181,10 @@ namespace Devdiscourse.Controllers
                     SubType = a.DevNews.SubType,
                     Label = a.DevNews.NewsLabels,
                     Ranking = a.Ranking
-                }).AsNoTracking().OrderByDescending(o => o.CreatedOn).ToPagedList(pageNumber, pageSize);
-                return PartialView("_getNewsAnalysisItems", search.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable());
+                })
+                    //.AsNoTracking().OrderByDescending(o => o.CreatedOn)
+                    .ToPagedList(pageNumber, pageSize);
+                return PartialView("_getNewsAnalysisItems"/*, search.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable()*/);
             }
         }
         public PartialViewResult GetNews(int skip = 0, int take = 0)

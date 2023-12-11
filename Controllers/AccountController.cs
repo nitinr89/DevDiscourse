@@ -231,15 +231,15 @@ namespace DevDiscourse.Controllers
                     //    var newRole = new IdentityRole("SuperAdmin");
                     //    await roleManager.CreateAsync(newRole);
                     //}
-                    //bool roleExists2 = await roleManager.RoleExistsAsync("Admin");
+                    //bool roleExists2 = await roleManager.RoleExistsAsync("Subscriber");
                     //if (!roleExists2)
                     //{
-                    //    // Create the role "SuperAdmin"
-                    //    var newRole = new IdentityRole("Admin");
+                    //    // Create the role "Subscriber"
+                    //    var newRole = new IdentityRole("Subscriber");
                     //    await roleManager.CreateAsync(newRole);
                     //}
                     await userManager.AddToRoleAsync(user, "Subscriber");
-                    await userManager.AddToRoleAsync(user, "SuperAdmin");
+                    //await userManager.AddToRoleAsync(user, "SuperAdmin");
                     // return RedirectToAction("AccountConfirmation", "Account");
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");

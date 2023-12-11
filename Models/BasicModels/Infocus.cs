@@ -18,11 +18,11 @@ namespace Devdiscourse.Models.BasicModels
         [Required]
         public string Edition { get; set; }
         [Display(Name = "Type")]
-        public string ItemType { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public string Creator { get; set; }
+        public string? ItemType { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public string? Creator { get; set; }
         [ForeignKey("Creator")]
-        public virtual ApplicationUser ApplicationUsers { get; set; }
+        public virtual ApplicationUser? ApplicationUsers { get; set; }
         public Infocus()
         {
             if (CreatedOn == new DateTime())

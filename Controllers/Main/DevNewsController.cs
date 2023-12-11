@@ -16,8 +16,9 @@ using Devdiscourse.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nancy.Json;
-using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevDiscourse.Controllers.Main
 {
@@ -805,6 +806,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews.ModifiedOn = DateTime.UtcNow;
                 _db.DevNews.Update(devNews);
                 _db.Entry(devNews).Property(x => x.ViewCount).IsModified = false;
+                _db.Entry(devNews).Property(x => x.NewsId).IsModified = false;
                 _db.SaveChanges();
 
                 if (FileTitle != null)
@@ -1104,6 +1106,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews.ModifiedOn = DateTime.UtcNow;
                 _db.DevNews.Update(devNews);
                 _db.Entry(devNews).Property(x => x.ViewCount).IsModified = false;
+                _db.Entry(devNews).Property(x => x.NewsId).IsModified = false;
                 _db.SaveChanges();
                 if (FileTitle != null)
                 {
@@ -2076,6 +2079,8 @@ namespace DevDiscourse.Controllers.Main
 
         public JsonResult AssignNewsToUser(long id, string user)
         {
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) { return Json("Invalid NewsId"); }
             AssignNews obj = new AssignNews()
             {
                 UserId = user,
@@ -2085,9 +2090,9 @@ namespace DevDiscourse.Controllers.Main
             };
             _db.AssignNews.Add(obj);
             _db.SaveChanges();
-            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+
             search.IsIndexed = true;
-            _db.DevNews.Update(search);
+            _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
             return Json("Success");
         }
@@ -2121,6 +2126,7 @@ namespace DevDiscourse.Controllers.Main
 
             return "No User";
         }
+        [Authorize]
         public JsonResult AutoAssign(long id)
         {
             var user = GetShiftUser();
@@ -2128,6 +2134,8 @@ namespace DevDiscourse.Controllers.Main
             {
                 return Json("NoUser");
             }
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) { return Json("Invalid NewsId"); }
             AssignNews obj = new AssignNews()
             {
                 UserId = user,
@@ -2137,12 +2145,13 @@ namespace DevDiscourse.Controllers.Main
             };
             _db.AssignNews.Add(obj);
             _db.SaveChanges();
-            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+
             search.IsIndexed = true;
-            _db.DevNews.Update(search);
+            _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
             return Json("Success");
         }
+        [Authorize]
         public JsonResult AutoAssignWithAlert(long id)
         {
             var user = GetShiftUser();
@@ -2150,6 +2159,8 @@ namespace DevDiscourse.Controllers.Main
             {
                 return Json("NoUser");
             }
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) { return Json("Invalid NewsId"); }
             AssignNews obj = new AssignNews()
             {
                 UserId = user,
@@ -2159,9 +2170,9 @@ namespace DevDiscourse.Controllers.Main
             };
             _db.AssignNews.Add(obj);
             _db.SaveChanges();
-            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+
             search.IsIndexed = true;
-            _db.DevNews.Update(search);
+            _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
 
             //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();

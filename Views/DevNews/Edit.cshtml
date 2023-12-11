@@ -6,8 +6,10 @@
     var newsTag = Model.Tags == null ? "" : Model.Tags.Trim();
     newsTag = Regex.Replace(newsTag, @"\t|\n|\r", "");
 }
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
 <link href="~/Content/admin.css" rel="stylesheet" />
-@* @Styles.Render("~/Content/admincss") *@
+<link href="~/Scripts/tagsInput/css/jquery.tagsinput.min.css" rel="stylesheet" />
+
 <style>
     .badge-success {
         background-color: #1c930e;
@@ -584,12 +586,10 @@
 </div>
 <video id="vid" style="display:none" controls></video>
 @section scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @* @Scripts.Render("~/bundles/jqueryadmin") *@
+    <script src="~/Scripts/jquery.multiselect.js"></script>
+    <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
     <script>
         $(document).ready(function () {
             var _newsId = '@(Model.NewsId)';
@@ -624,9 +624,9 @@
                 $("#headlineDisable").val($(this).val());
                 $("#title_character").html('Character  Count: ' + $(this).val().length);
             });
-            $('#Title').keydown(function () {
-                $("#title_character").html('Character  Count: ' + $(this).val().length);
-            });
+            //$('#Title').keydown(function () {
+            //    $("#title_character").html('Character  Count: ' + $(this).val().length);
+            //});
             var InfocusEditions = '';
             $('#addToInfocus').click(function () {
                 var infocusEditionHtml = `<option>Universal Edition</option>`;
@@ -684,7 +684,7 @@
                 }
             });
             $('#Type').val(_type);
-            // $('.input-tags').tagsInput();
+            $('.input-tags').tagsInput();
             // $('.lazy').lazy();
 
             tinymce.init({
@@ -789,7 +789,7 @@
                                         $('.modal-footer').show();
                                         $('#newsList').html("");
                                         $.each(data, function (i, item) {
-                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.NewsId + '" tabindex="' + item.Title + '" value="' + item.Label + '">' + item.Title + '</div>');
+                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.newsId + '" tabindex="' + item.title + '" value="' + item.label + '">' + item.title + '</div>');
                                         });
                                     },
                                     error: function (req, status, error) {
@@ -1042,7 +1042,7 @@
                             data: fileData,
                             success: function (result) {
                                 if (result == "Error") {
-                                    // showAlert('Something went wrong!', "danger")
+                                    showAlert('Something went wrong!', "danger")
                                 } else {
                                     var data = JSON.parse(result);
                                     _imgUrl = data.FileUrl;
@@ -1051,11 +1051,11 @@
                                     $('#imageTitle').val(data.FileName);
                                     $('#imgcaption').val(data.Caption);
                                     $('#showTags').html('<input type="text" id="imgtags" class="form-control input-tags" value="' + data.Tags + '" />');
-                                    // $('.input-tags').tagsInput();
+                                    $('.input-tags').tagsInput();
                                 }
                             },
                             error: function (err) {
-                                // showAlert('Something went wrong!', "danger")
+                                showAlert('Something went wrong!', "danger")
                             }
                         });
                     }
@@ -1096,7 +1096,7 @@
                             },
                             success: function (result) {
                                 if (result == "Error") {
-                                    // showAlert('Something went wrong!', "danger")
+                                    showAlert('Something went wrong!', "danger")
                                 } else {
                                     var videoDuration = $("#vid")[0].duration;
                                     var data = JSON.parse(result);
@@ -1292,7 +1292,7 @@
                         $("#fetchTrendkeyword").show();
                     },
                     error: function (err) {
-                        // showAlert('Something went wrong!', "danger")
+                        showAlert('Something went wrong!', "danger")
                     }
                 });
             });

@@ -30,10 +30,11 @@ namespace DevDiscourse.Controllers.Main
         public ActionResult Index(string ed = "", string type = "")
         {
             var search = from m in db.Infocus
-                         join s in db.DevNews on m.NewsId equals s.NewsId
+                         //join s in db.DevNews on m.NewsId equals s.NewsId
                          select new InfocusView
                          {
-                             Title = s.Title,
+                             //Title = s.Title,
+                             Title = "News Title",
                              Type = m.ItemType,
                              Id = m.Id,
                              SrNo = m.SrNo,
@@ -384,10 +385,10 @@ namespace DevDiscourse.Controllers.Main
                 var newobj = await db.Infocus.FirstOrDefaultAsync(a => a.NewsId == newsId && a.Edition == edition && a.ItemType == type);
                 if (newobj == null)
                 {
-                    var dataForIncement = db.Infocus.Where(a => a.Edition == edition && a.ItemType == type);
+                    var dataForIncement = db.Infocus.Where(a => a.Edition == edition && a.ItemType == type).ToList();
                     if (dataForIncement.Any())
                     {
-                        foreach (var item in dataForIncement.ToList())
+                        foreach (var item in dataForIncement)
                         {
                             item.SrNo = item.SrNo + 1;
                             db.Entry(item).State = EntityState.Modified;

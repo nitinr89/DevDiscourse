@@ -1,0 +1,94 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = @ViewBag.type + " Knowledge Partners | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse seek partnership with individuals and organizations for content contribution and content sharing.";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = @ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/Partners/KnowledgePartners/" + @ViewBag.type;
+    ViewBag.pageKeywords = "indivisual knowledge partnership, organizaion knowledge partnership, devdiscourse media partner";
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+    }
+
+    .bg-darkgray {
+        background-color: #333;
+    }
+
+    .partner-card {
+        height: 160px;
+        width: 160px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border: 1px solid #eee;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #4c5766;
+        display: block;
+        line-height: 30px;
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+        .loadMoreButton:hover {
+            background-color: #ff9c46;
+        }
+
+    @@media(max-width:425px) {
+        .media-left {
+            display: unset;
+            width: 160px;
+        }
+    }
+</style>
+<div class="">
+@*     @if (!Request.Browser.IsMobileDevice) *@
+    @if (!isMobile)
+    {
+        <img src="~/images/mediapartners/kp.jpg" class="img-responsive" alt="Knowledge Partnership" />
+    }
+    else
+    {
+        <img src="~/images/mediapartners/mobilekp.jpg" class="img-responsive" alt="Knowledge Partnership" />
+    }
+</div>
+<div class="container m-t-30">
+    <ol class="breadcrumb breadcrumb_new">
+        <li><a href="@Url.Action("Index", "MediaPartnership")">Partners</a></li>
+        <li class="active">Knowledge Partners</li>
+    </ol>
+    <div class="m-t-30" id="loadmorePartners">
+        @{
+            // Html.RenderAction("GetPartnersList", "MediaPartnership", new { type = 2, subType = ViewBag.type, skip = 0 });
+                @await Component.InvokeAsync("PartnersList",new { type=2 , subType=ViewBag.type , skip=0});
+        }
+        <div class="text-center loadmorespin f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        var _skip = 0;
+        var _type = '@(ViewBag.type)';
+        $(document).find('#regDropDown').change(function () {
+            var date = new Date();
+            date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+            document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+            window.location.href = $(this).find('option:selected').attr('data-to');
+        });
+        $(document).on("click", ".load_more_partners", function () {
+            $(this).remove();
+            $('.loadmorespin').show();
+            _skip = _skip + 12;
+            $.ajax("/MediaPartnership/GetPartnersList?type=2&subType=" + _type + "&skip=" + _skip).done(function (data) { $('#loadmorePartners').append(data); $('.loadmorespin').hide(); });
+        });
+    </script>
+}

@@ -42,7 +42,7 @@ namespace Devdiscourse.Controllers.ViewComponents
             //                   //SubType = dn.SubType,
             //                   //Country = dn.Country,
             //                   //Label = dn.NewsLabels,
-            //                  // Ranking = 0
+            //                   // Ranking = 0
             //               }).OrderByDescending(a => a.Title)
             //    .Take(65)
             //    .ToList();

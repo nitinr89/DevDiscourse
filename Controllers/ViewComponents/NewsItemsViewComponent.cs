@@ -17,31 +17,48 @@ namespace Devdiscourse.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string sector, string region, string country, string tag, string cat, string label, int? page)
         {
-            DateTime oneMonth = DateTime.Today.AddDays(-10);
+           // DateTime oneMonth = DateTime.Today.AddDays(-10);
+           // DateTime oneMonth = DateTime.Today.AddDays(-10);
             cat = cat ?? "";
             int pageSize = 20;
             int pageNumber = (page ?? 1);
 
-            var resultList = _db.RegionNewsRankings.AsNoTracking()
-                //.Where(a => a.DevNews.AdminCheck == true && a.DevNews.NewsLabels == label && a.Region.Title == region && a.DevNews.IsSponsored == false)
-                //.OrderByDescending(a => a.DevNews.CreatedOn)
-                .Select(a => new NewsViewModel
-            {
-                Title = a.DevNews.Title,
-                NewsId = a.DevNews.NewsId,
-                ImageUrl = a.DevNews.ImageUrl,
-                Subtitle = a.DevNews.SubTitle,
-                Country = a.DevNews.Country,
-                CreatedOn = a.DevNews.ModifiedOn,
-                Sector = a.DevNews.Type,
-                SubType = a.DevNews.SubType,
-                Label = a.DevNews.NewsLabels,
-                Ranking = a.Ranking
-            }).ToPagedList(pageNumber, pageSize);
+            //var resultList = _db.RegionNewsRankings.AsNoTracking()
+            //    //.Where(a => a.DevNews.AdminCheck == true && a.DevNews.NewsLabels == label && a.Region.Title == region && a.DevNews.IsSponsored == false)
+            //    //.OrderByDescending(a => a.DevNews.CreatedOn)
+            //    .Select(a => new NewsViewModel
+            //{
+            //    Title = a.DevNews.Title,
+            //    NewsId = a.DevNews.NewsId,
+            //    ImageUrl = a.DevNews.ImageUrl,
+            //    Subtitle = a.DevNews.SubTitle,
+            //    Country = a.DevNews.Country,
+            //    CreatedOn = a.DevNews.ModifiedOn,
+            //    Sector = a.DevNews.Type,
+            //    SubType = a.DevNews.SubType,
+            //    Label = a.DevNews.NewsLabels,
+            //    Ranking = a.Ranking
+            //}).ToPagedList(pageNumber, pageSize);
 
+            ////return View(resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
             //return View(resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
-            return View(resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
-
+            var infocus = (from dn in _db.DevNews
+                           select new NewsViewModel
+                           {
+                               // Id = dn.Id,
+                               NewsId = dn.NewsId,
+                               Title = dn.Title,
+                               ImageUrl = dn.ImageUrl,
+                               CreatedOn = dn.ModifiedOn,
+                               //Type = dn.Type,
+                               SubType = dn.SubType,
+                               Country = dn.Country,
+                               Label = dn.NewsLabels,
+                               Ranking = 0
+                           }).OrderByDescending(a => a.CreatedOn)
+           .Take(65)
+           .ToList();
+            return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
         }
     }
 }

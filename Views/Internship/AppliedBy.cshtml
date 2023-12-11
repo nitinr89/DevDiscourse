@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.InternshipApplicant>
+@{
+    ViewBag.Title = "AppliedBy";
+}
+<div class="container">
+    <h2>Applied By</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>CV</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FirstName @item.LastName</td>
+                        <td> @item.Email</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.CVUrl))
+                            {
+                                <a href="@item.CVUrl">Download</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

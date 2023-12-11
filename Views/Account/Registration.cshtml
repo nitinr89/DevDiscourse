@@ -1,0 +1,209 @@
+﻿@model Devdiscourse.Models.RegistrationViewModel
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Registration for Press Release - Devdiscourse";
+    string domainUrl = "http://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = "Global Edition";
+    ViewBag.PostUrl = "http://www.devdiscourse.com/Account/Registration";
+    ViewBag.pageKeywords = "Register | Global development news";
+}
+<style>
+    #CaptchaInputText {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #f0f3f5;
+        background-image: none;
+        border: 1px solid #ccc;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    .validation-summary-errors ul {
+        list-style: none;
+        padding-left: 0;
+        font-size: 12px;
+    }
+
+    .field-validation-error {
+        color: #a94442;
+    }
+
+    h1 {
+        color: #cccccc;
+        font-size: 50px;
+    }
+
+    .row {
+        margin-top: 20px;
+    }
+
+    .form-control {
+        border-radius: 0;
+    }
+</style>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<div class="container">
+    <h1>PRESS RELEASE</h1>
+    <div class="container-fluid">
+        @using (Html.BeginForm("Registration", "Account", FormMethod.Post, new { @class = "form-horizontal m-t-30", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <label class="control-label">First Name</label>
+                    <div class="">
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control inputBox" })
+                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <label class="control-label">Last Name</label>
+                    <div class="">
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control inputBox" })
+                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <label class="control-label">Email</label>
+                    <div class="">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control inputBox" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <label class="control-label">Contact Number</label>
+                    <div class="">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control inputBox" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-lg-6">
+                    <label class="control-label">User Name</label>
+                    <div class="">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control inputBox" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <label class="control-label">Password</label>
+                    <div class="">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control inputBox" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <label class="control-label">Confirm Password</label>
+                    <div class="">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control inputBox" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <label class="control-label">Designation</label>
+                    <div class="">
+                        @Html.TextBoxFor(m => m.Position, new { @class = "form-control inputBox" })
+                        @Html.ValidationMessageFor(m => m.Position, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <label class="control-label">Organization Name</label>
+                    <div class="">
+                        @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control inputBox" })
+                        @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <label class="control-label">Organization Type</label>
+                    <div class="">
+                        <select class="form-control inputBox" name="OrganizationType" id="OrganizationType">
+                            <option>Institute</option>
+                            <option>Journal</option>
+                            <option>University</option>
+                            <option>NGO</option>
+                            <option>Others</option>
+                        </select>
+                        @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-lg-6">
+                    <label class="control-label">Organization Address</label>
+                    <div class="">
+                        @Html.TextBoxFor(m => m.Street, new { @class = "form-control inputBox", @placeholder="Street" })
+                        @Html.ValidationMessageFor(m => m.Street, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <div class="">
+                        @Html.TextBoxFor(m => m.City, new { @class = "form-control inputBox", @placeholder = "City" })
+                        @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <div class="">
+                        @Html.TextBoxFor(m => m.State, new { @class = "form-control inputBox", @placeholder = "State/Province/Region" })
+                        @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <div class="">
+                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control inputBox", @placeholder = "Zip/Postal Code" })
+                        @Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-lg-3">
+                    <div class="">
+                        @Html.TextBoxFor(m => m.Country, new { @class = "form-control inputBox", @placeholder = "Country" })
+                        @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-lg-4">
+                    @*@Html.MathCaptcha()*@
+                 @*    @Html.Captcha("Try another", "Enter the text you see above:", 5, "The Captcha field is required", true) *@
+                 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <input type="submit" class="btn btn-primary" value="Register" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#loginLink').addClass('active');
+        });
+    </script>
+}

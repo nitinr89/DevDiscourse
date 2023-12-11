@@ -1,5 +1,6 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
+using DocumentFormat.OpenXml.Bibliography;
 //using DevDiscourse.Hubs;
 //using Devdiscourse.Models;
 //using Devdiscourse.Models.BasicModels;
@@ -9,6 +10,7 @@ using Devdiscourse.Models.ViewModel;
 //using Html2Amp.Sanitization.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 //using Newtonsoft.Json.Linq;
 //using PagedList;
@@ -152,19 +154,19 @@ namespace DevDiscourse.Controllers
             //}
             return View();
         }
-        //public ActionResult Contribute()
-        //{
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.region = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.region = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
+        public ActionResult Contribute()
+        {
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.region = "Global Edition";
+            }
+            else
+            {
+                ViewBag.region = cookie ?? "Global Edition";
+            }
+            return View();
+        }
 
         public string getUserLocation()
         {
@@ -232,73 +234,73 @@ namespace DevDiscourse.Controllers
         //    return View();
         //}
         //[OutputCache(Duration = 60, VaryByParam = "*")]
-        //public async Task<ActionResult> Search(string region = "", string sector = "All", string tag = "", string cat = "", string label = "")
-        //{
-        //    region = region.Replace("+", " ");
-        //    ViewBag.sector = sector;
-        //    if (sector != "All" && sector != "Videos" && sector != "EditorPic" && sector != "Sponsored")
-        //    {
-        //        var sectorSearch = await _db.DevSectors.FirstOrDefaultAsync(a => a.Slug == sector);
-        //        if (sectorSearch != null)
-        //        {
-        //            ViewBag.sectorName = sectorSearch.Title;
-        //            ViewBag.sector = sectorSearch.Id;
-        //            ViewBag.sectorSlug = sectorSearch.Slug;
-        //        }
-        //    }
-        //    else if (sector == "Videos" || sector == "Sponsored")
-        //    {
-        //        ViewBag.sectorName = sector;
-        //    }
-        //    else if (sector == "EditorPic")
-        //    {
-        //        ViewBag.sectorName = "Editor's Pick";
-        //    }
-        //    ViewBag.region = region;
-        //    ViewBag.tag = tag;
-        //    ViewBag.cat = cat ?? "";
-        //    if (label != "")
-        //    {
-        //        var searchLabel = await _db.Labels.FirstOrDefaultAsync(a => a.Title == label);
-        //        if (searchLabel != null)
-        //        {
-        //            ViewBag.label = searchLabel.Id;
-        //            ViewBag.labelTitle = searchLabel.Title;
-        //        }
+        public async Task<ActionResult> Search(string region = "", string sector = "All", string tag = "", string cat = "", string label = "")
+        {
+            region = region.Replace("+", " ");
+            ViewBag.sector = sector;
+            if (sector != "All" && sector != "Videos" && sector != "EditorPic" && sector != "Sponsored")
+            {
+                var sectorSearch = await _db.DevSectors.FirstOrDefaultAsync(a => a.Slug == sector);
+                if (sectorSearch != null)
+                {
+                    ViewBag.sectorName = sectorSearch.Title;
+                    ViewBag.sector = sectorSearch.Id;
+                    ViewBag.sectorSlug = sectorSearch.Slug;
+                }
+            }
+            else if (sector == "Videos" || sector == "Sponsored")
+            {
+                ViewBag.sectorName = sector;
+            }
+            else if (sector == "EditorPic")
+            {
+                ViewBag.sectorName = "Editor's Pick";
+            }
+            ViewBag.region = region;
+            ViewBag.tag = tag;
+            ViewBag.cat = cat ?? "";
+            if (label != "")
+            {
+                var searchLabel = await _db.Labels.FirstOrDefaultAsync(a => a.Title == label);
+                if (searchLabel != null)
+                {
+                    ViewBag.label = searchLabel.Id;
+                    ViewBag.labelTitle = searchLabel.Title;
+                }
 
-        //    }
-        //    ViewBag.labelSlug = label ?? "";
+            }
+            ViewBag.labelSlug = label ?? "";
 
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (region != "")
-        //    {
-        //        ViewBag.region = region;
-        //    }
-        //    else if (cookie != null)
-        //    {
-        //        ViewBag.region = cookie.Value ?? "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.region = "Global Edition";
-        //    }
-        //    return View();
-        //}
-        //public async Task<ActionResult> AdvancedSearch(string text = "")
-        //{
-        //    ViewBag.text = text;
-        //    ViewBag.sectorList = await _db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToListAsync();
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.region = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.region = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
+            string? cookie = Request.Cookies["Edition"];
+            if (region != "")
+            {
+                ViewBag.region = region;
+            }
+            else if (cookie != null)
+            {
+                ViewBag.region = cookie ?? "Global Edition";
+            }
+            else
+            {
+                ViewBag.region = "Global Edition";
+            }
+            return View();
+        }
+        public async Task<ActionResult> AdvancedSearch(string text = "")
+        {
+            ViewBag.text = text;
+            ViewBag.sectorList = await _db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToListAsync();
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.region = "Global Edition";
+            }
+            else
+            {
+                ViewBag.region = cookie ?? "Global Edition";
+            }
+            return View();
+        }
         //public ActionResult DevBlogs(string type = "")
         //{
         //    ViewBag.type = type;
@@ -416,19 +418,6 @@ namespace DevDiscourse.Controllers
               .OrderByDescending(a => a.CreatedOn)
               .Take(65)
               .ToList();
-            //var infocus = _db.RegionNewsRankings.AsNoTracking().Where(a => a.DevNews.AdminCheck == true && a.Region.Title == reg && a.DevNews.CreatedOn > lastThreeHour && !a.DevNews.Title.Contains("News Summary") && !a.DevNews.Title.Contains("Highlights") && a.DevNews.NewsLabels != "Newsalert" && a.DevNews.Sector != "14" && a.DevNews.Sector != "18" && a.DevNews.Sector != "19" && a.DevNews.Sector != "9").Select(s => new LatestNewsView
-            //    {
-            //        Id = s.DevNews.Id,
-            //        NewId = s.DevNews.NewsId,
-            //        Title = s.DevNews.Title,
-            //        ImageUrl = s.DevNews.ImageUrl,
-            //        CreatedOn = s.DevNews.ModifiedOn,
-            //        Type = s.DevNews.Type,
-            //        SubType = s.DevNews.SubType,
-            //        Country = s.DevNews.Country,
-            //        Label = s.DevNews.NewsLabels,
-            //        Ranking = s.Ranking
-            //    }).OrderByDescending(a => a.CreatedOn).Take(65).ToList();
             return PartialView("_getInfocus", infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
         }
 
@@ -1346,13 +1335,6 @@ namespace DevDiscourse.Controllers
             }
             else
             {
-                //var search = from m in _db.Countries
-                //             join s in regList on m.Regions.Title equals s
-                //             select new
-                //             {
-                //                 m.Title,
-                //             };
-                //return Json(search.OrderBy(a => a.Title).ToList());
                 var query = from m in _db.Countries
                             select new
                             {
@@ -2430,105 +2412,101 @@ namespace DevDiscourse.Controllers
         //    };
         //    return obj;
         //}
-        //public ActionResult CentralAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Central Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Central Africa";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult EastAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "East Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "East Africa";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult NorthAmerica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "North America";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "North America";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult WestAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "West Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "West Africa";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult SouthAsia()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "South Asia";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "South Asia";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult EastAndSouthEastAsia()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "East and South East Asia";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "East and South East Asia";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult Pacific()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Pacific";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Pacific";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult EuropeAndCentralAsia()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Europe and Central Asia";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Europe and Central Asia";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult LatinAmericaAndCaribbean()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Latin America and Caribbean";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Latin America and Caribbean";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult MiddleEastAndNorthAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Middle East and North Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Middle East and North Africa";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult SouthernAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Southern Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Southern Africa";
-        //    return View("HomeNews");
-        //}
+        public ActionResult CentralAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Central Africa", options);
+            ViewBag.Edition = "Central Africa";
+            return View("HomeNews");
+        }
+        public ActionResult EastAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "East Africa", options);
+            ViewBag.Edition = "East Africa";
+            return View("HomeNews");
+        }
+        public ActionResult NorthAmerica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "North America", options);
+            ViewBag.Edition = "North America";
+            return View("HomeNews");
+        }
+        public ActionResult WestAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "West Africa", options);
+            ViewBag.Edition = "West Africa";
+            return View("HomeNews");
+        }
+
+        public ActionResult SouthAsia()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "South Asia", options);
+            ViewBag.Edition = "South Asia";
+            return View("HomeNews");
+        }
+
+        public ActionResult EastAndSouthEastAsia()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "East and South East Asia", options);
+            ViewBag.Edition = "East and South East Asia";
+            return View("HomeNews");
+        }
+
+
+        public ActionResult Pacific()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Pacific", options);
+            ViewBag.Edition = "Pacific";
+            return View("HomeNews");
+
+        }
+
+        public ActionResult EuropeAndCentralAsia()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Europe and Central Asia", options);
+            ViewBag.Edition = "Europe and Central Asia";
+            return View("HomeNews");
+        }
+        public ActionResult LatinAmericaAndCaribbean()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Latin America and Caribbean", options);
+            ViewBag.Edition = "Latin America and Caribbean";
+            return View("HomeNews");
+        }
+        public ActionResult MiddleEastAndNorthAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Middle East and North Africa", options);
+            ViewBag.Edition = "Middle East and North Africa";
+            return View("HomeNews");
+
+        }
+        public ActionResult SouthernAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Southern Africa", options);
+            ViewBag.Edition = "Southern Africa";
+            return View("HomeNews");
+        }
         //public PartialViewResult GetPreviousNews(long id, string label, string reg = "Global Edition")
         //{
         //    var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);

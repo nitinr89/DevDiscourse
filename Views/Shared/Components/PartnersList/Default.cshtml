@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Devdiscourse.Models.BasicModels.Partners>
+@foreach (var item in Model)
+{
+    <div class="m-b-10 p-10 media" style="background-color:#eee">
+        <div class="media-left">
+            <div style="background-color:#808080;border-radius:5px;width:170px;padding:5px;">
+                <div class="partner-card" style="background-image:url(@item.ImageUrl?width=160&height=160&mode=crop)"></div>
+            </div>
+        </div>
+        <div class="media-body p-10">
+            <h4>@item.Name</h4>
+            <div>@Html.Raw(item.Description)</div>
+        </div>
+    </div>
+}
+
+@if (Model.Count() == 12)
+{
+    <div class="col-md-12 col-xs-12">
+        <div class=" loadMoreButton text-center load_more_partners">
+            SHOW MORE <span class="fa fa-chevron-circle-down"></span>
+        </div>
+    </div>
+}
+
+

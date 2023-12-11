@@ -1,0 +1,927 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model Devdiscourse.Models.ViewModel.EmailFormModel
+@{
+    ViewBag.Title = "Media Partners | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse seek partnership with individuals and organizations for content contribution and content sharing as well as work with reputed institutions and firms as media partner.";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = @ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/partners/media-partners";
+    ViewBag.pageKeywords = "media partnership, knowlegde partnership, devdiscourse media partner";
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+<style>
+    .renderBody {
+        margin-top: 0;
+    }
+
+    .input-margin10 {
+        margin-top: 15px;
+    }
+
+    .linktext, .linktext:hover {
+        text-decoration: none;
+        color: #222;
+    }
+
+    .box-shadow {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .c-padding {
+        padding: 60px 20px 40px 20px;
+    }
+
+    .no-b-r {
+        border-radius: 0;
+    }
+
+    .partner-card-title {
+        height: 50px;
+        font-stretch: condensed;
+    }
+
+    .partner-card {
+        height: 245px;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .m-p-btn {
+        color: #ff7b00;
+        text-decoration: none;
+        margin-left: 20px;
+    }
+
+    .arrow-img {
+        width: 12px;
+        margin-right: 5px;
+        vertical-align: unset
+    }
+
+    .img-container {
+        background-color: #e9e9e9;
+    }
+
+    .content-container {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .contentbox {
+        padding-top: 50px;
+        padding-bottom: 20px;
+    }
+
+        .contentbox p, .header-content p {
+            font-size: 18px;
+        }
+
+        .contentbox b {
+            font-weight: 500;
+        }
+
+    .fg-orange {
+        color: #ff7b00;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .font-bold {
+        font-weight: 600;
+    }
+
+    .card {
+        box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.16);
+        border: solid 1px #dddddd;
+    }
+
+    .nav-tabs > li > a {
+        color: #324454;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus {
+        color: #ff7b00;
+    }
+
+    @@media(max-width:640px) {
+        .card .media-left, .card .media-body {
+            width: 100%;
+            display: block;
+            float: none;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto !important;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .pagelink {
+            display: block;
+            padding: 5px 0;
+            text-align: left;
+        }
+
+        .contentbox p, .header-content p {
+            font-size: 16px;
+        }
+
+        .content-container {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            text-align: left;
+        }
+
+        .contentbox {
+            padding-top: 0;
+        }
+
+        .media-right {
+            width: 26% !important;
+        }
+
+        .f-20 {
+            font-size: 14px;
+        }
+
+        .m-p-btn {
+            margin-left: 0;
+        }
+
+        .orgKBtn {
+            margin-top: 10px;
+        }
+
+        .partner-card {
+            height: 290px;
+        }
+    }
+
+    @@media(max-width:320px) {
+        .f-20 {
+            font-size: 12px;
+        }
+
+        .arrow-img {
+            width: 10px;
+            margin-right: 2px;
+            vertical-align: unset
+        }
+    }
+</style>
+<div id="mediaPartner">
+    <div class="img-container">
+      @*   @if (!Request.Browser.IsMobileDevice) *@
+        @if (!isMobile)
+        {
+          @*   <img data-src="/images/mediapartners/mp.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="Media Partnership" /> *@
+            <img src="/images/mediapartners/mp.jpg"  class="img-responsive center-block lazy" alt="Media Partnership" />
+        }
+        else
+        {
+@*             <img data-src="/images/mediapartners/mobilemp.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="Media Partnership" /> *@
+            <img src="/images/mediapartners/mobilemp.jpg"  class="img-responsive center-block lazy" alt="Media Partnership" />
+        }
+    </div>
+    <div class="container content-container">
+        <div class="row">
+            <div class="col-xs-12 col-md-8">
+                <div class="contentbox">
+                    <p>Devdiscourse is honoured to be considered as media partner by reputed institutions and firms that pull together events and campaigns focused on developmental themes.</p>
+                    <p>Devdiscourse has niche global audience base with about 17.2 million impressions at Google Search every month plus estimated 500,000 visitors and 15 million page views per month. 94% of our audience base is of 18-64 years’ age group with diverse interest in developmental themes ranging from finance, economy, investment, environment, gender, information technology to sectors such as agro-forestry, education, energy, health, natural resources, transport, urban development, and water and sanitation.</p>
+                    <p>As media partner, we dedicate an exclusive page to event on <a href="https://www.devdiscourse.com">devdiscourse</a>. We place event logo with event description and live hyperlink on the news section under various regional editions of Devdiscourse website. Also, we publish stories about the event as contributed by the organizing institution or firm. Plus, we can promote the events through social media platforms of <a href="https://www.devdiscourse.com">devdiscourse</a></p>
+                    <p>For engaging us as media partner, please write us at <a href="mailto:mediapartner@devdiscourse.com">mediapartner@devdiscourse.com</a></p>
+                </div>
+            </div>
+            <div class="col-md-offset-0 col-sm-offset-2 col-xs-offset-0 col-xs-12 col-sm-8 col-md-4">
+                @if (ViewBag.result == "Success")
+                {
+                    <div class="alert alert-success">
+                        <h4>Message sent successfully.</h4>
+                    </div>
+                }
+                <div class="box-shadow c-padding">
+                    @using (Html.BeginForm("MediaPartners", "MediaPartnership", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="input-margin10">
+                                <label for="FromName">Name</label><span class="text-danger f-18"> *</span>
+                                @Html.EditorFor(model => model.FromName, new { htmlAttributes = new { @class = "form-control no-b-r input-lg", placeholder = "Enter Your Name Here" } })
+                                @Html.ValidationMessageFor(model => model.FromName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="input-margin10">
+                                <label for="FromEmail">Email</label><span class="text-danger f-18"> *</span>
+                                @Html.EditorFor(model => model.FromEmail, new { htmlAttributes = new { @class = "form-control no-b-r input-lg", placeholder = "Enter Your Email Here" } })
+                                @Html.ValidationMessageFor(model => model.FromEmail, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="input-margin10">
+                                <label for="Message"> Message</label><span class="text-danger f-18"> *</span>
+                                @Html.TextAreaFor(model => model.Message, new { @class = "form-control no-b-r input-lg", placeholder = "Enter Your Message Here" })
+                                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="input-margin10">
+                                <button type="submit" class="btn btn-lg btn-block no-b-r btn-primary"><span class="fa fa-paper-plane"></span> Send</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="container">
+        <h2 class="section-title"> <span>FEATURED EVENTS</span> </h2>
+        <div id="featuredevents"></div>
+
+    </div>*@
+<div class="container">
+    <h2 class="section-title"> <span>EVENTS</span> </h2>
+    <ul class="nav nav-tabs nav-justified font-oswald f-16">
+        <li class="active"><a data-toggle="tab" href="#menu1">Upcoming Events</a></li>
+        <li><a data-toggle="tab" href="#menu2">Past Events</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="menu1" class="tab-pane fade in active">
+            <div class="row m-t-20" id="upcomingEvents"></div>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <div class="row m-t-20" id="pastEvents"></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            var events = [{
+                type: "Energy",
+                url: "/events/africa-oil-and-power",
+                name: "Africa Oil & Power (AOP) 2019",
+                image: "/images/mediapartners/aop_card.jpg",
+                tagline: "",
+                start: "10-09-2019",
+                end: "10-11-2019",
+                featured: false,
+                location: "Cape Town, South Africa"
+            }, {
+                type: "Energy",
+                url: "/events/africa-oil-week",
+                name: "Africa Oil Week 2019",
+                image: "/images/mediapartners/AOW_card.png",
+                tagline: "The leading business intelligence and transactional platform for Africa's oil and gas sector",
+                start: "11-04-2019",
+                end: "11-08-2019",
+                featured: false,
+                location: "Cape Town, South Africa"
+            }, {
+                type: "Energy",
+                url: "/events/saipec",
+                name: "Sub Saharan Africa International Petroleum Exibition and Conference",
+                image: "/images/mediapartners/SAIPEC_card.jpg",
+                tagline: "Oil and Gas as an Enabler for Economic Transformation in Sub-Saharan Africa",
+                start: "02-25-2020",
+                end: "02-27-2020",
+                featured: false,
+                location: "Eko Convention Center, Lagos"
+            }, {
+                type: "Energy",
+                url: "/events/moc",
+                name: "Mediterranean Offshore Conference (MOC) 2019",
+                image: "/images/mediapartners/moc_card.jpg",
+                tagline: "",
+                start: "10-17-2019",
+                end: "10-19-2019",
+                featured: false,
+                location: "Cape Town, South Africa"
+            }, {
+                type: "Energy",
+                url: "/events/annual-smart-procurement-world-indaba",
+                name: "13th Annual Smart Procurement World Indaba",
+                image: "/images/mediapartners/Smart_procurement_card.jpg",
+                tagline: "",
+                start: "09-16-2019",
+                end: "09-19-2019",
+                featured: false,
+                location: "Gallagher Convention Centre, Midrand"
+            }, {
+                type: "Energy",
+                url: "/Events/SSAP",
+                name: "Sub Saharan Africa's Premier Power & Renewables Event",
+                image: "/images/mediapartners/ssap.jpg",
+                tagline: "Alleviating Power Challenges in Southern Africa through Innovative Investments, Technologies & Solutions",
+                start: "10-17-2018",
+                end: "10-19-2018",
+                featured: false,
+                location: "Cape Town, South Africa"
+            },
+            {
+                type: "Transport",
+                url: "/Events/IRU",
+                name: "International Road Transport Union World Congress",
+                image: "/images/mediapartners/iru.jpg",
+                tagline: "",
+                start: "11-06-2018",
+                end: "11-08-2018",
+                featured: false,
+                location: "Muscat, Oman"
+            }, {
+                type: "Transport",
+                url: "/events/world-road-congress",
+                name: "World Road Congress 2019",
+                image: "/images/event-banner/abu-logo.jpg",
+                tagline: "Connection Cultures Enabling Economies",
+                start: "10-06-2019",
+                end: "10-10-2019",
+                featured: false,
+                location: "Abu Dhabi"
+            }, {
+                type: "Technology",
+                url: "/events/blockchain-2-0-singapore",
+                name: "Blockchain 2.0 Singapore",
+                image: "/images/mediapartners/blockchain_singapore-2.jpg",
+                tagline: "Discussing how Blockchain is changing lives",
+                start: "08-01-2019",
+                end: "08-01-2019",
+                featured: false,
+                location: "Singapore"
+            }, {
+                type: "Environment",
+                url: "/events/global-warming-2019",
+                name: "Global Warming-2019",
+                image: "/images/mediapartners/global_warming_2019_mediapartner.jpg",
+                tagline: "A Forum for a Better Sustainable Tomorrow",
+                start: "12-06-2019",
+                end: "12-07-2019",
+                featured: false,
+                location: "Kuala Lumpur, Malaysia"
+            }, {
+                type: "Environment",
+                url: "/events/plastic-free-world-conference-and-expo",
+                name: "Plastic Free World Conference & Expo",
+                image: "/images/mediapartners/plastic_free_world_conference_media.jpg",
+                tagline: "Technical Innovations & Bio-based Solutions to Help Businesses Tackle Plastic Waste & Lower Their Plastic Footprint.",
+                start: "06-27-2019",
+                end: "06-28-2019",
+                featured: false,
+                location: "Frankfurt Messe, Germany"
+            }, {
+                type: "Technology",
+                url: "/events/testcon-2019-singapore",
+                name: "Testcon Singapore 2019",
+                image: "/images/mediapartners/testcon_2019_singapore_icon.jpg",
+                tagline: "A Premier Conference for Test Automation Professionals",
+                start: "07-31-2019",
+                end: "07-31-2019",
+                featured: false,
+                location: "Singapore"
+            }, {
+                type: "Technology",
+                url: "/events/testcon-2019-banglore",
+                name: "Testcon Bangalore 2019",
+                image: "/images/mediapartners/testcon_2019_banglore_icon.jpg",
+                tagline: "",
+                start: "07-04-2019",
+                end: "07-05-2019",
+                featured: false,
+                location: "Bangalore, India"
+            }, {
+                type: "Economy & Business",
+                url: "/events/business-management-social-sciences-entrepreneurship",
+                name: "Business Management, Social Sciences & Entrepreneurship",
+                image: "/images/mediapartners/business_management_icon.jpg",
+                tagline: "Innovation and Latest Trends of Entrepreneurship",
+                start: "12-11-2019",
+                end: "12-12-2019",
+                featured: false,
+                location: "Abu Dhabi, UAE"
+            }, {
+                type: "Health",
+                url: "/events/women-health-2020",
+                name: "4th International Conference on Women Health and Breast Cancer",
+                image: "/images/mediapartners/women_health_icon.jpg",
+                tagline: "Pioneering Spirit of Enriching the Lives and Wellness of Women",
+                start: "05-14-2020",
+                end: "05-15-2020",
+                featured: false,
+                location: "Manchester, UK"
+            }, {
+                type: "Environment",
+                url: "/events/green-urbanism",
+                name: "Green Urbanism (GU)",
+                image: "/images/mediapartners/green_urbanism_icon.png",
+                tagline: "",
+                start: "12-11-2019",
+                end: "12-13-2019",
+                featured: false,
+                location: "Rome, Italy"
+            }, {
+                type: "Environment",
+                url: "/events/go-green-summit",
+                name: "5th GoGreen Summit & the Remedies for Climate Change",
+                image: "/images/mediapartners/go_green_summit_icon.jpg",
+                tagline: "Let's make the planet green",
+                start: "10-18-2019",
+                end: "10-19-2019",
+                featured: false,
+                location: "Singapore"
+            },
+            //{
+            //    type: "Energy",
+            //    url: "/events/wec24",
+            // name: "24th World Energy Congress",
+            // image: "/images/mediapartners/wec24_card.jpg",
+            //    tagline: "",
+            //    start: "09-09-2019",
+            // end: "09-12-2019",
+            // featured: true,
+            //    location: "Abu Dhabi",
+            //    evdate:"9 - 12 SEPTEMBER 2019"
+            //},
+            {
+                type: "Energy",
+                url: "/events/saps",
+                name: "Southern Africa Power Summit 2019",
+                image: "/images/mediapartners/saps_card.jpg",
+                tagline: "Southern Africa's Premier Power & Renewable Energy Event",
+                start: "10-29-2019",
+                end: "10-31-2019",
+                featured: false,
+                location: "Cape Town, South Africa"
+            }, {
+                type: "Technology",
+                url: "/events/finext",
+                name: "FINEXT USA 2019",
+                image: "/images/mediapartners/finext_card.jpg",
+                tagline: "",
+                start: "08-29-2019",
+                end: "08-30-2019",
+                featured: false,
+                location: "Hyatt Regency Grand Cypress, Orlando"
+            }, {
+                type: "Energy",
+                url: "/events/power-week-africa",
+                name: "POWER WEEK AFRICA",
+                image: "/images/mediapartners/power_week_africa_card.jpg",
+                tagline: "Powering Tomorrow's Energy Needs",
+                start: "09-09-2019",
+                end: "09-13-2019",
+                featured: false,
+                location: "Johannesberg, South Africa"
+            }, {
+                type: "Energy",
+                url: "/events/africa-re-energy-expo",
+                name: "Africa Re Energy Expo",
+                image: "/images/mediapartners/africa_energy_expo_cover.jpg",
+                tagline: "Powering Africa through Sustainable Energy",
+                start: "11-25-2019",
+                end: "11-27-2019",
+                featured: false,
+                location: "Nairobi - Kenya"
+            }, {
+                type: "Energy",
+                url: "/events/africa-energy-indaba",
+                name: "Africa Energy Indaba",
+                image: "/images/mediapartners/africa_energy_indaba_card.jpg",
+                tagline: "Solutions For Africa Conference And Exhibition",
+                start: "03-03-2020",
+                end: "03-04-2020",
+                featured: false,
+                location: "Cape Town, South Africa"
+            }, {
+                type: "Energy",
+                url: "/events/offshore-india-congress",
+                name: "3rd Offshore India congress 2019",
+                image: "/images/mediapartners/offshore_india_congress_cover.jpg",
+                tagline: "Catching next wave of offshore growth potentials in and around India",
+                start: "09-19-2019",
+                end: "09-20-2019",
+                featured: false,
+                location: "New Delhi, India"
+            }, {
+                type: "Energy",
+                url: "/events/world-nuclear-industry-congress",
+                name: "6th World Nuclear Industry Congress 2019",
+                image: "/images/mediapartners/world_nuclear_industry_congress_cover.jpg",
+                tagline: "",
+                start: "09-25-2019",
+                end: "09-26-2019",
+                featured: false,
+                location: "London, UK"
+            }, {
+                type: "Energy",
+                url: "/events/world-gas-lng-conference",
+                name: "4th World Gas & LNG Conference-Exhibition Russia ",
+                image: "/images/mediapartners/world_gas_lng_conference_cover.jpg",
+                tagline: "Boosting Gas and LNG Industry in Russia",
+                start: "10-29-2019",
+                end: "10-30-2019",
+                featured: false,
+                location: "Moscow, Russia"
+            }, {
+                type: "Energy",
+                url: "/events/offshore-north-sea-europe-congress",
+                name: "Offshore North Sea & Europe Congress 2019",
+                image: "/images/mediapartners/offshore_north_sea_europe_congress_cover.jpg",
+                tagline: "Revitalize Offshore Oil and Gas Industry in North Sea and Europe ",
+                start: "11-18-2019",
+                end: "11-19-2019",
+                featured: false,
+                location: "Stavanger, Norway"
+            }, {
+                type: "Energy",
+                url: "/events/big-five-board-awards",
+                name: "Big Five Board Awards 2019 ",
+                image: "/images/mediapartners/bigfive_card.jpg",
+                tagline: "Celebrating Excellence In Africa's Oil & Gas",
+                start: "11-21-2019",
+                end: "11-21-2019",
+                featured: false,
+                location: "London"
+            }, {
+                type: "Energy",
+                url: "/events/diversity-in-energy-summit",
+                name: "Diversity in Energy Summit & Exhibition",
+                image: "/images/mediapartners/div_card.jpg",
+                tagline: "Diversity, Inclusion & Empowerment In Energy",
+                start: "10-08-2019",
+                end: "10-08-2019",
+                featured: false,
+                location: "London",
+                evdate: "8 October 2019"
+            }, {
+                type: "Technology",
+                url: "/events/impactmobility",
+                name: "Impact Mobility a Reuters Event",
+                image: "/images/mediapartners/impactmobilitycard.jpg",
+                tagline: "North America's Most Comprehensive Mobility",
+                start: "11-04-2019",
+                end: "11-05-2019",
+                featured: false,
+                location: "SAN DIEGO"
+            }, {
+                type: "Energy",
+                url: "/events/napec",
+                name: "Napec",
+                image: "/images/mediapartners/napec_card.jpg",
+                tagline: "10th North Africa Petroleum Exhibition & Conferecne",
+                start: "03-15-2021",
+                end: "03-18-2021",
+                featured: false,
+                location: "Algeria"
+            }, {
+                type: "Energy",
+                url: "/events/japanwindenergy",
+                name: "Asia's Senior Wind Leader's Meeting Point",
+                image: "/images/mediapartners/japanwindcard.jpg",
+                tagline: "JAPAN WIND ENERGY 2019 ONSHORE AND OFFSHORE CONFERENCE",
+                start: "10-28-2019",
+                end: "10-29-2019",
+                featured: false,
+                location: "Osaka"
+            }, {
+                type: "Education",
+                url: "/events/globalndfinancialskills",
+                name: "The Global Social and Financial Skills Conference",
+                image: "/images/mediapartners/globalndfincard.jpg",
+                tagline: "Empowering children worldwide through Social and Financial Education",
+                start: "10-30-2019",
+                end: "11-01-2019",
+                featured: false,
+                location: "Amsterdam"
+            }, {
+                type: "Energy",
+                url: "/events/prceurope",
+                name: "PRC Europe 2020",
+                image: "/images/mediapartners/prceuropecard.jpg",
+                tagline: "Petrochemical & Refining Congress 2020",
+                start: "09-28-2020",
+                end: "09-30-2020",
+                featured: false,
+                location: "BGS Online Platform"
+            }, {
+                type: "Technology",
+                url: "/events/finextcon",
+                name: "Finext Dubai 2020",
+                image: "/images/mediapartners/finextdubaicard.jpg",
+                tagline: "Fourth edition of FiNext conference coming to Dubai on 26th Feb 2020",
+                start: "02-26-2020",
+                end: "02-27-2020",
+                featured: false,
+                location: "Dubai"
+            }, {
+                type: "Technology",
+                url: "/events/omandesignbuild",
+                name: "Oman Design and Build Week",
+                image: "/images/mediapartners/omandesignweekcard.jpg",
+                tagline: "Incorporates BIG Show and Oman Real Estate Exhibition",
+                start: "03-30-2020",
+                end: "04-01-2020",
+                featured: false,
+                location: "Muscat"
+            }, {
+                type: "Energy",
+                url: "/events/inpsc",
+                name: "International Process safety Conference",
+                image: "/images/mediapartners/inpsc_card.jpg",
+                tagline: " India's most influential international conference on process safety",
+                start: "02-11-2020",
+                end: "02-12-2020",
+                featured: false,
+                location: "New Delhi"
+            }, {
+                type: "Energy",
+                url: "/events/powergen",
+                name: "Power Gen India",
+                image: "/images/mediapartners/powergencard.jpg",
+                tagline: "India's premier power generation event",
+                start: "01-27-2021",
+                end: "01-29-2021",
+                featured: false,
+                location: "New Delhi"
+            }, {
+                type: "Technology",
+                url: "/events/scewc",
+                name: "Smart City Expo World Congress ",
+                image: "/images/mediapartners/scewc_card.jpg",
+                tagline: "Access to Smart City Expo World Congress, Smart Mobility Congress",
+                start: "11-19-2019",
+                end: "11-21-2019",
+                featured: false,
+                location: "Barcelona"
+            }, {
+                type: "Energy",
+                url: "/events/omanenergywaterevent",
+                name: "Oman Energy And Water",
+                image: "/images/mediapartners/omanenergyycard.jpg",
+                tagline: "Oman Energy & Water Conference & Exhibition is an international event dedicated to the water",
+                start: "11-30-2020",
+                end: "12-02-2020",
+                featured: false,
+                location: "Muscat"
+            }, {
+                type: "Education",
+                url: "/events/egypteducation",
+                name: "Egypt Education",
+                image: "/images/mediapartners/egypteducard.png",
+                tagline: "Egypt International Exhibition Center",
+                start: "09-26-2020",
+                end: "09-28-2020",
+                featured: false,
+                location: "Egypt"
+            }, {
+                type: "Technology",
+                url: "/events/internetthingsworld",
+                name: "Internet Of Things World",
+                image: "/images/mediapartners/iotcard.png",
+                tagline: "IOT WORLD: THE INTERSECTION OF INDUSTRIES AND IOT TECHNOLOGIES",
+                start: "08-10-2020",
+                end: "08-13-2020",
+                featured: false,
+                location: "USA"
+            }, {
+                type: "Technology",
+                url: "/events/changenow",
+                name: "change NOW International Summit For Change",
+                image: "/images/mediapartners/changecard.jpg",
+                tagline: "change NOW: THE LARGEST POSITIVE IMPACT GATHERING IN THE WORLD",
+                start: "01-30-2020",
+                end: "02-01-2020",
+                featured: false,
+                location: "Paris"
+            }, {
+                type: "Energy",
+                url: "/events/eubce",
+                name: "European Biomass Conference and Exhibition",
+                image: "/images/mediapartners/eubcecard.jpg",
+                tagline: "The 28th European Biomass Conference and Exhibition",
+                start: "04-27-2020",
+                end: "04-30-2020",
+                featured: false,
+                location: "Marseille"
+            }, {
+                type: "Energy",
+                url: "/events/futureenergyasia",
+                name: "Future Energy Asia",
+                image: "/images/mediapartners/futureasiacard.jpg",
+                tagline: "Join Asia's Energy Transformation Exhibition",
+                start: "02-12-2020",
+                end: "02-14-2020",
+                featured: false,
+                location: "BANGKOK"
+            }, {
+                type: "Energy",
+                url: "/events/lngcongress",
+                name: "International LNG Congress",
+                image: "/images/mediapartners/6lngcard.jpg",
+                tagline: "Fueling the Industry",
+                start: "03-02-2020",
+                end: "03-03-2020",
+                featured: false,
+                location: "Belgium"
+            }, {
+                type: "Energy",
+                url: "/events/togc",
+                name: "Transportation Oil and Gas Congress",
+                image: "/images/mediapartners/ltogccard.jpg",
+                tagline: "Smart Networking Smart Pipilines",
+                start: "11-16-2020",
+                end: "11-17-2020",
+                featured: false,
+                location: "Milan"
+            }, {
+                type: "Energy",
+                url: "/events/africanutilityweek",
+                name: "African Utility Week",
+                image: "/images/mediapartners/africanweekcard.gif",
+                tagline: "AUW & PGAF return in 2020",
+                start: "11-24-2020",
+                end: "11-26-2020",
+                featured: false,
+                location: "Cape Town"
+            }, {
+                type: "Energy",
+                url: "/events/lebanonsustainability",
+                name: "Lebanon Sustainability",
+                image: "/images/mediapartners/rawmeccard.jpg",
+                tagline: "Solid Waste Management",
+                start: "06-23-2020",
+                end: "06-25-2020",
+                featured: false,
+                location: "Beirut-Lebanon"
+            }, {
+                type: "Technology",
+                url: "/events/cybertechglobal",
+                name: "Cybertech Global",
+                image: "/images/mediapartners/cybercard.jpg",
+                tagline: "Cyber we live it.Breathe it",
+                start: "01-28-2020",
+                end: "01-30-2020",
+                featured: false,
+                location: "Israel"
+            }, {
+                type: "Energy",
+                url: "/events/gogla",
+                name: "Global Off-Grid Solar Forum & Expo 2020",
+                image: "/images/mediapartners/goglacard.jpg",
+                tagline: "Global Off-Grid Solar",
+                start: "02-18-2020",
+                end: "02-20-2020",
+                featured: false,
+                location: "Nairobi"
+            }, {
+                type: "Transport",
+                url: "/events/internationaltrafficsafety",
+                name: "5th International Traffic Safety",
+                image: "/images/mediapartners/itsfcard.png",
+                tagline: "Innovations and Initiatives",
+                start: "02-10-2020",
+                end: "02-12-2020",
+                featured: false,
+                location: "Saudi Arabia"
+            }, {
+                type: "Energy",
+                url: "/events/centralasiasummit",
+                name: "2nd Central Asia Renewable Energy Summit",
+                image: "/images/mediapartners/centralasiacard.jpeg",
+                tagline: "Solar + Wind + Hydro",
+                start: "06-29-2020",
+                end: "06-30-2020",
+                featured: false,
+                location: "Nur Sultan"
+            }, {
+                type: "Energy",
+                url: "/events/interecoforum",
+                name: "IX INTERECOFORUM",
+                image: "/images/mediapartners/interecocard.jpg",
+                tagline: "Water for Sustainable Development",
+                start: "03-19-2020",
+                end: "03-20-2020",
+                featured: false,
+                location: "Marbella"
+            }, {
+                type: "Energy",
+                url: "/events/wastemanagementexpo",
+                name: "Waste Management Expo 2020",
+                image: "/images/mediapartners/wmecard.jpg",
+                tagline: "Smart City Solutions",
+                start: "03-12-2020",
+                end: "03-13-2020",
+                featured: false,
+                location: "Bangalore"
+            }, {
+                type: "Energy",
+                url: "/events/canadagas",
+                name: "Canada Gas & Lng Exhibition & Conference",
+                image: "/images/mediapartners/canadagascard.jpg",
+                tagline: "Canada's Leadership And Expertise to the Global Gas Industry",
+                start: "05-12-2022",
+                end: "05-14-2022",
+                featured: false,
+                location: "Canada"
+            }, {
+                type: "Social",
+                url: "/events/saudientertainment",
+                name: "Saudi Entertainment and Amusement",
+                image: "/images/mediapartners/saudientercard.jpg",
+                tagline: "Bringing the best of Entertainment and Leisure",
+                start: "02-03-2020",
+                end: "02-05-2020",
+                featured: false,
+                location: "Saudi Arabia"
+            }, {
+                type: "Energy",
+                url: "/events/wastemanagementseriessummit",
+                name: "Waste Management Series of Summits",
+                image: "/images/mediapartners/wmsscard.jpg",
+                tagline: "Waste Management Series of Summits",
+                start: "01-30-2020",
+                end: "01-31-2020",
+                featured: false,
+                location: "New Delhi"
+            }, {
+                type: "Energy",
+                url: "/events/africanenergyforum",
+                name: "Africa Energy Forum",
+                image: "/images/mediapartners/aefcard.jpg",
+                tagline: "The Africa Energy Forum",
+                start: "10-20-2020",
+                end: "10-22-2020",
+                featured: false,
+                location: "Amsterdam"
+            }];
+
+            var featuedHtml = '';
+            var upcomingEvents = '';
+            var pastEvents = '';
+            function renderEvents(sortedEvent) {
+                debugger;
+                $.each(sortedEvent, function (i, item) {
+                    console.log(item);
+                    if (item.featured == true) {
+                        featuedHtml += '<a href="' + item.url + '" class="linktext"><div class="card m-b-30 p-10">' +
+                            '<div class="media"><div class="media-left">' +
+                            '<img data-src="' + item.image + '" src="/Content/transparent.png" style="height:240px;" class="lazy" alt="' + item.name + '" />' +
+                            '</div><div class="media-body">' +
+                            '<div class="fg-orange font-sans-serif font-bold text-uppercase m-b-10">' + item.type + '</div>' +
+                            '<h2 class="media-heading">' + item.name + '</h2>' +
+                            '<h4>' + item.tagline + '</h4><div class="m-t-20 f-16 text-muted"><span class="fa fa-calendar"></span> ' + item.evdate + '</div><div class="m-t-10 f-16 text-muted"><span class="fa fa-map-marker"></span> ' + item.location + '</div></div></div></div></a>';
+                    }
+                    if (new Date(item.end) > new Date(Date.now() - 24 * 60 * 60 * 1000)) {
+                        upcomingEvents += '<div class="p-b-20 col-xs-12 col-sm-6 col-md-4 col-lg-3">' +
+                            '<a href="' + item.url + '" class="linktext">' +
+                            '<div class="partner-card">' +
+                            '<img data-src="' + item.image + '" style="height:240px;" src="/Content/transparent.png"  class="img-responsive lazy center-block" alt="' + item.name + '" />' +
+                            '</div>' +
+                            '<div class="partner-card-title text-center">' +
+                            '<h4 class="header-line-height no-margin text-center" style="font-weight:400">' + item.name + '</h4></div></a></div>'
+                    } else {
+                        pastEvents += '<div class="p-b-20 col-xs-12 col-sm-6 col-md-4 col-lg-3">' +
+                            '<a href="' + item.url + '" class="linktext">' +
+                            '<div class="partner-card">' +
+                            '<img data-src="' + item.image + '" src="/Content/transparent.png"  style="height:240px;" class="img-responsive lazy center-block" alt="' + item.name + '" />' +
+                            '</div>' +
+                            '<div class="partner-card-title text-center">' +
+                            '<h4 class="header-line-height no-margin text-center" style="font-weight:400">' + item.name + '</h4></div></a></div>'
+                    }
+                });
+                $('#featuredevents').html(featuedHtml);
+                debugger;
+                $('#upcomingEvents').html(upcomingEvents);
+                debugger;
+                $('#pastEvents').html(pastEvents);
+                $('.lazy').lazy();
+            }
+            debugger;
+            $.get("/CommonEvent/getEventRouteData", function (data) {
+                $.each(data, function (i, item) {
+                    events.push(item);
+                });
+                debugger;
+                var sortedEvent = events.sort(function (a, b) {
+                    return new Date(a.start) - new Date(b.start);
+                });
+                debugger;
+                renderEvents(sortedEvent);
+            });
+
+            //$('#myTabs a').click(function (e) {
+            //    e.preventDefault()
+            //    $(this).tab('show')
+            //})
+        });
+    </script>
+}

@@ -11,6 +11,7 @@ using Devdiscourse.Data;
 using Microsoft.AspNetCore.Authorization;
 using Azure;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DevDiscourse.Controllers
 {
@@ -252,23 +253,23 @@ namespace DevDiscourse.Controllers
             return View(model);
         }
 
-        //[AllowAnonymous]
-        //public ActionResult InternshipRegister()
-        //{
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.edition = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.edition = cookie.Value ?? "Global Edition";
-        //    }
-        //    ViewBag.Sectors = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
-        //    ViewBag.Editions = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
+        [AllowAnonymous]
+        public ActionResult InternshipRegister()
+        {
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.edition = "Global Edition";
+            }
+            else
+            {
+                ViewBag.edition = cookie ?? "Global Edition";
+            }
+            ViewBag.Sectors = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
+            ViewBag.Editions = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
 
-        //    return View();
-        //}
+            return View();
+        }
 
         ////
         //// POST: /Account/Register
@@ -616,13 +617,16 @@ namespace DevDiscourse.Controllers
         //            return Json(resultnew, JsonRequestBehavior.AllowGet);
         //    }
         //}
+
+
         //// Press Release Register
-        //// GET: /Account/Registration
-        //[AllowAnonymous]
-        //public ActionResult Registration()
-        //{
-        //    return View();
-        //}
+        // GET: /Account/Registration
+        [AllowAnonymous]
+        public ActionResult Registration()
+        {
+            return View();
+        }
+
         //// POST: /Account/Registration
         //[HttpPost]
         //[AllowAnonymous]

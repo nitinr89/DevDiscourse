@@ -701,7 +701,7 @@ namespace DevDiscourse.Controllers.Main
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind("Id,NewsId,Title,AlternateHeadline,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        public async Task<ActionResult> Edit([Bind("Id,NewsId,Title,AlternateHeadline,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string? ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
         {
             ViewBag.ret = ret;
             if (ModelState.IsValid)
@@ -1002,7 +1002,7 @@ namespace DevDiscourse.Controllers.Main
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditBlog([Bind("Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        public async Task<ActionResult> EditBlog([Bind("Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string? ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
         {
             ViewBag.ret = ret;
             if (ModelState.IsValid)
@@ -1450,6 +1450,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews.CreatedOn = DateTime.UtcNow;
                 devNews.ModifiedOn = DateTime.UtcNow;
                 devNews.PublishedOn = DateTime.UtcNow;
+                //devNews.NewsId = 111;
                 _db.DevNews.Add(devNews);
                 _db.SaveChanges();
                 if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
@@ -2094,13 +2095,16 @@ namespace DevDiscourse.Controllers.Main
         {
             var users = _db.Users.Where(a => a.isActive == true).OrderByDescending(o => o.CreatedOn).Select(s => s.Id).ToArray();
             int counter = 0;
-            string contentRoot = AppDomain.CurrentDomain.BaseDirectory; // Get the current application's root directory
-            string filePath = Path.Combine(contentRoot, "Content", "counter.txt"); // Full path to the file
 
+            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Content", "counter.txt");
             if (System.IO.File.Exists(filePath))
             {
                 string noOfVisitors = System.IO.File.ReadAllText(filePath);
                 counter = int.TryParse(noOfVisitors, out int parsedCounter) ? parsedCounter : 0;
+            }
+            else
+            {
+                System.IO.File.Create(filePath);
             }
 
             counter++;
@@ -2160,8 +2164,8 @@ namespace DevDiscourse.Controllers.Main
             _db.DevNews.Update(search);
             _db.SaveChanges();
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.NewsAssignNotification("New news assign to you", user);
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            //context.Clients.All.NewsAssignNotification("New news assign to you", user);
 
             return Json("Success");
         }

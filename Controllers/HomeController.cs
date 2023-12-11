@@ -1229,34 +1229,34 @@ namespace DevDiscourse.Controllers
         //                 };
         //    return PartialView("_getThemes", search);
         //}
-        //public PartialViewResult GetSavedImages(int skip = 0, string sector = "", string title = "")
-        //{
-        //    ViewBag.skipCount = skip;
-        //    var resultList = _db.ImageGallery.ToList().Select(m => new SavedImagesView { Title = m.Title, Sector = m.Sector, ImageUrl = m.ImageUrl, CreatedOn = m.CreatedOn, FileMimeType = m.FileMimeType, FileSize = m.FileSize, Caption = m.Caption, ImageCopyright = m.ImageCopyright, Tags = m.Tags });
-        //    if (sector != "")
-        //    {
-        //        resultList = resultList.Where(m => m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector) || m.Sector == sector).ToList();
-        //    }
-        //    if (title != "")
-        //    {
-        //        resultList = resultList.Where(a => a.Title.ToUpper().Contains(title.ToUpper())).ToList();
-        //    }
-        //    return PartialView("_getSavedImages", resultList.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(20));
-        //}
-        //public PartialViewResult GetOldSavedImages(int skip = 0, string sector = "", string title = "")
-        //{
-        //    ViewBag.skipCount = skip;
-        //    var resultList = _db.UserFiles.ToList().Select(m => new SavedImagesView { Title = m.Title, Sector = m.FileFor, ImageUrl = m.FileUrl, CreatedOn = m.CreatedOn, FileMimeType = m.FileMimeType, FileSize = m.FileSize, Caption = "", ImageCopyright = "" });
-        //    if (sector != "")
-        //    {
-        //        resultList = resultList.Where(m => m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector) || m.Sector == sector).ToList();
-        //    }
-        //    if (title != "")
-        //    {
-        //        resultList = resultList.Where(a => a.Title.ToUpper().Contains(title.ToUpper())).ToList();
-        //    }
-        //    return PartialView("_getSavedImages", resultList.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(20));
-        //}
+        public PartialViewResult GetSavedImages(int skip = 0, string sector = "", string title = "")
+        {
+            ViewBag.skipCount = skip;
+            var resultList = _db.ImageGalleries.ToList().Select(m => new SavedImagesView { Title = m.Title, Sector = m.Sector, ImageUrl = m.ImageUrl, CreatedOn = m.CreatedOn, FileMimeType = m.FileMimeType, FileSize = m.FileSize, Caption = m.Caption, ImageCopyright = m.ImageCopyright, Tags = m.Tags });
+            if (sector != "")
+            {
+                resultList = resultList.Where(m => m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector) || m.Sector == sector).ToList();
+            }
+            if (title != "")
+            {
+                resultList = resultList.Where(a => a.Title.ToUpper().Contains(title.ToUpper())).ToList();
+            }
+            return PartialView("_getSavedImages", resultList.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(20));
+        }
+        public PartialViewResult GetOldSavedImages(int skip = 0, string sector = "", string title = "")
+        {
+            ViewBag.skipCount = skip;
+            var resultList = _db.UserFiles.ToList().Select(m => new SavedImagesView { Title = m.Title, Sector = m.FileFor, ImageUrl = m.FileUrl, CreatedOn = m.CreatedOn, FileMimeType = m.FileMimeType, FileSize = m.FileSize, Caption = "", ImageCopyright = "" });
+            if (sector != "")
+            {
+                resultList = resultList.Where(m => m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector) || m.Sector == sector).ToList();
+            }
+            if (title != "")
+            {
+                resultList = resultList.Where(a => a.Title.ToUpper().Contains(title.ToUpper())).ToList();
+            }
+            return PartialView("_getSavedImages", resultList.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(20));
+        }
         //// Json Methods
         //public JsonResult SubscribeNews(string email)
         //{

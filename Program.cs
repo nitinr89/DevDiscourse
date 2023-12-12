@@ -5,13 +5,7 @@ using Devdiscourse.Models;
 //using ImageResizer.AspNetCore.Helpers;
 //using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.Extensions.FileProviders;
-using Devdiscourse.Utility;
 using Devdiscourse.Helper;
-using System.Web.Mvc;
-using System.Web.Http;
-using Devdiscourse.Models.BasicModels;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using Microsoft.AspNetCore.Rewrite;
 //using SixLabors.ImageSharp.Web.DependencyInjection;
 //using SixLabors.ImageSharp.Web.Providers.Azure;
 
@@ -76,6 +70,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthorization();
+app.UseSession();
 
 // Call the custom route configuration method
 app.UseEndpoints(endpoints =>
@@ -83,15 +79,12 @@ app.UseEndpoints(endpoints =>
     RouteConfig.ConfigureRoutes(endpoints);
 });
 
-app.UseAuthorization();
-
 //app.UseStaticFiles();
 //app.UseImageResizer();
 //app.UseImageSharp();
 
 // Enable CORS
 app.UseCors("AllowSpecificOrigin");
-app.UseSession();
 
 app.MapRazorPages();
 

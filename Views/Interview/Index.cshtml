@@ -1,0 +1,915 @@
+﻿@inject UserManager<ApplicationUser> userManager;
+@using Microsoft.AspNetCore.Identity;
+@{
+    string? loginUserId = userManager.GetUserId(User);
+    ApplicationUser? user = null;
+    if(!string.IsNullOrEmpty(loginUserId))
+        user = await userManager.FindByIdAsync(loginUserId);
+    string userName = "";
+    if(user!=null) userName = user.FirstName + user.LastName;
+}
+@{
+    Layout = null;
+    ViewBag.Title = "Interview";
+    var daily = "@daily";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview | Devdiscourse</title>
+    <meta name="Keywords" content="sustainable development,urban development news,sdgs,sustainable development goals sdgs,latest news on SDGs,development sector news,southern African development, energy market news, poverty news, sustainable development news articles, Agriculture, Fishing and Forestry, Digital Development, Economy, Education, Energy and Extractives, Financial Sector, Health, Industry, Trade and Services, Public Administration, Social Protection, Transportation, Water, Sanitation and Waste Management, Business Enabling Environment, Climate change, Cultural Heritage, Data Development and Capacity Building, Demographics and Aging, Disaster Risk Management, Disease Control, Economic Growth and Planning, Education, Energy, Enterprise Development, Environmental Health and Pollution Management, Environmental Health and Pollution Management, Environmental policies and institutions, Finance for Development, Financial Infrastructure and Access, Financial Stability, Fiscal Policy, Fragility, Conflict and Violence, Gender, Health systems and Policies, ICT, Jobs, Labor Market Policy and Programs, Macro-financial policies, Public Administration, Public Finance Management, Public Private Partnerships, Regional Integration, Renewable Natural Resources Asset Management, Road Safety, Rule of Law, Rural Development, Social Inclusion, Social Protection, Trade, Urban Development, Water Resource Management">
+    <link rel="apple-touch-icon" sizes="180x180" href="/AdminFiles/Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/AdminFiles/Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/AdminFiles/Favicon/favicon-16x16.png">
+    <link rel="manifest" href="/AdminFiles/Favicon/manifest.json">
+    <link rel="mask-icon" href="/AdminFiles/Favicon/safari-pinned-tab.svg" color="#ff6a00">
+    <link rel="shortcut icon" href="/AdminFiles/Favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-config" content="/AdminFiles/Favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ff6a00">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/cssNew" />
+</head>
+<body>
+    <style>
+        .btn-primary {
+            color: #fff;
+            background-color: #ff9c46;
+            border-color: #ff9c46;
+        }
+
+        .navbar-main {
+            display: none;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #262626
+        }
+
+        .cp-body::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        .cp-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        .cp-body::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+            /* Handle on hover */
+            .cp-body::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+        .custom-panel {
+            width: 350px;
+            right: -400px;
+            position: fixed;
+            z-index: 110;
+            left: auto;
+            top: 0px;
+            bottom: 0px;
+            background-color: #fff;
+            box-shadow: -1px 0px 6px 1px rgba(0, 0, 0, 0.32);
+            -webkit-transition: right .5s ease-in-out; /* Safari prior 6.1 */
+            transition: right .5s ease-in-out;
+            /*overflow-y: auto;*/
+        }
+
+        .main-content {
+            width: 310px;
+            height: 50px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+            overflow: auto;
+            z-index: 2;
+        }
+
+        .btncolor {
+            background-color: #ff6a00;
+        }
+
+
+        .custom-panel .cp-header {
+            height: 50px;
+            padding: 10px;
+            font-size: 24px;
+            font-weight: 100;
+            color: #007879;
+        }
+
+        .custom-panel .cp-body {
+            height: calc(100% - 100px);
+            overflow-y: auto;
+            padding: 20px 10px;
+        }
+
+        .custom-panel .cp-footer {
+            height: 50px;
+            padding: 10px;
+        }
+
+        .custom-panel label {
+            font-weight: 300;
+            color: #777;
+        }
+
+        .custom-panel .panel-close-btn {
+            background-color: #007879;
+            color: #fff;
+            border: 0;
+            width: 40px;
+            height: 40px;
+            line-height: 32px;
+            cursor: pointer;
+            font-size: 30px;
+            text-align: center;
+            position: absolute;
+            left: -40px;
+            top: 0;
+            box-shadow: -4px 0px 6px -2px rgba(0, 0, 0, 0.32);
+        }
+
+        .custom-panel.active {
+            right: 0;
+        }
+
+        .panel-right {
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            left: 0;
+            top: 0;
+            box-sizing: border-box;
+            color: #fff;
+            z-index: 0
+        }
+
+        .left-list {
+            font-size: 20px;
+            text-align: center;
+            margin: 0;
+        }
+
+            .left-list > li {
+                padding: 10px;
+                cursor: pointer;
+            }
+
+                .left-list > li img {
+                    width: 20px;
+                }
+
+                .left-list > li > a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                .left-list > li:hover {
+                    background-color: #262626;
+                }
+
+        #ParticipantsPanel {
+            background-color: #373737;
+        }
+
+            #ParticipantsPanel .cp-header {
+                color: #fff;
+            }
+
+        .f-0 {
+            font-size: 0 !important;
+        }
+
+        .call-panel {
+            position: absolute;
+            text-align: center;
+            bottom: 80px;
+            width: 100%;
+            z-index: 1100;
+        }
+
+            .call-panel .option-list {
+                border-radius: 3px;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: inline-block;
+                background-color: #101010;
+                font-size: 0;
+                box-shadow: 0px 1px 7px #3b3b3b;
+            }
+
+                .call-panel .option-list:first-child {
+                    border-top-left-radius: 3px;
+                    border-bottom-left-radius: 3px;
+                }
+
+                .call-panel .option-list > li {
+                    color: #fff;
+                    vertical-align: middle;
+                    display: inline-block;
+                    padding: 15px 20px;
+                    text-align: center;
+                    font-size: 14px;
+                    margin: 0;
+                    float: none;
+                    cursor: pointer;
+                    border-collapse: collapse;
+                }
+
+                    .call-panel .option-list > li img {
+                        height: 20px;
+                    }
+
+                    .call-panel .option-list > li:hover, .call-panel .option-list > li:active {
+                        background-color: #343434
+                    }
+
+                    .call-panel .option-list > li.time {
+                        border-right: 1px solid #262626;
+                    }
+
+                    .call-panel .option-list > li.participants {
+                        background-color: #181818
+                    }
+
+                    .call-panel .option-list > li.call {
+                        background-color: #a7022f;
+                        border-top-right-radius: 3px;
+                        border-bottom-right-radius: 3px;
+                    }
+
+        #call-frame {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            position: fixed;
+            top: 0;
+            z-index: 1;
+        }
+
+        #ui-alone {
+            background-color: #cecece;
+            grid-area: 1 / 3 / 4 / 3;
+        }
+
+        #ui-controller {
+            background-color: #383838;
+            grid-area: 2 / 1 / 4 / 2;
+            padding: 30px;
+        }
+
+            #ui-controller hr,
+            #ui-participant hr {
+                border: 0.5px solid #4f4f4f;
+                margin-bottom: 1.25em; /** 20/16px **/
+            }
+
+        .ui-controller-control,
+        .ui-participant-guest {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.25em; /** 20/16px **/
+        }
+
+            .ui-controller-control p,
+            .ui-participant-guest p {
+                margin: 0;
+            }
+
+        .ui-controller-control {
+            cursor: pointer;
+        }
+
+            .ui-controller-control img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .ui-controller-control:last-child {
+                margin-bottom: 0;
+            }
+
+            .ui-controller-control:hover {
+                opacity: 0.4;
+            }
+
+        #ui-participant {
+            background-color: #373737;
+            grid-area: 2 / 2 / 4 / 2;
+            padding: 30px;
+        }
+
+        @@media (max-width: 1000px) {
+            #ui-controller {
+                grid-area: 2 / 1 / 2 / 3;
+            }
+
+            #ui-participant {
+                grid-area: 3 / 1 / 3 / 3;
+            }
+
+                .ui-controller-control,
+                .ui-participant-guest,
+                #ui-controller hr,
+                #ui-participant hr {
+                    margin-bottom: 0.625em;
+                }
+        }
+
+        @@media (max-width: 800px) {
+            #ui-controller {
+                grid-area: 1 / 1;
+            }
+
+            #ui-participant {
+                display: none;
+            }
+        }
+
+        #ui-local {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 200px;
+            height: 160px;
+        }
+
+        li a .fa {
+            font-size: 28px;
+        }
+
+        @@media (max-width: 640px) {
+            .panel-right {
+                height: 100%;
+                width: 100%;
+                left: 0;
+                top: 48px;
+            }
+
+            .call-panel {
+                bottom: 30px;
+            }
+
+                .call-panel .option-list {
+                    background-color: transparent;
+                    box-shadow: none;
+                }
+
+                    .call-panel .option-list > li {
+                        padding: 15px;
+                        width: 50px;
+                        height: 50px;
+                        background-color: #101010;
+                        box-shadow: 0px 1px 7px #3b3b3b;
+                        margin-right: 10px;
+                        border-radius: 50%;
+                    }
+
+            .option-list > li.time, .option-list > li#shareScreen, .option-list > li#fullScreen {
+                display: none;
+            }
+
+            .call-panel .option-list > li.call {
+                border-radius: 50%;
+            }
+
+            #call-frame {
+                width: 100%;
+            }
+
+            #showParticipants {
+                display: none;
+            }
+        }
+
+        .logo-brand {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 64px;
+        }
+    </style>
+    <div class="panel-right">
+        <iframe id="call-frame" allow="camera; microphone; autoplay"></iframe>
+        <div class="main-content">
+            <span><button class="btn btncolor fg-white startMeeting"><i class="fa fa-video-camera"></i> Start Interview</button></span>
+            <b> or </b>
+            <span><button class="btn btn-default joinMeeting"><i class="fa fa-handshake-o"></i> Join Interview</button></span>
+        </div>
+        <div id="ui-container">
+            <div id="ui-local"></div>
+            <div id="ui-alone"></div>
+        </div>
+        <img class="logo-brand" src="~/AdminFiles/Logo/d_logo.jpg" />
+    </div>
+    <div class="call-panel" style="display:none;">
+        <ul class="option-list list-inline">
+            <li class="time">00:00</li>
+            <li id="camera-toggle" class="f-0" title="Turn on/off Camera">
+                <img src="/Images/video-assets/video_on.svg" />
+            </li>
+            <li id="microphone-toggle" class="f-0" title="Turn on/off Microphone">
+                <img src="/Images/video-assets/mic_on.svg" />
+            </li>
+            <li id="recording-toggle" class="f-0" title="Recording">
+                <img src="~/Images/video-assets/recording.svg" />
+            </li>
+            @*<li id="shareScreen" class="f-0" title="Share Screen with Participants">
+                    <img src="~/Images/video-assets/screenshare.svg" />
+                </li>*@
+            <li id="fullScreen" class="f-0" title="Enter Full-Screen">
+                <img src="~/Images/video-assets/fullscreen.svg" />
+            </li>
+            <li class="participants f-0" id="showParticipants" title="Meeting Info">
+                <img src="~/Images/video-assets/participants.svg" />
+            </li>
+            <li class="call f-0" id="leave-call-div" title="End Meeting">
+                <img src="~/Images/video-assets/phone.svg" />
+            </li>
+        </ul>
+    </div>
+    <div class="custom-panel" id="ParticipantsPanel">
+        <button class="panel-close-btn">&times;</button>
+        <div class="cp-header">Participants</div>
+        <div class="cp-body" id="ui-participant">
+
+        </div>
+        <div class="cp-footer">
+        </div>
+    </div>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" async rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" defer></script>
+    <script src="~/Content/OwlCarousel/owl.carousel.js"></script>
+    <script src="~/Scripts/bootstrap-notify.js"></script>
+    <script src="~/Scripts/jquery.lazy.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        let callUrl = 'https://api.daily.co/v1/rooms/meeting';
+        let loginuser_id = '@loginUserId';
+        let Loginusername = '@userName';
+        var data = "";
+        let token, isCurrentlyScreenSharing, isRecordingStarted;
+        var username = ""
+        var kbs = 800;
+        var trackConstraints = null;
+        var participantCount = 0;
+        var orgAdmin = '@ViewBag.isAdminUser';
+        let sec_num = 0;
+        var intervalId;
+        
+        @{/*@if (Request.Browser.IsMobileDevice)
+        {
+            <text>
+        //var grids = {
+        //    0: { row: 1, column: 1 },
+        //    1: { row: 2, column: 1 },
+        //    2: { row: 3, column: 1 },
+        //    3: { row: 2, column: 2 },
+        //    4: { row: 3, column: 2 },
+        //    5: { row: 3, column: 2 },
+        //    6: { row: 3, column: 3 },
+        //    7: { row: 3, column: 3 },
+        //    8: { row: 3, column: 3 }
+        //}
+         var grids = {
+             0: { row: 2, column: 2 },
+             1: { row: 1, column: 1 },
+             2: { row: 2, column: 1 },
+             3: { row: 3, column: 1 },
+             4: { row: 2, column: 2 }
+        }
+        </text>
+        }
+        else
+        {*/}
+          @{  <text>
+        //var grids = {
+        //    0: { row: 1, column: 1 },
+        //    1: { row: 1, column: 2 },
+        //    2: { row: 2, column: 2 },
+        //    3: { row: 2, column: 2 },
+        //    4: { row: 2, column: 3 },
+        //    5: { row: 2, column: 3 },
+        //    6: { row: 3, column: 3 },
+        //    7: { row: 3, column: 3 },
+        //    8: { row: 3, column: 3 }
+        //}
+        var grids = {
+            0: { row: 2, column: 2 },
+            1: { row: 1, column: 1 },
+            2: { row: 1, column: 2 },
+            3: { row: 2, column: 2 },
+            4: { row: 2, column: 2 }
+        }
+    </text>
+        }
+
+        $('.startMeeting').click(function () {
+            if (orgAdmin == "False") {
+                swal(`You don't have permission to start a meeting`)
+                    .then((value) => {
+                        return;
+                    });
+                return;
+            }
+            StartCall();
+            $('.main-content').hide();
+            $('#call-frame').show();
+        });
+        $('.joinMeeting').click(function () {
+            JoinCall();
+            $('.main-content').hide();
+            $('#call-frame').show();
+        });
+        $('#showParticipants').click(function () {
+            $('.custom-panel').removeClass('active');
+            $('#ParticipantsPanel').addClass('active');
+        });
+        $('#recording-toggle').click(function () {
+            startRecording();
+            if ($(this).hasClass('stop')) {
+                $(this).html('<img src="/Images/video-assets/recording.svg">');
+                $(this).removeClass('stop');
+            } else {
+                $(this).html('<img src="/Images/video-assets/stop_recording.svg">');
+                $(this).addClass('stop');
+            }
+        });
+        async function startRecording() {
+            const streamSaver = window.streamSaver;
+            const { readable, writable } = new TransformStream({
+                transform: (chunk, ctrl) => chunk.arrayBuffer().
+                    then(b => ctrl.enqueue(new Uint8Array(b)))
+            });
+            window.writer = writable.getWriter();
+            readable.pipeTo(streamSaver.createWriteStream('Interview.mp4'));
+        }
+        async function onData(info) {
+            try {
+                console.log('got data', info);
+                await window.writer.write(info.data);
+                if (info.finished) {
+                    console.log('closing!');
+                    window.writer.close();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        $('#fullScreen').click(function () {
+            toggleFullscreen();
+        });
+        $('#shareScreen').click(function () {
+            toggleScreenShare();
+        });
+        $('#recording-toggle').click(function () {
+            toggleRecording();
+        });
+        $('#camera-toggle').click(function () {
+            callFrame.setLocalVideo(!callFrame.localVideo());
+            if (callFrame.localVideo() == false) {
+                $(this).html('<img src="/Images/video-assets/video_on.svg" />');
+            } else {
+                $(this).html('<img src="/Images/video-assets/video_off.svg" />');
+            }
+        });
+        $('#microphone-toggle').click(function () {
+            callFrame.setLocalAudio(!callFrame.localAudio());
+            if (callFrame.localAudio() == false) {
+                $(this).html('<img src="/Images/video-assets/mic_on.svg" />');
+            } else {
+                $(this).html('<img src="/Images/video-assets/mic_off.svg" />');
+            }
+            //callFrame.updateParticipant('local', { audio: callFrame.localAudio() })
+        });
+        $("#container").dblclick(function () {
+            alert('dblclick');
+        });
+        function toggleFullscreen() {
+            let elem = document.querySelector("iframe");
+
+            if (!document.fullscreenElement) {
+                elem.requestFullscreen().then(() => console.log("fullscreen start")).catch(err => {
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    });
+            } else {
+                document.exitFullscreen().then(() => console.log("fullscreen end"));
+            }
+        }
+        $('.custom-panel .panel-close-btn').click(function () {
+            $(this).parent().removeClass('active');
+        });
+        function StartCall() {
+            $('.pull-right').show();
+            data = ""; token = "";
+            var data = "{\"properties\":{\"enable_recording\":\"local\",\"user_name\":\"" + Loginusername + "\",\"is_owner\":true,\"room_name\":\"devdiscourse\"}}";
+            var xhr = new XMLHttpRequest();
+            var username = "";
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    token = JSON.parse(this.responseText).token;
+                    $('.meetinInfo').show();
+                    startMeeting();
+                }
+            });
+            xhr.open("POST", "https://api.daily.co/v1/meeting-tokens");
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("authorization", "Bearer Dcf257a9649aa802fd3d836e4b822b4340608aee66767b26bd829a61f3050620");
+            xhr.send(data);
+            function startMeeting() {
+                let callUrl = 'https://visionri.daily.co/devdiscourse?t=' + token;
+                callFrame = window.DailyIframe.wrap(
+                    document.getElementById("call-frame"),
+                    { customLayout: true}
+                );
+                callFrame
+                    .on("joining-meeting", showEvent)
+                    .on("joined-meeting", joinedCall)
+                    .on("left-meeting", leftCall)
+                    .on("participant-joined", updateEvent)
+                    .on("participant-updated", updateEvent)
+                    .on("participant-left", updateEvent)
+                    .on("recording-started", showEvent)
+                    .on("recording-stopped", showEvent)
+                    .on("recording-stats", showEvent)
+                    .on("recording-error", showEvent)
+                    .on("recording-upload-completed", showEvent)
+                    .on("error", showEvent);
+                callFrame.join({
+                    url: callUrl,
+                    cssFile: "/Content/videoCall.css"
+                });
+                callFrame.on('loaded', (e) => {
+                    $('.call-panel').show();
+                    UpdateGrid();
+                });
+                callFrame.on('participant-joined', (e) => {
+                    participantCount++;
+                    UpdateGrid();
+                });
+                callFrame.on('participant-left', (e) => {
+                    participantCount--;
+                    UpdateGrid();
+                });
+                callFrame.on('network-quality-change', (e) => {
+                    kbs = e.data.setVideoBandwidthCap || 800;
+                    trackConstraints = null;
+                    if (kbs <= 32) {
+                        trackConstraints = { width: 160, height: 90 }
+                    } else if (kbs <= 128) {
+                        trackConstraints = { width: 320, height: 180 }
+                    } else if (kbs <= 384) {
+                        trackConstraints = { width: 640, height: 360 }
+                    }
+                    console.log('setting send bandwidth to', kbs, 'kbs and applying camera track constraints', trackConstraints);
+                    callFrame.setBandwidth({ kbs, trackConstraints });
+                });
+                callFrame.on('left-meeting', (e) => {
+
+                });
+            }
+        }
+        function UpdateGrid() {
+             console.log(grids[participantCount].row)
+                    console.log(grids[participantCount].column)
+                    callFrame.loadCss({
+                        cssText: `
+                        .daily-videos-wrapper {
+                            position: relative;
+                            display: grid;
+                            grid-template-rows: repeat(${grids[participantCount].row}, 1fr);
+                            grid-template-columns: repeat(${grids[participantCount].column}, 1fr);
+                            overflow-x: auto;
+                            -ms-overflow-style: -ms-autohiding-scrollbar;
+                            align-items:stretch;
+                            justify-content: space-around;
+                        }
+                    `});
+        }
+        function JoinCall() {
+            $('.pull-right').show();
+            data = ""; token = "";
+            swal("Input Your Name Here:", {
+                content: "input",
+                closeOnClickOutside: false
+            })
+                .then((value) => {
+                    if (value == null || value == "") {
+                        username == "Guest";
+                    } else {
+                        username = value;
+                    }
+                    var data = "{\"properties\":{\"user_name\":\"" + username + "\",\"room_name\":\"devdiscourse\",\"is_owner\":false}}";
+                    var xhr = new XMLHttpRequest();
+                    var username = "";
+                    xhr.addEventListener("readystatechange", function () {
+                        if (this.readyState === this.DONE) {
+                            token = JSON.parse(this.responseText).token;
+                            $('.meetinInfo').show();
+                            joinMeeting();
+                        }
+                    });
+                    xhr.open("POST", "https://api.daily.co/v1/meeting-tokens");
+                    xhr.setRequestHeader("content-type", "application/json");
+                    xhr.setRequestHeader("authorization", "Bearer Dcf257a9649aa802fd3d836e4b822b4340608aee66767b26bd829a61f3050620");
+                    xhr.send(data);
+                    function joinMeeting() {
+                        let callUrl = 'https://visionri.daily.co/devdiscourse?t=' + token;
+                        callFrame = window.DailyIframe.wrap(
+                            document.getElementById("call-frame"),
+                            { customLayout: true}
+                        );
+                        callFrame
+                            .on("joining-meeting", showEvent)
+                            .on("joined-meeting", joinedCall)
+                            .on("left-meeting", leftCall)
+                            .on("participant-joined", updateEvent)
+                            .on("participant-updated", updateEvent)
+                            .on("participant-left", updateEvent)
+                            .on("recording-started", showEvent)
+                            .on("recording-stopped", showEvent)
+                            .on("recording-stats", showEvent)
+                            .on("recording-error", showEvent)
+                            .on("recording-upload-completed", showEvent)
+                            .on("error", showEvent);
+                        callFrame.join({
+                            url: callUrl,
+                            cssFile: "/Content/videoCall.css"
+                        });
+                        callFrame.on('loaded', (e) => {
+                            //callFrame.addFakeParticipant();
+                            $('.call-panel').show();
+                            callFrame.loadCss({
+                            cssText: `
+                            .daily-videos-wrapper {
+                                position: relative;
+                                display: grid;
+                                grid-template-rows: repeat(${grids[participantCount].row}, 1fr);
+                                grid-template-columns: repeat(${grids[participantCount].column}, 1fr);
+                                overflow-x: auto;
+                                -ms-overflow-style: -ms-autohiding-scrollbar;
+                                align-items:stretch;
+                                justify-content: space-around;
+                            }
+                        `});
+                        });
+                        callFrame.on('participant-joined', (e) => {
+                            participantCount++;
+                            callFrame.loadCss({
+                            cssText: `
+                            .daily-videos-wrapper {
+                                position: relative;
+                                display: grid;
+                                grid-template-rows: repeat(${grids[participantCount].row}, 1fr);
+                                grid-template-columns: repeat(${grids[participantCount].column}, 1fr);
+                                overflow-x: auto;
+                                -ms-overflow-style: -ms-autohiding-scrollbar;
+                                align-items:stretch;
+                                justify-content: space-around;
+                            }
+                        `});
+                        });
+                        callFrame.on('participant-left', (e) => {
+                            participantCount--;
+                            callFrame.loadCss({
+                                cssText: `
+                            .daily-videos-wrapper {
+                                position: relative;
+                                display: grid;
+                                grid-template-rows: repeat(${grids[participantCount].row}, 1fr);
+                                grid-template-columns: repeat(${grids[participantCount].column}, 1fr);
+                                overflow-x: auto;
+                                -ms-overflow-style: -ms-autohiding-scrollbar;
+                                align-items:stretch;
+                                justify-content: space-around;
+                            }
+                    `});
+                        });
+                        callFrame.on('network-quality-change', (e) => {
+                            kbs = e.data.setVideoBandwidthCap || 800;
+                            trackConstraints = null;
+                            if (kbs <= 32) {
+                                trackConstraints = { width: 160, height: 90 }
+                            } else if (kbs <= 128) {
+                                trackConstraints = { width: 320, height: 180 }
+                            } else if (kbs <= 384) {
+                                trackConstraints = { width: 640, height: 360 }
+                            }
+                            console.log('setting send bandwidth to', kbs, 'kbs and applying camera track constraints', trackConstraints);
+                            callFrame.setBandwidth({ kbs, trackConstraints });
+                        });
+                        callFrame.on('left-meeting', (e) => {
+
+                        });
+                    }
+                });
+        }
+        function showEvent(e) {
+            console.log("video call event -->", e);
+        }
+
+        async function joinedCall(e) {
+            showEvent(e);
+            document.getElementById("leave-call-div").onclick = () =>
+                callFrame.leave();
+            intervalId = setInterval(() => {
+                sec_num += 1;
+                var hours = Math.floor(sec_num / 3600);
+                var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+                if (hours < 10) { hours = "0" + hours; }
+                if (minutes < 10) { minutes = "0" + minutes; }
+                if (seconds < 10) { seconds = "0" + seconds; }
+                if (hours == "00") {
+                    $('.time').html(minutes + ':' + seconds);
+                } else {
+                    $('.time').html(hours + ':' + minutes + ':' + seconds);
+                }
+
+            }, 1000);
+        }
+
+        async function leftCall(e) {
+            showEvent(e);
+            document.getElementById("leave-call-div").onclick = () =>
+                callFrame.join();
+            clearInterval(intervalId);
+        }
+        async function updateEvent(e) {
+            showEvent(e);
+            let ps = callFrame.participants();
+            if (Object.keys(ps).length < 2) {
+                document.getElementById("ui-local").style.display = "none";
+                document.getElementById("ui-alone").style.display = "block";
+                let wrapper = document.getElementById("ui-participant");
+                wrapper.innerHTML = "";
+            } else {
+                document.getElementById("ui-local").style.display = "none";
+                document.getElementById("ui-alone").style.display = "none";
+                let wrapper = document.getElementById("ui-participant");
+                wrapper.innerHTML = "";
+                Object.keys(ps).forEach(p => {
+                    if (p === "local") {
+                        let localMicrophoneImg = ps[p].audio == true ? '<img src="/Images/video-assets/mic_on.svg">' : '<img src="/Images/video-assets/mic_off.svg">';
+                        $('#microphone-toggle').html(localMicrophoneImg);
+                        let localCameraImg = ps[p].video == true ? '<img src="/Images/video-assets/video_on.svg">' : '<img src="/Images/video-assets/video_off.svg">';
+                        $('#camera-toggle').html(localCameraImg);
+                        return;
+                    }
+                    let participant = ps[p];
+                    let microphoneImg = participant.audio == true? '<img src="/Images/video-assets/mic_on.svg" width="16">':'<img src="/Images/video-assets/mic_off.svg" width="16">';
+                    wrapper.innerHTML += `
+                    <div class="ui-participant-guest fg-white">
+                    <p>${participant.user_name || "Guest"}</p>
+                    <p class="text-right">
+                    <span class="btn f-0" title="Mute Participant" onclick="callFrame.updateParticipant('${p}',{setAudio:${!participant.audio}})">${microphoneImg}</span>
+                    <span class="btn f-0" title="Kick user out of meeting" onclick="callFrame.updateParticipant('${p}',{eject:true})"><img src="/Images/video-assets/exit.svg" width="16"></span>
+                    </p></div>`;
+                });
+            }
+            // update controller ui for joining/leaving the meeting and
+            // for local screenshare start/stop
+            if (ps.local) {
+                if (ps.local.screen && !isCurrentlyScreenSharing) {
+                    isCurrentlyScreenSharing = true;
+                } else if (!ps.local.screen && isCurrentlyScreenSharing) {
+                    isCurrentlyScreenSharing = false;
+                }
+            }
+        }
+        async function toggleRecording() {
+                callFrame.startRecording();
+        }
+        async function toggleScreenShare() {
+            if (!isCurrentlyScreenSharing) {
+                callFrame.startScreenShare();
+            } else {
+                callFrame.stopScreenShare();
+            }
+        }
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
+@for (int i = 0; i < 3; i++)
+{
+    var skipcount = i * 3;
+    <div class="row">
+        @foreach (var item in Model.Skip(skipcount).Take(3))
+        {
+            <div class="col-xs-12 col-sm-12 col-md-4">
+                <div class="media p-t-10">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
+                    {
+                        var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                        <div class="media-left">
+                            <a href="@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label??"agency-wire", id = item.GenerateSecondSlug() })" aria-label="@item.Title">
+                                <img src="@newsImage?width=100&height=80&mode=crop" class="img-rounded" />
+                            </a>
+                        </div>
+                    }
+                    <div class="media-body" style="padding-bottom:10px;">
+                        @if (item.Sector == "Event")
+                        {
+                            <span class="pull-right infocus-badge">@item.Sector</span>
+                        }
+                        else if (item.Sector == "Blog")
+                        {
+                            if (!String.IsNullOrEmpty(@item.SubType))
+                            {
+                                <span class="pull-right infocus-badge">@item.SubType</span>
+                            }
+                            else
+                            {
+                                <span class="pull-right infocus-badge">Blog</span>
+                            }
+                        }
+                        <a href="@Url.RouteUrl("ArticleDetailswithprefix", new {prefix = item.Label??"agency-wire", id = item.GenerateSecondSlug() })" class="text-decoration p-b-10"><h4 class="no-margin" style="font-weight:400">@item.Title</h4></a>
+                        <div class="p-t-5 font-oswald"><small>@item.TimeAgo()</small></div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

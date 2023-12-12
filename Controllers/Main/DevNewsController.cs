@@ -16,8 +16,9 @@ using Devdiscourse.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nancy.Json;
-using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevDiscourse.Controllers.Main
 {
@@ -368,6 +369,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews.WorkStage = "";
                 devNews.OriginalSource = devNews.Source;
                 devNews.Creator = userManager.GetUserId(User);
+                //devNews.NewsId = 111;
                 _db.DevNews.Add(devNews);
                 _db.SaveChanges();
 
@@ -585,6 +587,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews.WorkStage = "";
                 devNews.OriginalSource = devNews.Source;
                 devNews.Creator = userManager.GetUserId(User);
+                //devNews.NewsId = 111;
                 _db.DevNews.Add(devNews);
                 _db.SaveChanges();
                 var edition = ML_Edition(devNews.Description);
@@ -697,263 +700,270 @@ namespace DevDiscourse.Controllers.Main
         // POST: DevNews/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Edit([Bind(Include = "Id,NewsId,Title,AlternateHeadline,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, string ChooseImage, string ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
-        //{
-        //    ViewBag.ret = ret;
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (Request.Files.Count > 0)
-        //        {
-        //            for (var i = 0; i < Request.Files.Count; i++)
-        //            {
-        //                var file = Request.Files[i];
-        //                if (file == null || file.ContentLength <= 0) continue;
-        //                var fileName = RandomName();
-        //                var fileExtension = Path.GetExtension(file.FileName);
-        //                var actName = Path.GetFileNameWithoutExtension(file.FileName);
-        //                string mimeType = MimeMapping.GetMimeMapping(file.FileName);
-        //                string fileSize = file.ContentLength.ToString();
-        //                var fileKey = Request.Files.Keys[i];
-        //                if (fileKey == "ImageUrlUpdate")
-        //                {
-        //                    //CloudBlobContainer blobContainer = GetCloudBlobContainer();
-        //                    //CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-        //                    //blob.UploadFromStream(file.InputStream);
-        //                    //devNews.ImageUrl = blob.Uri.ToString();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind("Id,NewsId,Title,AlternateHeadline,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string? ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        {
+            ViewBag.ret = ret;
+            if (ModelState.IsValid)
+            {
+                if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                {
+                    var fileName = RandomName(); // method to generate a random name.
+                    var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
+                    var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
+                    string mimeType = GetMimeType(ImageUrlUpdate.FileName);
+                    string fileSize = ImageUrlUpdate.Length.ToString();
 
-        //                    devNews.FileMimeType = mimeType;
-        //                    devNews.FileSize = fileSize;
-        //                    // Saved Image in Image Gallery
-        //                    string imgcopyright = "";
-        //                    if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                    {
-        //                        imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                    }
-        //                    ImageGallery fileobj = new ImageGallery()
-        //                    {
-        //                        Title = actName,
-        //                        ImageUrl = devNews.ImageUrl,
-        //                        ImageCopyright = imgcopyright,
-        //                        Caption = "",
-        //                        FileMimeType = mimeType,
-        //                        FileSize = fileSize,
-        //                        Sector = devNews.Sector,
-        //                        Tags = "",
-        //                        UseCount = 1,
-        //                    };
-        //                    _db.ImageGallery.Add(fileobj);
-        //                    _db.SaveChanges();
-        //                }
-        //            }
-        //        }
-        //        if (!String.IsNullOrEmpty(ChooseImage))
-        //        {
-        //            devNews.ImageUrl = ChooseImage;
-        //            // Find Image in Old Image Gallery
-        //            var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
-        //            if (findimage != null)
-        //            {
-        //                // Saved Image in New Image Gallery
-        //                string imgcopyright = "";
-        //                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                {
-        //                    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                }
-        //                ImageGallery fileobj = new ImageGallery()
-        //                {
-        //                    Title = findimage.Title,
-        //                    ImageUrl = findimage.FileUrl,
-        //                    ImageCopyright = imgcopyright,
-        //                    Caption = "",
-        //                    FileMimeType = findimage.FileMimeType,
-        //                    FileSize = findimage.FileSize,
-        //                    Sector = findimage.FileFor,
-        //                    Tags = "",
-        //                    UseCount = 1,
-        //                };
-        //                _db.ImageGallery.Add(fileobj);
-        //                _db.SaveChanges();
-        //                // Remove from old gallery
-        //                _db.UserFiles.Remove(findimage);
-        //                _db.SaveChanges();
+                    CloudBlobContainer blobContainer;
+                    CloudBlockBlob blob;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        await ImageUrlUpdate.CopyToAsync(ms);
+                        ms.Position = 0;
 
+                        blobContainer = await GetCloudBlobContainer();
+                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                        await blob.UploadFromStreamAsync(ms);
 
-        //            }
-        //        }
-        //        else if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
-        //        {
-        //            var sec = devNews.Sector.Split(',')[0];
-        //            devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);                    
-        //            devNews.FileMimeType = "image/jpg";
-        //            devNews.FileSize = "88,651";
-        //        }
-        //        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-        //        {
-        //            devNews.PublishedOn = DateTime.UtcNow;
-        //        }
-        //        //devNews.PublishedOn = DateTime.UtcNow;
-        //        //devNews.CreatedOn = DateTime.UtcNow;
-        //        devNews.ModifiedOn = DateTime.UtcNow;
-        //        _db.DevNews.Update(devNews);
-        //        _db.Entry(devNews).Property(x => x.ViewCount).IsModified = false;
-        //        _db.SaveChanges();
+                        var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
 
-        //        if (FileTitle != null)
-        //        {
-        //            foreach (var item in FileTitle)
-        //            {
-        //                var index = FileTitle.IndexOf(item);
-        //                var filepath = FilePath[index];
-        //                var mimetype = MimeType[index];
-        //                var fileSize = FileVideoSize[index];
-        //                var caption = FileCaption[index];
-        //                var thumbUrl = FileThumbUrl[index];
-        //                var fDuration = FileDuration[index];
-        //                var newsid = devNews.Id;
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await ImageUrlUpdate.CopyToAsync(fileStream);
+                        }
+                        devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                        devNews.FileMimeType = mimeType;
+                        devNews.FileSize = fileSize;
+                        // Saved Image in Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = actName,
+                            ImageUrl = devNews.ImageUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = mimeType,
+                            FileSize = fileSize,
+                            Sector = devNews.Sector,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                    }
+                }
+                if (!String.IsNullOrEmpty(ChooseImage))
+                {
+                    devNews.ImageUrl = ChooseImage;
+                    // Find Image in Old Image Gallery
+                    var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
+                    if (findimage != null)
+                    {
+                        // Saved Image in New Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = findimage.Title,
+                            ImageUrl = findimage.FileUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = findimage.FileMimeType,
+                            FileSize = findimage.FileSize,
+                            Sector = findimage.FileFor,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                        // Remove from old gallery
+                        _db.UserFiles.Remove(findimage);
+                        _db.SaveChanges();
 
-        //                UserNewsFile obj = new UserNewsFile();
-        //                obj.Title = item;
-        //                obj.FilePath = filepath;
-        //                obj.FileMimeType = mimetype;
-        //                obj.FileSize = fileSize;
-        //                obj.FileCaption = caption;
-        //                obj.FileThumbUrl = thumbUrl;
-        //                obj.Duration = fDuration;
-        //                obj.NewsId = newsid;
-        //                _db.UserNewsFiles.Add(obj);
-        //                _db.SaveChanges();
-        //            }
-        //        }
+                    }
+                }
+                else if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
+                {
+                    var sec = devNews.Sector.Split(',')[0];
+                    devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);                    
+                    devNews.FileMimeType = "image/jpg";
+                    devNews.FileSize = "88,651";
+                }
+                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                {
+                    devNews.PublishedOn = DateTime.UtcNow;
+                }
+                //devNews.PublishedOn = DateTime.UtcNow;
+                //devNews.CreatedOn = DateTime.UtcNow;
+                devNews.ModifiedOn = DateTime.UtcNow;
+                _db.DevNews.Update(devNews);
+                _db.Entry(devNews).Property(x => x.ViewCount).IsModified = false;
+                _db.Entry(devNews).Property(x => x.NewsId).IsModified = false;
+                _db.SaveChanges();
 
+                if (FileTitle != null)
+                {
+                    foreach (var item in FileTitle)
+                    {
+                        var index = FileTitle.IndexOf(item);
+                        var filepath = FilePath[index];
+                        var mimetype = MimeType[index];
+                        var fileSize = FileVideoSize[index];
+                        var caption = FileCaption[index];
+                        var thumbUrl = FileThumbUrl[index];
+                        var fDuration = FileDuration[index];
+                        var newsid = devNews.Id;
 
-        //        if (FileDelete != null)
-        //        {
-        //            foreach (var item in FileDelete)
-        //            {
-        //                var guidItem = Guid.Parse(item);
-        //                UserNewsFile obj = _db.UserNewsFiles.Find(guidItem);
-        //                _db.UserNewsFiles.Remove(obj);
-        //                _db.SaveChanges();
-        //            }
-        //        }
+                        UserNewsFile obj = new UserNewsFile();
+                        obj.Title = item;
+                        obj.FilePath = filepath;
+                        obj.FileMimeType = mimetype;
+                        obj.FileSize = fileSize;
+                        obj.FileCaption = caption;
+                        obj.FileThumbUrl = thumbUrl;
+                        obj.Duration = fDuration;
+                        obj.NewsId = newsid;
+                        _db.UserNewsFiles.Add(obj);
+                        _db.SaveChanges();
+                    }
+                }
 
 
-        //        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-        //        {
-        //            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-        //            if (description.Length > 1000)
-        //            {
-        //                description = description.Substring(0, 1000) + "...";
-        //            }
-        //            SaveNews(devNews.Id, devNews.Title, description);
-        //            //TwitterAutoPost(devNews.Title + " " + "http://devdiscourse.com/Home/Detail/" + devNews.Id);
-        //            CreateLog(devNews.Title + " News ", devNews.Title + " has been Updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
-        //        }
-        //        if (TempData["IsStandout"].ToString() == "False" && devNews.IsStandout == true)
-        //        {
-        //            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-        //            if (description.Length > 200)
-        //            {
-        //                description = description.Substring(0, 200) + "...";
-        //            }
-        //            await SendMessage(devNews.Title, description, devNews.NewsId.ToString(), devNews.ImageUrl);
-        //        }
-        //        if (devNews.Category == "35")
-        //        {
-        //            Livediscourse livediscourse = new Livediscourse();
-        //            livediscourse.Title = devNews.Title;
-        //            livediscourse.Description = "";
-        //            livediscourse.CreatedOn = DateTime.UtcNow;
-        //            livediscourse.ModifiedOn = DateTime.UtcNow;
-        //            livediscourse.Sector = devNews.Sector;
-        //            livediscourse.ParentId = 1337;
-        //            livediscourse.AdminCheck = false;
-        //            livediscourse.PublishedOn = DateTime.UtcNow;
-        //            livediscourse.Region = devNews.Region;
-        //            livediscourse.Country = devNews.Country;
-        //            livediscourse.ViewCount = 0;
-        //            livediscourse.LikeCount = 0;
-        //            livediscourse.ParentStoryLink = "/article/" + devNews.NewsLabels + "/" + devNews.GenerateSecondSlug();
-        //            livediscourse.Author = devNews.Author;
-        //            var dataTags = (devNews.Tags ?? "").Split(',').Where(item => item != "").Select(s => s.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
-        //            livediscourse.Tags = string.Join(", ", dataTags.Take(5)).Trim();
-        //            livediscourse.AdminCheck = true;
-        //            livediscourse.Creator = devNews.Creator;
-        //            _db.Livediscourse.Add(livediscourse);
-        //            _db.SaveChanges();
-        //            if (livediscourse.ParentId != 0)
-        //            {
-        //                var parent = _db.Livediscourse.Find(livediscourse.ParentId);
-        //                if (parent != null)
-        //                {
-        //                    parent.ModifiedOn = DateTime.UtcNow;
-        //                    _db.Livediscourse.Update(parent);
-        //                    _db.SaveChanges();
-        //                }
-        //            }
-        //        }
-        //        if (devNews.Category == "37")
-        //        {
-        //            Livediscourse livediscourse = new Livediscourse();
-        //            livediscourse.Title = devNews.Title;
-        //            livediscourse.Description = devNews.Description;
-        //            livediscourse.ImageUrl = devNews.ImageUrl;
-        //            livediscourse.ImageCaption = devNews.ImageCaption;
-        //            livediscourse.ImageCopyright = devNews.ImageCopyright;
-        //            livediscourse.CreatedOn = DateTime.UtcNow;
-        //            livediscourse.ModifiedOn = DateTime.UtcNow;
-        //            livediscourse.Sector = devNews.Sector;
-        //            livediscourse.ParentId = 1048;
-        //            livediscourse.AdminCheck = false;
-        //            livediscourse.PublishedOn = DateTime.UtcNow;
-        //            livediscourse.Region = devNews.Region;
-        //            livediscourse.Country = devNews.Country;
-        //            livediscourse.ViewCount = 0;
-        //            livediscourse.LikeCount = 0;
-        //            livediscourse.ParentStoryLink = "/article/" + devNews.NewsLabels + "/" + devNews.GenerateSecondSlug();
-        //            livediscourse.Author = devNews.Author;
-        //            var dataTags = (devNews.Tags ?? "").Split(',').Where(item => item != "").Select(s => s.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
-        //            livediscourse.Tags = string.Join(", ", dataTags.Take(5)).Trim();
-        //            livediscourse.AdminCheck = true;
-        //            livediscourse.Creator = devNews.Creator;
-        //            _db.Livediscourse.Add(livediscourse);
-        //            _db.SaveChanges();
-        //            if (livediscourse.ParentId != 0)
-        //            {
-        //                var parent = _db.Livediscourse.Find(livediscourse.ParentId);
-        //                if (parent != null)
-        //                {
-        //                    parent.ModifiedOn = DateTime.UtcNow;
-        //                    _db.Livediscourse.Update(parent);
-        //                    _db.SaveChanges();
-        //                }
-        //            }
-        //        }
-        //        if (ret == "assign")
-        //        {
-        //            return RedirectToAction("AssignedNews", "PTI");
-        //        }
-        //        else if (ret == "newswire")
-        //        {
-        //            return RedirectToAction("PublishContent", "NewsWire");
-        //        }
-        //        else if (ret == "auth")
-        //        {
-        //            return RedirectToAction("NewsList");
-        //        }
-        //        else
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
-        //    return View(devNews);
-        //}
+                if (FileDelete != null)
+                {
+                    foreach (var item in FileDelete)
+                    {
+                        var guidItem = Guid.Parse(item);
+                        UserNewsFile obj = _db.UserNewsFiles.Find(guidItem);
+                        _db.UserNewsFiles.Remove(obj);
+                        _db.SaveChanges();
+                    }
+                }
+
+
+                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                {
+                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                    if (description.Length > 1000)
+                    {
+                        description = description.Substring(0, 1000) + "...";
+                    }
+                    SaveNews(devNews.Id, devNews.Title, description);
+                    //TwitterAutoPost(devNews.Title + " " + "http://devdiscourse.com/Home/Detail/" + devNews.Id);
+                    CreateLog(devNews.Title + " News ", devNews.Title + " has been Updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
+                }
+                if (TempData["IsStandout"].ToString() == "False" && devNews.IsStandout == true)
+                {
+                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                    if (description.Length > 200)
+                    {
+                        description = description.Substring(0, 200) + "...";
+                    }
+                    await SendMessage(devNews.Title, description, devNews.NewsId.ToString(), devNews.ImageUrl);
+                }
+                if (devNews.Category == "35")
+                {
+                    Livediscourse livediscourse = new Livediscourse();
+                    livediscourse.Title = devNews.Title;
+                    livediscourse.Description = "";
+                    livediscourse.CreatedOn = DateTime.UtcNow;
+                    livediscourse.ModifiedOn = DateTime.UtcNow;
+                    livediscourse.Sector = devNews.Sector;
+                    livediscourse.ParentId = 1337;
+                    livediscourse.AdminCheck = false;
+                    livediscourse.PublishedOn = DateTime.UtcNow;
+                    livediscourse.Region = devNews.Region;
+                    livediscourse.Country = devNews.Country;
+                    livediscourse.ViewCount = 0;
+                    livediscourse.LikeCount = 0;
+                    livediscourse.ParentStoryLink = "/article/" + devNews.NewsLabels + "/" + devNews.GenerateSecondSlug();
+                    livediscourse.Author = devNews.Author;
+                    var dataTags = (devNews.Tags ?? "").Split(',').Where(item => item != "").Select(s => s.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
+                    livediscourse.Tags = string.Join(", ", dataTags.Take(5)).Trim();
+                    livediscourse.AdminCheck = true;
+                    livediscourse.Creator = devNews.Creator;
+                    _db.Livediscourses.Add(livediscourse);
+                    _db.SaveChanges();
+                    if (livediscourse.ParentId != 0)
+                    {
+                        var parent = _db.Livediscourses.Find(livediscourse.ParentId);
+                        if (parent != null)
+                        {
+                            parent.ModifiedOn = DateTime.UtcNow;
+                            _db.Livediscourses.Update(parent);
+                            _db.SaveChanges();
+                        }
+                    }
+                }
+                if (devNews.Category == "37")
+                {
+                    Livediscourse livediscourse = new Livediscourse();
+                    livediscourse.Title = devNews.Title;
+                    livediscourse.Description = devNews.Description;
+                    livediscourse.ImageUrl = devNews.ImageUrl;
+                    livediscourse.ImageCaption = devNews.ImageCaption;
+                    livediscourse.ImageCopyright = devNews.ImageCopyright;
+                    livediscourse.CreatedOn = DateTime.UtcNow;
+                    livediscourse.ModifiedOn = DateTime.UtcNow;
+                    livediscourse.Sector = devNews.Sector;
+                    livediscourse.ParentId = 1048;
+                    livediscourse.AdminCheck = false;
+                    livediscourse.PublishedOn = DateTime.UtcNow;
+                    livediscourse.Region = devNews.Region;
+                    livediscourse.Country = devNews.Country;
+                    livediscourse.ViewCount = 0;
+                    livediscourse.LikeCount = 0;
+                    livediscourse.ParentStoryLink = "/article/" + devNews.NewsLabels + "/" + devNews.GenerateSecondSlug();
+                    livediscourse.Author = devNews.Author;
+                    var dataTags = (devNews.Tags ?? "").Split(',').Where(item => item != "").Select(s => s.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
+                    livediscourse.Tags = string.Join(", ", dataTags.Take(5)).Trim();
+                    livediscourse.AdminCheck = true;
+                    livediscourse.Creator = devNews.Creator;
+                    _db.Livediscourses.Add(livediscourse);
+                    _db.SaveChanges();
+                    if (livediscourse.ParentId != 0)
+                    {
+                        var parent = _db.Livediscourses.Find(livediscourse.ParentId);
+                        if (parent != null)
+                        {
+                            parent.ModifiedOn = DateTime.UtcNow;
+                            _db.Livediscourses.Update(parent);
+                            _db.SaveChanges();
+                        }
+                    }
+                }
+                if (ret == "assign")
+                {
+                    return RedirectToAction("AssignedNews", "PTI");
+                }
+                else if (ret == "newswire")
+                {
+                    return RedirectToAction("PublishContent", "NewsWire");
+                }
+                else if (ret == "auth")
+                {
+                    return RedirectToAction("NewsList");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+            return View(devNews);
+        }
+
         //GET: DevNews/Edit/5
         [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult EditBlog(Guid? id, string ret)
@@ -992,162 +1002,171 @@ namespace DevDiscourse.Controllers.Main
         // POST: DevNews/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult EditBlog([Bind(Include = "Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, string ChooseImage, string ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
-        //{
-        //    ViewBag.ret = ret;
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (Request.Files.Count > 0)
-        //        {
-        //            for (var i = 0; i < Request.Files.Count; i++)
-        //            {
-        //                var file = Request.Files[i];
-        //                if (file == null || file.ContentLength <= 0) continue;
-        //                var fileName = RandomName();
-        //                var fileExtension = Path.GetExtension(file.FileName);
-        //                var actName = Path.GetFileNameWithoutExtension(file.FileName);
-        //                string mimeType = MimeMapping.GetMimeMapping(file.FileName);
-        //                string fileSize = file.ContentLength.ToString();
-        //                var fileKey = Request.Files.Keys[i];
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditBlog([Bind("Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string? ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        {
+            ViewBag.ret = ret;
+            if (ModelState.IsValid)
+            {
+                if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                {
+                    var fileName = RandomName(); // method to generate a random name.
+                    var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
+                    var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
+                    string mimeType = GetMimeType(ImageUrlUpdate.FileName);
+                    string fileSize = ImageUrlUpdate.Length.ToString();
 
-        //                if (fileKey == "ImageUrlUpdate")
-        //                {
-        //                    //CloudBlobContainer blobContainer = GetCloudBlobContainer();
-        //                    //CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-        //                    //blob.UploadFromStream(file.InputStream);
-        //                    //devNews.ImageUrl = blob.Uri.ToString();
-        //                    devNews.FileMimeType = mimeType;
-        //                    devNews.FileSize = fileSize;
-        //                    // Saved Image in Image Gallery
-        //                    string imgcopyright = "";
-        //                    if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                    {
-        //                        imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                    }
-        //                    ImageGallery fileobj = new ImageGallery()
-        //                    {
-        //                        Title = actName,
-        //                        ImageUrl = devNews.ImageUrl,
-        //                        ImageCopyright = imgcopyright,
-        //                        Caption = "",
-        //                        FileMimeType = mimeType,
-        //                        FileSize = fileSize,
-        //                        Sector = devNews.Sector,
-        //                        Tags = "",
-        //                        UseCount = 1,
-        //                    };
-        //                    _db.ImageGallery.Add(fileobj);
-        //                    _db.SaveChanges();
-        //                }
-        //            }
-        //        }
-        //        if (!String.IsNullOrEmpty(ChooseImage))
-        //        {
-        //            devNews.ImageUrl = ChooseImage;
-        //            // Find Image in Old Image Gallery
-        //            var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
-        //            if (findimage != null)
-        //            {
-        //                // Saved Image in New Image Gallery
-        //                string imgcopyright = "";
-        //                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                {
-        //                    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                }
-        //                ImageGallery fileobj = new ImageGallery()
-        //                {
-        //                    Title = findimage.Title,
-        //                    ImageUrl = findimage.FileUrl,
-        //                    ImageCopyright = imgcopyright,
-        //                    Caption = "",
-        //                    FileMimeType = findimage.FileMimeType,
-        //                    FileSize = findimage.FileSize,
-        //                    Sector = findimage.FileFor,
-        //                    Tags = "",
-        //                    UseCount = 1,
-        //                };
-        //                _db.ImageGallery.Add(fileobj);
-        //                _db.SaveChanges();
-        //                // Remove from old gallery
-        //                _db.UserFiles.Remove(findimage);
-        //                _db.SaveChanges();
-        //            }
-        //        }
-        //        else if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
-        //        {
-        //            var sec = devNews.Sector.Split(',')[0];
-        //            devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
-        //            devNews.FileMimeType = "image/jpg";
-        //            devNews.FileSize = "88,651";
-        //        }
-        //        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-        //        {
-        //            devNews.PublishedOn = DateTime.UtcNow;
-        //        }
-        //        devNews.ModifiedOn = DateTime.UtcNow;
-        //        _db.DevNews.Update(devNews);
-        //        _db.Entry(devNews).Property(x => x.ViewCount).IsModified = false;
-        //        _db.SaveChanges();
-        //        if (FileTitle != null)
-        //        {
-        //            List<UserNewsFile> userFileList = new List<UserNewsFile>();
-        //            foreach (var item in FileTitle)
-        //            {
-        //                var index = FileTitle.IndexOf(item);
-        //                var filepath = FilePath[index];
-        //                var mimetype = MimeType[index];
-        //                var fileSize = FileVideoSize[index];
-        //                var caption = FileCaption[index];
-        //                var thumbUrl = FileThumbUrl[index];
-        //                var fDuration = FileDuration[index];
-        //                var newsid = devNews.Id;
-        //                UserNewsFile obj = new UserNewsFile();
-        //                obj.Title = item;
-        //                obj.FilePath = filepath;
-        //                obj.FileMimeType = mimetype;
-        //                obj.FileSize = fileSize;
-        //                obj.NewsId = newsid;
-        //                obj.FileCaption = caption;
-        //                obj.FileThumbUrl = thumbUrl;
-        //                obj.Duration = fDuration;
-        //                userFileList.Add(obj);
-        //            }
-        //            if (userFileList.Count > 0)
-        //            {
-        //                _db.UserNewsFiles.AddRange(userFileList);
-        //                _db.SaveChanges();
-        //            }
-        //        }
-        //        if (FileDelete != null)
-        //        {
-        //            foreach (var item in FileDelete)
-        //            {
-        //                var guidItem = Guid.Parse(item);
-        //                UserNewsFile obj = _db.UserNewsFiles.Find(guidItem);
-        //                _db.UserNewsFiles.Remove(obj);
-        //                _db.SaveChanges();
-        //            }
-        //        }
-        //        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-        //        {
-        //            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-        //            SaveNews(devNews.Id, devNews.Title, description);
-        //            CreateLog(devNews.Title + " Blog ", devNews.Title + " has been updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
-        //        }
-        //        if (ret == "newswire")
-        //        {
-        //            return RedirectToAction("PublishContent", "NewsWire");
-        //        }
-        //        return RedirectToAction("Blog");
-        //    }
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
-        //    return View(devNews);
-        //}
+                    CloudBlobContainer blobContainer;
+                    CloudBlockBlob blob;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        await ImageUrlUpdate.CopyToAsync(ms);
+                        ms.Position = 0;
+
+                        blobContainer = await GetCloudBlobContainer();
+                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                        await blob.UploadFromStreamAsync(ms);
+
+                        //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
+
+                        //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        //{
+                        //    await ImageUrl.CopyToAsync(fileStream);
+                        //}
+                        //devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                        devNews.ImageUrl = blob.Uri.ToString();
+                        devNews.FileMimeType = mimeType;
+                        devNews.FileSize = fileSize;
+                        // Saved Image in Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = actName,
+                            ImageUrl = devNews.ImageUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = mimeType,
+                            FileSize = fileSize,
+                            Sector = devNews.Sector,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                    }
+                }
+                if (!String.IsNullOrEmpty(ChooseImage))
+                {
+                    devNews.ImageUrl = ChooseImage;
+                    // Find Image in Old Image Gallery
+                    var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
+                    if (findimage != null)
+                    {
+                        // Saved Image in New Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = findimage.Title,
+                            ImageUrl = findimage.FileUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = findimage.FileMimeType,
+                            FileSize = findimage.FileSize,
+                            Sector = findimage.FileFor,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                        // Remove from old gallery
+                        _db.UserFiles.Remove(findimage);
+                        _db.SaveChanges();
+                    }
+                }
+                else if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
+                {
+                    var sec = devNews.Sector.Split(',')[0];
+                    devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
+                    devNews.FileMimeType = "image/jpg";
+                    devNews.FileSize = "88,651";
+                }
+                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                {
+                    devNews.PublishedOn = DateTime.UtcNow;
+                }
+                devNews.ModifiedOn = DateTime.UtcNow;
+                _db.DevNews.Update(devNews);
+                _db.Entry(devNews).Property(x => x.ViewCount).IsModified = false;
+                _db.Entry(devNews).Property(x => x.NewsId).IsModified = false;
+                _db.SaveChanges();
+                if (FileTitle != null)
+                {
+                    List<UserNewsFile> userFileList = new List<UserNewsFile>();
+                    foreach (var item in FileTitle)
+                    {
+                        var index = FileTitle.IndexOf(item);
+                        var filepath = FilePath[index];
+                        var mimetype = MimeType[index];
+                        var fileSize = FileVideoSize[index];
+                        var caption = FileCaption[index];
+                        var thumbUrl = FileThumbUrl[index];
+                        var fDuration = FileDuration[index];
+                        var newsid = devNews.Id;
+                        UserNewsFile obj = new UserNewsFile();
+                        obj.Title = item;
+                        obj.FilePath = filepath;
+                        obj.FileMimeType = mimetype;
+                        obj.FileSize = fileSize;
+                        obj.NewsId = newsid;
+                        obj.FileCaption = caption;
+                        obj.FileThumbUrl = thumbUrl;
+                        obj.Duration = fDuration;
+                        userFileList.Add(obj);
+                    }
+                    if (userFileList.Count > 0)
+                    {
+                        _db.UserNewsFiles.AddRange(userFileList);
+                        _db.SaveChanges();
+                    }
+                }
+                if (FileDelete != null)
+                {
+                    foreach (var item in FileDelete)
+                    {
+                        var guidItem = Guid.Parse(item);
+                        UserNewsFile obj = _db.UserNewsFiles.Find(guidItem);
+                        _db.UserNewsFiles.Remove(obj);
+                        _db.SaveChanges();
+                    }
+                }
+                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                {
+                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                    SaveNews(devNews.Id, devNews.Title, description);
+                    CreateLog(devNews.Title + " Blog ", devNews.Title + " has been updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
+                }
+                if (ret == "newswire")
+                {
+                    return RedirectToAction("PublishContent", "NewsWire");
+                }
+                return RedirectToAction("Blog");
+            }
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+            return View(devNews);
+        }
+
         // GET: DevNews/Clone/5
         [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult Clone(Guid? id)
@@ -1174,106 +1193,138 @@ namespace DevDiscourse.Controllers.Main
         // POST: DevNews/Clone/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Clone([Bind(Include = "Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount")] DevNews devNews, string ChooseImage)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (Request.Files.Count > 0)
-        //        {
-        //            for (var i = 0; i < Request.Files.Count; i++)
-        //            {
-        //                var file = Request.Files[i];
-        //                if (file == null || file.ContentLength <= 0) continue;
-        //                var fileName = RandomName();
-        //                var fileExtension = Path.GetExtension(file.FileName);
-        //                string mimeType = MimeMapping.GetMimeMapping(file.FileName);
-        //                string fileSize = file.ContentLength.ToString();
-        //                var fileKey = Request.Files.Keys[i];
-        //                if (fileKey == "ImageUrlUpdate")
-        //                {
-        //                    //CloudBlobContainer blobContainer = GetCloudBlobContainer();
-        //                    //CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-        //                    //blob.UploadFromStream(file.InputStream);
-        //                    //devNews.ImageUrl = blob.Uri.ToString();
-        //                    devNews.FileMimeType = mimeType;
-        //                    devNews.FileSize = fileSize;
-        //                }
-        //            }
-        //        }
-        //        if (!String.IsNullOrEmpty(ChooseImage))
-        //        {
-        //            devNews.ImageUrl = ChooseImage;
-        //            // Find Image in Old Image Gallery
-        //            var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
-        //            if (findimage != null)
-        //            {
-        //                // Saved Image in New Image Gallery
-        //                string imgcopyright = "";
-        //                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                {
-        //                    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                }
-        //                ImageGallery fileobj = new ImageGallery()
-        //                {
-        //                    Title = findimage.Title,
-        //                    ImageUrl = findimage.FileUrl,
-        //                    ImageCopyright = imgcopyright,
-        //                    Caption = "",
-        //                    FileMimeType = findimage.FileMimeType,
-        //                    FileSize = findimage.FileSize,
-        //                    Sector = findimage.FileFor,
-        //                    Tags = "",
-        //                    UseCount = 1,
-        //                };
-        //                _db.ImageGallery.Add(fileobj);
-        //                _db.SaveChanges();
-        //                // Remove from old gallery
-        //                _db.UserFiles.Remove(findimage);
-        //                _db.SaveChanges();
-        //            }
-        //        }
-        //        if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
-        //        {
-        //            devNews.ImageUrl = "/images/sector/all_sectors.jpg";
-        //            devNews.FileMimeType = "image/jpg";
-        //            devNews.FileSize = "88,651";
-        //        }
-        //        devNews.IsIndexed = false;
-        //        devNews.ViewCount = 0;
-        //        devNews.LikeCount = 0;
-        //        devNews.Creator = userManager.GetUserId(User);
-        //        devNews.CreatedOn = DateTime.UtcNow;
-        //        devNews.ModifiedOn = DateTime.UtcNow;
-        //        devNews.PublishedOn = DateTime.UtcNow;
-        //        _db.DevNews.Add(devNews);
-        //        _db.SaveChanges();
-        //        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-        //        {
-        //            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-        //            if (description.Length > 1000)
-        //            {
-        //                description = description.Substring(0, 1000) + "...";
-        //            }
-        //        }
-        //        if (TempData["IsStandout"].ToString() == "False" && devNews.IsStandout == true)
-        //        {
-        //            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-        //            if (description.Length > 200)
-        //            {
-        //                description = description.Substring(0, 200) + "...";
-        //            }
-        //            await SendMessage(devNews.Title, description, devNews.NewsId.ToString(), devNews.ImageUrl);
-        //        }
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
-        //    return View(devNews);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Clone([Bind("Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                {
+                    var fileName = RandomName(); // method to generate a random name.
+                    var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
+                    var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
+                    string mimeType = GetMimeType(ImageUrlUpdate.FileName);
+                    string fileSize = ImageUrlUpdate.Length.ToString();
+
+                    CloudBlobContainer blobContainer;
+                    CloudBlockBlob blob;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        await ImageUrlUpdate.CopyToAsync(ms);
+                        ms.Position = 0;
+
+                        blobContainer = await GetCloudBlobContainer();
+                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                        await blob.UploadFromStreamAsync(ms);
+
+                        //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
+
+                        //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        //{
+                        //    await ImageUrl.CopyToAsync(fileStream);
+                        //}
+                        //devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                        devNews.ImageUrl = blob.Uri.ToString();
+                        devNews.FileMimeType = mimeType;
+                        devNews.FileSize = fileSize;
+                        // Saved Image in Image Gallery
+                        //string imgcopyright = "";
+                        //if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        //{
+                        //    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        //}
+                        //ImageGallery fileobj = new ImageGallery()
+                        //{
+                        //    Title = actName,
+                        //    ImageUrl = devNews.ImageUrl,
+                        //    ImageCopyright = imgcopyright,
+                        //    Caption = "",
+                        //    FileMimeType = mimeType,
+                        //    FileSize = fileSize,
+                        //    Sector = devNews.Sector,
+                        //    Tags = "",
+                        //    UseCount = 1,
+                        //};
+                        //_db.ImageGalleries.Add(fileobj);
+                        //_db.SaveChanges();
+                    }
+                }
+                if (!String.IsNullOrEmpty(ChooseImage))
+                {
+                    devNews.ImageUrl = ChooseImage;
+                    // Find Image in Old Image Gallery
+                    var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
+                    if (findimage != null)
+                    {
+                        // Saved Image in New Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = findimage.Title,
+                            ImageUrl = findimage.FileUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = findimage.FileMimeType,
+                            FileSize = findimage.FileSize,
+                            Sector = findimage.FileFor,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                        // Remove from old gallery
+                        _db.UserFiles.Remove(findimage);
+                        _db.SaveChanges();
+                    }
+                }
+                if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
+                {
+                    devNews.ImageUrl = "/images/sector/all_sectors.jpg";
+                    devNews.FileMimeType = "image/jpg";
+                    devNews.FileSize = "88,651";
+                }
+                devNews.Id = Guid.NewGuid();
+                devNews.IsIndexed = false;
+                devNews.ViewCount = 0;
+                devNews.LikeCount = 0;
+                devNews.Creator = userManager.GetUserId(User);
+                devNews.CreatedOn = DateTime.UtcNow;
+                devNews.ModifiedOn = DateTime.UtcNow;
+                devNews.PublishedOn = DateTime.UtcNow;
+                //devNews.NewsId = 111;
+                _db.DevNews.Add(devNews);
+                _db.SaveChanges();
+                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                {
+                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                    if (description.Length > 1000)
+                    {
+                        description = description.Substring(0, 1000) + "...";
+                    }
+                }
+                if (TempData["IsStandout"].ToString() == "False" && devNews.IsStandout == true)
+                {
+                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                    if (description.Length > 200)
+                    {
+                        description = description.Substring(0, 200) + "...";
+                    }
+                    await SendMessage(devNews.Title, description, devNews.NewsId.ToString(), devNews.ImageUrl);
+                }
+                return RedirectToAction("Index");
+            }
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+            return View(devNews);
+        }
+
         // GET: DevNews/Clone/5
         [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult BlogClone(Guid? id)
@@ -1300,106 +1351,137 @@ namespace DevDiscourse.Controllers.Main
         // POST: DevNews/BlogClone/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> BlogClone([Bind(Include = "Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount")] DevNews devNews, string ChooseImage)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (Request.Files.Count > 0)
-        //        {
-        //            for (var i = 0; i < Request.Files.Count; i++)
-        //            {
-        //                var file = Request.Files[i];
-        //                if (file == null || file.ContentLength <= 0) continue;
-        //                var fileName = RandomName();
-        //                var fileExtension = Path.GetExtension(file.FileName);
-        //                string mimeType = MimeMapping.GetMimeMapping(file.FileName);
-        //                string fileSize = file.ContentLength.ToString();
-        //                var fileKey = Request.Files.Keys[i];
-        //                if (fileKey == "ImageUrlUpdate")
-        //                {
-        //                    //CloudBlobContainer blobContainer = GetCloudBlobContainer();
-        //                    //CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-        //                    //blob.UploadFromStream(file.InputStream);
-        //                    //devNews.ImageUrl = blob.Uri.ToString();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> BlogClone([Bind("Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                {
+                    var fileName = RandomName(); // method to generate a random name.
+                    var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
+                    var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
+                    string mimeType = GetMimeType(ImageUrlUpdate.FileName);
+                    string fileSize = ImageUrlUpdate.Length.ToString();
 
-        //                    devNews.FileMimeType = mimeType;
-        //                    devNews.FileSize = fileSize;
-        //                }
-        //            }
-        //        }
-        //        if (!String.IsNullOrEmpty(ChooseImage))
-        //        {
-        //            devNews.ImageUrl = ChooseImage;
-        //            // Find Image in Old Image Gallery
-        //            var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
-        //            if (findimage != null)
-        //            {
-        //                // Saved Image in New Image Gallery
-        //                string imgcopyright = "";
-        //                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                {
-        //                    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                }
-        //                ImageGallery fileobj = new ImageGallery()
-        //                {
-        //                    Title = findimage.Title,
-        //                    ImageUrl = findimage.FileUrl,
-        //                    ImageCopyright = imgcopyright,
-        //                    Caption = "",
-        //                    FileMimeType = findimage.FileMimeType,
-        //                    FileSize = findimage.FileSize,
-        //                    Sector = findimage.FileFor,
-        //                    Tags = "",
-        //                    UseCount = 1,
-        //                };
-        //                _db.ImageGallery.Add(fileobj);
-        //                _db.SaveChanges();
-        //                // Remove from old gallery
-        //                _db.UserFiles.Remove(findimage);
-        //                _db.SaveChanges();
-        //            }
-        //        }
-        //        if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
-        //        {
-        //            devNews.ImageUrl = "/images/sector/all_sectors.jpg";
-        //            devNews.FileMimeType = "image/jpg";
-        //            devNews.FileSize = "88,651";
-        //        }
-        //        devNews.IsIndexed = false;
-        //        devNews.ViewCount = 0;
-        //        devNews.LikeCount = 0;
-        //        devNews.CreatedOn = DateTime.UtcNow;
-        //        devNews.ModifiedOn = DateTime.UtcNow;
-        //        devNews.PublishedOn = DateTime.UtcNow;
-        //        _db.DevNews.Add(devNews);
-        //        _db.SaveChanges();
-        //        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-        //        {
-        //            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-        //            if (description.Length > 1000)
-        //            {
-        //                description = description.Substring(0, 1000) + "...";
-        //            }
-        //        }
-        //        if (TempData["IsStandout"].ToString() == "False" && devNews.IsStandout == true)
-        //        {
-        //            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-        //            if (description.Length > 200)
-        //            {
-        //                description = description.Substring(0, 200) + "...";
-        //            }
-        //            await SendMessage(devNews.Title, description, devNews.NewsId.ToString(), devNews.ImageUrl);
-        //        }
-        //        return RedirectToAction("Blog");
-        //    }
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
-        //    return View(devNews);
-        //}
+                    CloudBlobContainer blobContainer;
+                    CloudBlockBlob blob;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        await ImageUrlUpdate.CopyToAsync(ms);
+                        ms.Position = 0;
+
+                        blobContainer = await GetCloudBlobContainer();
+                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                        await blob.UploadFromStreamAsync(ms);
+
+                        //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
+
+                        //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        //{
+                        //    await ImageUrl.CopyToAsync(fileStream);
+                        //}
+                        //devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                        devNews.ImageUrl = blob.Uri.ToString();
+                        devNews.FileMimeType = mimeType;
+                        devNews.FileSize = fileSize;
+                        // Saved Image in Image Gallery
+                        //string imgcopyright = "";
+                        //if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        //{
+                        //    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        //}
+                        //ImageGallery fileobj = new ImageGallery()
+                        //{
+                        //    Title = actName,
+                        //    ImageUrl = devNews.ImageUrl,
+                        //    ImageCopyright = imgcopyright,
+                        //    Caption = "",
+                        //    FileMimeType = mimeType,
+                        //    FileSize = fileSize,
+                        //    Sector = devNews.Sector,
+                        //    Tags = "",
+                        //    UseCount = 1,
+                        //};
+                        //_db.ImageGalleries.Add(fileobj);
+                        //_db.SaveChanges();
+                    }
+                }
+                if (!String.IsNullOrEmpty(ChooseImage))
+                {
+                    devNews.ImageUrl = ChooseImage;
+                    // Find Image in Old Image Gallery
+                    var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
+                    if (findimage != null)
+                    {
+                        // Saved Image in New Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = findimage.Title,
+                            ImageUrl = findimage.FileUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = findimage.FileMimeType,
+                            FileSize = findimage.FileSize,
+                            Sector = findimage.FileFor,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                        // Remove from old gallery
+                        _db.UserFiles.Remove(findimage);
+                        _db.SaveChanges();
+                    }
+                }
+                if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
+                {
+                    devNews.ImageUrl = "/images/sector/all_sectors.jpg";
+                    devNews.FileMimeType = "image/jpg";
+                    devNews.FileSize = "88,651";
+                }
+                devNews.Id = Guid.NewGuid();
+                devNews.IsIndexed = false;
+                devNews.ViewCount = 0;
+                devNews.LikeCount = 0;
+                devNews.CreatedOn = DateTime.UtcNow;
+                devNews.ModifiedOn = DateTime.UtcNow;
+                devNews.PublishedOn = DateTime.UtcNow;
+                //devNews.NewsId = 111;
+                _db.DevNews.Add(devNews);
+                _db.SaveChanges();
+                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                {
+                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                    if (description.Length > 1000)
+                    {
+                        description = description.Substring(0, 1000) + "...";
+                    }
+                }
+                if (TempData["IsStandout"].ToString() == "False" && devNews.IsStandout == true)
+                {
+                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                    if (description.Length > 200)
+                    {
+                        description = description.Substring(0, 200) + "...";
+                    }
+                    await SendMessage(devNews.Title, description, devNews.NewsId.ToString(), devNews.ImageUrl);
+                }
+                return RedirectToAction("Blog");
+            }
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+            return View(devNews);
+        }
+
         // GET: DevNews/BreakingNews
         [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult BreakingNews()
@@ -1414,137 +1496,145 @@ namespace DevDiscourse.Controllers.Main
         // POST: DevNews/BreakingNews
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult BreakingNews([Bind(Include = "Id,Title,SubTitle,Description,NewsLabels,Category,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,SourceUrl,EditorPick")] DevNews devNews, string ChooseImage)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (Request.Files.Count > 0)
-        //        {
-        //            for (var i = 0; i < Request.Files.Count; i++)
-        //            {
-        //                var file = Request.Files[i];
-        //                if (file == null || file.ContentLength <= 0) continue;
-        //                var fileName = RandomName();
-        //                var fileExtension = Path.GetExtension(file.FileName);
-        //                var actName = Path.GetFileNameWithoutExtension(file.FileName);
-        //                string mimeType = MimeMapping.GetMimeMapping(file.FileName);
-        //                string fileSize = file.ContentLength.ToString();
-        //                var fileKey = Request.Files.Keys[i];
-        //                if (fileKey == "ImageUrl")
-        //                {
-        //                    //CloudBlobContainer blobContainer = GetCloudBlobContainer();
-        //                    //CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-        //                    //blob.UploadFromStream(file.InputStream);
-        //                    //devNews.ImageUrl = blob.Uri.ToString();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> BreakingNews([Bind("Id,Title,SubTitle,Description,NewsLabels,Category,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,SourceUrl,EditorPick")] DevNews devNews, IFormFile? ImageUrl, string? ChooseImage)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ImageUrl != null && ImageUrl.Length > 0)
+                {
+                    var fileName = RandomName(); // method to generate a random name.
+                    var fileExtension = Path.GetExtension(ImageUrl.FileName);
+                    var actName = Path.GetFileNameWithoutExtension(ImageUrl.FileName);
+                    string mimeType = GetMimeType(ImageUrl.FileName);
+                    string fileSize = ImageUrl.Length.ToString();
 
-        //                    devNews.FileMimeType = mimeType;
-        //                    devNews.FileSize = fileSize;
-        //                    // Saved Image in Image Gallery
-        //                    string imgcopyright = "";
-        //                    if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                    {
-        //                        imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                    }
-        //                    ImageGallery fileobj = new ImageGallery()
-        //                    {
-        //                        Title = actName,
-        //                        ImageUrl = devNews.ImageUrl,
-        //                        ImageCopyright = imgcopyright,
-        //                        Caption = "",
-        //                        FileMimeType = mimeType,
-        //                        FileSize = fileSize,
-        //                        Sector = devNews.Sector,
-        //                        Tags = "",
-        //                        UseCount = 1,
-        //                    };
-        //                    _db.ImageGallery.Add(fileobj);
-        //                    _db.SaveChanges();
-        //                }
-        //            }
-        //        }
-        //        if (!String.IsNullOrEmpty(ChooseImage))
-        //        {
-        //            devNews.ImageUrl = ChooseImage;
-        //            // Find Image in Old Image Gallery
-        //            var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
-        //            if (findimage != null)
-        //            {
-        //                // Saved Image in New Image Gallery
-        //                string imgcopyright = "";
-        //                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-        //                {
-        //                    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
-        //                }
-        //                ImageGallery fileobj = new ImageGallery()
-        //                {
-        //                    Title = findimage.Title,
-        //                    ImageUrl = findimage.FileUrl,
-        //                    ImageCopyright = imgcopyright,
-        //                    Caption = "",
-        //                    FileMimeType = findimage.FileMimeType,
-        //                    FileSize = findimage.FileSize,
-        //                    Sector = findimage.FileFor,
-        //                    Tags = "",
-        //                    UseCount = 1,
-        //                };
-        //                _db.ImageGallery.Add(fileobj);
-        //                _db.SaveChanges();
-        //                // Remove from old gallery
-        //                _db.UserFiles.Remove(findimage);
-        //                _db.SaveChanges();
-        //            }
-        //        }
-        //        else if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
-        //        {
-        //            devNews.ImageUrl = "/images/sector/all_sectors.jpg";
-        //            devNews.FileMimeType = "image/jpg";
-        //            devNews.FileSize = "88,651";
-        //        }
-        //        devNews.Id = Guid.NewGuid();
-        //        devNews.AdminCheck = true;
-        //        devNews.IsSponsored = false;
-        //        devNews.IsInfocus = false;
-        //        devNews.IsVideo = false;
-        //        devNews.IsStandout = false;
-        //        devNews.IsGlobal = false;
-        //        devNews.IsIndexed = false;
-        //        devNews.Author = "";
-        //        devNews.Type = "News";
-        //        devNews.SubType = "";
-        //        devNews.ViewCount = 0;
-        //        devNews.LikeCount = 0;
-        //        devNews.OriginalSource = devNews.Source;
-        //        devNews.Creator = userManager.GetUserId(User);
-        //        _db.DevNews.Add(devNews);
-        //        _db.SaveChanges();
-        //        var edition = ML_Edition(devNews.Description);
-        //        List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-        //        if (edition.Any())
-        //        {
-        //            foreach (var item in edition)
-        //            {
-        //                var regObj = new RegionNewsRanking()
-        //                {
-        //                    RegionId = item.RegionId,
-        //                    NewsId = devNews.Id,
-        //                    Ranking = item.Ranking
-        //                };
-        //                newsRankingList.Add(regObj);
-        //            };
-        //            _db.RegionNewsRankings.AddRange(newsRankingList);
-        //            _db.SaveChanges();
-        //        }
-        //        return RedirectToAction("Index", "Admin");
-        //    }
+                    CloudBlobContainer blobContainer;
+                    CloudBlockBlob blob;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        await ImageUrl.CopyToAsync(ms);
+                        ms.Position = 0;
 
-        //    ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
-        //    ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
-        //    ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
-        //    ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
-        //    return View(devNews);
-        //}
+                        blobContainer = await GetCloudBlobContainer();
+                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                        await blob.UploadFromStreamAsync(ms);
+
+                        //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
+
+                        //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        //{
+                        //    await ImageUrl.CopyToAsync(fileStream);
+                        //}
+                        //devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                        devNews.ImageUrl = blob.Uri.ToString();
+                        devNews.FileMimeType = mimeType;
+                        devNews.FileSize = fileSize;
+                        // Saved Image in Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = actName,
+                            ImageUrl = devNews.ImageUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = mimeType,
+                            FileSize = fileSize,
+                            Sector = devNews.Sector,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                    }
+                }
+                if (!String.IsNullOrEmpty(ChooseImage))
+                {
+                    devNews.ImageUrl = ChooseImage;
+                    // Find Image in Old Image Gallery
+                    var findimage = _db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
+                    if (findimage != null)
+                    {
+                        // Saved Image in New Image Gallery
+                        string imgcopyright = "";
+                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        {
+                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                        }
+                        ImageGallery fileobj = new ImageGallery()
+                        {
+                            Title = findimage.Title,
+                            ImageUrl = findimage.FileUrl,
+                            ImageCopyright = imgcopyright,
+                            Caption = "",
+                            FileMimeType = findimage.FileMimeType,
+                            FileSize = findimage.FileSize,
+                            Sector = findimage.FileFor,
+                            Tags = "",
+                            UseCount = 1,
+                        };
+                        _db.ImageGalleries.Add(fileobj);
+                        _db.SaveChanges();
+                        // Remove from old gallery
+                        _db.UserFiles.Remove(findimage);
+                        _db.SaveChanges();
+                    }
+                }
+                else if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
+                {
+                    devNews.ImageUrl = "/images/sector/all_sectors.jpg";
+                    devNews.FileMimeType = "image/jpg";
+                    devNews.FileSize = "88,651";
+                }
+                devNews.Id = Guid.NewGuid();
+                devNews.AdminCheck = true;
+                devNews.IsSponsored = false;
+                devNews.IsInfocus = false;
+                devNews.IsVideo = false;
+                devNews.IsStandout = false;
+                devNews.IsGlobal = false;
+                devNews.IsIndexed = false;
+                devNews.Author = "";
+                devNews.Type = "News";
+                devNews.SubType = "";
+                devNews.ViewCount = 0;
+                devNews.LikeCount = 0;
+                devNews.OriginalSource = devNews.Source;
+                devNews.Creator = userManager.GetUserId(User);
+                //devNews.NewsId = 111;
+                _db.DevNews.Add(devNews);
+                _db.SaveChanges();
+                var edition = ML_Edition(devNews.Description);
+                List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                if (edition.Any())
+                {
+                    foreach (var item in edition)
+                    {
+                        var regObj = new RegionNewsRanking()
+                        {
+                            RegionId = item.RegionId,
+                            NewsId = devNews.Id,
+                            Ranking = item.Ranking
+                        };
+                        newsRankingList.Add(regObj);
+                    };
+                    _db.RegionNewsRankings.AddRange(newsRankingList);
+                    _db.SaveChanges();
+                }
+                return RedirectToAction("Index", "Admin");
+            }
+
+            ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
+            ViewBag.Category = new SelectList(_db.Categories.Where(s => s.IsActive == true).OrderByDescending(o => o.SrNo), "Id", "Title", devNews.Category);
+            ViewBag.NewsLabels = new SelectList(_db.Labels, "Slug", "Title", devNews.NewsLabels);
+            ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
+            return View(devNews);
+        }
         public string RandomName()
         {
             var time = DateTime.UtcNow.ToLocalTime();
@@ -1989,6 +2079,8 @@ namespace DevDiscourse.Controllers.Main
 
         public JsonResult AssignNewsToUser(long id, string user)
         {
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) { return Json("Invalid NewsId"); }
             AssignNews obj = new AssignNews()
             {
                 UserId = user,
@@ -1998,9 +2090,9 @@ namespace DevDiscourse.Controllers.Main
             };
             _db.AssignNews.Add(obj);
             _db.SaveChanges();
-            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+
             search.IsIndexed = true;
-            _db.DevNews.Update(search);
+            _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
             return Json("Success");
         }
@@ -2008,13 +2100,16 @@ namespace DevDiscourse.Controllers.Main
         {
             var users = _db.Users.Where(a => a.isActive == true).OrderByDescending(o => o.CreatedOn).Select(s => s.Id).ToArray();
             int counter = 0;
-            string contentRoot = AppDomain.CurrentDomain.BaseDirectory; // Get the current application's root directory
-            string filePath = Path.Combine(contentRoot, "Content", "counter.txt"); // Full path to the file
 
+            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Content", "counter.txt");
             if (System.IO.File.Exists(filePath))
             {
                 string noOfVisitors = System.IO.File.ReadAllText(filePath);
                 counter = int.TryParse(noOfVisitors, out int parsedCounter) ? parsedCounter : 0;
+            }
+            else
+            {
+                System.IO.File.Create(filePath);
             }
 
             counter++;
@@ -2031,6 +2126,7 @@ namespace DevDiscourse.Controllers.Main
 
             return "No User";
         }
+        [Authorize]
         public JsonResult AutoAssign(long id)
         {
             var user = GetShiftUser();
@@ -2038,6 +2134,8 @@ namespace DevDiscourse.Controllers.Main
             {
                 return Json("NoUser");
             }
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) { return Json("Invalid NewsId"); }
             AssignNews obj = new AssignNews()
             {
                 UserId = user,
@@ -2047,12 +2145,13 @@ namespace DevDiscourse.Controllers.Main
             };
             _db.AssignNews.Add(obj);
             _db.SaveChanges();
-            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+
             search.IsIndexed = true;
-            _db.DevNews.Update(search);
+            _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
             return Json("Success");
         }
+        [Authorize]
         public JsonResult AutoAssignWithAlert(long id)
         {
             var user = GetShiftUser();
@@ -2060,6 +2159,8 @@ namespace DevDiscourse.Controllers.Main
             {
                 return Json("NoUser");
             }
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) { return Json("Invalid NewsId"); }
             AssignNews obj = new AssignNews()
             {
                 UserId = user,
@@ -2069,13 +2170,13 @@ namespace DevDiscourse.Controllers.Main
             };
             _db.AssignNews.Add(obj);
             _db.SaveChanges();
-            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+
             search.IsIndexed = true;
-            _db.DevNews.Update(search);
+            _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.NewsAssignNotification("New news assign to you", user);
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            //context.Clients.All.NewsAssignNotification("New news assign to you", user);
 
             return Json("Success");
         }

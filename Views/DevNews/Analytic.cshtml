@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Analytic";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
 }
@@ -9,6 +8,7 @@
     input, textarea, select {
         max-width: 100% !important;
     }
+
     .loadMoreButton {
         font-size: 16px;
         color: #4c5766;
@@ -20,6 +20,7 @@
         padding: 10px;
         border: 1px solid #eee;
     }
+
         .loadMoreButton:hover {
             background-color: #ff9c46;
         }
@@ -35,6 +36,7 @@
             <label>Region</label>
             <select class="form-control newsfilter" id="selRegion">
                 @* @{ Html.RenderAction("GetRegion", "Home");} *@
+                @await Component.InvokeAsync("Region");
             </select>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -46,6 +48,7 @@
             <select class="form-control newsfilter" id="selSector">
                 <option value="0">All Sector</option>
                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
             </select>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -97,6 +100,7 @@
         </thead>
         <tbody id="showData">
             @* @{ Html.RenderAction("GetAnalytic", "DevNews");} *@
+            @await Component.InvokeAsync("Analytic");
         </tbody>
     </table>
     <div class="text-center loadSpin f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
@@ -115,7 +119,7 @@
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
             var _region = "Global Edition";
@@ -204,8 +208,7 @@
             });
             $('#sendMailBtn').click(function () {
                 _description = $('#inputDesc').val();
-                if (_description == "")
-                {
+                if (_description == "") {
                     showalert("Please input description!", "danger");
                 }
                 else {

@@ -3,8 +3,10 @@
     ViewBag.Title = "Clone";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
 }
-<link rel="stylesheet" href="~/Content/admin.css" />
-@* @Styles.Render("~/Content/admincss") *@
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<link href="~/Content/admin.css" rel="stylesheet" />
+<link href="~/Scripts/tagsInput/css/jquery.tagsinput.min.css" rel="stylesheet" />
+
 <div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
     <ol class="breadcrumb no-margin">
         <li class="breadcrumb-item"><a href="@Url.Action("Media", "Admin")">Admin</a></li>
@@ -406,8 +408,8 @@
     </div>
 </div>
 @section scripts{
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @* @Scripts.Render("~/bundles/jqueryadmin") *@
+    <script src="~/Scripts/jquery.multiselect.js"></script>
+    <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -436,7 +438,7 @@
             $('#Type').val(_type);
             $('#SubType').val(_subtype);
             $('.input-tags').tagsInput();
-            $('.lazy').lazy();
+            // $('.lazy').lazy();
             $("#title_character").html('Character  Count: ' + $("#Title").val().length);
             $('#Title').keydown(function () {
                 $("#title_character").html('Character  Count: ' + $(this).val().length);
@@ -503,7 +505,7 @@
                                         $('.modal-footer').show();
                                         $('#newsList').html("");
                                         $.each(data, function (i, item) {
-                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.NewsId + '" tabindex="' + item.Title + '" value="' + item.Label + '">' + item.Title + '</div>');
+                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.newsId + '" tabindex="' + item.title + '" value="' + item.label + '">' + item.title + '</div>');
                                         });
                                     },
                                     error: function (req, status, error) {
@@ -629,7 +631,7 @@
                     success: function (data) {
                         $('#Country_multi').replaceWith(' <select class="form-control" id="Country_multi" multiple="multiple" style="height:100px"></select>');
                         $.each(data, function (i, item) {
-                            $('#Country_multi').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                            $('#Country_multi').append('<option value="' + item.title + '">' + item.title + '</option>');
                         });
                         $('#Country_multi').multiselect('refresh');
                         $('.actionButtons').hide();

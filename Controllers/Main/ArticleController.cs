@@ -1,11 +1,8 @@
-﻿using Devdiscourse.Data;
+using Devdiscourse.Data;
 using Devdiscourse.Hubs;
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
-using DevDiscourse.Controllers;
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Office2010.Excel;
 using Html2Amp;
 using Html2Amp.Sanitization;
 using Html2Amp.Sanitization.Implementation;
@@ -14,13 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
-using RestSharp;
 using ServiceStack.Host;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
-using System.Web.Http;
-using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 
 namespace Devdiscourse.Controllers.Main
 {

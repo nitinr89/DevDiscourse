@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "News & Analysis, Opinion, Blogs, Editior Pick | Devdiscourse";
+    //string domainUrl = "https://www.devdiscourse.com";
+    string domainUrl = "";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Read News Analysis and Expert Views on various sectors like Economy, Business, Transport, Social-Gender and more";
+    ViewBag.webEdition = ViewBag.reg;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/blogs";
+    ViewBag.pageKeywords = "News Analysis, Opinion, Blogs, Editorial, Expert Views, Columns";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage+"?w=920";
+}
+<style>
+    .loadMoreButton {
+        font-size: 16px;
+        color: #4c5766;
+        display: block;
+        line-height: 30px;
+        border: 1px solid #f6f9fc;
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .loadMoreButton:hover {
+            background-color: #ff9c46;
+        }
+
+    .blog-card {
+        box-shadow: 0 1px 3px rgba(0,0,0, 0.12), 0 1px 2px rgba(0,0,0, 0.24);
+        padding: 20px 10px;
+        border: 1px solid #eee;
+    }
+
+    .socialicon {
+        padding-top: 6px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 50%;
+        color: #444;
+        border: 1px solid #444;
+        background-color: #fff;
+    }
+
+        .socialicon:hover {
+            background-color: #444;
+            color: #fff;
+        }
+
+    .infocus-badge {
+        padding: 3px 5px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: #ff7b00;
+        color: #fff;
+    }</style>
+<div class="container"> <div class="advertisement-area" style="min-height:122px"> <div class="advertisement-title">Advertisement</div></div><ul class="breadcrumb breadcrumb_new m-t-10"> <li><a href="@Url.Action("Index","Home")">Home</a></li>@if (@ViewBag.type.ToLower() == "interview")
+        {
+            <li class="active">Interview</li>
+        }
+        else
+        {
+            <li class="active">Opinion / Blog / Analysis</li>
+        }</ul> <div class="row"> <div class="col-md-8"> @if (@ViewBag.type.ToLower() == "interview")
+            {
+                <h1 class="section-title"><span>INTERVIEW</span></h1>
+            }
+            else
+            {
+                <h1 class="section-title"><span>OPINION / BLOG / ANALYSIS</span></h1>
+            }<div class="row" id="blogContainer"> @{
+                    @await Component.InvokeAsync("BlogItems", new { page = 1, type = ViewBag.type, region = ViewBag.reg});
+                }</div><div id="loading" style="display:none;"><p class="text-center"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i> Loading... </p></div></div><div class="col-md-4"> <div class="clearfix"> <h2 class="section-title"> <span>TRENDING</span> </h2> @{
+                    @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.reg});
+                }</div><div class="clearfix m-t-30 hidden-sm hidden-xs"> @{
+                    Html.RenderPartial("_socialPartial");
+                }</div><div id="AfricaEditionNews"></div><div id="EditionNews"></div><div id="videoNews" class="clearfix m-t-30"></div></div></div></div>
+@section scripts{
+    <script src="~/scripts/lazysizes.min.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        debugger;
+            var page = 1,
+                region = '@(ViewBag.reg)',
+                type = '@(ViewBag.type)',
+                inCallback = false,
+                isReachedScrollEnd = false;
+                $.ajax('/Home/GetVideoNews?reg=@(ViewBag.reg)').done(function (e) {
+                    $("#videoNews").html(e), $(".lazy").lazy()
+                });
+
+            function convertToSlug(newsId, str) {
+                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return newsId + "-" + str;
+            }
+            $(window).scroll(function () {
+                debugger;
+                if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height())) {
+                    loadProjectData();
+                }
+            });
+            function loadProjectData() {
+                if (page > -1 && !inCallback) {
+                    debugger;
+                    inCallback = true;
+                    page++;
+                    $("div#loading").show();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Home/GetBlogItems',
+                        dataType: "Html",
+                        data: { page: page, region: region, type: type },
+                        success: function (data, textstatus) {
+                            debugger;
+                            $("div#loading").hide();
+                            if (data.trim() != '') {
+                                $("#blogContainer").append(data);
+                                $("#newsContainer").append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div style="padding:10px;border:1px solid #eee;" class="loadMoreButton m-t-10 m-b-10 text-center">SHOW MORE <span class="fa fa-chevron-circle-down" aria-hidden="true"></span></div></div>');
+                            }
+                            else {
+                                page = -1;
+                            }
+                            inCallback = false;
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            //alert(errorThrown);
+                        }
+                    });
+                }
+            }
+            $(document).on("click", ".loadMoreButton", function () {
+                $(this).remove();
+                showMoreCounter = 0;
+                loadProjectData();
+            });
+            // Active Menu Icon
+        $(document).find('.linkBtn').removeClass('active');
+        if (type == "interview") {
+            $(document).find('#interviewLink').addClass('active');
+        } else {
+            $(document).find('#blogLink').addClass('active');
+        }
+            // Region Search
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition" + "=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+    });
+    </script>
+}

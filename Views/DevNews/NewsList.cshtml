@@ -81,6 +81,7 @@
             <div class="input-group">
                 <select class="form-control f-12" id="selRegion">
                     @* @{ Html.RenderAction("GetRegion", "Home");} *@
+                    @await Component.InvokeAsync("Region");
                 </select>
                 <span class="input-group-btn">
                     <button class="btn btn-search" id="regionBtn" type="button"><i class="fa fa-search fa-fw"></i></button>
@@ -109,6 +110,7 @@
             <select class="form-control newsfilter" id="selSector">
                 <option value="0">All Sector</option>
                 @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
             </select>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -116,6 +118,7 @@
             <select class="form-control newsfilter" id="selCategory">
                 <option value="0">All Category</option>
                 @* @{ Html.RenderAction("GetCategory", "Categories");} *@
+                @await Component.InvokeAsync("Category");
             </select>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -220,13 +223,15 @@
                     </td>
                     <td>
                         @* @{ Html.RenderAction("GetSector", "Home", new { sector = item.Sector, filter = "Plane" });} *@
+                        @await Component.InvokeAsync("Sector", new { sector = item.Sector, filter = "Plane" });
                     </td>
                     <td>
                         @item.Label
                     </td>
                     <td>
                         @{
-                            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                            // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                            var newsImage = item.ImageUrl;
                         }
                         <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
                     </td>

@@ -1,0 +1,308 @@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "Livediscourse - Devdiscourse";
+    ViewBag.alternateHeadline = "Livediscourse | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse provides latest development news. Get today's news headlines from Science-Environment, Economy & Business, Politics, Technology, Health, Education, Social & Gender, Energy & Extractives and Entertainment News.";
+    ViewBag.PostUrl = "https://www.devdiscourse.com/live-discourse";
+    ViewBag.pageKeywords = "Livediscourse, Live blogs, Devdiscourse news, Development News, News today, Breaking news, Latest news, World news, Daily news, News headlines, Today's news headlines, Current News, Stock Market News, Africa News, Sports news, Entertainment News, Headlines today, Top stories";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "?width=640";
+    ViewBag.webEdition = ViewBag.region;
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+<style>.section-title1{font-size:23px;font-weight:500;color:#ff7b00;text-transform:uppercase;position:relative;z-index:1;font-family:Oswald,sans-serif;margin-bottom:20px;margin-top:0;background-image:linear-gradient(135deg,#e1e1e1 25%,transparent 25%,transparent 50%,#e1e1e1 50%,#e1e1e1 75%,transparent 75%,#fff);background-size:4px 4px}.section-title1 span{padding-right:15px;background-color:#fff}.follow-title{font-size:23px;font-weight:600;color:#ff7b00;text-transform:uppercase;position:relative;z-index:1;font-family:Oswald,sans-serif;margin:0}.myrow .first{padding-right:5%;margin-bottom:20px;border-right:1px solid #e1e1e1}.myrow .second{padding-left:5%;margin-bottom:20px}.trend-card-title{line-height:1.3;font-size:20px;margin:10px 0 0 0}.followed-img,.recommend-img,.trend-card-img{width:100%;padding-bottom:56.25%;background-repeat:no-repeat;background-size:cover}.recommend-card{padding-bottom:20px;margin-top:20px;border-bottom:1px solid #e1e1e1}.recommend-card:last-of-type{border-bottom:none}.recommend-img{width:120px;background-color:#f8f8f8;padding-bottom:75%}.followed-img{width:180px}.followedTopic .media-heading{font-size:20px}.badge-custom{border:1px solid #666;background-color:transparent;color:#444;font-weight:400;font-size:13px;padding:4px 10px;border-radius:15px;display:inline-block;min-width:10px;line-height:1;text-align:center;white-space:nowrap;vertical-align:middle;margin:5px;cursor:pointer}.badge-custom.active{background-color:#333;color:#fff}#badge-container{min-height:240px}.followedTopic{margin-bottom:10px}.no-br{border-radius:0}.react-btn{cursor:pointer}.react-btn .fa{font-size:16px}.reacted .fa-thumbs-o-up:before{color:#ff7b00;content:"\f164"}.reacted .fa-thumbs-o-down:before{color:#ff7b00;content:"\f165"}@@media (max-width:768px){.myrow .first{padding-right:15px;margin-bottom:10px}.myrow .second{padding-left:15px;margin-bottom:10px}.recommend-img{width:90px}.followed-img{width:220px}}@@media (max-width:425px){.trend-card-title{font-size:17px}.myrow .first{padding-right:15px;margin-bottom:30px}.myrow .second{padding-left:15px}.recommend-img{width:90px}#badge-container{min-height:100%}.followedTopic .media-body,.followedTopic .media-left{display:block;width:100%}.followedTopic .followed-img{width:100%;margin-bottom:10px}.followedTopic .media-heading{font-size:17px}}</style>
+<h1 class="hidden">International Development News</h1>
+<div class="container p-t-20">
+    <div class="row myrow">
+        <div class="col-md-6 col-sm-6 col-xs-12 first">
+            <h2 class="section-title1">
+                <span>IN FOCUS</span>
+            </h2>
+            <div id="trendingtopics"></div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 second">
+            <h2 class="section-title1">
+                <span>LATEST UPDATES</span>
+            </h2>
+            <div id="recommendedtopics"></div>
+        </div>
+    </div>
+    <hr />
+    <h2 class="section-title1">
+        <span>ONGOING</span>
+    </h2>
+    <div class="row m-t-30">
+        <div id="latesttopics"></div>
+    </div>
+    <hr />
+    @if (User.Identity.IsAuthenticated)
+    {
+
+        <h2 class="section-title1 m-t-20">
+            <span>FOLLOWED TOPICS</span>
+        </h2>
+        <div class="row m-t-30" id="followedTopics">
+        </div>
+    }
+    @if (isMobile)
+    {
+        <img src="~/images/other/topic_mobile.png" alt="Livediscourse - Share Topics" style="width:100%" class="m-t-30" />
+    }
+    else
+    {
+        <img src="~/images/other/shareTopic.png" alt="Livediscourse - Share Topics" style="width:100%" class="m-t-30" />
+    }
+    <div class="bg-highlight m-b-30" style="padding:30px;">
+        <label class="control-label m-t-10" for="topicTitle">Topic <span class="text-danger h4">*</span></label>
+        <input type="text" class="form-control no-br input-lg" id="topicTitle" />
+        <p class="text-danger no-margin" id="title-validation"></p>
+        <label class="control-label m-t-30" for="topicSector">Sector <span class="text-danger  h4">*</span></label>
+        <select class="form-control no-br input-lg" id="topicSector"></select>
+        <p class="text-danger no-margin" id="sector-validation"></p>
+        <button class="btn btn-primary btn-lg m-t-30 no-br" style="min-width:180px;" id="submitTopic">SUBMIT</button>
+    </div>
+    <h2 class="section-title1 m-t-20" id="st_title">
+        <span>SUGGESTED TOPICS</span>
+    </h2>
+    <div id="suggestedtopics"></div>
+</div>
+
+@section scripts{
+    <script src="~/scripts/jquery.lazy.min.js"></script>
+    <script>
+        $(document).find('.linkBtn').removeClass('active');
+        $(document).find('#livediscourseLink').addClass('active');
+
+        $(document).ready(function () {
+            debugger;
+            $(document).find('#regDropDown').change(function () {
+                debugger;
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+
+            function convertToSlug(Id, str) {
+                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return Id + "-" + str;
+            }
+            function pluralise(count,text) {
+                return count > 1 ? count + " " + text + "s" : count + " " + text;
+            }
+            $(document).on('click', '.react-btn', function () {
+                @if (User.Identity.IsAuthenticated)
+            {
+               <text>
+                var Id = $(this).data('topic');
+                var IT = $(this).data('it');
+                var RT = $(this).data('rt');
+                $.post('/api/ReactLivediscourse/'+Id+'/'+IT+'/'+RT,
+                    function (data) {
+                            debugger;
+                        $('#like_' + data.id + ',#dislike_' + data.id).removeClass('reacted');
+                        if (data.rt == 1) {
+                            $('#like_' + data.id).addClass('reacted').html('<span class="fa fa-thumbs-o-up"></span> '+pluralise(data.likeCount,"Like"));
+                        } else {
+                            $('#dislike_' + data.id).addClass('reacted').html('<span class="fa fa-thumbs-o-down"></span> '+pluralise(data.dislikeCount, "Dislike"));
+                        }
+                        $('#dislike_' + data.id).html('<span class="fa fa-thumbs-o-down"></span> '+pluralise(data.dislikeCount, "Dislike"));
+                        $('#like_' + data.id).html('<span class="fa fa-thumbs-o-up"></span> '+pluralise(data.likeCount, "Like"));
+                    });
+                </text>
+                }
+                 else {
+                     <text> window.location = "/Account/Login?returnUrl=/live-discourse";</text>
+                }
+            });
+            getSectors();
+            function getSectors() {
+                $.ajax('/api/DiscourseApi/GetSector/').done(function (data) {
+                    debugger;
+                    var sectorHtml = '<option value="">--Select Sector--</option>';
+                    $.each(data, function (i, item) {
+                        sectorHtml += '<option value="' + item.id + '">' + item.title + '</option>';
+                    });
+                    $('#topicSector').html(sectorHtml);
+                });
+            }
+
+            getSuggestedTopics();
+            function getSuggestedTopics() {
+                $.ajax('/api/DiscourseApi/GetSuggestedTopics').done(function (data) {
+                    debugger;
+                    var suggestedTopicsHtml = '';
+                    if (data.length == 0) {
+                        $('#suggestedtopics,#st_title').hide()
+                    }
+                    $.each(data, function (i, item) {
+                        debugger;
+                        var likeClass = "";
+                        var dislikeClass = "";
+                        if (item.reacted == 1) {
+                            likeClass = 'reacted';
+                        } else if (item.reacted == 2) {
+                            dislikeClass = 'reacted';
+                        }
+                        suggestedTopicsHtml += '<div class="p-10 m-b-10" style="border:1px solid #dfdfdf;border-radius:5px;">'+
+                            '<div class="media" style="border-bottom:1px solid #dfdfdf;">'+
+                                '<div class="media-left">'+
+                                    '<div style="width:40px;height:40px;background-color:#f1f1f1;border-radius:50%;background-image:url('+item.imageUrl+'),url("/AdminFiles/Logo/loginUser.png")"></div>'+
+                                '</div>'+
+                               '<div class="media-body">'+
+                                    '<h4 class="media-heading">'+item.name+'</h4>'+
+                                    '<p>'+item.title+'</p>'+
+                                '</div></div>'+
+                            '<ul class="list-inline m-t-10 text-muted" style="font-size:13px;margin-bottom:0;">'+
+                                '<li data-topic="'+item.id+'" data-it="2" id="like_'+item.id+'" data-rt="1" class="react-btn '+likeClass+'"><span class="fa fa-thumbs-o-up"></span> '+pluralise(item.likeCount, "Like")+'</li>'+
+                            '<li data-topic="' + item.id + '" data-it="2" id="dislike_' + item.id + '" data-rt="2" class="react-btn ' + dislikeClass + '"><span class="fa fa-thumbs-o-down"></span> ' + pluralise(item.dislikeCount, "Dislike") + '</li>' +
+                            '</ul></div>';
+                    });
+                    $('#suggestedtopics').html(suggestedTopicsHtml);
+                });
+            }
+            GetRecommendedDiscourse();
+            function GetRecommendedDiscourse() {
+                $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/3').done(function (data) {
+                    debugger;
+                    var recommendedHtml = '';
+                    $.each(data, function (i, item) {
+                        debugger;
+                        var newsUrl = convertToSlug(item.parentId, item.parenTitle);
+                        var imageUrl = item.imageUrl;
+                        var imageHtml = '<br/>';
+                        if (item.ImageUrl == '/images/sector/all_sectors.jpg') {
+                            imageUrl = item.ParentImageUrl;
+                        }
+                        //if (imageUrl != null) {
+                            imageHtml = '<div class="media-left">' +
+                                '<div class="recommend-img" style="background-image:url(' + imageUrl + ')"></div>' +
+                                '</div>';
+                        //}
+                        recommendedHtml += '<a href="/live-discourse/'+newsUrl+'#post_'+item.id+'" class="text-decoration"><div class="media recommend-card">'+
+                                            imageHtml+
+                                            '<div class="media-body">'+
+                                                '<h4 class="media-heading">'+item.title+'</h4>'+
+                                            '</div></div></a>';
+                    });
+                    $('#recommendedtopics').html(recommendedHtml);
+                });
+            }
+            GetTrendingDiscourse();
+            function GetTrendingDiscourse() {
+                debugger;
+                $.ajax('/api/DiscourseApi/GetInfocusDiscourse/@(ViewBag.region)').done(function (data) {
+                    debugger;
+                    var trendingHtml = '';
+                    var trendingNews = 0;
+                    $.each(data, function (i, item) {
+                        debugger;
+                        var newsUrl = convertToSlug(item.id, item.title);
+                        trendingNews = item.id;
+                        var country = item.country;
+                        var countryHtml = country.split(',').join(', ');
+                        trendingHtml += '<a href="/live-discourse/'+newsUrl+'" class="text-decoration"><div class="trend-card-img" style="background-image:url('+item.imageUrl+');"></div>'+
+                                        '<h3 class="trend-card-title">'+item.title+'</h3></a>';
+                    });
+                    debugger;
+                    $('#trendingtopics').html(trendingHtml);
+                    GetLatestDiscourse(trendingNews);
+                });
+            }
+
+            function GetLatestDiscourse(trendingNews) {
+                $.ajax('/api/DiscourseApi/GetLatestDiscourse/4/' + trendingNews).done(function (data) {
+                    debugger;
+                    var latestHtml = '';
+                    $.each(data, function (i, item) {
+                        var newsUrl = convertToSlug(item.id, item.title);
+                        var country = item.country;
+                        var countryHtml = country.split(',').join(', ');
+                        latestHtml += '<a href="/live-discourse/'+newsUrl+'" class="text-decoration"><div class="col-md-3 col-sm-6 m-b-10">'+
+                                        '<div class="trend-card-img" style="background-image:url('+item.imageUrl+');"></div>'+
+                                        '<h4 style="margin-bottom:0;">'+item.title+'</h4>'+
+                                        '<div class="text-muted font-sans-serif text-uppercase">'+countryHtml+'</div>'+
+                                    '</div></a>';
+                    });
+                    $('#latesttopics').html(latestHtml);
+                });
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+               <text>
+            GetFollowedDiscourse();
+            function GetFollowedDiscourse() {
+                    $.ajax('/api/DiscourseApi/GetFollowedDiscourse/4').done(function (data) {
+                        debugger;
+                    var followedHtml = '';
+                    $.each(data, function (i, item) {
+                            debugger;
+                        var newsUrl = convertToSlug(item.id, item.title);
+                        var country = item.Country;
+                        var countryHtml = country.split(',').join(', ');
+                        var imghtml = '';
+                        var newsImage = "";
+                        if (item.ImageUrl != null) {
+                            newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl;
+                         }
+                        followedHtml += '<a href="/live-discourse/'+newsUrl+'" class="text-decoration"><div class="col-md-6"><div class="media followedTopic">'+
+                                        '<div class="media-left">'+
+                                            '<div class="followed-img bg-highlight" style="background-image:url('+newsImage+'?width=180&height=100&mode=crop);"></div>'+
+                                        '</div><div class="media-body">'+
+                                            '<h3 class="media-heading">'+item.title+'</h3>'+
+                                            '<div class="text-muted">'+countryHtml+'</div>'+
+                                        '</div>'+
+                                    '</div></div></a>';
+                    });
+                    if (data.length == 0) {
+                        followedHtml='<h4 class="text-muted col-xs-12">No Followed Topics</h4>'
+                    }
+                    $('#followedTopics').html(followedHtml);
+                });
+            }
+             </text>
+                    }
+            $("#submitTopic").click(function () {
+                debugger;
+                 @if (User.Identity.IsAuthenticated)
+                 {
+               <text>
+                $('#title-validation,#sector-validation').html('');
+                var Sector = $("#topicSector").val();
+                var Title = $("#topicTitle").val();
+                        if (Title.trim() == '') {
+                    $('#title-validation').html('Title is required.');
+                } else if (Sector.trim() == '') {
+                    $('#sector-validation').html('Sector is required.')
+                } else {
+                            $.post('/api/DiscourseApi/DiscourseTopic/' + Title + '/' + Sector,                                              
+                            // Title: topicTitle, Sector: topicSector
+                        function (data) {
+                            if (data == 'Success') {
+                                debugger;
+                                $("#topicSector").val('');
+                                $("#topicTitle").val('');
+                            } else {
+                                console.log(data);
+                            }
+                        });
+                }
+                </text>
+                 }
+                 else
+                 {
+                     <text>window.location = "/Account/Login?returnUrl=/live-discourse";</text>
+                 }
+            });
+        })
+    </script>
+}

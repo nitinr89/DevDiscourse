@@ -3,8 +3,10 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
 }
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
 <link href="~/Content/admin.css" rel="stylesheet" />
-@* @Styles.Render("~/Content/admincss") *@
+<link href="~/Scripts/tagsInput/css/jquery.tagsinput.min.css" rel="stylesheet" />
+
 <style>
     .ui-widget-header {
         background: #cedc98;
@@ -477,10 +479,10 @@
 </div>
 <video id="vid" style="display:none" controls></video>
 @section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @* @Scripts.Render("~/bundles/jqueryadmin") *@
+    <script src="~/Scripts/jquery.multiselect.js"></script>
+    <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    @*<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>*@
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
@@ -502,7 +504,7 @@
             var msKeywords = [];
             var FinalTag = [];
             var imageFor = "news";
-            // $('.input-tags').tagsInput();
+            $('.input-tags').tagsInput();
             // var signalConnectionId;
 
             // var myHub = $.connection.fileHub;
@@ -572,7 +574,7 @@
                 //entity_encoding: 'raw',
                 convert_urls: true,
                 default_link_target: '_blank',
-                rel_list: [
+                rel_list: [             
                     { title: 'Do Follow', value: '' },
                     { title: 'No Follow', value: 'nofollow' },
                     { title: 'No Follow/Referer/Opener', value: 'nofollow noopener noreferrer' }
@@ -651,7 +653,7 @@
                                         $('.searching').hide();
                                         $('.modal-footer').show();
                                         $.each(data, function (i, item) {
-                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.NewsId + '" tabindex="' + item.Title + '" value="' + item.Label + '">' + item.Title + '</div>');
+                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.newsId + '" tabindex="' + item.title + '" value="' + item.label + '">' + item.title + '</div>');
                                         });
                                     },
                                     error: function (req, status, error) {
@@ -962,7 +964,7 @@
                                     $('#imageTitle').val(data.FileName);
                                     $('#imgcaption').val(data.Caption);
                                     $('#showTags').html('<input type="text" id="imgtags" class="form-control input-tags" value="' + data.Tags + '" />');
-                                    // $('.input-tags').tagsInput();
+                                    $('.input-tags').tagsInput();
                                     $("#Source").val("Source: ");
                                 }
                             },

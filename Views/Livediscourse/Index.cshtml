@@ -222,7 +222,7 @@
     </div>
     <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
         <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
-        @*        @Html.PagedListPager(Model, page => Url.Action("Index", "Livediscourse", new { bfd = ViewBag.bfDate, afd = ViewBag.afDate, page, region = ViewBag.region, sector = ViewBag.sector, country = ViewBag.country, source = ViewBag.source, text = ViewBag.text }))  *@
+               @Html.PagedListPager(Model, page => Url.Action("Index", "Livediscourse", new { bfd = ViewBag.bfDate, afd = ViewBag.afDate, page, region = ViewBag.region, sector = ViewBag.sector, country = ViewBag.country, source = ViewBag.source, text = ViewBag.text })) 
     </div>
 </div>
 
@@ -265,7 +265,7 @@
             $("#beforeDate").val(_beforeDate);
             $("#afterDate").val(_afterDate);
 
-            $('.lazy').lazy();
+            // $('.lazy').lazy();
             getCountries();
             function getCountries() {
                 $.ajax({

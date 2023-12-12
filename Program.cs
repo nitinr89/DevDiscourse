@@ -41,6 +41,14 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 IFileProvider physicalProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
 builder.Services.AddSingleton<IFileProvider>(physicalProvider);
 var app = builder.Build();
@@ -69,9 +77,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.MapControllerRoute(
-              name: "DefaulApi",
-              pattern: "api/controller/{id?}");
+// Call the custom route configuration method
+app.UseEndpoints(endpoints =>
+{
+    RouteConfig.ConfigureRoutes(endpoints);
+});
 
 app.UseAuthorization();
 
@@ -81,19 +91,7 @@ app.UseAuthorization();
 
 // Enable CORS
 app.UseCors("AllowSpecificOrigin");
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-
-app.MapControllerRoute(
-              name: "NewsSector",
-              pattern: "news/{sector}",
-              defaults: new { controller = "Search", action = "Index", sector = UrlParameter.Optional }
-            );
-
+app.UseSession();
 
 app.MapRazorPages();
 

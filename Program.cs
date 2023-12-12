@@ -72,7 +72,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 app.UseSession();
-
+app.UseMiddleware<SeoFriendlySecondRoute>();
 // Call the custom route configuration method
 app.UseEndpoints(endpoints =>
 {

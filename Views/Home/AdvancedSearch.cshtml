@@ -249,66 +249,58 @@
                     loadProjectData();
                 }
             });
-            debugger;
             function loadProjectData() {
                 if (page > -1 && !inCallback) {
-                    debugger;
                     inCallback = true;
                     page++;
                     $("#loading").show();
-                    debugger;
                     $.ajax({
                         type: 'Get',
                         url: '/api/SearchApi/GetAdvancedSearch/' + search.text + '/' + search.type + '/' + search.sector + '/' + search.country + '/Global%20Edition/' + search.beforeDate + '/' + search.afterDate + '/' + page,
                         dataType: 'json',
                         success: function (data) {
                             showMoreCounter = showMoreCounter + 1;
-                            debugger;
                             if (data.length == 0) {
                                 isReachedScrollEnd == true;
                                 $("#loading").hide();
-                                debugger;
                                 return;
                             }
                             var html = '';
-                            debugger;
                             $.each(data, function (i, item) {
                                 var imageContent = '';
-                                var urlSlug = convertToSlug(item.NewsId, item.Title);
-                                var label = item.Label != null ? item.Label : "agency-wire";
-                                var country = item.Country != null ? item.Country : '';
-                                debugger;
-                                if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {
-                                    var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                                    imageContent = '<div class="media-left"><a href="/article/' + label + '/' + urlSlug + '" aria-label="' + item.Title + '"><img src="' + newsImage + '?width=90&height=90&mode=crop"></a></div>';
+                                var urlSlug = convertToSlug(item.newsId, item.title);
+                                var label = item.label != null ? item.label : "agency-wire";
+                                var country = item.country != null ? item.country : '';
+                                if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
+                                    var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl;
+                                    imageContent = '<div class="media-left"><a href="/article/' + label + '/' + urlSlug + '" aria-label="' + item.title + '"><img src="' + newsImage + '?width=90&height=90&mode=crop"></a></div>';
                                 }
                                 var typeHtml = '';
-                                if (item.Type == "Event" || item.Type == "LiveBlog") {
-                                    typeHtml = '<span class="pull-right infocus-badge">' + item.Type + '</span>';
+                                if (item.type == "Event" || item.type == "LiveBlog") {
+                                    typeHtml = '<span class="pull-right infocus-badge">' + item.type + '</span>';
                                 }
-                                else if (item.Type == "Blog") {
-                                    if (item.SubType != null) {
-                                        typeHtml = '<span class="pull-right infocus-badge">' + item.SubType + '</span>';
+                                else if (item.type == "Blog") {
+                                    if (item.subType != null) {
+                                        typeHtml = '<span class="pull-right infocus-badge">' + item.subType + '</span>';
                                     }
                                     else {
                                         typeHtml = '<span class="pull-right infocus-badge">Blog</span>';
                                     }
                                 }
-                                var createdOn = new Date(item.CreatedOn);
+                                var createdOn = new Date(item.createdOn);
                                 createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
                                 html += '<div class="m-b-10 col-xs-12 col-sm-6">' +
                                     '<div class="news-list-div">' +
                                     '<div class="media">' + imageContent +
                                     '<div class="media-body">' + typeHtml +
                                     '<a href="/article/' + label + '/' + urlSlug + '" class=" text-decoration">' +
-                                    '<h4 class="media-heading" title="' + item.Title + '">' + item.Title + '</h4>' +
+                                    '<h4 class="media-heading" title="' + item.title + '">' + item.title + '</h4>' +
                                     '</a>' +
                                     '<p class="one-line-text text-muted">' +
                                     '<span>' + country.split(',')[0] + '</span> | <span>' + createdOn.getDate() + ' ' + monthArray[createdOn.getMonth()] + ' ' + createdOn.getFullYear() + '</span>' +
                                     '</p></div></div></div></div>';
                             });
                             inCallback = false;
-                            debugger;
                             $("#newsContainer").append(html);
                             if (showMoreCounter == 5) {
                                 $("#newsContainer").append('<div class="col-xs-12"><div style="padding:10px;border:1px solid #eee;" class="loadMoreButton m-t-10 m-b-10 text-center">SHOW MORE <span class="fa fa-chevron-circle-down" aria-hidden="true"></span></div></div>');
@@ -324,12 +316,10 @@
             $(document).on("click", ".loadMoreButton", function () {
                 $(this).remove();
                 showMoreCounter = 0;
-                debugger;
                 loadProjectData();
             });
             getCountries();
             function getCountries() {
-                debugger;
                 $.ajax({
                     url: '/Home/GetCountry',
                     type: 'Post',
@@ -337,7 +327,6 @@
                     dataType: 'Json',
                     success: function (data) {
                         var countryHtml = '<option value="all">--All Country--</option>';
-                        debugger;
                         $.each(data, function (i, item) {
                             countryHtml += '<option value="' + item.title + '">' + item.title + '</option>';
                         });

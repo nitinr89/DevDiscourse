@@ -1,0 +1,433 @@
+﻿@{
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    string region = ViewBag.region;
+    ViewBag.webEdition = region;
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+    string sectorId = "";
+    if (!string.IsNullOrEmpty(ViewBag.labelSlug))
+    {
+        sectorId = ViewBag.labelSlug;
+    }
+    else if (!string.IsNullOrEmpty(ViewBag.sectorSlug))
+    {
+        sectorId = ViewBag.sectorSlug;
+    }
+    else
+    {
+        sectorId = ViewBag.sector;
+    }
+}
+@{
+    switch (sectorId.ToLower())
+    {
+        case "agro-forestry":
+            ViewBag.Title = "Agro-Forestry News | Devdiscourse";
+            ViewBag.pageKeywords = "agriculture news, agriculture, food security, technology in agriculture, agriculture credit, agriculture marketing and extension services, agriculture policies, irrigation and farm management";
+            ViewBag.PageDescription = "News about agriculture, food security, technology in agriculture, agriculture credit, agriculture marketing and extension services, agriculture policies, irrigation and farm management.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/agro-forestry";
+            break;
+        case "art-culture":
+            ViewBag.Title = "Art & Culture News | Devdiscourse";
+            ViewBag.pageKeywords = "art and culture news, art and culture, festivals, events, films, Hollywood, Bollywood, drama, dance, acting, painting, artefacts, traditional arts, music, ethnic arts and culture";
+            ViewBag.PageDescription = "News about art and culture, festivals, events, films, Hollywood, Bollywood, drama, dance, acting, painting, artefacts, traditional arts, music, ethnic arts and culture.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/art-culture";
+            break;
+        case "economy-business":
+            ViewBag.Title = "Economics & Business News | Devdiscourse";
+            ViewBag.pageKeywords = "economy news,economic trends, GDP growth, inflation, employment, exchange rates, stock markets, business trends, corporates, start-ups, takeovers, commodity prices";
+            ViewBag.PageDescription = "News about economic trends, GDP growth, inflation, employment, exchange rates, stock markets, business trends, corporates, start-ups, takeovers, commodity prices.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/economy-business";
+            break;
+        case "education":
+            ViewBag.Title = "Education News | Devdiscourse";
+            ViewBag.pageKeywords = "education policies, programs and investments, educational institutions, literacy campaigns, quality of education, schooling, higher education, universities";
+            ViewBag.PageDescription = "News about education policies, programs and investments, educational institutions, literacy campaigns, quality of education, schooling, higher education, universities.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/education";
+            break;
+        case "energy-extractives":
+            ViewBag.Title = "Energy and Extractives News | Devdiscourse";
+            ViewBag.pageKeywords = "energy trends, renewable energy, oil and gas, electricity, energy policy, programs, investments, business trends, corporates, energy pricing, energy and society";
+            ViewBag.PageDescription = "News about energy trends, renewable energy, oil and gas, electricity, energy policy, programs, investments, business trends, corporates, energy pricing, energy and society.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/energy-extractives";
+            break;
+        case "politics":
+            ViewBag.Title = "Get latest Politics News, Election news, Indian politics, International politics, Political parties";
+            ViewBag.pageKeywords = "politics, politicians, elections, democracy, political parties, political statements, political events, rallies, agitations, strikes, political violence, voters, public";
+            ViewBag.PageDescription = "News about politics, politicians, elections, democracy, political parties, political statements, political events, rallies, agitations, strikes, political violence, voters, public.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/politics";
+            break;
+        case "law-governance":
+            ViewBag.Title = "Law & Governance News | Devdiscourse";
+            ViewBag.pageKeywords = "governance, public administration, e-governance, law and order, government ministries, departments, good governance, democratic practices, public services";
+            ViewBag.PageDescription = "News about governance, public administration, e-governance, law and order, government ministries, departments, good governance, democratic practices, public services.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/law-governance";
+            break;
+        case "health":
+            ViewBag.Title = "Health News: Latest Health News | Health Live News Online - Devdiscourse";
+            ViewBag.pageKeywords = "health trends, public health policies, programs, investments, researches, medicines, treatments, epidemics, WHO, hospitals, laboratories, medical equipment";
+            ViewBag.PageDescription = "News about Health trends, Health news, Latest Health news, Health news online, Health news live, Health current news";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/health";
+            break;
+        case "socialgender":
+            ViewBag.Title = "Social & Gender News | Devdiscourse";
+            ViewBag.pageKeywords = "Social development, social order, gender issues, gender equality, women security, crimes against women, inequality, poverty, social welfare schemes, policies, programs, investments";
+            ViewBag.PageDescription = "News about Social development, social order, gender issues, gender equality, women security, crimes against women, inequality, poverty, social welfare schemes, policies, programs, investments.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/socialgender";
+            break;
+        case "sports":
+            ViewBag.Title = "Latest Sports News | Devdiscourse";
+            ViewBag.pageKeywords = "sports, football, cricket, hockey, players, coaches, FIFA, Asia Cup, sports policy, programs, investments, gold medal, silver medal, bronze medal, matches, scores, goals, runs";
+            ViewBag.PageDescription = "News about sports, football, cricket, hockey, players, coaches, FIFA, Asia Cup, sports policy, programs, investments, gold medal, silver medal, bronze medal, matches, scores, goals, runs.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/sports";
+            break;
+        case "transport":
+            ViewBag.Title = "Latest Transport News | Devdiscourse";
+            ViewBag.pageKeywords = "transport, roads, rail, airlines, airports, buss terminals, parking, cargo, transport planning, ToD, electric vehicles, transport technology, vehicle fleets, transport business, transport and climate change";
+            ViewBag.PageDescription = "News about transport, roads, rail, airlines, airports, buss terminals, parking, cargo, transport planning, ToD, electric vehicles, transport technology, vehicle fleets, transport business, transport and climate change.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/transport";
+            break;
+        case "urban-development":
+            ViewBag.Title = "Urban Development News | Devdiscourse";
+            ViewBag.pageKeywords = "cities, urban policies, programs, investment, regulation, urban planning, smart cities, urban transport, green cities, urbanization, urban poverty, land use";
+            ViewBag.PageDescription = "News about cities, urban policies, programs, investment, regulation, urban planning, smart cities, urban transport, green cities, urbanization, urban poverty and land use.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/urban-development";
+            break;
+        case "wash":
+            ViewBag.Title = "Water and Sanitation News | Devdiscourse";
+            ViewBag.pageKeywords = "water and sanitation, hygiene, sanitation and health, sanitation trends, policy, programs, investments, sanitation awareness, solid waste management, water supply, sewerage system, rural sanitation, ODF";
+            ViewBag.PageDescription = "News about water and sanitation, hygiene, sanitation and health, sanitation trends, policy, programs, investments, sanitation awareness, solid waste management, water supply, sewerage system, rural sanitation and ODF.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/wash";
+            break;
+        case "science-environment":
+            ViewBag.Title = "Latest Science News, Science Articles, Intresting Science Articles, Science News Article";
+            ViewBag.pageKeywords = "science news, science articles, latest science news, science daily, scientific articles, interesting science articles, latest scientific news, news articles";
+            ViewBag.PageDescription = "Get latest  news online from devdiscourse,Latest science news online,science news, science articles, latest science news, science daily, scientific articles, interesting science articles, latest scientific news, news articles";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/science-environment";
+            break;
+        case "technology":
+            ViewBag.Title = "Latest Tech News, Technology News, Technology News Today, Gadgets News & Reviews";
+            ViewBag.pageKeywords = "Technology news, new technology information technology latest, computer and technology news, top 5 tech news, new tech stories, latest high tech news, latest technology issues";
+            ViewBag.PageDescription = "Get latest technology news online from devdiscourse, Technology news, new technology information technology latest, computer and technology news, top 5 tech news, new tech stories, latest high tech news, latest technology issues";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/technology";
+            break;
+        case "entertainment":
+            ViewBag.Title = "Latest Entertainment News, Bollywood News, Hollywood News, Celebrity News, Entertaining hollywood movies, est entertainment news websites";
+            ViewBag.pageKeywords = "Best entertainment news websites, celebrity websites, entertaining hollywood movies, entertaining bollywood movies, entertainment news";
+            ViewBag.PageDescription = "Get latest entertainment news online from devdiscourse, celebrity websites, entertaining hollywood movies, entertaining bollywood movies, entertainment news";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/entertainment";
+            break;
+        case "business":
+            ViewBag.Title = "Latest Business News, Market News, Online business News, Celebrity News, Entertaining hollywood movies, est entertainment news websites";
+            ViewBag.pageKeywords = "Market News, Online business News, how to start a business, business insider, international news, how to earn money, financial news, economic news";
+            ViewBag.PageDescription = "Get latest Business News online from devdiscourse, Market News, Online business News, financial news, economic news";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/business";
+            break;
+        case "sports-games":
+            ViewBag.Title = "Latest Sports News, Cricket News, Today's sports news, Live cricket match watch online, Soccer games, Football matches";
+            ViewBag.pageKeywords = "Latest Sports News, Cricket News, Today's sports news, Live cricket match watch online, Soccer games, Football matches";
+            ViewBag.PageDescription = "Get latest Sports News online from devdiscourse, Cricket News, Today's sports news, Live cricket match watch online, Soccer games, Football matches";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/sports-games";
+            break;
+        case "lifestyle":
+            ViewBag.Title = "Latest Lifestyle News, Fashion Trends, Health News, Health Tips For Men & Women";
+            ViewBag.pageKeywords = "Latest Lifestyle News, Fashion Trends, Health News, Health Tips,health tips for women, fashion news, health tips for men, healthy lifestyle tips, lifestyle news, fashion articles, lifestyle articles, latest fashion news, lifestyle trends, latest lifestyle news, beauty and fashion, lifestyle news articles, lifestyle news online";
+            ViewBag.PageDescription = "Get latest Lifestyle News,Fashion Trends and Health News from devdiscourse";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/lifestyle";
+            break;
+        case "other":
+            ViewBag.Title = "Other News";
+            ViewBag.pageKeywords = "Latest Lifestyle News, Fashion Trends, Health News, Health Tips,health tips for women, fashion news, health tips for men, healthy lifestyle tips, lifestyle news, fashion articles, lifestyle articles, latest fashion news, lifestyle trends, latest lifestyle news, beauty and fashion, lifestyle news articles, lifestyle news online";
+            ViewBag.PageDescription = "Get latest Lifestyle News,Fashion Trends and Health News from devdiscourse";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/lifestyle";
+            break;
+        case "law-order":
+            ViewBag.Title = "Law and Order News";
+            ViewBag.pageKeywords = "Law, Order, Governance, Government Policies, Legal Concepts,  Criminal law, Social Order, Contract law, Property law, International law, Judiciary";
+            ViewBag.PageDescription = "Get the latest and most updated news, and videos about Law And Order on devdiscourse";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/lifestyle";
+            break;
+        default:
+            ViewBag.Title = "International Development News, Breaking News, Science News, Political News, Business News | Devdiscourse";
+            ViewBag.pageKeywords = @ViewBag.sectorName + " News, Latest Trending News, Breaking News, Development News | Devdiscourse";
+            ViewBag.PageDescription = "Daily News, International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/" + sectorId;
+            break;
+    }
+}
+<style>
+    .loadMoreButton {
+        font-size: 16px;
+        color: #4c5766;
+        display: block;
+        line-height: 30px;
+        border: 1px solid #f6f9fc;
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .loadMoreButton:hover {
+            background-color: #ff9c46;
+        }
+
+    .image-card {
+        width: 90px;
+        height: 90px;
+        background-size: cover;
+    }
+
+    .infocus-badge {
+        padding: 3px 5px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: #ff7b00;
+        color: #fff
+    }
+
+    .isDisabled {
+        color: #222;
+        cursor: not-allowed;
+        opacity: 0.8;
+        text-decoration: none;
+        pointer-events: none;
+    }
+
+    .cover-img {
+        padding-bottom: 54%;
+        position: relative;
+        background-size: cover;
+    }
+
+    .cover-img-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.2)
+    }
+
+    .text-cont {
+        position: absolute;
+        bottom: 0;
+        padding: 20px;
+    }
+
+    .title-main {
+        font-weight: 500;
+        font-size: 36px;
+    }
+
+    .country-main {
+        float: right;
+        font-family: sans-serif;
+        background-color: #000;
+        color: #fff;
+        padding: 8px 24px;
+    }
+
+    .title-sub {
+        font-weight: 500;
+        margin-top: 5px;
+        line-height: 1.38;
+        font-size: 20px
+    }
+
+    .country-sub {
+        display: inline-block;
+        font-family: sans-serif;
+        z-index: 10;
+        background-color: #000;
+        color: #fff;
+        padding: 2px 7px;
+        font-size: 10px;
+        margin-top: 5px
+    }
+</style>
+<div class="container">
+    <ul class="breadcrumb breadcrumb_new" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+            <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a>
+            <meta itemprop="position" content="1" />
+        </li>
+        @if (!string.IsNullOrEmpty(ViewBag.labelSlug))
+        {
+            var LabelTitle = ViewBag.labelTitle == "Science-Environment" ? "Science" : @ViewBag.labelTitle;
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.RouteUrl("NewsLabel", new { label = ViewBag.labelSlug })" class="isDisabled" target="_top" itemprop="item"><span itemprop="name">@LabelTitle</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.sectorSlug))
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.RouteUrl("NewsSector", new { sector = "" })" target="_top" itemprop="item"><span itemprop="name">News</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+            <li class="active" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.RouteUrl("NewsSector", new { sector = @ViewBag.sectorSlug })" class="isDisabled" itemprop="item"><span itemprop="name">@ViewBag.sectorName</span></a>
+                <meta itemprop="position" content="3" />
+            </li>
+        }
+        else if (ViewBag.sector == "Videos")
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.RouteUrl("NewsSector", new { sector = "Videos" })" target="_top" class="isDisabled" itemprop="item"><span itemprop="name">Videos News</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        else if (ViewBag.sector.ToString().ToLower() == "all" && string.IsNullOrEmpty(ViewBag.labelSlug))
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.RouteUrl("NewsSector", new { sector = "" })" target="_top" class="isDisabled" itemprop="item"><span itemprop="name">News</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+    </ul>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <h1 class="section-title">
+                @if (ViewBag.sector.ToString().ToLower() != "all" || ViewBag.sector.ToString() != "Videos")
+                {
+                    <span>@ViewBag.sectorName News</span>
+                }
+                else if (ViewBag.sector == "Videos")
+                {
+                    <span>@ViewBag.sectorName</span>
+                }
+                else
+                {
+                    <span>All News</span>
+                }
+            </h1>
+            <div class="row" id="newsContainer">
+                @{
+                    string sector = ViewBag.sector.ToString().ToLower() == "all" ? "0" : ViewBag.sector.ToString();
+                    // Html.RenderAction("GetNewsItems", "Home", new { sector = sector, region = @region, country = "", tag = ViewBag.tag, page = 1, cat = ViewBag.cat, label = ViewBag.labelSlug });
+                    @await Component.InvokeAsync("NewsItems",new{sector=sector,region=region,country="",tag=ViewBag.tag,page=1,cat=ViewBag.cat,label=ViewBag.labelSlug});
+                }
+            </div>
+            <div id="loading" style="display:normal;">
+                <p class="text-center"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <div class="clearfix">
+                <h2 class="section-title2">
+                    <span>TRENDING</span>
+                </h2>
+                @{
+                    // Html.RenderAction("GetTrends", "Home", new { filter = "Trends" });
+                        @await Component.InvokeAsync("Trends",new {filter="Trends"});
+                }
+            </div>
+            <div class="clearfix m-t-30 hidden-xs hidden-sm">
+                @Html.Partial("_socialPartial")
+            </div>
+
+            @* <div id="videoNews" class="m-t-20"></div> *@
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var search = { sector: "0", region: "Global Edition", country: "", tag: "", category: "", label: "" };
+            var _sector = '@(ViewBag.sector)';
+            var _category = '@(ViewBag.cat)';
+            var _label = '@(ViewBag.labelSlug)';
+            var _tag = '@(ViewBag.tag)';
+            var _region = '@(ViewBag.region)';
+            var showMoreCounter = 0;
+            var region = _region.replace("Edition=", "");
+            var page = 1,
+                inCallback = false,
+                isReachedScrollEnd = false;
+            // Search Filter
+            if (_sector.toLowerCase() != "all") {
+                search.sector = _sector;
+            }
+            if (_tag != "") {
+                search.tag = _tag;
+            }
+            if (_region != "") {
+                search.region = region;
+            }
+            if (_category != "") {
+                search.category = _category;
+            }
+            if (_label != "") {
+                search.label = _label;
+            }
+            // Region Search
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + ";expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $('#moreGlobalNews').click(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=Global Edition;expires=" + date.toGMTString() + "; path=/";
+                window.location.href = "/news/all";
+            });
+            $.ajax("/Home/GetVideoNews?reg=" + '@(ViewBag.edition)').done(function (data) {
+                $("#videoNews").html(data);
+                $('.lazy').lazy();
+            });
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            if (_sector != "All") {
+                $(document).find('#newsLink').addClass('active');
+            }
+            $(window).scroll(function () {
+                if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height()) && showMoreCounter < 5) {
+                    loadNewsData();
+                }
+            });
+            function loadNewsData() {
+                if (page > -1 && !inCallback) {
+                    inCallback = true;
+                    page++;
+                    $("div#loading").show();
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Home/GetNewsItems',
+                        dataType: "Html",
+                        data: { sector: search.sector, region: search.region, country: search.country, tag: search.tag, page: page, cat: search.category, label: search.label },
+                        success: function (data, textstatus) {
+                            showMoreCounter = showMoreCounter + 1;
+                            if (data.trim() != '') {
+                                $("#newsContainer").append(data);
+                                $(".lazy").lazy();
+                                if (showMoreCounter == 5) {
+                                    $("#newsContainer").append('<div class="col-xs-12"><div style="padding:10px;border:1px solid #eee;" class="loadMoreButton m-t-10 m-b-10 text-center">SHOW MORE <span class="fa fa-chevron-circle-down" aria-hidden="true"></span></div></div>');
+                                    //$("#newsContainer").append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4352769469221131" data-ad-slot="9197919783" data-ad-format="auto"></ins><div style="padding:10px;border:1px solid #eee;" class="loadMoreButton m-t-10 m-b-10 text-center">SHOW MORE <span class="fa fa-chevron-circle-down" aria-hidden="true"></span></div></div>');
+                                    //(adsbygoogle = window.adsbygoogle || []).push({});
+                                }
+                            }
+                            else {
+                                page = -1;
+                            }
+
+                            inCallback = false;
+                            $("div#loading").hide();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            //alert(errorThrown);
+                        }
+                    });
+                }
+            }
+            $(document).on("click", ".loadMoreButton", function () {
+                $(this).remove();
+                showMoreCounter = 0;
+                loadNewsData();
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,109 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "Press Release | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse: Let the world know about your organization's activities, outputs and outcomes. Get the press releases published free of cost.";
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/press-release";
+    ViewBag.pageKeywords = "Press Release, Development news, Current news, live news, international news in english, latest top news, India news, Africa news, daily news, world news, latest news today, online news, sports news, politics news, health news, science news, technology news, energy news, urban development news, transport news, economy news, finance news, sports news, art and culture news, education news, sports news, Agro-Forestry, social gender, Public Administration, Water and Sanitation";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .loginbtn {
+        margin-left: 20px;
+        border: 2px solid #fcb040;
+        color: #fcb040
+    }
+
+    .bg-theme {
+        background: rgb(244,249,243);
+        background: linear-gradient( 90deg, rgba(244,249,243,1) 0%,rgba(244,249,243,1) 40%, rgba(235,161,56,1) 60%, rgb(252 176 64) 100%);
+    }
+
+    .btncss {
+        padding: 6px 50px;
+        font-size: 20px;
+    }
+
+    @@media(max-width:768px) {
+        .btncss {
+            padding: 6px 40px;
+            font-size: 18px;
+        }
+    }
+
+    @@media(max-width:320px) {
+        .btncss {
+            padding: 6px 30px;
+            font-size: 16px;
+        }
+    }
+</style>
+<div class="bg-theme">
+ @*    @if (Request.Browser.IsMobileDevice) *@
+    @if (isMobile)
+    {
+        <img src="~/images/newswire/newswire-mobile.jpg" alt="banner" class="img-responsive center-block" />
+    }
+    else
+    {
+        <img src="~/images/newswire/newswire-banner.jpg" alt="banner" class="img-responsive center-block" />
+    }
+</div>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="container p-t-50 p-b-20">
+    <div class="row">
+        @if (!isMobile)
+      @*   @if (!Request.Browser.IsMobileDevice) *@
+        {
+            <div class="col-xs-12 col-sm-4">
+                <img src="~/images/newswire/newswire-left.png" style="width:320px;" alt="newswire" class="img-responsive center-block" />
+            </div>
+        }
+        <div class="col-xs-12 col-sm-8">
+            <p>This exclusive platform to submit and get published press releases is useful for various organizations/entities such as government agencies, all size corporates, NGOs, educational institutions (schools, colleges, universities), research organizations, individual researchers, research journals, local urban and rural administration, through which they can enhance their visibility globally and thus engage with millions of readers across the world. We are already linked to over 900 such organizations/entities from various parts of the world and regularly publish provided press releases after editorial discretion. The service is free of cost.</p>
+            <p>Devdiscourse has niche global audience base with about 17.2 million impressions at Google Search every month plus estimated 500,000 visitors and 15 million page views per month. 94% of our audience base is of 18-64 years’ age group with diverse interest in developmental themes ranging from finance, economy, investment, environment, gender, information technology to sectors such as agro-forestry, education, energy, health, natural resources, transport, urban development, and water and sanitation.</p>
+            <p>Publishing press releases at our global media dais acts like an engagement tool for organizations/entities to augment their media presence and consumer attentions including stakeholder communication requirements.</p>
+            <p>To kick off submitting press releases, register with us.</p>
+            <div class="p-t-20">
+              @*   @if (Request.IsAuthenticated == false) *@
+                 @if (Context.User.Identity.IsAuthenticated == false) 
+                {
+                    <a href="@Url.Action("Registration", "Account")" class="btn btn-primary btncss">Register</a>
+                    <a href="@Url.Action("Login", "Account", new { returnUrl = "/NewsWire" })" class="btn btncss loginbtn">Log in</a>
+                }
+                else
+                {
+                    if (User.IsInRole("Subscriber"))
+                    {
+                        <a href="@Url.Action("UpdateUserRole", "Role", new { role = "PressRelease" })" class="btn btn-primary">Submit Press Release</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Dashboard","NewsWire")" class="btn btn-primary">Submit Press Release</a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#pressLink').addClass('active');
+        });
+    </script>
+}

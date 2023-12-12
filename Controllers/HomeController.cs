@@ -301,21 +301,21 @@ namespace DevDiscourse.Controllers
             }
             return View();
         }
-        //public ActionResult DevBlogs(string type = "")
-        //{
-        //    ViewBag.type = type;
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.reg = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.reg = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}    
-    
+        public ActionResult DevBlogs(string type = "")
+        {
+            ViewBag.type = type;
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.reg = "Global Edition";
+            }
+            else
+            {
+                ViewBag.reg = cookie ?? "Global Edition";
+            }
+            return View();
+        }
+
         //public JsonResult pledge()
         //{
         //    var search = (from m in _db.CampaignPetitions

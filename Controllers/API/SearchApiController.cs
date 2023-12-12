@@ -14,6 +14,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Http;
+using System.Web.WebPages;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
@@ -466,9 +467,40 @@ namespace Devdiscourse.Controllers.API
             }
 
         }
+
+        //[HttpGet]
+        //[Route("GetAdvancedSearch/{text}/{type}/{sector}/{country}/{region}/{beforeDate}/{afterDate}/{page}")]
+        //public IQueryable<AdvancedSearchView> GetAdvancedSearch(string text, string type, string sector, string country, string region = "Global Edition", string beforeDate = "", string afterDate = "", int page = 1)
+        //{
+        //    var skipCount = (page - 1) * 20;
+        //    var stringSearch = text == "all" ? "" : text;
+        //    var typeSearch = type == "all" ? "" : type;
+        //    var countrySearch = country == "all" ? "" : country;
+        //    var searchRegion = region == "Global Edition" ? "" : region;
+
+        //    var newsSearch = db.DevNews
+        //        //.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion))
+        //        .Select(a => new AdvancedSearchView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.Sector, Country = a.Country, Region = a.Region, Type = a.Type, SubType = a.SubType, NewsId = a.NewsId, Label = a.NewsLabels });
+        //    //if (sector != "all")
+        //    //{
+        //    //    newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
+        //    //}
+        //    if (beforeDate != "")
+        //    {
+        //        DateTime filterDate = DateTime.Parse(beforeDate);
+        //        newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
+        //    }
+        //    if (afterDate != "")
+        //    {
+        //        DateTime filterDate2 = DateTime.Parse(afterDate);
+        //        newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
+        //    }
+        //    return newsSearch.OrderByDescending(a => a.CreatedOn).Skip(skipCount).Take(20);
+        //}
+
         [HttpGet]
         [Route("GetAdvancedSearch/{text}/{type}/{sector}/{country}/{region}/{beforeDate?}/{afterDate?}/{page}")]
-        public IQueryable<AdvancedSearchView> GetAdvancedSearch(string text, string type, string sector, string country, string region = "Global Edition", DateTime? beforeDate = null, DateTime? afterDate = null, int page = 1)
+        public IQueryable<AdvancedSearchView> GetAdvancedSearch(string text, string type, string sector, string country, string region = "Global Edition", string? beforeDate = "", string? afterDate = "", int page = 1)
         {
             var skipCount = (page - 1) * 20;
             var stringSearch = text == "all" ? "" : text;
@@ -476,23 +508,41 @@ namespace Devdiscourse.Controllers.API
             var countrySearch = country == "all" ? "" : country;
             var searchRegion = region == "Global Edition" ? "" : region;
 
-            var newsSearch = db.DevNews.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion)).Select(a => new AdvancedSearchView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.Sector, Country = a.Country, Region = a.Region, Type = a.Type, SubType = a.SubType, NewsId = a.NewsId, Label = a.NewsLabels });
-            if (sector != "all")
+            var newsSearch = db.DevNews/*.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion))*/
+                .Select(a => new AdvancedSearchView
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CreatedOn = a.CreatedOn,
+                    ImageUrl = a.ImageUrl,
+                    Sector = a.Sector,
+                    Country = a.Country,
+                    Region = a.Region,
+                    Type = a.Type,
+                    SubType = a.SubType,
+                    NewsId = a.NewsId,
+                    Label = a.NewsLabels
+                });
+            //if (sector != "all")
+            //{
+            //    newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
+            //}
+            if (beforeDate != "")
             {
-                newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
+                DateTime filterDate = DateTime.Parse(beforeDate.AsDateTime(DateTime.Now.AddDays(-60)).ToString());
+                //newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
+                newsSearch = newsSearch.Take(50);
             }
-            if (beforeDate != null)
+            if (afterDate != "")
             {
-                DateTime filterDate = DateTime.Parse(beforeDate.ToString());
-                newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
+                DateTime filterDate2 = DateTime.Parse(afterDate.AsDateTime(DateTime.Now.AddDays(-80)).ToString());
+                //newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
+                newsSearch = newsSearch.Take(50);
             }
-            if (afterDate != null)
-            {
-                DateTime filterDate2 = DateTime.Parse(afterDate.ToString());
-                newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
-            }
-            return newsSearch.OrderByDescending(a => a.CreatedOn).Skip(skipCount).Take(20);
+            //return newsSearch.OrderByDescending(a => a.CreatedOn).Skip(skipCount).Take(20);
+            return newsSearch.Skip(skipCount).Take(50);
         }
+
         [HttpGet]
         [Route("GetSearchImage/{text}")]
         public IQueryable<ImageView> GetSearchImage(string text)

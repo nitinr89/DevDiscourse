@@ -500,7 +500,7 @@
                     });
                 }
             });
-            // $('.lazy').lazy();
+            $('.lazy').lazy();
             getCountries();
             getShiftUser();
             $("#status").change(function () {
@@ -542,7 +542,6 @@
                     type: 'Get',
                     dataType: 'Json',
                     success: function (data) {
-                        console.log(data);
                         var shiftUsers = data.map(item => `'<option value="${item.id}">${item.firstName} ${item.lastName}</option>'`)
                         $('#shiftUsers').html(shiftUsers.join(''));
                         $.each(data, function (i, item) {
@@ -572,7 +571,6 @@
                     data: { region: _region },
                     dataType: 'Json',
                     success: function (data) {
-                        console.log(data);
                         $('#selCountry').html("").append('<option value="">Select</option>');
                         $.each(data, function (i, item) {
                             $('#selCountry').append('<option value="' + item.title + '">' + item.title + '</option>');
@@ -673,66 +671,66 @@
             });
         });
 
-        $(function () {
-            // Reference the auto-generated proxy for the hub.
-            var chat = $.connection.chatHub;
-            // Create a function that the hub can call back to display messages.
-            chat.client.NewsOpenNotification = function (id, user, colorcode) {
-                $('#' + id).html('<span class="pull-right badge ' + colorcode + '">' + user + '</span>');
-                if (status == "Open") {
-                    SaveData(id, status, user, colorcode);
-                    $('#' + id).html('<span class="pull-right badge ' + colorcode + '">' + user + '</span>');
-                }
-                else {
-                    $('#' + id).html("");
-                    RemoveData(id);
-                }
-            };
-            $.connection.hub.start().done(function () {
-            });
+        // $(function () {
+        //     // Reference the auto-generated proxy for the hub.
+        //     var chat = $.connection.chatHub;
+        //     // Create a function that the hub can call back to display messages.
+        //     chat.client.NewsOpenNotification = function (id, user, colorcode) {
+        //         $('#' + id).html('<span class="pull-right badge ' + colorcode + '">' + user + '</span>');
+        //         if (status == "Open") {
+        //             SaveData(id, status, user, colorcode);
+        //             $('#' + id).html('<span class="pull-right badge ' + colorcode + '">' + user + '</span>');
+        //         }
+        //         else {
+        //             $('#' + id).html("");
+        //             RemoveData(id);
+        //         }
+        //     };
+        //     $.connection.hub.start().done(function () {
+        //     });
 
-            var newsArray = [];
-            function SaveData(id, status, user, colorcode) {
-                if (localStorage.getItem("NewsStatus") == null) {
-                    newsArray.push(new NewsWithStatus(id, status, user, colorcode));
-                    var newsData = { "News": newsArray };
-                    localStorage.setItem("NewsStatus", JSON.stringify(newsData));
-                }
-                else {
-                    var newsList = JSON.parse(localStorage.getItem("NewsStatus"));
-                    var idList = newsList.News;
-                    var index = idList.indexOf(id);
-                    if (index == -1) {
-                        idList.push(new NewsWithStatus(id, status, user, colorcode));
-                        var newsData = { "News": idList };
-                        localStorage.setItem("NewsStatus", JSON.stringify(newsData));
-                    }
-                }
-                GetData();
-            }
-            GetData();
-            function GetData() {
-                var newsList = JSON.parse(localStorage.getItem("NewsStatus"));
-                var idList = newsList.News;
-                $.each(idList, function (i, item) {
-                    $('#' + item.id).html('<span class="pull-right badge ' + item.bgcolor + '">' + item.user + '</span>');
-                });
-            }
-            function RemoveData(newsid) {
-                var newsList = JSON.parse(localStorage.getItem("NewsStatus"));
-                var idList = newsList.News;
-                var index = idList.indexOf(newsid);
-                idList.splice(index, 1);
-                var newsData = { "News": idList };
-                localStorage.setItem("NewsStatus", JSON.stringify(newsData));
-                GetData();
-            }
-            function NewsWithStatus(id, status, user, bgcolor) {
-                this.id = id;
-                this.status = status;
-                this.user = user;
-                this.bgcolor = bgcolor;
-            }
-        });
+        //     var newsArray = [];
+        //     function SaveData(id, status, user, colorcode) {
+        //         if (localStorage.getItem("NewsStatus") == null) {
+        //             newsArray.push(new NewsWithStatus(id, status, user, colorcode));
+        //             var newsData = { "News": newsArray };
+        //             localStorage.setItem("NewsStatus", JSON.stringify(newsData));
+        //         }
+        //         else {
+        //             var newsList = JSON.parse(localStorage.getItem("NewsStatus"));
+        //             var idList = newsList.News;
+        //             var index = idList.indexOf(id);
+        //             if (index == -1) {
+        //                 idList.push(new NewsWithStatus(id, status, user, colorcode));
+        //                 var newsData = { "News": idList };
+        //                 localStorage.setItem("NewsStatus", JSON.stringify(newsData));
+        //             }
+        //         }
+        //         GetData();
+        //     }
+        //     GetData();
+        //     function GetData() {
+        //         var newsList = JSON.parse(localStorage.getItem("NewsStatus"));
+        //         var idList = newsList.News;
+        //         $.each(idList, function (i, item) {
+        //             $('#' + item.id).html('<span class="pull-right badge ' + item.bgcolor + '">' + item.user + '</span>');
+        //         });
+        //     }
+        //     function RemoveData(newsid) {
+        //         var newsList = JSON.parse(localStorage.getItem("NewsStatus"));
+        //         var idList = newsList.News;
+        //         var index = idList.indexOf(newsid);
+        //         idList.splice(index, 1);
+        //         var newsData = { "News": idList };
+        //         localStorage.setItem("NewsStatus", JSON.stringify(newsData));
+        //         GetData();
+        //     }
+        //     function NewsWithStatus(id, status, user, bgcolor) {
+        //         this.id = id;
+        //         this.status = status;
+        //         this.user = user;
+        //         this.bgcolor = bgcolor;
+        //     }
+        // });
     </script>
 }

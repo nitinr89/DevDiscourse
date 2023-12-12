@@ -1,0 +1,635 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "Pacific Edition: International Development News from Australia & Japan | Devdiscourse";
+    ViewBag.alternateHeadline = "Pacific News - Development News from Australia & Japan | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse - Get Latest Headline From Pacific. International Development News, Breaking News on Politics, Business, Technology, Science, Health, Education and Entertainment.";
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/pacific";
+    ViewBag.pageKeywords = "International Development News, Devdiscourse Pacific, Devdiscourse Australia, SDGs News, Japan News, New Zealand News, Politics News, Business News, Sports News, Technology News";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+@section lastModified{
+    <meta http-equiv="last-modified" content="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz")" />
+}
+<style>
+    .video-container {
+        border-top: 2px solid #ff7b00;
+        border-bottom: 2px solid #ff7b00;
+        background-color: #efefef;
+        padding: 15px 10px 0;
+    }
+
+    .owl-carousel .owl-dots.disabled, .owl-carousel .owl-nav.disabled, .text-design span {
+        display: block
+    }
+
+    .label.label-primary {
+        background-color: red;
+        font-weight: 400;
+        font-family: monospace;
+        font-size: 80%
+    }
+
+    .infocus-badge {
+        padding: 3px 5px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: #ff7b00;
+        color: #fff
+    }
+
+    .infocus-item {
+        display: block;
+        position: relative;
+    }
+
+    .item-caption {
+        position: absolute;
+        bottom: 0;
+    }
+
+        .item-caption .title {
+            font-family: Oswald,sans-serif;
+            color: #fff
+        }
+
+            .item-caption .title:hover {
+                color: red
+            }
+
+    .infocus-news {
+        height: 240px;
+        margin-bottom: 20px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    #myCarousel {
+        margin-bottom: 50px
+    }
+
+    .carousel-badge {
+        color: #fff;
+        background-color: #4d4d4d;
+        border-radius: 2px;
+        margin: 5px !important
+    }
+
+    .blog-card {
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08);
+        border-radius: 3px;
+        padding: 8px;
+        min-height: 120px
+    }
+
+    .infocus-card {
+        display: block;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ddd
+    }
+
+        .infocus-card .title {
+            margin-bottom: 0;
+            margin-top: 5px;
+            font-weight: 400;
+            line-height: 1.2;
+            font-size: 17px
+        }
+
+    .country {
+        color: #ff6a00;
+        font-weight: 500;
+    }
+
+    .news-item-overlay {
+        background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,.9),rgba(0,0,0,1));
+        padding: 8px
+    }
+
+    .interest-card, .sectorNewsCard .media {
+        padding-bottom: 5px
+    }
+
+    .content-overlay {
+        height: 50%;
+        background: linear-gradient(rgba(0,0,0,0),rgba(255,255,255,.4),rgba(255,255,255,1))
+    }
+
+    .text-design {
+        text-decoration: none !important;
+        color: #fff !important
+    }
+
+    .myCard .heading {
+        color: #222
+    }
+
+    .myCard:hover .heading {
+        color: #ff7b00
+    }
+
+    .sectorNewsCard {
+        margin-top: 5px;
+        border-bottom: 1px solid #ddd
+    }
+
+    .mini-card {
+        height: 85px;
+        margin-top: 5px
+    }
+
+        .mini-card .image-card {
+            width: 100px;
+            height: 80px;
+            background-size: cover
+        }
+
+    .col-lg-12 .sectorNewsCard:last-child, .col-lg-6 .sectorNewsCard:last-child {
+        border-bottom: 1px solid transparent
+    }
+
+    .sectorNewsCard .image-card {
+        width: 90px;
+        height: 90px;
+        background-size: cover
+    }
+
+    .owl-stage-outer {
+        padding-top: 0;
+        z-index: 1000 !important
+    }
+
+    .interest-card {
+        border-bottom: 1px solid #ddd;
+        margin-top: 5px
+    }
+
+    .col-lg-3 .interest-card:last-child {
+        border-bottom: 1px solid transparent
+    }
+
+    @@media(max-width:425px) {
+        .infocus-card {
+            height: auto
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .section-title, .section-title2 {
+            font-size: 22px
+        }
+
+        .owl-carousel .owl-nav .owl-next, .owl-carousel .owl-nav .owl-prev {
+            font-size: 20px;
+            width: 35px
+        }
+
+        .owl-nav {
+            top: -47px
+        }
+    }
+
+    .borderpadded {
+        border-bottom: 1px solid #ccc
+    }
+
+    .header-line-height {
+        line-height: 1.35
+    }
+
+    .text-gray {
+        color: #666
+    }
+
+    .textShadow {
+        color: #fff;
+        margin-top: -20px;
+        padding: 0 5px;
+        text-shadow: 2px 2px 4px #000
+    }
+
+    .svg-text {
+        fill: #212121;
+        font-size: 12px;
+        font-family: SegoeUI,Segoe UI
+    }
+
+    .svg-icon {
+        fill: #727272
+    }
+
+    .svg-bg {
+        fill: rgba(255,255,255,0)
+    }
+
+    .active .svg-icon, .active .svg-text {
+        fill: #ff6a00
+    }
+
+    .social-btn {
+        margin-top: 10px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 1px solid #4f4f4f;
+        background: #fff;
+        padding: 2px;
+        color: #4f4f4f;
+        outline-color: transparent !important;
+    }
+
+    .opinion-card {
+        border-right: 1px solid #cbcbcb;
+    }
+
+        .opinion-card:last-of-type {
+            border-right: 0px solid #cbcbcb;
+        }
+
+    .primary-link {
+        color: #ff6a00;
+    }
+</style>
+<div class="container">
+    @* @if (Request.Browser.IsMobileDevice) *@
+    @if (isMobile)
+    {
+        <a href="/cricket-world-cup-2019">
+            <img src="~/images/worldcup/worldcup_mobile_banner.jpg" class="img-responsive center-block m-b-20" alt="Cricket World Cup 2019" />
+        </a>
+    }
+    else
+    {
+        <a href="/cricket-world-cup-2019">
+            <img src="~/images/worldcup/worldcup_2019_homepage_banner.jpg" class="img-responsive center-block m-b-20" alt="Cricket World Cup 2019" style="max-height:90px;" />
+        </a>
+    }
+    <link href="~/Content/breaking-news-ticker.min.css" rel="stylesheet" />
+    <div class="breaking-news-ticker  m-b-20" id="example">
+        <h2 class="bn-label no-margin f-16" title="Breaking News"><a class="fg-white no-text-decoration" href="/news">Breaking News</a></h2>
+        <div class="bn-news">
+            <ul id="news-alert"></ul>
+        </div>
+        <div class="bn-controls">
+            <button aria-label="Prevoius News"><span class="bn-arrow bn-prev"></span></button>
+            <button aria-label="Pause/Play"><span class="bn-action"></span></button>
+            <button aria-label="Next News"><span class="bn-arrow bn-next"></span></button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <h1 class="section-title">
+                <span>IN FOCUS</span>
+            </h1> @{
+                // Html.RenderAction("GetInfocus", "Home", new { reg = ViewBag.edition });
+                    @await Component.InvokeAsync("Infocus",new {reg=ViewBag.edition});
+            }
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <h3 class="section-title">
+                <span>LIVE DISCOURSE</span>
+            </h3>
+            <div class="clearfix m-b-20" id="live-left">@{
+                    // Html.RenderAction("GetInfocusLiveDiscourse", "Livediscourse", new { reg = ViewBag.edition });
+                    @await Component.InvokeAsync("InfocusLiveDiscourse",new {reg=ViewBag.edition})
+                    ;
+                }</div>
+        </div>
+        <div class="clearfix col-sm-12 col-md-4">
+            <h2 class="section-title">
+                <span>TRENDING</span>
+            </h2>@{
+                // Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.edition });
+                @await Component.InvokeAsync("Trends",new {filter="Trends",reg=ViewBag.edition})
+            }
+            <div class="p-t-20">
+                <a href="@Url.Action("Index", "Research")"> <img data-src="/images/SDGs/participatory-sdgs.jpg?width=445&quality=80" src="~/Content/transparent.png" alt="Participatory monitoring of SDGs" class="img-responsive center-block lazy" style="border:1px solid #eee" /> </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bg-highlight p-t-40 p-b-20">
+    <div class="container">
+        <h2 class="section-title2">
+            <span style="background-color: #f3f3f3;"><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS / INTERVIEW</a></span>
+        </h2>
+        <div class="row m-t-20" id="opinion1">
+            <div class="col-md-4 p-t-20 p-b-20 opinion-card"></div>
+        </div>
+        <a href="/blogs" class="pull-right read-more-btn">View All</a>
+    </div>
+</div>
+<div class="container m-t-20 m-b-20"> @{
+        // Html.RenderAction("GetNews", "Home", new { reg = ViewBag.edition, skip = 0, take = 12 });
+        @await Component.InvokeAsync("News",new {reg=ViewBag.edition,skip=0,take=12});
+    }</div>
+<div class="container m-t-10 m-b-20">
+    <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" title="Download App from Playstore" target="_blank"><img data-src="/images/SDGs/app-banner.jpg?quality=80" src="~/Content/transparent.png" alt="Download the Devdiscourse App" class="img-responsive lazy center-block" /></a>
+</div>
+
+<div class="container m-t-20 m-b-20">
+    <div class="row">
+        <div class="col-md-8 p-t-10">
+            <div class="row">
+                <div class="col-md-6" id="news1"><h2 class="section-title" title="AGRO-FORESTRY NEWS"><span>AGRO-FORESTRY</span></h2></div>
+                <div class="col-md-6" id="news2"><h2 class="section-title" title="TECHNOLOGY NEWS"><span>TECHNOLOGY</span></h2></div>
+            </div>
+         @*    @if (Request.Browser.IsMobileDevice) *@
+            @if (isMobile)
+            {
+                <div class="clearfix m-t-20 m-b-30">
+                    <a href="http://www.visionri.com/Home/IdeaKM" rel="noreferrer" target="_blank"><img data-src="/AdminFiles/Ads/Banner/IDEA_kms_mobile.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="Ads-banner" /></a>
+                </div>
+            }
+            else
+            {
+                <div class="clearfix m-t-20 m-b-30">
+                    <a href="http://www.visionri.com/Home/IdeaKM" rel="noreferrer" target="_blank"><img data-src="/AdminFiles/Ads/Banner/IDEA_kms_banner.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="Ads-banner" /></a>
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="news4"><h2 class="section-title" title="EDUCATION NEWS"><span>EDUCATION</span></h2></div>
+                    <div id="news7"><h2 class="section-title" title="LAW &amp; GOVERNANCE NEWS"><span>LAW &amp; GOVERNANCE</span></h2></div>
+                </div>
+                <div class="col-md-6">
+                    <div id="news5"><h2 class="section-title" title="ENERGY &amp; EXTRACTIVES NEWS"><span>ENERGY &amp; EXTRACTIVES</span></h2></div>
+                    <div id="news8"><h2 class="section-title" title="SCIENCE &amp; ENVIRONMENT NEWS"><span>SCIENCE &amp; ENVIRONMENT</span></h2></div>
+                </div>
+            </div>
+         @*    @if (Request.Browser.IsMobileDevice) *@
+            @if (isMobile)
+            {
+                <div class="clearfix m-t-20 m-b-30">
+                    <a href="http://www.visionri.com/Home/Vithi" rel="noreferrer" target="_blank"><img data-src="/AdminFiles/Ads/Banner/vithi_mobile.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="Vithi" /></a>
+                </div>
+            }
+            else
+            {
+                <div class="clearfix m-t-20 m-b-30">
+                    <a href="http://www.visionri.com/Home/Vithi" rel="noreferrer" target="_blank"><img data-src="/AdminFiles/Ads/Banner/vithi_banner2.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="Vithi" /></a>
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="news9"><h2 class="section-title" title="SOCIAL &amp; GENDER NEWS"><span>SOCIAL &amp; GENDER</span></h2></div>
+                    <div id="news12"><h2 class="section-title" title="WASH NEWS"><span>WASH</span></h2></div>
+                </div>
+                <div class="col-md-6">
+                    <div id="news10"><h2 class="section-title" title="TRANSPORT NEWS"><span>TRANSPORT</span></h2></div>
+                    <div id="news13"><h2 class="section-title" title="ART &amp; CULTURE NEWS"><span>ART &amp; CULTURE</span></h2></div>
+                </div>
+            </div>
+            <div class="clearfix" id="news14"></div>
+          @*   @if (Request.Browser.IsMobileDevice) *@
+            @if (isMobile)
+            {
+                <div class="clearfix m-t-20 m-b-30">
+                    <a href="http://www.visionri.com" rel="noreferrer" target="_blank"><img data-src="/AdminFiles/Ads/Banner/digital_development_mobile.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="VisionRI" /></a>
+                </div>
+            }
+            else
+            {
+                <div class="clearfix m-t-20 m-b-30">
+                    <a href="http://www.visionri.com" rel="noreferrer" target="_blank"><img data-src="/AdminFiles/Ads/Banner/digital_development_banner.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="VisionRI" /></a>
+                </div>
+            }
+        </div>
+        <div class="col-md-4 p-t-10">
+            <div id="news3"><h2 class="section-title" title="ECONOMY &amp; BUSINESS NEWS"><span>ECONOMY &amp; BUSINESS</span></h2></div>
+            <div class="clearfix m-t-20 m-b-30">
+                <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" target="_blank" rel="noopener"><img src="/AdminFiles/Ads/playstore-banner.png" alt="Devdiscourse app on Playstore" class="img-responsive center-block border lazy"></a>
+            </div>
+            <div id="news6"><h2 class="section-title" title="HEALTH NEWS"><span>HEALTH</span></h2></div>
+            <div id="news11"><h2 class="section-title" title="URBAN DEVELOPMENT NEWS"><span>URBAN DEVELOPMENT</span></h2></div>
+            <div id="news15"><h2 class="section-title" title="SPORTS NEWS"><span>SPORTS</span></h2></div>
+            <div class="clearfix m-t-20 m-b-30">
+                <a href="http://www.visionri.com/Home/Vyapad" rel="noreferrer" target="_blank"><img data-src="/AdminFiles/Ads/Banner/vyapad_banner.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="Vyapad" /></a>
+            </div>
+            <div id="news19"><h2 class="section-title" title="POLITICS NEWS"><span>POLITICS</span></h2></div>
+        </div>
+    </div>
+    <div id="videoNews" class="video-container"></div>
+    <div class="clearfix m-t-20" id="showYourInterest"></div>
+</div>
+@section scripts{
+    <script src="~/Scripts/breaking-news-ticker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var _edition = '@(ViewBag.edition)';
+            var _saveSector = [];
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            GetOpinion();
+            sectorNews("sector10", "10", "/news/agro-forestry", "AGRO-FORESTRY", "news1")
+            sectorNews("sector6", "6", "/news/technology", "TECHNOLOGY", "news2")
+            sectorNews("sector1", "1", "/news/economy-business", "ECONOMY &amp; BUSINESS", "news3")
+            sectorNews("sector4", "4", "/news/education", "EDUCATION", "news4")
+            sectorNews("sector7", "7", "/news/energy-extractives", "ENERGY &amp; EXTRACTIVES", "news5")
+            sectorNews("sector2", "2", "/news/health", "HEALTH", "news6")
+            sectorNews("sector11", "11", "/news/law-governance", "LAW &amp; GOVERNANCE", "news7")
+            sectorNews("sector15", "15", "/news/science-environment", "SCIENCE &amp; ENVIRONMENT", "news8")
+            sectorNews("sector9", "9", "/news/socialgender", "SOCIAL &amp; GENDER", "news9")
+            sectorNews("sector3", "3", "/news/transport", "TRANSPORT", "news10")
+            sectorNews("sector17", "17", "/news/urban-development", "URBAN DEVELOPMENT", "news11")
+            sectorNews("sector12", "12", "/news/wash", "WASH", "news12")
+            sectorNews("sector14", "14", "/news/art-culture", "ART &amp; CULTURE", "news13")
+            sectorNews("sector18", "18", "/news/sports", "SPORTS", "news15")
+            sectorNews("sector19", "19", "/news/politics", "POLITICS", "news19")
+            GetVideoNews();
+            GetNewsAlert();
+            function GetOpinion() {
+                var ApiDataUrl = "/api/SearchApi/GetOpinion/" + _edition;
+                $.getJSON(ApiDataUrl, function (data) {
+                    var alertHtml = '';
+                    $.each(data, function (i, item) {
+                        var text = $('<div>').html(item.Description).children('p')[0].innerText;
+                        text = text.length > 150 ? text.substring(0, 150) + '...' : text;
+                        var slugUrl = convertToSlug(item.NewsId, item.Title);
+                        var label = item.Label != null ? item.Label : "agency-wire";
+                        var ImageUrl = "/AdminFiles/Logo/img_avatar.png";
+                        if (item.ImageUrl != null) {
+                            ImageUrl = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                        }
+                        //if (item.Name != "Siddheshwar  Shukla" && item.Name != "Parag Narang" && item.Name != "Subhro Prakash Ghosh" && item.Name != "Mrunmayi Sapatnekar" && item.Name != "Renu Mehta") {
+                        //    ImageUrl = "/AdminFiles/Logo/img_avatar.png";
+                        //}
+                        alertHtml += '<div class="col-md-4 p-t-20 p-b-20 opinion-card">' +
+                            '<div class="media">' +
+                            '<div class="media-left">' +
+                            '<img src="' + ImageUrl + '?width=60&height=60&mode=crop" onerror="this.src=' + "'/AdminFiles/Logo/img_avatar.png?width=60&height=60&mode=crop'" + '" width="60" height="60" alt="' + (item.Name != null ? item.name : "") + '" class="img-circle" />' +
+                            '</div>' +
+                            '<div class="media-body">' +
+                            '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><h3 class="media-heading f-20 font-normal">' + item.Title + '</h3></a>' +
+                            '<p class="f-16 text-muted">' + text + '</p>' +
+                            '<div class="clearfix m-t-5">' +
+                            '<span class="pull-left">' + item.Name + '</span>' +
+                            '<span class="pull-right"><a href="/article/' + label + '/' + slugUrl + '" class="primary-link">Read More</a></span>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    });
+                    $('#opinion1').html(alertHtml);
+                });
+            }
+            function GetNewsAlert() {
+                var ApiDataUrl = "/api/SearchApi/GetNewsAlert";
+                $.getJSON(ApiDataUrl, function (data) {
+                    var alertHtml = '';
+                    $.each(data, function (i, item) {
+                        var slugUrl = convertToSlug(item.NewsId, item.Title);
+                        var label = item.Label != null ? item.Label : "agency-wire";
+                        alertHtml += '<li><a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><span class="fg-black">●</span> ' + item.Title + '</a></li>';
+                    });
+                    $('#news-alert').html(alertHtml);
+                    $('#example').breakingNews();
+                });
+            }
+            function sectorNews(sector_id, newsSector, newsUrl, newsTitle, appendTo) {
+                var dataUrl = "/api/DevNews/GetSectorArticle/" + _edition + "/" + newsSector;
+                //$('#' + appendTo).html('<div class="h2 text-center text-muted" style="font-weight:100;"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...</div>');
+                var sectorNewsHtml = '';
+                $.getJSON(dataUrl, function (data) {
+                    // $('#' + appendTo).html('<h2 class="section-title" title="' + newsTitle + ' NEWS"><span>' + newsTitle + '</span></h2>');
+                    $.each(data.slice(0, 5), function (i, item) {
+                        var slugUrl = convertToSlug(item.NewsId, item.Title);
+                        var newsType = "";
+                        var imageUrl = "";
+                        if (item.Sector == "Event") {
+                            newsType = item.Sector;
+                        } else if (item.sector == "Blog") {
+                            if (item.SubType != "") {
+                                newsType = item.SubType;
+                            } else {
+                                newsType = "Blog";
+                            }
+                        }
+                        var country = "";
+                        if (item.Country != null && item.Country != "") {
+                            var countryArr = item.Country.split(',');
+                            country = countryArr[0];
+                        } else {
+                            country = "Global";
+                        }
+                        var imageContent = "";
+                        var badge = "";
+                        var label = item.Label != null ? item.Label : "agency-wire";
+                        if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {
+                            var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                            imageContent = '<div class="media-left"><a href="/Article/' + label + '/' + slugUrl + '" aria-label="' + item.Title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '?width=90&height=90&mode=crop"></div></a></div>';
+                        }
+                        if (newsType != "") {
+                            badge = '<span class="pull-right infocus-badge">' + newsType + '</span>';
+                        }
+                        sectorNewsHtml += '<div class="media news-media-card">' + badge + imageContent + '<div class="media-body"><a href="/article/' + label + '/' + slugUrl + '" title="' + item.Title + '" class="text-decoration"><h3 class="media-title">' + item.Title + '</h3></a><p class="media-meta">' + country + '</p></div></div>';
+                    });
+                    $('#' + appendTo).append(sectorNewsHtml + '<div class="clearfix"><a href="' + newsUrl + '" class="read-more-btn m-t-10 m-b-30">Read More</a></div>');
+                    $(".lazy").lazy();
+                });
+            }
+            function GetVideoNews() {
+                var ApiDataUrl = "/api/DevNews/GetVideoNews/" + _edition;
+                $.getJSON(ApiDataUrl, function (data) {
+                    $('#videoNews').html('<h2 class="section-title"><span style="background-color:#efefef">Videos</span>' + '</h2><div id="videoCarousel" class="owl-carousel"></div>');
+                    $.each(data, function (i, item) {
+                        var slugUrl = convertToSlug(item.NewId, item.Title);
+                        var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                        var label = item.Label != null ? item.Label : "agency-wire";
+                        $('#videoCarousel').append('<div class="item"><a href="/article/' + label + '/' + slugUrl + '" title="' + item.Title.split('"').join('') + '"><div class="news-card bg-gray lazy" data-src="' + newsImage + '?width=435&height=245&mode=crop&quality=60"><div style="width:100%;height:100%;background-color:rgba(0,0,0,.5);padding-top:20%;"><div class="center-block text-center p-10" style="background-color:#ff6a00;color:#fff;width:60px;top:15%;"><span class="fa fa-play fa-2x"></span></div></div></div></a><div class="card2-title"><a href="/article/' + label + '/' + slugUrl + '" title="' + item.Title.split('"').join('') + '" class="text-decoration"><h4 class="header-line-height no-margin f-16" style="font-weight:400">' + item.Title + '</h4></a></div></div>');
+                    });
+                    $('.lazy').lazy();
+                    $(document).find('#videoCarousel').owlCarousel({
+                        items: 3,
+                        nav: true,
+                        margin: 45,
+                        startPosition: '0',
+                        autoplay: true,
+                        autoplayTimeout: 3000,
+                        autoplayHoverPause: true,
+                        loop: false,
+                        responsive: {
+                            320: {
+                                items: 1
+                            },
+                            425: {
+                                items: 1
+                            },
+                            550: {
+                                items: 2
+                            },
+                            768: {
+                                items: 2
+                            },
+                            1024: {
+                                items: 3
+                            },
+                            1200: {
+                                items: 3
+                            }
+                        }
+                    });
+                    $(".owl-prev").html('<span class="fa fa-angle-left"></span>');
+                    $(".owl-next").html('<span class="fa fa-angle-right"></span>');
+                    $(".owl-next").click(function () {
+                        if ($(this).hasClass('disabled')) {
+                            $(".owl-next").css('width', '100px').html('<a href="/news/videos" style="color:#fff;font-size:14px">View All</a>');
+                        }
+                    });
+                    $(".owl-prev").click(function () {
+                        $(".owl-next").css('width', '40px').html('<span class="fa fa-angle-right"></span>');
+                    });
+                });
+            }
+
+            function convertToSlug(newsId, str) {
+                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return newsId + "-" + str;
+            }
+            var cachedData = JSON.parse(localStorage.getItem("CacheSector"));
+            if (cachedData != null) {
+                var cachedSectors = cachedData.Sectors;
+                $.each(cachedSectors, function (i, item) {
+                    if (item.count > 0 && _saveSector.length <= 3) {
+                        _saveSector.push(item.sector);
+                    }
+                });
+                if (_saveSector.length > 0) {
+                    showInterest();
+                }
+            }
+
+            function showInterest() {
+                $.ajax({
+                    url: '/Home/GetYourInterest',
+                    type: 'Get',
+                    data: {
+                        sector: _saveSector.join(","),
+                        reg: _edition
+                    },
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#showYourInterest').html(data);
+                        $('.lazy').lazy();
+                    },
+                    error: function () { },
+                });
+            }
+        });
+    </script>
+}

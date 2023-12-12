@@ -1,0 +1,168 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "Write For Us | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse is World's leading website for International Development News. Get Breaking News on Politics, Business, Technology, Science, Health, Education and Entertainment.";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/Writeforus";
+    ViewBag.pageKeywords = "Development news, Current news, live news, international news in english, latest top news, India news, Africa news, daily news, world news, latest news today, online news, sports news, politics news, health news, science news, technology news, energy news, urban development news, transport news, economy news, finance news, sports news, art and culture news, education news, sports news, Agro-Forestry, social gender, Public Administration, Water and Sanitation";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+    // var isMobile = Context.Request.Headers["User-Agent"].ToString().Contains("Mobi");
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+<style>
+    .renderBody {
+        margin-top: 0;
+    }
+
+    .menubar {
+        padding-top: 30px;
+    }
+
+    .heading {
+        font-size: 24px;
+        padding: 8px 0;
+        margin: 0;
+        border-top: 1px dotted #808080;
+    }
+
+        .heading:last-of-type {
+            border-bottom: 1px dotted #808080;
+            margin-bottom: 15px;
+        }
+
+    .btn-outline {
+        background-color: transparent !important;
+        color: #0073c4;
+        border: 2px solid #0073c4;
+    }
+
+        .btn-outline:hover {
+            background-color: #0073c4 !important;
+            color: #fff;
+        }
+
+    @@media(max-width:768px) {
+        .heading {
+            font-size: 20px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .menubar {
+            padding-top: 10px;
+        }
+
+        .btn-lg {
+            padding: 4px 10px;
+            font-size: 16px;
+        }
+
+        .heading {
+            font-size: 16px;
+        }
+    }
+</style>
+@* @if (Request.Browser.IsMobileDevice) *@
+@if (isMobile)
+{
+   @*  <img src="~/Content/transparent.png" data-src="/images/contibutor/contribute_mobile.jpg" class="img-responsive lazy" alt="Contribute" /> *@
+    <img src="/images/contibutor/contribute.jpg" class="img-responsive lazy" alt="Contribute" />
+
+   @*  <img src="~/images/contibutor/contribute_mobile.jpg" class="img-responsive lazy" alt="Contribute" /> *@
+}
+else
+{
+   @*  <img src="~/Content/transparent.png" data-src="/images/contibutor/contribute.jpg" class="img-responsive lazy" alt="Contribute" /> *@
+
+    <img src="~/images/contibutor/contribute.jpg" class="img-responsive lazy" alt="Contribute" />
+}
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="container m-t-20 m-b-20">
+    <div class="row">
+        <div class="col-sm-8">
+            <h3 id="writewithus">Do you have it in you?</h3>
+            <p>
+                If you have an urge for writing on contemporary issues and are in search of a suitable media. This is the right podium for you! We always encourage creative minds from diverse areas and pluralistic backgrounds. If you believe in your potential to influence readers with your unique way of writing articles, blogs, opinions, and features, we are here to provide you with the media.
+            </p>
+            <p>
+                Writing for Devdiscourse is obviously rewarding! You will get the global audience for creative presentation of your write-ups and share your information and ideas with the external world. This portal constantly accumulates views from various parts of the world, it’s a wonderful opportunity for the development enthusiast, including the experts who want to share research findings, developmental works, et all from throughout the sectors covered by Devdiscourse with the audiences across nationalities on the planet.
+            </p>
+            <h3 id="whatwewant">Basic Guidelines for Contributors </h3>
+            <p>The first and foremost requirement is a unique write-up that will relay more about developmental processes in any sector/s or category/ies covered by the Devdiscourse. We classify the write-ups under 15 sectors. Please have a look on sector domains <a href="/" title="Devdiscourse">(attach link)</a> to align your write-up with the theme of any of these development sectors. Those love to write on inter-sectoral, multi-sectoral or trans-sectoral themes are also welcome.</p>
+            <p>You may be aware, on the online media platform, a headline provides the first line of interaction between the author and the audience. Therefore, your headline should be grounded on content but catchy enough to attract the eyeballs and provoke the fingers to click for the full write up. Hereafter, it all depends on the novelty of the pieces of information and their creative presentation to hold the audience for longer and longer. The length of the write-up – article, blog, opinion and feature – should be between 300 words to about 1,000 words. Sadly, we do not consider write-ups below 300 words for publication.</p>
+            <p>We also follow a well defined in-house protocol to ensure the quality of writes-ups for our audiences. The dedicated technical team members of Devdiscourse would never flinch in checking your content with plagiarism checkers to ensure it is unique. Then editors pick up the next role in ensuring your views/opinions/ ideas are not copy-paste from any published material/s. And the common international journalistic guidelines are ought to be followed. The attribution is must if you find it necessary to pick any published piece of an author’s opinions or views. To make it more clarified, ensure that your content has a clear argument (if possible backed by renowned sector stalwarts’ past views/discoveries/ hypothesises etc. It should not look like just a run-on or list of tips and tricks. Your content is expected to be highly useful for the researchers, knowledge seekers, students, content strategists, information architects in their respective sectors.</p>
+            <p>You may also submit original photographs, audios and videos clips related to the write-up. They will be published with clear mention of your copyright on it/them to which the Devdiscourse will also have parallel copyright. If not original, it’s mandatory for the contributor to share sources for their contents and photographs. The editors, anytime, are free to knock you for crosschecking the minutest information if found unconvinced. The editorial team has the freedom and authority to decide whether the write up is fit to be published or not.</p>
+            <h3 id="howtopublish">Here’s how to submit!</h3>
+            <ul>
+                <li>It’s simple! Create an account with your email id</li>
+                <li>Fill up basic information about you; you can also upload your photograph</li>
+                <li>Now it’s your discretion of contributing write-ups for Devdiscourse</li>
+                <li>Upload relevant photograph(s) / videos related to content</li>
+                <li>Submit</li>
+            </ul>
+
+            <h3 id="rightsofuse">Rights of use, reuse and others</h3>
+            <p>You are allowed to post content on devdiscourse.com in exchange of stipulated remuneration. By doing so, you are giving us the right to use your content worldwide, reproduce, translate, modify, distribute, publicly display, offer to sell, and make derivative works of your pieces on devdiscourse.com and in all forms and media.</p>
+            <p>For the purposes of Intellectual Property Rights, Devdiscourse have all patent rights, moral rights, rights of publicity, copyright rights, trademark and service mark rights, trade secret rights and other intellectual property rights which possibly exist or henceforward created in existence, including all applications, registrations, renewals and extensions thereof, under the laws of any state, country, territory and other jurisdiction.</p>
+            <p>Through the process of posting and submitting the content on our site, you are giving us, including our contractors the right to display or publish any likable content on our site. You are, hence, agreeing to allow us to store, distribute and reuse such content for promotional and marketing purposes.</p>
+
+            <h3 id="termsofuse">Terms of use</h3>
+            <p>You particularly agree to the terms and conditions before using the website as a contributor.</p>
+            <p>You are free to browse devdiscourse.com without registering for a Devdiscourse account. However, it is mandatory for everyone to register for an account in order to post any content or write-up. Devdiscourse has the discretion to refuse or terminate any existing user account if he/she is found breaking the company’s norms, rules, terms and conditions. </p>
+
+            <h3 id="registration">Registration</h3>
+            <p>By registering, you are agreeing that the information you provide and continue providing are accurate. We reserve the right to reclaim Devdiscourse user accounts on behalf of businesses or individuals that hold legal claim or trademark on those usernames. The contributors are responsible for maintaining the confidentiality of their respective Devdiscourse passwords. By linking to devdiscourse.com with any third party service like Twitter, Facebook, etc. you agree to give us the permission to access and use your information from that service as permitted by that service alongside storing your log-in credentials for that service.</p>
+            <p>It is your responsibility to put your eyes on the activity that occurs on or through your account as you are suggested to keep your password secure. You should notify the management immediately of any breach of security or illegal utilization of your content or write-ups. This is to ensure you that Devdiscourse is not liable for your losses by unauthorized use of your content.</p>
+
+            <p style="margin-top:30px;color:#0073c4">Welcome to Devdiscourse! By visiting (including contributing) for our site, you are agreeing to be bound by the terms and conditions. It is advisable to go through the terms and conditions before using or contributing contents in any way for publication on <a href="https://www.devdiscourse.com">www.devdiscourse.com</a>. The organization has the discretion to alter the terms and conditions based on its requirements.</p>
+        </div>
+        <div class="col-sm-4 menubar">
+            @if(!isMobile)
+            {
+                <h4 class="heading"><a href="#writewithus" style="text-decoration:none;color:#222;">Do you have it in you?</a></h4>
+                <h4 class="heading"><a href="#whatwewant" style="text-decoration:none;color:#222;">Basic Guidelines for Contributors </a></h4>
+                <h4 class="heading"><a href="#howtopublish" style="text-decoration:none;color:#222;">Here’s how to submit!</a></h4>
+                <h4 class="heading"><a href="#rightsofuse" style="text-decoration:none;color:#222;">Rights of use, reuse and others</a></h4>
+                <h4 class="heading"><a href="#termsofuse" style="text-decoration:none;color:#222;">Terms of use</a></h4>
+                <h4 class="heading"><a href="#registration" style="text-decoration:none;color:#222;">Registration</a></h4>
+            
+            }
+           @*  @if (Request.IsAuthenticated == false) *@
+            @if (Context.User.Identity.IsAuthenticated==false)
+            {
+                <a href="@Url.Action("Register","Account")" class="btn btn-primary btn-lg">Sign up</a>
+                <a href="@Url.Action("Login","Account", new { returnUrl = "/Home/Contribute" })" class="btn btn-primary btn-lg">Log in</a>
+            }
+            else
+            {
+                if (User.IsInRole("Subscriber"))
+                {
+                    <a href="@Url.Action("UpdateUserRole", "Role", new { role = "Contributor" })" class="btn btn-primary btn-lg">Click here to Submit</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index","ContentCreator")" class="btn btn-primary btn-lg">Click here to Submit</a>
+                }
+            }
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#writeLink').addClass('active');
+            // Region Search
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + ";expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+        });
+    </script>
+}

@@ -12,7 +12,7 @@ namespace Devdiscourse.Models.BasicModels
         [Display(Name = "Region")]
         public Guid RegionId { get; set; }
         [Display(Name = "Country")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [ForeignKey("RegionId")]
         public virtual Region? Regions { get; set; }
     }

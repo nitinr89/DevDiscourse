@@ -1,10 +1,15 @@
 ﻿using System.Net;
 using System.Text.RegularExpressions;
+using System.Web.Http;
 using Devdiscourse.Data;
 using Devdiscourse.Models.BasicModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ActionNameAttribute = Microsoft.AspNetCore.Mvc.ActionNameAttribute;
+using AuthorizeAttribute = Microsoft.AspNetCore.Authorization.AuthorizeAttribute;
+using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace DevDiscourse.Controllers.Main
 {
@@ -60,6 +65,15 @@ namespace DevDiscourse.Controllers.Main
             }
 
             return View(devSector);
+        }
+
+        [Route("DevSector/GetSector/")]
+        public IActionResult GetSector()
+        {
+            var search = db.DevSectors
+                //.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.Title)
+                .Select(s => new { s.Id, s.Slug, s.SrNo, s.Title });
+            return Ok(search);
         }
 
         // GET: DevSectors/Edit/5

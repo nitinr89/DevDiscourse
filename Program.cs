@@ -5,13 +5,7 @@ using Devdiscourse.Models;
 //using ImageResizer.AspNetCore.Helpers;
 //using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.Extensions.FileProviders;
-using Devdiscourse.Utility;
 using Devdiscourse.Helper;
-using System.Web.Mvc;
-using System.Web.Http;
-using Devdiscourse.Models.BasicModels;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using Microsoft.AspNetCore.Rewrite;
 //using SixLabors.ImageSharp.Web.DependencyInjection;
 //using SixLabors.ImageSharp.Web.Providers.Azure;
 
@@ -41,6 +35,14 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 IFileProvider physicalProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
 builder.Services.AddSingleton<IFileProvider>(physicalProvider);
 var app = builder.Build();
@@ -68,12 +70,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-app.MapControllerRoute(
-              name: "DefaulApi",
-              pattern: "api/controller/{id?}");
-
 app.UseAuthorization();
+app.UseSession();
+
+// Call the custom route configuration method
+app.UseEndpoints(endpoints =>
+{
+    RouteConfig.ConfigureRoutes(endpoints);
+});
 
 //app.UseStaticFiles();
 //app.UseImageResizer();
@@ -81,19 +85,6 @@ app.UseAuthorization();
 
 // Enable CORS
 app.UseCors("AllowSpecificOrigin");
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-
-app.MapControllerRoute(
-              name: "NewsSector",
-              pattern: "news/{sector}",
-              defaults: new { controller = "Search", action = "Index", sector = UrlParameter.Optional }
-            );
-
 
 app.MapRazorPages();
 

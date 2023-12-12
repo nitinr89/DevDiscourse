@@ -1,0 +1,368 @@
+﻿@{
+    ViewBag.Title = "Search - News, Blogs, Analaysis & Interviews | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/Home/AdvancedSearch";
+    ViewBag.pageKeywords = "Advance Search, Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+<style>
+    label {
+        font-weight: 400;
+    }
+
+    .headTitle {
+        font-size: 20px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #4c5766;
+        display: block;
+        line-height: 30px;
+        border: 1px solid #f6f9fc;
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .loadMoreButton:hover {
+            background-color: #ff9c46;
+        }
+
+    @@media(min-width:320px) and (max-width:768px) {
+        .headTitle {
+            font-size: 16px !important;
+        }
+
+        .bottomSpace {
+            padding-bottom: 10px;
+        }
+    }
+
+    .image-card {
+        width: 90px;
+        height: 90px;
+        background-size: cover;
+    }
+
+    .infocus-badge {
+        padding: 3px 5px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: #ff7b00;
+        color: #fff
+    }
+
+    .news-list-div {
+        border-bottom: 1px solid #ddd;
+        height: 100px;
+    }
+
+        .news-list-div .media h4 {
+            font-size: 17px;
+        }
+
+    @@media(max-width:1440px) {
+        .news-list-div {
+            height: 120px;
+        }
+    }
+
+    @@media(max-width:768px) {
+        .news-list-div {
+            height: 105px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .news-list-div {
+            height: auto;
+        }
+    }
+</style>
+<div class="container">
+    <h1 class="hidden">Devdiscourse: International Development News</h1>
+    <ul class="breadcrumb breadcrumb_new">
+        <li><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li class="active">Search</li>
+    </ul>
+</div>
+<div class="container" id="advancedOptions">
+    <div class="section-title">
+        <span>Search</span>
+        <span class="fa fa-times no-margin h6 pull-right cursor-pointer" id="cancelFilter" style="color:#808080"></span>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-2">
+            <label for="itemSearch">Search</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="itemSearch" placeholder="Search...">
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" type="button" id="searchBtn"><span class="fa fa-search"></span></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-2">
+            <label for="optiontype">Type</label>
+            <select class="form-control newsfilter" id="optiontype">
+                <option value="all">--All--</option>
+                <option value="News">News</option>
+                <option value="Blog">Blog</option>
+                <option value="Discourse">Discourse</option>
+                <option value="Event">Event</option>
+            </select>
+        </div>
+        <div class="col-xs-6 col-sm-2">
+            <label class="" for="country">Country</label>
+            <select class="form-control newsfilter" id="country"></select>
+        </div>
+        <div class="col-xs-6 col-sm-2">
+            <label for="sector">Sector</label>
+            <select class="form-control newsfilter" id="sector">
+                <option value="all">--All Sector--</option>
+                @foreach (var item in ViewBag.sectorList)
+                {
+                    <option value="@item.Id">@item.Title</option>
+                }
+            </select>
+        </div>
+        <div class="col-xs-6 col-sm-2">
+            <label for="beforeDate">Before Date </label>
+            <input type="date" id="beforeDate" class="form-control newsfilter" />
+        </div>
+        <div class="col-xs-6 col-sm-2">
+            <label for="afterDate">After Date </label>
+            <input type="date" id="afterDate" class="form-control newsfilter" />
+        </div>
+    </div>
+</div>
+<div class="container m-t-20">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-md-8">
+            <div class="section-title">
+                <span>Searched Result</span>
+            </div>
+            <div class="row" id="newsContainer">
+            </div>
+            <div id="loading">
+                <p class="text-center"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i> Loading... </p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <div class="clearfix">
+                <div class="section-title2">
+                    <span>TRENDING</span>
+                </div>
+                <div class="clearfix">
+                    @{
+                        // Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.region });
+                        @await Component.InvokeAsync("Trends",new{filter="Trends",reg=ViewBag.region})
+                        ;
+                    }
+                </div>
+            </div>
+            <div class="clearfix m-t-30 hidden-xs hidden-sm">
+                @Html.Partial("_socialPartial")
+            </div>
+            <div id="videoNews" class="m-t-20"></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            var search = { text: "all", sector: "all", type: "all", region: "Global Edition", country: "all", beforeDate: null, afterDate: null };
+            var _region = '@(ViewBag.region)';
+            var _textSearch = '@(ViewBag.text)';
+            var showMoreCounter = 0;
+            var page = 0,
+                inCallback = false,
+                isReachedScrollEnd = false;
+            var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+            loadProjectData();
+            // Active Menu Icon
+            $(document).find('.listBtn').removeClass('active');
+            $(document).find('[active_id="newsLink"]').addClass('active');
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#searchLink').addClass('active');
+            if (_region != "") {
+                search.region = _region;
+            }
+            // Region Search
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition" + "=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $.ajax("/Home/GetVideoNews?reg=" + '@(ViewBag.edition)').done(function (data) {
+                $("#videoNews").html(data);
+                $('.lazy').lazy();
+            });
+
+            function convertToSlug(newsId, str) {
+                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return newsId + "-" + str;
+            }
+            $("#searchBtn").click(function () {
+                updateVarible();
+            });
+            $('#itemSearch').keydown(function (e) {
+                if (e.keyCode == 13) {
+                    updateVarible();
+                }
+            });
+
+            function updateVarible() {
+                search.text = $("#itemSearch").val() == "" ? "all" : $("#itemSearch").val();
+                search.type = $("#optiontype").val();
+                search.sector = $("#sector").val();
+                search.country = $("#country").val();
+                search.beforeDate = $("#beforeDate").val() == "" ? null : $("#beforeDate").val();
+                search.afterDate = $("#afterDate").val() == "" ? null : $("#afterDate").val();
+                page = 0;
+                inCallback = false;
+                isReachedScrollEnd = false;
+                $("#loading").show();
+                $("#newsContainer").html('');
+                loadProjectData();
+            }
+            $('.newsfilter').on("input", function () {
+                updateVarible();
+            });
+            $(window).scroll(function () {
+                if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height()) && showMoreCounter < 5) {
+                    loadProjectData();
+                }
+            });
+            debugger;
+            function loadProjectData() {
+                if (page > -1 && !inCallback) {
+                    debugger;
+                    inCallback = true;
+                    page++;
+                    $("#loading").show();
+                    debugger;
+                    $.ajax({
+                        type: 'Get',
+                        url: '/api/SearchApi/GetAdvancedSearch/' + search.text + '/' + search.type + '/' + search.sector + '/' + search.country + '/Global%20Edition/' + search.beforeDate + '/' + search.afterDate + '/' + page,
+                        dataType: 'json',
+                        success: function (data) {
+                            showMoreCounter = showMoreCounter + 1;
+                            debugger;
+                            if (data.length == 0) {
+                                isReachedScrollEnd == true;
+                                $("#loading").hide();
+                                debugger;
+                                return;
+                            }
+                            var html = '';
+                            debugger;
+                            $.each(data, function (i, item) {
+                                var imageContent = '';
+                                var urlSlug = convertToSlug(item.NewsId, item.Title);
+                                var label = item.Label != null ? item.Label : "agency-wire";
+                                var country = item.Country != null ? item.Country : '';
+                                debugger;
+                                if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {
+                                    var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                                    imageContent = '<div class="media-left"><a href="/article/' + label + '/' + urlSlug + '" aria-label="' + item.Title + '"><img src="' + newsImage + '?width=90&height=90&mode=crop"></a></div>';
+                                }
+                                var typeHtml = '';
+                                if (item.Type == "Event" || item.Type == "LiveBlog") {
+                                    typeHtml = '<span class="pull-right infocus-badge">' + item.Type + '</span>';
+                                }
+                                else if (item.Type == "Blog") {
+                                    if (item.SubType != null) {
+                                        typeHtml = '<span class="pull-right infocus-badge">' + item.SubType + '</span>';
+                                    }
+                                    else {
+                                        typeHtml = '<span class="pull-right infocus-badge">Blog</span>';
+                                    }
+                                }
+                                var createdOn = new Date(item.CreatedOn);
+                                createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
+                                html += '<div class="m-b-10 col-xs-12 col-sm-6">' +
+                                    '<div class="news-list-div">' +
+                                    '<div class="media">' + imageContent +
+                                    '<div class="media-body">' + typeHtml +
+                                    '<a href="/article/' + label + '/' + urlSlug + '" class=" text-decoration">' +
+                                    '<h4 class="media-heading" title="' + item.Title + '">' + item.Title + '</h4>' +
+                                    '</a>' +
+                                    '<p class="one-line-text text-muted">' +
+                                    '<span>' + country.split(',')[0] + '</span> | <span>' + createdOn.getDate() + ' ' + monthArray[createdOn.getMonth()] + ' ' + createdOn.getFullYear() + '</span>' +
+                                    '</p></div></div></div></div>';
+                            });
+                            inCallback = false;
+                            debugger;
+                            $("#newsContainer").append(html);
+                            if (showMoreCounter == 5) {
+                                $("#newsContainer").append('<div class="col-xs-12"><div style="padding:10px;border:1px solid #eee;" class="loadMoreButton m-t-10 m-b-10 text-center">SHOW MORE <span class="fa fa-chevron-circle-down" aria-hidden="true"></span></div></div>');
+                            }
+                            $("#loading").hide();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            //alert(errorThrown);
+                        }
+                    });
+                }
+            }
+            $(document).on("click", ".loadMoreButton", function () {
+                $(this).remove();
+                showMoreCounter = 0;
+                debugger;
+                loadProjectData();
+            });
+            getCountries();
+            function getCountries() {
+                debugger;
+                $.ajax({
+                    url: '/Home/GetCountry',
+                    type: 'Post',
+                    data: { region: search.region },
+                    dataType: 'Json',
+                    success: function (data) {
+                        var countryHtml = '<option value="all">--All Country--</option>';
+                        debugger;
+                        $.each(data, function (i, item) {
+                            countryHtml += '<option value="' + item.title + '">' + item.title + '</option>';
+                        });
+                        $('#country').html(countryHtml);
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $('#cancelFilter').click(function () {
+                $('#advancedOptions').hide();
+                search.text = "all";
+                search.sector = "all";
+                search.country = "all";
+                search.type = "all";
+                search.beforeDate = null;
+                search.afterDate = null;
+                $("#optiontype").val(search.type);
+                $("#sector").val(search.sector);
+                $("#country").val(search.country);
+                $("#beforeDate").val('');
+                $("#afterDate").val('');
+                $("#itemSearch").val('');
+                updateVarible();
+            });
+        });
+    </script>
+}

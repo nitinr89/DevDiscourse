@@ -16,8 +16,9 @@ using Devdiscourse.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nancy.Json;
-using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevDiscourse.Controllers.Main
 {
@@ -701,7 +702,7 @@ namespace DevDiscourse.Controllers.Main
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind("Id,NewsId,Title,AlternateHeadline,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        public async Task<ActionResult> Edit([Bind("Id,NewsId,Title,AlternateHeadline,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string? ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
         {
             ViewBag.ret = ret;
             if (ModelState.IsValid)
@@ -805,6 +806,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews.ModifiedOn = DateTime.UtcNow;
                 _db.DevNews.Update(devNews);
                 _db.Entry(devNews).Property(x => x.ViewCount).IsModified = false;
+                _db.Entry(devNews).Property(x => x.NewsId).IsModified = false;
                 _db.SaveChanges();
 
                 if (FileTitle != null)
@@ -1002,7 +1004,7 @@ namespace DevDiscourse.Controllers.Main
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditBlog([Bind("Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        public async Task<ActionResult> EditBlog([Bind("Id,NewsId,Title,SubTitle,Description,Type,NewsLabels,SubType,Category,Author,Sector,Themes,ImageUrl,ImageCopyright,ImageCaption,Region,Country,Tags,Source,OriginalSource,SourceUrl,Creator,CreatedOn,ModifiedOn,PublishedOn,AdminCheck,IsSponsored,EditorPick,IsInfocus,IsVideo,IsGlobal,IsStandout,IsIndexed,ViewCount,WorkStage,ReferenceId")] DevNews devNews, IFormFile? ImageUrlUpdate, string? ChooseImage, string? ret, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<string> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
         {
             ViewBag.ret = ret;
             if (ModelState.IsValid)
@@ -1104,6 +1106,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews.ModifiedOn = DateTime.UtcNow;
                 _db.DevNews.Update(devNews);
                 _db.Entry(devNews).Property(x => x.ViewCount).IsModified = false;
+                _db.Entry(devNews).Property(x => x.NewsId).IsModified = false;
                 _db.SaveChanges();
                 if (FileTitle != null)
                 {
@@ -1450,6 +1453,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews.CreatedOn = DateTime.UtcNow;
                 devNews.ModifiedOn = DateTime.UtcNow;
                 devNews.PublishedOn = DateTime.UtcNow;
+                //devNews.NewsId = 111;
                 _db.DevNews.Add(devNews);
                 _db.SaveChanges();
                 if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
@@ -2075,6 +2079,8 @@ namespace DevDiscourse.Controllers.Main
 
         public JsonResult AssignNewsToUser(long id, string user)
         {
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) { return Json("Invalid NewsId"); }
             AssignNews obj = new AssignNews()
             {
                 UserId = user,
@@ -2084,9 +2090,9 @@ namespace DevDiscourse.Controllers.Main
             };
             _db.AssignNews.Add(obj);
             _db.SaveChanges();
-            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+
             search.IsIndexed = true;
-            _db.DevNews.Update(search);
+            _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
             return Json("Success");
         }
@@ -2094,13 +2100,16 @@ namespace DevDiscourse.Controllers.Main
         {
             var users = _db.Users.Where(a => a.isActive == true).OrderByDescending(o => o.CreatedOn).Select(s => s.Id).ToArray();
             int counter = 0;
-            string contentRoot = AppDomain.CurrentDomain.BaseDirectory; // Get the current application's root directory
-            string filePath = Path.Combine(contentRoot, "Content", "counter.txt"); // Full path to the file
 
+            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Content", "counter.txt");
             if (System.IO.File.Exists(filePath))
             {
                 string noOfVisitors = System.IO.File.ReadAllText(filePath);
                 counter = int.TryParse(noOfVisitors, out int parsedCounter) ? parsedCounter : 0;
+            }
+            else
+            {
+                System.IO.File.Create(filePath);
             }
 
             counter++;
@@ -2117,6 +2126,7 @@ namespace DevDiscourse.Controllers.Main
 
             return "No User";
         }
+        [Authorize]
         public JsonResult AutoAssign(long id)
         {
             var user = GetShiftUser();
@@ -2124,6 +2134,8 @@ namespace DevDiscourse.Controllers.Main
             {
                 return Json("NoUser");
             }
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) { return Json("Invalid NewsId"); }
             AssignNews obj = new AssignNews()
             {
                 UserId = user,
@@ -2133,12 +2145,13 @@ namespace DevDiscourse.Controllers.Main
             };
             _db.AssignNews.Add(obj);
             _db.SaveChanges();
-            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+
             search.IsIndexed = true;
-            _db.DevNews.Update(search);
+            _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
             return Json("Success");
         }
+        [Authorize]
         public JsonResult AutoAssignWithAlert(long id)
         {
             var user = GetShiftUser();
@@ -2146,6 +2159,8 @@ namespace DevDiscourse.Controllers.Main
             {
                 return Json("NoUser");
             }
+            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) { return Json("Invalid NewsId"); }
             AssignNews obj = new AssignNews()
             {
                 UserId = user,
@@ -2155,13 +2170,13 @@ namespace DevDiscourse.Controllers.Main
             };
             _db.AssignNews.Add(obj);
             _db.SaveChanges();
-            var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
+
             search.IsIndexed = true;
-            _db.DevNews.Update(search);
+            _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.NewsAssignNotification("New news assign to you", user);
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            //context.Clients.All.NewsAssignNotification("New news assign to you", user);
 
             return Json("Success");
         }

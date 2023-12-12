@@ -22,12 +22,12 @@ namespace Devdiscourse.Models.BasicModels
         [Display(Name = "Image Url")]
         [Required]
         public string ImageUrl { get; set; }
-        public string FileMimeType { get; set; }
-        public string FileSize { get; set; }
-        public string Sector { get; set; }
-        public string ImageCopyright { get; set; }
-        public string Caption { get; set; }
-        public int UseCount { get; set; }
-        public string Tags { get; set; }
+        public string? FileMimeType { get; set; }
+        public string? FileSize { get; set; }
+        public string? Sector { get; set; }
+        public string? ImageCopyright { get; set; }
+        public string? Caption { get; set; }
+        public int? UseCount { get; set; }
+        public string? Tags { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
+using DocumentFormat.OpenXml.Bibliography;
 //using DevDiscourse.Hubs;
 //using Devdiscourse.Models;
 //using Devdiscourse.Models.BasicModels;
@@ -9,6 +10,7 @@ using Devdiscourse.Models.ViewModel;
 //using Html2Amp.Sanitization.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 //using Newtonsoft.Json.Linq;
 //using PagedList;
@@ -22,6 +24,7 @@ using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using X.PagedList;
 //using System.Web.Mvc;
 
 namespace DevDiscourse.Controllers
@@ -152,19 +155,19 @@ namespace DevDiscourse.Controllers
             //}
             return View();
         }
-        //public ActionResult Contribute()
-        //{
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.region = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.region = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
+        public ActionResult Contribute()
+        {
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.region = "Global Edition";
+            }
+            else
+            {
+                ViewBag.region = cookie ?? "Global Edition";
+            }
+            return View();
+        }
 
         public string getUserLocation()
         {
@@ -232,73 +235,72 @@ namespace DevDiscourse.Controllers
         //    return View();
         //}
         //[OutputCache(Duration = 60, VaryByParam = "*")]
-        //public async Task<ActionResult> Search(string region = "", string sector = "All", string tag = "", string cat = "", string label = "")
-        //{
-        //    region = region.Replace("+", " ");
-        //    ViewBag.sector = sector;
-        //    if (sector != "All" && sector != "Videos" && sector != "EditorPic" && sector != "Sponsored")
-        //    {
-        //        var sectorSearch = await _db.DevSectors.FirstOrDefaultAsync(a => a.Slug == sector);
-        //        if (sectorSearch != null)
-        //        {
-        //            ViewBag.sectorName = sectorSearch.Title;
-        //            ViewBag.sector = sectorSearch.Id;
-        //            ViewBag.sectorSlug = sectorSearch.Slug;
-        //        }
-        //    }
-        //    else if (sector == "Videos" || sector == "Sponsored")
-        //    {
-        //        ViewBag.sectorName = sector;
-        //    }
-        //    else if (sector == "EditorPic")
-        //    {
-        //        ViewBag.sectorName = "Editor's Pick";
-        //    }
-        //    ViewBag.region = region;
-        //    ViewBag.tag = tag;
-        //    ViewBag.cat = cat ?? "";
-        //    if (label != "")
-        //    {
-        //        var searchLabel = await _db.Labels.FirstOrDefaultAsync(a => a.Title == label);
-        //        if (searchLabel != null)
-        //        {
-        //            ViewBag.label = searchLabel.Id;
-        //            ViewBag.labelTitle = searchLabel.Title;
-        //        }
+        public async Task<ActionResult> Search(string region = "", string sector = "All", string tag = "", string cat = "", string label = "")
+        {
+            region = region.Replace("+", " ");
+            ViewBag.sector = sector;
+            if (sector != "All" && sector != "Videos" && sector != "EditorPic" && sector != "Sponsored")
+            {
+                var sectorSearch = await _db.DevSectors.FirstOrDefaultAsync(a => a.Slug == sector);
+                if (sectorSearch != null)
+                {
+                    ViewBag.sectorName = sectorSearch.Title;
+                    ViewBag.sector = sectorSearch.Id;
+                    ViewBag.sectorSlug = sectorSearch.Slug;
+                }
+            }
+            else if (sector == "Videos" || sector == "Sponsored")
+            {
+                ViewBag.sectorName = sector;
+            }
+            else if (sector == "EditorPic")
+            {
+                ViewBag.sectorName = "Editor's Pick";
+            }
+            ViewBag.region = region;
+            ViewBag.tag = tag;
+            ViewBag.cat = cat ?? "";
+            if (label != "")
+            {
+                var searchLabel = await _db.Labels.FirstOrDefaultAsync(a => a.Title == label);
+                if (searchLabel != null)
+                {
+                    ViewBag.label = searchLabel.Id;
+                    ViewBag.labelTitle = searchLabel.Title;
+                }
 
-        //    }
-        //    ViewBag.labelSlug = label ?? "";
-
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (region != "")
-        //    {
-        //        ViewBag.region = region;
-        //    }
-        //    else if (cookie != null)
-        //    {
-        //        ViewBag.region = cookie.Value ?? "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.region = "Global Edition";
-        //    }
-        //    return View();
-        //}
-        //public async Task<ActionResult> AdvancedSearch(string text = "")
-        //{
-        //    ViewBag.text = text;
-        //    ViewBag.sectorList = await _db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToListAsync();
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.region = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.region = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
+            }
+            ViewBag.labelSlug = label ?? "";
+            string? cookie = Request.Cookies["Edition"];
+            if (region != "")
+            {
+                ViewBag.region = region;
+            }
+            else if (cookie != null)
+            {
+                ViewBag.region = cookie ?? "Global Edition";
+            }
+            else
+            {
+                ViewBag.region = "Global Edition";
+            }
+            return View();
+        }
+        public async Task<ActionResult> AdvancedSearch(string text = "")
+        {
+            ViewBag.text = text;
+            ViewBag.sectorList = await _db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToListAsync();
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.region = "Global Edition";
+            }
+            else
+            {
+                ViewBag.region = cookie ?? "Global Edition";
+            }
+            return View();
+        }
         //public ActionResult DevBlogs(string type = "")
         //{
         //    ViewBag.type = type;
@@ -312,7 +314,8 @@ namespace DevDiscourse.Controllers
         //        ViewBag.reg = cookie.Value ?? "Global Edition";
         //    }
         //    return View();
-        //}
+        //}    
+    
         //public JsonResult pledge()
         //{
         //    var search = (from m in _db.CampaignPetitions
@@ -416,19 +419,6 @@ namespace DevDiscourse.Controllers
               .OrderByDescending(a => a.CreatedOn)
               .Take(65)
               .ToList();
-            //var infocus = _db.RegionNewsRankings.AsNoTracking().Where(a => a.DevNews.AdminCheck == true && a.Region.Title == reg && a.DevNews.CreatedOn > lastThreeHour && !a.DevNews.Title.Contains("News Summary") && !a.DevNews.Title.Contains("Highlights") && a.DevNews.NewsLabels != "Newsalert" && a.DevNews.Sector != "14" && a.DevNews.Sector != "18" && a.DevNews.Sector != "19" && a.DevNews.Sector != "9").Select(s => new LatestNewsView
-            //    {
-            //        Id = s.DevNews.Id,
-            //        NewId = s.DevNews.NewsId,
-            //        Title = s.DevNews.Title,
-            //        ImageUrl = s.DevNews.ImageUrl,
-            //        CreatedOn = s.DevNews.ModifiedOn,
-            //        Type = s.DevNews.Type,
-            //        SubType = s.DevNews.SubType,
-            //        Country = s.DevNews.Country,
-            //        Label = s.DevNews.NewsLabels,
-            //        Ranking = s.Ranking
-            //    }).OrderByDescending(a => a.CreatedOn).Take(65).ToList();
             return PartialView("_getInfocus", infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
         }
 
@@ -910,58 +900,80 @@ namespace DevDiscourse.Controllers
         //    }
         //    return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
         //}
-        //public PartialViewResult GetAdvancedSearch(string text, string type, string sector, string region, string country, DateTime? beforeDate, DateTime? afterDate, int? page)
-        //{
-        //    // List<AdvancedSearchView> resultList = new List<AdvancedSearchView>();
-        //    var stringSearch = text ?? "";
-        //    var typeSearch = type ?? "";
-        //    var countrySearch = country ?? "";
-        //    var searchRegion = region == "Global Edition" ? "" : region;
+        public PartialViewResult GetAdvancedSearch(string text, string type, string sector, string region, string country, DateTime? beforeDate, DateTime? afterDate, int? page)
+        {
+            // List<AdvancedSearchView> resultList = new List<AdvancedSearchView>();
+            var stringSearch = text ?? "";
+            var typeSearch = type ?? "";
+            var countrySearch = country ?? "";
+            var searchRegion = region == "Global Edition" ? "" : region;
 
-        //    var newsSearch = _db.DevNews.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion)).Select(a => new AdvancedSearchView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.Sector, Themes = a.Themes, Country = a.Country, Region = a.Region, Tags = a.Tags, Type = a.Type, SubType = a.SubType, IsGlobal = a.IsGlobal, NewsId = a.NewsId, Label = a.NewsLabels });
-        //    //resultList = newsSearch.ToList();
-        //    if (sector != "0")
-        //    {
-        //        newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
-        //    }
-        //    if (beforeDate != null)
-        //    {
-        //        DateTime filterDate = DateTime.Parse(beforeDate.ToString());
-        //        newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
-        //    }
-        //    if (afterDate != null)
-        //    {
-        //        DateTime filterDate2 = DateTime.Parse(afterDate.ToString());
-        //        newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
-        //    }
-        //    int pageSize = 20;
-        //    int pageNumber = (page ?? 1);
-        //    return PartialView("_getAdvancedSearch", newsSearch.OrderByDescending(m => m.CreatedOn).ToPagedList(pageNumber, pageSize));
-        //}
-        //public PartialViewResult GetBlogItems(int? page, string type, string region = "Global Edition")
-        //{
-        //    DateTime LastSixMonth = DateTime.UtcNow.AddMonths(-24);
-        //    if (Request.IsAjaxRequest())
-        //    {
-        //        LastSixMonth = DateTime.UtcNow.AddMonths(-60);
-        //    }
-        //    var search = _db.DevNews.AsNoTracking().Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true).Select(a => new AdvancedSearchView { Id = a.Id, NewsId = a.NewsId, Title = a.Title, SubType = a.SubType, ImageUrl = a.ImageUrl, Region = a.Region, IsGlobal = a.IsGlobal, CreatedOn = a.PublishedOn, Label = a.NewsLabels, Country = a.Author }).OrderByDescending(m => m.CreatedOn).ToList();
-        //    if (region != "Global Edition")
-        //    {
-        //        search = search.Where(a => a.Region != null && a.Region.Contains(region)).ToList();
-        //    }
-        //    if (!string.IsNullOrEmpty(type))
-        //    {
-        //        search = search.Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase)).ToList();
-        //    }
-        //    else
-        //    {
-        //        search = search.Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase)).ToList();
-        //    }
-        //    int pageSize = 10;
-        //    int pageNumber = (page ?? 1);
-        //    return PartialView("_getBlogItems", search.ToPagedList(pageNumber, pageSize));
-        //}
+            var newsSearch = _db.DevNews
+                //.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion))
+                .Select(a => new AdvancedSearchView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.Sector, Themes = a.Themes, Country = a.Country, Region = a.Region, Tags = a.Tags, Type = a.Type, SubType = a.SubType, IsGlobal = a.IsGlobal, NewsId = a.NewsId, Label = a.NewsLabels });
+            //resultList = newsSearch.ToList();
+            if (sector != "0")
+            {
+                newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
+            }
+            if (beforeDate != null)
+            {
+                DateTime filterDate = DateTime.Parse(beforeDate.ToString());
+                newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
+            }
+            if (afterDate != null)
+            {
+                DateTime filterDate2 = DateTime.Parse(afterDate.ToString());
+                newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
+            }
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return PartialView("_getAdvancedSearch", newsSearch/*.OrderByDescending(m => m.CreatedOn)*/.ToPagedList(pageNumber, pageSize));
+        }
+        public PartialViewResult GetBlogItems(int? page, string type, string region = "Global Edition")
+        {
+            DateTime LastSixMonth = DateTime.UtcNow.AddMonths(-24);
+            //if (Request.IsAjaxRequest())
+            //{
+            //    LastSixMonth = DateTime.UtcNow.AddMonths(-60);
+            //}
+            var search = _db.DevNews
+                //Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
+                .Select(a => new AdvancedSearchView { 
+                    Id = a.Id, 
+                    NewsId = a.NewsId, 
+                    Title = a.Title,
+                    SubType = a.SubType,             
+                    ImageUrl = a.ImageUrl, 
+                    Region = a.Region, 
+                    IsGlobal = a.IsGlobal, 
+                    CreatedOn = a.PublishedOn,
+                    Label = a.NewsLabels, 
+                    Country = a.Author }).Take(50)
+                //.OrderByDescending(m => m.CreatedOn)
+                .ToList();
+            if (region != "Global Edition")
+            {
+                search = search.Take(50)
+                    //.Where(a => a.Region != null && a.Region.Contains(region))
+                    .ToList();
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+                search = search.Take(50)
+                    //.Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            else
+            {
+                search = search.Take(50)
+                    //.Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return PartialView("_getBlogItems", search.ToPagedList(pageNumber, pageSize));
+        }
         //public JsonResult GetAmpBlogItems(string __amp_source_origin, int? moreItemsPageIndex)
         //{
         //    var search = _db.DevNews.Where(a => a.Type == "Blog" && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Select(a => new { a.Region, a.Title, a.IsGlobal, a.ImageUrl, Url = "/article/" + a.NewsLabels + "/" + a.NewsId.ToString() }).ToList();
@@ -1229,34 +1241,34 @@ namespace DevDiscourse.Controllers
         //                 };
         //    return PartialView("_getThemes", search);
         //}
-        //public PartialViewResult GetSavedImages(int skip = 0, string sector = "", string title = "")
-        //{
-        //    ViewBag.skipCount = skip;
-        //    var resultList = _db.ImageGallery.ToList().Select(m => new SavedImagesView { Title = m.Title, Sector = m.Sector, ImageUrl = m.ImageUrl, CreatedOn = m.CreatedOn, FileMimeType = m.FileMimeType, FileSize = m.FileSize, Caption = m.Caption, ImageCopyright = m.ImageCopyright, Tags = m.Tags });
-        //    if (sector != "")
-        //    {
-        //        resultList = resultList.Where(m => m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector) || m.Sector == sector).ToList();
-        //    }
-        //    if (title != "")
-        //    {
-        //        resultList = resultList.Where(a => a.Title.ToUpper().Contains(title.ToUpper())).ToList();
-        //    }
-        //    return PartialView("_getSavedImages", resultList.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(20));
-        //}
-        //public PartialViewResult GetOldSavedImages(int skip = 0, string sector = "", string title = "")
-        //{
-        //    ViewBag.skipCount = skip;
-        //    var resultList = _db.UserFiles.ToList().Select(m => new SavedImagesView { Title = m.Title, Sector = m.FileFor, ImageUrl = m.FileUrl, CreatedOn = m.CreatedOn, FileMimeType = m.FileMimeType, FileSize = m.FileSize, Caption = "", ImageCopyright = "" });
-        //    if (sector != "")
-        //    {
-        //        resultList = resultList.Where(m => m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector) || m.Sector == sector).ToList();
-        //    }
-        //    if (title != "")
-        //    {
-        //        resultList = resultList.Where(a => a.Title.ToUpper().Contains(title.ToUpper())).ToList();
-        //    }
-        //    return PartialView("_getSavedImages", resultList.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(20));
-        //}
+        public PartialViewResult GetSavedImages(int skip = 0, string sector = "", string title = "")
+        {
+            ViewBag.skipCount = skip;
+            var resultList = _db.ImageGalleries.ToList().Select(m => new SavedImagesView { Title = m.Title, Sector = m.Sector, ImageUrl = m.ImageUrl, CreatedOn = m.CreatedOn, FileMimeType = m.FileMimeType, FileSize = m.FileSize, Caption = m.Caption, ImageCopyright = m.ImageCopyright, Tags = m.Tags });
+            if (sector != "")
+            {
+                resultList = resultList.Where(m => m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector) || m.Sector == sector).ToList();
+            }
+            if (title != "")
+            {
+                resultList = resultList.Where(a => a.Title.ToUpper().Contains(title.ToUpper())).ToList();
+            }
+            return PartialView("_getSavedImages", resultList.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(20));
+        }
+        public PartialViewResult GetOldSavedImages(int skip = 0, string sector = "", string title = "")
+        {
+            ViewBag.skipCount = skip;
+            var resultList = _db.UserFiles.ToList().Select(m => new SavedImagesView { Title = m.Title, Sector = m.FileFor, ImageUrl = m.FileUrl, CreatedOn = m.CreatedOn, FileMimeType = m.FileMimeType, FileSize = m.FileSize, Caption = "", ImageCopyright = "" });
+            if (sector != "")
+            {
+                resultList = resultList.Where(m => m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector) || m.Sector == sector).ToList();
+            }
+            if (title != "")
+            {
+                resultList = resultList.Where(a => a.Title.ToUpper().Contains(title.ToUpper())).ToList();
+            }
+            return PartialView("_getSavedImages", resultList.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(20));
+        }
         //// Json Methods
         //public JsonResult SubscribeNews(string email)
         //{
@@ -1346,13 +1358,6 @@ namespace DevDiscourse.Controllers
             }
             else
             {
-                //var search = from m in _db.Countries
-                //             join s in regList on m.Regions.Title equals s
-                //             select new
-                //             {
-                //                 m.Title,
-                //             };
-                //return Json(search.OrderBy(a => a.Title).ToList());
                 var query = from m in _db.Countries
                             select new
                             {
@@ -1363,7 +1368,7 @@ namespace DevDiscourse.Controllers
                 var fetchedData = query.ToList(); // Fetch the data from the database
 
                 var search = fetchedData
-                    .Where(m => regList.Contains(m.RegionTitle)) // Filter based on regList
+                    //.Where(m => regList.Contains(m.RegionTitle)) // Filter based on regList
                     .Select(m => new { m.Title })
                     .OrderBy(a => a.Title)
                     .ToList();
@@ -2430,105 +2435,101 @@ namespace DevDiscourse.Controllers
         //    };
         //    return obj;
         //}
-        //public ActionResult CentralAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Central Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Central Africa";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult EastAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "East Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "East Africa";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult NorthAmerica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "North America";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "North America";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult WestAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "West Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "West Africa";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult SouthAsia()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "South Asia";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "South Asia";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult EastAndSouthEastAsia()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "East and South East Asia";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "East and South East Asia";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult Pacific()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Pacific";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Pacific";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult EuropeAndCentralAsia()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Europe and Central Asia";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Europe and Central Asia";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult LatinAmericaAndCaribbean()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Latin America and Caribbean";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Latin America and Caribbean";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult MiddleEastAndNorthAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Middle East and North Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Middle East and North Africa";
-        //    return View("HomeNews");
-        //}
-        //public ActionResult SouthernAfrica()
-        //{
-        //    HttpCookie cookie = new HttpCookie("Edition");
-        //    cookie.Value = "Southern Africa";
-        //    cookie.Expires = DateTime.UtcNow.AddDays(1);
-        //    Response.Cookies.Add(cookie);
-        //    ViewBag.edition = "Southern Africa";
-        //    return View("HomeNews");
-        //}
+        public ActionResult CentralAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Central Africa", options);
+            ViewBag.Edition = "Central Africa";
+            return View("HomeNews");
+        }
+        public ActionResult EastAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "East Africa", options);
+            ViewBag.Edition = "East Africa";
+            return View("HomeNews");
+        }
+        public ActionResult NorthAmerica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "North America", options);
+            ViewBag.Edition = "North America";
+            return View("HomeNews");
+        }
+        public ActionResult WestAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "West Africa", options);
+            ViewBag.Edition = "West Africa";
+            return View("HomeNews");
+        }
+
+        public ActionResult SouthAsia()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "South Asia", options);
+            ViewBag.Edition = "South Asia";
+            return View("HomeNews");
+        }
+
+        public ActionResult EastAndSouthEastAsia()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "East and South East Asia", options);
+            ViewBag.Edition = "East and South East Asia";
+            return View("HomeNews");
+        }
+
+
+        public ActionResult Pacific()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Pacific", options);
+            ViewBag.Edition = "Pacific";
+            return View("HomeNews");
+
+        }
+
+        public ActionResult EuropeAndCentralAsia()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Europe and Central Asia", options);
+            ViewBag.Edition = "Europe and Central Asia";
+            return View("HomeNews");
+        }
+        public ActionResult LatinAmericaAndCaribbean()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Latin America and Caribbean", options);
+            ViewBag.Edition = "Latin America and Caribbean";
+            return View("HomeNews");
+        }
+        public ActionResult MiddleEastAndNorthAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Middle East and North Africa", options);
+            ViewBag.Edition = "Middle East and North Africa";
+            return View("HomeNews");
+
+        }
+        public ActionResult SouthernAfrica()
+        {
+            CookieOptions options = new CookieOptions();
+            options.Expires = DateTime.UtcNow.AddDays(1);
+            Response.Cookies.Append("Edition", "Southern Africa", options);
+            ViewBag.Edition = "Southern Africa";
+            return View("HomeNews");
+        }
         //public PartialViewResult GetPreviousNews(long id, string label, string reg = "Global Edition")
         //{
         //    var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);

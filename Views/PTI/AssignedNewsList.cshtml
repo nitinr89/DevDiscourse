@@ -39,11 +39,7 @@
         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
             <label>Assigned To</label>
             <select class="form-control newsfilter" id="seluser">
-                <option value="">Select</option>
-                @foreach (var item in ViewBag.data)
-                {
-                    <option value="@item.Id">@item.User</option>
-                }
+                @await Component.InvokeAsync("Users");
             </select>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">

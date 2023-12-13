@@ -427,12 +427,13 @@ namespace DevDiscourse.Controllers
             ViewBag.country = country;
             ViewBag.text = text;
             ViewBag.source = source;
-            DateTime today = DateTime.Today.AddDays(1).AddTicks(-1);
+            //DateTime today = DateTime.Today.AddDays(1).AddTicks(-1);
+            DateTime fiveDay = DateTime.Today.AddDays(-7);
             DateTime oneday = DateTime.Today.AddDays(-3);
-            var assignNews = _db.AssignNews.Where(a => a.CreatedOn > oneday && a.CreatedOn < today).Select(a => a.NewsId).ToList();
+            var assignNews = _db.AssignNews.Where(a => a.CreatedOn > oneday).Select(a => a.NewsId).ToList();
             if (!String.IsNullOrEmpty(userId))
             {
-                assignNews = _db.AssignNews.Where(a => a.UserId == userId && a.CreatedOn > oneday && a.CreatedOn < today).Select(a => a.NewsId).ToList();
+                assignNews = _db.AssignNews.Where(a => a.UserId == userId && a.CreatedOn > oneday).Select(a => a.NewsId).ToList();
             }
             if (!assignNews.Any())
             {
@@ -440,7 +441,7 @@ namespace DevDiscourse.Controllers
             }
             // Fetching DevNews data into memory matching the filtering conditions
             var filteredDevNews = _db.DevNews
-                .Where(a => a.Type == "News" && a.Title.Contains(text))
+                 .Where(a => a.Type == "News" && a.CreatedOn > fiveDay && a.Title.Contains(text))
                 .ToList(); // Fetch filtered data into memory
 
             // Performing join and projection in memory

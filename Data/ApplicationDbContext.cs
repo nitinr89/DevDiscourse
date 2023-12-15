@@ -68,7 +68,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<FollowTag> FollowTags { get; set; }
     public DbSet<FollowLivediscourse> FollowLivediscourses { get; set; }
     public DbSet<React> Reacts { get; set; }
-    public DbSet<DiscourseIndex> DiscourseIndex { get; set; }
+    public DbSet<DiscourseIndexes> DiscourseIndexs { get; set; }
     public DbSet<UserNewsLabel> UserNewsLabels { get; set; }
     public DbSet<CampaignPetition> CampaignPetitions { get; set; }
     public DbSet<CommonEvent> CommonEvents { get; set; }

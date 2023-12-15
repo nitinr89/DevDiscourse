@@ -26,8 +26,13 @@ namespace Devdiscourse.Helper
 
             routes.MapControllerRoute(
                        name: "ArticleDetailswithprefix",
-                       pattern: "ArticleDetailswithprefix/{Index}/{id?}",
+                       pattern: "Article/{Prefix}/{id}",
                        defaults: new { controller = "Article", action = "Index", prefix = UrlParameter.Optional, reg = UrlParameter.Optional });
+
+            routes.MapControllerRoute(
+              name: "NewsVideo",
+              pattern: "news/videos/{id}",
+              defaults: new { controller = "Search", action = "Videos" });
 
             routes.MapControllerRoute(
                           name: "NewsSector",
@@ -54,10 +59,16 @@ namespace Devdiscourse.Helper
             );
 
             routes.MapControllerRoute(
-                name: "Blogs",
-                pattern: "blogs/{type}",
-                  defaults: new { controller = "Home", action = "DevBlogs", type = UrlParameter.Optional }
-            );
+            name: "LivediscourseArticle",
+            pattern: "live-discourse/{id}",
+            defaults: new { controller = "Livediscourse", action = "Article", id = UrlParameter.Optional }
+        );
+
+            routes.MapControllerRoute(
+                       name: "Blogs",
+                       pattern: "blogs/{type}",
+                         defaults: new { controller = "Home", action = "DevBlogs", type = UrlParameter.Optional }
+                   );
             routes.MapControllerRoute(
                name: "SouthAsiaEdition",
                pattern: "south-asia",

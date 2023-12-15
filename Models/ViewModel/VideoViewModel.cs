@@ -6,13 +6,12 @@ namespace Devdiscourse.Models.ViewModel
     public class VideoViewModel
     {
         public long Id { get; set; }
-        public string Title { get; set; }
-        public string FileThumbUrl { get; set; }
+        public string? Title { get; set; }
+        public string? FileThumbUrl { get; set; }
         public DateTime CreatedOn { get; set; }
-        public string Description { get; set; }
-        public string Duration { get; set; }
-
-        public string Country { get; set; }
+        public string? Description { get; set; }
+        public string? Duration { get; set; }
+        public string? Country { get; set; }
         public string GenerateSecondSlug()
         {
             string phrase = string.Format("{0}-{1}", Id, Title);

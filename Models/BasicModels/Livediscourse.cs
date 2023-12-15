@@ -11,6 +11,8 @@ namespace Devdiscourse.Models.BasicModels
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+
+
         [Required]
         public string Title { get; set; }
         public string? SubTitle { get; set; }
@@ -52,7 +54,7 @@ namespace Devdiscourse.Models.BasicModels
         [ForeignKey("Creator")]
         public virtual ApplicationUser? ApplicationUsers { get; set; }
         public virtual ICollection<FollowLivediscourse>? FollowLivediscourse { get; set; }
-        public virtual ICollection<DiscourseIndex>? DiscourseIndexs { get; set; }
+        public virtual ICollection<DiscourseIndexes>? DiscourseIndexs { get; set; }
         public virtual ICollection<LivediscourseVideo>? LivediscourseVideos { get; set; }
 
         public virtual ICollection<LiveDiscourseInfocus>? LiveDiscourseInfocus { get; set; }

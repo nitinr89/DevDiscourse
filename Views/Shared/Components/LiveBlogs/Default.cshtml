@@ -1,0 +1,300 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LiveblogViewModel>
+@using System.Text.RegularExpressions;
+@using Devdiscourse.Models;
+@using Microsoft.AspNetCore.Identity;
+@{
+    var domainUrl = "https://www.devdiscourse.com";
+    var artilcedomainUrl = "https://www.devdiscourse.com/";
+    string pageUrl = TempData["pageUrl"] as string;
+    string hash = "%23post_";
+    string ist = "(IST)";
+    string Alterheadline = "";
+    string articleBody = "";
+    var postCount = 0;
+    string firstPara = TempData["firstPara"] as string;
+    string title = TempData["title"] as string;
+    string createdOn = TempData["createdOn"] as string;
+    string newsImage = TempData["newsImage"] as string;
+    string publishedOn = TempData["publishedOn"] as string;
+    string modifiedOn = TempData["modifiedOn"] as string;
+    string coverageEndOn = TempData["coverageEndOn"] as string;
+    string tags = TempData["tags"] as string;
+    string creator = TempData["creator"] as string;
+    string author = TempData["Author"] as string;
+    var commentText = "comment";
+    var maincommentText = "maincomment";
+    TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+
+}
+@functions {
+    async Task Pluralise(int count, string input)
+    {
+        await Task.Yield();
+        var output = "";
+        if (count > 1)
+        {
+            output = count.ToString() + " " + input + "s";
+            @output
+        }
+        else
+        {
+            output = count.ToString() + " " + input;
+            @output
+        }
+    }
+}
+@functions {
+    async Task Truncate(string input, int length)
+    {
+        await Task.Yield();
+
+        if (string.IsNullOrEmpty(input))
+        {
+            <text> </text>
+        }
+        else if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)
+
+            <text>..</text>
+        }
+    }
+}
+@functions {
+    async Task GetDescriptionText(string htmltext)
+    {
+        await Task.Yield();
+        const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
+        const string stripFormatting = @"<[^>]*(>|$)";
+        const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
+        var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+        var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+        var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+        var text = htmltext.Replace("&nbsp;", " ");
+        text = System.Net.WebUtility.HtmlDecode(text);
+        text = tagWhiteSpaceRegex.Replace(text, "><");
+        text = lineBreakRegex.Replace(text, Environment.NewLine);
+        text = stripFormattingRegex.Replace(text, string.Empty);
+        @text
+        ;
+    }
+}
+@foreach (var item in Model.Take(1))
+{
+    Alterheadline = item.Title;
+    articleBody = item.Description;
+}
+<div itemtype="http://schema.org/LiveBlogPosting" itemscope="itemscope" id="@domainUrl@pageUrl">
+    <meta itemprop="headline" content="@title">
+    <meta itemprop="coverageStartTime" content="@createdOn">
+    <meta itemprop="coverageEndTime" content="@coverageEndOn">
+    <meta itemprop="dateModified" content="@modifiedOn">
+    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+            <meta itemprop="url" content="https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png">
+            <meta itemprop="width" content="400">
+            <meta itemprop="height" content="60">
+        </div>
+        <meta itemprop="name" content="Devdiscourse">
+    </div>
+    <meta itemprop="url" content="@domainUrl@pageUrl">
+    <meta itemprop="description" content="@firstPara">
+    <meta itemprop="about" content="event">
+    <div class="bolg-content" id="bolgcontent">
+        @foreach (var item in Model)
+        {
+            var newsImageUrl = ""; if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + item.ImageUrl : string.Concat(domainUrl, item.ImageUrl); } else { newsImageUrl = newsImage; }
+            DateTime subBlogCreatedDate = TimeZoneInfo.ConvertTimeFromUtc(item.CreatedOn, INDIAN_ZONE); DateTime subBlogModifiedDate = TimeZoneInfo.ConvertTimeFromUtc(item.ModifiedOn, INDIAN_ZONE); DateTime subBlogPublishedDate = TimeZoneInfo.ConvertTimeFromUtc(item.PublishedOn, INDIAN_ZONE);
+            <div itemtype="http://schema.org/BlogPosting" itemprop="liveBlogUpdate" itemscope="itemscope" data-type="text">
+                <h2 itemprop="headline" content="@item.Title"></h2>
+                <div itemprop="articleBody" style="display:none">
+                    <strong>
+                        @if (int.Parse(@subBlogCreatedDate.ToString("HH")) < 12)
+                        {
+                            @subBlogCreatedDate.ToString("HH:mm")
+
+                            <text> AM</text>
+                        }
+                        else
+                        {
+                            string dateFormat = (int.Parse(@subBlogCreatedDate.ToString("HH")) - 12).ToString() + ":" + @subBlogCreatedDate.ToString("mm");
+                            <text>@dateFormat PM</text>
+                        }
+                    </strong>
+                    @if (!string.IsNullOrEmpty(item.Description))
+                    {
+                        await GetDescriptionText(item.Description);
+                    }
+                </div>
+                <time itemprop="datePublished" datetime="@subBlogPublishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")"></time>
+                <span itemscope="itemscope" itemprop="author" itemtype="https://schema.org/Person"> <meta content="https://www.devdiscourse.com/" itemprop="sameAs"> <meta content="Devdiscourse" itemprop="name"> </span>
+                <meta itemprop="dateModified" content="@subBlogModifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
+                <span itemprop="image" itemscope="itemscope" itemtype="https://schema.org/ImageObject"> <meta itemprop="url" content="@newsImageUrl?width=1280"> <meta itemprop="width" content="1280"> <meta itemprop="height" content="720"> </span>
+                <span itemprop="publisher" itemscope="itemscope" itemtype="https://schema.org/Organization"> <span itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject"> <meta itemprop="url" content="https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"> </span> <meta itemprop="name" content="Devdiscourse"> </span>
+                <meta itemprop="mainEntityOfPage" content="@domainUrl@pageUrl">
+                <time itemprop="url" content="@domainUrl@pageUrl#post_@item.Id"></time>
+            </div>
+        }
+    </div>
+</div>
+
+<div>
+    @{
+        int index = 0;
+    }
+    @foreach (var item in Model.Take(10))
+    {
+        var likeClass = ""; var dislikeClass = ""; if (item.Reacted == Devdiscourse.Models.BasicModels.ReactType.Like) { likeClass = "reacted"; } else if (item.Reacted == Devdiscourse.Models.BasicModels.ReactType.Dislike) { dislikeClass = "reacted"; }
+        DateTime subBlogCreatedDate = TimeZoneInfo.ConvertTimeFromUtc(item.CreatedOn, INDIAN_ZONE);
+        <div class="liveblog m-b-10 m-t-10 update-divider" @*itemprop="liveBlogUpdate" itemscope itemtype="http://schema.org/BlogPosting"*@ id="post_@item.Id" data-articleurl="@pageUrl#post_@item.Id" data-articletitle="@item.Title" style="border: 1px solid #e1e1e1;">
+            <div class="p-10">
+                <div class="update-divider" data-articleurl="@pageUrl#post_@item.Id" data-articletitle="@item.Title"></div>
+                <a href="#post_@item.Id">
+                    <small class="text-muted m-b-10" itemprop="datePublished" content="@subBlogCreatedDate">@subBlogCreatedDate.ToString("dd-MM-yyyy hh:mm:ss tt")</small>
+                    <meta itemprop="dateModified" content="@subBlogCreatedDate" />
+                    <meta itemprop="mainEntityOfPage" content="@pageUrl" />
+                </a>
+                @if (!string.IsNullOrEmpty(item.ParentStoryLink))
+                {
+                    <a class="text-decoration headlineLink media-heading text-primary" target="_blank" href="@domainUrl@item.ParentStoryLink"><h4 class="media-heading f-20" itemprop="headline">@item.Title</h4></a>
+                }
+                else
+                {
+                    <h4 class="media-heading f-20" itemprop="headline">@item.Title</h4>
+                }
+                @if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg")
+                {
+                    var newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                    <meta itemprop="image" content="@domainUrl@newsImageUrl?width=640" />
+                    <img data-src="@domainUrl@newsImageUrl?width=640&height=420" src="/Content/transparent.png" class="lazy" alt="@item.Title" />
+                }
+                else
+                {
+                    <meta itemprop="image" content="@newsImage?width=640" />
+                }@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                {
+                    <a href="@Url.Action("Edit", "Livediscourse", new { id = item.Id })" class="btn btn-primary pull-right"><span class="fa fa-edit"></span> Edit</a>
+                }
+                <div class="clearfix" itemprop="articleBody">@Html.Raw(item.Description)</div>
+
+                @if (!string.IsNullOrEmpty(item.Tags))
+                {
+                    <div>
+                        <span class="fg-black f-18"> READ MORE ON : </span>
+                        <span>
+                            @{
+                                var tag = item.Tags.Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.OrderBy(x => Guid.NewGuid()).Take(20))
+                                {
+                                    if (!string.IsNullOrEmpty(t.Trim()))
+                                    {
+                                        <a href="/news?tag=@t.Trim()" class="badge tag">@t.Trim()</a>
+                                    }
+                                }
+                            }
+                        </span>
+                    </div>
+                }
+            </div>
+            <div class="comment-header clearfix">
+                <ul class="list-inline pull-left no-margin">
+                    <li data-topic="@item.Id" data-it="1" id="like_1_@item.Id" data-rt="1" class="react-btn @likeClass">
+                        <span class="fa fa-thumbs-o-up"></span> @{ await Pluralise(@item.LikeCount, "Like");
+                        }
+                    </li>
+                    <li data-topic="@item.Id" data-it="1" id="dislike_1_@item.Id" data-rt="2" class="react-btn @dislikeClass">
+                        <span class="fa fa-thumbs-o-down"></span> @{
+                            await Pluralise(@item.DislikeCount, "Dislike");
+                        }
+                            </li>
+                    <li>
+                        <span class="fa fa-comment-o"></span> @{ await Pluralise(@item.CommentCount, "Comment");
+                        }
+                    </li>
+                </ul>
+                <ul class="list-inline pull-right no-margin">
+                    <li>Shares</li>
+                    <li>
+                        <a rel="nofollow" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl@hash@item.Id', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook">
+                            <div class="blog-social-icon">
+                                <i class="fa fa-facebook"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="nofollow" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl@hash@item.Id&amp;text=System.Net.WebUtility.UrlEncode(item.Title)', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter">
+                            <div class="blog-social-icon">
+                                <i class="fa fa-twitter"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="nofollow" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl@hash@item.Id&title=System.Net.WebUtility.UrlEncode(item.Title)&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn">
+                            <div class="blog-social-icon">
+                                <i class="fa fa-linkedin"></i>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="comment-body p-10" id="itemComment_@item.Id">
+                @if (item.CommentCount == 0)
+                {
+                    <h4 class="text-muted no-margin">No Comments</h4>
+                }
+                else
+                {
+                    foreach (var comment in item.DiscourseComments.ToList())
+                    {
+                        <div class="comment" id="single_@comment.CommentId">
+
+                             // // <div class="name">comment.ApplicationUser.FirstNamecomment.ApplicationUser.LastName</div>
+
+                            <div class="name">Nitin Rawat</div>
+
+                            <div class="content">@comment.CommentText</div>
+                            <span data-topic="@comment.CommentId" data-it="3" id="like_3_@comment.CommentId" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> @Pluralise(comment.LikeCount, "Like")</span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="endorse_3_@comment.CommentId" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> @Pluralise(comment.EndorseCount, "Endorse")</span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="reject_3_@comment.CommentId" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> @Pluralise(comment.RejectCount, "Reject")</span>
+                            <span class="btn-reply btn btn-sm" data-parent="@comment.CommentId" data-root="@comment.CommentId">Reply</span>
+                           
+                            // if (User.Identity.GetUserId() == creator) // do it later
+                            // {
+                            //     <span class="btn btn-sm btn-delete" id="delete_@comment.CommentId">Delete</span>
+                            // }
+
+                            <div class="comment-footer commentField" id="field_@comment.CommentId">
+                                <div class="text-warning reason-text" id="reason_@comment.CommentId"></div>
+                                <div class="comment-input-container">
+            <textarea class="comment-input" id="@commentText@comment.CommentId" placeholder="Your comment here..."></textarea>
+                                    <button class="comment-btn" aria-label="Save Reply" data-reply="Nitin Rawat" data-parent="@comment.CommentId" data-root="@comment.CommentId" data-btn="@comment.ItemId"><span class="fa fa-paper-plane"></span></button>
+                                </div>
+                            </div>@if (comment.ChildCount > 0)
+                            {
+                                <div class="loadCommentBtn replyBtn" data-id="@comment.ItemId" data-parent="@comment.CommentId" data-page="1">
+                                    <img src="~/images/icons/comments.png" class="reply-icon" /> View @comment.ChildCount replies
+                                </div>
+                            }
+                            <div class="child-container" id="parent_@comment.CommentId"></div>
+                            <div class="root-container" id="root_@comment.CommentId"></div>
+                        </div>
+                    }
+                }@if (item.CommentCount > 1)
+                {
+                    <div class="p-10 btn btn-block loadCommentBtn" data-id="@item.Id" data-parent="0" data-page="1">LOAD MORE COMMENTS</div>
+                }
+            </div>
+            <div class="comment-footer">
+                <div class="comment-input-container">
+    <textarea class="comment-input" id="@maincommentText@item.Id" aria-label="Comment" placeholder="Your comment here..."></textarea>
+                    <button class="main-comment-btn" aria-label="Save Comment" data-reply="" data-btn="@item.Id" data-parent="0" data-root="0"><span class="fa fa-paper-plane"></span></button>
+                </div>
+            </div>
+        </div>
+        index++;
+    }
+
+</div>

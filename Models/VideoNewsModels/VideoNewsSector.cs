@@ -12,9 +12,9 @@ namespace Devdiscourse.Models.VideoNewsModels
         public long VideoNewsId { get; set; }
         public int SectorId { get; set; }
         [ForeignKey("SectorId")]
-        public virtual DevSector DevSectors { get; set; }
+        public virtual DevSector? DevSectors { get; set; }
 
         [ForeignKey("VideoNewsId")]
-        public virtual VideoNews VideoNews { get; set; }
+        public virtual VideoNews? VideoNews { get; set; }
     }
 }

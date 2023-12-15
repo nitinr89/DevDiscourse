@@ -6,6 +6,7 @@ using Devdiscourse.Models.ViewModel;
 using Html2Amp;
 using Html2Amp.Sanitization;
 using Html2Amp.Sanitization.Implementation;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -76,14 +77,12 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.id = id;
             return View();
         }
-        //[OutputCache(Duration = 60)]
-        //[HttpGet("ArticleDetailsWithPrefix/Index/{id:long}")]
-        //[HttpGet]2685046,2685043,768045,2477150,1690196,386335,2175293,1180893,386335,2369506,2685010
-        //[ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "*" })]
+
         public async Task<ActionResult> Index([FromQuery] string prefix, long? id, string reg = "")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string scheme = "";//Request.Url.AbsoluteUri; do later
+            string absoluteUri = HttpContext.Request.GetDisplayUrl();
             if (id == null || id == 0)
             {
                 throw new HttpException(404, "Error 404");
@@ -99,6 +98,7 @@ namespace Devdiscourse.Controllers.Main
             if ((prefix == "agency-wire" || prefix == null) && search.NewsLabels != null && suffix == -1)
             {
                 return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = search.NewsLabels, id = search.GenerateSecondSlug() });
+             //   return RedirectToRoutePermanent("Article", new { prefix = search.NewsLabels, id = search.GenerateSecondSlug() });
             }
             else if (prefix == null && search.NewsLabels == null && suffix == -1)
             {

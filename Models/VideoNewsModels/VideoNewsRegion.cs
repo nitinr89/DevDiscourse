@@ -16,9 +16,9 @@ namespace Devdiscourse.Models.VideoNewsModels
         public long VideoNewsId { get; set; }
         public Guid EditionId { get; set; }
         [ForeignKey("EditionId")]
-        public virtual Region Edition { get; set; }
+        public virtual Region? Edition { get; set; }
 
         [ForeignKey("VideoNewsId")]
-        public virtual VideoNews VideoNews { get; set; }
+        public virtual VideoNews? VideoNews { get; set; }
     }
 }

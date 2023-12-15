@@ -7,9 +7,6 @@ namespace Devdiscourse.Helper
     {
         public static void ConfigureRoutes(IEndpointRouteBuilder routes)
         {
-            //routes.Add("CommonEvent", new SeoFriendlySecondRoute("media-partner-event/{id}",
-            //  new RouteValueDictionary(new { controller = "CommonEvent", action = "Index", id = UrlParameter.Optional }),
-            //  new MvcRouteHandler()));
             routes.MapControllerRoute(
                name: "CommonEvent",
                pattern: "media-partner-event/{id?}",

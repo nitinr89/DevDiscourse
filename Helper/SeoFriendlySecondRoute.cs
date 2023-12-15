@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Devdiscourse.Helper
 {
-    public class SeoFriendlySecondRoute 
+    public class SeoFriendlySecondRoute
     {
         private readonly RequestDelegate _next;
 
@@ -41,4 +41,5 @@ namespace Devdiscourse.Helper
             return id;
         }
     }
+
 }

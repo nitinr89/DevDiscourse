@@ -7,12 +7,20 @@
 }
 @foreach (var item in Model)
 {
+       string controller = "ArticleDetailswithprefix";
+    string action = item.Label ?? "agency-wire";
+    // string id = item.GenerateSecondSlug();
+    long id = item.NewsId;
+
     string pageUrl = "/article/" + item.GenerateSecondSlug();
     <div class="p-b-20 col-md-12 col-xs-12 col-sm-12 col-lg-12">
         <div class="blog-card">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title">
+
+                @*     <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title"> *@
+                    <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" title="@item.Title">
+
                         @{ 
                             var imageUrl = !string.IsNullOrEmpty(item.ImageUrl) ? item.ImageUrl : "";
                             var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + imageUrl : imageUrl;
@@ -38,7 +46,9 @@
                         <div style="height:6px;width:100px;background-color:#a3a3a3;"></div>
                     </div>
                     <h3 style="margin-top:2px; margin-bottom:5px;line-height:1.25;" title="@item.Title">
-                        <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration">@item.Title</a>
+
+            @*             <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration">@item.Title</a> *@
+                        <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" title="@item.Title" class="text-decoration">@item.Title</a>
 
                     </h3>
                     <p>@item.Country</p>

@@ -67,10 +67,12 @@ namespace Devdiscourse.Controllers.Main
         public async Task<ActionResult> Videos(long? id)
         {
             var videoNews = await _db.VideoNews.FindAsync(id);
-            if (videoNews != null)
+            if (videoNews != null && videoNews.VideoNewsTags != null)
             {
                 ViewBag.videoNews = videoNews;
-                ViewBag.Tags = string.Join(", ", videoNews.VideoNewsTags.Select(s => s.Tagstb.TagTitle).ToArray());
+                  ViewBag.Tags = string.Join(", ", videoNews.VideoNewsTags.Select(s => s.Tagstb?.TagTitle).ToArray());
+              
+
                 //if (!Request.Browser.Crawler)
                 {
                     videoNews.ViewCount = videoNews.ViewCount + 1;

@@ -21,6 +21,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Net.Http.Headers;
 using RangeHeaderValue = Microsoft.Net.Http.Headers.RangeHeaderValue;
+using ContentRangeHeaderValue = System.Net.Http.Headers.ContentRangeHeaderValue;
+using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue;
+using AngleSharp.Network.Default;
+using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 
 namespace Devdiscourse.Controllers.API
 {
@@ -68,32 +72,33 @@ namespace Devdiscourse.Controllers.API
         //    }
         //    return response;
         //}
-
-        //[Route("api/MediaStream/GetVideoStream/{id}")]
-        //public HttpResponseMessage GetVideoStream(long id)
-        //{
-        //    var search = db.VideoNews.Find(id);
-        //    var streamer = new VideoStream(search.BlobName, "imagegallery");
-        //    var response = Request.CreateResponse();
-        //    response.Headers.AcceptRanges.Add("bytes");
-        //    response.Content = new PushStreamContent((Action<Stream, HttpContent, TransportContext>)streamer.WriteToStream, new MediaTypeHeaderValue("video/mp4"));
-        //    RangeHeaderValue rangeHeader = Request.Headers.Range;
-        //    if (rangeHeader != null)
-        //    {
-        //        long totalLength = streamer.Length;
-        //        var range = rangeHeader.Ranges.First();
-        //        streamer.Start = range.From ?? 0;
-        //        streamer.End = range.To ?? totalLength - 1;
-        //        response.Content.Headers.ContentLength = streamer.End - streamer.Start + 1;
-        //        response.Content.Headers.ContentRange = new ContentRangeHeaderValue(streamer.Start, streamer.End, totalLength);
-        //        response.StatusCode = HttpStatusCode.PartialContent;
-        //    }
-        //    else
-        //    {
-        //        response.StatusCode = HttpStatusCode.OK;
-        //    }
-        //    return response;
-        //}
+        [HttpGet]
+        [Route("api/MediaStream/GetVideoStream/{id}")]
+        public HttpResponseMessage GetVideoStream(long id)
+        {
+            var search = db.VideoNews.Find(id);
+            var streamer = new VideoStream(search.BlobName, "imagegallery");
+            HttpResponseMessage response =new HttpResponseMessage();
+            response.Headers.AcceptRanges.Add("bytes");
+            response.Content = new PushStreamContent((Action<Stream, HttpContent, TransportContext>)streamer.WriteToStream, new MediaTypeHeaderValue("video/mp4"));
+            //RangeHeaderValue rangeHeader = Request.Headers.Range;
+            RangeHeaderValue rangeHeader = HttpContext.Request.GetTypedHeaders().Range;
+            if (rangeHeader != null)
+            {
+                long totalLength = streamer.Length;
+                var range = rangeHeader.Ranges.First();
+                streamer.Start = range.From ?? 0;
+                streamer.End = range.To ?? totalLength - 1;
+                response.Content.Headers.ContentLength = streamer.End - streamer.Start + 1;
+                response.Content.Headers.ContentRange = new ContentRangeHeaderValue(streamer.Start, streamer.End, totalLength);
+                response.StatusCode = HttpStatusCode.PartialContent;
+            }
+            else
+            {
+                response.StatusCode = HttpStatusCode.OK;
+            }
+            return response;
+        }
 
         [Route("api/MediaStream/UploadMedia")]
         [HttpPost]

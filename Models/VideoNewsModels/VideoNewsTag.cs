@@ -12,9 +12,9 @@ namespace Devdiscourse.Models.VideoNewsModels
 
         public long TagId { get; set; }
         [ForeignKey("TagId")]
-        public virtual Tagstb Tagstb { get; set; }
+        public virtual Tagstb? Tagstb { get; set; }
         public long VideoNewsId { get; set; }
         [ForeignKey("VideoNewsId")]
-        public virtual VideoNews VideoNews { get; set; }
+        public virtual VideoNews? VideoNews { get; set; }
     }
 }

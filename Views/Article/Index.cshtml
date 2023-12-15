@@ -857,19 +857,38 @@ foreach (var item in Model.UserNewsFiles.Take(1))
         if (!isCrawler)
         {<p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>}
     }
-    else if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() == "Devdiscourse News Desk" && !isCrawler)
-    {<p>(With inputs from agencies.)</p>}@*@if (!Request.Browser.Crawler){<p> Download The Devdiscourse <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" target="_blank">News App</a> for Latest News.</p>}*@
-</section>@if (!string.IsNullOrEmpty(Model.Tags) && !isCrawler)
-{<section> <ul class="list-inline"> <li class="f-18">READ MORE ON:</li> @{ var tag = (Model.Tags ?? "").Split(',').Where(s => !string.IsNullOrEmpty(s.Trim())).Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
+    else if((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() == "Devdiscourse News Desk" && !isCrawler)
+    {
+        <p>
+        (With inputs from agencies.)</p>
+    }@*@if (!Request.Browser.Crawler){<p> Download The Devdiscourse <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" target="_blank">News App</a> for Latest News.</p>}*@
+</section>
+@if (!string.IsNullOrEmpty(Model.Tags) && !isCrawler)
+{
+    <section>
+    <ul class="list-inline"> 
+    <li class="f-18">READ MORE ON:</li> 
+    @{ 
+        var tag = (Model.Tags ?? "").Split(',').Where(s => !string.IsNullOrEmpty(s.Trim())).Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
+        foreach (var t in tag.Take(20))
         {
             if (!string.IsNullOrEmpty(t.Trim()))
-            { <li> <a href="/news?tag=@encodedTitle" class="tag">@t.Trim()</a> </li> }
-    } } </ul> </section>@*<section> <ul class="list-inline"> <li class="f-18">READ MORE ON:</li>@{var tag = (Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
+            {
+                <li> <a href="/news?tag=@encodedTitle" class="tag">@t.Trim()</a>
+            </li>
+            }
+    } 
+    } </ul>
+    </section>@*<section> <ul class="list-inline"> <li class="f-18">READ MORE ON:</li>@{var tag = (Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
         {
             if (!string.IsNullOrEmpty(t.Trim()))
             {<li> <a href="/news?tag=@Url.Encode(@t.Trim())" class="tag">@t.Trim()</a> </li>}
-    }}</ul> </section>*@}@if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Source))
-{<section class="m-t-30"> <ul class="list-inline"> <li class="f-18">FIRST PUBLISHED IN:</li><li> <span class="badge tag" style="color:#fff">@Model.Source</span> </li></ul> </section>}<div class="advertisement-area m-t-10">
+    }}</ul> </section>*@
+    }
+    @if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Source))
+{
+    <section class="m-t-30">
+    <ul class="list-inline"> <li class="f-18">FIRST PUBLISHED IN:</li><li> <span class="badge tag" style="color:#fff">@Model.Source</span> </li></ul> </section>}<div class="advertisement-area m-t-10">
     <div class="advertisement-title">Advertisement</div>
     <div id="v-devdiscourse-v2"></div>
     <script>(function (v, d, o, ai) { ai = d.createElement('script'); ai.defer = true; ai.async = true; ai.src = v.location.protocol + o; d.head.appendChild(ai); })(window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');</script>
@@ -883,20 +902,75 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     @if (Model.NewsId == 1813875)
     {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><div class="p-10"> <a href="https://www.papasocial.com/instagram/likes?utm_source=devdiscourse&utm_medium=banner&utm_campaign=1813875&utm_term=buy+instagram+likes" title="buy instagram likes 1$"><img src="https://uploads.papasocial.com/cdn/gallery/szbam1j77wbd0jft7dnl.png" class="img-responsive" alt="buy instagram likes"></a> </div></div>}
     else if (Model.NewsId == 1837471)
-    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><div class="p-10"> <a href="https://www.tikroyal.com/tiktok-followers?utm_source=devdiscourse&utm_medium=banner&utm_campaign=1837471&utm_term=buy+tiktok+followers" title="buy tiktok followers"><img src="https://uploads.tikroyal.com/cdn/gallery/xqdqn37oenjyyxbrs2yr.png" class="img-responsive" alt="buy tiktok followers"></a> </div></div>}
+    {
+        <div class="advertisement-area">
+        <div class="advertisement-title">
+        Advertisement</div>
+        <div class="p-10">
+        <a href="https://www.tikroyal.com/tiktok-followers?utm_source=devdiscourse&utm_medium=banner&utm_campaign=1837471&utm_term=buy+tiktok+followers" title="buy tiktok followers"><img src="https://uploads.tikroyal.com/cdn/gallery/xqdqn37oenjyyxbrs2yr.png" class="img-responsive" alt="buy tiktok followers"></a> 
+        </div>
+        </div>
+    }
     else
-    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div>@*<div id="div-gpt-ad-1583931793021-2" style="min-height:265px"> </div>*@ </div>}<section class="clearfix m-t-10"> <h2 class="section-title3"> <span>TRENDING</span> </h2>
+    {
+        <div class="advertisement-area">
+        <div class="advertisement-title">Advertisement</div>@*<div id="div-gpt-ad-1583931793021-2" style="min-height:265px"> </div>*@ 
+        </div>
+    }
+    <section class="clearfix m-t-10">
+    <h2 class="section-title3"> 
+    <span>TRENDING</span>
+    </h2>
     @* @{Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.edition });} do later*@
     @await Component.InvokeAsync("Trends", new { filter="Trends", reg=ViewBag.edition });
-    </section> <section class="m-t-10" id="video_section"> <h2 class="section-title3"> <span>DevShots</span> </h2> </section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Latest News</span> </h2> 
+    </section> 
+    <section class="m-t-10" id="video_section">
+    <h2 class="section-title3"> 
+    <span>DevShots</span> 
+    </h2>
+    </section> 
+    <section class="clearfix m-t-10">
+    <h2 class="section-title3">
+    <span>Latest News</span> 
+    </h2> 
     @* @{Html.RenderAction("GetlatestNews", "Search", new { reg = ViewBag.region });} *@
      @await Component.InvokeAsync("LatestNews", new{ reg=ViewBag.region } );
-    </section> <div class="clearfix m-t-10">
+    </section> 
+    <div class="clearfix m-t-10">
      @Html.Partial("_socialPartial") 
-    </div><section class="clearfix m-t-10"> <h2 class="section-title3"> <span>OPINION / BLOG / INTERVIEW</span> </h2>
+    </div>
+    <section class="clearfix m-t-10"> 
+    <h2 class="section-title3"> 
+    <span>OPINION / BLOG / INTERVIEW</span> 
+    </h2>
     @* @{Html.RenderAction("getOpinion", "Search", new { reg = ViewBag.region });} *@
     @await Component.InvokeAsync("Opinion", new { reg=ViewBag.region } );
-    </section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Connect us on</span> </h2> <a target="_blank" href="https://www.facebook.com/devdiscourse" rel="noreferrer" aria-label="Devdiscourse Facebook Page" class="btn btn-connect facebook"><span class="fa fa-facebook" aria-hidden="true"></span> Facebook</a> <a target="_blank" href="https://twitter.com/dev_discourse" rel="noreferrer" aria-label="Devdiscourse Twitter Page" class="btn btn-connect twitter"><span class="fa fa-twitter" aria-hidden="true"></span> Twitter</a> <a target="_blank" href="https://www.linkedin.com/showcase/dev_discourse/" rel="noreferrer" aria-label="Devdiscourse LinkedIn Page" class="btn btn-connect linkedin"><span class="fa fa-linkedin" aria-hidden="true"></span> LinkedIn</a> <a target="_blank" href="https://www.quora.com/profile/DevDiscourse" rel="noreferrer" aria-label="Devdiscourse Quora Page" class="btn btn-connect quora"><span class="fa fa-quora" aria-hidden="true"></span> Quora</a> <a target="_blank" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" rel="noreferrer" aria-label="Subscribe on Youtube" class="btn btn-connect youtube"><span class="fa fa-youtube" aria-hidden="true"></span> Youtube</a> <a target="_blank" href="https://news.google.com/publications/CAAqBwgKMMDbhQsw7_-CAw?hl=en-AU&gl=AU&ceid=AU%3Aen" rel="noreferrer" aria-label="Subscribe on Google News" class="btn btn-connect facebook"> <img src="~/images/icons/google_news.svg" /> Google News </a> <a target="_blank" href="http://feeds.feedburner.com/devdiscourse/NCFS" rel="noreferrer" aria-label="Devdiscourse RSS Feed" class="btn btn-connect rss"><span class="fa fa-rss" aria-hidden="true"></span> RSS</a> </section>
+    </section> 
+    <section class="clearfix m-t-10">
+    <h2 class="section-title3">
+    <span>Connect us on</span>
+    </h2> 
+    <a target="_blank" href="https://www.facebook.com/devdiscourse" rel="noreferrer" aria-label="Devdiscourse Facebook Page" class="btn btn-connect facebook">
+    <span class="fa fa-facebook" aria-hidden="true">
+    </span> Facebook</a>
+    <a target="_blank" href="https://twitter.com/dev_discourse" rel="noreferrer" aria-label="Devdiscourse Twitter Page" class="btn btn-connect twitter">
+    <span class="fa fa-twitter" aria-hidden="true"></span> 
+    Twitter</a>
+    <a target="_blank" href="https://www.linkedin.com/showcase/dev_discourse/" rel="noreferrer" aria-label="Devdiscourse LinkedIn Page" class="btn btn-connect linkedin">
+    <span class="fa fa-linkedin" aria-hidden="true"></span>
+    LinkedIn</a> 
+    <a target="_blank" href="https://www.quora.com/profile/DevDiscourse" rel="noreferrer" aria-label="Devdiscourse Quora Page" class="btn btn-connect quora">
+    <span class="fa fa-quora" aria-hidden="true">
+    </span> Quora</a>
+    <a target="_blank" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" rel="noreferrer" aria-label="Subscribe on Youtube" class="btn btn-connect youtube">
+    <span class="fa fa-youtube" aria-hidden="true">
+    </span> Youtube</a>
+    <a target="_blank" href="https://news.google.com/publications/CAAqBwgKMMDbhQsw7_-CAw?hl=en-AU&gl=AU&ceid=AU%3Aen" rel="noreferrer" aria-label="Subscribe on Google News" class="btn btn-connect facebook"> 
+    <img src="~/images/icons/google_news.svg" /> 
+    Google News </a> 
+    <a target="_blank" href="http://feeds.feedburner.com/devdiscourse/NCFS" rel="noreferrer" aria-label="Devdiscourse RSS Feed" class="btn btn-connect rss">
+    <span class="fa fa-rss" aria-hidden="true"></span> RSS</a> 
+    </section>
 </div>
 </div>
 </div>

@@ -1,0 +1,1615 @@
+﻿@model Devdiscourse.Models.BasicModels.Livediscourse
+@using System.Text.RegularExpressions;
+@using Devdiscourse.Models;
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Html;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    string newsTitle = Model.Title.Trim();
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "";
+    imageUrl = Model.ImageUrl ?? "";
+    string pageImageUrl = "";
+    ViewBag.Title = System.Net.WebUtility.UrlEncode(Model.Title);
+    Html.Raw(System.Net.WebUtility.HtmlDecode(newsTitle));
+    foreach (var update in ViewBag.FirstBlogUpdates)
+    {
+        pageImageUrl = update.ImageUrl;
+        ViewBag.Title = Model.Title + " - " + update.Title;
+    }
+    pageImageUrl = pageImageUrl == "/images/sector/all_sectors.jpg" ? @Model.ImageUrl : pageImageUrl;
+    pageImageUrl = pageImageUrl == "" ? Model.ImageUrl : pageImageUrl;
+    pageImageUrl = pageImageUrl ?? "";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl : string.Concat(domainUrl, imageUrl);
+    var pageImage = pageImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + pageImageUrl : string.Concat(domainUrl, pageImageUrl);
+    var dataTags = (@Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).Take(15);
+    var keywords = String.Join(", ", dataTags);
+    string pageUrl = "/live-discourse/" + Model.GenerateSecondSlug();
+    ViewBag.pageType = "article";
+    var DataDesc = Model.Description;
+
+    //var modifiedDescription = GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString()); //do it later
+
+    ViewBag.HasAmpPage = true;
+    ViewBag.alternateHeadline = @Model.Title;
+    // ViewBag.PageDescription = @modifiedDescription; // do it later
+    ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
+    ViewBag.PageImage = pageImage + "?width=1280";
+    ViewBag.pageKeywords = "Live Blog, " + keywords;
+    ViewBag.webEdition = ViewBag.region;
+    var bodykeywords = @Model.Tags;
+    TempData["pageUrl"] = pageUrl;
+    //TempData["firstPara"] = GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString()).ToString(); //do it later
+    TempData["title"] = Model.Title;
+    TempData["tags"] = keywords;
+    TempData["newsImage"] = newsImage;
+    TempData["creator"] = Model.Creator;
+    TempData["Author"] = "Nitin" + "" + "Rawat"; //Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName;
+    string authorName = "";
+    ViewBag.pageAuthor = Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56" ? "J.P. Singh" : @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName;
+    ViewBag.HasAmpPage = true;
+    TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+    DateTime createdDate = TimeZoneInfo.ConvertTimeFromUtc(Model.CreatedOn, INDIAN_ZONE);
+    DateTime publishedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.PublishedOn, INDIAN_ZONE);
+    DateTime modifiedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.ModifiedOn, INDIAN_ZONE);
+    TempData["createdOn"] = createdDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz");
+    TempData["coverageEndOn"] = createdDate.AddDays(90).ToString("yyyy-MM-ddTHH:mm:sszzzzz");
+    TempData["publishedOn"] = publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz");
+    TempData["modifiedOn"] = modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz");
+    var userAgent = Context.Request.Headers["User-Agent"].ToString();
+    bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+    string encodeValue = System.Net.WebUtility.UrlEncode(Model.Title);
+    string encodeValueOne = System.Net.WebUtility.UrlEncode(GetFirstParagraph(Model.Description).ToString());
+}
+@if (@Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56")
+{
+    authorName = "J.P. Singh";
+    TempData["Author"] = authorName;
+}
+else
+{
+    authorName = @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; TempData["Author"] = authorName;
+
+}
+@if (!string.IsNullOrEmpty(bodykeywords))
+{
+    var tagArray = bodykeywords.Split(',').ToList();
+    foreach (var tag in tagArray.OrderBy(a => a.Length))
+    {
+        var replaceTag = tag.Replace("(", "");
+        replaceTag = replaceTag.Replace(")", "");
+        DataDesc = Regex.Replace(DataDesc, "\"" + replaceTag.Trim() + "\"", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">\"" + replaceTag.Trim() + "\"</a> ");
+        DataDesc = Regex.Replace(DataDesc, " " + replaceTag.Trim() + ", ", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">" + replaceTag.Trim() + "</a>, ");
+        DataDesc = Regex.Replace(DataDesc, " " + replaceTag.Trim() + " ", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">" + replaceTag.Trim() + "</a> ");
+
+    }
+}
+@functions {
+    async Task GetCleanDescription(string htmltext)
+    {
+        await Task.Yield();
+        htmltext = htmltext.Replace("&nbsp;", " ");
+        htmltext = htmltext.Replace("&rsquo;", "'");
+        htmltext = htmltext.Replace("&lsquo;", "'");
+        htmltext = htmltext.Replace("&#39;", "'");
+        htmltext = htmltext.Replace("&rdquo;", "\"");
+        htmltext = htmltext.Replace("&ldquo;", "\"");
+        @Html.Raw(htmltext)
+        ;
+    }
+}
+
+@functions {
+    async Task GetDescriptionText(string htmltext = "")
+    {
+        await Task.Yield();
+        const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
+        const string stripFormatting = @"<[^>]*(>|$)";
+        const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
+        var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+        var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+        var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+        var text = (htmltext ?? "").Replace("&nbsp;", " ");
+        text = Regex.Replace(text, @"\r\n?|\n", " ");
+        text = System.Net.WebUtility.HtmlDecode(text);
+        text = tagWhiteSpaceRegex.Replace(text, "><");
+        text = lineBreakRegex.Replace(text, Environment.NewLine);
+        text = stripFormattingRegex.Replace(text, string.Empty);
+        text = Regex.Replace(text, @"[^,.A-Za-z0-9\s-]", "");
+        @text
+        ;
+    }
+}
+@functions {
+    async Task GetFirstParagraph(string htmltext)
+    {
+        await Task.Yield();
+        Match m = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
+        if (m.Success)
+        {
+            @m.Groups[1].Value
+            ;
+        }
+        else
+        {
+            @htmltext
+            ;
+        }
+    }
+}
+
+
+<style>
+    .article .title { /*font-size: 42px;*/
+        font-size: 38px;
+        font-weight: 400;
+        color: #181818;
+        line-height: 1.18;
+        margin-top: 0;
+    }
+
+    .article .subtitle {
+        font-size: 24px;
+        font-weight: 400;
+        color: #383838;
+        margin-top: 20px;
+    }
+
+    .article p, .article ul, .article ol {
+        font-size: 21px; /*line-height: 1.58;*/
+        color: #111111;
+        font-weight: 400;
+        margin-top: 1.4rem;
+    }
+
+    .liveblog p {
+        font-size: 20px; /*line-height: 1.58;*/
+        color: #111111;
+        font-weight: 400;
+        margin-top: 1.4rem;
+    }
+
+    iframe {
+        max-width: 100%
+    }
+
+    .article-desc::first-letter {
+        font-size: 80px;
+        vertical-align: bottom;
+        color: #ff7b00;
+        line-height: 32px;
+        margin: 2.1rem 10px 10px 0;
+        float: left;
+    }
+
+    .liveblog .media-heading {
+        font-size: 24px;
+        font-weight: 500; /*line-height: 1.5;*/
+        color: #FF9800;
+        margin-bottom: 0;
+    }
+
+    .headlineLink {
+        color: #FF9800 !important
+    }
+
+    .article b, .article strong {
+        font-weight: 500
+    }
+
+    .article img {
+        max-width: 100%;
+        height: auto
+    }
+
+    .admin-section {
+        position: absolute;
+        padding: 10px;
+        background-color: #fff;
+        right: 0;
+        border-radius: 5px;
+        margin: 10px;
+        box-shadow: 0px 0px 5px #cfcfcf;
+    }
+
+    .fig-caption {
+        background-color: #cccccc;
+        font-size: 13px;
+        font-weight: 300;
+        line-height: 1.33;
+        color: #444444;
+        padding: 7px 10px 3px 10px;
+    }
+
+    .social-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid #222;
+        background: #fff;
+        padding: 8px;
+        color: #222;
+        outline-color: transparent !important
+    }
+
+    .tag {
+        font-weight: 400;
+        margin: 5px;
+        padding: 4px 10px;
+        color: #333;
+        border: 1px solid #333;
+        background-color: transparent;
+    }
+
+        .tag:hover {
+            color: #000 !important;
+        }
+
+    .social-btn:active, .social-btn:hover {
+        background-color: #222;
+        color: #fff
+    }
+
+    .news-meta {
+        line-height: 35px;
+        margin-bottom: 10px;
+    }
+
+    .news-date {
+        display: inline;
+    }
+
+    .meta-divider {
+        margin-left: 5px;
+        margin-right: 5px;
+        border-left: 1px solid #888;
+    }
+
+    .article-image-container {
+        border-bottom: 2px solid #cacaca;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .live {
+        font-size: 18px;
+        color: #ec1c23;
+        border-radius: 2px;
+        padding-left: 15px;
+        font-family: sans-serif,Arial
+    }
+
+    .live-dot {
+        padding-left: 18px !important;
+    }
+
+        .live:before, .live-dot:before {
+            width: 9px;
+            height: 9px;
+            background: #ec1c23;
+            border-radius: 100%;
+            position: absolute;
+            animation-name: colorChange;
+            animation-duration: .3s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate-reverse;
+            animation-timing-function: ease-out;
+            left: 15px;
+            top: 4px;
+            content: ""
+        }
+
+        .live-dot:before {
+            left: 5px;
+        }
+
+    .hrcss {
+        margin: 5px 0 10px 0;
+    }
+
+    @@keyframes colorChange {
+        from {
+            background-color: #ec1c23
+        }
+
+        to {
+            background-color: #fff
+        }
+    }
+
+    .liveblog-list-item {
+        margin-top: 10px;
+        padding: 15px 0;
+        border-bottom: 1px dotted #e0e0e0;
+    }
+
+    .liveblog-list .time {
+        color: #ff6a00;
+        font-size: 12px;
+        font-family: sans-serif;
+    }
+
+        .liveblog-list .time:before {
+            margin-right: 5px;
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #ff6a00;
+            position: relative;
+            left: 0;
+            top: -2px;
+            display: inline-block;
+            border-radius: 100%;
+        }
+
+    .liveblog-list .title {
+        margin-top: 5px;
+        font-size: 18px;
+        color: #242424;
+        border-left: 1px solid #e0e0e0;
+        padding-left: 10px;
+        line-height: 24px;
+        font-weight: 500;
+    }
+
+    .comment-footer {
+        padding: 20px;
+        background-color: #f3f3f3;
+        border-top: 1px solid #d9d7d7
+    }
+
+    .comment-input-container {
+        background-color: #e1e1e1;
+        border-radius: 4px;
+    }
+
+    .comment-input {
+        display: table-cell;
+        background-color: transparent;
+        font-family: sans-serif;
+        vertical-align: top;
+        border: none;
+        resize: none;
+        width: calc(100% - 45px);
+        height: 40px;
+        padding: 9px 10px;
+        font-size: 14px;
+        color: #5a5a5a;
+    }
+
+        .comment-input:focus {
+            outline: none;
+            border: none;
+        }
+
+    .comment-btn, .main-comment-btn {
+        display: table-cell;
+        vertical-align: top;
+        width: 40px;
+        margin: 0;
+        height: 40px;
+        background-color: transparent;
+        color: #666;
+        border: none;
+        outline: none;
+    }
+
+        .comment-btn:active, .main-comment-btn:active {
+            background-color: #444;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            color: #fff;
+        }
+
+    .comment-header {
+        border-bottom: 1px solid #d9d7d7;
+        background-color: #f3f3f3;
+        padding: 6px 10px;
+        font-size: 14px;
+        font-family: sans-serif;
+        color: #666;
+    }
+
+        .comment-header li {
+            padding-left: 0;
+            line-height: 24px;
+        }
+
+            .comment-header li .counts {
+                font-size: 17px;
+                color: #111;
+            }
+
+    .comment-body {
+        font-family: sans-serif;
+    }
+
+    .comment {
+        padding: 6px 14px;
+        border-bottom: 1px solid #e1e1e1;
+    }
+
+    .comment-body .comment:last-of-type {
+        border-bottom: none;
+    }
+
+    .comment .name {
+        font-size: 15px;
+        color: #444;
+        font-weight: 600;
+    }
+
+    .comment .content {
+        margin-top: 0px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .btn-reply, .btn-delete {
+        color: #7b7b7b;
+    }
+
+        .btn-reply:hover {
+            color: #ff6a00;
+        }
+
+        .btn-delete:hover {
+            color: red;
+        }
+
+    .right .comment:last-child {
+        border-bottom: none;
+    }
+
+    .commentField {
+        display: none;
+    }
+
+    .replyBtn {
+        font-size: 13px;
+        margin: 5px;
+        color: #555;
+        cursor: pointer;
+    }
+
+        .replyBtn .reply-icon {
+            width: 14px;
+            margin: 0 5px 0 0;
+        }
+
+    .child-container {
+        padding-left: 10px;
+        border-left: 2px solid #eee;
+    }
+
+    .root-container {
+        padding-left: 5px;
+        margin-left: 10px;
+    }
+
+    .comment.reply {
+        background-color: #f6f6f6;
+        margin-top: 15px;
+        border-radius: 10px;
+        border: 1px solid #e6e6e6;
+    }
+
+    .root-container .comment {
+        border-left: 2px solid #ff6a00;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .blog-social-icon {
+        text-align: center;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #666;
+        color: #666;
+        line-height: 24px;
+        font-size: 13px;
+        border-radius: 50%;
+        margin: 0
+    }
+
+    .liveblog .social-list {
+        list-style: none
+    }
+
+    .liveblog img {
+        width: 800px;
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0
+    }
+
+    .follow-btn {
+        width: auto;
+        border-radius: 18px;
+        padding: 8px 15px;
+    }
+
+        .follow-btn.activebtn .fa {
+            background-color: #222;
+            color: #fff;
+        }
+
+    .badge-custom {
+        border: 1px solid #666;
+        background-color: transparent;
+        color: #444;
+        font-weight: normal;
+        font-size: 13px;
+        padding: 4px 10px;
+        border-radius: 15px;
+        display: inline-block;
+        min-width: 10px;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+        .badge-custom.active {
+            background-color: #333;
+            color: #fff;
+        }
+
+    .nav-custom {
+        background-color: #f3f3f3;
+        border: none !important;
+    }
+
+    .nav-tabs.nav-custom > li > a {
+        padding: 7px 3px;
+        border-bottom: 2px solid #f3f3f3;
+        color: #444;
+    }
+
+    .nav-tabs.nav-custom > .active > a, .nav-tabs.nav-custom > .active > a:focus, .nav-tabs.nav-custom > .active > a:hover {
+        background-color: transparent;
+        border-width: 0 0 2px 0;
+        border-style: solid;
+        border-bottom-color: #ff6a00;
+        color: #ff6a00;
+    }
+
+    .tab-card {
+        padding: 10px 0;
+        border-bottom: 1px solid #cbcbcb;
+    }
+
+        .tab-card h4 {
+            font-size: 21px;
+        }
+
+        .tab-card img {
+            width: 120px;
+            height: 90px;
+        }
+
+    .react-btn {
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+        .react-btn .fa {
+            font-size: 16px;
+        }
+
+    .comment .react-btn {
+        margin-right: 0;
+        color: #7b7b7b;
+    }
+
+    .reacted .fa-check:before, .reacted .fa-times:before {
+        color: #ff7b00;
+    }
+
+    .reacted .fa-thumbs-o-up:before {
+        color: #ff7b00;
+        content: "\f164";
+    }
+
+    .reacted .fa-thumbs-o-down:before {
+        color: #ff7b00;
+        content: "\f165";
+    }
+
+    .index-title {
+        color: #ff7b00;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 400;
+        font-size: 24px;
+        margin-bottom: 0;
+    }
+
+    .tab-head {
+        font-size: 20px;
+        background-color: #f3f3f3;
+        padding: 6px 10px;
+        border-bottom: 1px solid #ff7b00;
+        color: #222;
+    }
+
+        .tab-head .fa {
+            color: #ff7b00;
+            margin-right: 4px;
+        }
+
+    #news-content {
+        border-top: 2px solid #ff6a00;
+    }
+    /*:target::before{content: ""; display: block; height: 130px; margin: -130px 0 0;}*/
+
+    .social-list-main {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+        .social-list-main .btn {
+            color: #333;
+            text-decoration: none;
+            padding-left: 0;
+        }
+
+            .social-list-main .btn:active {
+                box-shadow: none;
+            }
+
+        .social-list-main .fa {
+            border: 1px solid #333;
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+            color: #333;
+            line-height: 28px
+        }
+
+        .social-list-main .btn:active.fa {
+            background-color: #333;
+            color: #fff;
+        }
+
+    .make-me-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 15px;
+        padding: 0 15px
+    }
+
+    .container.full-width {
+        margin-top: 30px
+    }
+
+    @@media screen and (max-width:992px) {
+        .article-image-container {
+            width: 100%;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        #news-content {
+            margin-top: 20px;
+        }
+
+        .social-list-main li {
+            display: inline-block;
+        }
+    }
+
+    @@media screen and (max-width:640px) {
+        .article .title {
+            font-size: 28px;
+        }
+
+        .article p, .article ul, .article ol {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-top: 1.5rem;
+        }
+
+        .liveblog p {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-top: 1.5rem;
+        }
+
+        .liveblog .media-heading {
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #FF9800;
+            margin-bottom: 0;
+        }
+
+        .liveblog .left, .liveblog .right {
+            display: block;
+            text-align: left
+        }
+
+        .liveblog .social-list {
+            padding-left: 0
+        }
+
+            .liveblog .social-list > li {
+                display: inline-block;
+                padding-left: 5px
+            }
+
+        .container.full-width {
+            margin-top: -20px;
+            padding-left: 0;
+            padding-right: 0
+        }
+    }
+
+    @@media screen and (max-width: 2560px) and (min-width: 1500px) {
+        .renderBody .container {
+            width: 1170px !important;
+        }
+    }</style>
+@section lastModified{
+    <meta itemprop="datePublished" content="@Model.PublishedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
+    <meta itemprop="dateModified" content="@Model.ModifiedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
+}
+<div class="container full-width">
+    <div class="advertisement-area" style="min-height:125px">
+        <div class="advertisement-title">Advertisement</div>
+        @if (!isCrawler)
+        {
+            <div class="text-center">
+                <script type="text/javascript" src="https://backfills.ph.affinity.com/phdd/affdd.js"></script>
+                <script type="text/javascript">
+                    if ((typeof window.affdpchk === 'function' && window.affdpchk()) || 0) { document.write("<scr" + "ipt async='async' src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></scr" + "ipt><scr" + "ipt>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];</scr" + "ipt><div id='div-gpt-ad-1583931674-2'><scr" + "ipt type='text/javascript'>googletag.cmd.push(function(){googletag.pubads().display('/42115163/IP_devdiscourse.com_320x100_Resp_Both_BTF', [320,100],'div-gpt-ad-1583931674-2');});</scr" + "ipt></div>"); } else { document.write("<scr" + "ipt async='async' src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></scr" + "ipt><scr" + "ipt>var googletag=googletag||{};googletag.cmd=googletag.cmd||[];</scr" + "ipt><div id='div-gpt-ad-1583931674-6'><scr" + "ipt type='text/javascript'>googletag.cmd.push(function(){googletag.pubads().display('/42115163/IP_devdiscourse.com_728x90_Resp_Both_BTF', [728,90],'div-gpt-ad-1583931674-6');});</scr" + "ipt></div>"); }</script>
+            </div>
+        }
+    </div>
+</div>
+<div class="container">
+    <ul class="breadcrumb breadcrumb_new m-t-20" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+            <a href="/" target="_top" itemprop="item"><span itemprop="name">Home</span></a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+            <a href="/live-discourse" target="_top" itemprop="item"><span itemprop="name">Live Discourse</span></a>
+            <meta itemprop="position" content="2">
+        </li>
+        <li class="active">Article</li>
+    </ul>
+    <div class="row">
+        <div class="col-md-12" itemid="@Model.GenerateSecondSlug()">
+            <em class="live">LIVE</em>
+            <div class="update-divider" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div>
+            @if (ViewBag.HasUpdates == false)
+            {
+                <article class="article">
+                    <h1 class="title text-center">
+                        @Model.Title
+                    </h1>
+                    <div class="news-meta clearfix text-center">
+                        @if (!string.IsNullOrEmpty(Model.Country))
+                        {
+                            var country = (@Model.Country ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Take(1); foreach (var c in country)
+                            {
+                                <span class="text-capitalize">@c | </span>
+                            }
+                        }@if (!string.IsNullOrEmpty(@Model.Author))
+                        {
+                            <span>@Model.Author</span>
+                        }
+                        else
+                        {
+                            <span id="authorName">@authorName</span>
+                        }
+                        <div class="news-date">
+                            <span class="meta-divider date-divider"></span>
+                            <span>Updated: @Model.ModifiedOn.ToClientTime().ToString("dd-MM-yyyy HH:mm") IST</span>
+                            <span class="meta-divider"></span>
+                            <span>Created: @Model.CreatedOn.ToString("dd-MM-yyyy HH:mm") IST</span>
+                        </div>
+                    </div>
+                    <section class="article-desc">
+                        @{
+                            await GetCleanDescription(@DataDesc);
+                        }
+
+                    </section>
+                    <hr class="hrcss">
+                </article>
+            }
+            <div class="row">
+                <div class="col-md-4">
+                    @if (ViewBag.HasUpdates == true)
+                    {
+                        <h2 class="title f-22">
+                            @Model.Title
+                        </h2>
+                    }
+                    <section class="article-image-container clearfix m-b-20">
+                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                        {
+                            <section class="admin-section">
+                                <a href="@Url.Action("Edit", "Livediscourse", new { id = Model.Id })" target="_blank" rel="nofollow" class="btn btn-default"><span class="fa fa-edit"></span> Edit</a>
+                            </section>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
+                        {
+                            <figure>
+                                <img src="@newsImage?width=800" class="img-responsive center-block" title="@Model.Title" alt="@Model.Title" />
+                                <figcaption class="fig-caption">@Model.ImageCaption @Model.ImageCopyright </figcaption>
+                            </figure>
+                        }
+                    </section>
+                    @if (ViewBag.HasUpdates == true)
+                    {
+                        <section class="article-desc f-18">
+
+                            @{
+                                await GetCleanDescription(@DataDesc);
+                            }
+
+
+                        </section>
+                    }
+                    <h3 class="section-title m-b-30" style="margin-top:30px;">
+                        <span>Key Updates</span>
+                    </h3>
+                    <div class="liveblog-list"></div>
+                    <hr />
+                    @if (!string.IsNullOrEmpty(Model.Tags) && isMobile == false)
+                    {
+
+                        <div class="m-b-20">
+                            <span class="fg-black f-18"> READ MORE ON : </span>
+                            <span>
+                                @{
+                                    var tag = Model.Tags.Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.OrderBy(x => Guid.NewGuid()).Take(20))
+                                    {
+                                        if (!string.IsNullOrEmpty(t.Trim()))
+                                        {
+                                            <a href="/news?tag=@t.Trim()" class="badge tag">@t.Trim()</a>
+                                        }
+                                    }
+                                }
+                            </span>
+                        </div>
+                    }
+                    <h4 class="section-title" style="margin-bottom:10px;">
+                        <span>Share/Follow</span>
+                    </h4>
+                    <ul class="social-list-main">
+                        @if (ViewBag.searchFollow != null)
+                        {
+                            <li><span class="btn follow-btn activebtn" title="Following"><span class="fa fa-thumbs-o-up"></span> <span class="hidden-xs">Following</span> </span></li>
+                        }
+                        else
+                        {
+                            <li><span class="btn follow-btn" title="Follow"><span class="fa fa-thumbs-o-up"></span>  <span class="hidden-xs">Follow</span> </span></li>
+                        }
+                        <li><a rel="nofollow" class="btn" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook"> <span class="fa fa-facebook"></span> <span class="hidden-xs">Facebook</span> </a></li>
+                        <li> <a rel="nofollow" class="btn" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@encodeValue', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter"></span> <span class="hidden-xs">Twitter</span></a></li>
+                        <li><a rel="nofollow" class="btn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=@encodeValue&summary=@encodeValueOne&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin"></span> <span class="hidden-xs">LinkedIn</span></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-8">
+                    @if (ViewBag.HasUpdates == true)
+                    {
+                        <article class="article">
+                            <h1 class="title text-center">
+                                @Model.Title
+                                @foreach (var update in ViewBag.FirstBlogUpdates)
+                                {
+                                    <text>- @update.Title</text>
+                                }
+                            </h1>
+                            <div class="news-meta clearfix text-center">
+                                @if (!string.IsNullOrEmpty(Model.Country))
+                                {
+                                    var country = (@Model.Country ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Take(1); foreach (var c in country)
+                                    {
+                                        <span class="text-capitalize">@c | </span>
+                                    }
+                                }@if (!string.IsNullOrEmpty(@Model.Author))
+                                {
+                                    <span>@Model.Author</span>
+                                }
+                                else
+                                {
+                                    <span id="authorName">@authorName</span>
+                                }
+                                <div class="news-date">
+                                    <span class="meta-divider date-divider"></span>
+                                    <span>Updated: @Model.ModifiedOn.ToClientTime().ToString("dd-MM-yyyy HH:mm") IST</span>
+                                    <span class="meta-divider"></span>
+                                    <span>Created: @Model.CreatedOn.ToString("dd-MM-yyyy HH:mm") IST</span>
+                                </div>
+                            </div>
+                            @*<hr class="hrcss">*@
+                        </article>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-primary m-b-20" href="@Url.Action("Create","Livediscourse", new{id=Model.Id})">Post Views</a>
+                    }
+                    <div class="f-16 p-t-20" id="news-content">
+                        @{
+                            @await Component.InvokeAsync("LiveBlogs", new { id = Model.Id })
+                            ;
+                        }
+                    </div>
+                    <div class="h3 text-center text-muted" id="loading" style="display:none;">
+                        <i class="fa fa-circle-o-notch fa-spin fa-fw"></i> Loading...
+                    </div>@if (!string.IsNullOrEmpty(Model.Tags) && isMobile == true)
+                    {
+                        <hr />
+                        <div class="m-b-20">
+                            <span class="fg-black f-18"> READ MORE ON : </span>
+                            <span>
+                                @{
+                                    var tag = Model.Tags.Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.OrderBy(x => Guid.NewGuid()).Take(20))
+                                    {
+                                        if (!string.IsNullOrEmpty(t.Trim()))
+                                        {
+                                            <a href="/news?tag=@t.Trim()" class="badge tag">@t.Trim()</a>
+                                        }
+                                    }
+                                }
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" id="bottomContent">
+            <h3 class="section-title">
+                <span class="live-dot">Live Discourse</span>
+            </h3>
+            <div class="tab-head m-t-20">
+                <span class="fa fa-line-chart"></span> Trending
+            </div>
+            <div id="trending_tab" class="tab-pane fade in active"></div>
+            <div class="tab-head m-t-20">
+                <span class="fa fa-fire"></span> Latest
+            </div>
+            <div id="latest_tab"></div>
+            <div class="tab-head m-t-20">
+                <span class="fa fa-star-o"></span> Latest Updates
+            </div>
+            <div id="recommended_tab"></div>
+        </div>
+    </div>
+    @{
+        string updateTitle = Model.Title;
+        string updateBody = "";
+        var schemaUrl = pageUrl;
+        foreach (var firstupdate in ViewBag.FirstBlogUpdates)
+        {
+            updateTitle = Model.Title + " - " + firstupdate.Title;
+            publishedDate = TimeZoneInfo.ConvertTimeFromUtc(firstupdate.CreatedOn, INDIAN_ZONE);
+            updateBody = GetDescriptionText(firstupdate.Description).ToString();
+            schemaUrl = pageUrl + "#post_" + firstupdate.Id;
+        }
+    }
+    <script type="application/ld+json">
+            {"@@context":"http://schema.org", "@@type":"NewsArticle", "mainEntityOfPage":{"@@type": "WebPage", "@@id": "@domainUrl@pageUrl"},
+            "headline":"@updateTitle", @if (ViewBag.hasUpdates == true)
+        {
+            <text>"alternativeHeadline":"@Model.Title","articleBody":"@updateBody",</text>
+        }
+        else
+        {
+            <text>
+
+                // do it later
+                 "articleBody":"@GetDescriptionText(Model.Description)",</text>
+        }"keywords":["@keywords"], "url":"@domainUrl@schemaUrl", "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "dateModified":"@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "@authorName"}, "publisher":{"@@type":"Organization", "name":"Devdiscourse", "url": "https://www.Devdiscourse.com", "logo":{"@@type": "ImageObject", "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png", "width": 600, "height": 60}}, "image":{"@@type": "ImageObject", "url": "@pageImage?width=1280", "height": 900, "width": 1280}}
+
+    </script>
+</div>
+@section scripts{
+    <script>
+        debugger
+        var id = '@(Model.Id)';
+        var inCallbackBlog = false;
+        var blogPage = 1;
+        var inCallbackIndex = false;
+        var blogIndexPage = 0;
+        var returnUrl = '@(pageUrl)';
+        var listContainer = $('.liveblog-list');
+        var reasonForReply = '';
+        $('.lazy').lazy();
+        function twitterLoaded() {
+            twttr.events.bind(
+                'loaded',
+                function (event) {
+                    $(document).find('.twitter-tweet').css({ display: 'block', width: 'auto' });
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+
+            function formating(input) { return input < 10 ? '0' + input : input }
+            function convertToSlug(Id, str) {
+                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return Id + "-" + str;
+            }
+            function pluralise(count, text) {
+                return count > 1 ? count + " " + text + "s" : count + " " + text;
+            }
+            debugger;
+            $.ajax('/api/DiscourseApi/GetModerators/@Model.Id').done(function (data) {
+                var moderatorsName = '';
+                $.each(data, function (i, item) {
+                    debugger
+                    moderatorsName += ", " + item.Name;
+                });
+                $("#authorName").html('@(authorName)' + moderatorsName);
+            });
+            $(document).on('click', '.react-btn', function () {
+        @if (User.Identity.IsAuthenticated)
+        {
+            <text>
+                            var Id = $(this).data('topic');
+                    var IT = $(this).data('it');
+                    var RT = $(this).data('rt');
+                    $.post('/api/ReactLivediscourse/' + Id + '/' + IT + '/' + RT,
+                        function (data) {
+                            $('#like_' + data.it + "_" + data.id + ',#dislike_' + data.it + "_" + data.id + ',#endorse_' + data.it + "_" + data.id + ',#reject_' + data.it + "_" + data.id).removeClass('reacted');
+                            if (data.rt == 1) {
+                                $('#like_' + data.it + "_" + data.id).addClass('reacted');
+                            } else if (data.rt == 2) {
+                                $('#dislike_' + data.it + "_" + data.id).addClass('reacted');
+                            }
+                            else if (data.rt == 3) {
+                                $('#endorse_' + data.it + "_" + data.id).addClass('reacted');
+                            }
+                            else if (data.rt == 4) {
+                                $('#reject_' + data.it + "_" + data.id).addClass('reacted');
+                            } $("#comment" + data.id).attr('placeholder', "Your comment here...");
+                            var Reaction = ["None", "Like", "Dislike", "Endorse", "Reject"];
+                            if (data.it == 3 && data.rt == 4) {
+                                $('#field_' + data.id).show();
+                                $("#comment" + data.id).attr('placeholder', "Reason for Rejection");
+                                reasonForReply = Reaction[data.rt];
+                            }
+                            $('#dislike_' + data.it + "_" + data.id).html('<span class="fa fa-thumbs-o-down"></span> ' + pluralise(data.dislikeCount, "Dislike"));
+                            $('#like_' + data.it + "_" + data.id).html('<span class="fa fa-thumbs-o-up"></span> ' + pluralise(data.likeCount, "Like"));
+                            $('#endorse_' + data.it + "_" + data.id).html('<span class="fa fa-check"></span> ' + pluralise(data.endorseCount, "Endorse"));
+                            $('#reject_' + data.it + "_" + data.id).html('<span class="fa fa-times"></span> ' + pluralise(data.rejectCount, "Reject"));
+                        });
+            </text>
+        }
+        else
+        {
+            <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
+        }
+                    });
+            GetRecommendedDiscourse();
+            function GetRecommendedDiscourse() {
+                debugger;
+                $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/2').done(function (data) {
+                    var recommendedHtml = '';
+                    $.each(data, function (i, item) {
+                        debugger
+                        var newsUrl = convertToSlug(item.parentId, item.parenTitle);
+                        var imgUrl = item.imageUrl;
+                        if (imgUrl == null || imgUrl == '/images/sector/all_sectors.jpg') {
+                            imgUrl = item.parentImageUrl;
+                        }
+                        var newsImage = imgUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + imgUrl : "https://www.devdiscourse.com" + imgUrl;
+                        var imghtml = '<div class="media-left"><img src="' + newsImage + '?width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
+                        recommendedHtml += '<a href="/live-discourse/' + newsUrl + '#post_' + item.id + '" class="text-decoration">' +
+                            '<div class="media tab-card">' + imghtml +
+                            '<div class="media-body">' +
+                            '<h4 class="no-margin">' + item.title + '</h4>' +
+                            '</div>' +
+                            '</div></a>';
+                    });
+                    $('#recommended_tab').html(recommendedHtml);
+                });
+            }
+            GetTrendingDiscourse();
+            function GetTrendingDiscourse() {
+                debugger;
+                $.ajax('/api/DiscourseApi/GetTrendingDiscourse/2/@Model.Id').done(function (data) {
+                    var trendingHtml = '';
+                    $.each(data, function (i, item) {
+                        debugger
+                        var newsUrl = convertToSlug(item.id, item.title);
+                        var imghtml = '';
+                        if (item.imageUrl != null) {
+                            var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : "https://www.devdiscourse.com" + item.imageUrl;
+                            imghtml = '<div class="media-left"><img src="' + newsImage + '?width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
+                        }
+                        trendingHtml += '<a href="/live-discourse/' + newsUrl + '" class="text-decoration">' +
+                            '<div class="media tab-card">' + imghtml +
+                            '<div class="media-body">' +
+                            '<h4 class="no-margin">' + item.title + '</h4>' +
+                            '</div>' +
+                            '</div></a>';
+                    });
+                    $('#trending_tab').html(trendingHtml);
+                    $('.lazy').lazy();
+                });
+            }
+            GetLatestDiscourse();
+            function GetLatestDiscourse() {
+                debugger;
+                $.ajax('/api/DiscourseApi/GetLatestDiscourse/2/@Model.Id').done(function (data) {
+                    var latestHtml = '';
+                    $.each(data, function (i, item) {
+                        debugger
+                        var newsUrl = convertToSlug(item.id, item.title);
+                        var imghtml = '';
+                        if (item.imageUrl != null) {
+                            var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : "https://www.devdiscourse.com" + item.imageUrl;
+                            imghtml = '<div class="media-left"><img src="' + newsImage + '?width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
+                        }
+                        latestHtml += '<a href="/live-discourse/' + newsUrl + '" class="text-decoration">' +
+                            '<div class="media tab-card">' + imghtml +
+                            '<div class="media-body">' +
+                            '<h4 class="no-margin">' + item.title + '</h4>' +
+                            '</div>' +
+                            '</div></a>';
+                    });
+                    $('#latest_tab').html(latestHtml);
+                    $('.lazy').lazy();
+                });
+            }
+            $(document).on('click', '.follow-btn', function () {
+        @if (User.Identity.IsAuthenticated)
+        {
+            <text>
+                        $.post("/api/FollowLiveDiscourse/" + id,
+                            function (data) {
+                                debugger;
+                                $('.follow-btn').html('<li><span class="btn follow-btn" title="' + data + '"><span class="fa fa-thumbs-o-up"></span> <span class="hidden-xs">' + data + '</span> </span></li>');
+                                if (data == "Follow") {
+                                    $('.follow-btn').removeClass('activebtn');
+                                } else {
+                                    $('.follow-btn').addClass('activebtn');
+                                }
+                            }); </text>
+        }
+        else
+        {
+            <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
+        }
+                    });
+            $(document).on('click', '.badge-custom', function () {
+        @if (User.Identity.IsAuthenticated)
+        {
+            <text>
+                            var tagId = $(this).data('id');
+                    $.post("/api/FollowDiscourseTag/" + tagId,
+                        function (data) {
+                            if (data == "Follow") {
+                                $('#tag_' + tagId).removeClass('active');
+                            } else {
+                                $('#tag_' + tagId).addClass('active');
+                            }
+                        });
+            </text>
+        }
+        else
+        {
+            <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
+        }
+                    });
+            GetDiscourseIndex();
+            function GetDiscourseIndex() {
+                if (blogIndexPage > -1 && !inCallbackIndex) {
+                    blogIndexPage++;
+                    inCallbackIndex = true;
+                    $("#loading").show();
+                    debugger;
+                    $.ajax({
+                        url: '/api/DiscourseApi/livediscourseIndexUpdates/' + id + '/' + blogIndexPage,
+                        type: 'Get',
+                        dataType: 'Json',
+                        success: function (data) {
+                            inCallbackIndex = false;
+                            if (data.length == 0) {
+                                $("#loading").hide();
+                                return;
+                            }
+                            var indexData = '';
+                            $.each(data, function (i, item) {
+                                debugger
+                                var listData = '';
+                                var moreHtml = '';
+                                $.each(item.Livediscourse, function (index, discourse) {
+                                    var createdOn = new Date(discourse.createdOn); createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
+                                    listData += '<a href="#post_' + discourse.id + '" class="text-decoration"><div class="liveblog-list-item">' +
+                                        '<div class="time">' + formating(createdOn.getDate()) + '-' + formating(createdOn.getMonth() + 1) + '-' + formating(createdOn.getFullYear()) + ' ' + formating(createdOn.getHours()) + ':' + formating(createdOn.getMinutes()) + ' IST</div>' +
+                                        '<div class="title">' + discourse.title + '</div>' +
+                                        '</div></a>';
+                                });
+                                if (item.Livediscourse.length == 3) {
+                                    moreHtml = '<button id="moreindex_' + item.id + '" data-index="' + item.id + '" data-skip="3" class="btn btn-sm moreIndex btn-block m-t-5">More</button>';
+                                }
+                                indexData += '<div id="index_' + item.id + '"><h3 class="index-title">' + item.title + '</h3>' + listData + '</div>' + moreHtml;
+                            });
+                            listContainer.append(indexData);
+                            if (data.length == 20) {
+                                GetDiscourseIndex();
+                            }
+                        },
+                        error: function (req, status, error) {
+                            console.log(req.responseText);
+                        },
+                    });
+                }
+            }
+            $(document).on('click', '.moreIndex', function () {
+                $(this).hide();
+                GetDiscourseIndexById($(this).attr('data-index'), $(this).attr('data-skip'));
+            });
+            function GetDiscourseIndexById(id, skip) {
+                console.log(id, skip);
+                debugger;
+                $.ajax({
+                    url: '/api/DiscourseApi/livediscourseIndexUpdatesById/' + id + '/' + skip,
+                    type: 'Get',
+                    dataType: 'Json',
+                    success: function (data) {
+                        console.log("data.length", data.length);
+                        if (data.length == 0) {
+                            $("#moreindex_" + id).hide();
+                            return;
+                        }
+                        var listData = '';
+                        $.each(data, function (index, discourse) {
+                            debugger
+                            var createdOn = new Date(discourse.createdOn); createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
+                            listData += '<a href="#post_' + discourse.id + '" class="text-decoration"><div class="liveblog-list-item">' +
+                                '<div class="time">' + formating(createdOn.getDate()) + '-' + formating(createdOn.getMonth() + 1) + '-' + formating(createdOn.getFullYear()) + ' ' + formating(createdOn.getHours()) + ':' + formating(createdOn.getMinutes()) + ' IST</div>' +
+                                '<div class="title">' + discourse.title + '</div>' +
+                                '</div></a>';
+                        });
+                        if (data.length == 10) {
+                            $('#moreindex_' + id).attr('data-skip', (10 + parseInt(skip)));
+                            $('#moreindex_' + id).show();
+                        }
+                        $('#index_' + id).append(listData);
+
+                    },
+                    error: function (req, status, error) {
+                        console.log(req.responseText);
+                    },
+                });
+            }
+            ///
+            //GetSubBlog();
+            function GetSubBlog() {
+                console.log('load')
+                if (blogPage > 0 && !inCallbackBlog) {
+                    inCallbackBlog = true;
+                    blogPage++;
+                    $("#loading").show();
+                    debugger;
+                    $.ajax({
+                        url: '/Livediscourse/GetPageLiveBlogs',
+                        type: 'Get',
+                        data: { id: id, page: blogPage, pu: '@(pageUrl)', cu: '@(Model.Creator)' },
+                        dataType: 'html',
+                        success: function (data) {
+                            debugger
+                            console.log('loaded')
+                            inCallbackBlog = false;
+                            $("#loading").hide();
+                            if (data.trim() == 0) {
+                                return;
+                            }
+                            $('.lazy').lazy();
+                            $('#news-content').append(data);
+                            twttr.widgets.load();
+                            //var count = (data.match(/postUpdate/g) || []).length;
+                            //if (count == 10) {
+                            //    GetSubBlog();
+                            //}
+                            $(window).bind('scroll', bindScroll);
+                        },
+                        error: function () {
+                            console.log('error')
+                        }
+                    });
+                }
+            }
+            function bindScroll() {
+                if ($(window).scrollTop() + $(window).height() > $(document).height() - $('#bottomContent').height() - $('.footer').height() - 300) {
+                    $(window).unbind('scroll');
+                    GetSubBlog();
+                }
+            }
+
+            $(window).scroll(bindScroll);
+            //Comment
+            $(document).on('click', '.btn-reply', function () {
+                $('#field_' + $(this).data('parent')).toggle();
+            });
+            $(document).on('click', '.loadCommentBtn', function () {
+                getComments($(this).data('id'), $(this).data('parent'), $(this).data('page'));
+                $(this).remove();
+            });
+            // do it later
+            //  *@@if(Model.Creator == User.Identity.GetUserId())
+            // {
+            //     <text>
+            // $(document).on('click', '.btn-delete', function () {
+            //     var removeId = $(this).attr('id').replace("delete_", "");
+            //     $.ajax({
+            //         url: '/Livediscourse/removeComment',
+            //         type: "GET",
+            //         data: { id: removeId },
+            //         success: function (data) {
+            //             $("#single_" + removeId).remove();
+            //             console.log(data);
+            //             if ($('#itemComment_' + data).text().trim() == '') {
+            //                 $('#itemComment_' + data).html('<h4 class="text-muted no-margin">No Comments</h4>')
+            //             }
+            //         },
+            //         error: function (req, status, err) {
+            //             console.log(req.responseText)
+            //         }
+            //     });
+            //     });
+            //     </text>
+            // }
+            function getComments(itemId, parentId, page) {
+                debugger;
+                $.ajax({
+                    url: '/api/SearchApi/liveblogComments/' + itemId + '/' + parentId + '/' + page,
+                    type: "GET",
+                    success: function (data) {
+                        $.each(data, function (i, item) {
+                            debugger
+                            $("#single_" + data[i].commentId).remove();
+                            var childHtml = '';
+                            var hideHtml = '';
+                            if (item.childCount > 0) {
+                                childHtml = '<div class="loadCommentBtn replyBtn" data-id="' + itemId + '" data-parent="' + data[i].commentId + '" data-page="1"><img src="/images/icons/comments.png" class="reply-icon"/> View ' + item.childCount + ' replies</div>';
+                            }
+                            // do it later
+                            // *@@if(Model.Creator == User.Identity.GetUserId())
+                            // {
+                            //     <text>
+                            // hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[i].commentId+'">Delete</span>';
+                            //     </text>
+                            // }
+                            if (data[i].parentId == 0) {
+                                $('#itemComment_' + data[i].itemId).append('<div class="comment" id="single_' + data[i].commentId + '">' +
+                                    '<div class="name">' + data[i].name + '</div>' +
+                                    '<div class="content">' + data[i].commentText + '</div>' +
+                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
+                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="endorse_3_' + data[i].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> ' + pluralise(item.endorseCount, "Endorse") + '</span>' +
+                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="reject_3_' + data[i].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> ' + pluralise(item.rejectCount, "Reject") + '</span>' +
+                                    '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].commentId + '">Reply</span>' +
+                                    hideHtml + '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
+                                    '<div class="text-warning reason-text" id="reason_' + data[i].commentId + '"></div>' +
+                                    '<div class="comment-input-container">' +
+                                    '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                    '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].commentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                    '</div></div>' + childHtml +
+                                    '<div class="child-container" id="parent_' + data[i].commentId + '"></div>' +
+                                    '<div class="root-container" id="root_' + data[i].commentId + '"></div>' +
+                                    '</div>');
+                            } else if (data[i].parentId == data[i].rootParentId) {
+                                $('#parent_' + data[i].parentId).append('<div id="single_' + data[i].commentId + '">' +
+                                    '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].replyText + ' ' + data[i].commentText + '</span></div>' +
+                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
+                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="endorse_3_' + data[i].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> ' + pluralise(item.endorseCount, "Endorse") + '</span>' +
+                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="reject_3_' + data[i].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> ' + pluralise(item.rejectCount, "Reject") + '</span>' +
+                                    '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].parentId + '">Reply</span>' +
+                                    hideHtml + '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
+                                    '<div class="text-warning reason-text" id="reason_' + data[i].commentId + '"></div>' +
+                                    '<div class="comment-input-container">' +
+                                    '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                    '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].parentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                    '</div>' +
+                                    '</div>' + childHtml +
+                                    '</div>');
+                            } else {
+                                $('#root_' + data[i].rootParentId).append('<div id="single_' + data[i].commentId + '">' +
+                                    '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].replyText + ' ' + data[i].commentText + '</span></div>' +
+                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
+                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="endorse_3_' + data[i].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> ' + pluralise(item.endorseCount, "Endorse") + '</span>' +
+                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="reject_3_' + data[i].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> ' + pluralise(item.rejectCount, "Reject") + '</span>' +
+                                    '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].rootParentId + '">Reply</span>' +
+                                    hideHtml + '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
+                                    '<div class="text-warning reason-text" id="reason_' + data[i].commentId + '"></div>' +
+                                    '<div class="comment-input-container">' +
+                                    '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                    '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].rootParentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                    '</div>' +
+                                    '</div>' + childHtml +
+                                    '</div>');
+                            }
+                        });
+                        if (data.length == 25 && parentId == 0) {
+                            $('#itemComment_' + itemId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
+                        } else if (data.length == 25) {
+                            $('#parent_' + parentId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
+                        }
+                    },
+                    error: function (req, status, err) {
+                        console.log(req.responseText)
+                    }
+                });
+            }
+            $(document).on('click', '.comment-btn', function () {
+        @*@if (User.Identity.IsAuthenticated)
+                {
+                <text>*@
+                    var id = $(this).data('btn');
+                var parentId = $(this).data('parent');
+                var rootParentId = $(this).data('root');
+                var reply = $(this).data('reply');
+                if (reasonForReply != '') {
+                    reply = reasonForReply;
+                }
+                var commentText = $(document).find('#comment' + parentId).val();
+                if (commentText.trim() != '') {
+                    SendData(id, commentText, parentId, rootParentId, reply, "comment");
+                }
+        @*</text>
+                }
+                else {
+                <text> window.location = "/Account/Login?returnUrl=" + returnUrl;</text>
+                }*@
+
+                });
+            $(document).on('click', '.main-comment-btn', function () {
+        @*@if (User.Identity.IsAuthenticated)
+                {
+                <text>*@
+                    var id = $(this).data('btn');
+                var parentId = $(this).data('parent');
+                var rootParentId = $(this).data('root');
+                var commentText = $(document).find('#maincomment' + id).val();
+                var reply = $(this).data('reply');
+                if (commentText.trim() != '') {
+                    SendData(id, commentText, parentId, rootParentId, reply, "maincomment");
+                }
+        @*</text>
+                }
+                else {
+                <text> window.location = "/Account/Login?returnUrl=" + returnUrl;</text>
+                }*@
+
+                });
+            function SendData(id, commentText, parentId, rootParentId, reply, ariaId) {
+                debugger;
+                $.ajax({
+                    url: '/Livediscourse/saveDiscourseComment',
+                    type: "POST",
+                    data: { itemId: id, commentText: commentText, parentId: parentId, rootParentId: rootParentId, reply: reply },
+                    success: function (data) {
+                        debugger
+                        if (data == "NotAuthorized") {
+                            return;
+                        }
+                        reasonForReply = '';
+                        var hideHtml = '';
+                        var textrea = ariaId == "maincomment" ? '#maincomment' + id : '#comment' + parentId;
+                        $(document).find(textrea).val('');
+                        $('.commentField').hide();
+                        if ($('#itemComment_' + data[0].itemId).text().trim() == 'No Comments') {
+                            $('#itemComment_' + data[0].itemId).html('')
+                        }
+                        // do it later
+                        // *@@if(Model.Creator == User.Identity.GetUserId())
+                        //     {
+                        //         <text>
+                        // hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[0].commentId+'">Delete</span>';
+                        //         </text>
+                        //     }
+                        $("#comment" + data[0].parentId).attr('paceholder', 'Your comment here...');
+                        if (data[0].parentId == 0) {
+                            $('#itemComment_' + data[0].itemId).append('<div class="comment" id="single_' + data[0].commentId + '">' +
+                                '<div class="name">' + data[0].name + '</div>' +
+                                '<div class="content">' + data[0].commentText + '</div>' +
+                                '<span data-topic="' + data[0].commentId + '" data-it="3" id="like_3_' + data[0].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> 0 Like </span>' +
+                                '<span data-topic="' + data[0].commentId + '" data-it="3" id="endorse_3_' + data[0].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> 0 Endorse </span>' +
+                                '<span data-topic="' + data[0].commentId + '" data-it="3" id="reject_3_' + data[0].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> 0 Reject</span>' +
+                                '<span class="btn-reply btn btn-sm" data-parent="' + data[0].commentId + '" data-root="' + data[0].commentId + '">Reply</span>' +
+                                hideHtml + '<div class="comment-footer commentField" id="field_' + data[0].commentId + '">' +
+                                '<div class="text-warning reason-text" id="reason_' + data[0].commentId + '"></div>' +
+                                '<div class="comment-input-container">' +
+                                '<textarea class="comment-input" id="comment' + data[0].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                '<button class="comment-btn" data-reply="' + data[0].name + '" data-parent="' + data[0].commentId + '" data-root="' + data[0].commentId + '" data-btn="' + data[0].itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                '</div></div>' +
+                                '<div class="child-container" id="parent_' + data[0].commentId + '"></div>' +
+                                '<div class="root-container" id="root_' + data[0].commentId + '"></div>' +
+                                '</div>');
+                        } else if (data[0].parentId == data[0].rootParentId) {
+                            $('#parent_' + data[0].parentId).append('<div id="single_' + data[0].commentId + '">' +
+                                '<div class="comment reply">' +
+                                '<span class="name">' + data[0].name + '</span> <span class="content">' + data[0].replyText + ' ' + data[0].commentText + '</span>' +
+                                '</div>' +
+                                '<span data-topic="' + data[0].commentId + '" data-it="3" id="like_3_' + data[0].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> 0 Like </span>' +
+                                '<span data-topic="' + data[0].commentId + '" data-it="3" id="endorse_3_' + data[0].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> 0 Endorse </span>' +
+                                '<span data-topic="' + data[0].commentId + '" data-it="3" id="reject_3_' + data[0].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> 0 Reject</span>' +
+                                '<span class="btn-reply btn btn-sm" data-parent="' + data[0].commentId + '" data-root="' + data[0].parentId + '">Reply</span>' +
+                                hideHtml + '<div class="comment-footer commentField" id="field_' + data[0].commentId + '">' +
+                                '<div class="text-warning reason-text" id="reason_' + data[0].commentId + '"></div>' +
+                                '<div class="comment-input-container">' +
+                                '<textarea class="comment-input" id="comment' + data[0].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                '<button class="comment-btn" data-reply="' + data[0].name + '" data-parent="' + data[0].commentId + '" data-root="' + data[0].parentId + '" data-btn="' + data[0].itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                '</div>' +
+                                '</div></div>');
+                        } else {
+                            $('#root_' + data[0].rootParentId).append('<div id="single_' + data[0].commentId + '">' +
+                                '<div class="comment reply">' +
+                                '<span class="name">' + data[0].name + ' </span>' +
+                                '<span class="content">' + data[0].replyText + ' ' + data[0].commentText + '<span>' +
+                                '</div>' +
+                                '<span data-topic="' + data[0].commentId + '" data-it="3" id="like_3_' + data[0].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> 0 Like </span>' +
+                                '<span data-topic="' + data[0].commentId + '" data-it="3" id="endorse_3_' + data[0].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> 0 Endorse </span>' +
+                                '<span data-topic="' + data[0].commentId + '" data-it="3" id="reject_3_' + data[0].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> 0 Reject</span>' +
+                                '<span class="btn-reply btn btn-sm" data-parent="' + data[0].commentId + '" data-root="' + data[0].rootParentId + '">Reply</span>' +
+                                hideHtml + '<div class="comment-footer commentField" id="field_' + data[0].commentId + '">' +
+                                '<div class="text-warning reason-text" id="reason_' + data[0].commentId + '"></div>' +
+                                '<div class="comment-input-container">' +
+                                '<textarea class="comment-input" id="comment' + data[0].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                '<button class="comment-btn" data-reply="' + data[0].name + '" data-parent="' + data[0].commentId + '" data-root="' + data[0].rootParentId + '" data-btn="' + data[0].itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                '</div></div></div>');
+                        }
+                    },
+                    error: function (req, status, err) {
+                        console.log(req.responseText)
+                    }
+                });
+            }
+            $(window).scroll(function () {
+                debugger;
+                //console.log($(document).find('.update-divider'));
+                $(document).find('.update-divider').each(function () {
+                    if (isScrolledIntoView($(this))) {
+                        debugger;
+                        url = $(this).attr('data-articleurl');
+                        title = $(this).attr('data-articletitle');
+                        ChangeUrl(title, url);
+                    }
+                });
+            });
+            function isScrolledIntoView(elem) {
+                debugger;
+                var jQueryelem = elem;
+                var jQuerywindow = $(window);
+                var docViewTop = jQuerywindow.scrollTop();
+                var docViewBottom = docViewTop + jQuerywindow.height();
+                var elemTop = jQueryelem.offset().top; var elemBottom = elemTop + jQueryelem.height();
+                return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop - 20));
+            }
+            function ChangeUrl(title, url) {
+                if (typeof (history.pushState) != "undefined") {
+                    var obj = { Title: title, Url: url }; history.replaceState(obj, title, url); $('html head').find('title').text(title)
+                } else { alert("Browser does not support HTML5."); }
+            }
+        });
+    </script>
+    <script async src="https://platform.twitter.com/widgets.js" onload="twitterLoaded()" charset="utf-8"></script>
+    <script async src="//www.instagram.com/embed.js"></script>
+}

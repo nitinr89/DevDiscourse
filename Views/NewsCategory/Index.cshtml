@@ -246,8 +246,7 @@
 <div class="container p-t-40">
     <h2 class="section-title"><span>@Model.Title TOP STORIES</span></h2>
     @{
-        // Html.RenderAction("GetSectorTopStories", "NewsCategory", new { category = Model.Id });
-        // @await Component.InvokeAsync("CategoryTopStories",new { category=Model.Id });
+         @await Component.InvokeAsync("CategoryTopStories",new { category=Model.Id });
     }
 </div>
 <div class="container m-t-10">
@@ -257,7 +256,6 @@
                 <h2 class="section-title m-t-30"><span> Latest News</span></h2>
                 <div class="row" id="newsContainer">
                     @{
-                        // Html.RenderAction("CategoryNews", "NewsCategory", new { category = Model.Id });
                         @await Component.InvokeAsync("CategoryNews",new { category = Model.Id })
                         ;
                     }
@@ -274,7 +272,6 @@
                     <span>TRENDING</span>
                 </h2>
                 @{
-                    // Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.region });
                     @await Component.InvokeAsync("Trends",new { filter= "Trends", reg = ViewBag.region })
                     ;
                 }
@@ -343,14 +340,14 @@
                             var html = '';
                             $.each(data, function (i, item) {
                                 var imageContent = '';
-                                var urlSlug = convertToSlug(item.NewId, item.Title);
-                                var label = item.Label != null ? item.Label : "agency-wire";
-                                var country = item.Country != null ? item.Country : '';
+                                var urlSlug = convertToSlug(item.newId, item.title);
+                                var label = item.label != null ? item.label : "agency-wire";
+                                var country = item.country != null ? item.country : '';
                                 var newsImage = '/images/sector/all_sectors.jpg';
-                                if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {
-                                    newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                                if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
+                                    newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl;
                                 }
-                                var createdOn = new Date(item.CreatedOn);
+                                var createdOn = new Date(item.createdOn);
                                 createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
                                 var countryHtml = 'Global';
                                 if (country.split(',').length > 0 && country != '') {
@@ -364,22 +361,12 @@
                                     '</div>' +
                                     '<div class="col-md-7 col-sm-8 p-l-0">' +
                                     '<div class="text-uppercase country-sub">' + countryHtml + '</div>' +
-                                    '<h3 class="title-sub">' + item.Title + '</h3>' +
+                                    '<h3 class="title-sub">' + item.title + '</h3>' +
                                     '<h5 class="no-margin font-oswald fg-black">' + createdOn.getDate() + ' ' + monthArray[createdOn.getMonth()] + ' ' + createdOn.getFullYear() + '</h5>' +
                                     '</div>' +
                                     '</div>' +
                                     '</div>' +
                                     '</a>';
-                                //html += '<div class="m-b-10 col-xs-12 col-sm-6">'+
-                                //    '<div style="border-bottom: 1px solid #ddd;height:100px;">'+
-                                //        '<div class="media">'+imageContent+
-                                //            '<div class="media-body">'+
-                                //                '<a href="/article/'+label+'/'+urlSlug+'" class="text-decoration">'+
-                                //                    '<h4 class="media-heading" title="'+item.Title+'">'+item.Title+
-                                //                    '</h4></a>'+
-                                //                '<p class="one-line-text text-muted">'+
-                                //    countryHtml+'<span>'+createdOn.getDate()+' '+monthArray[createdOn.getMonth()]+' '+createdOn.getFullYear()+'</span>'+
-                                //                '</p></div></div></div></div>';
                             })
 
                             inCallback = false;

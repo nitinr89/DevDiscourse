@@ -132,6 +132,34 @@ namespace Devdiscourse.Controllers.API
             var LatestDiscourse = _db.Livediscourses.Where(a => a.AdminCheck == true && a.ParentId == 0 && a.Id != id).OrderByDescending(o => o.CreatedOn).Select(a => new { a.Id, a.Title, a.ImageUrl, a.Country }).Take(take);
             return Ok(LatestDiscourse);
         }
+
+
+        [HttpGet]
+        [Route("livediscourseIndexUpdates/{parentId}/{page}")]
+        public IActionResult livediscourseIndexUpdates(long parentId, int page = 1)
+        {
+            var skipItem = ((page - 1) * 20);
+            var discourseUpdates = (from m in _db.DiscourseIndexs
+                                    where m.LivediscourseId == parentId
+                                    orderby m.CreatedOn
+                                    select new
+                                    {
+                                        m.Title,
+                                        m.Id,
+                                        Livediscourse = _db.Livediscourses.Where(s => s.LivediscourseIndex == m.Id && s.AdminCheck == true).OrderByDescending(o => o.CreatedOn)
+                                        .Select(s => new { s.Id, s.Title, s.CreatedOn }).Take(3).ToList()
+                                    }).Skip(skipItem).Take(20);
+            return Ok(discourseUpdates);
+        }
+
+        [HttpGet]
+        [Route("livediscourseIndexUpdatesById/{id}/{skip}")]
+        public IActionResult livediscourseIndexUpdatesById(long id, int skip = 3)
+        {
+            var discourseUpdates = _db.Livediscourses.Where(s => s.LivediscourseIndex == id && s.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new { s.Id, s.Title, s.CreatedOn }).Skip(skip).Take(10);
+            return Ok(discourseUpdates);
+        }
+
         [HttpGet]
         [Route("GetFollowedDiscourse/{take}")]
         public IActionResult GetFollowedDiscourse(int take)
@@ -342,7 +370,7 @@ namespace Devdiscourse.Controllers.API
         public IActionResult GetDiscourseIndex(long id,int page)
         {
             var skipCount = (page - 1) * 20;
-            var DiscourseIndexes = _db.DiscourseIndex.Where(a => a.LivediscourseId == id).OrderBy(o => o.CreatedOn).Select(a => new { a.Id, a.Title }).Skip(skipCount).Take(20);
+            var DiscourseIndexes = _db.DiscourseIndexs.Where(a => a.LivediscourseId == id).OrderBy(o => o.CreatedOn).Select(a => new { a.Id, a.Title }).Skip(skipCount).Take(20);
             return Ok(DiscourseIndexes);
         }
         [HttpGet]
@@ -364,14 +392,16 @@ namespace Devdiscourse.Controllers.API
         public IActionResult LivediscoursesIndexUpdates(long parentId, int page = 1)
         {
             var skipItem = ((page - 1) * 20);
-            var discourseUpdates = (from m in _db.DiscourseIndex
-                                    where m.LivediscourseId == parentId
-                                    orderby m.CreatedOn
+            var discourseUpdates = (from m in _db.DiscourseIndexs
+                                    //where m.LivediscourseId == parentId
+                                    //orderby m.CreatedOn
                                     select new
                                     {
                                         m.Title,
                                         m.Id,
-                                        Livediscourses = _db.Livediscourses.Where(s => s.LivediscourseIndex == m.Id && s.AdminCheck == true).OrderByDescending(o=>o.CreatedOn).Select(s => new { s.Id, s.Title, s.CreatedOn }).Take(3)
+                                        Livediscourses = _db.Livediscourses
+                                        //.Where(s => s.LivediscourseIndex == m.Id && s.AdminCheck == true).OrderByDescending(o=>o.CreatedOn)
+                                        .Select(s => new { s.Id, s.Title, s.CreatedOn }).Take(3)
                                     }).Skip(skipItem).Take(20);
            return Ok(discourseUpdates);
         }
@@ -444,7 +474,7 @@ namespace Devdiscourse.Controllers.API
             return Ok(InfocusLivediscourses);
         }
         [HttpGet]
-        [Route("Discourse/GetModerators/{id}")]
+        [Route("GetModerators/{id}")]
         public IActionResult GetModerators(long id)
         {
             var moderators = _db.FollowLivediscourses.Where(a => a.LivediscourseId == id && a.IsModerator == true).Select(s=> new { Id = s.FollowBy, Name =   s.ApplicationUsers.FirstName+" "+ s.ApplicationUsers.LastName });
@@ -454,7 +484,7 @@ namespace Devdiscourse.Controllers.API
         [Route("Discourse/GetDiscourseAmpIndex/{id}/{__amp_source_origin?}")]
         public IActionResult GetDiscourseAmpIndex(long id,string __amp_source_origin)
         {
-            var returnData = _db.DiscourseIndex.Where(a => a.LivediscourseId == id).OrderByDescending(o => o.CreatedOn).Select(s=> new { s.Id,s.Title}).ToList();
+            var returnData = _db.DiscourseIndexs.Where(a => a.LivediscourseId == id).OrderByDescending(o => o.CreatedOn).Select(s=> new { s.Id,s.Title}).ToList();
             return Ok(new { items = returnData, hasMorePages = returnData.Any() });
         }
         [HttpGet]

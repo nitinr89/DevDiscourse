@@ -507,7 +507,6 @@ namespace DevDiscourse.Controllers
                 return RedirectToAction("Index");
             }
         }
-
         public async Task<ActionResult> LivediscourseAmp(long? id)
         {
             var search = await db.Livediscourses.FirstOrDefaultAsync(a => a.Id == id);
@@ -539,19 +538,16 @@ namespace DevDiscourse.Controllers
             }
             return View(search);
         }
-
         public PartialViewResult GetAmpLivediscourseUpdates(long id)
         {
              var search = db.Livediscourses.Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new LiveblogViewModel { Id = s.Id, Title = s.Title, ImageUrl = s.ImageUrl, Description = s.Description, CreatedOn = s.CreatedOn }).ToList();
             return PartialView("AmpLivediscourseUpdates", search);
         }
-
         public PartialViewResult GetDiscourseIndex(long id)
         {
-            var search = db.DiscourseIndex.Where(a => a.LivediscourseId == id).OrderByDescending(o => o.CreatedOn).ToList();
+            var search = db.DiscourseIndexs.Where(a => a.LivediscourseId == id).OrderByDescending(o => o.CreatedOn).ToList();
             return PartialView("_ampDiscourseIndex", search);
         }
-
         public JsonResult GetDiscourseIndexItems(long id, string __amp_source_origin, int? moreItemsPageIndex)
         {
             var search = db.Livediscourses.Where(a => a.LivediscourseIndex == id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(b => new DiscourseItemAmpViewModel { Id = b.Id, Title = b.Title, CreatedOn = b.CreatedOn}).Take(3).ToList();
@@ -564,7 +560,6 @@ namespace DevDiscourse.Controllers
             var resultData = search.Select(b=> new { Id = b.Id, Title = b.Title, CreatedOn = b.CreatedOn.ToString(), Url = "/live-discourse" + "/" + b.GenerateSecondSlug().ToString() }).ToPagedList(pageNumber, pageSize);
             return Json(new { items = resultData, hasMorePages = resultData.Any() });
         }
-
         static string GetMimeType(string fileName)
         {
             string mimeType;
@@ -580,7 +575,6 @@ namespace DevDiscourse.Controllers
 
             return mimeType;
         }
-
         private async Task<CloudBlobContainer> GetCloudBlobImageContainer()
         {
             var config = new ConfigurationBuilder()
@@ -777,7 +771,6 @@ namespace DevDiscourse.Controllers
                 return PartialView("_getLivediscourseamp", search);
             }
         }
-
         public PartialViewResult GetPageLiveBlogs(long id, string pu, string cu, int page = 1)
         {
             ViewBag.pageUrl = pu;

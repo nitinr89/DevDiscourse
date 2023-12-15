@@ -12,17 +12,17 @@ namespace Devdiscourse.Models.Others
         [Key]
         public long Id { get; set; }
         [Required]
-        public string Label { get; set; }
+        public string? Label { get; set; }
         [Required]
         [Display(Name ="Link URL")]
-        public string Href { get; set; }
+        public string? Href { get; set; }
         [Required]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         public long EventId { get; set; }
 
         [ForeignKey("EventId")]
 
-        public virtual CommonEvent CommonEvents { get; set; }
+        public virtual CommonEvent? CommonEvents { get; set; }
     }
 }

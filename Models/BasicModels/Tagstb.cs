@@ -15,10 +15,10 @@ namespace Devdiscourse.Models.BasicModels
         public long Id { get; set; }
 
         [Display(Name ="Tag Title")]
-        public string TagTitle { get; set; }
-        public virtual ICollection<NewsTagstb> NewsTagstb { get; set; }
+        public string? TagTitle { get; set; }
+        public virtual ICollection<NewsTagstb>? NewsTagstb { get; set; }
 
-        public virtual ICollection<VideoNewsTag> VideoNewsTags { get; set; }
+        public virtual ICollection<VideoNewsTag>? VideoNewsTags { get; set; }
 
     }
 }

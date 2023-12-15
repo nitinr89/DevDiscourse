@@ -12,7 +12,7 @@ namespace Devdiscourse.Models.BasicModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         [Required]
-        public string   Title { get; set; }
+        public string Title { get; set; }
        
         [DisplayName("Sector")]
         public int SectorId { get; set; }

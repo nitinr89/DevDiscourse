@@ -15,11 +15,20 @@ namespace Devdiscourse.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string reg)
         {
-            await Task.Yield();
+           // await Task.Yield();
             ViewBag.Sector = "10";
-            DateTime twoMonth = DateTime.UtcNow.AddDays(-2);
-
-            //var result = _db.RegionNewsRankings.Where(a => a.DevNews.CreatedOn > twoMonth && a.DevNews.AdminCheck == true && a.DevNews.Sector == "10" && a.Region.Title == reg && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).Select(a => new NewsViewModel
+            DateTime twoMonth = DateTime.UtcNow.AddDays(-120);
+            //   var result = _db.RegionNewsRankings
+            //.Where(a => a.DevNews.CreatedOn > twoMonth
+            //    && a.DevNews.AdminCheck
+            //    && a.DevNews.Sector == "10"
+            //    && a.Region.Title == reg
+            //    && !a.DevNews.IsSponsored)
+            //.OrderByDescending(a => a.DevNews.CreatedOn)
+            //.GroupBy(a => a.DevNews.Title)
+            //.SelectMany(group => group.OrderByDescending(a => a.Ranking).Take(10))
+            //.Take(6)
+            //.Select(a => new NewsViewModel
             //{
             //    Title = a.DevNews.Title,
             //    NewsId = a.DevNews.NewsId,
@@ -31,26 +40,33 @@ namespace Devdiscourse.Controllers.ViewComponents
             //    SubType = a.DevNews.SubType,
             //    Label = a.DevNews.NewsLabels,
             //    Ranking = a.Ranking
-            //}).AsNoTracking().Take(30).ToList();
-            //return View( result.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(a => a.Ranking).Take(6));
-            var infocus = (from dn in _db.DevNews
-                           select new NewsViewModel
-                           {
-                              // Id = dn.Id,
-                               NewsId = dn.NewsId,
-                               Title = dn.Title,
-                               ImageUrl = dn.ImageUrl,
-                               CreatedOn = dn.ModifiedOn,
-                              // Type = dn.Type,
-                               SubType = dn.SubType,
-                               Country = dn.Country,
-                               Label = dn.NewsLabels,
-                               Ranking = 0
-                           }).OrderByDescending(a => a.CreatedOn)
+            //})
+            //.AsNoTracking().Take(20)
+            //.ToListAsync();
+
+            //   return View(result);
+
+            var resultList = (from dn in _db.DevNews
+                              where dn.AdminCheck == true
+                                    && dn.CreatedOn > twoMonth
+                                    && dn.Sector == "10"
+                              select new NewsViewModel
+                              {
+                                  NewsId = dn.NewsId,
+                                  Title = dn.Title,
+                                  ImageUrl = dn.ImageUrl,
+                                  CreatedOn = dn.ModifiedOn,
+                                  Subtitle = dn.SubTitle,
+                                  SubType = dn.SubType,
+                                  Country = dn.Country,
+                                  Sector = dn.Sector,
+                                  Label = dn.NewsLabels,
+                                  Ranking = 0
+                              }).OrderByDescending(a => a.CreatedOn)
                  .Take(65)
                  .ToList();
-            return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
-            //}
+            return View(resultList.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+            
         }
     }
 }

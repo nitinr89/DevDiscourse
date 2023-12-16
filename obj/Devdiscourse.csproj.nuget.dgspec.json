@@ -1,27 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "D:\\projectcode\\DevDiscourse\\Devdiscourse.csproj": {}
+    "/Users/neeraj/Documents/Projects/Devdiscourse/Devdiscourse.csproj": {}
   },
   "projects": {
-    "D:\\projectcode\\DevDiscourse\\Devdiscourse.csproj": {
+    "/Users/neeraj/Documents/Projects/Devdiscourse/Devdiscourse.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\projectcode\\DevDiscourse\\Devdiscourse.csproj",
+        "projectUniqueName": "/Users/neeraj/Documents/Projects/Devdiscourse/Devdiscourse.csproj",
         "projectName": "Devdiscourse",
-        "projectPath": "D:\\projectcode\\DevDiscourse\\Devdiscourse.csproj",
-        "packagesPath": "C:\\Users\\VisionRI-Ankit\\.nuget\\packages\\",
-        "outputPath": "D:\\projectcode\\DevDiscourse\\obj\\",
+        "projectPath": "/Users/neeraj/Documents/Projects/Devdiscourse/Devdiscourse.csproj",
+        "packagesPath": "/Users/neeraj/.nuget/packages/",
+        "outputPath": "/Users/neeraj/Documents/Projects/Devdiscourse/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\VisionRI-Ankit\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/neeraj/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/sdk/7.0.311/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,6 +42,30 @@
             "CaptchaMvc.Mvc5": {
               "target": "Package",
               "version": "[1.5.0, )"
+            },
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.102.1, )"
+            },
+            "HtmlToAmp": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "MetadataExtractor": {
+              "target": "Package",
+              "version": "[2.8.1, )"
+            },
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            },
+            "Microsoft.AspNet.SignalR": {
+              "target": "Package",
+              "version": "[2.4.3, )"
+            },
+            "Microsoft.AspNet.WebApi.Core": {
+              "target": "Package",
+              "version": "[5.3.0, )"
             },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
@@ -87,6 +110,34 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[7.0.10, )"
+            },
+            "NReco.VideoConverter": {
+              "target": "Package",
+              "version": "[1.2.1, )"
+            },
+            "Nancy": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[110.2.0, )"
+            },
+            "ServiceStack": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "WindowsAzure.Storage": {
+              "target": "Package",
+              "version": "[9.3.3, )"
+            },
+            "X.PagedList": {
+              "target": "Package",
+              "version": "[8.4.7, )"
+            },
+            "X.PagedList.Mvc.Core": {
+              "target": "Package",
+              "version": "[8.4.7, )"
             }
           },
           "imports": [
@@ -108,7 +159,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,3 +1,3 @@
 ﻿<Project>
-  <Import Project="..\buildMultiTargeting\Devdiscourse.props" />
+  <Import Project="../buildMultiTargeting/Devdiscourse.props" />
 </Project>

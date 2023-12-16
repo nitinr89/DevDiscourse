@@ -78,7 +78,7 @@ namespace Devdiscourse.Controllers.Main
             return View();
         }
 
-        public async Task<ActionResult> Index([FromQuery] string prefix, long? id, string reg = "")
+        public async Task<ActionResult> Index(string prefix, long? id, string reg = "")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string scheme = "";//Request.Url.AbsoluteUri; do later
@@ -122,8 +122,8 @@ namespace Devdiscourse.Controllers.Main
                     new YouTubeVideoSanitizer(),
                     new AmpIFrameSanitizer()
                 });
-            string ampHtml = converter.ConvertFromHtml(search.Description).AmpHtml;
-            ViewBag.ampHtml = ampHtml;
+            //string ampHtml = converter.ConvertFromHtml(search.Description).AmpHtml;
+            //ViewBag.ampHtml = ampHtml;
             var geolocation = GetGeoLocation();
             var MACAddress = GetMACAddress();
             //do it later

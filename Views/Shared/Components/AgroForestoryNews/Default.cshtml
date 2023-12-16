@@ -1,6 +1,4 @@
-﻿@* @model IEnumerable<DevDiscourse.Models.ViewModel.NewsViewModel> *@
-@model IEnumerable<Devdiscourse.Models.ViewModel.NewsViewModel>
-
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.NewsViewModel>
 @functions {
     async Task MediaTempate(Devdiscourse.Models.ViewModel.NewsViewModel item)
     {
@@ -10,23 +8,18 @@
             // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
             newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
         }
-
-        <div class="media p-b - 20 m - t - 20">
-            <div class="media-left" id="egro-culture">
+        <div class="media p-b-20 m-t-20">
+            <div class="media-left" id="Agro-culture">
                 @{
                     string controller = "ArticleDetailswithprefix";
                     string action = item.Label ?? "agency-wire";
-                   // string id = item.GenerateSecondSlug();
-                    long id = item.NewsId;
+                    string id = item.GenerateSecondSlug();
                 }
-                @* <a href="@controller/@action/@id" aria-label="@item.Title">*@
-
-                <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action" aria-label="@item.Title">
-
+                <a asp-controller="@controller" asp-action="@action" asp-route-id="@id" asp-route-prefix="@action" aria-label="@item.Title">
                     <img class="lazy width-100" src="/Content/transparent.png?width=178&height=135&mode=crop" data-src="@newsImage?width=178&height=135&mode=crop&format=jpeg" alt="@item.Title" />
                 </a>
-
             </div>
+
             <div class="media-body">
                 <p class="font-sans-serif text-uppercase text-muted ls-1 hidden-xs">
                     @if (!String.IsNullOrEmpty(item.Country))
@@ -41,12 +34,10 @@
                         <small class="ls-1">Global</small>
                     }
                 </p>
-             @*   <a href="@controller/@action/@id" aria-label="@item.Title" class="text-decoration">*@
                 <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action" class="text-decoration">
-
-
                     <h3 class="no-margin trend-title">@item.Title</h3>
-                </a> <small class="font-oswald m-t-10">@item.TimeAgo()</small>
+                </a>
+                <small class="font-oswald m-t-10">@item.TimeAgo()</small>
             </div>
         </div>
     }
@@ -66,8 +57,8 @@
 
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-        // string id = item.GenerateSecondSlug();
-        long id = item.NewsId;
+        string id = item.GenerateSecondSlug();
+        //long id = item.NewsId;
 
 
         <div class="media p-b-20 m-t-20">
@@ -81,7 +72,8 @@
 
                     <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action" class="text-decoration">
                 
-                <h3 class="no-margin trend-title">@item.Title</h3> </a> <p class="font-sans-serif text-uppercase text-muted ls-1">
+                <h3 class="no-margin trend-title">@item.Title</h3> </a>
+                <p class="font-sans-serif text-uppercase text-muted ls-1">
                     @if (!String.IsNullOrEmpty(item.Country))
                     {
                         var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
@@ -104,10 +96,10 @@
         <div class="col-md-7">
             @foreach (var item in Model.Take(2))
             {
-                string controller = "ArticleDetailswithprefix";
+                string controller = "Article";
                 string action = item.Label ?? "agency-wire";
-                // string id = item.GenerateSecondSlug();
-                long id = item.NewsId;
+                 string id = item.GenerateSecondSlug();
+                //long id = item.NewsId;
 
                 var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
               

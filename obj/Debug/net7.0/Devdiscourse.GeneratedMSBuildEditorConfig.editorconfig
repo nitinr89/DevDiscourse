@@ -9,85 +9,1257 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Devdiscourse
 build_property.RootNamespace = Devdiscourse
-build_property.ProjectDir = D:\projectcode\DevDiscourse\
+build_property.ProjectDir = /Users/neeraj/Documents/Projects/Devdiscourse/
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\projectcode\DevDiscourse
+build_property.MSBuildProjectDirectory = /Users/neeraj/Documents/Projects/Devdiscourse
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/projectcode/DevDiscourse/Views/About/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRcSW5kZXguY3NodG1s
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/About/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWJvdXQvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Account/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Account/InternshipRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9JbnRlcm5zaGlwUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Account/Register.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Account/_ExternalLoginsListPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxfRXh0ZXJuYWxMb2dpbnNMaXN0UGFydGlhbC5jc2h0bWw=
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Account/Registration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZWdpc3RyYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Account/_ExternalLoginsListPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9fRXh0ZXJuYWxMb2dpbnNMaXN0UGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/Components/Infocus/Default.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcSW5mb2N1c1xEZWZhdWx0LmNzaHRtbA==
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Admin/AdminView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQWRtaW5WaWV3LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/Components/News/Default.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTmV3c1xEZWZhdWx0LmNzaHRtbA==
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Admin/AuthorDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQXV0aG9yRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/Components/Opinion/Default.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcT3BpbmlvblxEZWZhdWx0LmNzaHRtbA==
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/Components/Team/Default.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVGVhbVxEZWZhdWx0LmNzaHRtbA==
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/Components/Trends/Default.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVHJlbmRzXERlZmF1bHQuY3NodG1s
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Admin/ManageShift.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vTWFuYWdlU2hpZnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/_coeSlides.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9jb2VTbGlkZXMuY3NodG1s
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Admin/Media.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vTWVkaWEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/_Footer.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Admin/NewsAnalysis.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vTmV3c0FuYWx5c2lzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Admin/PressReleaseManager.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vUHJlc3NSZWxlYXNlTWFuYWdlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/_LoginPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Admin/UserDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vVXNlckRldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/_socialPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9zb2NpYWxQYXJ0aWFsLmNzaHRtbA==
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Advertisements/AdvertiseWithUs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWR2ZXJ0aXNlbWVudHMvQWR2ZXJ0aXNlV2l0aFVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Advertisements/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWR2ZXJ0aXNlbWVudHMvQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Advertisements/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWR2ZXJ0aXNlbWVudHMvRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/projectcode/DevDiscourse/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Advertisements/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWR2ZXJ0aXNlbWVudHMvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Advertisements/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWR2ZXJ0aXNlbWVudHMvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Advertisements/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWR2ZXJ0aXNlbWVudHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/AgencyWire/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWdlbmN5V2lyZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/AgencyWire/NewsAnalysis.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWdlbmN5V2lyZS9OZXdzQW5hbHlzaXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/AgencyWire/_getNewsAnalysisItems.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWdlbmN5V2lyZS9fZ2V0TmV3c0FuYWx5c2lzSXRlbXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Article/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXJ0aWNsZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/AssignRole/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzaWduUm9sZS9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/AssignRole/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzaWduUm9sZS9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/AssignRole/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzaWduUm9sZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/AssignRole/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzaWduUm9sZS9VcGRhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/AssignRole/Users.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzaWduUm9sZS9Vc2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Author/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXV0aG9yL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Careers/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FyZWVycy9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Careers/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FyZWVycy9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Careers/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FyZWVycy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Careers/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FyZWVycy9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Careers/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FyZWVycy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Careers/_getJobs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FyZWVycy9fZ2V0Sm9icy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Categories/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcmllcy9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Categories/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcmllcy9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Categories/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcmllcy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Categories/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcmllcy9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Categories/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcmllcy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Categories/_getCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcmllcy9fZ2V0Q2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Categories/_showCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2F0ZWdvcmllcy9fc2hvd0NhdGVnb3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/CommonEvent/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29tbW9uRXZlbnQvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/CommonEvent/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29tbW9uRXZlbnQvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/CommonEvent/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29tbW9uRXZlbnQvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/CommonEvent/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29tbW9uRXZlbnQvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/CommonEvent/GetEventsList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29tbW9uRXZlbnQvR2V0RXZlbnRzTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/CommonEvent/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29tbW9uRXZlbnQvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Countries/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ291bnRyaWVzL0NyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Countries/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ291bnRyaWVzL0RlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Countries/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ291bnRyaWVzL0RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Countries/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ291bnRyaWVzL0VkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Countries/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ291bnRyaWVzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/Analytic.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9BbmFseXRpYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/Blog.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9CbG9nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/BlogClone.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9CbG9nQ2xvbmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/BreakingNews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9CcmVha2luZ05ld3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/Clone.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9DbG9uZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/CreateBlog.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9DcmVhdGVCbG9nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/EditBlog.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9FZGl0QmxvZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/NewsList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9OZXdzTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevNews/_getAnalytic.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2TmV3cy9fZ2V0QW5hbHl0aWMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevSectors/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2U2VjdG9ycy9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevSectors/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2U2VjdG9ycy9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevSectors/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2U2VjdG9ycy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevSectors/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2U2VjdG9ycy9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/DevSectors/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGV2U2VjdG9ycy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/AfricaEnergyIndaba - Copy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0FmcmljYUVuZXJneUluZGFiYSAtIENvcHkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/AfricaEnergyIndaba.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0FmcmljYUVuZXJneUluZGFiYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/AfricanEnergyForum.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0FmcmljYW5FbmVyZ3lGb3J1bS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/AfricanUtilityWeek.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0FmcmljYW5VdGlsaXR5V2Vlay5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/AfricaOilAndPower.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0FmcmljYU9pbEFuZFBvd2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/AfricaOilWeek.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0FmcmljYU9pbFdlZWsuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/AfricaReEnergyExpo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0FmcmljYVJlRW5lcmd5RXhwby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/AnnualSmartProcurementWorldIndaba.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0FubnVhbFNtYXJ0UHJvY3VyZW1lbnRXb3JsZEluZGFiYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/BigFiveBoardAwards.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0JpZ0ZpdmVCb2FyZEF3YXJkcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/BlockchainSingapore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0Jsb2NrY2hhaW5TaW5nYXBvcmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/BusinessManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0J1c2luZXNzTWFuYWdlbWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/CanadaGas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0NhbmFkYUdhcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/CentralAsiaSummit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0NlbnRyYWxBc2lhU3VtbWl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/changeNow.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL2NoYW5nZU5vdy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0NyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/CreateEvent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0NyZWF0ZUV2ZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/CybertechGlobal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0N5YmVydGVjaEdsb2JhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0RlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/DiversityInEnergySummit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0RpdmVyc2l0eUluRW5lcmd5U3VtbWl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0VkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/EditEvent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0VkaXRFdmVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/EgyptEducation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0VneXB0RWR1Y2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/EUBCE.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0VVQkNFLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/EventList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0V2ZW50TGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/Finext.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0ZpbmV4dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/Finextcon.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0ZpbmV4dGNvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/FutureEnergyAsia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0Z1dHVyZUVuZXJneUFzaWEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/GlobalndFinancialSkills.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0dsb2JhbG5kRmluYW5jaWFsU2tpbGxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/GlobalWarming.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0dsb2JhbFdhcm1pbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/Gogla.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0dvZ2xhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/GoGreen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0dvR3JlZW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/GreenUrbanism.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0dyZWVuVXJiYW5pc20uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/ImpactMobility.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0ltcGFjdE1vYmlsaXR5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/INPSC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0lOUFNDLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/InterEcoForum.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0ludGVyRWNvRm9ydW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/InternationalTrafficSafety.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0ludGVybmF0aW9uYWxUcmFmZmljU2FmZXR5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/IOTWorld.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0lPVFdvcmxkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/IRU.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0lSVS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/JapanWindEnergy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0phcGFuV2luZEVuZXJneS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/LebanonSustainability.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0xlYmFub25TdXN0YWluYWJpbGl0eS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/LNGCongress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL0xOR0NvbmdyZXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/MOC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL01PQy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/Napec.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL05hcGVjLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/OffShoreIndiaCongress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL09mZlNob3JlSW5kaWFDb25ncmVzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/OffshoreNorthSeaEuropeCongress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL09mZnNob3JlTm9ydGhTZWFFdXJvcGVDb25ncmVzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/OmanDesignBuild.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL09tYW5EZXNpZ25CdWlsZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/OmanEnergyWater.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL09tYW5FbmVyZ3lXYXRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/OmanEnergyWaterEvent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL09tYW5FbmVyZ3lXYXRlckV2ZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/PlasticFreeWorldConference.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1BsYXN0aWNGcmVlV29ybGRDb25mZXJlbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/PowerGen.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1Bvd2VyR2VuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/PowerWeekAfrica.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1Bvd2VyV2Vla0FmcmljYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/PrcEurope.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1ByY0V1cm9wZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/SAIPEC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1NBSVBFQy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/SAPS.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1NBUFMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/SaudiEntertainment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1NhdWRpRW50ZXJ0YWlubWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/SCEWC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1NDRVdDLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/SSAP.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1NTQVAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/TestconBanglore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1Rlc3Rjb25CYW5nbG9yZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/TestconSingapore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1Rlc3Rjb25TaW5nYXBvcmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/TOGC.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1RPR0MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/WasteManagementExpo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1dhc3RlTWFuYWdlbWVudEV4cG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/WasteManagementSeriesSummit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1dhc3RlTWFuYWdlbWVudFNlcmllc1N1bW1pdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/WEC24.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1dFQzI0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/WomenHealth.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1dvbWVuSGVhbHRoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/WorldGasLngConference.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1dvcmxkR2FzTG5nQ29uZmVyZW5jZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/WorldNuclearIndustryCongress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1dvcmxkTnVjbGVhckluZHVzdHJ5Q29uZ3Jlc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/WorldRoadCongress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL1dvcmxkUm9hZENvbmdyZXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/_eventNews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL19ldmVudE5ld3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/_getEventNews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL19nZXRFdmVudE5ld3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Events/_wrcEventNews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRzL193cmNFdmVudE5ld3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/AdvancedSearch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BZHZhbmNlZFNlYXJjaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/Contribute.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Db250cmlidXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/DevBlogs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9EZXZCbG9ncy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/HomeNews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Ib21lTmV3cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/Index.amp.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5hbXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/Pacific.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9QYWNpZmljLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/Search.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9TZWFyY2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Home/_getSavedImages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9fZ2V0U2F2ZWRJbWFnZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Infocus/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5mb2N1cy9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Infocus/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5mb2N1cy9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Infocus/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5mb2N1cy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Infocus/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5mb2N1cy9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Infocus/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5mb2N1cy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Internship/AppliedBy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW50ZXJuc2hpcC9BcHBsaWVkQnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Internship/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW50ZXJuc2hpcC9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Interview/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW50ZXJ2aWV3L0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Jobs/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Jobs/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Jobs/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Jobs/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Jobs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Labels/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGFiZWxzL0NyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Labels/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGFiZWxzL0RlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Labels/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGFiZWxzL0RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Labels/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGFiZWxzL0VkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Labels/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGFiZWxzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Labels/News.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGFiZWxzL05ld3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Livediscourse/Article.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2ZWRpc2NvdXJzZS9BcnRpY2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Livediscourse/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2ZWRpc2NvdXJzZS9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Livediscourse/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2ZWRpc2NvdXJzZS9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Livediscourse/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2ZWRpc2NvdXJzZS9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Livediscourse/DiscourseFollower.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2ZWRpc2NvdXJzZS9EaXNjb3Vyc2VGb2xsb3dlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Livediscourse/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2ZWRpc2NvdXJzZS9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Livediscourse/Home.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2ZWRpc2NvdXJzZS9Ib21lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Livediscourse/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2ZWRpc2NvdXJzZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Livediscourse/_getPageLiveBlogs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGl2ZWRpc2NvdXJzZS9fZ2V0UGFnZUxpdmVCbG9ncy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/MediaPartnership/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVkaWFQYXJ0bmVyc2hpcC9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/MediaPartnership/KnowledgePartners.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVkaWFQYXJ0bmVyc2hpcC9Lbm93bGVkZ2VQYXJ0bmVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/MediaPartnership/MediaPartners.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVkaWFQYXJ0bmVyc2hpcC9NZWRpYVBhcnRuZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/NewsCategory/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTmV3c0NhdGVnb3J5L0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/NewsWire/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTmV3c1dpcmUvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Partners/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFydG5lcnMvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Partners/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFydG5lcnMvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Partners/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFydG5lcnMvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Partners/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFydG5lcnMvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Partners/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFydG5lcnMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Regions/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVnaW9ucy9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Regions/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVnaW9ucy9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Regions/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVnaW9ucy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Regions/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVnaW9ucy9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Regions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVnaW9ucy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal1.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwxLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal10.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwxMC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal11.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwxMS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal12.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwxMi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal13.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwxMy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal14.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwxNC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal15.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwxNS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal16.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwxNi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal17.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwxNy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal3.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWwzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal4.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWw0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal5.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWw1LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal6.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWw2LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal7.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWw3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal8.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWw4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Research/_goal9.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVzZWFyY2gvX2dvYWw5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Role/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9sZS9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Role/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9sZS9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Role/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9sZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Search/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2VhcmNoL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Search/SDGStories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2VhcmNoL1NER1N0b3JpZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Search/TagSearch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2VhcmNoL1RhZ1NlYXJjaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Search/Videos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2VhcmNoL1ZpZGVvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/AgroForestoryNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQWdyb0ZvcmVzdG9yeU5ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/AllNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQWxsTmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/AmpInfocus/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQW1wSW5mb2N1cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/AmpInterview/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQW1wSW50ZXJ2aWV3L0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/AmpNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQW1wTmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Analytic/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQW5hbHl0aWMvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/ArtCultureNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQXJ0Q3VsdHVyZU5ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/ArticleVideos/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQXJ0aWNsZVZpZGVvcy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/BlogItems/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQmxvZ0l0ZW1zL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Category/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQ2F0ZWdvcnkvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/CategoryNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQ2F0ZWdvcnlOZXdzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/CategoryTopStories/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQ2F0ZWdvcnlUb3BTdG9yaWVzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/EconomyNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvRWNvbm9teU5ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/EducationNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvRWR1Y2F0aW9uTmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/EnergyNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvRW5lcmd5TmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/EventNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvRXZlbnROZXdzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/GetEventNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvR2V0RXZlbnROZXdzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/HealthNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvSGVhbHRoTmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Infocus/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvSW5mb2N1cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/InfocusLiveDiscourse/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvSW5mb2N1c0xpdmVEaXNjb3Vyc2UvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Jobs/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvSm9icy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Labels/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvTGFiZWxzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/LatestNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvTGF0ZXN0TmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/LawGovernanceNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvTGF3R292ZXJuYW5jZU5ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/LiveBlogs/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvTGl2ZUJsb2dzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/News/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvTmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/NewsAnalysisItems/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvTmV3c0FuYWx5c2lzSXRlbXMvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/NewsItems/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvTmV3c0l0ZW1zL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Opinion/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvT3Bpbmlvbi9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/PartnersList/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvUGFydG5lcnNMaXN0L0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/PoliticsNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvUG9saXRpY3NOZXdzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Region/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvUmVnaW9uL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/ScienceNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU2NpZW5jZU5ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/SDGNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU0RHTmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Sector/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU2VjdG9yL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/SectorMenu/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU2VjdG9yTWVudS9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/SectorMostPopular/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU2VjdG9yTW9zdFBvcHVsYXIvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/SectorNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU2VjdG9yTmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/SectorTopStories/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU2VjdG9yVG9wU3Rvcmllcy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/SocialNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU29jaWFsTmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/SportsNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU3BvcnRzTmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/TagsNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVGFnc05ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Team/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVGVhbS9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/TechnologyNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVGVjaG5vbG9neU5ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Themes/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVGhlbWVzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/TransportNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVHJhbnNwb3J0TmV3cy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Trends/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVHJlbmRzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/UrbanDevelopmentNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVXJiYW5EZXZlbG9wbWVudE5ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/UserNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVXNlck5ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Users/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVXNlcnMvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/Video/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVmlkZW8vRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/VideoNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVmlkZW9OZXdzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/VideoTopStories/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVmlkZW9Ub3BTdG9yaWVzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/WashNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvV2FzaE5ld3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/Components/WRCEventNews/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvV1JDRXZlbnROZXdzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/_coeSlides.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19jb2VTbGlkZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/_Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/_getSectorNews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19nZXRTZWN0b3JOZXdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/_getVideoNews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19nZXRWaWRlb05ld3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/_Layout _plain.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQgX3BsYWluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/_socialPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19zb2NpYWxQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Teams/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhbXMvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Teams/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhbXMvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Teams/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhbXMvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Teams/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhbXMvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Teams/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVhbXMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/UserFiles/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZpbGVzL0NyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/UserFiles/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZpbGVzL0RlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/UserFiles/DeleteFile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZpbGVzL0RlbGV0ZUZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/UserFiles/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZpbGVzL0RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/UserFiles/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZpbGVzL0VkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/UserFiles/EditImage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZpbGVzL0VkaXRJbWFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/UserFiles/Images.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZpbGVzL0ltYWdlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/UserFiles/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZpbGVzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/UserFiles/UploadImages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZpbGVzL1VwbG9hZEltYWdlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Websites/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV2Vic2l0ZXMvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Websites/CreateNew.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV2Vic2l0ZXMvQ3JlYXRlTmV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Websites/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV2Vic2l0ZXMvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Websites/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV2Vic2l0ZXMvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Websites/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV2Vic2l0ZXMvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Websites/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV2Vic2l0ZXMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Websites/PressRelease.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV2Vic2l0ZXMvUHJlc3NSZWxlYXNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/Websites/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV2Vic2l0ZXMvVXBkYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/neeraj/Documents/Projects/Devdiscourse/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

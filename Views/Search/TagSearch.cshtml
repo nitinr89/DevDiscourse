@@ -159,7 +159,7 @@
                 document.cookie = "Edition=" + $(this).val() + ";expires=" + date.toGMTString() + "; path=/";
                 window.location.href = $(this).find('option:selected').attr('data-to');
             });
-            GetOpinion(); function GetOpinion() { var ApiDataUrl = "/api/Search/GetAnalysis/" + region + "/0"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.NewsId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var Image = item.Image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.Image : item.Image; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.Title + '</h3></div><div class="media-right"><img src="https://www.devdiscourse.com' + Image + '?width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right"/></div></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) }
+            GetOpinion(); function GetOpinion() { var ApiDataUrl = "/api/SearchApi/GetAnalysis/" + region + "/0"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.NewsId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var Image = item.Image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.Image : item.Image; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.Title + '</h3></div><div class="media-right"><img src="https://www.devdiscourse.com' + Image + '?width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right"/></div></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) }
             $.ajax("/Home/GetVideoNews?reg=" + '@(ViewBag.region)').done(function (data) {
                 $("#videoNews").html(data);
                 $('.lazy').lazy();
@@ -184,7 +184,7 @@
             GetLatestNews();
             function GetLatestNews() {
                 $.ajax({
-                    url: '/api/Search/GetLatestNews/' + region,
+                    url: '/api/SearchApi/GetLatestNews/' + region,
                     type: "GET",
                     success: function (result) {
                         var latestItems = '';
@@ -192,18 +192,18 @@
                             var content = '';
                             $.each(result, function (i, item) {
                                 var newsType = '';
-                                if (item.Type == "Event") {
-                                    newsType = '<span class="pull-right infocus-badge">' + item.Type + '</span>';
+                                if (item.type == "Event") {
+                                    newsType = '<span class="pull-right infocus-badge">' + item.type + '</span>';
                                 }
-                                else if (item.Type == "Blog") {
-                                    if (item.SubType != "" || item.SubType != null) {
-                                        newsType = '<span class="pull-right infocus-badge">' + item.SubType + '</span>';
+                                else if (item.type == "Blog") {
+                                    if (item.subType != "" || item.subType != null) {
+                                        newsType = '<span class="pull-right infocus-badge">' + item.subType + '</span>';
                                     }
                                     else {
                                         newsType = '<span class="pull-right infocus-badge">Blog</span>';
                                     }
                                 }
-                                content += '<a href="/article/' + (item.Label == null ? 'agency-wire' : item.Label + '/' + convertToSlug(item.NewId, item.Title)) + '" class="text-decoration"><div class="p-b-5 p-t-10" style="border-bottom:1px solid #ddd">' + newsType + '<h4 class="media-title no-margin">' + item.Title + '</h4></div></a>';
+                                content += '<a href="/article/' + (item.label == null ? 'agency-wire' : item.label + '/' + convertToSlug(item.newId, item.title)) + '" class="text-decoration"><div class="p-b-5 p-t-10" style="border-bottom:1px solid #ddd">' + newsType + '<h4 class="media-title no-margin">' + item.title + '</h4></div></a>';
                             });
                             latestItems = '<h2 class="section-title"><span>LATEST STORIES</span></h2>' +
                                 content + '<a href="@Url.RouteUrl("NewsAnalysis")" class="read-more-btn clearfix" style="margin-top:5px">Read More</a>';
@@ -222,7 +222,7 @@
                     $("#loading").show();
                     $.ajax({
                         type: 'GET',
-                        url: '/api/Search/GetTagsNews/' + encodeURI(tag.trim()) + '/Global%20Edition/' + page,
+                        url: '/api/SearchApi/GetTagsNews/' + encodeURI(tag.trim()) + '/Global%20Edition/' + page,
                         dataType: "json",
                         success: function (data) {
                             showMoreCounter = showMoreCounter + 1;
@@ -234,14 +234,14 @@
                             var html = '';
                             $.each(data, function (i, item) {
                                 var imageContent = '';
-                                var urlSlug = convertToSlug(item.NewId, item.Title);
-                                var label = item.Label != null ? item.Label : "agency-wire";
-                                var country = item.Country != null ? item.Country : '';
-                                if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {
-                                    var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                                    imageContent = '<div class="media-left"><a href="/article/' + label + '/' + urlSlug + '" aria-label="' + item.Title + '"><img src="' + newsImage + '?width=90&height=90&mode=crop"></a></div>';
+                                var urlSlug = convertToSlug(item.newId, item.title);
+                                var label = item.label != null ? item.label : "agency-wire";
+                                var country = item.country != null ? item.country : '';
+                                if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
+                                    var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl;
+                                    imageContent = '<div class="media-left"><a href="/article/' + label + '/' + urlSlug + '" aria-label="' + item.title + '"><img src="' + newsImage + '?width=90&height=90&mode=crop"></a></div>';
                                 }
-                                var createdOn = new Date(item.CreatedOn);
+                                var createdOn = new Date(item.createdOn);
                                 createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
                                 var countryHtml = 'Global';
                                 if (country.split(',').length > 0 && country != '') {
@@ -252,7 +252,7 @@
                                     '<div class="col-md-5 col-sm-4"><div class="bg-gray cover-img lazy" data-src="https://www.devdiscourse.com' + newsImage + '?width=295&height=160&mode=crop&format=jpeg"></div>' +
                                     '</div><div class="col-md-7 col-sm-8 p-l-0">' +
                                     '<div class="text-uppercase country-sub">' + countryHtml + '</div>' +
-                                    '<h3 class="title-sub">' + item.Title + '</h3>' +
+                                    '<h3 class="title-sub">' + item.title + '</h3>' +
                                     '<h5 class="no-margin font-oswald fg-black">' + createdOn.getDate() + ' ' + monthArray[createdOn.getMonth()] + ' ' + createdOn.getFullYear() + '</h5>' +
                                     '</div></div></div></a>';
                             });

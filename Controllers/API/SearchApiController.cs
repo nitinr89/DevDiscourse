@@ -121,16 +121,22 @@ namespace Devdiscourse.Controllers.API
         {
             DateTime oneMonth = DateTime.UtcNow.AddDays(-40);
             var skipCount = (page - 1) * 20;
-            var result = db.DevNews.Where(a => a.CreatedOn > oneMonth && a.AdminCheck == true && a.Tags.Contains(tag)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
+            var result = db.DevNews
+                //.Where(a => a.CreatedOn > oneMonth && a.AdminCheck == true && a.Tags.Contains(tag))
+                .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
             return result;
 
         }
 
+        [HttpGet]
+        [Route("GetSDGNews/{page}")]
         public IQueryable<LatestNewsView> GetSDGNews(int page = 1)
         {
             DateTime oneMonth = DateTime.Today.AddDays(-60);
             var skipCount = (page - 1) * 20;
-            var result = db.DevNews.Where(a => a.AdminCheck == true && a.Category.Contains("13")).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
+            var result = db.DevNews
+                //.Where(a => a.AdminCheck == true && a.Category.Contains("13"))
+                .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
             return result;
 
         }
@@ -565,12 +571,16 @@ namespace Devdiscourse.Controllers.API
             DateTime threemonths = DateTime.Today.AddDays(-5);
             if (reg == "Global Edition")
             {
-                var result = db.DevNews.Where(a => (a.IsGlobal == true || a.Region.Contains(reg)) && a.CreatedOn > threemonths && a.AdminCheck == true && a.Sector != null).OrderByDescending(a => a.ModifiedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.SubTitle, Country = a.Country, NewId = a.NewsId, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels }).AsNoTracking().Take(6);
+                var result = db.DevNews
+                    //.Where(a => (a.IsGlobal == true || a.Region.Contains(reg)) && a.CreatedOn > threemonths && a.AdminCheck == true && a.Sector != null).OrderByDescending(a => a.ModifiedOn)
+                    .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.SubTitle, Country = a.Country, NewId = a.NewsId, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels }).AsNoTracking().Take(6);
                 return result;
             }
             else
             {
-                var result = db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > threemonths && a.Region.Contains(reg) && a.Sector != null).OrderByDescending(a => a.ModifiedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.SubTitle, Country = a.Country, NewId = a.NewsId, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels }).AsNoTracking().Take(6);
+                var result = db.DevNews
+                    //.Where(a => a.AdminCheck == true && a.CreatedOn > threemonths && a.Region.Contains(reg) && a.Sector != null).OrderByDescending(a => a.ModifiedOn)
+                    .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.SubTitle, Country = a.Country, NewId = a.NewsId, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels }).AsNoTracking().Take(6);
                 return result;
             }
         }

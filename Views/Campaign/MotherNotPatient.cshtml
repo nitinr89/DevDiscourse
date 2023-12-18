@@ -1,0 +1,553 @@
+﻿@{
+    ViewBag.Title = "Mother, Not Patient! A Global Communication Campaign - Devdiscourse";
+    ViewBag.alternateHeadline = "Mother, Not Patient! A Global Communication Campaign by Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/Campaign/mother_not_patient_banner.jpg";
+    ViewBag.PageDescription = "Mother, Not Patient! is a Global Communication Campaign by Devdiscourse in collaboration with Department of Social Work, Bhagat Phool Singh Mahila Vishwavidyalaya, India";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/mother-not-patient";
+    ViewBag.pageKeywords = "Mother, Not Patient, Devdiscourse, Department of Social Work, Bhagat Phool Singh Mahila Vishwavidyalaya, India";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "?width=960";
+}
+<style>
+    .renderBody {
+        margin: 0;
+    }
+
+    .heading {
+        font-size: 8rem;
+        font-weight: 500;
+        line-height: 1;
+        letter-spacing: 3px;
+    }
+
+    .campaign-img {
+        max-height: 500px;
+    }
+
+    .bg-color-theme {
+        background-color: #f3f2ee;
+    }
+
+    .bg-white.p-t-20 {
+        padding-top: 0;
+    }
+
+    .panel-default > .panel-heading {
+        background-color: #fff;
+    }
+
+    .fg-color {
+        color: #e44869;
+    }
+
+    #NewsSector {
+        box-shadow: 0px 9px 18px 0 rgba(89, 81, 69, 0.05);
+    }
+
+    .main-section {
+        padding-top: 60px;
+        min-height: 550px;
+        background-image: url('/images/Campaign/background.svg');
+        background-size: cover;
+    }
+
+    .section-padding {
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    .heading-para {
+        color: rgb(0, 0, 0);
+        font-size: 2.4rem;
+    }
+
+    .camp-section-title {
+        color: #e44869;
+        position: relative;
+        font-size: 3.428rem;
+        font-style: normal;
+    }
+
+        .camp-section-title::after {
+            content: '';
+            height: 4px;
+            width: 65px;
+            display: block;
+            text-align: left;
+            position: relative;
+            margin-top: 0.5em;
+            background-color: #e44869;
+        }
+
+    .para-container p {
+        font-size: 1.7rem;
+        line-height: 1.7;
+        margin-bottom: 17px;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    }
+
+    .para-container li {
+        font-size: 1.7rem;
+        line-height: 1.7;
+        margin-bottom: 10px;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    }
+
+    .para-container a {
+        color: #e44869;
+    }
+
+    .para-container strong {
+        font-weight: 500;
+    }
+
+    .right-padding {
+        background: linear-gradient(to right, #e44869 90%, rgba(0,0,0,0) 90%);
+    }
+
+    .custom-input {
+        border-color: #fff;
+        border-radius: 1px !important;
+    }
+
+    .btn-submit {
+        outline: none;
+        border-top-right-radius: 1px !important;
+        border-bottom-right-radius: 1px !important;
+        color: #fff;
+        background-color: #aa1636;
+        font-family: 'oswald';
+    }
+
+    .sign_petition {
+        font-size: 4.2rem;
+        margin-bottom: 40px;
+    }
+
+    .anatomy {
+        float: left;
+        max-width: 200px;
+        margin: 0 10px 10px 0;
+    }
+
+    .fact_banner {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: #f3f2ee;
+        background-repeat: no-repeat;
+        background-image: url('/images/Campaign/facts_bg.png');
+    }
+
+    .pl-35 {
+        padding-left: 32%;
+    }
+
+    .fact_banner p, .fact_banner ul {
+        color: #aa1636;
+        font-size: 1.7rem;
+    }
+
+    .f-17 {
+        font-size: 1.7rem;
+    }
+
+    .panel-title a {
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    @@media(max-width:425px) {
+        .heading {
+            font-size: 5rem;
+        }
+
+        .fact_banner {
+            background-image: none;
+        }
+
+        .pl-35 {
+            padding-left: 15px;
+        }
+
+        .heading-para {
+            font-size: 1.6rem;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .right-padding {
+            background-color: #e44869;
+        }
+    }
+</style>
+<div class="bg-color-theme main-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-8">
+                <h1 class="fg-color heading">Mother, <br /> Not Patient!</h1>
+                <p class="heading-para m-t-20">
+                    A Global Communication Campaign by Devdiscourse <br class="hidden-xs" /> in collaboration with <br class="hidden-xs" />Department of Social Work, Bhagat Phool Singh Mahila Vishwavidyalaya, India
+                </p>
+            </div>
+            <div class="col-md-3  col-sm-4">
+                <img src="/images/Campaign/women.svg" class="img-responsive campaign-img pull-right" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="right-padding">
+    <div class="section-padding container">
+        <h2 class="fg-white sign_petition font-oswald">Take the pledge with us</h2>
+        <div class="row">
+            <div class="col-md-8 col-xs-12 m-b-20">
+                <select class="form-control input-lg custom-input" id="pledgeInput">
+                    <option data-text="I hereby resolve to request the gynecologist and other health professionals to register me as ‘To Be Mother’ or any other parallel term but not as a patient. I also resolve to dutifully learn and willfully practice various modes of healthy and happy lifestyle during my pregnancy without any pressure of any kind.">Expectant Mothers</option>
+                    <option data-text="I/We hereby resolve to request the gynecologists and other health professionals to register the expecting mothers of my family/community as ‘To Be Mothers’ or any other parallel term but not as patients.  I also resolve to work for ensuring their mental health and well-being through positive communication.">Family, Colleagues and Community</option>
+                    <option data-text="I hereby discontinue to use the term ‘patient’ for pregnant women and resolve to work for ensuring their mental health and well-being through positive communication.">Health Professionals</option>
+                    <option data-text="I hereby discontinue to use the term ‘patient’ for pregnant women and resolve to work for ensuring their mental health and well-being through positive communication.">Public Health Professionals</option>
+                    <option data-text="We hereby discontinue to use the term ‘patient’ for pregnant women and resolve to work for ensuring their mental health and well-being through positive communication.">Health Institutions</option>
+                    <option data-text="We hereby resolve to convince various stake holders of maternal healthcare to abandon the use of the term ‘patient’ for pregnant women and work for ensuring their mental health and well-being through positive communication.">Educational Institutions</option>
+                    <option data-text="We hereby resolve to convince various stake holders of maternal healthcare to abandon the use of the term ‘patient’ for pregnant women and work for ensuring their mental health and well-being through positive communication.">Volunteers</option>
+                    <option data-text="We hereby resolve to convince various stake holders of maternal healthcare to abandon the use of the term ‘patient’ for pregnant women and work for ensuring their mental health and well-being through positive communication.">Media</option>
+                    <option data-text="We hereby resolve to support the activities of the global communication campaign – Mother, Not Patient! – on various forums and platforms. We also resolve to convince various stakeholders of maternal healthcare to abandon the use of the term ‘patient’ for pregnant women and work for ensuring their mental health and well-being through positive communication.">National and International Organizations</option>
+                    <option data-text="We hereby resolve to support the activities of the global communication campaign – Mother, Not Patient!">Sponsors/ Corporate Partners</option>
+                </select>
+                <p class="fg-white f-17 p-t-30 p-b-20" id="pledgeHtml">I hereby resolve to request the gynecologist and other health professionals to register me as ‘To Be Mother’ or any other parallel term but not as a patient. I also resolve to dutifully learn and willfully practice various modes of healthy and happy lifestyle during my pregnancy without any pressure of any kind.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-4 p-b-10 col-xs-12">
+                <input type="text" class="form-control input-lg custom-input" placeholder="First Name" id="p_first_name" />
+            </div>
+            <div class="col-md-4  col-sm-4 p-b-10 col-xs-12">
+                <input type="text" class="form-control input-lg custom-input" placeholder="Last Name" id="p_last_name" />
+            </div>
+        </div>
+        <div class="row m-t-20">
+            <div class="col-md-8  col-sm-8 col-xs-12">
+                <div class="input-group input-group-lg">
+                    <input type="email" class="form-control custom-input" placeholder="email@example.com" id="p_email" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-submit" id="submit_petition">Submit</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section-padding">
+    <div class="container para-container">
+        <h2 class="camp-section-title">Current State of Affairs</h2>
+        <img src="~/images/Campaign/Why_campaign.png" class="hidden-xs" style="float:right;max-height:320px;margin:10px 0 10px 20px" />
+        <ul class="m-t-40">
+            <li>The age old adage – as mother as child – is now being vindicated in scientific researches throughout the world.</li>
+            <li>In a study in February 2019, the scientists in the UK concluded that a woman’s attitude during pregnancy could affect her child’s intelligence.</li>
+            <li>Studies worldwide suggest that positive thinking, ambience and communication could act as a boon for maternal health and holistic development of the fetus while negative thinking and tension cause adverse effects.</li>
+            <li>Historically, communities throughout the world have inherited various cultural practices to boost positive thoughts and self-respect among ‘To Be mothers’.</li>
+        </ul>
+        @{
+            // var quote = Request.Browser.IsMobileDevice == true ? "/images/Campaign/quote1_mobile.svg" : "/images/Campaign/quote_1.svg";
+            var quote = "/images/Campaign/quote_1.svg";
+        }
+        <img src="@quote" class="img-responsive center-block m-t-10 m-b-10" />
+        <h3 class="fg-color">What goes wrong?</h3>
+        <ul>
+            <li>Deterioration in the ambience of positive thinking caused by modern lifestyle adversely affect the health and well-being of the pregnant mothers leading to rising in pregnancy complexities and surgical deliveries.</li>
+            <li>Profiteering among healthcare professionals is also a major cause behind the alarming rise in cesarean deliveries which is destroying the health of ‘To Be Mothers’ and future generations.</li>
+            <li>The first indication of this profiteering, mentality starts from the day an expectant mother is registered as a ‘patient’.</li>
+            <li>Addressing a ‘To Be Mother’ as a ‘patient’ and above all treating her like a ‘patient’ every time she visits the maternity healthcare centre not only adversely affects her socio-psychological behaviour but shrinks her personality from a jubilant ‘To Be Mother’ to merely a ‘patient’.</li>
+            <li>In the course of time, the relatives also start her treating like a patient and gradually she herself starts behaving as a patient. This socio-psychological pressure adversely affects her mental well-being and forces her to surrender in the hands of greedy healthcare professionals who trap her in the web of profiteering.</li>
+            <li>A recent study of WHO published on 9th October 2019 revealed that pregnant women also face verbal and physical harassment in the hospitals. According to the report, the women are often mocked, abused, tortured and even slapped in the delivery room.</li>
+        </ul>
+    </div>
+</div>
+<div class="fact_banner">
+    <div class="container pl-35">
+        <h3 class="fg-color">Some grieve facts about cesarean deliveries</h3>
+        <p class="fg-color"><small>Since 1985, the international healthcare community has considered the ideal rate for caesarean sections to be between <strong>10-15%.</strong></small></p>
+        <ul>
+            <li>The Louisiana state is called as ‘Cesarean Capital of the USA’ for 47.3% cesarean deliveries in 2017.</li>
+            <li>In 2015, cesarean deliveries went up by 10 times in Latin American and Caribbean region in comparison to Central and West Africa.</li>
+            <li>Data says the cesarean cases increased in the USA from 23% in 2000 to 32% in 2015. In the same period, the cesarean deliveries in the United Kingdom increased by 19.7% to 26.2% of births.</li>
+            <li>According to an RTI information provided by the Government of NCT Delhi, the private hospitals in Delhi conducted 65 to 73% caesarean deliveries in 2014-15.</li>
+        </ul>
+    </div>
+</div>
+<div class="section-padding bg-color-theme">
+    <div class="container para-container">
+        <h3 class="fg-color">Vicious Stages of Negativity and Profiteering</h3>
+        @{
+            // var vicious = Request.Browser.IsMobileDevice == true ? "/images/Campaign/Vicious_Stages_mobile.svg" : "/images/Campaign/Vicious_Stages.svg";
+            var vicious = "/images/Campaign/Vicious_Stages.svg";
+        }
+        <img src="@vicious" class="img-responsive center-block" />
+    </div>
+</div>
+<div class="section-padding bg-white">
+    <div class="container para-container">
+        <h2 class="camp-section-title">What is needed</h2>
+        <p>Devdiscourse is of the very strong opinion that like many other problems in the 21st century, negative communication is the root cause of this tragedy. We also firmly believe that the sufferings of the ‘To Be Mothers’ could be minimized and happiness increased in their lives through positive discourse and sensitization of various stakeholders associated with maternal healthcare.</p>
+        <h3 class="fg-color">The Path of Happiness</h3>
+        @{
+            // var Ideal = Request.Browser.IsMobileDevice == true ? "/images/Campaign/Ideal_mobile.svg" : "/images/Campaign/Ideal.svg";
+            var Ideal = "/images/Campaign/Ideal.svg";
+        }
+        <img src="@Ideal" class="center-block img-responsive" />
+    </div>
+</div>
+<div class="section-padding bg-color-theme">
+    <div class="container para-container">
+        <h2 class="camp-section-title">And, thus the campaign is aimed at</h2>
+        <ol class="m-t-30">
+            <li>To contribute in global achievement of SDG 3.7 and SDG 5.6 by 2030.</li>
+            <li>To combat the exploitative communication design of some greedy health professionals meant to demoralize ‘To Be Mothers’ by calling and treating them as patients.</li>
+            <li>To sensitize the healthcare professionals about respectful treatment of ‘To Be Mothers’ and providing them pleasant ambience from the day of her first visit to the maternity healthcare till the safe delivery.</li>
+            <li>To work for overall respectful and pleasant ambience for ‘To Be Mothers’ by sensitizing society at large.</li>
+        </ol>
+    </div>
+</div>
+<div class="section-padding bg-white">
+    <div class="container para-container">
+        <h2 class="camp-section-title">Anatomy of Campaign</h2>
+        <div class="m-t-30">
+            <img src="/images/Campaign/anatomy1.png" class="img-responsive" />
+            <p>Partnerships with various stakeholders are rightly considered crucial for a communication campaign of the global level. We solicit the partnerships from various national and international institutions, public offices and civil service organizations (CSOs) working in the areas of health, education and SDG 5 (Gender Equality).</p>
+            <h3 class="fg-color">Health Partners</h3>
+            <p>The partnership is open for healthcare institutions (hospitals, maternity healthcare centres, and related public offices) throughout the globe.</p>
+            <p>Those willing to join will be required to support the campaign by signing the pledge and gradually stop using the term ‘patient’ for expectant mothers but instead use ‘To Be Mother’. They will also be required to ensure respectful, dignified and pleasant ambience for ‘To Be Mothers’. As the choice of the term ‘To Be Mother’ is optional, the healthcare institutions may use any other parallel term in the national or local language. After joining the campaign, the health partners may organize awareness events at their level.</p>
+            <h3 class="fg-color">Education Partners</h3>
+            <p>Educational institutions (universities, colleges and related public offices) throughout the world are also invited for partnership. The educational intuitions are simply required to support the campaign by signing the pledge. They can also organize awareness events at their level.</p>
+            <h3 class="fg-color">SDG Partners</h3>
+            <p>Public offices and CSOs working for SDG 5 (Gender Equality) are also welcomed for partnership in the campaign. They are simply required to support the campaign by signing the pledge and organize awareness events at their level.</p>
+            <h3 class="fg-color">Corporate Partners</h3>
+            <p>Besides being part of a noble cause which is associated with each and every human being on the globe, the partnership with the campaign will go a long way in the brand building and image management of corporate partners. In addition to displaying the logo of corporate partners on the dedicated campaign page, we will also cover news, articles, and selected interviews (textual and video). The logo of the corporate partners will be prominently displayed in all the publicity material of the campaign and special mentions are made wherever required/agreed upon.</p>
+            <h3 class="fg-color">International Organizations</h3>
+            <p>The international organizations and affiliating agencies of the United Nations working in the field of health, education and SDG 5 are also welcomed to sign the pledge as support for the campaign.</p>
+
+        </div>
+        <div class="media m-t-30">
+            <img src="/images/Campaign/anatomy2.png" class="img-responsive" />
+            <p>The content created by Devdiscoruse team and contributed by campaign partners, supporters and volunteers will be disseminated in the form of news, blogs, articles, analyses, researches, videos, cartoons, etc.<br /> <a href="/Writeforus" target="_blank" class="btn btn-default m-t-20">Write for us <i class="fa fa-external-link"></i></a></p>
+        </div>
+        <div class="media m-t-30">
+            <img src="/images/Campaign/anatomy3.png" class="img-responsive" />
+            <p>Positive thinking, positive ambience and positive communication can act as a boon for the maternal health and holistic development of the fetus. Sign up and become a part of the army of volunteers that aim to make sure that motherhood remains a positive experience, right from the hospital.<br /> <a href="/volunteer" target="_blank" class="btn btn-default m-t-20">Be a volunteer <i class="fa fa-external-link"></i></a></p>
+        </div>
+        <div class="media m-t-30">
+            <img src=" /images/Campaign/anatomy4.png" class="img-responsive" />
+            <p>In addition to the above three modes of catalysing objective discourse, the Devdiscourse will also run Live Discourse. Here, the participants could contribute by posting textual and audio-visual content. The Live Discourse will be open for all the partners, supporters, and volunteers.</p>
+        </div>
+    </div>
+</div>
+<div class="section-padding bg-color-theme">
+    <div class="container para-container">
+        <h2 class="camp-section-title">FAQs</h2>
+        <div class="panel-group m-t-30" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                            <b>Q. 1.</b> What is ‘Mother, Not Patient!’?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <p><b>A.</b> ‘Mother, Not Patient!’ is a global communication campaign being run by Devdiscourse (Discourse on Development), a global media platform which is primarily covers news and views from the perspective of happenings in developmental landscape. The campaign envisions sensitization of various stakeholders associated with maternal healthcare through positive communication aimed at minimizing sufferings of 'To Be Mothers' and increase happiness in their lives. The campaign was launched in collaboration with Department of Social Work, Bhagat Phool Singh Mahila Vishwavidyalaya (BPSMV), a premier women university in India on October 15, 2019.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                            <b>Q.2.</b> Why the campaign is named – ‘Mother, Not Patient!’?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><b>A.</b> There are various researches throughout the world to suggest that positive thinking, positive ambience and positive communication act as a boon for the maternal health and holistic development of the fetus while negative thinking and tension cause adverse effects. In maternal healthcare institutions of most of the countries, the expectant mothers are registered as patient.</p>
+                        <p>Addressing a 'To Be Mother' as a 'patient' and above all treating her like a 'patient' every time she visits the maternity healthcare center not only adversely affects her socio-psychological behavior but shrinks her personality from a jubilant 'To Be Mother' to merely a 'patient'. In the course of time, the relatives also start her treating like a patient and after some time she herself starts behaving as a patient. This socio-psychological pressure forces her to surrender in the hands of greedy healthcare professionals who trap her in the web of profiteering. The increasing number of stressed and depressed expectant mothers is also a reason behind alarmingly increasing cesarean deliveries which has many short term as well as long term health hazards. Thus making the women as permanent patients. The campaign aims to hit at the root cause of the problem by eliminating adverse effects of the negativity and increasing the proportion of positivity in the lives of expectant mothers.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                            <b>Q.3.</b> Does campaign recommend any alternative for ‘patient’ to be used for pregnant women?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><b>A.</b> As pregnancy is not a disease or ailment but the most beautiful stage in the life of woman when she carries a new life/lives inside her body, we urge the health professionals to discontinue the term patient for pregnant women. There is no mandate for any particular term. Presently, we are using two terms – ‘Expectant Mother’ and ‘To Be Mother’ for a pregnant woman. The health professionals are free to use any of these two terms in English or their parallels in regional languages. This would be a small step towards ensuring socio-psychological well-being of pregnant women and increasing happiness in their lives.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                            <b>Q.4.</b> Is the campaign associated with any Sustainable Development Goal (SDG)?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse4" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><b>A.</b> Yes. The campaign is associated with SDG 3.7 (By 2030, ensure universal access to sexual and reproductive health-care services, including for family planning, information and education, and the integration of reproductive health into national strategies and programmes) and SDG 5.6 (Ensure universal access to sexual and reproductive health and reproductive rights as agreed in accordance with the Programme of Action of the International Conference on Population and Development, and the Beijing Platform for Action and the outcome documents of their review conferences).</p>
+                        <p>This is also in conformity to the definition of reproductive health by World Health Organization (WHO) which says, “Reproductive health is a state of complete physical, mental and social well-being and not merely the absence of disease or infirmity, in all matters relating to the reproductive system and to its functions and processes. Reproductive health implies that people are able to have a satisfying and safe sex life and that they have the capability to reproduce and the freedom to decide if, when and how often to do so”.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+                            <b>Q.5.</b> Is the campaign is targeted against any profession?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse5" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><b>A.</b> This campaign is not targeted against any profession but focused on sensitization of various stakeholders through positive communication. We don't believe in coercive tools like legal provisions but have full confidence in good faith seated in the innermost sense of every soul on this planet. We strive to ignite the good faith, globally. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+                            <b>Q.6.</b> How can I join the campaign?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse6" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><b>A.</b> It’s very simple. You can join the campaign just by signing the pledge. We also have an interesting program running for volunteers, healthcare professionals and public health professionals.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+                            <b>Q.7.</b> Do you accept partnerships for the campaign – Mother, Not Patient!?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse7" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><b>A.</b> Yes. Partnerships with various stakeholders are rightly considered crucial for a communication campaign of the global standard. The partnership is open for health partners, education partners, SDG partners, Corporate Partners and International Organizations.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+                            <b>Q.8.</b> What will be the benefits of joining campaign as partner?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse8" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><b>A.</b> The campaign partnership has been envisioned on the principle of ‘Let’s Grow Together’. The campaign partners will be benefitted in the following ways:  </p>
+                        <ol>
+                            <li>The campaign partners will be part of a noble cause – bringing happiness in the lives of pregnant women. As every human being on this planet has been associated with one or the other pregnant woman, this is the biggest service to humanity.</li>
+                            <li>The campaign partners will be actively contributing in achieving SDG 3.7 and SDG 5.6.</li>
+                            <li>The campaign partners will become part of the global movement aimed at reducing sufferings of pregnant women and reducing cesarean deliveries which have now taken up the form of an epidemic.</li>
+                            <li>Devdiscourse will display the logo of campaign partners on its website. This will provide free of cost publicity to the partners.</li>
+                            <li>Devdiscourse will publish news, articles, interviews, features about the partners. This will also help them in brand building.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse9">
+                            <b>Q.9.</b> What will be the additional benefits for corporate partners/sponsors?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse9" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><b>A.</b> In addition to the above mentioned benefits, the corporate partners can sponsor awareness material on which their logo, name and punchline etc. will be properly displayed to provide their brand robust visibility. Besides, they can sponsor the content such as researched stories, blogs and videos etc. where their logo, name, links and punchline etc. will be displayed as sponsor.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse10">
+                            <b>Q.10.</b> What will be the modalities of the campaign?
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse10" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p><b>A.</b> This will be an online campaign as well as generation and dissemination of offline awareness materials. The online activities will be run at Devdiscourse.com and its social media handles. Besides, some awareness building events such as talks and panel discussions may also be organized in the future depending on the availability of sponsorship.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $('#pledgeInput').change(function () {
+                $('#pledgeHtml').html($('#pledgeInput :selected').attr('data-text'));
+            });
+            function showAlert(e, t) {
+                $.notify({
+                    message: e
+                }, {
+                    type: t,
+                    delay: 1e3,
+                    placement: {
+                        from: "top",
+                        align: "right"
+                    }
+                });
+            }
+            $('#submit_petition').click(function () {
+                var p_pledge = $('#pledgeInput').val();
+                var p_first_name = $('#p_first_name').val();
+                var p_last_name = $('#p_last_name').val();
+                var p_email = $('#p_email').val();
+                if (p_first_name.trim() == "") {
+                    return;
+                } else if (!(/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(p_email))) {
+                    console.log('email not valid');
+                    return;
+                }
+                postPetition(p_pledge, p_first_name, p_last_name, p_email);
+            });
+            function postPetition(p_pledge, p_first_name, p_last_name, p_email) {
+                $.post('/api/Campaign/PostPetition', { Firstname: p_first_name, LastName: p_last_name, Email: p_email, PledgeType: p_pledge }, function (data) {
+                    if (data == "Success") {
+                        showAlert("Success", "success");
+                        $('#p_first_name,#p_last_name,#p_email').val('');
+                    } else if (data == "AlreadyExist") {
+                        showAlert("Email already exists!", "warning");
+                    } else if (data == "AlreadyExist") {
+                        showAlert("Something went wrong!", "danger");
+                    }
+                });
+            }
+        });
+    </script>
+}
+

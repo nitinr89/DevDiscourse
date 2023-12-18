@@ -1,0 +1,355 @@
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.ViewModel.NewsListView>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.ViewModel.NewsListView> model = Model;
+}
+@{
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "PTI Stories | Devdiscourse";
+    ViewBag.PageDescription = "Latest PTI stories on devdiscourse";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/pti-stories";
+    ViewBag.pageKeywords = "Development News, Latest News, Breaking News, energy news, urban development news,transport news,economy news,finance news,sports news,art and culture news,education news,latest news,Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "?width=920";
+}
+@functions {
+    async Task Truncate(string input, int length)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            <text> </text>
+        }
+        else if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)
+            <text>..</text>
+        }
+    }
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/admin.css" rel="stylesheet" />
+<style>
+    input, textarea, select {
+        max-width: 100% !important;
+    }
+    .badge {
+        border-radius: unset;
+    }
+    .indexedView {
+        padding: 10px;
+        background-color: #0cb422;
+        color: #fff;
+    }
+</style>
+<div class="bg-white p-20">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "PTI")">PTI News</a></li>
+        <li class="breadcrumb-item active"><a href="@Url.Action("Create", "PTI")">Create New</a></li>
+    </ol>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Region</label>
+            <select class="form-control newsfilter" id="selRegion">
+                @* @{ Html.RenderAction("GetRegion", "Home");} *@
+                @await Component.InvokeAsync("Region");
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Country</label>
+            <select class="form-control newsfilter" id="selCountry"></select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Sector</label>
+            <select class="form-control newsfilter" id="selSector">
+                <option value="0">All Sector</option>
+                @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Category</label>
+            <select class="form-control newsfilter" id="selCategory">
+                <option value="0">All Category</option>
+                @* @{ Html.RenderAction("GetCategory", "Categories");} *@
+                @await Component.InvokeAsync("Category");
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Text Search</label>
+            <div class="input-group" id="searchDiv">
+                <label for="searchBtn"></label>
+                <input type="text" class="form-control" style="border-right:none !important;border-top-left-radius:4px;border-bottom-left-radius:4px;" id="inputText" placeholder="Search...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" name="searchBtn" id="textBtn" style="border-left:none !important;color:#aeaeae;" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Author</label>
+            <select class="form-control newsfilter" id="selUser">
+                @* @{ Html.RenderAction("GetUsers", "AssignRole");} *@
+                @await Component.InvokeAsync("Users");
+            </select>
+        </div>
+    </div>
+    <div class="row m-t-10 m-b-30">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+            <label for="beforeDate">Before Date </label>
+            <input type="date" id="beforeDate" class="form-control newsfilter" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6">
+            <label for="afterDate">After Date </label>
+            <input type="date" id="afterDate" class="form-control newsfilter" />
+        </div>
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                Sectors
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                SubTitle
+            </th>
+            <th>
+                Creator
+            </th>
+            <th>
+                Region
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                ImageUrl
+            </th>
+            <th>
+                Source
+            </th>
+            <th>
+                Admin Check
+            </th>
+            <th>
+                IsInfocus
+            </th>
+            <th>
+                IsIndexed
+            </th>
+            <th>
+                Global
+            </th>
+            <th>
+                Created On
+            </th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @* @{ Html.RenderAction("GetSector", "Home", new { sector = item.Sector, filter = "Plane" });} *@
+                    @await Component.InvokeAsync("Sector", new { sector = item.Sector, filter = "Plane" });
+                </td>
+                <td>
+                    @if (!String.IsNullOrEmpty(item.Category))
+                    {
+                        @* { Html.RenderAction("ShowCategory", "Categories", new { id = item.Category }); } *@
+                        @await Component.InvokeAsync("ShowCategory", new { id = item.Category })
+                        ;
+                    }
+                </td>
+                <td>
+                    @if (!String.IsNullOrEmpty(item.WorkStage))
+                    {
+                        var workstage = item.WorkStage.Split(',');
+                        <span id="@item.NewsId">
+                            <span class="pull-right badge @workstage[1]">@workstage[0]</span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span id="@item.NewsId"></span>
+                    }
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubTitle)
+                </td>
+                <td>
+                    @item.CreatorName
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td>
+                    @if (!String.IsNullOrEmpty(item.Country))
+                    {
+                        string country = item.Country.Replace(",", ", ");
+                        @country
+                    }
+                </td>
+                <td>
+                    @{
+                        // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                    }
+                    <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdminCheck)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsInfocus)
+                </td>
+                <td id="@item.Id">
+                    @if (item.IsIndex)
+                    {
+                        <div class="badge indexedView">Indexed</div>
+                    }
+                    else
+                    {
+                        <div class="btn btn-danger btn-sm indexedBtn" id="@item.Id">Not Indexed</div>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsGlobal)
+                </td>
+                <td>
+                    @item.CreatedOn.ToClientTime().ToString("dd MMM yyyy, hh:mm tt")
+                </td>
+                <td>
+                    @if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && item.AdminCheck == true)
+                    {
+                        <a href="@Url.Action("Create","Infocus", new { id = item.NewsId, ft = "nws" })">Add To Infocus</a>
+                    } |
+                    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || item.Creator == ViewBag.loginId)
+                    {
+                        <a href="@Url.Action("Edit", "PTI", new { id = item.Id })" target="_blank">Edit</a>
+                    } |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                    |
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
+        <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
+        @Html.PagedListPager(Model, page => Url.Action("Index", "PTI", new { bfd = ViewBag.bfDate, afd = ViewBag.afDate, page, region = ViewBag.region, sector = ViewBag.sector, category = ViewBag.category, country = ViewBag.country, text = ViewBag.text, uid = ViewBag.uid }))
+    </div>
+</div>
+@section scripts{
+<script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+<script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var _selSector = '@(ViewBag.sector)';
+            var _selCategory = '@(ViewBag.category)';
+            var _region = '@(ViewBag.region)';
+            var _country = '@(ViewBag.country)';
+            var _inputSearchText = '@(ViewBag.text)';
+            var _afterDate = '@(ViewBag.afDate)';
+            var _beforeDate = '@(ViewBag.bfDate)';
+            var _selUser = '@(ViewBag.uid)';
+
+            $("#selSector").val(_selSector)
+            $("#selCategory").val(_selCategory)
+            $('#selRegion').val(_region);
+            $('#inputText').val(_inputSearchText);
+            $("#beforeDate").val(_beforeDate);
+            $("#afterDate").val(_afterDate);
+            $('#selUser').val(_selUser);
+
+            $('.lazy').lazy();
+            getCountries();
+            function getCountries() {
+                $.ajax({
+                    url: '/Home/GetCountry',
+                    type: 'Post',
+                    data: { region: _region },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $('#selCountry').html("").append('<option value="">Select</option>');
+                        $.each(data, function (i, item) {
+                            $('#selCountry').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                        });
+                        $('#selCountry').val(_country);
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $('.newsfilter').on("input", function () {
+                updateVarible();
+            });
+            function updateVarible() {
+                _selSector = $("#selSector option:selected").val();
+                _selCategory = $("#selCategory option:selected").val();
+                _region = $("#selRegion option:selected").val();
+                _country = $("#selCountry").val();
+                _beforeDate = $("#beforeDate").val();
+                _afterDate = $("#afterDate").val();
+                _selUser = $('#selUser').val();
+                window.location.href = "/PTI/Index?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&sector=" + _selSector + "&category=" + _selCategory + "&country=" + _country + "&text=" + _inputSearchText + "&uid=" + _selUser;
+            }
+            $('#textBtn').click(function () {
+                _inputSearchText = $('#inputText').val();
+                window.location.href = "/PTI/Index?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&sector=" + _selSector + "&category=" + _selCategory + "&country=" + _country + "&text=" + _inputSearchText + "&uid=" + _selUser;
+            });
+            $("#inputText").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    _inputSearchText = $('#inputText').val();
+                    window.location.href = "/PTI/Index?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&sector=" + _selSector + "&category=" + _selCategory + "&country=" + _country + "&text=" + _inputSearchText + "&uid=" + _selUser;
+                }
+            });
+            $('.indexedBtn').click(function () {
+                var _newsId = this.id;
+                $.ajax({
+                    url: '/DevNews/UpdateIndexed',
+                    type: 'Post',
+                    data: { id: _newsId },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $('#' + _newsId).html('<div class="badge indexedView">Indexed</div>');
+                    },
+                    error: function () {
+                    },
+                });
+            });
+        });
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call back to display messages.
+            chat.client.NewsOpenNotification = function (id, user, colorcode) {
+                $('#' + id).html('<span class="pull-right badge ' + colorcode + '">' + user + '</span>');
+            };
+            $.connection.hub.start().done(function () {
+            });
+        });
+    </script>
+}

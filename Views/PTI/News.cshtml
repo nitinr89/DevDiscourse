@@ -1,0 +1,151 @@
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.ViewModel.PublisherView>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.ViewModel.PublisherView> model = Model;
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Press Trust of India (PTI) News | Devdiscourse";
+    ViewBag.PageDescription = "Devdiscourse: Latest News from Press Trust of India (PTI).";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/pti-stories";
+    ViewBag.pageKeywords = "PTI News, Press Trust of India, PTI, Press Trust of India News, Development news, International Breaking News, energy news,urban development news,transport news,economy news,finance news,sports news,art and culture news,education news,latest news,Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "?width=920";
+}
+<link href="~/Content/PagedList.min.css" async rel="stylesheet" />
+<style>
+    .no-text-decoration {
+        text-decoration: none !important
+    }
+
+    .infocus-badge {
+        font-size: 13px;
+        padding: 2px 6px;
+        font-family: sans-serif;
+        color: #fff;
+        background-color: #ff6a00;
+    }
+
+    .cover-img {
+        padding-bottom: 54%;
+        position: relative;
+        background-size: cover;
+    }
+
+    .cover-img-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4)
+    }
+
+    .text-cont {
+        position: absolute;
+        bottom: 0;
+        padding: 20px;
+    }
+
+    .title-main {
+        font-weight: 500;
+        font-size: 36px;
+    }
+
+    .country-main {
+        float: right;
+        font-family: sans-serif;
+        background-color: #000;
+        color: #fff;
+        padding: 8px 24px;
+    }
+
+    .title-sub {
+        font-weight: 500;
+        margin-top: 5px;
+        line-height: 1.38;
+        font-size: 20px
+    }
+
+    .country-sub {
+        display: inline-block;
+        font-family: sans-serif;
+        z-index: 10;
+        background-color: #000;
+        color: #fff;
+        padding: 2px 7px;
+        font-size: 10px;
+        margin-top: 5px
+    }
+
+    .p-l-0 {
+        padding-left: 0;
+    }
+
+    @@media(max-width:425px) {
+        #newsContainer .p-l-0 {
+            padding-left: 15px;
+        }
+    }
+</style>
+<div class="container m-t-30">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="section-title" title="PTI News">
+                <span>PTI STORIES</span>
+            </h2>
+            @foreach (var item in Model)
+            {
+                var itemNewsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSlug()})" class="text-decoration">
+                    <div class="row m-b-30">
+                        <div class="col-md-5 col-sm-4">
+                            <div class="bg-gray cover-img lazy" data-src="@domainUrl@itemNewsImage?width=295&height=160&mode=crop&format=jpeg"></div>
+                        </div>
+                        <div class="col-md-7 col-sm-8 p-l-0">
+                            @if (!string.IsNullOrEmpty(item.Country))
+                            {
+                                var countryArr = item.Country.Split(',');
+                                foreach (var t in countryArr.Take(1))
+                                {
+                                    <div class="text-uppercase country-sub">@t</div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="text-uppercase country-sub">Global</div>
+                            }
+                            <h3 class="title-sub">@item.Title</h3>
+                        </div>
+                    </div>
+                </a>
+            }
+            <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
+                <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small> @Html.PagedListPager(Model, page => Url.Action("News", "PTI", new { page }))
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="clearfix" id="opinion"></div>
+            <div class="clearfix m-t-30">
+                <h2 class="section-title2">
+                    <span>TRENDING</span>
+                @* </h2> @{Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.region });} *@
+                </h2> @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.region });
+            </div>
+            <div class="clearfix m-t-30" id="videoNews"></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>var region = '@(ViewBag.region)'; $(document).ready(function () {
+     $.ajax("/Home/GetVideoNews?reg=" + '@(ViewBag.region)').done(function (data) {
+        $("#videoNews").html(data);
+        $('.lazy').lazy();
+    });
+
+    function convertToSlug(newsId, str) { str = str.replace(/^\s+|\s+$/g, ''); str = str.toLowerCase(); var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;"; var to = "aaaaeeeeiiiioooouuuunc------"; for (var i = 0, l = from.length; i < l; i++){ str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i)); } str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-'); return newsId + "-" + str; } GetOpinion(); function GetOpinion() { var ApiDataUrl = "/api/Search/GetAnalysis/" + region + "/0"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.NewsId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var Image = item.Image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.Image : item.Image; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.Title + '</h3></div><div class="media-right"><img src="https://www.devdiscourse.com' + Image + '?width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right" alt="' + item.Title + '"/></div></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) } $(document).find("#regDropDown").change(function () { var e = new Date; e.setTime(e.getTime() + 864e5), document.cookie = "Edition=" + $(this).val() + "; expires=" + e.toGMTString(), window.location.href = $(this).find('option:selected').attr('data-to'); });
+        }) </script>
+}

@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Volunteer - Devdiscourse";
+    ViewBag.alternateHeadline = "Volunteer - Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/Campaign/volunteer_poster.jpg";
+    ViewBag.PageDescription = "Positive thinking, positive ambience and positive communication can act as a boon for the maternal health and holistic development of the fetus. Sign up and become a part of the army of volunteers that aim to make sure that motherhood remains a positive experience, right from the hospital.";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/volunteer";
+    ViewBag.pageKeywords = "Volunteer, Mother, Not Patient, Devdiscourse, Department of Social Work, Bhagat Phool Singh Mahila Vishwavidyalaya, India";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "?width=960";
+}
+<style>
+    .renderBody {
+        margin: 0;
+    }
+
+    .content p, .content ul {
+        font-size: 1.7rem;
+    }
+
+    .volunteer-img {
+        max-height: 300px;
+    }
+
+    .heading-cont {
+        padding: 30px 0;
+        background-color: #f3f2ee;
+    }
+</style>
+<div class="heading-cont">
+    <img src="~/images/Campaign/become_volunteer.svg" class="center-block img-responsive volunteer-img" />
+</div>
+<div class="container content">
+    <p class="m-t-30">Positive thinking, positive ambience and positive communication can act as a boon for the maternal health and holistic development of the fetus. Sign up and become a part of the army of volunteers that aim to make sure that motherhood remains a positive experience, right from the hospital.</p>
+    <p>If you have free will, commitment, and want to engage with the positive cause, you are welcome to join us as a Devdiscourse Volunteer. This page explores different ways to become a volunteer.</p>
+    <h3>Eligibility:</h3>
+    <ul>
+        <li>Graduates or those pursuing graduation in any discipline.</li>
+    </ul>
+    <p>Our 15-month volunteer program is divided into 5 tiers of 3 months each. After completion of each tier, volunteers will rise in ranks and will also be awarded a Certificate of Recognition. One can also choose to opt out of the program after the completion of any tier.</p>
+    <h3>Volunteer (3 Months)</h3>
+    <ul>
+        <li>Get 1 Hospitals/Medical colleges/Clinics associated with the campaign (One per month).</li>
+        <li>Invite the Hospital/Medical college/Clinic to submit a press release about them joining the campaign. In case a press release is not available, prepare a news article about the Hospital/Medical college/Clinic joining the campaign (under the guidance of Devdiscourse team). The press release or news article will be published on Devdiscourse.</li>
+        <li>Refer 2 friends to become a volunteer of the campaign.</li>
+    </ul>
+    <h3>Lieutenant (6 months)</h3>
+    <ul>
+        <li>Get 2 Hospitals/Medical colleges/Clinics associated with the campaign (One per month). *</li>
+        <li>Invite the Hospital/Medical college/Clinic to submit a press release about them joining the campaign. In case a press release is not available, prepare a news article about the Hospital/Medical college/Clinic joining the campaign (under the guidance of Devdiscourse team). The press release or news article will be published on Devdiscourse.</li>
+        <li>Refer 4 friends to become a volunteer of the campaign. **</li>
+    </ul>
+    <h3>Captain (9 months)</h3>
+    <ul>
+        <li>Get 3 Hospitals/Medical colleges/Clinics associated with the campaign (One per month). *</li>
+        <li>Invite the Hospital/Medical college/Clinic to submit a press release about them joining the campaign. In case a press release is not available, prepare a news article about the Hospital/Medical college/Clinic joining the campaign (under the guidance of Devdiscourse team). The press release or news article will be published on Devdiscourse.</li>
+        <li>Refer 6 friends to become a volunteer of the campaign. **</li>
+    </ul>
+    <h3>Major (12 months)</h3>
+    <ul>
+        <li>Get 3 Hospitals/Medical colleges/Clinics associated with the campaign (One per month). *</li>
+        <li>Invite the Hospital/Medical college/Clinic to submit a press release about them joining the campaign. In case a press release is not available, prepare a news article about the Hospital/Medical college/Clinic joining the campaign (under the guidance of Devdiscourse team). The press release or news article will be published on Devdiscourse.</li>
+        <li>Refer 6 friends to become a volunteer of the campaign. **</li>
+        <li>Write a blog on a topic relevant to the campaign. #</li>
+    </ul>
+    <h3>General (15 months)</h3>
+    <ul>
+        <li>Get 3 Hospitals/Medical colleges/Clinics associated with the campaign (One per month). *</li>
+        <li>Invite the Hospital/Medical college/Clinic to submit a press release about them joining the campaign. In case a press release is not available, prepare a news article about the Hospital/Medical college/Clinic joining the campaign (under the guidance of Devdiscourse team). The press release or news article will be published on Devdiscourse.</li>
+        <li>Refer 6 friends to become a volunteer of the campaign. **</li>
+        <li>Write a blog on a topic relevant to the campaign. #</li>
+    </ul>
+    <p>Devdiscourse appreciates you giving your time and talent for the cause. We will hope to establish a long-term relationship with our volunteers.</p>
+    <p class="m-t-30 m-b-5"><small>*In addition to the Hospitals/Medical colleges/Clinics associated in previous tier.</small></p>
+    <p class="m-b-5"><small>**In addition to friends referred in previous tier.</small></p>
+    <p class="m-b-5"><small>#Topics for the blog should be discussed with the Devdiscourse team and it shall be published on the Swebsite after required editorial discretion.</small></p>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+        });
+    </script>
+    }

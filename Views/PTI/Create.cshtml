@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "PTI News";
+}
+<link href="~/Scripts/dropzone/basic.min.css" rel="stylesheet" />
+<link href="~/Scripts/dropzone/dropzone.css" rel="stylesheet" />
+<style>
+    #dropZone {
+        background: gray;
+        border: black dashed 3px;
+        width: 200px;
+        padding: 50px;
+        text-align: center;
+        color: white;
+    }
+</style>
+<div class="container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "PTI")">PTI News</a></li>
+        <li class="breadcrumb-item active">Create</li>
+    </ol>
+    <h2 class="section-title">
+        <span>Upload PTI News</span>
+    </h2>
+    <div>
+        <form action="~/PTI/Create" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm" style="width: 100%;">
+            <div class="fallback">
+                <input name="file" type="file" multiple />
+                <input type="submit" value="Upload" />
+            </div>
+        </form>
+    </div>
+    <div class="form-group" id="status"></div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/dropzone/dropzone.js"></script>
+<script src="~/Scripts/dropzone/dropzone-amd-module.min.js"></script>
+<script>Dropzone.autoDiscover = false;</script>
+<script>
+   Dropzone.options.dropzoneForm = {
+       init: function () {
+           this.on("complete", function (data) {
+               this.removeFile(file);
+               var res = JSON.parse(data.xhr.responseText);
+                 $('#status').append("<p>" + data.xhr.responseText + "</p>");
+              });
+            }
+        };
+</script>

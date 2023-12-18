@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevDiscourse.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class RoleController : Controller
     {
         private ApplicationDbContext _db;
@@ -28,17 +28,17 @@ namespace DevDiscourse.Controllers
         public async Task<ActionResult> Index()
         {
 
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    if (!await isAdminUser())
-            //    {
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (User.Identity.IsAuthenticated)
+            {
+                if (!await isAdminUser())
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             var Roles = _db.Roles.ToList();
             return View(Roles);
@@ -67,17 +67,17 @@ namespace DevDiscourse.Controllers
         /// <returns></returns>
         public async Task<ActionResult> Create()
         {
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    if (!await isAdminUser())
-            //    {
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (User.Identity.IsAuthenticated)
+            {
+                if (!await isAdminUser())
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             var Role = new IdentityRole();
             return View(Role);
@@ -91,17 +91,17 @@ namespace DevDiscourse.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(IdentityRole Role)
         {
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    if (!await isAdminUser())
-            //    {
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (User.Identity.IsAuthenticated)
+            {
+                if (!await isAdminUser())
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var result = await roleManager.CreateAsync(Role);
             if (result.Succeeded)
                 return RedirectToAction("Index");
@@ -174,42 +174,42 @@ namespace DevDiscourse.Controllers
         //}
         // Assign Admin Role To User
 
-        public async Task<IActionResult> AssignRole()
-        {
-            var user = await userManager.FindByNameAsync("uttam");
-            if (user != null)
-            {
-                var roleExists = await roleManager.RoleExistsAsync("Admin");
-                if (!roleExists)
-                {
-                    var role = new IdentityRole("Admin");
-                    var result = await roleManager.CreateAsync(role);
-                    if (result.Succeeded)
-                    {
+        //public async Task<IActionResult> AssignRole()
+        //{
+        //    var user = await userManager.FindByNameAsync("uttam");
+        //    if (user != null)
+        //    {
+        //        var roleExists = await roleManager.RoleExistsAsync("Admin");
+        //        if (!roleExists)
+        //        {
+        //            var role = new IdentityRole("Admin");
+        //            var result = await roleManager.CreateAsync(role);
+        //            if (result.Succeeded)
+        //            {
 
-                    }
-                    else
-                    {
-                        return Ok(result.Errors.ToString());
-                    }
-                }
-                bool isAdmin = await userManager.IsInRoleAsync(user, "Admin");
-                if (isAdmin) return Ok("You are already Admin!!");
-                else
-                {
-                    var result = await userManager.AddToRoleAsync(user, "Admin");
-                    if (result.Succeeded)
-                    {
-                        return Ok("You are Admin now!!");
-                    }
-                    else
-                    {
-                        return Ok(result.Errors.ToString());
-                    }
-                }
-            }
-            return Ok("User Not Found, Try Again!!");
-        }
+        //            }
+        //            else
+        //            {
+        //                return Ok(result.Errors.ToString());
+        //            }
+        //        }
+        //        bool isAdmin = await userManager.IsInRoleAsync(user, "Admin");
+        //        if (isAdmin) return Ok("You are already Admin!!");
+        //        else
+        //        {
+        //            var result = await userManager.AddToRoleAsync(user, "Admin");
+        //            if (result.Succeeded)
+        //            {
+        //                return Ok("You are Admin now!!");
+        //            }
+        //            else
+        //            {
+        //                return Ok(result.Errors.ToString());
+        //            }
+        //        }
+        //    }
+        //    return Ok("User Not Found, Try Again!!");
+        //}
 
         public async Task<JsonResult> AssignRoleToUser(string id, string role)
         {

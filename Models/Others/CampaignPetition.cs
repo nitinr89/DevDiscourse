@@ -11,11 +11,11 @@ namespace Devdiscourse.Models.Others
         public long CampaignPetitionId { get; set; }
         [Required]
         public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PledgeType { get; set; }
+        public string? LastName { get; set; }
+        public string? PledgeType { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
     }
 }

@@ -16,9 +16,9 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             await Task.Yield();
             ViewBag.filter = filter;
-            DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
+            DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-120);
             //DateTime todayDate = DateTime.Today.AddDays(-50).AddTicks(-10);
-            DateTime weekend = todayDate.AddDays(-2).AddTicks(1);
+            DateTime weekend = todayDate.AddDays(-122).AddTicks(1);
             //DateTime weekend = todayDate.AddDays(-20).AddTicks(1);
             if (reg == "Global Edition")
             {
@@ -39,23 +39,36 @@ namespace DevDiscourse.Controllers.ViewComponents
                 //    //.AsNoTracking()
                 //    .ToList();
                 //return View(resultList);
-                var infocus = (from dn in _db.DevNews
-                               select new LatestNewsView
-                               {
-                                   Id = dn.Id,
-                                   //NewsId = dn.NewsId,
-                                   Title = dn.Title,
-                                   ImageUrl = dn.ImageUrl,
-                                   CreatedOn = dn.ModifiedOn,
-                                   Type = dn.Type,
-                                   SubType = dn.SubType,
-                                   Country = dn.Country,
-                                   Label = dn.NewsLabels,
-                                   Ranking = 0
-                               }).OrderByDescending(a => a.CreatedOn)
-                    .Take(65)
+                var resultList = _db.DevNews
+  .Where(dn => dn.AdminCheck == true &&
+               dn.CreatedOn < todayDate && dn.CreatedOn > weekend &&
+               dn.Sector == "14")
+  .OrderByDescending(dn => dn.CreatedOn)
+  .Take(65)
+  .Select(dn => new LatestNewsView
+  {
+
+      Id = dn.Id,
+      NewId = dn.NewsId,
+      Title = dn.Title,
+      ImageUrl = dn.ImageUrl,
+      CreatedOn = dn.ModifiedOn,
+      Type = dn.Type,
+      SubType = dn.SubType,
+      Country = dn.Country,
+      Label = dn.NewsLabels,
+      Ranking = 0
+  })
+  .ToList();
+
+                var groupedResult = resultList
+                    .GroupBy(s => s.Title)
+                    .Select(group => group.OrderByDescending(a => a.Ranking).FirstOrDefault())
+                    .OrderByDescending(o => o.Ranking)
+                    .Take(5)
                     .ToList();
-                return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+
+                return View(groupedResult);
             }
             else
             {
@@ -77,23 +90,53 @@ namespace DevDiscourse.Controllers.ViewComponents
                 //    .ToList();
                 //return View(resultList);
 
-                var infocus = (from dn in _db.DevNews
-                               select new LatestNewsView
-                               {
-                                   Id = dn.Id,
-                                   NewId = dn.NewsId,
-                                   Title = dn.Title,
-                                   ImageUrl = dn.ImageUrl,
-                                   CreatedOn = dn.ModifiedOn,
-                                   Type = dn.Type,
-                                   SubType = dn.SubType,
-                                   Country = dn.Country,
-                                   Label = dn.NewsLabels,
-                                   Ranking = 0
-                               }).OrderByDescending(a => a.CreatedOn)
-                      .Take(65)
-                      .ToList();
-                return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+                //var infocus = (from dn in _db.DevNews
+                //               select new LatestNewsView
+                //               {
+                //                   Id = dn.Id,
+                //                   NewId = dn.NewsId,
+                //                   Title = dn.Title,
+                //                   ImageUrl = dn.ImageUrl,
+                //                   CreatedOn = dn.ModifiedOn,
+                //                   Type = dn.Type,
+                //                   SubType = dn.SubType,
+                //                   Country = dn.Country,
+                //                   Label = dn.NewsLabels,
+                //                   Ranking = 0
+                //               }).OrderByDescending(a => a.CreatedOn)
+                //      .Take(65)
+                //      .ToList();
+                //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+
+                var resultList = _db.DevNews
+.Where(dn => dn.AdminCheck == true &&
+          dn.CreatedOn < todayDate && dn.CreatedOn > weekend &&
+          dn.Sector == "14")
+.OrderByDescending(dn => dn.CreatedOn)
+.Take(65)
+.Select(dn => new LatestNewsView
+{
+    Id = dn.Id,
+    NewId = dn.NewsId,
+    Title = dn.Title,
+    ImageUrl = dn.ImageUrl,
+    CreatedOn = dn.ModifiedOn,
+    Type = dn.Type,
+    SubType = dn.SubType,
+    Country = dn.Country,
+    Label = dn.NewsLabels,
+    Ranking = 0
+})
+.ToList();
+
+                var groupedResult = resultList
+                    .GroupBy(s => s.Title)
+                    .Select(group => group.OrderByDescending(a => a.Ranking).FirstOrDefault())
+                    .OrderByDescending(o => o.Ranking)
+                    .Take(5)
+                    .ToList();
+
+                return View(groupedResult);
             }
         }
     }

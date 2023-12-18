@@ -18,9 +18,9 @@ namespace Devdiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(int sector, string reg = "Global Edition")
         {
             await Task.Yield();
-            DateTime weekend = DateTime.Today.AddDays(-4);
+            DateTime weekend = DateTime.Today.AddDays(-123);
             var resultList = _db.DevNews.AsNoTracking()
-                //.Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region == reg && a.Sector == sector).OrderByDescending(o => o.ViewCount)
+                .Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region == reg && a.Sector == Convert.ToString(sector)).OrderByDescending(o => o.ViewCount)
                 .Select(a =>
             new SearchView
             {
@@ -35,6 +35,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                 Label = a.NewsLabels
             }).Take(3).ToList();
             return View(resultList);
+           
         }
     }
 }

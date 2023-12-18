@@ -16,7 +16,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             await Task.Yield();
 
-            //var lastThreeHour = DateTime.UtcNow.AddDays(-23);
+            var lastThreeHour = DateTime.UtcNow.AddDays(-123);
             //var infocus = _db.RegionNewsRankings
             //  .Where(a => a.DevNews.AdminCheck == true
             //              && a.Region.Title == reg
@@ -60,6 +60,37 @@ namespace DevDiscourse.Controllers.ViewComponents
                   .ToList();
             return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
 
+            //            var resultList = _db.DevNews
+            //.Where(dn => dn.AdminCheck == true &&
+            //         dn.CreatedOn > lastThreeHour && !dn.Title.Contains("News Summary")
+            //                          && !dn.Title.Contains("Highlights")
+            //                          && dn.NewsLabels != "Newsalert"
+            //                          && !new[] { "14", "18", "19", "9" }.Contains(dn.Sector) )
+            //.OrderByDescending(dn => dn.CreatedOn)
+            //.Take(65)
+            //.Select(dn => new NewsViewModel
+            //{
+            //    NewsId = dn.NewsId,
+            //    Title = dn.Title,
+            //    ImageUrl = dn.ImageUrl,
+            //    CreatedOn = dn.ModifiedOn,
+            //    Subtitle = dn.SubTitle,
+            //    SubType = dn.SubType,
+            //    Country = dn.Country,
+            //    Sector = dn.Sector,
+            //    Label = dn.NewsLabels,
+            //    Ranking = 0
+            //})
+            //.ToList();
+
+            //            var groupedResult = resultList
+            //                .GroupBy(s => s.Title)
+            //                .Select(group => group.OrderByDescending(a => a.Ranking).FirstOrDefault())
+            //                .OrderByDescending(o => o.Ranking)
+            //                .Take(30)
+            //                .ToList();
+
+            //            return View(groupedResult);
         }
     }
 }

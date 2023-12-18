@@ -38,6 +38,12 @@ namespace Devdiscourse.Helper
                         );
 
             routes.MapControllerRoute(
+           name: "SDGStories",
+           pattern: "sdg-stories",
+           defaults: new { controller = "Search", action = "SDGStories" }
+         );
+
+            routes.MapControllerRoute(
                 name: "NewsAnalysis",
                 pattern: "news-analysis/{type}",
                 defaults: new { controller = "Agencywire", action = "NewsAnalysis", type = UrlParameter.Optional }

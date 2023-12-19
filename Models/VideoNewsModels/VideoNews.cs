@@ -1,10 +1,6 @@
-﻿using Devdiscourse.Models.BasicModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
-//using System.Web.Mvc;
 
 namespace Devdiscourse.Models.VideoNewsModels
 {
@@ -46,7 +42,7 @@ namespace Devdiscourse.Models.VideoNewsModels
         public DateTime? ModifiedOn { get; set; }
         public DateTime CreatedOn { get; set; }
         [ForeignKey("Creator")]
-        public virtual ApplicationUser ApplicationUsers { get; set; }
+        public virtual ApplicationUser? ApplicationUsers { get; set; }
         public virtual ICollection<VideoNewsTag>? VideoNewsTags { get; set; }
         public virtual ICollection<VideoNewsRegion>? VideoNewsRegions { get; set; }
         public virtual ICollection<VideoNewsSector>? VideoNewsSectors { get; set; }

@@ -1,15 +1,9 @@
-﻿using System.Net;
-using System.Text.RegularExpressions;
-using System.Web.Http;
+﻿using System.Text.RegularExpressions;
 using Devdiscourse.Data;
 using Devdiscourse.Models.BasicModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ActionNameAttribute = Microsoft.AspNetCore.Mvc.ActionNameAttribute;
-using AuthorizeAttribute = Microsoft.AspNetCore.Authorization.AuthorizeAttribute;
-using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
-using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace DevDiscourse.Controllers.Main
 {

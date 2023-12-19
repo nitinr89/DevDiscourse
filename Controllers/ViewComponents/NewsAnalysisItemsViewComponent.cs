@@ -61,23 +61,50 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //    .ToPagedList(pageNumber, pageSize);
                 //return View(search/*.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable()*/);
 
-                var resultList = _db.RegionNewsRankings
-                    //.Where(a => a.DevNews.AdminCheck == true && a.Region.Title == region && a.DevNews.CreatedOn > oneMonth)
-.Select(a => new NewsAnalysisViewModel
-{
+                //                var resultList = _db.RegionNewsRankings
+                //                    //.Where(a => a.DevNews.AdminCheck == true && a.Region.Title == region && a.DevNews.CreatedOn > oneMonth)
+                //.Select(a => new NewsAnalysisViewModel
+                //{
 
-    NewsId = a.DevNews.NewsId,
-    Title = a.DevNews.Title,
-    ImageUrl = a.DevNews.ImageUrl,
-    Country = a.DevNews.Country,
-    CreatedOn = a.DevNews.ModifiedOn,
-    Type = a.DevNews.Type,
-    SubType = a.DevNews.SubType,
-    Label = a.DevNews.NewsLabels,
-    Ranking = a.Ranking
-}).ToPagedList(pageNumber, pageSize);
+                //    NewsId = a.DevNews.NewsId,
+                //    Title = a.DevNews.Title,
+                //    ImageUrl = a.DevNews.ImageUrl,
+                //    Country = a.DevNews.Country,
+                //    CreatedOn = a.DevNews.ModifiedOn,
+                //    Type = a.DevNews.Type,
+                //    SubType = a.DevNews.SubType,
+                //    Label = a.DevNews.NewsLabels,
+                //    Ranking = a.Ranking
+                //}).ToPagedList(pageNumber, pageSize);
 
-                return View(resultList.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable());
+                //                return View(resultList.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable());
+
+                var resultList = (from rnr in _db.RegionNewsRankings
+                                  join dn in _db.DevNews on rnr.NewsId equals dn.Id
+                                  join r in _db.Regions on rnr.RegionId equals r.Id
+                                  let a = new { RegionNews = rnr, DevNews = dn, Region = r }
+                                  where a.DevNews.AdminCheck == true &&
+                                        a.Region.Title == "Global Edition" &&//need to change region
+                                        a.DevNews.ModifiedOn > oneMonth
+                                  orderby a.DevNews.ModifiedOn descending, a.RegionNews.Ranking descending
+                                  select new NewsAnalysisViewModel
+                                  {
+                                      NewsId = a.DevNews.NewsId,
+                                      Title = a.DevNews.Title,
+                                      ImageUrl = a.DevNews.ImageUrl,
+                                      Country = a.DevNews.Country,
+                                      CreatedOn = a.DevNews.ModifiedOn,
+                                      Type = a.DevNews.Type,
+                                      SubType = a.DevNews.SubType,
+                                      Label = a.DevNews.NewsLabels,
+                                      Ranking = a.RegionNews.Ranking
+                                  })
+                    .Take(50)
+                    .ToList();
+
+                return View(resultList);
+
+
 
             }
 

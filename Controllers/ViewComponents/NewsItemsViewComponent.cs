@@ -17,8 +17,8 @@ namespace Devdiscourse.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string sector, string region, string country, string tag, string cat, string label, int? page)
         {
-           // DateTime oneMonth = DateTime.Today.AddDays(-10);
-           // DateTime oneMonth = DateTime.Today.AddDays(-10);
+            // DateTime oneMonth = DateTime.Today.AddDays(-10);
+            // DateTime oneMonth = DateTime.Today.AddDays(-10);
             cat = cat ?? "";
             int pageSize = 20;
             int pageNumber = (page ?? 1);
@@ -42,23 +42,27 @@ namespace Devdiscourse.Controllers.ViewComponents
 
             ////return View(resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
             //return View(resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
-            var infocus = (from dn in _db.DevNews
-                           select new NewsViewModel
-                           {
-                               // Id = dn.Id,
-                               NewsId = dn.NewsId,
-                               Title = dn.Title,
-                               ImageUrl = dn.ImageUrl,
-                               CreatedOn = dn.ModifiedOn,
-                               //Type = dn.Type,
-                               SubType = dn.SubType,
-                               Country = dn.Country,
-                               Label = dn.NewsLabels,
-                               Ranking = 0
-                           }).OrderByDescending(a => a.CreatedOn)
+            var resultList = (from dn in _db.DevNews.AsNoTracking()
+                              where dn.AdminCheck == true && dn.NewsLabels == label && dn.IsSponsored == false
+                              select new NewsViewModel
+                              {
+                                  NewsId = dn.NewsId,
+                                  Title = dn.Title,
+                                  ImageUrl = dn.ImageUrl,
+                                  CreatedOn = dn.ModifiedOn,
+                                  Subtitle = dn.SubTitle,
+                                  Sector = dn.Sector,
+                                  SubType = dn.SubType,
+                                  Country = dn.Country,
+                                  Label = dn.NewsLabels,
+                                  Ranking = 0
+                              }).OrderByDescending(a => a.CreatedOn)
            .Take(65)
            .ToList();
-            return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+            return View(resultList.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+
+
+
         }
     }
 }

@@ -10,6 +10,7 @@ using DocumentFormat.OpenXml.Bibliography;
 //using Html2Amp.Sanitization.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 //using Newtonsoft.Json.Linq;
@@ -1148,25 +1149,25 @@ namespace DevDiscourse.Controllers
         //        return PartialView("_getLatestNews", result);
         //    }
         //}
-        //[OutputCache(Duration = 60, VaryByParam = "reg")]
-        //public PartialViewResult GetTags(string reg = "Global Edition")
-        //{
-        //    List<string> result = new List<string>();
-        //    var search = _db.DevNews.Where(a => a.AdminCheck == true).OrderByDescending(a => a.CreatedOn).Select(a => a.Tags).AsNoTracking().Take(10).ToList();
-        //    foreach (var item in search)
-        //    {
-        //        if (!String.IsNullOrEmpty(item))
-        //        {
-        //            var tagarr = item.Split(',').ToList();
-        //            foreach (var tag in tagarr)
-        //            {
-        //                result.Add(tag);
-        //            }
-        //        }
-        //    }
-        //    ViewBag.tags = result.Take(10);
-        //    return PartialView("_getTags");
-        //}
+        [OutputCache(Duration = 60)]
+        public PartialViewResult GetTags(string reg = "Global Edition")
+        {
+            List<string> result = new List<string>();
+            var search = _db.DevNews.Where(a => a.AdminCheck == true).OrderByDescending(a => a.CreatedOn).Select(a => a.Tags).AsNoTracking().Take(10).ToList();
+            foreach (var item in search)
+            {
+                if (!String.IsNullOrEmpty(item))
+                {
+                    var tagarr = item.Split(',').ToList();
+                    foreach (var tag in tagarr)
+                    {
+                        result.Add(tag);
+                    }
+                }
+            }
+            ViewBag.tags = result.Take(10);
+            return PartialView("_getTags");
+        }
         //public PartialViewResult GetProfile()
         //{
         //    string userId = User.Identity.GetUserId();

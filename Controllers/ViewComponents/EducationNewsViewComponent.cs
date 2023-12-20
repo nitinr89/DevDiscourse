@@ -65,6 +65,8 @@ namespace Devdiscourse.Controllers.ViewComponents
                 .ToList();
 
             return View(groupedResult);
+
+
         }
     }
 }

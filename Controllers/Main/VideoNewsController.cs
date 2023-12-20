@@ -15,19 +15,9 @@ using Microsoft.EntityFrameworkCore;
 using Nancy.Json;
 using Devdiscourse.Models.VideoNewsModels;
 using X.PagedList;
-using Devdiscourse.Models;
-using Devdiscourse.Models.BasicModels;
-using Devdiscourse.Models.VideoNewsModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using X.PagedList;
-using System.Net;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Devdiscourse.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
 
@@ -46,7 +36,6 @@ namespace Devdiscourse.Controllers.Main
 
         // GET: VideoNews
         public ActionResult Index(Guid? region, int? sector = 0, int? page = 1, string label = "0", string country = "", string source = "", string text = "", bool editorPick = false)
-
         {
             ViewBag.label = label;
             ViewBag.sector = sector;
@@ -87,7 +76,7 @@ namespace Devdiscourse.Controllers.Main
             }
             return View(videoNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
         }
-        }
+        
         [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult Create()
         {
@@ -375,16 +364,11 @@ namespace Devdiscourse.Controllers.Main
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
         public PartialViewResult GetVideo(long id)
         {
             var videoNews = db.VideoNews.Find(id);
             return PartialView("_getVideo", videoNews);
         }
-
-    }
-}
-
         private async Task<CloudBlobContainer> GetCloudBlobContainer()
         {
             var config = new ConfigurationBuilder()

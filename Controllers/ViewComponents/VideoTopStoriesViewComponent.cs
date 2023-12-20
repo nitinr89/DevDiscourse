@@ -21,7 +21,8 @@ namespace Devdiscourse.Controllers.ViewComponents
             DateTime lastTenDays = DateTime.Today.AddDays(-10);
             if (reg == "Global Edition")
             {
-                var resultList = _db.VideoNews.Where(a => a.AdminCheck == true && a.CreatedOn > lastTenDays && a.EditorPick == true)
+                var resultList = _db.VideoNews
+                    //.Where(a => a.AdminCheck == true && a.CreatedOn > lastTenDays && a.EditorPick == true)
                     .Select(a => new VideoViewModel
                     {
                         Id = a.Id,
@@ -35,7 +36,8 @@ namespace Devdiscourse.Controllers.ViewComponents
             }
             else
             {
-                var resultList = _db.VideoNews.Where(a => a.AdminCheck == true && a.CreatedOn > lastTenDays && a.EditorPick == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
+                var resultList = _db.VideoNews
+                    //.Where(a => a.AdminCheck == true && a.CreatedOn > lastTenDays && a.EditorPick == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
                     .Select(a => new VideoViewModel
                     {
                         Id = a.Id,

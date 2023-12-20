@@ -38,12 +38,16 @@ namespace Devdiscourse.Controllers.API
             var skipCount = (page - 1) * 20;
             if (reg == "Global Edition")
             {
-                var result = db.VideoNews.Where(a => a.AdminCheck == true).Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
+                var result = db.VideoNews
+                    //.Where(a => a.AdminCheck == true)
+                    .Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
                 return result;
             }
             else
             {
-                var result = db.VideoNews.Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg)).Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
+                var result = db.VideoNews
+                    //Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
+                    .Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
                 return result;
             }
         }
@@ -634,7 +638,9 @@ namespace Devdiscourse.Controllers.API
                 defaultSkip = 0;
             }
             var skipItem = ((page - 1) * 25) + defaultSkip;
-            var comment = db.DiscourseComments.Where(a => a.ItemId == itemId && a.ParentId == parentId && a.IsHidden == false).OrderBy(o => o.CommentOn).Select(a => new { name = a.ApplicationUser.FirstName + " " + a.ApplicationUser.LastName, commentText = a.CommentText, parentId = a.ParentId, commentId = a.CommentId, itemId = a.ItemId, isHidden = a.IsHidden, childCount = a.ChildCount, rootParentId = a.RootParentId, replyText = a.ReplyText, likeCount = a.LikeCount, dislikeCount = a.DislikeCount, endorseCount = a.EndorseCount, rejectCount = a.RejectCount }).Skip(skipItem).Take(25);
+            var comment = db.DiscourseComments
+                //.Where(a => a.ItemId == itemId && a.ParentId == parentId && a.IsHidden == false).OrderBy(o => o.CommentOn)
+                .Select(a => new { name = a.ApplicationUser.FirstName + " " + a.ApplicationUser.LastName, commentText = a.CommentText, parentId = a.ParentId, commentId = a.CommentId, itemId = a.ItemId, isHidden = a.IsHidden, childCount = a.ChildCount, rootParentId = a.RootParentId, replyText = a.ReplyText, likeCount = a.LikeCount, dislikeCount = a.DislikeCount, endorseCount = a.EndorseCount, rejectCount = a.RejectCount }).Skip(skipItem).Take(25);
             return Ok(comment);
         }
 

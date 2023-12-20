@@ -29,7 +29,7 @@
     ViewBag.pageType = "article";
     var DataDesc = Model.Description;
 
-    //var modifiedDescription = GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString()); //do it later
+    var modifiedDescription = "";/*  GetFirstParagraph(GetCleanDescription(Model.Description)); //do it later */
 
     ViewBag.HasAmpPage = true;
     ViewBag.alternateHeadline = @Model.Title;
@@ -40,12 +40,12 @@
     ViewBag.webEdition = ViewBag.region;
     var bodykeywords = @Model.Tags;
     TempData["pageUrl"] = pageUrl;
-    //TempData["firstPara"] = GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString()).ToString(); //do it later
+    TempData["firstPara"] = "abc cdf"; /* GetFirstParagraph(GetCleanDescription(Model.Description)); //do it later */
     TempData["title"] = Model.Title;
     TempData["tags"] = keywords;
     TempData["newsImage"] = newsImage;
     TempData["creator"] = Model.Creator;
-    TempData["Author"] = "Nitin" + "" + "Rawat"; //Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName;
+    TempData["Author"] = "Nitin" + "" + "Rawat"; 
     string authorName = "";
     ViewBag.pageAuthor = Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56" ? "J.P. Singh" : @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName;
     ViewBag.HasAmpPage = true;
@@ -87,7 +87,7 @@ else
     }
 }
 @functions {
-    async Task GetCleanDescription(string htmltext)
+   async Task  GetCleanDescription(string htmltext)
     {
         await Task.Yield();
         htmltext = htmltext.Replace("&nbsp;", " ");
@@ -96,8 +96,7 @@ else
         htmltext = htmltext.Replace("&#39;", "'");
         htmltext = htmltext.Replace("&rdquo;", "\"");
         htmltext = htmltext.Replace("&ldquo;", "\"");
-        @Html.Raw(htmltext)
-        ;
+        @Html.Raw(htmltext);
     }
 }
 
@@ -817,7 +816,7 @@ else
                     </div>
                     <section class="article-desc">
                         @{
-                            await GetCleanDescription(@DataDesc);
+                              GetCleanDescription(@DataDesc);
                         }
 
                     </section>
@@ -852,7 +851,7 @@ else
                         <section class="article-desc f-18">
 
                             @{
-                                await GetCleanDescription(@DataDesc);
+                                 GetCleanDescription(@DataDesc);
                             }
 
 
@@ -1057,12 +1056,10 @@ else
             function pluralise(count, text) {
                 return count > 1 ? count + " " + text + "s" : count + " " + text;
             }
-            debugger;
             $.ajax('/api/DiscourseApi/GetModerators/@Model.Id').done(function (data) {
                 var moderatorsName = '';
                 $.each(data, function (i, item) {
-                    debugger
-                    moderatorsName += ", " + item.Name;
+                    moderatorsName += ", " + item.name;
                 });
                 $("#authorName").html('@(authorName)' + moderatorsName);
             });
@@ -1070,7 +1067,7 @@ else
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                            var Id = $(this).data('topic');
+                    var Id = $(this).data('topic');
                     var IT = $(this).data('it');
                     var RT = $(this).data('rt');
                     $.post('/api/ReactLivediscourse/' + Id + '/' + IT + '/' + RT,
@@ -1107,11 +1104,9 @@ else
                     });
             GetRecommendedDiscourse();
             function GetRecommendedDiscourse() {
-                debugger;
                 $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/2').done(function (data) {
                     var recommendedHtml = '';
-                    $.each(data, function (i, item) {
-                        debugger
+                    $.each(data, function (i, item) {                       
                         var newsUrl = convertToSlug(item.parentId, item.parenTitle);
                         var imgUrl = item.imageUrl;
                         if (imgUrl == null || imgUrl == '/images/sector/all_sectors.jpg') {
@@ -1131,11 +1126,9 @@ else
             }
             GetTrendingDiscourse();
             function GetTrendingDiscourse() {
-                debugger;
                 $.ajax('/api/DiscourseApi/GetTrendingDiscourse/2/@Model.Id').done(function (data) {
                     var trendingHtml = '';
                     $.each(data, function (i, item) {
-                        debugger
                         var newsUrl = convertToSlug(item.id, item.title);
                         var imghtml = '';
                         if (item.imageUrl != null) {
@@ -1155,11 +1148,9 @@ else
             }
             GetLatestDiscourse();
             function GetLatestDiscourse() {
-                debugger;
                 $.ajax('/api/DiscourseApi/GetLatestDiscourse/2/@Model.Id').done(function (data) {
                     var latestHtml = '';
                     $.each(data, function (i, item) {
-                        debugger
                         var newsUrl = convertToSlug(item.id, item.title);
                         var imghtml = '';
                         if (item.imageUrl != null) {
@@ -1183,7 +1174,6 @@ else
             <text>
                         $.post("/api/FollowLiveDiscourse/" + id,
                             function (data) {
-                                debugger;
                                 $('.follow-btn').html('<li><span class="btn follow-btn" title="' + data + '"><span class="fa fa-thumbs-o-up"></span> <span class="hidden-xs">' + data + '</span> </span></li>');
                                 if (data == "Follow") {
                                     $('.follow-btn').removeClass('activebtn');
@@ -1201,7 +1191,7 @@ else
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                            var tagId = $(this).data('id');
+                    var tagId = $(this).data('id');
                     $.post("/api/FollowDiscourseTag/" + tagId,
                         function (data) {
                             if (data == "Follow") {
@@ -1236,17 +1226,18 @@ else
                             }
                             var indexData = '';
                             $.each(data, function (i, item) {
-                                debugger
+                                debugger;
                                 var listData = '';
                                 var moreHtml = '';
-                                $.each(item.Livediscourse, function (index, discourse) {
+                                $.each(item.livediscourse, function (index, discourse) {
                                     var createdOn = new Date(discourse.createdOn); createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
                                     listData += '<a href="#post_' + discourse.id + '" class="text-decoration"><div class="liveblog-list-item">' +
                                         '<div class="time">' + formating(createdOn.getDate()) + '-' + formating(createdOn.getMonth() + 1) + '-' + formating(createdOn.getFullYear()) + ' ' + formating(createdOn.getHours()) + ':' + formating(createdOn.getMinutes()) + ' IST</div>' +
                                         '<div class="title">' + discourse.title + '</div>' +
                                         '</div></a>';
                                 });
-                                if (item.Livediscourse.length == 3) {
+                                debugger;
+                                if (item.livediscourse.length == 3) {
                                     moreHtml = '<button id="moreindex_' + item.id + '" data-index="' + item.id + '" data-skip="3" class="btn btn-sm moreIndex btn-block m-t-5">More</button>';
                                 }
                                 indexData += '<div id="index_' + item.id + '"><h3 class="index-title">' + item.title + '</h3>' + listData + '</div>' + moreHtml;
@@ -1308,14 +1299,12 @@ else
                     inCallbackBlog = true;
                     blogPage++;
                     $("#loading").show();
-                    debugger;
                     $.ajax({
                         url: '/Livediscourse/GetPageLiveBlogs',
                         type: 'Get',
                         data: { id: id, page: blogPage, pu: '@(pageUrl)', cu: '@(Model.Creator)' },
                         dataType: 'html',
                         success: function (data) {
-                            debugger
                             console.log('loaded')
                             inCallbackBlog = false;
                             $("#loading").hide();
@@ -1350,6 +1339,7 @@ else
                 $('#field_' + $(this).data('parent')).toggle();
             });
             $(document).on('click', '.loadCommentBtn', function () {
+                debugger;
                 getComments($(this).data('id'), $(this).data('parent'), $(this).data('page'));
                 $(this).remove();
             });
@@ -1378,7 +1368,6 @@ else
             //     </text>
             // }
             function getComments(itemId, parentId, page) {
-                debugger;
                 $.ajax({
                     url: '/api/SearchApi/liveblogComments/' + itemId + '/' + parentId + '/' + page,
                     type: "GET",
@@ -1500,7 +1489,6 @@ else
 
                 });
             function SendData(id, commentText, parentId, rootParentId, reply, ariaId) {
-                debugger;
                 $.ajax({
                     url: '/Livediscourse/saveDiscourseComment',
                     type: "POST",
@@ -1583,11 +1571,9 @@ else
                 });
             }
             $(window).scroll(function () {
-                debugger;
                 //console.log($(document).find('.update-divider'));
                 $(document).find('.update-divider').each(function () {
                     if (isScrolledIntoView($(this))) {
-                        debugger;
                         url = $(this).attr('data-articleurl');
                         title = $(this).attr('data-articletitle');
                         ChangeUrl(title, url);
@@ -1595,7 +1581,6 @@ else
                 });
             });
             function isScrolledIntoView(elem) {
-                debugger;
                 var jQueryelem = elem;
                 var jQuerywindow = $(window);
                 var docViewTop = jQuerywindow.scrollTop();

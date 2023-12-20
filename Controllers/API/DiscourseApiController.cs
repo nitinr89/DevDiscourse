@@ -55,17 +55,23 @@ namespace Devdiscourse.Controllers.API
         [Route("DiscourseTopic/{Title}/{Sector}")]
         public IActionResult DiscourseTopic(string Title, string Sector)
         {
+            var  obj = new DiscourseTopic();
+            {
+                obj.Title = Title;
+                obj.Sector = Sector;
+            }
+       
             if (!User.Identity.IsAuthenticated)
             {
                 return BadRequest("You are not Authorized.");
             }
             if (ModelState.IsValid)
             {
-                // Do something with the product (not shown).
-                //_db.discoursetopics.add(obj);
-                //obj.creator = usermanager.getuserid(user);
-                //obj.createdon = datetime.utcnow;
-                //obj.modifiedon = datetime.utcnow;
+                //Do something with the product(not shown).
+                _db.DiscourseTopics.Add(obj);
+                obj.Creator = userManager.GetUserId(User);
+                obj.CreatedOn = DateTime.UtcNow;
+                obj.ModifiedOn = DateTime.UtcNow;
                 _db.SaveChanges();
                 return Ok("Success");
             }
@@ -139,7 +145,7 @@ namespace Devdiscourse.Controllers.API
         public IActionResult livediscourseIndexUpdates(long parentId, int page = 1)
         {
             var skipItem = ((page - 1) * 20);
-            var discourseUpdates = (from m in _db.DiscourseIndexs
+            var discourseUpdates = (from m in _db.DiscourseIndexes
                                     where m.LivediscourseId == parentId
                                     orderby m.CreatedOn
                                     select new
@@ -370,7 +376,7 @@ namespace Devdiscourse.Controllers.API
         public IActionResult GetDiscourseIndex(long id,int page)
         {
             var skipCount = (page - 1) * 20;
-            var DiscourseIndexes = _db.DiscourseIndexs.Where(a => a.LivediscourseId == id).OrderBy(o => o.CreatedOn).Select(a => new { a.Id, a.Title }).Skip(skipCount).Take(20);
+            var DiscourseIndexes = _db.DiscourseIndexes.Where(a => a.LivediscourseId == id).OrderBy(o => o.CreatedOn).Select(a => new { a.Id, a.Title }).Skip(skipCount).Take(20);
             return Ok(DiscourseIndexes);
         }
         [HttpGet]
@@ -392,7 +398,7 @@ namespace Devdiscourse.Controllers.API
         public IActionResult LivediscoursesIndexUpdates(long parentId, int page = 1)
         {
             var skipItem = ((page - 1) * 20);
-            var discourseUpdates = (from m in _db.DiscourseIndexs
+            var discourseUpdates = (from m in _db.DiscourseIndexes
                                     //where m.LivediscourseId == parentId
                                     //orderby m.CreatedOn
                                     select new
@@ -477,14 +483,16 @@ namespace Devdiscourse.Controllers.API
         [Route("GetModerators/{id}")]
         public IActionResult GetModerators(long id)
         {
-            var moderators = _db.FollowLivediscourses.Where(a => a.LivediscourseId == id && a.IsModerator == true).Select(s=> new { Id = s.FollowBy, Name =   s.ApplicationUsers.FirstName+" "+ s.ApplicationUsers.LastName });
+            var moderators = _db.FollowLivediscourses
+                //.Where(a => a.LivediscourseId == id && a.IsModerator == true)
+                .Select(s=> new { Id = s.FollowBy, Name =   s.ApplicationUsers.FirstName+" "+ s.ApplicationUsers.LastName });
             return Ok(moderators);
         }
         [HttpGet]
         [Route("Discourse/GetDiscourseAmpIndex/{id}/{__amp_source_origin?}")]
         public IActionResult GetDiscourseAmpIndex(long id,string __amp_source_origin)
         {
-            var returnData = _db.DiscourseIndexs.Where(a => a.LivediscourseId == id).OrderByDescending(o => o.CreatedOn).Select(s=> new { s.Id,s.Title}).ToList();
+            var returnData = _db.DiscourseIndexes.Where(a => a.LivediscourseId == id).OrderByDescending(o => o.CreatedOn).Select(s=> new { s.Id,s.Title}).ToList();
             return Ok(new { items = returnData, hasMorePages = returnData.Any() });
         }
         [HttpGet]

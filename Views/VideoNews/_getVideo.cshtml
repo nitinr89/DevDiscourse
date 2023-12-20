@@ -1,0 +1,56 @@
+﻿@model Devdiscourse.Models.VideoNewsModels.VideoNews
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var newsImage = (Model.VideoThumbUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.VideoThumbUrl : Model.VideoThumbUrl;
+    string domainUrl = "https://www.devdiscourse.com";
+    string pageUrl = "/videos/" + Model.GenerateSecondSlug();
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+    string encodeValue =System.Net.WebUtility.UrlEncode(Model.Title);
+    }
+<div class="col-md-8">
+    <video id="my-video"
+           class="vjs-matrix video-js center-block"
+           controls
+           preload="auto"
+           width="640"
+           height="360"
+           poster="@domainUrl@newsImage?width=1280&height=720&mode=crop"
+           data-setup='{"fluid": true}'>
+        <source id="videosource" src="/api/MediaStream/GetVideoStream/@Model.Id" type="video/mp4" />
+        <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+        </p>
+    </video>
+</div>
+<div class="modal fade" id="embedVideoDialog" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Embed This Media</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="embedCode" class="form-control" value='<iframe width="640" height="360" frameborder="0" src="https://www.devdiscourse.com/videos/embed/@Model.Id"></iframe>' />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-4 col-sm-12">
+    <div class="font-sans-serif text-uppercase text-muted m-t-10" style="letter-spacing:2px;">@Model.CreatedOn.ToString("dd MMMM yyyy")</div>
+    <h3 class="m-t-10 m-b-0" style="line-height:1.24">@Model.Title</h3>
+    <div class="f-16 m-t-20">
+        @Html.Raw(Model.Description)
+    </div>
+    <ul class="list-inline no-margin">
+        <li><a class="social-btn fb" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook"> <span class="fa fa-facebook fb"></span> </a> </li>
+        <li><a class="social-btn tw" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@encodeValue', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li>
+        <li><a class="social-btn ln" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=@encodeValue&summary=@encodeValue&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span></a> </li>
+        <li><a class="social-btn yt" aria-label="Subscribe on Youtube" rel="noopener" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span></a> </li>
+        @if (isMobile)
+        {
+            <li><a class="social-btn wt" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> </a> </li>
+        }
+    </ul>
+</div>

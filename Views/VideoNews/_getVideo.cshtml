@@ -1,4 +1,5 @@
-﻿@model Devdiscourse.Models.VideoNewsModels.VideoNews
+@model Devdiscourse.Models.VideoNewsModels.VideoNews
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @using System.Text.Encodings.Web
 @{
     var newsImage = (Model.VideoThumbUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.VideoThumbUrl : Model.VideoThumbUrl;
@@ -43,6 +44,7 @@
     </div>
     <ul class="list-inline no-margin">
         <li><a class="social-btn fb" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook"> <span class="fa fa-facebook fb"></span> </a> </li>
+
         <li><a class="social-btn tw" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@UrlEncoder.Default.Encode(Model.Title)', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li>
         <li><a class="social-btn ln" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=@UrlEncoder.Default.Encode(Model.Title)&summary=@UrlEncoder.Default.Encode(Model.Title)&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span></a> </li>
         <li><a class="social-btn yt" aria-label="Subscribe on Youtube" rel="noopener" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span></a> </li>

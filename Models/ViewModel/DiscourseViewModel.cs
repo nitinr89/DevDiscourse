@@ -6,10 +6,10 @@ namespace Devdiscourse.Models.ViewModel
     public class DiscourseViewModel
     {
         public long Id { get; set; }
-        public string Title { get; set; }
-        public string ImageUrl { get; set; }
+        public string? Title { get; set; }
+        public string? ImageUrl { get; set; }
         public int SrNo { get; internal set; }
-        public List<DiscourseChildViewModel> children { get;  set; }
+        public List<DiscourseChildViewModel>? children { get;  set; }
         public string GenerateSlug()
         {
             string phrase = string.Format("{0}-{1}", Id, Title);

@@ -1,4 +1,21 @@
-﻿using Devdiscourse.Models;
+
+using System.Data;
+using System.Net;
+using Devdiscourse.Models;
+using Devdiscourse.Models.BasicModels;
+using Devdiscourse.Models.ViewModel;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Devdiscourse.Data;
+using Microsoft.EntityFrameworkCore;
+using Nancy.Json;
+using Devdiscourse.Models.VideoNewsModels;
+using X.PagedList;
+using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.VideoNewsModels;
 using Microsoft.AspNetCore.Identity;
@@ -14,12 +31,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
 
-namespace DevDiscourse.Controllers.Main
+namespace Devdiscourse.Controllers.Main
 {
     public class VideoNewsController : Controller
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
+        
         public VideoNewsController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             this.db = db;
@@ -28,6 +46,7 @@ namespace DevDiscourse.Controllers.Main
 
         // GET: VideoNews
         public ActionResult Index(Guid? region, int? sector = 0, int? page = 1, string label = "0", string country = "", string source = "", string text = "", bool editorPick = false)
+
         {
             ViewBag.label = label;
             ViewBag.sector = sector;
@@ -66,11 +85,8 @@ namespace DevDiscourse.Controllers.Main
             {
                 videoNews = videoNews.Where(a => a.Source.Contains(source));
             }
-            //if (editorPick == true)
-            //{
-            //    videoNews = videoNews.Where(a => a.EditorPick == editorPick);
-            //}
             return View(videoNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
+        }
         }
         [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult Create()
@@ -359,11 +375,16 @@ namespace DevDiscourse.Controllers.Main
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
         public PartialViewResult GetVideo(long id)
         {
             var videoNews = db.VideoNews.Find(id);
             return PartialView("_getVideo", videoNews);
         }
+
+    }
+}
+
         private async Task<CloudBlobContainer> GetCloudBlobContainer()
         {
             var config = new ConfigurationBuilder()
@@ -430,3 +451,4 @@ namespace DevDiscourse.Controllers.Main
         }
     }
 }
+

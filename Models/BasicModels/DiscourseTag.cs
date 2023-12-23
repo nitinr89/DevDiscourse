@@ -19,8 +19,8 @@ namespace Devdiscourse.Models.BasicModels
         
         public long ParentId { get; set; }
         [ForeignKey("SectorId")]
-        public virtual DevSector DevSector { get; set; }
+        public virtual DevSector? DevSector { get; set; }
         public DateTime CreatedOn { get; set; }
-        public virtual ICollection<FollowTag> FollowTags { get; set; }
+        public virtual ICollection<FollowTag>? FollowTags { get; set; }
     }
 }

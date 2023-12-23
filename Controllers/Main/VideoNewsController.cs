@@ -80,9 +80,9 @@ namespace Devdiscourse.Controllers.Main
         [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult Create()
         {
-            ViewBag.Sector = db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToList();
+            ViewBag.Sector = new SelectList(db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
             ViewBag.Label = new SelectList(db.Labels, "Slug", "Title");
-            ViewBag.Region = db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo).ToList();
+            ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
             return View();
         }
         [HttpPost]
@@ -171,9 +171,9 @@ namespace Devdiscourse.Controllers.Main
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.Sector = db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToList();
+            ViewBag.Sector = new SelectList(db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
             ViewBag.Label = new SelectList(db.Labels, "Slug", "Title");
-            ViewBag.Region = db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo).ToList();
+            ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
             return View(videoNews);
         }
         public ActionResult Edit(long? id)
@@ -187,9 +187,9 @@ namespace Devdiscourse.Controllers.Main
             {
                 return NotFound();
             }
-            ViewBag.Sector = db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToList();
+            ViewBag.Sector = new SelectList(db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
             ViewBag.Label = new SelectList(db.Labels, "Slug", "Title");
-            ViewBag.Region = db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo).ToList();
+            ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
             return View(videoNews);
         }
 
@@ -318,9 +318,9 @@ namespace Devdiscourse.Controllers.Main
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.Sector = db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToList();
+            ViewBag.Sector = new SelectList(db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
             ViewBag.Label = new SelectList(db.Labels, "Slug", "Title");
-            ViewBag.Region = db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo).ToList();
+            ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
             return View(videoNews);
         }
         public long GetTag(string tag)

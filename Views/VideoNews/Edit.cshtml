@@ -143,29 +143,13 @@
                         <div class="p-20">
                             <div class="row m-t-10">
                                 <div class="col-sm-6 col-xs-12">
-                                    @Html.Label("VideoNewsRegions", "Region", htmlAttributes: new { @class = "control-label" })
-                                    <div id="RegionList" class="showListDiv"></div>
-                                    @if (Model.VideoNewsRegions != null)
-                                    {
-                                        @foreach (var oldreg in @Model.VideoNewsRegions)
-                                        {
-                                            <input type="hidden" name="OldVideoEdition" value="@oldreg.EditionId" />
-                                        }
-                                    }
-                                    <select id="VideoEdition" multiple>
-                                        @foreach (var reg in @ViewBag.Region)
-                                        {
-                                            if (Model.VideoNewsRegions != null && Model.VideoNewsRegions.Any(n => n.EditionId == reg.Id))
-                                            {
-                                                <option selected value="@reg.Id">@reg.Title</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@reg.Id">@reg.Title</option>
-                                            }
-
-                                        }
-                                    </select>
+                                    @Html.LabelFor(model => model.VideoNewsRegions, htmlAttributes: new { @class = "control-label" })
+                                    <div class="">
+                                        <div id="RegionList" class="showListDiv"></div>
+                                        <input type="text" class="form-control hidden" id="Region" name="Region" />
+                                        @Html.DropDownList("Region", null, htmlAttributes: new { @class = "form-control", id = "Region_multi", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(model => model.VideoNewsRegions, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-12">
                                     @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
@@ -184,31 +168,13 @@
                         <div class="label-tag">Sector/Label</div>
                         <div class="p-20">
                             <div class="row m-t-10">
-                                <div class="col-sm-6 col-xs-12">
-                                    @Html.Label("VideoNewsSectors", "Sector", htmlAttributes: new { @class = "control-label" })
+                                <div class="col-sm-4 col-xs-12">
+                                    @Html.LabelFor(model => model.VideoNewsSectors, htmlAttributes: new { @class = "control-label" })
                                     <div class="">
                                         <div id="SectorList" class="showListDiv"></div>
-                                        @if (Model.VideoNewsSectors != null)
-                                        {
-                                            @foreach (var oldsector in Model.VideoNewsSectors)
-                                            {
-                                                <input type="hidden" name="OldVideoSector" value="@oldsector.SectorId" />
-                                            }
-                                        }
-                                        <select id="VideoSector" multiple class="form-control">
-                                            @foreach (var sector in ViewBag.Sector)
-                                            {
-                                                if (Model.VideoNewsSectors != null && Model.VideoNewsSectors.Any(n => n.SectorId == sector.Id))
-                                                {
-                                                    <option selected value="@sector.Id">@sector.Title</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@sector.Id">@sector.Title</option>
-                                                }
-
-                                            }
-                                        </select>
+                                        <input type="text" class="form-control hidden" value="0" id="Sector" name="Sector" />
+                                        @Html.DropDownList("Sector", null, htmlAttributes: new { @class = "form-control", id = "Sector_multi", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(model => model.VideoNewsSectors, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-12">
@@ -577,7 +543,7 @@
                     success: function (data) {
                         var countryHtml = '';
                         $.each(data, function (i, item) {
-                            countryHtml += '<option value="' + item.Title + '">' + item.Title + '</option>';
+                            countryHtml += '<option value="' + item.title + '">' + item.title + '</option>';
                         });
                         $("#Country").html(countryHtml).val('@(Model.Country)');
                     },
@@ -677,7 +643,7 @@
                                         $('.searching').hide();
                                         $('.modal-footer').show();
                                         $.each(data, function (i, item) {
-                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.NewsId + '" tabindex="' + item.Title + '" value="' + item.Label + '">' + item.Title + '</div>');
+                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.newsId + '" tabindex="' + item.title + '" value="' + item.label + '">' + item.title + '</div>');
                                         });
                                     },
                                     error: function (req, status, error) {

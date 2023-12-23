@@ -138,14 +138,13 @@
                         <div class="p-20">
                             <div class="row m-t-10">
                                 <div class="col-sm-6 col-xs-12">
-                                    @Html.Label("VideoNewsRegions", "Region", htmlAttributes: new { @class = "control-label" })
-                                    <div id="RegionList" class="showListDiv"></div>
-                                    <select id="VideoEdition" multiple>
-                                        @foreach (var reg in @ViewBag.Region)
-                                        {
-                                            <option value="@reg.Id">@reg.Title</option>
-                                        }
-                                    </select>
+                                    @Html.LabelFor(model => model.VideoNewsRegions, htmlAttributes: new { @class = "control-label" })
+                                    <div class="">
+                                        <div id="RegionList" class="showListDiv"></div>
+                                        <input type="text" class="form-control hidden" id="Region" name="Region" />
+                                        @Html.DropDownList("Region", null, htmlAttributes: new { @class = "form-control", id = "Region_multi", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(model => model.VideoNewsRegions, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-12">
                                     @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
@@ -165,16 +164,13 @@
                         <div class="label-tag">Sector/Label</div>
                         <div class="p-20">
                             <div class="row m-t-10">
-                                <div class="col-sm-6 col-xs-12">
-                                    @Html.Label("VideoNewsSectors", "Sector", htmlAttributes: new { @class = "control-label" })
+                                <div class="col-sm-4 col-xs-12">
+                                    @Html.LabelFor(model => model.VideoNewsSectors, htmlAttributes: new { @class = "control-label" })
                                     <div class="">
                                         <div id="SectorList" class="showListDiv"></div>
-                                        <select id="VideoSector" multiple class="form-control">
-                                            @foreach(var sector in ViewBag.Sector)
-                                            {
-                                                <option value="@sector.Id">@sector.Title</option>
-                                            }
-                                        </select>
+                                        <input type="text" class="form-control hidden" value="0" id="Sector" name="Sector" />
+                                        @Html.DropDownList("Sector", null, htmlAttributes: new { @class = "form-control", id = "Sector_multi", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(model => model.VideoNewsSectors, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-12">
@@ -501,7 +497,7 @@
                     success: function (data) {
                         $('#Country_multi').replaceWith('<select class="form-control" id="Country_multi" size="27"></select>');
                         $.each(data, function (i, item) {
-                            $('#Country_multi').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                            $('#Country_multi').append('<option value="' + item.title + '">' + item.title + '</option>');
                         });
                         $('#Country_multi').change(function () {
                             $("#Country").val($(this).val());
@@ -600,7 +596,7 @@
                                         $('.searching').hide();
                                         $('.modal-footer').show();
                                         $.each(data, function (i, item) {
-                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.NewsId + '" tabindex="' + item.Title + '" value="' + item.Label + '">' + item.Title + '</div>');
+                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.newsId + '" tabindex="' + item.title + '" value="' + item.label + '">' + item.title + '</div>');
                                         });
                                     },
                                     error: function (req, status, error) {

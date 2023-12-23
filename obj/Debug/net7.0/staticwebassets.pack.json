@@ -1,1415 +1,1415 @@
 {
   "Files": [
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Carbon_Ads.css",
-      "PackagePath": "staticwebassets/Content/Carbon_Ads.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Carbon_Ads.css",
+      "PackagePath": "staticwebassets\\Content\\Carbon_Ads.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Carbon_Ads.min.css",
-      "PackagePath": "staticwebassets/Content/Carbon_Ads.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Carbon_Ads.min.css",
+      "PackagePath": "staticwebassets\\Content\\Carbon_Ads.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/IANS.txt",
-      "PackagePath": "staticwebassets/Content/IANS.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\IANS.txt",
+      "PackagePath": "staticwebassets\\Content\\IANS.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/L.Control.Basemaps.css",
-      "PackagePath": "staticwebassets/Content/Map/L.Control.Basemaps.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\L.Control.Basemaps.css",
+      "PackagePath": "staticwebassets\\Content\\Map\\L.Control.Basemaps.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/404.php",
-      "PackagePath": "staticwebassets/Content/Map/images/404.php"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\404.php",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\404.php"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/cursor-clicker.png",
-      "PackagePath": "staticwebassets/Content/Map/images/cursor-clicker.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\cursor-clicker.png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\cursor-clicker.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/cursor.png",
-      "PackagePath": "staticwebassets/Content/Map/images/cursor.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\cursor.png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\cursor.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/fullscreen.png",
-      "PackagePath": "staticwebassets/Content/Map/images/fullscreen.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\fullscreen.png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\fullscreen.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/fullscreen@2x.png",
-      "PackagePath": "staticwebassets/Content/Map/images/fullscreen@2x.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\fullscreen@2x.png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\fullscreen@2x.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/layers-2x.png",
-      "PackagePath": "staticwebassets/Content/Map/images/layers-2x.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\layers-2x.png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\layers-2x.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/layers.png",
-      "PackagePath": "staticwebassets/Content/Map/images/layers.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\layers.png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\layers.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon (1).png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon (1).png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon (1).png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon (1).png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon (2).png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon (2).png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon (2).png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon (2).png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon (3).png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon (3).png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon (3).png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon (3).png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon (4).png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon (4).png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon (4).png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon (4).png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon (5).png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon (5).png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon (5).png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon (5).png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon (6).png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon (6).png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon (6).png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon (6).png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon (7).png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon (7).png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon (7).png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon (7).png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon (8).png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon (8).png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon (8).png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon (8).png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon-2x.png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon-2x.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon-2x.png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon-2x.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-icon.png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-icon.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-icon.png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-icon.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/images/marker-shadow.png",
-      "PackagePath": "staticwebassets/Content/Map/images/marker-shadow.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\images\\marker-shadow.png",
+      "PackagePath": "staticwebassets\\Content\\Map\\images\\marker-shadow.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/leaflet.css",
-      "PackagePath": "staticwebassets/Content/Map/leaflet.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\leaflet.css",
+      "PackagePath": "staticwebassets\\Content\\Map\\leaflet.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/leaflet.fullscreen.css",
-      "PackagePath": "staticwebassets/Content/Map/leaflet.fullscreen.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\leaflet.fullscreen.css",
+      "PackagePath": "staticwebassets\\Content\\Map\\leaflet.fullscreen.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/leaflet.fullscreen.min.css",
-      "PackagePath": "staticwebassets/Content/Map/leaflet.fullscreen.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\leaflet.fullscreen.min.css",
+      "PackagePath": "staticwebassets\\Content\\Map\\leaflet.fullscreen.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/leaflet.measure.css",
-      "PackagePath": "staticwebassets/Content/Map/leaflet.measure.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\leaflet.measure.css",
+      "PackagePath": "staticwebassets\\Content\\Map\\leaflet.measure.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/leaflet.min.css",
-      "PackagePath": "staticwebassets/Content/Map/leaflet.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\leaflet.min.css",
+      "PackagePath": "staticwebassets\\Content\\Map\\leaflet.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/leaflet.zoomhome.css",
-      "PackagePath": "staticwebassets/Content/Map/leaflet.zoomhome.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\leaflet.zoomhome.css",
+      "PackagePath": "staticwebassets\\Content\\Map\\leaflet.zoomhome.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Map/leaflet.zoomhome.min.css",
-      "PackagePath": "staticwebassets/Content/Map/leaflet.zoomhome.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Map\\leaflet.zoomhome.min.css",
+      "PackagePath": "staticwebassets\\Content\\Map\\leaflet.zoomhome.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/LICENSE",
-      "PackagePath": "staticwebassets/Content/OwlCarousel"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\LICENSE",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/README.md",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/README.md"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\README.md",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\README.md"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/assets/ajax-loader.gif",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/assets/ajax-loader.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\assets\\ajax-loader.gif",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\assets\\ajax-loader.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/assets/owl.carousel.css",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/assets/owl.carousel.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\assets\\owl.carousel.css",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\assets\\owl.carousel.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/assets/owl.carousel.min.css",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/assets/owl.carousel.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\assets\\owl.carousel.min.css",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\assets\\owl.carousel.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/assets/owl.theme.default.css",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/assets/owl.theme.default.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\assets\\owl.theme.default.css",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\assets\\owl.theme.default.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/assets/owl.theme.default.min.css",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/assets/owl.theme.default.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\assets\\owl.theme.default.min.css",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\assets\\owl.theme.default.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/assets/owl.theme.green.css",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/assets/owl.theme.green.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\assets\\owl.theme.green.css",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\assets\\owl.theme.green.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/assets/owl.theme.green.min.css",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/assets/owl.theme.green.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\assets\\owl.theme.green.min.css",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\assets\\owl.theme.green.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/assets/owl.video.play.png",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/assets/owl.video.play.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\assets\\owl.video.play.png",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\assets\\owl.video.play.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/owl.carousel.js",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/owl.carousel.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\owl.carousel.js",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\owl.carousel.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/OwlCarousel/owl.carousel.min.js",
-      "PackagePath": "staticwebassets/Content/OwlCarousel/owl.carousel.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\OwlCarousel\\owl.carousel.min.js",
+      "PackagePath": "staticwebassets\\Content\\OwlCarousel\\owl.carousel.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/PTI.txt",
-      "PackagePath": "staticwebassets/Content/PTI.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\PTI.txt",
+      "PackagePath": "staticwebassets\\Content\\PTI.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/PagedList.css",
-      "PackagePath": "staticwebassets/Content/PagedList.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\PagedList.css",
+      "PackagePath": "staticwebassets\\Content\\PagedList.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/PagedList.min.css",
-      "PackagePath": "staticwebassets/Content/PagedList.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\PagedList.min.css",
+      "PackagePath": "staticwebassets\\Content\\PagedList.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Reuters.txt",
-      "PackagePath": "staticwebassets/Content/Reuters.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Reuters.txt",
+      "PackagePath": "staticwebassets\\Content\\Reuters.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/SDG/page.css",
-      "PackagePath": "staticwebassets/Content/SDG/page.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\SDG\\page.css",
+      "PackagePath": "staticwebassets\\Content\\SDG\\page.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Site.css",
-      "PackagePath": "staticwebassets/Content/Site.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Site.css",
+      "PackagePath": "staticwebassets\\Content\\Site.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/SiteNew.css",
-      "PackagePath": "staticwebassets/Content/SiteNew.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\SiteNew.css",
+      "PackagePath": "staticwebassets\\Content\\SiteNew.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/SiteNew.min.css",
-      "PackagePath": "staticwebassets/Content/SiteNew.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\SiteNew.min.css",
+      "PackagePath": "staticwebassets\\Content\\SiteNew.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Survey.css",
-      "PackagePath": "staticwebassets/Content/Survey.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Survey.css",
+      "PackagePath": "staticwebassets\\Content\\Survey.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/Survey.min.css",
-      "PackagePath": "staticwebassets/Content/Survey.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\Survey.min.css",
+      "PackagePath": "staticwebassets\\Content\\Survey.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/admin.css",
-      "PackagePath": "staticwebassets/Content/admin.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\admin.css",
+      "PackagePath": "staticwebassets\\Content\\admin.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/article.css",
-      "PackagePath": "staticwebassets/Content/article.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\article.css",
+      "PackagePath": "staticwebassets\\Content\\article.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/bootstrap-theme.css",
-      "PackagePath": "staticwebassets/Content/bootstrap-theme.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\bootstrap-theme.css",
+      "PackagePath": "staticwebassets\\Content\\bootstrap-theme.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/bootstrap-theme.min.css",
-      "PackagePath": "staticwebassets/Content/bootstrap-theme.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\bootstrap-theme.min.css",
+      "PackagePath": "staticwebassets\\Content\\bootstrap-theme.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/bootstrap.css",
-      "PackagePath": "staticwebassets/Content/bootstrap.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\bootstrap.css",
+      "PackagePath": "staticwebassets\\Content\\bootstrap.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/bootstrap.min.css",
-      "PackagePath": "staticwebassets/Content/bootstrap.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\Content\\bootstrap.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/breaking-news-ticker.css",
-      "PackagePath": "staticwebassets/Content/breaking-news-ticker.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\breaking-news-ticker.css",
+      "PackagePath": "staticwebassets\\Content\\breaking-news-ticker.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/breaking-news-ticker.min.css",
-      "PackagePath": "staticwebassets/Content/breaking-news-ticker.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\breaking-news-ticker.min.css",
+      "PackagePath": "staticwebassets\\Content\\breaking-news-ticker.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/calendar/fullcalendar.css",
-      "PackagePath": "staticwebassets/Content/calendar/fullcalendar.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\calendar\\fullcalendar.css",
+      "PackagePath": "staticwebassets\\Content\\calendar\\fullcalendar.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/contribute.css",
-      "PackagePath": "staticwebassets/Content/contribute.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\contribute.css",
+      "PackagePath": "staticwebassets\\Content\\contribute.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/counter.txt",
-      "PackagePath": "staticwebassets/Content/counter.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\counter.txt",
+      "PackagePath": "staticwebassets\\Content\\counter.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/email-templates/AppResetPassword.html",
-      "PackagePath": "staticwebassets/Content/email-templates/AppResetPassword.html"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\email-templates\\AppResetPassword.html",
+      "PackagePath": "staticwebassets\\Content\\email-templates\\AppResetPassword.html"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/email-templates/PressReleaseEmail.html",
-      "PackagePath": "staticwebassets/Content/email-templates/PressReleaseEmail.html"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\email-templates\\PressReleaseEmail.html",
+      "PackagePath": "staticwebassets\\Content\\email-templates\\PressReleaseEmail.html"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/email-templates/ResetPassword.html",
-      "PackagePath": "staticwebassets/Content/email-templates/ResetPassword.html"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\email-templates\\ResetPassword.html",
+      "PackagePath": "staticwebassets\\Content\\email-templates\\ResetPassword.html"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/email-templates/budget_email.html",
-      "PackagePath": "staticwebassets/Content/email-templates/budget_email.html"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\email-templates\\budget_email.html",
+      "PackagePath": "staticwebassets\\Content\\email-templates\\budget_email.html"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/email-templates/email.html",
-      "PackagePath": "staticwebassets/Content/email-templates/email.html"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\email-templates\\email.html",
+      "PackagePath": "staticwebassets\\Content\\email-templates\\email.html"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/ffmpeg.exe",
-      "PackagePath": "staticwebassets/Content/ffmpeg.exe"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\ffmpeg.exe",
+      "PackagePath": "staticwebassets\\Content\\ffmpeg.exe"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/font-awesome.css",
-      "PackagePath": "staticwebassets/Content/font-awesome.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\font-awesome.css",
+      "PackagePath": "staticwebassets\\Content\\font-awesome.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/font-awesome.min.css",
-      "PackagePath": "staticwebassets/Content/font-awesome.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\font-awesome.min.css",
+      "PackagePath": "staticwebassets\\Content\\font-awesome.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/jquery.datetimepicker.min.css",
-      "PackagePath": "staticwebassets/Content/jquery.datetimepicker.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\jquery.datetimepicker.min.css",
+      "PackagePath": "staticwebassets\\Content\\jquery.datetimepicker.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/jquery.multiselect.css",
-      "PackagePath": "staticwebassets/Content/jquery.multiselect.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\jquery.multiselect.css",
+      "PackagePath": "staticwebassets\\Content\\jquery.multiselect.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/jquery.multiselect.min.css",
-      "PackagePath": "staticwebassets/Content/jquery.multiselect.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\jquery.multiselect.min.css",
+      "PackagePath": "staticwebassets\\Content\\jquery.multiselect.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/matrix.json",
-      "PackagePath": "staticwebassets/Content/matrix.json"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\matrix.json",
+      "PackagePath": "staticwebassets\\Content\\matrix.json"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/newslabel/Health.txt",
-      "PackagePath": "staticwebassets/Content/newslabel/Health.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\newslabel\\Health.txt",
+      "PackagePath": "staticwebassets\\Content\\newslabel\\Health.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/newslabel/Humor.txt",
-      "PackagePath": "staticwebassets/Content/newslabel/Humor.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\newslabel\\Humor.txt",
+      "PackagePath": "staticwebassets\\Content\\newslabel\\Humor.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/bootstrap-theme.css",
-      "PackagePath": "staticwebassets/Content/old/bootstrap-theme.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\bootstrap-theme.css",
+      "PackagePath": "staticwebassets\\Content\\old\\bootstrap-theme.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/bootstrap-theme.css.map",
-      "PackagePath": "staticwebassets/Content/old/bootstrap-theme.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\bootstrap-theme.css.map",
+      "PackagePath": "staticwebassets\\Content\\old\\bootstrap-theme.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/bootstrap-theme.min.css",
-      "PackagePath": "staticwebassets/Content/old/bootstrap-theme.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\bootstrap-theme.min.css",
+      "PackagePath": "staticwebassets\\Content\\old\\bootstrap-theme.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/bootstrap-theme.min.css.map",
-      "PackagePath": "staticwebassets/Content/old/bootstrap-theme.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\bootstrap-theme.min.css.map",
+      "PackagePath": "staticwebassets\\Content\\old\\bootstrap-theme.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/bootstrap.css",
-      "PackagePath": "staticwebassets/Content/old/bootstrap.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\bootstrap.css",
+      "PackagePath": "staticwebassets\\Content\\old\\bootstrap.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/bootstrap.css.map",
-      "PackagePath": "staticwebassets/Content/old/bootstrap.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\Content\\old\\bootstrap.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/bootstrap.min.css",
-      "PackagePath": "staticwebassets/Content/old/bootstrap.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\Content\\old\\bootstrap.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/bootstrap.min.css.map",
-      "PackagePath": "staticwebassets/Content/old/bootstrap.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\Content\\old\\bootstrap.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/font-awesome.css",
-      "PackagePath": "staticwebassets/Content/old/font-awesome.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\font-awesome.css",
+      "PackagePath": "staticwebassets\\Content\\old\\font-awesome.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/old/font-awesome.min.css",
-      "PackagePath": "staticwebassets/Content/old/font-awesome.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\old\\font-awesome.min.css",
+      "PackagePath": "staticwebassets\\Content\\old\\font-awesome.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/owl.video.play.png",
-      "PackagePath": "staticwebassets/Content/owl.video.play.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\owl.video.play.png",
+      "PackagePath": "staticwebassets\\Content\\owl.video.play.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/researchmap.css",
-      "PackagePath": "staticwebassets/Content/researchmap.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\researchmap.css",
+      "PackagePath": "staticwebassets\\Content\\researchmap.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/researchmap.min.css",
-      "PackagePath": "staticwebassets/Content/researchmap.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\researchmap.min.css",
+      "PackagePath": "staticwebassets\\Content\\researchmap.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/status.txt",
-      "PackagePath": "staticwebassets/Content/status.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\status.txt",
+      "PackagePath": "staticwebassets\\Content\\status.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/transparent.png",
-      "PackagePath": "staticwebassets/Content/transparent.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\transparent.png",
+      "PackagePath": "staticwebassets\\Content\\transparent.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Content/videoCall.css",
-      "PackagePath": "staticwebassets/Content/videoCall.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Content\\videoCall.css",
+      "PackagePath": "staticwebassets\\Content\\videoCall.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Home/Index.js",
-      "PackagePath": "staticwebassets/Scripts/Home/Index.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Home\\Index.js",
+      "PackagePath": "staticwebassets\\Scripts\\Home\\Index.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Home/Index.min.js",
-      "PackagePath": "staticwebassets/Scripts/Home/Index.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Home\\Index.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\Home\\Index.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/L.Control.Basemaps.js",
-      "PackagePath": "staticwebassets/Scripts/Map/L.Control.Basemaps.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\L.Control.Basemaps.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\L.Control.Basemaps.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/Leaflet.fullscreen.min.js",
-      "PackagePath": "staticwebassets/Scripts/Map/Leaflet.fullscreen.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\Leaflet.fullscreen.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\Leaflet.fullscreen.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/MobileLeaflet.Photo.js",
-      "PackagePath": "staticwebassets/Scripts/Map/MobileLeaflet.Photo.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\MobileLeaflet.Photo.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\MobileLeaflet.Photo.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/default.js",
-      "PackagePath": "staticwebassets/Scripts/Map/default.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\default.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\default.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet-compass.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet-compass.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet-compass.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet-compass.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet-freedraw.web.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet-freedraw.web.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet-freedraw.web.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet-freedraw.web.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet-measure.min.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet-measure.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet-measure.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet-measure.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet-src.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet-src.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet-src.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet-src.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet-src.js.map",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet-src.js.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet-src.js.map",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet-src.js.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.Photo.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.Photo.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.Photo.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.Photo.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.Photo.min.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.Photo.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.Photo.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.Photo.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.Photomobile.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.Photomobile.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.Photomobile.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.Photomobile.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.draw.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.draw.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.draw.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.draw.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.easyPrint.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.easyPrint.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.easyPrint.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.easyPrint.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.geometryutil.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.geometryutil.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.geometryutil.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.geometryutil.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.js.map",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.js.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.js.map",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.js.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.markerCluster.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.markerCluster.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.markerCluster.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.markerCluster.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.measure.min.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.measure.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.measure.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.measure.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.pin.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.pin.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.pin.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.pin.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/leaflet.zoomhome.min.js",
-      "PackagePath": "staticwebassets/Scripts/Map/leaflet.zoomhome.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\leaflet.zoomhome.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\leaflet.zoomhome.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Map/reqwest.min.js",
-      "PackagePath": "staticwebassets/Scripts/Map/reqwest.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Map\\reqwest.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\Map\\reqwest.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Survey.js",
-      "PackagePath": "staticwebassets/Scripts/Survey.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Survey.js",
+      "PackagePath": "staticwebassets\\Scripts\\Survey.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/Survey.min.js",
-      "PackagePath": "staticwebassets/Scripts/Survey.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\Survey.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\Survey.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/_references.js",
-      "PackagePath": "staticwebassets/Scripts/_references.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\_references.js",
+      "PackagePath": "staticwebassets\\Scripts\\_references.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/ads.js",
-      "PackagePath": "staticwebassets/Scripts/ads.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\ads.js",
+      "PackagePath": "staticwebassets\\Scripts\\ads.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/ai.0.22.9-build00167.js",
-      "PackagePath": "staticwebassets/Scripts/ai.0.22.9-build00167.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\ai.0.22.9-build00167.js",
+      "PackagePath": "staticwebassets\\Scripts\\ai.0.22.9-build00167.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/ai.0.22.9-build00167.min.js",
-      "PackagePath": "staticwebassets/Scripts/ai.0.22.9-build00167.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\ai.0.22.9-build00167.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\ai.0.22.9-build00167.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/article.js",
-      "PackagePath": "staticwebassets/Scripts/article.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\article.js",
+      "PackagePath": "staticwebassets\\Scripts\\article.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/article.min.js",
-      "PackagePath": "staticwebassets/Scripts/article.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\article.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\article.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/article_new - Copy.js",
-      "PackagePath": "staticwebassets/Scripts/article_new - Copy.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\article_new - Copy.js",
+      "PackagePath": "staticwebassets\\Scripts\\article_new - Copy.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/article_new - Copy.min.js",
-      "PackagePath": "staticwebassets/Scripts/article_new - Copy.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\article_new - Copy.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\article_new - Copy.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/article_new - Copy.min.min.js",
-      "PackagePath": "staticwebassets/Scripts/article_new - Copy.min.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\article_new - Copy.min.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\article_new - Copy.min.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/article_new.js",
-      "PackagePath": "staticwebassets/Scripts/article_new.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\article_new.js",
+      "PackagePath": "staticwebassets\\Scripts\\article_new.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/article_new.min.js",
-      "PackagePath": "staticwebassets/Scripts/article_new.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\article_new.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\article_new.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/article_new.min.min.js",
-      "PackagePath": "staticwebassets/Scripts/article_new.min.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\article_new.min.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\article_new.min.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/bootstrap-notify.js",
-      "PackagePath": "staticwebassets/Scripts/bootstrap-notify.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\bootstrap-notify.js",
+      "PackagePath": "staticwebassets\\Scripts\\bootstrap-notify.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/bootstrap.js",
-      "PackagePath": "staticwebassets/Scripts/bootstrap.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\bootstrap.js",
+      "PackagePath": "staticwebassets\\Scripts\\bootstrap.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/bootstrap.min.js",
-      "PackagePath": "staticwebassets/Scripts/bootstrap.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\bootstrap.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/breaking-news-ticker.min.js",
-      "PackagePath": "staticwebassets/Scripts/breaking-news-ticker.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\breaking-news-ticker.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\breaking-news-ticker.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/calendar/fullcalendar.js",
-      "PackagePath": "staticwebassets/Scripts/calendar/fullcalendar.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\calendar\\fullcalendar.js",
+      "PackagePath": "staticwebassets\\Scripts\\calendar\\fullcalendar.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/calendar/moment.min.js",
-      "PackagePath": "staticwebassets/Scripts/calendar/moment.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\calendar\\moment.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\calendar\\moment.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/d3/d3-legend.min.js",
-      "PackagePath": "staticwebassets/Scripts/d3/d3-legend.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\d3\\d3-legend.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\d3\\d3-legend.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/d3/d3.min.js",
-      "PackagePath": "staticwebassets/Scripts/d3/d3.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\d3\\d3.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\d3\\d3.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/dropzone/basic.css",
-      "PackagePath": "staticwebassets/Scripts/dropzone/basic.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\dropzone\\basic.css",
+      "PackagePath": "staticwebassets\\Scripts\\dropzone\\basic.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/dropzone/basic.min.css",
-      "PackagePath": "staticwebassets/Scripts/dropzone/basic.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\dropzone\\basic.min.css",
+      "PackagePath": "staticwebassets\\Scripts\\dropzone\\basic.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/dropzone/dropzone-amd-module.js",
-      "PackagePath": "staticwebassets/Scripts/dropzone/dropzone-amd-module.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\dropzone\\dropzone-amd-module.js",
+      "PackagePath": "staticwebassets\\Scripts\\dropzone\\dropzone-amd-module.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/dropzone/dropzone-amd-module.min.js",
-      "PackagePath": "staticwebassets/Scripts/dropzone/dropzone-amd-module.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\dropzone\\dropzone-amd-module.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\dropzone\\dropzone-amd-module.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/dropzone/dropzone.css",
-      "PackagePath": "staticwebassets/Scripts/dropzone/dropzone.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\dropzone\\dropzone.css",
+      "PackagePath": "staticwebassets\\Scripts\\dropzone\\dropzone.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/dropzone/dropzone.js",
-      "PackagePath": "staticwebassets/Scripts/dropzone/dropzone.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\dropzone\\dropzone.js",
+      "PackagePath": "staticwebassets\\Scripts\\dropzone\\dropzone.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/dropzone/dropzone.min.css",
-      "PackagePath": "staticwebassets/Scripts/dropzone/dropzone.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\dropzone\\dropzone.min.css",
+      "PackagePath": "staticwebassets\\Scripts\\dropzone\\dropzone.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/dropzone/dropzone.min.js",
-      "PackagePath": "staticwebassets/Scripts/dropzone/dropzone.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\dropzone\\dropzone.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\dropzone\\dropzone.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jQuery-marque/README.md",
-      "PackagePath": "staticwebassets/Scripts/jQuery-marque/README.md"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jQuery-marque\\README.md",
+      "PackagePath": "staticwebassets\\Scripts\\jQuery-marque\\README.md"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jQuery-marque/bower.json",
-      "PackagePath": "staticwebassets/Scripts/jQuery-marque/bower.json"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jQuery-marque\\bower.json",
+      "PackagePath": "staticwebassets\\Scripts\\jQuery-marque\\bower.json"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jQuery-marque/info.ini",
-      "PackagePath": "staticwebassets/Scripts/jQuery-marque/info.ini"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jQuery-marque\\info.ini",
+      "PackagePath": "staticwebassets\\Scripts\\jQuery-marque\\info.ini"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jQuery-marque/jquery.marquee.js",
-      "PackagePath": "staticwebassets/Scripts/jQuery-marque/jquery.marquee.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jQuery-marque\\jquery.marquee.js",
+      "PackagePath": "staticwebassets\\Scripts\\jQuery-marque\\jquery.marquee.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jQuery-marque/jquery.marquee.min.js",
-      "PackagePath": "staticwebassets/Scripts/jQuery-marque/jquery.marquee.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jQuery-marque\\jquery.marquee.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jQuery-marque\\jquery.marquee.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jQuery-marque/licence",
-      "PackagePath": "staticwebassets/Scripts/jQuery-marque"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jQuery-marque\\licence",
+      "PackagePath": "staticwebassets\\Scripts\\jQuery-marque"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jQuery-marque/marquee.jquery.json",
-      "PackagePath": "staticwebassets/Scripts/jQuery-marque/marquee.jquery.json"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jQuery-marque\\marquee.jquery.json",
+      "PackagePath": "staticwebassets\\Scripts\\jQuery-marque\\marquee.jquery.json"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jQuery-marque/package.json",
-      "PackagePath": "staticwebassets/Scripts/jQuery-marque/package.json"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jQuery-marque\\package.json",
+      "PackagePath": "staticwebassets\\Scripts\\jQuery-marque\\package.json"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jQuery-marque/update.json",
-      "PackagePath": "staticwebassets/Scripts/jQuery-marque/update.json"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jQuery-marque\\update.json",
+      "PackagePath": "staticwebassets\\Scripts\\jQuery-marque\\update.json"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery-1.10.2.intellisense.js",
-      "PackagePath": "staticwebassets/Scripts/jquery-1.10.2.intellisense.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery-1.10.2.intellisense.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery-1.10.2.intellisense.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery-1.10.2.js",
-      "PackagePath": "staticwebassets/Scripts/jquery-1.10.2.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery-1.10.2.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery-1.10.2.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery-1.10.2.min.js",
-      "PackagePath": "staticwebassets/Scripts/jquery-1.10.2.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery-1.10.2.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery-1.10.2.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery-1.10.2.min.map",
-      "PackagePath": "staticwebassets/Scripts/jquery-1.10.2.min.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery-1.10.2.min.map",
+      "PackagePath": "staticwebassets\\Scripts\\jquery-1.10.2.min.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery-cookie-plugin.js",
-      "PackagePath": "staticwebassets/Scripts/jquery-cookie-plugin.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery-cookie-plugin.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery-cookie-plugin.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery-cookie-plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/jquery-cookie-plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery-cookie-plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery-cookie-plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.datetimepicker.full.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.datetimepicker.full.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.datetimepicker.full.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.datetimepicker.full.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.datetimepicker.full.min.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.datetimepicker.full.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.datetimepicker.full.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.datetimepicker.full.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.lazy.min.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.lazy.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.lazy.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.lazy.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.multiselect.es5.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.multiselect.es5.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.multiselect.es5.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.multiselect.es5.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.multiselect.es5.min.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.multiselect.es5.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.multiselect.es5.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.multiselect.es5.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.multiselect.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.multiselect.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.multiselect.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.multiselect.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.multiselect.min.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.multiselect.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.multiselect.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.multiselect.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.signalR-2.2.2.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.signalR-2.2.2.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.signalR-2.2.2.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.signalR-2.2.2.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.signalR-2.2.2.min.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.signalR-2.2.2.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.signalR-2.2.2.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.signalR-2.2.2.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.validate-vsdoc.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.validate-vsdoc.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.validate-vsdoc.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.validate-vsdoc.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.validate.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.validate.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.validate.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.validate.min.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.validate.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.validate.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.validate.unobtrusive.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.validate.unobtrusive.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.validate.unobtrusive.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/jquery.validate.unobtrusive.min.js",
-      "PackagePath": "staticwebassets/Scripts/jquery.validate.unobtrusive.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/layout.js",
-      "PackagePath": "staticwebassets/Scripts/layout.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\layout.js",
+      "PackagePath": "staticwebassets\\Scripts\\layout.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/layout.min.js",
-      "PackagePath": "staticwebassets/Scripts/layout.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\layout.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\layout.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/lazysizes.min.js",
-      "PackagePath": "staticwebassets/Scripts/lazysizes.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\lazysizes.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\lazysizes.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/modernizr-2.6.2.js",
-      "PackagePath": "staticwebassets/Scripts/modernizr-2.6.2.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\modernizr-2.6.2.js",
+      "PackagePath": "staticwebassets\\Scripts\\modernizr-2.6.2.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/old/bootstrap.js",
-      "PackagePath": "staticwebassets/Scripts/old/bootstrap.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\old\\bootstrap.js",
+      "PackagePath": "staticwebassets\\Scripts\\old\\bootstrap.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/old/bootstrap.min.js",
-      "PackagePath": "staticwebassets/Scripts/old/bootstrap.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\old\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\old\\bootstrap.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/prototype.js",
-      "PackagePath": "staticwebassets/Scripts/prototype.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\prototype.js",
+      "PackagePath": "staticwebassets\\Scripts\\prototype.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/respond.js",
-      "PackagePath": "staticwebassets/Scripts/respond.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\respond.js",
+      "PackagePath": "staticwebassets\\Scripts\\respond.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/respond.min.js",
-      "PackagePath": "staticwebassets/Scripts/respond.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\respond.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\respond.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/sweetmodaljs/jquery.sweet-modal.min.css",
-      "PackagePath": "staticwebassets/Scripts/sweetmodaljs/jquery.sweet-modal.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\sweetmodaljs\\jquery.sweet-modal.min.css",
+      "PackagePath": "staticwebassets\\Scripts\\sweetmodaljs\\jquery.sweet-modal.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/sweetmodaljs/jquery.sweet-modal.min.js",
-      "PackagePath": "staticwebassets/Scripts/sweetmodaljs/jquery.sweet-modal.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\sweetmodaljs\\jquery.sweet-modal.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\sweetmodaljs\\jquery.sweet-modal.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/sweetmodaljs/sweetalert2.all.js",
-      "PackagePath": "staticwebassets/Scripts/sweetmodaljs/sweetalert2.all.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\sweetmodaljs\\sweetalert2.all.js",
+      "PackagePath": "staticwebassets\\Scripts\\sweetmodaljs\\sweetalert2.all.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tagsInput/css/jquery.tagsinput.min.css",
-      "PackagePath": "staticwebassets/Scripts/tagsInput/css/jquery.tagsinput.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tagsInput\\css\\jquery.tagsinput.min.css",
+      "PackagePath": "staticwebassets\\Scripts\\tagsInput\\css\\jquery.tagsinput.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js",
-      "PackagePath": "staticwebassets/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tagsInput\\js\\jquery-tagsinput1.3.6jquery.tagsinput.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tagsInput\\js\\jquery-tagsinput1.3.6jquery.tagsinput.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tagsInput/js/jquery2.1.3jquery.min.js",
-      "PackagePath": "staticwebassets/Scripts/tagsInput/js/jquery2.1.3jquery.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tagsInput\\js\\jquery2.1.3jquery.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tagsInput\\js\\jquery2.1.3jquery.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/jquery.tinymce.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/jquery.tinymce.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\jquery.tinymce.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\jquery.tinymce.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/langs/readme.md",
-      "PackagePath": "staticwebassets/Scripts/tinymce/langs/readme.md"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\langs\\readme.md",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\langs\\readme.md"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/license.txt",
-      "PackagePath": "staticwebassets/Scripts/tinymce/license.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\license.txt",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\license.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/advlist/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/advlist/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\advlist\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\advlist\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/anchor/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/anchor/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\anchor\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\anchor\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/autolink/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/autolink/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\autolink\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\autolink\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/autoresize/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/autoresize/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\autoresize\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\autoresize\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/autosave/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/autosave/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\autosave\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\autosave\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/bbcode/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/bbcode/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\bbcode\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\bbcode\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/charmap/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/charmap/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\charmap\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\charmap\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/code/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/code/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\code\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\code\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/codesample/css/prism.css",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/codesample/css/prism.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\codesample\\css\\prism.css",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\codesample\\css\\prism.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/codesample/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/codesample/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\codesample\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\codesample\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/colorpicker/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/colorpicker/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\colorpicker\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\colorpicker\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/contextmenu/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/contextmenu/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\contextmenu\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\contextmenu\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/directionality/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/directionality/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\directionality\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\directionality\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-cool.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-cool.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-cool.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-cool.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-cry.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-cry.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-cry.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-cry.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-embarassed.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-embarassed.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-embarassed.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-embarassed.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-foot-in-mouth.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-foot-in-mouth.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-foot-in-mouth.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-frown.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-frown.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-frown.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-frown.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-innocent.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-innocent.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-innocent.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-innocent.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-kiss.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-kiss.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-kiss.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-kiss.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-laughing.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-laughing.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-laughing.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-laughing.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-money-mouth.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-money-mouth.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-money-mouth.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-money-mouth.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-sealed.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-sealed.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-sealed.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-sealed.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-smile.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-smile.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-smile.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-smile.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-surprised.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-surprised.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-surprised.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-surprised.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-tongue-out.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-tongue-out.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-tongue-out.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-tongue-out.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-undecided.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-undecided.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-undecided.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-undecided.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-wink.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-wink.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-wink.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-wink.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/img/smiley-yell.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/img/smiley-yell.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-yell.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\img\\smiley-yell.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/emoticons/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/emoticons/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\emoticons\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\emoticons\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/fullpage/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/fullpage/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\fullpage\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\fullpage\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/fullscreen/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/fullscreen/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\fullscreen\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\fullscreen\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/help/img/logo.png",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/help/img/logo.png"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\help\\img\\logo.png",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\help\\img\\logo.png"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/help/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/help/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\help\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\help\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/hr/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/hr/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\hr\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\hr\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/image/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/image/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\image\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\image\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/imagetools/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/imagetools/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\imagetools\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\imagetools\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/importcss/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/importcss/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\importcss\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\importcss\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/insertdatetime/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/insertdatetime/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\insertdatetime\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\insertdatetime\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/legacyoutput/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/legacyoutput/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\legacyoutput\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\legacyoutput\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/link/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/link/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\link\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\link\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/lists/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/lists/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\lists\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\lists\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/media/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/media/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\media\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\media\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/nonbreaking/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/nonbreaking/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\nonbreaking\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\nonbreaking\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/noneditable/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/noneditable/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\noneditable\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\noneditable\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/pagebreak/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/pagebreak/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\pagebreak\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\pagebreak\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/paste/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/paste/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\paste\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\paste\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/preview/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/preview/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\preview\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\preview\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/print/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/print/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\print\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\print\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/save/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/save/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\save\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\save\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/searchreplace/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/searchreplace/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\searchreplace\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\searchreplace\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/spellchecker/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/spellchecker/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\spellchecker\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\spellchecker\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/tabfocus/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/tabfocus/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\tabfocus\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\tabfocus\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/table/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/table/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\table\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\table\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/template/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/template/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\template\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\template\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/textcolor/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/textcolor/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\textcolor\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\textcolor\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/textpattern/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/textpattern/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\textpattern\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\textpattern\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/toc/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/toc/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\toc\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\toc\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/visualblocks/css/visualblocks.css",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/visualblocks/css/visualblocks.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\visualblocks\\css\\visualblocks.css",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\visualblocks\\css\\visualblocks.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/visualblocks/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/visualblocks/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\visualblocks\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\visualblocks\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/visualchars/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/visualchars/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\visualchars\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\visualchars\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/plugins/wordcount/plugin.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/plugins/wordcount/plugin.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\plugins\\wordcount\\plugin.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\plugins\\wordcount\\plugin.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/content.inline.min.css",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/content.inline.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\content.inline.min.css",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\content.inline.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/content.min.css",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/content.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\content.min.css",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\content.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/content.mobile.min.css",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/content.mobile.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\content.mobile.min.css",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\content.mobile.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/fonts/tinymce-mobile.woff",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/fonts/tinymce-mobile.woff"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-mobile.woff",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-mobile.woff"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/fonts/tinymce-small.eot",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/fonts/tinymce-small.eot"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-small.eot",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-small.eot"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/fonts/tinymce-small.svg",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/fonts/tinymce-small.svg"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-small.svg",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-small.svg"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/fonts/tinymce-small.ttf",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/fonts/tinymce-small.ttf"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-small.ttf",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-small.ttf"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/fonts/tinymce-small.woff",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/fonts/tinymce-small.woff"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-small.woff",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce-small.woff"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/fonts/tinymce.eot",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/fonts/tinymce.eot"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce.eot",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce.eot"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/fonts/tinymce.svg",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/fonts/tinymce.svg"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce.svg",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce.svg"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/fonts/tinymce.ttf",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/fonts/tinymce.ttf"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce.ttf",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce.ttf"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/fonts/tinymce.woff",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/fonts/tinymce.woff"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce.woff",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\fonts\\tinymce.woff"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/img/anchor.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/img/anchor.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\img\\anchor.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\img\\anchor.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/img/loader.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/img/loader.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\img\\loader.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\img\\loader.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/img/object.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/img/object.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\img\\object.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\img\\object.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/img/trans.gif",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/img/trans.gif"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\img\\trans.gif",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\img\\trans.gif"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/skin.min.css",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/skin.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\skin.min.css",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\skin.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/skins/lightgray/skin.mobile.min.css",
-      "PackagePath": "staticwebassets/Scripts/tinymce/skins/lightgray/skin.mobile.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\skins\\lightgray\\skin.mobile.min.css",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\skins\\lightgray\\skin.mobile.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/themes/inlite/theme.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/themes/inlite/theme.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\themes\\inlite\\theme.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\themes\\inlite\\theme.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/themes/mobile/theme.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/themes/mobile/theme.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\themes\\mobile\\theme.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\themes\\mobile\\theme.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/themes/modern/theme.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/themes/modern/theme.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\themes\\modern\\theme.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\themes\\modern\\theme.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/tinymce/tinymce.min.js",
-      "PackagePath": "staticwebassets/Scripts/tinymce/tinymce.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\tinymce\\tinymce.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\tinymce\\tinymce.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/touch/jquery.touch.min.js",
-      "PackagePath": "staticwebassets/Scripts/touch/jquery.touch.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\touch\\jquery.touch.min.js",
+      "PackagePath": "staticwebassets\\Scripts\\touch\\jquery.touch.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/Scripts/video-ads.js",
-      "PackagePath": "staticwebassets/Scripts/video-ads.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\Scripts\\video-ads.js",
+      "PackagePath": "staticwebassets\\Scripts\\video-ads.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/css/site.css",
-      "PackagePath": "staticwebassets/css/site.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/favicon.ico",
-      "PackagePath": "staticwebassets/favicon.ico"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/fonts/FontAwesome.otf",
-      "PackagePath": "staticwebassets/fonts/FontAwesome.otf"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\fonts\\FontAwesome.otf",
+      "PackagePath": "staticwebassets\\fonts\\FontAwesome.otf"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/fonts/Oswald-Light.ttf",
-      "PackagePath": "staticwebassets/fonts/Oswald-Light.ttf"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\fonts\\Oswald-Light.ttf",
+      "PackagePath": "staticwebassets\\fonts\\Oswald-Light.ttf"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/fonts/Oswald-light.woff2",
-      "PackagePath": "staticwebassets/fonts/Oswald-light.woff2"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\fonts\\Oswald-light.woff2",
+      "PackagePath": "staticwebassets\\fonts\\Oswald-light.woff2"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/fonts/fontawesome-webfont.eot",
-      "PackagePath": "staticwebassets/fonts/fontawesome-webfont.eot"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\fonts\\fontawesome-webfont.eot",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.eot"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/fonts/fontawesome-webfont.svg",
-      "PackagePath": "staticwebassets/fonts/fontawesome-webfont.svg"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\fonts\\fontawesome-webfont.svg",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.svg"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/fonts/fontawesome-webfont.ttf",
-      "PackagePath": "staticwebassets/fonts/fontawesome-webfont.ttf"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\fonts\\fontawesome-webfont.ttf",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.ttf"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/fonts/fontawesome-webfont.woff",
-      "PackagePath": "staticwebassets/fonts/fontawesome-webfont.woff"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\fonts\\fontawesome-webfont.woff",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.woff"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/fonts/fontawesome-webfont.woff2",
-      "PackagePath": "staticwebassets/fonts/fontawesome-webfont.woff2"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\fonts\\fontawesome-webfont.woff2",
+      "PackagePath": "staticwebassets\\fonts\\fontawesome-webfont.woff2"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/js/jquery-min.js",
-      "PackagePath": "staticwebassets/js/jquery-min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\js\\jquery-min.js",
+      "PackagePath": "staticwebassets\\js\\jquery-min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/js/site.js",
-      "PackagePath": "staticwebassets/js/site.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/LICENSE",
-      "PackagePath": "staticwebassets/lib/bootstrap"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
-      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
-      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/LICENSE.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
-      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
-      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery-validation/LICENSE.md",
-      "PackagePath": "staticwebassets/lib/jquery-validation/LICENSE.md"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery-validation/dist/additional-methods.js",
-      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
-      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
-      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
-      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery/LICENSE.txt",
-      "PackagePath": "staticwebassets/lib/jquery/LICENSE.txt"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery/dist/jquery.js",
-      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery/dist/jquery.min.js",
-      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/lib/jquery/dist/jquery.min.map",
-      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Id": "/Users/neeraj/Documents/Projects/Devdiscourse/wwwroot/signalr/hubs.js",
-      "PackagePath": "staticwebassets/signalr/hubs.js"
+      "Id": "D:\\Main\\DevDiscourse\\wwwroot\\signalr\\hubs.js",
+      "PackagePath": "staticwebassets\\signalr\\hubs.js"
     },
     {
-      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.Devdiscourse.Microsoft.AspNetCore.StaticWebAssets.props",
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.Devdiscourse.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
     {
-      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.build.Devdiscourse.props",
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.Devdiscourse.props",
       "PackagePath": "build\\Devdiscourse.props"
     },
     {
-      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildMultiTargeting.Devdiscourse.props",
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.Devdiscourse.props",
       "PackagePath": "buildMultiTargeting\\Devdiscourse.props"
     },
     {
-      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildTransitive.Devdiscourse.props",
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.Devdiscourse.props",
       "PackagePath": "buildTransitive\\Devdiscourse.props"
     }
   ],

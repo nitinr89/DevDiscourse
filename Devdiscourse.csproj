@@ -10,6 +10,9 @@
 	<PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
 	<PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
 	<ItemGroup>
+	  <Compile Remove="Models\BasicModels\DiscourseIndex.cs" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
 	</ItemGroup>
 

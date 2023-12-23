@@ -1,25 +1,33 @@
-﻿using Devdiscourse.Models;
-using Devdiscourse.Models.BasicModels;
-using Devdiscourse.Models.VideoNewsModels;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using X.PagedList;
+
+using System.Data;
 using System.Net;
+using Devdiscourse.Models;
+using Devdiscourse.Models.BasicModels;
+using Devdiscourse.Models.ViewModel;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 using Devdiscourse.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
+using Nancy.Json;
+using Devdiscourse.Models.VideoNewsModels;
+using X.PagedList;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
 
-namespace DevDiscourse.Controllers.Main
+namespace Devdiscourse.Controllers.Main
 {
     public class VideoNewsController : Controller
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
+        
         public VideoNewsController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             this.db = db;
@@ -66,12 +74,9 @@ namespace DevDiscourse.Controllers.Main
             {
                 videoNews = videoNews.Where(a => a.Source.Contains(source));
             }
-            //if (editorPick == true)
-            //{
-            //    videoNews = videoNews.Where(a => a.EditorPick == editorPick);
-            //}
             return View(videoNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
         }
+        
         [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult Create()
         {
@@ -430,3 +435,4 @@ namespace DevDiscourse.Controllers.Main
         }
     }
 }
+

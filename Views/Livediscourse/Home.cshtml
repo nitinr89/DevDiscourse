@@ -173,7 +173,6 @@
             GetRecommendedDiscourse();
             function GetRecommendedDiscourse() {
                 $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/3').done(function (data) {
-                    debugger;
                     var recommendedHtml = '';
                     $.each(data, function (i, item) {
                         debugger;
@@ -284,8 +283,7 @@
                 } else if (Sector.trim() == '') {
                     $('#sector-validation').html('Sector is required.')
                 } else {
-                            $.post('/api/DiscourseApi/DiscourseTopic/' + Title + '/' + Sector,                                              
-                            // Title: topicTitle, Sector: topicSector
+                        $.post('/api/DiscourseApi/DiscourseTopic/' + Title + '/' + Sector,                                              
                         function (data) {
                             if (data == 'Success') {
                                 debugger;

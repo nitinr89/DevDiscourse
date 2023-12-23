@@ -43,6 +43,12 @@ namespace DevDiscourse.Controllers.API
         [HttpPost]
         public IActionResult DiscourseTopic(DiscourseTopic obj)
         {
+            var  obj = new DiscourseTopic();
+            {
+                obj.Title = Title;
+                obj.Sector = Sector;
+            }
+       
             if (!User.Identity.IsAuthenticated)
             {
                 return BadRequest("You are not Authorized.");
@@ -116,7 +122,33 @@ namespace DevDiscourse.Controllers.API
             return Ok(LatestDiscourse);
         }
         [HttpGet]
-        [Route("api/Discourse/GetFollowedDiscourse/{take}")]
+        [Route("livediscourseIndexUpdates/{parentId}/{page}")]
+        public IActionResult livediscourseIndexUpdates(long parentId, int page = 1)
+        {
+            var skipItem = ((page - 1) * 20);
+            var discourseUpdates = (from m in _db.DiscourseIndexes
+                                    where m.LivediscourseId == parentId
+                                    orderby m.CreatedOn
+                                    select new
+                                    {
+                                        m.Title,
+                                        m.Id,
+                                        Livediscourse = _db.Livediscourses.Where(s => s.LivediscourseIndex == m.Id && s.AdminCheck == true).OrderByDescending(o => o.CreatedOn)
+                                        .Select(s => new { s.Id, s.Title, s.CreatedOn }).Take(3).ToList()
+                                    }).Skip(skipItem).Take(20);
+            return Ok(discourseUpdates);
+        }
+
+        [HttpGet]
+        [Route("livediscourseIndexUpdatesById/{id}/{skip}")]
+        public IActionResult livediscourseIndexUpdatesById(long id, int skip = 3)
+        {
+            var discourseUpdates = _db.Livediscourses.Where(s => s.LivediscourseIndex == id && s.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new { s.Id, s.Title, s.CreatedOn }).Skip(skip).Take(10);
+            return Ok(discourseUpdates);
+        }
+
+        [HttpGet]
+        [Route("GetFollowedDiscourse/{take}")]
         public IActionResult GetFollowedDiscourse(int take)
         {
             var user = userManager.GetUserId(User);
@@ -353,9 +385,9 @@ namespace DevDiscourse.Controllers.API
         public IActionResult livediscourseIndexUpdates(long parentId, int page = 1)
         {
             var skipItem = ((page - 1) * 20);
-            var discourseUpdates = (from m in db.DiscourseIndexs
-                                    where m.LivediscourseId == parentId
-                                    orderby m.CreatedOn
+            var discourseUpdates = (from m in _db.DiscourseIndexes
+                                    //where m.LivediscourseId == parentId
+                                    //orderby m.CreatedOn
                                     select new
                                     {
                                         m.Title,
@@ -436,7 +468,9 @@ namespace DevDiscourse.Controllers.API
         [Route("api/Discourse/GetModerators/{id}")]
         public IActionResult GetModerators(long id)
         {
-            var moderators = db.FollowLivediscourses.Where(a => a.LivediscourseId == id && a.IsModerator == true).Select(s => new { Id = s.FollowBy, Name = s.ApplicationUsers.FirstName + " " + s.ApplicationUsers.LastName });
+            var moderators = _db.FollowLivediscourses
+                //.Where(a => a.LivediscourseId == id && a.IsModerator == true)
+                .Select(s=> new { Id = s.FollowBy, Name =   s.ApplicationUsers.FirstName+" "+ s.ApplicationUsers.LastName });
             return Ok(moderators);
         }
         [HttpGet]

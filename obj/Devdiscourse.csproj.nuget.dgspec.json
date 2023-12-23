@@ -1,26 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/neeraj/Documents/Projects/Devdiscourse/Devdiscourse.csproj": {}
+    "D:\\Main\\DevDiscourse\\Devdiscourse.csproj": {}
   },
   "projects": {
-    "/Users/neeraj/Documents/Projects/Devdiscourse/Devdiscourse.csproj": {
+    "D:\\Main\\DevDiscourse\\Devdiscourse.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/neeraj/Documents/Projects/Devdiscourse/Devdiscourse.csproj",
+        "projectUniqueName": "D:\\Main\\DevDiscourse\\Devdiscourse.csproj",
         "projectName": "Devdiscourse",
-        "projectPath": "/Users/neeraj/Documents/Projects/Devdiscourse/Devdiscourse.csproj",
-        "packagesPath": "/Users/neeraj/.nuget/packages/",
-        "outputPath": "/Users/neeraj/Documents/Projects/Devdiscourse/obj/",
+        "projectPath": "D:\\Main\\DevDiscourse\\Devdiscourse.csproj",
+        "packagesPath": "C:\\Users\\VisionRI-Ankit\\.nuget\\packages\\",
+        "outputPath": "D:\\Main\\DevDiscourse\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/neeraj/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\VisionRI-Ankit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/sdk/7.0.311/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -159,7 +160,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -16,7 +16,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             await Task.Yield();
 
-            var lastThreeHour = DateTime.UtcNow.AddDays(-123);
+            var lastThreeHour = DateTime.UtcNow.AddDays(-63);
             //var infocus = _db.RegionNewsRankings
             //  .Where(a => a.DevNews.AdminCheck == true
             //              && a.Region.Title == reg
@@ -43,6 +43,7 @@ namespace DevDiscourse.Controllers.ViewComponents
 
 
             var infocus = (from dn in _db.DevNews
+                           where dn.AdminCheck == true && dn.CreatedOn > lastThreeHour && dn.NewsLabels != "Newsalert"
                            select new LatestNewsView
                            {
                                Id = dn.Id,

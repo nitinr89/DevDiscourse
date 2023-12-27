@@ -13,7 +13,9 @@ namespace DevDiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(int skip = 0, int take = 0)
         {
-            var search = _db.DevNews/*.Where(a => a.AdminCheck == true && (a.Category.StartsWith("21,") || a.Category.EndsWith(",21") || a.Category.Contains(",21,") || a.Category == "21")).OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take)*/
+            var search = _db.DevNews
+                .Where(a => a.AdminCheck == true) //(a.Category.StartsWith("21,") || a.Category.EndsWith(",21") || a.Category.Contains(",21,") || a.Category == "21"))
+                .OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take)
                 .Select(a => new LatestNewsView {
                     Id = a.Id,
                     Title = a.Title,

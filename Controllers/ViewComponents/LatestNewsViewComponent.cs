@@ -18,7 +18,7 @@ namespace Devdiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(string reg = "Global Edition")
         {
             await Task.Yield();
-            DateTime twoDays = DateTime.Today.AddDays(-2);
+            DateTime twoDays = DateTime.Today.AddDays(-62);
             if (reg == "Global Edition")
             {
                 //var result = _db.DevNews.Where(a => a.Type != "Blog" && a.CreatedOn > twoDays && a.AdminCheck == true)
@@ -34,19 +34,16 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //return View(result.ToList());
 
                 var result = (from dn in _db.DevNews
-                               select new NewsViewModel
-                               {
-                                 //  Id = dn.Id,
-                                   NewsId = dn.NewsId,
-                                   Title = dn.Title,
-                                   ImageUrl = dn.ImageUrl,
-                                   CreatedOn = dn.ModifiedOn,
-                                   //Type = dn.Type,
-                                   SubType = dn.SubType,
-                                   Country = dn.Country,
-                                   Label = dn.NewsLabels,
-                                   Ranking = 0
-                               }).OrderByDescending(a => a.CreatedOn).AsNoTracking()
+                              where dn.AdminCheck == true && dn.CreatedOn > twoDays && dn.Type != "Blog"
+                              select new NewsViewModel
+                              {
+                                  NewsId = dn.NewsId,
+                                  Title = dn.Title,
+                                  ImageUrl = dn.ImageUrl,
+                                  CreatedOn = dn.ModifiedOn,
+                                  Subtitle = dn.SubTitle,
+                                  Label = dn.NewsLabels,
+                              }).OrderByDescending(a => a.CreatedOn).AsNoTracking()
                      .Take(5);
                 return View(result.ToList());
 
@@ -70,22 +67,18 @@ namespace Devdiscourse.Controllers.ViewComponents
 
                 var result
                     = (from dn in _db.DevNews
-                               select new NewsViewModel
-                               {
-                                   // Id = dn.Id,
-                                   //NewId = dn.NewsId,
-                                   Title = dn.Title,
-                                   ImageUrl = dn.ImageUrl,
-                                   CreatedOn = dn.ModifiedOn,
-                                   // Type = dn.Type,
-                                   SubType = dn.SubType,
-                                   Country = dn.Country,
-                                   Label = dn.NewsLabels,
-                                   Ranking = 0
-                               }).OrderByDescending(a => a.CreatedOn).AsNoTracking()
+                       where dn.AdminCheck == true && dn.CreatedOn > twoDays && dn.Type != "Blog"
+                       select new NewsViewModel
+                       {
+                           NewsId = dn.NewsId,
+                           Title = dn.Title,
+                           ImageUrl = dn.ImageUrl,
+                           CreatedOn = dn.ModifiedOn,
+                           Subtitle = dn.SubTitle,
+                           Label = dn.NewsLabels,
+                       }).OrderByDescending(a => a.CreatedOn).AsNoTracking()
                      .Take(5);
                 return View(result.ToList());
-                //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
             }
         }
     }

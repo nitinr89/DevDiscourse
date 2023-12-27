@@ -33,7 +33,9 @@
                         <h4 title="@item.Title" style="font-stretch:extra-condensed;line-height:1.2;font-weight:400" class="no-margin">
                             @item.Title
                         </h4>
-                        <p class="text-gray"> <small>@CountryHelper(item.Country)</small> | <span><small>@item.TimeAgo()</small></span> </p>
+                        <p class="text-gray"> <small>@{
+                                    await CountryHelper(item.Country);
+                                }</small> | <span><small>@item.TimeAgo()</small></span> </p>
                     </a>
                 </div>
             </div>
@@ -54,7 +56,13 @@
                         <h4 title="@item.Title" style="font-stretch:extra-condensed;line-height:1.2;font-weight:400" class="no-margin">
                             @item.Title
                         </h4>
-                        <p class="text-gray"> <small>@CountryHelper(item.Country)</small> | <span><small>@item.TimeAgo()</small></span> </p>
+                        <p class="text-gray">
+                            <small>
+                                @{
+                                    await CountryHelper(item.Country);
+                                }
+                            </small> | <span><small>@item.TimeAgo()</small></span>
+                        </p>
                     </a>
                 </div>
             </div>
@@ -78,7 +86,13 @@ else if (Model.Count() > 5)
                         <h4 title="@item.Title" style="font-stretch:extra-condensed;line-height:1.2;font-weight:400" class="no-margin">
                             @item.Title
                         </h4>
-                        <p class="text-gray"> <small>@CountryHelper(item.Country)</small> | <span><small>@item.TimeAgo()</small></span> </p>
+                        <p class="text-gray">
+                            <small>
+                                @{
+                                    await CountryHelper(item.Country);
+                                }
+                            </small> | <span><small>@item.TimeAgo()</small></span>
+                        </p>
                     </a>
                 </div>
             </div>

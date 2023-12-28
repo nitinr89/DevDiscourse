@@ -37,7 +37,9 @@ namespace Devdiscourse.Controllers.ViewComponents
                         ImageUrl = s.ImageUrl,
                         ImageCopyright = s.ImageCopyright,
                         ModifiedOn = s.ModifiedOn,
-                        DiscourseComments = _db.DiscourseComments.Where(a => a.ItemId == s.Id && a.ParentId == 0 && a.IsHidden == false).Take(1).ToList(),
+                        DiscourseComments = _db.DiscourseComments
+                        //.Where(a => a.ItemId == s.Id && a.ParentId == 0 && a.IsHidden == false)
+                        .Take(1).ToList(),
                         CommentCount = s.CommentCount,
                         LikeCount = s.LikeCount,
                         DislikeCount = s.DislikeCount,
@@ -61,7 +63,9 @@ namespace Devdiscourse.Controllers.ViewComponents
                         PublishedOn = s.PublishedOn,
                         ImageCopyright = s.ImageCopyright,
                         ModifiedOn = s.ModifiedOn,
-                        DiscourseComments = _db.DiscourseComments.Where(a => a.ItemId == s.Id && a.ParentId == 0 && a.IsHidden == false).Take(1).ToList(),
+                        DiscourseComments = _db.DiscourseComments
+                        //.Where(a => a.ItemId == s.Id && a.ParentId == 0 && a.IsHidden == false)
+                        .Take(1).ToList(),
                         CommentCount = s.CommentCount,
                         LikeCount = s.LikeCount,
                         DislikeCount = s.DislikeCount,

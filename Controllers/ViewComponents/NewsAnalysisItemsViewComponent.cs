@@ -27,7 +27,7 @@ namespace Devdiscourse.Controllers.ViewComponents
             {
 
                 var search = (from a in _db.DevNews
-                              where a.AdminCheck && a.CreatedOn > oneMonth
+                             // where a.AdminCheck && a.CreatedOn > oneMonth
                               select new NewsAnalysisViewModel
                               {
                                   NewsId = a.NewsId,
@@ -79,14 +79,14 @@ namespace Devdiscourse.Controllers.ViewComponents
 
                 //                return View(resultList.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable());
 
-                var resultList = (from rnr in _db.RegionNewsRankings
-                                  join dn in _db.DevNews on rnr.NewsId equals dn.Id
-                                  join r in _db.Regions on rnr.RegionId equals r.Id
-                                  let a = new { RegionNews = rnr, DevNews = dn, Region = r }
-                                  where a.DevNews.AdminCheck == true &&
-                                        a.Region.Title == "Global Edition" &&//need to change region
-                                        a.DevNews.ModifiedOn > oneMonth
-                                  orderby a.DevNews.ModifiedOn descending, a.RegionNews.Ranking descending
+                var resultList = (from a in _db.RegionNewsRankings
+                                  //join dn in _db.DevNews on rnr.NewsId equals dn.Id
+                                  //join r in _db.Regions on rnr.RegionId equals r.Id
+                                  //let a = new { RegionNews = rnr, DevNews = dn, Region = r }
+                                 //where a.DevNews.AdminCheck == true &&
+                                 // a.Region.Title == "Global Edition" &&//need to change region
+                                 // a.DevNews.ModifiedOn > oneMonth
+                                //orderby a.DevNews.ModifiedOn descending, a.RegionNews.Ranking descending
                                   select new NewsAnalysisViewModel
                                   {
                                       NewsId = a.DevNews.NewsId,
@@ -97,7 +97,8 @@ namespace Devdiscourse.Controllers.ViewComponents
                                       Type = a.DevNews.Type,
                                       SubType = a.DevNews.SubType,
                                       Label = a.DevNews.NewsLabels,
-                                      Ranking = a.RegionNews.Ranking
+                                      Ranking = a.Ranking
+                                      //Ranking = a.RegionNews.Ranking
                                   })
                     .Take(50)
                     .ToList();

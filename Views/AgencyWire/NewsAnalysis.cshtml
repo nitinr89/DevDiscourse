@@ -243,16 +243,13 @@
             $(document).find('#newsLink').addClass('active');
 
             $(window).scroll(function () {
-                debugger;
                 if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height()) && showMoreCounter < 5) 
                 {
-                    debugger;
                     loadNewsData();
                 }
             });
             function loadNewsData() {
                 if (_page > -1 && !inCallback) {
-                    debugger;
                     inCallback = true;
                     _page++;
                     $("div#loading").show();
@@ -265,7 +262,6 @@
                             showMoreCounter = showMoreCounter + 1;
                             if (data.trim() != '') {
                                 $("#newsContainer").append(data);
-                                debugger;
                                 $(".lazy").lazy();
                                 if (showMoreCounter == 5) {
                                     $("#newsContainer").append('<div class="col-xs-12"><div style="padding:10px;border:1px solid #eee;" class="loadMoreButton m-t-10 m-b-10 text-center">SHOW MORE <span class="fa fa-chevron-circle-down" aria-hidden="true"></span></div></div>');

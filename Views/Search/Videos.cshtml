@@ -305,7 +305,6 @@
 
     <script>
         $(document).ready(function () {
-            debugger;
             var region = '@(ViewBag.region)';
             var page = 1;
             var inCallback = false;
@@ -313,7 +312,6 @@
             var isReachedScrollEnd = false;
             var monthArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-            debugger;
             var VjsButton = videojs.getComponent("Button");
             var customButton = videojs.extend(VjsButton, {
                 constructor: function (player, options) {
@@ -338,13 +336,10 @@
         }
 
                 $('.playVideo').click(function () {
-                    debugger;
                     $('#nowplaying').remove();
                     var url = $(this).attr('data-url');
                     var title = $(this).attr('title');
-                    debugger;
                     $('#videoContainer').load($(this).attr('data-src'), function () {
-                        debugger;
                         if (videojs.getPlayers()["my-video"]) {
                             delete videojs.getPlayers()["my-video"];
                         }
@@ -360,7 +355,6 @@
                 });
             if ('@(ViewBag.videoNews)' == '')
             {
-                debugger;
                 if ($('.playVideo').length != 0) {
                     $('.playVideo')[0].click();
                 } else {
@@ -369,7 +363,6 @@
                 }
             }
             if ($('.playVideo').length == 0) {
-                debugger;
                 $('#topDevshots').hide();
             }
             // Active Menu Icon
@@ -382,11 +375,9 @@
                 document.cookie = "Edition=" + $(this).val() + ";expires=" + date.toGMTString() + "; path=/";
                 window.location.href = $(this).find('option:selected').attr('data-to');
             });
-            debugger;
             GetOpinion();
             function GetOpinion() {
                 var ApiDataUrl = "/api/SearchApi/GetAnalysis/" + region + "/0";
-                debugger;
                 $.getJSON(ApiDataUrl, function (data) {
                     var alertHtml = '';
                     $.each(data, function (i, item) {
@@ -421,14 +412,12 @@
                     inCallback = true;
                     page++;
                     $("#loading").show();
-                    debugger;
                     $.ajax({
                         type: 'GET',
                         url: '/api/SearchApi/GetVideoNews/' + region + '/' + page,
                         dataType: "json",
                         success: function (data) {
                             showMoreCounter = showMoreCounter + 1;
-                            debugger;
                             if (data.length == 0) {
                                 isReachedScrollEnd == true;
                                 $("#loading").hide();
@@ -474,7 +463,6 @@
             $(document).on("click", ".loadMoreButton", function () {
                 $(this).remove();
                 showMoreCounter = 0;
-                debugger;
                 loadNewsData();
             });
 

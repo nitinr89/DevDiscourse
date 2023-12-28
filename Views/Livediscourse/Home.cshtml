@@ -76,9 +76,7 @@
         $(document).find('#livediscourseLink').addClass('active');
 
         $(document).ready(function () {
-            debugger;
             $(document).find('#regDropDown').change(function () {
-                debugger;
                 var date = new Date();
                 date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
                 document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
@@ -108,7 +106,6 @@
                 var RT = $(this).data('rt');
                 $.post('/api/ReactLivediscourse/'+Id+'/'+IT+'/'+RT,
                     function (data) {
-                            debugger;
                         $('#like_' + data.id + ',#dislike_' + data.id).removeClass('reacted');
                         if (data.rt == 1) {
                             $('#like_' + data.id).addClass('reacted').html('<span class="fa fa-thumbs-o-up"></span> '+pluralise(data.likeCount,"Like"));
@@ -127,7 +124,6 @@
             getSectors();
             function getSectors() {
                 $.ajax('/api/DiscourseApi/GetSector/').done(function (data) {
-                    debugger;
                     var sectorHtml = '<option value="">--Select Sector--</option>';
                     $.each(data, function (i, item) {
                         sectorHtml += '<option value="' + item.id + '">' + item.title + '</option>';
@@ -139,13 +135,11 @@
             getSuggestedTopics();
             function getSuggestedTopics() {
                 $.ajax('/api/DiscourseApi/GetSuggestedTopics').done(function (data) {
-                    debugger;
                     var suggestedTopicsHtml = '';
                     if (data.length == 0) {
                         $('#suggestedtopics,#st_title').hide()
                     }
                     $.each(data, function (i, item) {
-                        debugger;
                         var likeClass = "";
                         var dislikeClass = "";
                         if (item.reacted == 1) {
@@ -175,18 +169,17 @@
                 $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/3').done(function (data) {
                     var recommendedHtml = '';
                     $.each(data, function (i, item) {
-                        debugger;
                         var newsUrl = convertToSlug(item.parentId, item.parenTitle);
                         var imageUrl = item.imageUrl;
                         var imageHtml = '<br/>';
                         if (item.ImageUrl == '/images/sector/all_sectors.jpg') {
                             imageUrl = item.ParentImageUrl;
                         }
-                        //if (imageUrl != null) {
+                        if (imageUrl != null) {
                             imageHtml = '<div class="media-left">' +
                                 '<div class="recommend-img" style="background-image:url(' + imageUrl + ')"></div>' +
                                 '</div>';
-                        //}
+                        }
                         recommendedHtml += '<a href="/live-discourse/'+newsUrl+'#post_'+item.id+'" class="text-decoration"><div class="media recommend-card">'+
                                             imageHtml+
                                             '<div class="media-body">'+
@@ -198,13 +191,10 @@
             }
             GetTrendingDiscourse();
             function GetTrendingDiscourse() {
-                debugger;
                 $.ajax('/api/DiscourseApi/GetInfocusDiscourse/@(ViewBag.region)').done(function (data) {
-                    debugger;
                     var trendingHtml = '';
                     var trendingNews = 0;
                     $.each(data, function (i, item) {
-                        debugger;
                         var newsUrl = convertToSlug(item.id, item.title);
                         trendingNews = item.id;
                         var country = item.country;
@@ -212,7 +202,6 @@
                         trendingHtml += '<a href="/live-discourse/'+newsUrl+'" class="text-decoration"><div class="trend-card-img" style="background-image:url('+item.imageUrl+');"></div>'+
                                         '<h3 class="trend-card-title">'+item.title+'</h3></a>';
                     });
-                    debugger;
                     $('#trendingtopics').html(trendingHtml);
                     GetLatestDiscourse(trendingNews);
                 });
@@ -220,7 +209,6 @@
 
             function GetLatestDiscourse(trendingNews) {
                 $.ajax('/api/DiscourseApi/GetLatestDiscourse/4/' + trendingNews).done(function (data) {
-                    debugger;
                     var latestHtml = '';
                     $.each(data, function (i, item) {
                         var newsUrl = convertToSlug(item.id, item.title);
@@ -241,10 +229,8 @@
             GetFollowedDiscourse();
             function GetFollowedDiscourse() {
                     $.ajax('/api/DiscourseApi/GetFollowedDiscourse/4').done(function (data) {
-                        debugger;
                     var followedHtml = '';
                     $.each(data, function (i, item) {
-                            debugger;
                         var newsUrl = convertToSlug(item.id, item.title);
                         var country = item.Country;
                         var countryHtml = country.split(',').join(', ');
@@ -271,7 +257,6 @@
              </text>
                     }
             $("#submitTopic").click(function () {
-                debugger;
                  @if (User.Identity.IsAuthenticated)
                  {
                <text>
@@ -286,7 +271,6 @@
                         $.post('/api/DiscourseApi/DiscourseTopic/' + Title + '/' + Sector,                                              
                         function (data) {
                             if (data == 'Success') {
-                                debugger;
                                 $("#topicSector").val('');
                                 $("#topicTitle").val('');
                             } else {

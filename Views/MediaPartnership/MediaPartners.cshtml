@@ -868,7 +868,6 @@
             var upcomingEvents = '';
             var pastEvents = '';
             function renderEvents(sortedEvent) {
-                debugger;
                 $.each(sortedEvent, function (i, item) {
                     console.log(item);
                     if (item.featured == true) {
@@ -899,22 +898,17 @@
                     }
                 });
                 $('#featuredevents').html(featuedHtml);
-                debugger;
                 $('#upcomingEvents').html(upcomingEvents);
-                debugger;
                 $('#pastEvents').html(pastEvents);
                 $('.lazy').lazy();
             }
-            debugger;
             $.get("/CommonEvent/getEventRouteData", function (data) {
                 $.each(data, function (i, item) {
                     events.push(item);
                 });
-                debugger;
                 var sortedEvent = events.sort(function (a, b) {
                     return new Date(a.start) - new Date(b.start);
                 });
-                debugger;
                 renderEvents(sortedEvent);
             });
 

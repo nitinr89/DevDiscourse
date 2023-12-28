@@ -178,13 +178,26 @@ namespace Devdiscourse.Helper
                       pattern: "partners/media-partners",
                       defaults: new { controller = "MediaPartnership", action = "MediaPartners" }
                     );
-
+            routes.MapControllerRoute(
+               name: "GlobalWarming",
+               pattern: "events/global-warming-2019",
+               defaults: new { controller = "Events", action = "GlobalWarming" }
+           );
+            routes.MapControllerRoute(
+                name: "WorldRoadCongress",
+                pattern: "events/world-road-congress",
+                defaults: new { controller = "Events", action = "WorldRoadCongress" }
+            );
             routes.MapControllerRoute(
                         name: "MediaPartnershipLink",
                         pattern: "partnership/{action}/{type}",
                         defaults: new { controller = "MediaPartnership", action = "KnowledgePartners", type = UrlParameter.Optional }
                );
-
+            routes.MapControllerRoute(
+            name: "InternetOfThingsWorld",
+            pattern: "events/internetthingsworld",
+            defaults: new { controller = "Events", action = "IOTWorld" }
+           );
             routes.MapControllerRoute(
                     name: "PacificEdition",
                     pattern: "pacific",

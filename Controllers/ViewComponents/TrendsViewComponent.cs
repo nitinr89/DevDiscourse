@@ -41,7 +41,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                 //return View(resultList);
                 var resultList = _db.DevNews
   .Where(dn => dn.AdminCheck == true &&
-               dn.CreatedOn < todayDate && dn.CreatedOn > weekend &&
+               dn.CreatedOn < todayDate && dn.CreatedOn > weekend && dn.CreatedOn < todayDate && dn.Id != id &&
                dn.Sector == "14")
   .OrderByDescending(dn => dn.CreatedOn)
   .Take(65)
@@ -110,7 +110,7 @@ namespace DevDiscourse.Controllers.ViewComponents
 
                 var resultList = _db.DevNews
 .Where(dn => dn.AdminCheck == true &&
-          dn.CreatedOn < todayDate && dn.CreatedOn > weekend &&
+          dn.CreatedOn < todayDate && dn.CreatedOn > weekend && dn.CreatedOn < todayDate && dn.Id != id &&
           dn.Sector == "14")
 .OrderByDescending(dn => dn.CreatedOn)
 .Take(65)

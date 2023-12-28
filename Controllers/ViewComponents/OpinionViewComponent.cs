@@ -18,79 +18,103 @@ namespace DevDiscourse.Controllers.ViewComponents
             await Task.Yield();
             reg = reg == "Global Edition" ? "" : reg;
             DateTime thirtyDays = DateTime.Today.AddDays(-120);
+            //var thirtyDays = DateTime.Now.AddDays(-30);
             if (reg == "")
             {
-                //var search = (from a in _db.DevNews
-                //			  where a.AdminCheck == true && a.PublishedOn > thirtyDays && a.Type == "Blog" && a.SubType != "Interview"
-                //			  orderby a.PublishedOn descending
-                //			  select new NewsViewModel
-                //			  {
-                //				  Title = a.Title,
-                //				  CreatedOn = a.PublishedOn,
-                //				  ImageUrl = a.ImageUrl,
-                //				  SubType = a.Themes,
-                //				  Subtitle = a.Description,
-                //				  Country = a.Author,
-                //				  NewsId = a.NewsId,
-                //				  Label = a.NewsLabels
 
-                //			  }).Take(10);
-                ////.AsNoTracking();
-                //return View(search.ToList());
+
+                //old
+                // var infocus = (from dn in _db.DevNews
+                //                where dn.AdminCheck == true && dn.PublishedOn > thirtyDays && dn.Type == "Blog" && dn.SubType != "Interview"
+                //                select new NewsViewModel
+                //                {
+                //                    // Id = dn.Id,
+                //                    NewsId = dn.NewsId,
+                //                    Title = dn.Title,
+                //                    ImageUrl = dn.ImageUrl,
+                //                    CreatedOn = dn.ModifiedOn,
+                //                    Subtitle = dn.SubTitle,
+                //                    SubType = dn.Themes,
+                //                    Country = dn.Country,
+                //                    Label = dn.NewsLabels,
+                //                    // Ranking = 0
+                //                })
+                //.Take(10);
+                //.ToList();
+               // return View(infocus.ToList());
+
+
+                //new 
                 var infocus = (from dn in _db.DevNews
+                               where dn.AdminCheck
+                                     && dn.PublishedOn > thirtyDays
+                                     && dn.Type == "Blog"
+                                     && dn.SubType != "Interview"
+                             //  orderby dn.PublishedOn descending
                                select new NewsViewModel
                                {
-                                   // Id = dn.Id,
-                                   //  NewId = dn.NewsId,
+                                   NewsId = dn.NewsId,
                                    Title = dn.Title,
                                    ImageUrl = dn.ImageUrl,
                                    CreatedOn = dn.ModifiedOn,
-                                   // Type = dn.Type,
-                                   SubType = dn.SubType,
+                                   Subtitle = dn.SubType,
+                                   SubType = dn.Themes,
                                    Country = dn.Country,
                                    Label = dn.NewsLabels,
                                    Ranking = 0
                                })
-               .Take(10);
-                //.ToList();
+                              .Take(10)
+                              .ToList();
                 return View(infocus.ToList());
+               
             }
             else
             {
-                //var search = (from a in _db.DevNews
-                //			  where a.AdminCheck == true && a.PublishedOn > thirtyDays && a.Type == "Blog" && a.Region.Contains(reg) && a.SubType != "Interview"
-                //			  orderby a.PublishedOn descending
-                //			  select new NewsViewModel
-                //			  {
-                //				  Title = a.Title,
-                //				  CreatedOn = a.PublishedOn,
-                //				  ImageUrl = a.ImageUrl,
-                //				  SubType = a.Themes,
-                //				  Subtitle = a.Description,
-                //				  Country = a.Author,
-                //				  NewsId = a.NewsId,
-                //				  Label = a.NewsLabels
+              
+                //this was wroking 
+                //var infocus = (from dn in _db.DevNews
+                //               where dn.AdminCheck == true && dn.PublishedOn > thirtyDays && dn.Type == "Blog" && dn.Region.Contains(reg) && dn.SubType != "Interview"
+                //               			  orderby dn.PublishedOn descending
+                //               select new NewsViewModel
+                //               {
+                //                   // Id = dn.Id,
+                //                     NewsId = dn.NewsId,
+                //                   Title = dn.Title,
+                //                   ImageUrl = dn.ImageUrl,
+                //                   CreatedOn = dn.ModifiedOn,
+                //                   Subtitle=dn.SubType,
+                //                   SubType = dn.Themes,
+                //                   Country = dn.Country,
+                //                   Label = dn.NewsLabels,
+                //                   Ranking = 0
+                //               })
+                //.Take(10);
+                ////.ToList();
+                //return View(infocus.ToList());
 
-                //			  }).Take(10);
-                ////.AsNoTracking();
-                //return View(search.ToList());
 
+
+                //new query
                 var infocus = (from dn in _db.DevNews
+                               where dn.AdminCheck
+                                     && dn.PublishedOn > thirtyDays
+                                     && dn.Type == "Blog"
+                                     && dn.SubType != "Interview"
+                              // orderby dn.PublishedOn descending
                                select new NewsViewModel
                                {
-                                   // Id = dn.Id,
-                                   //  NewId = dn.NewsId,
+                                   NewsId = dn.NewsId,
                                    Title = dn.Title,
                                    ImageUrl = dn.ImageUrl,
                                    CreatedOn = dn.ModifiedOn,
-                                   // Type = dn.Type,
-                                   SubType = dn.SubType,
+                                   Subtitle = dn.SubType,
+                                   SubType = dn.Themes,
                                    Country = dn.Country,
                                    Label = dn.NewsLabels,
                                    Ranking = 0
                                })
-                .Take(10);
-                //.ToList();
+                              .Take(10)
+                              .ToList();
                 return View(infocus.ToList());
 
 

@@ -921,7 +921,6 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <h2 class="section-title3"> 
     <span>TRENDING</span>
     </h2>
-    @* @{Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.edition });} do later*@
     @await Component.InvokeAsync("Trends", new { filter="Trends", reg=ViewBag.edition });
     </section> 
     <section class="m-t-10" id="video_section">

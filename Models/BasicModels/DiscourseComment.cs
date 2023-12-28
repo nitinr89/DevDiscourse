@@ -22,8 +22,8 @@ namespace Devdiscourse.Models.BasicModels
         public int DislikeCount { get; set; }
         public int EndorseCount { get; set; }
         public int RejectCount { get; set; }
-        public string CommentBy { get; set; }
-        public string ReplyText { get; set; }
+        public string? CommentBy { get; set; }
+        public string? ReplyText { get; set; }
         public bool IsHidden { get; set; }
         public int ChildCount { get; set; }
         public DateTime CommentOn { get; set; }

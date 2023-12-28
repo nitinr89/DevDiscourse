@@ -11,6 +11,8 @@
     var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
     ViewBag.PageImage = newsImage;
     var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+    var userAgent = Context.Request.Headers["User-Agent"].ToString();
+    bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
 }
 <style>
     .isDisabled {
@@ -116,9 +118,9 @@
 <input type="hidden" value="@ViewBag.tag" id="tag_value" />
 <div class="container">
     <div class="advertisement-area" style="min-height:130px">
-        <div class="advertisement-title">Advertisement</div>@* @@* if (!Request.Browser.Crawler) *@ *
+        <div class="advertisement-title">Advertisement</div>
+        @if (!isCrawler)
         {
-        @* if (Request.Browser.IsMobileDevice) *@
         @if (isMobile)
         {
             <div class="text-center" style="min-height:50px"> <a href="https://www.visionri.com/insight/24-tracking-fintech-during-covid-19-harnessing-power-of-technology" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/fintech_320x50.jpg" class="lazy" /> </a> </div>

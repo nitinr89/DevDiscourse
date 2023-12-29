@@ -27,7 +27,7 @@ namespace Devdiscourse.Controllers.Main
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
-        
+
         public VideoNewsController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             this.db = db;
@@ -74,15 +74,16 @@ namespace Devdiscourse.Controllers.Main
             {
                 videoNews = videoNews.Where(a => a.Source.Contains(source));
             }
-            return View(videoNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
+            var result = videoNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10);
+            return View(result);
         }
-        
+
         [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult Create()
         {
-            ViewBag.Sector = new SelectList(db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
+            ViewBag.Sector = db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToList();
             ViewBag.Label = new SelectList(db.Labels, "Slug", "Title");
-            ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
+            ViewBag.Region = db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo).ToList();
             return View();
         }
         [HttpPost]
@@ -171,9 +172,9 @@ namespace Devdiscourse.Controllers.Main
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.Sector = new SelectList(db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
+            ViewBag.Sector = db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToList();
             ViewBag.Label = new SelectList(db.Labels, "Slug", "Title");
-            ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
+            ViewBag.Region = db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo).ToList();
             return View(videoNews);
         }
         public ActionResult Edit(long? id)
@@ -187,9 +188,9 @@ namespace Devdiscourse.Controllers.Main
             {
                 return NotFound();
             }
-            ViewBag.Sector = new SelectList(db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
+            ViewBag.Sector = db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToList();
             ViewBag.Label = new SelectList(db.Labels, "Slug", "Title");
-            ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
+            ViewBag.Region = db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo).ToList();
             return View(videoNews);
         }
 
@@ -318,9 +319,9 @@ namespace Devdiscourse.Controllers.Main
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.Sector = new SelectList(db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
+            ViewBag.Sector = db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToList();
             ViewBag.Label = new SelectList(db.Labels, "Slug", "Title");
-            ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
+            ViewBag.Region = db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo).ToList();
             return View(videoNews);
         }
         public long GetTag(string tag)

@@ -45,8 +45,9 @@
         height: 80px !important;
         min-height: unset !important;
     }
-    .actionButtons{
-        display:block;
+
+    .actionButtons {
+        display: block;
     }
 </style>
 <div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
@@ -57,7 +58,7 @@
     </ol>
 </div>
 <div class="container no-padding m-b-10">
-    @using (Html.BeginForm("Create", "VideoNews", FormMethod.Post, new { enctype = "multipart/form-data",id="videoNewsForm" }))
+    @using (Html.BeginForm("Create", "VideoNews", FormMethod.Post, new { enctype = "multipart/form-data", id = "videoNewsForm" }))
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
@@ -138,13 +139,14 @@
                         <div class="p-20">
                             <div class="row m-t-10">
                                 <div class="col-sm-6 col-xs-12">
-                                    @Html.LabelFor(model => model.VideoNewsRegions, htmlAttributes: new { @class = "control-label" })
-                                    <div class="">
-                                        <div id="RegionList" class="showListDiv"></div>
-                                        <input type="text" class="form-control hidden" id="Region" name="Region" />
-                                        @Html.DropDownList("Region", null, htmlAttributes: new { @class = "form-control", id = "Region_multi", @multiple = "multiple" })
-                                        @Html.ValidationMessageFor(model => model.VideoNewsRegions, "", new { @class = "text-danger" })
-                                    </div>
+                                    @Html.Label("VideoEdition", "Region", htmlAttributes: new { @class = "control-label" })
+                                    <div id="RegionList" class="showListDiv"></div>
+                                    <select id="VideoEdition" multiple>
+                                        @foreach (var reg in @ViewBag.Region)
+                                        {
+                                            <option value="@reg.Id">@reg.Title</option>
+                                        }
+                                    </select>
                                 </div>
                                 <div class="col-sm-6 col-xs-12">
                                     @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
@@ -164,13 +166,16 @@
                         <div class="label-tag">Sector/Label</div>
                         <div class="p-20">
                             <div class="row m-t-10">
-                                <div class="col-sm-4 col-xs-12">
-                                    @Html.LabelFor(model => model.VideoNewsSectors, htmlAttributes: new { @class = "control-label" })
+                                <div class="col-sm-6 col-xs-12">
+                                    @Html.Label("VideoSector", "Sector", htmlAttributes: new { @class = "control-label" })
                                     <div class="">
                                         <div id="SectorList" class="showListDiv"></div>
-                                        <input type="text" class="form-control hidden" value="0" id="Sector" name="Sector" />
-                                        @Html.DropDownList("Sector", null, htmlAttributes: new { @class = "form-control", id = "Sector_multi", @multiple = "multiple" })
-                                        @Html.ValidationMessageFor(model => model.VideoNewsSectors, "", new { @class = "text-danger" })
+                                        <select id="VideoSector" multiple class="form-control">
+                                            @foreach (var sector in ViewBag.Sector)
+                                            {
+                                                <option value="@sector.Id">@sector.Title</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-12">
@@ -181,12 +186,12 @@
                                     </div>
                                 </div>
                                 @*<div class="col-sm-4 col-xs-12">
-                                    @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
-                                    <div class="">
-                                        @Html.DropDownList("Category", null, htmlAttributes: new { @class = "form-control", @size = "26" })
-                                        @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
+                            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
+                            <div class="">
+                            @Html.DropDownList("Category", null, htmlAttributes: new { @class = "form-control", @size = "26" })
+                            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                            </div>
+                            </div>*@
                             </div>
                         </div>
                     </div>
@@ -267,7 +272,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="col-sm-6 col-xs-12">
@@ -281,7 +286,7 @@
                                 <div class="col-xs-12 col-sm-12 col-md-6">
                                     <div class="row p-t-10">
                                         <div class="col-md-12">
-                                            @Html.EditorFor(model => model.VideoThumbUrl, new { htmlAttributes = new { @class = "form-control", type = "file", @accept= "image/*" } })
+                                            @Html.EditorFor(model => model.VideoThumbUrl, new { htmlAttributes = new { @class = "form-control", type = "file", @accept = "image/*" } })
                                             @Html.ValidationMessageFor(model => model.VideoThumbUrl, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-12 text-center m-t-10">
@@ -294,7 +299,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -338,8 +343,9 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" id="selSector">
                                 <option value="0">All Sector</option>
-                                @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
-                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                                @{
+                                    @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                                }
                             </select>
                         </div>
                     </div>
@@ -348,8 +354,9 @@
                         <div class="col-sm-6 col-xs-12">
                             <select class="form-control" id="imgSector">
                                 <option value="0">Select Sector</option>
-                                @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
-                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                                @{
+                                    @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                                }
                             </select>
                         </div>
                         <div class="col-sm-6 col-xs-12">
@@ -404,8 +411,9 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" id="selSec">
                                 <option value="0">All Sector</option>
-                                @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
-                                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                                @{
+                                    @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                                }
                             </select>
                         </div>
                     </div>
@@ -639,7 +647,7 @@
                 str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
                 return newsId + "-" + str;
             }
-            
+
             $("#AddNewKeyword").click(function () {
                 $("#tagValidation").html('')
                 var tagValueArr = $("#newKeyword").val().split(',');
@@ -688,7 +696,7 @@
                 $("#Sector").val(valueArray);
                 $("#SectorList").html(textArray.join(", "));
             });
-            
+
             // For Category
             //$('input[name="Category_multi[]"]').on("change", function () {
             //    var valueArray = [];
@@ -700,7 +708,7 @@
             //    $("#Category").val(valueArray);
             //    $("#CategoryList").html(textArray.join(", "));
             //});
-           
+
             // For Region
             $('input[name="VideoEdition[]"]').on("change", function () {
                 var valueArray = [];
@@ -738,7 +746,7 @@
                 _skip = _skip + 20;
                 $.ajax("/Home/GetSavedImages?skip=" + _skip + "&sector=" + _sector + "&title=" + _title).done(function (data) { $('#savedImages').append(data); $('.lazy').lazy(); $('.loadmore').hide(); });
             });
-            
+
             // Upload image into gallery
             $('#selSector').change(function () {
                 _sector = $('#selSector').val();
@@ -863,7 +871,7 @@
                                     $("#BlobName").val(data.Caption);
                                     $("#AutoVideoThumbUrl").val(data.FileThumbUrl);
                                     $("#VideoUrl ").val(data.FileUrl);
-                                    $('#show-image-div').html('<img src="' + data.FileThumbUrl+'" class="img-responsive">')
+                                    $('#show-image-div').html('<img src="' + data.FileThumbUrl + '" class="img-responsive">')
 
                                     $('#mediaFiles').val('');
                                 }

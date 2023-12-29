@@ -1,0 +1,273 @@
+﻿@{
+    ViewBag.Title = "Press-Release - Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse is World's leading website for International Development News. Get Breaking News on Politics, Business, Technology, Science, Health, Education and Entertainment.";
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/contribute";
+    ViewBag.pageKeywords = "Development news, Current news, live news, international news in english, latest top news, India news, Africa news, daily news, world news, latest news today, online news, sports news, politics news, health news, science news, technology news, energy news, urban development news, transport news, economy news, finance news, sports news, art and culture news, education news, sports news, Agro-Forestry, social gender, Public Administration, Water and Sanitation";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+<style>
+    body {
+        background-color: #f0f3f8;
+    }
+    .left-panel {
+        width: 100px;
+        min-height: 70vh;
+        display: inline-block;
+        color: #666;
+    }
+    .news-image-card {
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100px;
+        width: 120px;
+    }
+    .profile-image-card {
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 160px;
+        width: 160px;
+    }
+    .fg-color {
+        color: #ff7b00;
+    }
+    .bg-color {
+        background-color:#ff7b00;
+    }
+    .main {
+        width: calc(100% - 100px);
+        height: 100%;
+        display: inline-block;
+        float: right;
+        padding: 20px 35px;
+        color: #666;
+    }
+
+    .icon-cont {
+        padding: 10px 5px;
+        cursor:pointer;
+    }
+
+        .icon-cont .icon {
+            display: block;
+            margin: 3px auto;
+            max-height: 30px;
+        }
+
+        .icon-cont a {
+            text-decoration: none;
+            color: #666;
+        }
+
+    .main .title {
+        font-weight: 400;
+    }
+
+    .card-dashboard {
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #fff;
+        margin-bottom: 10px;
+    }
+
+    .count-stat {
+        font-size: 25px;
+        margin-top: 10px;
+    }
+    .badge-css {
+        padding: 3px 7px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #fff;
+        border-radius: 10px;
+        border: 1px solid #666;
+        color: #666;
+    }
+    @@media(max-width:425px) {
+        .left-panel {
+            width: 80px;
+        }
+
+        .main {
+            width: calc(100% - 80px);
+            padding: 10px 15px;
+        }
+
+            .main h3 {
+                font-size: 18px;
+            }
+
+        .icon-cont {
+            padding: 10px 5px;
+        }
+
+            .icon-cont .icon {
+                max-height: 25px;
+            }
+
+        .card-dashboard {
+            padding: 10px;
+        }
+        .media-body, .media-left, .media-right {
+            display: unset;
+            vertical-align: unset;
+        }
+    }
+</style>
+<div class="container p-b-20">
+    <div class="left-panel">
+        <div class="icon-cont bg-color">
+            <a href="@Url.Action("Create", "NewsWire")">
+                <img src="~/images/contibutor/plus_white.svg" class="icon" />
+                <div class="fg-white text-center">Create</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white m-t-10" id="dashboard">
+            <div id="dashboard-img"><img src="~/images/newswire/dashboard_fill.svg" class="icon" /></div>
+            <div class="text-center">Dashboard</div>
+        </div>
+        <div class="icon-cont bg-white" id="pending">
+            <div id="pending-img"><img src="~/images/contibutor/pending_line.svg" class="icon" /></div>
+            <div class="text-center">Pending Review</div>
+        </div>
+        <div class="icon-cont bg-white" id="publish">
+            <div id="publish-img"><img src="~/images/contibutor/publish_line.svg" class="icon" /></div>
+            <div class="text-center">Published</div>
+        </div>
+        <div class="icon-cont bg-white" id="reject">
+            <div id="reject-img"><img src="~/images/contibutor/cannot_line.svg" class="icon" /></div>
+            <div class="text-center">Cannot Publish</div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="content-view" id="dashboardView">
+            <h3 class="title no-margin">Hi, @ViewBag.userName</h3>
+            <p><small>welcome to your dashboard</small></p>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="card-dashboard">
+                        <img src="~/images/newswire/check_icon.svg" class="icon" height="20" />
+                        <p class="p-t-5">Stories Published</p>
+                        <div class="count-stat">@ViewBag.publish</div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="card-dashboard">
+                        <img src="~/images/newswire/pending_icon.svg" class="icon" height="20" />
+                        <p class="p-t-5">Pending Review</p>
+                        <div class="count-stat">@ViewBag.pending</div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="card-dashboard">
+                        <img src="~/images/newswire/cross_icon.svg" class="icon" height="20" />
+                        <p class="p-t-5">Cannot Publish</p>
+                        <div class="count-stat">@ViewBag.reject</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      @*   <div class="content-view" id="pendingView" style="display:none">
+            <div class="bg-white shadow">
+                <div style="border-bottom:1px solid #666">
+                    @{ Html.RenderAction("GetUserInfo", "NewsWire");}
+                </div>
+                <div class="p-10 fg-color">
+                    <h5>Pending Review (@ViewBag.pending)</h5>
+                </div>
+            </div>
+            <div class="m-t-10">
+                @{ Html.RenderAction("GetContent", "NewsWire", new { fl = "pending" });}
+            </div>
+        </div>
+        <div class="content-view" id="publishView" style="display:none">
+            <div class="bg-white shadow">
+                <div style="border-bottom:1px solid #666">
+                    @{ Html.RenderAction("GetUserInfo", "NewsWire");}
+                </div>
+                <div class="p-10 fg-color">
+                    <h5>Published (@ViewBag.publish)</h5>
+                </div>
+            </div>
+            <div class="m-t-10">
+                @{ Html.RenderAction("GetContent", "NewsWire", new { fl = "publish" });}
+            </div>
+        </div>
+        <div class="content-view" id="rejectView" style="display:none">
+            <div class="bg-white shadow">
+                <div style="border-bottom:1px solid #666">
+                    @{ Html.RenderAction("GetUserInfo", "NewsWire");}
+                </div>
+                <div class="p-10 fg-color">
+                    <h5>Cannot Publish (@ViewBag.reject)</h5>
+                </div>
+            </div>
+            <div class="m-t-10">
+                @{ Html.RenderAction("GetContent", "NewsWire", new { fl = "reject" });}
+            </div>
+        </div> *@
+        <div class="content-view" id="detailsView" style="display:none">
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.lazy').lazy();
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#pressLink').addClass('active');
+
+            $('#dashboard').click(function () {
+                $('#dashboard-img').html('<img src="/images/newswire/dashboard_fill.svg" class="icon" />');
+                $('#pending-img').html('<img src="/images/contibutor/pending_line.svg" class="icon" />');
+                $('#publish-img').html('<img src="/images/contibutor/publish_line.svg" class="icon" />');
+                $('#reject-img').html('<img src="/images/contibutor/cannot_line.svg" class="icon" />');
+                $('.content-view').hide();
+                $('#dashboardView').show();
+            }); 
+            $('#pending').click(function () {
+                $('#dashboard-img').html('<img src="/images/contibutor/dashboard_line.svg" class="icon" />');
+                $('#pending-img').html('<img src="/images/newswire/pending_fill.svg" class="icon" />');
+                $('#publish-img').html('<img src="/images/contibutor/publish_line.svg" class="icon" />');
+                $('#reject-img').html('<img src="/images/contibutor/cannot_line.svg" class="icon" />');
+                $('.content-view').hide();
+                $('#pendingView').show();
+            });
+            $('#publish').click(function () {
+                $('#dashboard-img').html('<img src="/images/contibutor/dashboard_line.svg" class="icon" />');
+                $('#pending-img').html('<img src="/images/contibutor/pending_line.svg" class="icon" />');
+                $('#publish-img').html('<img src="/images/newswire/publish_fill.svg" class="icon" />');
+                $('#reject-img').html('<img src="/images/contibutor/cannot_line.svg" class="icon" />');
+                $('.content-view').hide();
+                $('#publishView').show();
+            });
+            $('#reject').click(function () {
+                $('#dashboard-img').html('<img src="/images/contibutor/dashboard_line.svg" class="icon" />');
+                $('#pending-img').html('<img src="/images/contibutor/pending_line.svg" class="icon" />');
+                $('#publish-img').html('<img src="/images/contibutor/publish_line.svg" class="icon" />');
+                $('#reject-img').html('<img src="/images/newswire/cannot_fill.svg" class="icon" />');
+                $('.content-view').hide();
+                $('#rejectView').show();
+            });
+            $(document).on('click', '.content-title', function () {
+                var _id = this.id;
+                $.ajax("/NewsWire/Details?id=" + _id).done(function (data) { $('#detailsView').html(data); });
+                $('.content-view').hide();
+                $('#detailsView').show();
+            });
+        });
+    </script>
+}
+
+
+
+

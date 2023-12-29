@@ -1,0 +1,477 @@
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.ViewModel.NewsListView>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.ViewModel.NewsListView> model = Model;
+}
+
+@{
+    ViewBag.Title = "DevNews";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+    var td = "td";
+}
+@functions {
+    async Task Truncate(string input, int length)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            <text> </text>
+        }
+        else if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)
+            <text>..</text>
+        }
+    }
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/admin.css" rel="stylesheet" />
+<style>
+    body {
+        background-color: #efefef;
+    }
+
+    input, textarea, select {
+        max-width: 100% !important;
+    }
+
+    .badge {
+        border-radius: unset;
+    }
+
+    .indexedView, .indexedBtn {
+        font-size: 10px;
+        border-radius: 2px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .indexedView {
+        background-color: #0cb422;
+    }
+
+    .indexedBtn {
+        background-color: #bf0404;
+    }
+</style>
+<div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
+    <ol class="breadcrumb no-margin">
+        <li class="breadcrumb-item"><a href="@Url.Action("Media", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("NewsList", "ContentCreator")">Contribution</a></li>
+    </ol>
+</div>
+<div class="container bg-white p-20">
+    @if (ViewBag.status == true)
+    {
+        <label for="status"><input type="checkbox" checked id="status" /> Auto Assign News </label>
+    }
+    else
+    {
+        <label for="status"><input type="checkbox" id="status" /> Auto Assign News </label>
+    }
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Edition</label>
+            <select class="form-control newsfilter" id="selRegion">
+                @* @{ Html.RenderAction("GetRegion", "Home");} *@
+                @await Component.InvokeAsync("Region");
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Country</label>
+            <select class="form-control newsfilter" id="selCountry"></select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Labels</label>
+            <select class="form-control newsfilter" id="selLabels">
+                <option value="0">All Labels</option>
+                @* @{ Html.RenderAction("GetLabels", "DevNews");} *@
+                @await Component.InvokeAsync("Labels");
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Sector</label>
+            <select class="form-control newsfilter" id="selSector">
+                <option value="0">All Sector</option>
+                @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Category</label>
+            <select class="form-control newsfilter" id="selCategory">
+                <option value="0">All Category</option>
+                @* @{ Html.RenderAction("GetCategory", "Categories");} *@
+                @await Component.InvokeAsync("Category");
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Text Search</label>
+            <div class="input-group" id="searchDiv" style="margin-top:0">
+                <label for="searchBtn"></label>
+                <input type="text" class="form-control" name="searchBtn" style="border-right:none !important;border-top-left-radius:4px;border-bottom-left-radius:4px;" id="inputText" placeholder="Search...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" aria-label="Search" id="textBtn" style="border-left:none !important;color:#aeaeae;" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-t-10 m-b-30">
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Author</label>
+            <select class="form-control newsfilter" id="selUser">
+                <option value="">Select</option>
+                @foreach(var item in ViewBag.usrList)
+                {
+                    <option value="@item.Id">@item.User</option>
+                }
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+            <label for="beforeDate">Before Date </label>
+            <input type="date" id="beforeDate" class="form-control newsfilter" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+            <label for="afterDate">After Date </label>
+            <input type="date" id="afterDate" class="form-control newsfilter" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+            <label for="source">Source</label>
+            <select class="form-control newsfilter" id="selSource">
+                <option value="">Select Source</option>
+                <option value="Reuters" tabindex="(With inputs from Reuters)">Reuters</option>
+                <option value="GOV.UK" tabindex="(With inputs from GOV.UK)">GOV.UK</option>
+                <option value="PTI" tabindex="(This is a reproduced story from PTI as it is)">PTI</option>
+                <option value="IANS" tabindex="(With inputs from IANS)">IANS</option>
+                <option value="IRU">IRU</option>
+                <option value="AfDB" tabindex="(With inputs from AfDB)">AfDB</option>
+                <option value="ADB" tabindex="(With inputs from ADB)">ADB</option>
+                <option value="IDB" tabindex="(With inputs from IDB)">IDB</option>
+                <option value="IAEA" tabindex="(With inputs from IAEA)">IAEA</option>
+                <option value="A2i" tabindex="(With inputs from A2i)">A2i</option>
+                <option value="South Africa Government Press Release" tabindex="(With inputs from SAnews)">South Africa Government Press Release</option>
+                <option value="US Government Press Release" tabindex="(With inputs from USDS)">US Government Press Release</option>
+                <option value="UN" tabindex="(With inputs from UN)">UN</option>
+                <option value="EIB" tabindex="(With inputs from EIB)">EIB</option>
+                <option value="IMF" tabindex="(With inputs from IMF)">IMF</option>
+                <option value="WHO" tabindex="(With inputs from WHO)">WHO</option>
+                <option value="UNDP" tabindex="(With inputs from UNDP)">UNDP</option>
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 p-t-30">
+            <label for="editorPick"><input type="checkbox" id="editorPick" class="newsfilter" /> Editor's Pick </label>
+        </div>
+    </div>
+    <div style="overflow:auto;font-size:14px;">
+        <table class="table">
+            <tr>
+                <th>
+                    Edition
+                </th>
+                <th>
+                    Country
+                </th>
+                <th>
+                    Sector
+                </th>
+                <th>
+                    Label
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Source
+                </th>
+                <th>
+                    Views
+                </th>
+                <th>
+                    Is Assigned
+                </th>
+                <th>Created On</th>
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Region)
+                    </td>
+                    <td>
+                        @if (!String.IsNullOrEmpty(item.Country))
+                        {
+                            string country = item.Country.Replace(",", ", ");
+                            @country
+                        }
+                    </td>
+                    <td>
+                        @* @{ Html.RenderAction("GetSector", "Home", new { sector = item.Sector, filter = "Plane" });} *@
+                        @await Component.InvokeAsync("Sector", new { sector = item.Sector, filter = "Plane" });
+                    </td>
+                    <td>
+                        @item.Label
+                    </td>
+                    <td>
+                        @if (!String.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                            <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                        }
+                        else
+                        {
+                            <img alt="news thumbnail" src="~/images/newstheme.jpg?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                        }
+                    </td>
+                    <td>
+                        @if (!String.IsNullOrEmpty(item.WorkStage))
+                        {
+                            var workstage = item.WorkStage.Split(',');
+                            <span id="@item.NewsId">
+                                <span class="pull-right badge @workstage[1]">@workstage[0]</span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span id="@item.NewsId"></span>
+                        }
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Source)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewCount)
+                    </td>
+                    <td id="@td@item.NewsId">
+                        @if (item.IsIndex)
+                        {
+                            <div class="indexedView">Assigned</div>
+                        }
+                        else
+                        {
+                            <div class="indexedBtn" id="@item.NewsId">Not Assigned</div>
+                            <button class="btn btn-xs AutoAssign" data-newsid="@item.NewsId"> Auto Assign</button>
+                            <button class="btn btn-xs AutoAssignWithAlert" data-newsid="@item.NewsId"> Assign with alert</button>
+                            <button class="btn btn-xs asignToSpecific" data-newsid="@item.NewsId"> Assign to specific</button>
+                        }
+                    </td>
+                    <td>@item.CreatedOn.ToClientTime()</td>
+                    <td>
+                        @if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) || User.IsInRole("Upfront") && item.AdminCheck == true)
+                        {
+                            <a href="@Url.Action("Create","Infocus", new { id = item.NewsId, ft = "nws" })" target="_blank" class="btn btn-xs btn-success" title="Add To Infocus"><span class="fa fa-check"></span></a>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || item.Creator == ViewBag.loginId)
+                        {
+                            <a href="@Url.Action("Edit", "DevNews", new { id = item.Id })" class="btn btn-xs btn-success" target="_blank" title="Edit"><span class="fa fa-pencil"></span></a>
+                        }
+                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || item.Creator == ViewBag.loginId)
+                        {
+                            <a href="@Url.Action("Clone", "DevNews", new { id = item.Id })" class="btn btn-xs btn-warning" target="_blank" title="Clone"><span class="fa fa-copy"></span></a>
+                        }
+                        <a href="@Url.Action("Details", "DevNews", new { id = item.Id })" class="btn btn-xs btn-info" target="_blank" title="Details"><span class="fa fa-eye"></span></a>
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <a href="@Url.Action("Delete", "DevNews", new { id = item.Id })" class="btn btn-xs btn-danger" target="_blank" title="Delete"><span class="fa fa-trash"></span></a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
+        <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
+        @Html.PagedListPager(Model, page => Url.Action("NewsList", "ContentCreator", new { bfd = ViewBag.bfDate, afd = ViewBag.afDate, page, region = ViewBag.region, label = ViewBag.label, sector = ViewBag.sector, category = ViewBag.category, country = ViewBag.country, source = ViewBag.source, text = ViewBag.text, uid = ViewBag.uid }))
+    </div>
+</div>
+<div id="AssignNewsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Assign News</h4>
+            </div>
+            <div class="modal-body">
+                <label class="control-label">User</label>
+                <select class="form-control" id="shiftUsers"></select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="AssignToUser">Assign</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var _selLabel = '@(ViewBag.label)';
+            var _selSector = '@(ViewBag.sector)';
+            var _selCategory = '@(ViewBag.category)';
+            var _region = '@(ViewBag.region)';
+            var _country = '@(ViewBag.country)';
+            var _inputSearchText = '@(ViewBag.text)';
+            var _afterDate = '@(ViewBag.afDate)';
+            var _beforeDate = '@(ViewBag.bfDate)';
+            var _selUser = '@(ViewBag.uid)';
+            var _selSource = '@(ViewBag.source)';
+            var _editorPick = '@(ViewBag.editorPick)';
+            $("#selLabels").val(_selLabel);
+            $("#selSector").val(_selSector)
+            $("#selCategory").val(_selCategory)
+            $('#selRegion').val(_region);
+            $('#inputText').val(_inputSearchText);
+            $("#beforeDate").val(_beforeDate);
+            $("#afterDate").val(_afterDate);
+            $('#selUser').val(_selUser);
+            $('#selSource').val(_selSource);
+            if (_editorPick == "True") {
+                $("#editorPick").prop("checked", true);
+            }
+        $('.lazy').lazy();
+        getCountries();
+        getShiftUser();
+        $("#status").change(function () {
+            $.ajax({
+                url: '/DevNews/UpdateAutoAssignStatus',
+                type: 'Get',
+                dataType: 'Json',
+                data: { status: $(this).prop("checked")},
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {
+                },
+            });
+        });
+        function getShiftUser() {
+            $.ajax({
+                url: '/Admin/GetShiftUser',
+                type: 'Get',
+                dataType: 'Json',
+                success: function (data) {
+                    var shiftUsers = data.map(item => `'<option value="${item.id}">${item.firstName} ${item.lastName}</option>'`)
+                    $('#shiftUsers').html(shiftUsers.join(''));
+                },
+                error: function () {
+                },
+            });
+        }
+            function getCountries() {
+                $.ajax({
+                    url: '/Home/GetCountry',
+                    type: 'Post',
+                    data: { region: _region },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $('#selCountry').html("").append('<option value="">Select</option>');
+                        $.each(data, function (i, item) {
+                            $('#selCountry').append('<option value="' + item.title + '">' + item.title + '</option>');
+                        });
+                        $('#selCountry').val(_country);
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $('.newsfilter').on("input", function () {
+                updateVarible();
+            });
+            function updateVarible() {
+                _selLabel = $("#selLabels option:selected").val();
+                _selSector = $("#selSector option:selected").val();
+                _selCategory = $("#selCategory option:selected").val();
+                _region = $("#selRegion option:selected").val();
+                _country = $("#selCountry").val();
+                _beforeDate = $("#beforeDate").val();
+                _afterDate = $("#afterDate").val();
+                _selUser = $('#selUser').val();
+                _selSource = $('#selSource option:selected').val();
+                _editorPick = $("#editorPick").is(":checked");
+                window.location.href = "/ContentCreator/NewsList?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&label=" + _selLabel + "&sector=" + _selSector + "&category=" + _selCategory + "&country=" + _country + "&source=" + _selSource + "&text=" + _inputSearchText + "&uid=" + _selUser + "&editorPick=" + _editorPick;
+            }
+            $('#textBtn').click(function () {
+                _inputSearchText = $('#inputText').val();
+                window.location.href = "/ContentCreator/NewsList?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&label=" + _selLabel + "&sector=" + _selSector + "&category=" + _selCategory + "&country=" + _country + "&source=" + _selSource + "&text=" + _inputSearchText + "&uid=" + _selUser + "&editorPick=" + _editorPick;
+            });
+            $("#inputText").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    _inputSearchText = $('#inputText').val();
+                    window.location.href = "/ContentCreator/NewsList?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&label=" + _selLabel + "&sector=" + _selSector + "&category=" + _selCategory + "&country=" + _country + "&source=" + _selSource + "&text=" + _inputSearchText + "&uid=" + _selUser + "&editorPick=" + _editorPick;
+                }
+            });
+            var _assingnNewsId;
+            $('.asignToSpecific').click(function () {
+                _assingnNewsId = $(this).attr("data-newsid");
+                $("#AssignNewsModal").modal("show");
+            });
+            $(".AutoAssign").click(function () {
+                _assingnNewsId = $(this).attr("data-newsid");
+                $.ajax({
+                    url: '/DevNews/AutoAssign',
+                    type: 'Post',
+                    data: { id: _assingnNewsId },
+                    dataType: 'Json',
+                    success: function (data) {
+                        if (data == "NoUser") {
+                            alert("No User in shift");
+                        } else {
+                            $("#AssignNewsModal").modal("hide");
+                            $('#td' + _assingnNewsId).html('<div class="indexedView">Assigned</div>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText)
+                    },
+                });
+            });
+            $(".AutoAssignWithAlert").click(function () {
+                _assingnNewsId = $(this).attr("data-newsid");
+                $.ajax({
+                    url: '/DevNews/AutoAssignWithAlert',
+                    type: 'Post',
+                    data: { id: _assingnNewsId },
+                    dataType: 'Json',
+                    success: function (data) {
+                        if (data == "NoUser") {
+                            alert("No User in shift")
+                        } else {
+                            $("#AssignNewsModal").modal("hide");
+                            $('#td' + _assingnNewsId).html('<div class="indexedView">Assigned</div>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText)
+                    },
+                });
+            });
+            $("#AssignToUser").click(function () {
+                $.ajax({
+                    url: '/DevNews/AssignNewsToUser',
+                    type: 'Post',
+                    data: { id: _assingnNewsId, user: $("#shiftUsers").val() },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $("#AssignNewsModal").modal("hide");
+                        $('#td' + _assingnNewsId).html('<div class="indexedView">Assigned</div>');
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText)
+                    },
+                });
+            });
+        });
+    </script>
+}
+

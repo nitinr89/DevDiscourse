@@ -23,8 +23,8 @@ namespace Devdiscourse.Controllers.ViewComponents
             //{
             //    LastSixMonth = DateTime.UtcNow.AddMonths(-60);
             //}
-            var search = _db.DevNews
-                //Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
+            var search = _db.DevNews.
+                Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
                 .Select(a => new AdvancedSearchView { 
                     Id = a.Id,
                     NewsId = a.NewsId, 
@@ -39,7 +39,7 @@ namespace Devdiscourse.Controllers.ViewComponents
             if (region != "Global Edition")
             {
                 search = search
-                    //Where(a => a.Region != null && a.Region.Contains(region))
+                   // .Where(a => a.Region != null && a.Region.Contains(region))
                        .Take(50).ToList();
             }
             if (!string.IsNullOrEmpty(type))
@@ -51,7 +51,7 @@ namespace Devdiscourse.Controllers.ViewComponents
             else
             {
                 search = search
-                    //Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase))
+                    //.Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase))
                      .Take(50).ToList();
             }
             int pageSize = 10;

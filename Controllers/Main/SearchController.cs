@@ -7,7 +7,6 @@ namespace Devdiscourse.Controllers.Main
     public class SearchController : Controller
     {
         private readonly ApplicationDbContext _db;
-
         public SearchController(ApplicationDbContext db)
         {
             _db = db;
@@ -49,7 +48,6 @@ namespace Devdiscourse.Controllers.Main
             }
             return View();
         }
-
         public ActionResult SDGStories()
         {
             string? cookie = Request.Cookies["Edition"];
@@ -91,7 +89,6 @@ namespace Devdiscourse.Controllers.Main
             }
             return View();
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -1,0 +1,98 @@
+﻿@model Devdiscourse.Models.VideoNewsModels.EmbedVideoViewModel
+@{
+    Layout = null;
+    string dev_discourse = "@dev_discourse";
+    string videojs = "videojs";
+    string domainUrl = "https://www.devdiscourse.com";
+    var posterImage = (Model.VideoThumbUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.VideoThumbUrl : Model.VideoThumbUrl;
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+    <title>@Model.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="robots" content="index, follow, noodp, noydir" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="@Model.Title" />
+    <meta name="keywords" content="@Model.VideoNewsTags" />
+    <meta name="yandex-verification" content="a0b546ce138f124a" />
+    <meta name="msvalidate.01" content="19654C69032AD812D02557896AE33322" />
+    <meta name="p:domain_verify" content="62f50ac33a9c9b709aceb7a61fc4ac84" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/AdminFiles/Favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/AdminFiles/Favicon/favicon-32x32.png" />
+    <link rel="manifest" href="/AdminFiles/Favicon/manifest.json" />
+    <link rel="mask-icon" href="/AdminFiles/Favicon/safari-pinned-tab.svg" color="#ff6a00" />
+    <link rel="shortcut icon" href="/AdminFiles/Favicon/favicon-144x144.png" />
+    <link rel="alternate" type="application/rss+xml" title="Devdiscourse News" href="http://www.devdiscourse.com/rss/website">
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-config" content="/AdminFiles/Favicon/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="canonical" href="@domainUrl/videos/@Model.GenerateSecondSlug()" />
+    <link rel="publisher" href="https://www.facebook.com/devdiscourse" />
+    <meta name="news_keywords" content="" />
+    <meta itemprop="name" content="@Model.Title" />
+    <meta itemprop="description" content="@Model.Title" />
+    <meta itemprop="image" content="@domainUrl@posterImage?width=1280&height=720&mode=crop&format=jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@dev_discourse" />
+    <meta name="twitter:creator" content="@dev_discourse" />
+    <meta property="fb:app_id" content="253802031818293" />
+    <meta property="fb:pages" content="317536492049394" />
+    <meta property="og:url" content="@domainUrl/videos/@Model.GenerateSecondSlug()" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:description" content="@Model.Title" />
+    <meta property="og:image" content="@domainUrl@posterImage?width=1280&height=720&mode=crop&format=jpeg" />
+    <meta property="og:site_name" content="Devdiscourse" />
+    <meta content="1280" property="og:image:width">
+    <meta content="720" property="og:image:height">
+    <meta name="article:author" content="PTI" />
+    <meta name="google-site-verification" content="r5Il08wU7uCy8_S_xmSdEukReZIwB9QSMMNM-i-d5AM" />
+    <meta name="google-site-verification" content="T2QGF08VVCLWLtsJ-h-jYXkQe8sRf0czEYcgiaTUXi4" />
+    <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <style>
+        *, ::after, ::before {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        .video-js {
+            position: unset;
+        }
+
+            .video-js .vjs-tech {
+                position: fixed;
+            }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video id="my-video"
+               class="vjs-matrix video-js  vjs-theme-city center-block"
+               controls
+               preload="auto"
+               width="1280"
+               height="720"
+               @*poster="@domainUrl@posterImage?width=1280&height=720&mode=crop"*@
+               data-setup='{"fluid": true,  "aspectRatio":"16:9"}'>
+            <source id="videosource" src="/api/MediaStream/GetVideoContent/@Model.FileId" type="video/mp4" />
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a
+                web browser that
+                <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+        </video>
+    </div>
+    <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"></script>
+</body>
+</html>

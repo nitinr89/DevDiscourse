@@ -545,7 +545,7 @@ namespace DevDiscourse.Controllers
         }
         public PartialViewResult GetDiscourseIndex(long id)
         {
-            var search = db.DiscourseIndexs.Where(a => a.LivediscourseId == id).OrderByDescending(o => o.CreatedOn).ToList();
+            var search = db.DiscourseIndexes.Where(a => a.LivediscourseId == id).OrderByDescending(o => o.CreatedOn).ToList();
             return PartialView("_ampDiscourseIndex", search);
         }
         public JsonResult GetDiscourseIndexItems(long id, string __amp_source_origin, int? moreItemsPageIndex)

@@ -54,7 +54,7 @@ namespace Devdiscourse.Models.BasicModels
         [ForeignKey("Creator")]
         public virtual ApplicationUser? ApplicationUsers { get; set; }
         public virtual ICollection<FollowLivediscourse>? FollowLivediscourse { get; set; }
-        public virtual ICollection<DiscourseIndexes>? DiscourseIndexs { get; set; }
+        public virtual ICollection<DiscourseIndexes>? DiscourseIndex { get; set; }
         public virtual ICollection<LivediscourseVideo>? LivediscourseVideos { get; set; }
 
         public virtual ICollection<LiveDiscourseInfocus>? LiveDiscourseInfocus { get; set; }

@@ -1,0 +1,167 @@
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.ContributorModels.ContentView>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.ContributorModels.ContentView> model = Model;
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/contribute.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Drafted Content - Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse is World's leading website for International Development News. Get Breaking News on Politics, Business, Technology, Science, Health, Education and Entertainment.";
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/contribute";
+    ViewBag.pageKeywords = "Development news, Current news, live news, international news in english, latest top news, India news, Africa news, daily news, world news, latest news today, online news, sports news, politics news, health news, science news, technology news, energy news, urban development news, transport news, economy news, finance news, sports news, art and culture news, education news, sports news, Agro-Forestry, social gender, Public Administration, Water and Sanitation";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+<div class="container p-b-20">
+    <div class="left-panel">
+        <div class="icon-cont bg-primary">
+            <a href="@Url.Action("Create", "ContentCreator")">
+                <img src="~/images/contibutor/plus_white.svg" class="icon" />
+                <div class="fg-white text-center">Create</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white m-t-10">
+            <a href="@Url.Action("Index", "ContentCreator")">
+                <img src="~/images/contibutor/dashboard_line.svg" class="icon" />
+                <div class="text-center">Dashboard</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Drafted", "ContentCreator")">
+                <img src="~/images/contibutor/draft_fill.svg" class="icon" />
+                <div class="text-center">Draft</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Pending", "ContentCreator")">
+                <img src="~/images/contibutor/pending_line.svg" class="icon" />
+                <div class="text-center">Pending Review</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Published", "ContentCreator")">
+                <img src="~/images/contibutor/publish_line.svg" class="icon" />
+                <div class="text-center">Published</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Rejected", "ContentCreator")">
+                <img src="~/images/contibutor/cannot_line.svg" class="icon" />
+                <div class="text-center">Cannot Publish</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white m-t-10" id="keyInst" style="cursor:pointer">
+            <img src="~/images/contibutor/key_instr_line.svg" id="instruction" class="icon" />
+            <div class="text-center">
+                Key Instructions
+            </div>
+        </div>
+        @*<div class="icon-cont bg-white m-t-10">
+            <a href="@Url.Action("Earnings", "ContentCreator")">
+                <img src="~/images/contibutor/earnings.svg" class="icon" />
+                <div class="text-center">Earnings</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Settings", "ContentCreator")">
+                <img src="~/images/contibutor/setting.svg" class="icon" />
+                <div class="text-center">Payment Settings</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("History", "ContentCreator")">
+                <img src="~/images/contibutor/history.svg" class="icon" />
+                <div class="text-center">Payment History</div>
+            </a>
+        </div>*@
+    </div>
+    <div class="main">
+        <div class="bg-white shadow">
+            <div style="border-bottom:1px solid #666">
+                @* @{ Html.RenderAction("GetUserInfo", "ContentCreator");} *@
+                @await Component.InvokeAsync("UserInfo");
+            </div>
+            <div class="p-10 text-primary">
+                <h5>Draft (@ViewBag.totalDraft)</h5>
+            </div>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="p-10 m-t-10 bg-white shadow">
+                <div class="media">
+                    <div class="media-left">
+                        <div class="news-image-card lazy bg-gray" data-src="/remote.axd?@item.ImageUrl?width=120&height=100&mode=crop"></div>
+                    </div>
+                    <div class="media-body p-l-10">
+                        <p class="pull-right">@item.CreatedOn.ToString("dd-MM-yyyy")</p>
+                        <h4 class="media-heading p-t-10">@item.Title</h4>
+                        <a href="@Url.Action("Edit", "ContentCreator", new { id = item.GenerateSlug() })" style="background-color: #e1eef8;color: #0073c4;border-color: #0073c4;border-radius:15px;padding:4px 20px;" class="m-t-20 btn btn-default">Draft</a>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.Any())
+        {
+            <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
+                <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
+                @Html.PagedListPager(Model, page => Url.Action("Drafted", "ContentCreator", new { page }))
+            </div>
+        }
+    </div>
+</div>
+<div class="modal fade" id="instModel" tabindex="-1" role="dialog" style="z-index:700000">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="crossbtn"><img src="/images/contibutor/cross.svg" id="cancelInst" /></div>
+            <div class="modal-body">
+                <div class="media">
+                    <div class="media-left">
+                        <div style="width:110px;height:110px">
+                            <img src="/images/contibutor/key-instruction.svg" style="height:100px" />
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <div class="inst-title">KEY INSTRUCTIONS</div>
+                    </div>
+                </div>
+                <div class="p-t-20">
+                    <p style="font-size:16px;font-weight:500">Please note that Devdiscourse editorial team reserves the right to publish or reject any post. The following are automatic red flags, and will result in the post being rejected without any explanation:</p>
+                    <ol style="font-size: 16px; padding: 15px;">
+                        <li>The post is plagiarized from anywhere (this will also lead to a permanent ban).</li>
+                        <li>The post is a rehash of a piece from any other publication.</li>
+                        <li>The article is shorter than 300 words.</li>
+                        <li>The article is in a language other than English.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#writeLink').addClass('active');
+
+            $('.lazy').lazy();
+            // Instruction Dialog Code
+            $('#keyInst').click(function () {
+                $('#instModel').modal('show');
+                $("#instruction").attr("src", "/images/contibutor/key_instr_fill.svg");
+            });
+            $('#cancelInst').click(function () {
+                $('#instModel').modal('hide');
+                $("#instruction").attr("src", "/images/contibutor/key_instr_line.svg");
+            });
+        });
+    </script>
+}
+

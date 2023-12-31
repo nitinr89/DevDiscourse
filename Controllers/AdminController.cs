@@ -143,7 +143,7 @@ namespace DevDiscourse.Controllers
                 List<ShiftUser> shiftUsers = new List<ShiftUser>();
                 foreach (var a in Users)
                 {
-                    shiftUsers.Add(new ShiftUser { FirstName = a.FirstName, LastName = a.LastName, UserId = a.Id, isActice = a.isPRManager });
+                    shiftUsers.Add(new ShiftUser { FirstName = a.FirstName, LastName = a.LastName, UserId = a.Id, isActice = a.isActive });
                 }
                 return View(shiftUsers);
             }

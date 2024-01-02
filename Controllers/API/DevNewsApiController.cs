@@ -2,14 +2,10 @@
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
-using System.Collections.Generic;
 using Devdiscourse.Hubs;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Identity;
 using System.Text.RegularExpressions;
-using System.IO;
-using System.Net.Http;
-using System.Web;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage;
 using System.Text;
@@ -18,9 +14,8 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Devdiscourse.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
-using AngleSharp.Network;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace DevDiscourse.Controllers.API
 {
@@ -363,7 +358,7 @@ namespace DevDiscourse.Controllers.API
                 return result;
             }
         }
-        [System.Web.Mvc.OutputCache(Duration = 120, VaryByParam = "*")]
+        [OutputCache(Duration = 120)]
         [Route("api/DevNews/GetVideoNews/{reg}")]
         public IQueryable<LatestNewsView> GetVideoNews(string reg = "Global Edition")
         {
@@ -2111,7 +2106,7 @@ namespace DevDiscourse.Controllers.API
             return time.ToString("dd_MM_yyyy_HH_mm_ss_FFFFFFF");
         }
 
-        [System.Web.Mvc.OutputCache(Duration = 120, VaryByParam = "*")]
+        [OutputCache(Duration = 120)]
         [Route("api/getAllNews/{Edition}")]
         public IActionResult getAllNews(string Edition)
         {
@@ -2226,7 +2221,7 @@ namespace DevDiscourse.Controllers.API
             return Json(new { infocus = infcousResult, latest = latest, trending = trending, livediscourse = livediscourse, opinionblogs = opinionblogs, interviews = interviews, videos = videos });
         }
 
-        [System.Web.Mvc.OutputCache(Duration = 120, VaryByParam = "*")]
+        [OutputCache(Duration = 120)]
         [HttpPost]
         [Route("api/CodeVerify")]
         public IActionResult CodeVerify(CodeVerifyView obj)
@@ -2242,7 +2237,7 @@ namespace DevDiscourse.Controllers.API
             }
         }
 
-        [System.Web.Mvc.OutputCache(Duration = 120, VaryByParam = "*")]
+        [OutputCache(Duration = 120)]
         [HttpPost]
         [Route("api/UpdateProfile")]
         public IActionResult UpdateProfile(UpdateProfileVIew obj)
@@ -2264,7 +2259,7 @@ namespace DevDiscourse.Controllers.API
             return Json(new { msg = "Profile Updated Successfully" });
         }
 
-        [System.Web.Mvc.OutputCache(Duration = 120, VaryByParam = "*")]
+        [OutputCache(Duration = 120)]
         [HttpGet]
         [Route("api/GetBlogItems/{Edition}/{page}")]
         public IActionResult GetBlogItems(string Edition, int? page)
@@ -2275,7 +2270,7 @@ namespace DevDiscourse.Controllers.API
             return Json(search);
         }
 
-        [System.Web.Mvc.OutputCache(Duration = 120, VaryByParam = "*")]
+        [OutputCache(Duration = 120)]
         [HttpGet]
         [Route("api/GetLatestStories/{Edition}/{page}")]
         public IActionResult GetLatestStories(string Edition, int? page)
@@ -2288,7 +2283,7 @@ namespace DevDiscourse.Controllers.API
             return Json(result);
         }
 
-        [System.Web.Mvc.OutputCache(Duration = 120, VaryByParam = "*")]
+        [OutputCache(Duration = 120)]
         [HttpGet]
         [Route("api/GetAllInterviews/{Edition}/{page}")]
         public IActionResult GetAllInterviews(string Edition, int? page)
@@ -2299,7 +2294,7 @@ namespace DevDiscourse.Controllers.API
             return Json(search);
         }
 
-        [System.Web.Mvc.OutputCache(Duration = 120, VaryByParam = "*")]
+        [OutputCache(Duration = 120)]
         [HttpGet]
         [Route("api/GetLatestDiscourse/{Edition}/{page}")]
         public IActionResult GetLatestDiscourse(string Edition, int? page)
@@ -2324,7 +2319,7 @@ namespace DevDiscourse.Controllers.API
             return Json(LatestDiscourse);
         }
 
-        [System.Web.Mvc.OutputCache(Duration = 120, VaryByParam = "*")]
+        [OutputCache(Duration = 120)]
         [Route("api/GetAllVideoNews/{Edition}/{page}")]
         public IActionResult GetAllVideoNews(string Edition, int? page)
         {

@@ -5,7 +5,7 @@ using Devdiscourse.Models.ContributorModels;
 using Devdiscourse.Models.Others;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNet.SignalR;
+//using Microsoft.AspNet.SignalR;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using X.PagedList;
@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Devdiscourse.Data;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DevDiscourse.Controllers.Others
 {
@@ -45,7 +46,7 @@ namespace DevDiscourse.Controllers.Others
             return View();
         }
 
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public async Task<ActionResult> NewsList(DateTime? bfd, DateTime? afd, int? page = 1, string region = "", string label = "0", string sector = "0", string category = "0", string country = "", string source = "", string text = "", string uid = "", bool editorPick = false)
         {
             ViewBag.status = GetAutoAssignStatus();
@@ -125,13 +126,13 @@ namespace DevDiscourse.Controllers.Others
             }
             return View(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
         }
-        [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
+        [Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
         public ActionResult ContentList(int? page = 1)
         {
             var search = db.NewsWire.Where(a => a.Status == ContentStage.Pending).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
             return View(search.OrderByDescending(a => a.ModifiedOn).ToPagedList((page ?? 1), 20));
         }
-        [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
+        [Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
         public ActionResult PublishContent(int? page = 1)
         {
             var search = (from a in db.NewsWire
@@ -152,13 +153,13 @@ namespace DevDiscourse.Controllers.Others
                           }).ToPagedList((page ?? 1), 20);
             return View(search);
         }
-        [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
+        [Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
         public ActionResult RejectContent(int? page = 1)
         {
             var search = db.NewsWire.Where(a => a.Status == ContentStage.Reject).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
             return View(search.OrderByDescending(a => a.ModifiedOn).ToPagedList((page ?? 1), 20));
         }
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public ActionResult Dashboard()
         {
             string? cookie = Request.Cookies["Edition"];
@@ -196,7 +197,7 @@ namespace DevDiscourse.Controllers.Others
             }
             db.SaveChanges();
         }
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public ActionResult Create()
         {
             string? cookie = Request.Cookies["Edition"];
@@ -286,8 +287,8 @@ namespace DevDiscourse.Controllers.Others
                         Emailbody = Emailbody.Replace("{0}", item.FirstName + " " + item.LastName);
                         Emailbody = Emailbody.Replace("{1}", callbackUrl);
                         await emailObj.SendEmailAsync(item.Email, Emailbody, "New Press Release on Devdiscourse dashboard");
-                        var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-                        context.Clients.All.SendPRNewsNotification("New Press Release on Devdiscourse dashboard");
+                        //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                        //context.Clients.All.SendPRNewsNotification("New Press Release on Devdiscourse dashboard");
                     }
                 }
                 return RedirectToAction("Dashboard");
@@ -298,10 +299,10 @@ namespace DevDiscourse.Controllers.Others
         }
         public void sendNotice()
         {
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendPRNewsNotification("New Press Release on Devdiscourse dashboard");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            //context.Clients.All.SendPRNewsNotification("New Press Release on Devdiscourse dashboard");
         }
-        [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
+        [Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
         public ActionResult Edit(long? id)
         {
             string? cookie = Request.Cookies["Edition"];

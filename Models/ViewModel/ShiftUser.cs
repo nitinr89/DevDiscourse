@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Devdiscourse.Models.Others;
+﻿using Devdiscourse.Models.Others;
 
 namespace Devdiscourse.Models.ViewModel
 {

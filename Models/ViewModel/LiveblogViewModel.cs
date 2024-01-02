@@ -1,8 +1,4 @@
 ﻿using Devdiscourse.Models.BasicModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Devdiscourse.Models.ViewModel
 {

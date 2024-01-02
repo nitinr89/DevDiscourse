@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Devdiscourse.Models.BasicModels
+﻿namespace Devdiscourse.Models.BasicModels
 {
     public class Tag
     {

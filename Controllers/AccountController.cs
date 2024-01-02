@@ -36,7 +36,7 @@ namespace DevDiscourse.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl = "/")
         {
             string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
@@ -49,7 +49,7 @@ namespace DevDiscourse.Controllers
             }
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToLocal(returnUrl);
             }
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -150,7 +150,7 @@ namespace DevDiscourse.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string returnUrl = "/")
         {
             string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
@@ -163,8 +163,9 @@ namespace DevDiscourse.Controllers
             }
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToLocal(returnUrl);
             }
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -172,7 +173,7 @@ namespace DevDiscourse.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, string returnUrl = "/")
         {
             if (ModelState.IsValid)
             {
@@ -240,10 +241,12 @@ namespace DevDiscourse.Controllers
                     //    await roleManager.CreateAsync(newRole);
                     //}
                     await userManager.AddToRoleAsync(user, "Subscriber");
+                    //await userManager.AddToRoleAsync(user, "Press Release Manager");
+                    //await userManager.AddToRoleAsync(user, "Upfront");
                     //await userManager.AddToRoleAsync(user, "SuperAdmin");
                     // return RedirectToAction("AccountConfirmation", "Account");
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
                 //}

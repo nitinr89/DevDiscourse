@@ -1,7 +1,4 @@
-﻿using System;
-using System.Web;
-
-namespace Devdiscourse.Models
+﻿namespace Devdiscourse.Models
 {
     public static class TimeZoneExtension
     {

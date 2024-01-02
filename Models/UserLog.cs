@@ -1,9 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using System.Web;
-using Microsoft.AspNetCore.Http;
+﻿using System.Net.NetworkInformation;
 
 namespace Devdiscourse.Models
 {
@@ -36,17 +31,7 @@ namespace Devdiscourse.Models
         }
         public string GetLocalIPAddress()
         {
-            string VisitorIp = "127.0.0.1";            
-            //HttpContext context = System.Web.HttpContext.Current;
-            //string ipAddress = context.Request.ServerVariables["REMOTE_ADDR"];
-            //if (!string.IsNullOrEmpty(ipAddress))
-            //{
-            //    string[] addresses = ipAddress.Split(':');
-            //    if (addresses.Length != 0)
-            //    {
-            //        VisitorIp = addresses[0];
-            //    }
-            //}
+            string VisitorIp = "127.0.0.1"; 
             return VisitorIp;
             throw new Exception("IP Address Not Found!");
         }

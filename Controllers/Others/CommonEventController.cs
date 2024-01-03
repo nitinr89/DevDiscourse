@@ -1,14 +1,11 @@
 ﻿using Devdiscourse.Data;
-using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.Others;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
-//using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using System.ComponentModel;
 
 namespace DevDiscourse.Controllers.Others
 {

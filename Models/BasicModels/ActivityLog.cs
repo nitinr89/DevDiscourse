@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.NetworkInformation;
-using System.Web;
 
 namespace Devdiscourse.Models.BasicModels
 {
@@ -55,16 +53,6 @@ namespace Devdiscourse.Models.BasicModels
         public string GetLocalIPAddress()
         {
             string VisitorIp = "";
-            //HttpContext context = System.Web.HttpContext.Current;
-            //string ipAddress = context.Request.ServerVariables["REMOTE_ADDR"];
-            //if (!string.IsNullOrEmpty(ipAddress))
-            //{
-            //    string[] addresses = ipAddress.Split(':');
-            //    if (addresses.Length != 0)
-            //    {
-            //        VisitorIp = addresses[0];
-            //    }
-            //}
             return VisitorIp;
             throw new Exception("IP Address Not Found!");
             //var host = Dns.GetHostEntry(Dns.GetHostName());

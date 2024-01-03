@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using System.Web.Mvc;
-
-namespace Devdiscourse.Helper
+﻿namespace Devdiscourse.Helper
 {
     public static class RouteConfig
     {
@@ -23,8 +20,8 @@ namespace Devdiscourse.Helper
 
             routes.MapControllerRoute(
                        name: "ArticleDetailswithprefix",
-                       pattern: "Article/{Prefix}/{id}",
-                       defaults: new { controller = "Article", action = "Index", prefix = UrlParameter.Optional, reg = UrlParameter.Optional });
+                       pattern: "Article/{Prefix}/{id?}",
+                       defaults: new { controller = "Article", action = "Index" });
 
             routes.MapControllerRoute(
               name: "NewsVideo",
@@ -33,8 +30,8 @@ namespace Devdiscourse.Helper
 
             routes.MapControllerRoute(
                           name: "NewsSector",
-                          pattern: "news/{sector}",
-                          defaults: new { controller = "Search", action = "Index", sector = UrlParameter.Optional }
+                          pattern: "news/{sector?}",
+                          defaults: new { controller = "Search", action = "Index" }
                         );
 
             routes.MapControllerRoute(
@@ -45,8 +42,8 @@ namespace Devdiscourse.Helper
 
             routes.MapControllerRoute(
                 name: "NewsAnalysis",
-                pattern: "news-analysis/{type}",
-                defaults: new { controller = "Agencywire", action = "NewsAnalysis", type = UrlParameter.Optional }
+                pattern: "news-analysis/{type?}",
+                defaults: new { controller = "Agencywire", action = "NewsAnalysis" }
             );
 
             routes.MapControllerRoute(
@@ -63,14 +60,14 @@ namespace Devdiscourse.Helper
 
             routes.MapControllerRoute(
             name: "LivediscourseArticle",
-            pattern: "live-discourse/{id}",
-            defaults: new { controller = "Livediscourse", action = "Article", id = UrlParameter.Optional }
+            pattern: "live-discourse/{id?}",
+            defaults: new { controller = "Livediscourse", action = "Article" }
         );
 
             routes.MapControllerRoute(
                        name: "Blogs",
-                       pattern: "blogs/{type}",
-                         defaults: new { controller = "Home", action = "DevBlogs", type = UrlParameter.Optional }
+                       pattern: "blogs/{type?}",
+                         defaults: new { controller = "Home", action = "DevBlogs" }
                    );
             routes.MapControllerRoute(
                name: "SouthAsiaEdition",
@@ -128,8 +125,8 @@ namespace Devdiscourse.Helper
 
             routes.MapControllerRoute(
                           name: "NewsSector",
-                          pattern: "news/{sector}",
-                          defaults: new { controller = "Search", action = "Index", sector = UrlParameter.Optional }
+                          pattern: "news/{sector?}",
+                          defaults: new { controller = "Search", action = "Index" }
                         );
             routes.MapControllerRoute(
                      name: "Contribute",
@@ -138,8 +135,8 @@ namespace Devdiscourse.Helper
                      );
             routes.MapControllerRoute(
                           name: "NewsLabel",
-                          pattern: "stories/{label}",
-                          defaults: new { controller = "Home", action = "Search", label = UrlParameter.Optional }
+                          pattern: "stories/{label?}",
+                          defaults: new { controller = "Home", action = "Search" }
                         );
             routes.MapControllerRoute(
                         name: "PressRelease",
@@ -150,12 +147,12 @@ namespace Devdiscourse.Helper
             routes.MapControllerRoute(
                        name: "ArticleDetailswithprefix",
                        pattern: "ArticleDetailswithprefix/{Index}/{id?}",
-                       defaults: new { controller = "Article", action = "Index", prefix = UrlParameter.Optional, reg = UrlParameter.Optional });
+                       defaults: new { controller = "Article", action = "Index" });
 
             routes.MapControllerRoute(
                            name: "AboutUs",
-                           pattern: "aboutus/{id}",
-                           defaults: new { controller = "About", action = "Index", id = UrlParameter.Optional }
+                           pattern: "aboutus/{id?}",
+                           defaults: new { controller = "About", action = "Index" }
                        );
             routes.MapControllerRoute(
                          name: "Advertisement",
@@ -190,8 +187,8 @@ namespace Devdiscourse.Helper
             );
             routes.MapControllerRoute(
                         name: "MediaPartnershipLink",
-                        pattern: "partnership/{action}/{type}",
-                        defaults: new { controller = "MediaPartnership", action = "KnowledgePartners", type = UrlParameter.Optional }
+                        pattern: "partnership/{action}/{type?}",
+                        defaults: new { controller = "MediaPartnership", action = "KnowledgePartners" }
                );
             routes.MapControllerRoute(
             name: "InternetOfThingsWorld",
@@ -252,12 +249,12 @@ namespace Devdiscourse.Helper
             routes.MapControllerRoute(
                name: "GoGreen",
                pattern: "events/go-green-summit",
-               defaults: new { controller = "Events", action = "GoGreen", cat = UrlParameter.Optional }
+               defaults: new { controller = "Events", action = "GoGreen" }
            );
             routes.MapControllerRoute(
                name: "GreenUrbanism",
                pattern: "events/green-urbanism",
-               defaults: new { controller = "Events", action = "GreenUrbanism", cat = UrlParameter.Optional }
+               defaults: new { controller = "Events", action = "GreenUrbanism" }
            );
 
             routes.MapControllerRoute(

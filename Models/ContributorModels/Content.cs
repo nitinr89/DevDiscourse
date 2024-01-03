@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
-//using System.Web.Mvc;
 
 namespace Devdiscourse.Models.ContributorModels
 {
@@ -15,36 +12,36 @@ namespace Devdiscourse.Models.ContributorModels
         [Required]
         public string Title { get; set; }
         [Display(Name = "SubTitle")]
-        public string SubTitle { get; set; }
+        public string? SubTitle { get; set; }
         [Required]
         //[AllowHtml]
-        public string Description { get; set; }
-        public string Type { get; set; }
+        public string? Description { get; set; }
+        public string? Type { get; set; }
         [Display(Name = "Labels")]
-        public string NewsLabels { get; set; }
+        public string? NewsLabels { get; set; }
         [Display(Name = "Image")]
-        public string ImageUrl { get; set; }
-        public string FileMimeType { get; set; }        // File Mime Type
+        public string? ImageUrl { get; set; }
+        public string? FileMimeType { get; set; }        // File Mime Type
         [Display(Name = "Image Copyright")]
-        public string ImageCopyright { get; set; }
+        public string? ImageCopyright { get; set; }
         [Display(Name = "Video")]
-        public string VideoUrl { get; set; }
+        public string? VideoUrl { get; set; }
         public bool IsVideo { get; set; }
-        public string Tags { get; set; }
-        public string Sector { get; set; }
-        public string Region { get; set; }
-        public string Country { get; set; }
+        public string? Tags { get; set; }
+        public string? Sector { get; set; }
+        public string? Region { get; set; }
+        public string? Country { get; set; }
         [Display(Name = "Author Name")]
-        public string Source { get; set; }
+        public string? Source { get; set; }
         public ContentStage ContentStatus { get; set; }
         [Display(Name = "Reason of Reject")]
-        public string ReasonofReject { get; set; }
-        public string Creator { get; set; }
+        public string? ReasonofReject { get; set; }
+        public string? Creator { get; set; }
         public DateTime ModifiedOn { get; set; }
         public DateTime CreatedOn { get; set; }
         [ForeignKey("Creator")]
-        public virtual ApplicationUser ApplicationUsers { get; set; }
-        public virtual ICollection<Earnings> Earnings { get; set; }
+        public virtual ApplicationUser? ApplicationUsers { get; set; }
+        public virtual ICollection<Earnings>? Earnings { get; set; }
         public Content()
         {
             if (CreatedOn == new DateTime())

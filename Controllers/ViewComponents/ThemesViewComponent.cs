@@ -16,16 +16,22 @@ namespace Devdiscourse.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string theme , string filter="")
         {
-            ViewBag.filter = filter;
-            var idList = theme.Split(',').ToList().Select(int.Parse).ToList();
-            var search = from m in _db.DevThemes
-                         join s in idList on m.Id equals s
-                         select new ItemView
-                         {
-                             Id = m.Id,
-                             Title = m.Title,
-                         };
-            return View( search);
+            try
+            {
+                ViewBag.filter = filter;
+                var idList = theme.Split(',').ToList().Select(int.Parse).ToList();
+                var search = from m in _db.DevThemes
+                             join s in idList on m.Id equals s
+                             select new ItemView
+                             {
+                                 Id = m.Id,
+                                 Title = m.Title,
+                             };
+                return View(search);
+            }catch (Exception ex)
+            {
+                return Content("Error: " + ex.Message);
+            }
         }
     }
 }

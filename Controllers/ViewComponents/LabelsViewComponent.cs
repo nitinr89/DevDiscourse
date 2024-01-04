@@ -12,8 +12,16 @@ namespace DevDiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var search = _db.Labels.ToList();
-            return View(search);
+            try
+            {
+
+
+                var search = _db.Labels.ToList();
+                return View(search);
+            }catch (Exception ex)
+            {
+                return Content("Error: " + ex.Message);
+            }
         }
     }
 }

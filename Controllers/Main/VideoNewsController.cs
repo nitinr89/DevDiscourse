@@ -37,7 +37,7 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.text = text;
             ViewBag.source = source;
             ViewBag.editorPick = editorPick;
-            DateTime twoMonth = DateTime.Today.AddDays(-60);
+            DateTime twoMonth = DateTime.Today.AddDays(-120);
             IQueryable<VideoNews> videoNews;
             if (string.IsNullOrEmpty(text))
             {

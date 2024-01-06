@@ -54,8 +54,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     //public DbSet<NewsTag> NewsTags { get; set; }
     public DbSet<AssignNews> AssignNews { get; set; }
     public DbSet<Job> Jobs { get; set; }
-    public DbSet<Content> NewsContents { get; set; }
-    public DbSet<NewsWireModel> NewsWire { get; set; }
+    public DbSet<Content> Contents { get; set; }
+    public DbSet<NewsWireModel> NewsWireModels { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Earnings> Earnings { get; set; }
     public DbSet<PaymentHistory> PaymentHistory { get; set; }

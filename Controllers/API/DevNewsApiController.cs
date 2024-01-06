@@ -1903,14 +1903,14 @@ namespace DevDiscourse.Controllers.API
             DateTime tenDays = search.CreatedOn.AddHours(-8);
 
             //var newsList = db.DevNews.Where(a => a.NewsId < id && a.CreatedOn > tenDays && (a.Sector == sector) && a.AdminCheck == true);
-
-            var newsList = db.DevNews.Where(a => a.NewsId < id && (a.Sector == sector));
+            var sectorIds = sector.Split(',').Select(int.Parse).ToList();
+            var newsList = db.DevNews.Where(a => a.SectorMapping.Any(ns => sectorIds.Contains(ns.SectorId)));
             
             if (reg != "Global Edition")
             {
                 newsList = newsList.Where(a => a.Region.Contains(reg));
             }
-            newsList = newsList.OrderByDescending(o => o.CreatedOn).Skip(skip).Take(9);
+            //newsList = newsList.OrderByDescending(o => o.CreatedOn).Skip(skip).Take(9);
             List<ApiNewsView> resultNewsList = new List<ApiNewsView>();
             foreach (var news in newsList.ToList())
             {

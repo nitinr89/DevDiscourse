@@ -1,0 +1,119 @@
+﻿@model Devdiscourse.Models.ContributorModels.Content
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<style>
+    body {
+        background-color: #efefef;
+    }
+
+    .badge {
+        font-weight: 500;
+        background-color: #0073c4;
+    }
+
+    .control-label {
+        text-align: right;
+    }
+</style>
+<div class="container bg-white m-t-10 m-b-10 p-b-10 p-t-10">
+    <ol class="breadcrumb no-margin">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        @if (Model.ContentStatus == Devdiscourse.Models.ContributorModels.ContentStage.Publish)
+        {
+            <li class="breadcrumb-item"><a href="@Url.Action("PublishContent", "ContentCreator")">Published Content</a></li>
+        }
+        else if (Model.ContentStatus == Devdiscourse.Models.ContributorModels.ContentStage.Reject)
+        {
+            <li class="breadcrumb-item"><a href="@Url.Action("RejectContent", "ContentCreator")">Rejected Content</a></li>
+        }
+        else
+        {
+            <li class="breadcrumb-item"><a href="@Url.Action("Contents", "ContentCreator")">Content</a></li>
+        }
+        <li class="breadcrumb-item active">Details</li>
+    </ol>
+</div>
+<div class="container bg-white p-20 m-b-10">
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Title</label>
+        <div class="col-md-10">@Model.Title</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Sub-Title</label>
+        <div class="col-md-10">@Model.SubTitle</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Description</label>
+        <div class="col-md-10">@Html.Raw(Model.Description)</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Region</label>
+        <div class="col-md-10">@Model.Region</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Country</label>
+        <div class="col-md-10">
+            @if (!String.IsNullOrEmpty(Model.Country))
+            {
+                var country = Model.Country.Split(',');
+                foreach (var coun in country)
+                {
+                    <span class="badge">@coun</span>
+                }
+            }
+        </div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Sector</label>
+        <div class="col-md-10">@await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "Plane" });</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">News Label</label>
+        <div class="col-md-10">@Model.NewsLabels</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Author Name</label>
+        <div class="col-md-10">@Model.Source</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Image</label>
+        <div class="col-md-10">
+            <img src="@Model.ImageUrl" style="width:150px;height:150px;" class="img-responsive" />
+        </div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Image Copyright</label>
+        <div class="col-md-10">@Model.ImageCopyright</div>
+    </div>
+    @if (!String.IsNullOrEmpty(Model.VideoUrl))
+    {
+        <div class="row m-t-10">
+            <label class="col-md-2 control-label">Video</label>
+            <div class="col-md-10">
+                <video src="@Model.VideoUrl" controls></video>
+            </div>
+        </div>
+    }
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Tags</label>
+        <div class="col-md-10">
+            @if (!String.IsNullOrEmpty(Model.Tags))
+            {
+                var tag = Model.Tags.Split(',');
+                foreach (var t in tag)
+                {
+                    <span class="badge">@t</span>
+                }
+            }
+        </div>
+    </div>
+    @if (Model.ContentStatus == Devdiscourse.Models.ContributorModels.ContentStage.Reject)
+    {
+        <div class="row m-t-10">
+            <label class="col-md-2 control-label">Reason of Reject</label>
+            <div class="col-md-10">@Model.ReasonofReject</div>
+        </div>
+    }
+</div>

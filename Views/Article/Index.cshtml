@@ -30,7 +30,7 @@
     ViewBag.pageKeywords = keywords;
     StringBuilder DataDesc = new StringBuilder(Model.Description);
     //string DataDesc = Model.Description;
-    //var modifiedDescription = GetFirstParagraph(@Model.Description).ToString();//do later
+    //var modifiedDescription = GetFirstParagraph(@Model.Description).ToString(); 
     var schemaDescription = !string.IsNullOrEmpty(Model.SubTitle) ? Model.SubTitle : "Read more about " + Model.Title + " on Devdiscourse";
     ViewBag.PageDescription = schemaDescription.ToString().Trim();
     var schemaSource = string.IsNullOrEmpty(Model.NewsLabels) ? Model.Source : "Devdiscourse News Desk";
@@ -56,6 +56,7 @@
 @functions {
 async Task GetFirstParagraph(string htmltext)
 {
+     await Task.Yield();
     htmltext = htmltext.Replace("&nbsp;", " ");
     var match = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
     var output = match.Success ? match.Groups[1].Value : htmltext;
@@ -68,6 +69,7 @@ async Task GetFirstParagraph(string htmltext)
 @functions {
 async Task Truncate(string input, int length)
 {
+     await Task.Yield();
     if (string.IsNullOrEmpty(input))
     {
         <text> </text>
@@ -86,6 +88,7 @@ async Task Truncate(string input, int length)
 @functions {
 async Task GetCleanDescription(string htmltext)
 {
+    await Task.Yield();
     if (!string.IsNullOrEmpty(htmltext))
     {
     var sb = new StringBuilder(htmltext);
@@ -101,9 +104,10 @@ async Task GetCleanDescription(string htmltext)
 }
 }
 @functions {
-async Task GetDescriptionText(string htmltext = "")
-{
-    var sb = new StringBuilder();
+    async Task GetDescriptionText(string htmltext = "")
+    {
+        await Task.Yield();
+        var sb = new StringBuilder();
     var regex = new Regex(@"[^,.A-Za-z0-9\s-]", RegexOptions.Compiled);
     var text = (htmltext ?? "").Replace("&nbsp;", " ");
     text = Regex.Replace(text, @"(?i)<(br|BR)\s{0,1}\/{0,1}>", Environment.NewLine, RegexOptions.Compiled);
@@ -720,7 +724,7 @@ async Task GetDescriptionText(string htmltext = "")
     "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png"
     }
     },
-    "description": "@GetFirstParagraph(@Model.Description)"
+    "description": " @{ await GetFirstParagraph(@Model.Description); }"
     }
 </script>
 @if (@schemaAuthor == "PR Newswire")
@@ -733,28 +737,41 @@ async Task GetDescriptionText(string htmltext = "")
 }
 <div class="container full-width mt-minus-30">
     @if (!isCrawler)
-    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div>@*<div class="text-center" style="min-height:100px"></div>*@ </div>}
+    {
+        <div class="advertisement-area"> <div class="advertisement-title">Advertisement</div></div>
+    }
 </div><div class="container">
-    <ul class="breadcrumb breadcrumb_new m-t-20" itemscope itemtype="http://schema.org/BreadcrumbList">
-        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li>
-        @if (Model.Type == "News" && Model.Category != "15")
-        {
-            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="/news" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
-}
-        else if (Model.Type == "News" && Model.Category == "15")
-        {
-            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Sports", new{cat="INDvsENG"})" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
-}
-        else
-        {
-            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("DevBlogs", "Home", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">@Model.SubType</span></a> <meta itemprop="position" content="2" /> </li>
-}
 
-@* @{Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "NewsSector" });} *@  @* do later *@
-@await Component.InvokeAsync("Sector", new { sector=Model.Sector, filter="NewsSector"} );
+      <ul class="breadcrumb breadcrumb_new m-t-20" itemscope itemtype="http://schema.org/BreadcrumbList">
 
-<li class="active">Article</li>
-</ul> <div class="article-divider clearfix" style="display:none;" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div><div class="row">
+              <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                  <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item">
+                      <span itemprop="name">Home</span>
+                  </a>
+                  <meta itemprop="position" content="1" />
+              </li>
+
+              @if (Model.Type == "News" && Model.Category != "15")
+              {
+                  <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="/news" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
+              }
+              else if (Model.Type == "News" && Model.Category == "15")
+              {
+                  <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Sports", new{cat="INDvsENG"})" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
+              }
+              else
+              {
+                  <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("DevBlogs", "Home", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">@Model.SubType</span></a> <meta itemprop="position" content="2" /> </li>
+              }
+
+              @await Component.InvokeAsync("Sector", new { sector=Model.Sector, filter="NewsSector"} );
+
+              <li class="active">Article</li>
+          </ul> 
+
+
+
+<div class="article-divider clearfix" style="display:none;" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div><div class="row">
     <div class="col-md-8">
         <article>
             <h1 class="title">@Model.Title</h1> @if (!string.IsNullOrEmpty(@Model.SubTitle))
@@ -819,7 +836,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
 
 
 <script type="application/ld+json">
-    {"@@context":"https://schema.org/","@@type":"VideoObject","name":"@newsTitle","@@id":"@domainUrl@pageUrl","datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","description":"@GetDescriptionText(@Model.Description)","thumbnailURL":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","thumbnail":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","contentUrl":"@item.FilePath","author":{"@@type":"Person","name":"Devdiscourse News Desk"}}
+    {"@@context":"https://schema.org/","@@type":"VideoObject","name":"@newsTitle","@@id":"@domainUrl@pageUrl","datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","description":"@{ await GetDescriptionText(@Model.Description);}","thumbnailURL":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","thumbnail":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","contentUrl":"@item.FilePath","author":{"@@type":"Person","name":"Devdiscourse News Desk"}}
 </script>
 <video id="my-video" class="video-js center-block" controls preload="auto" width="640" height="360" @*poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"*@ poster="@item.FileThumbUrl" data-setup='{"fluid": true}' autoplay> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a> </p></video> <div class="modal fade" id="embedVideoDialog" role="dialog"> <div class="modal-dialog modal-sm"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Embed This Media</h4> </div><div class="modal-body"> <input type="text" id="embedCode" class="form-control" value='<iframe width="640" height="360" frameborder="0" src="https://www.devdiscourse.com/videos/embedmedia/@item.Id"></iframe>' /> </div></div></div></div>}<div>
     @if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "News")
@@ -852,7 +869,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
          }
     </ul>
 </section> <hr class="seperator m-b-20" /> <section class="article-cont">
-    @GetCleanDescription(@DataDesc.ToString()) @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk" && !isCrawler)
+    @{ await GetCleanDescription(@DataDesc.ToString());} @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk" && !isCrawler)
     {
         if (!isCrawler)
         {<p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>}
@@ -892,8 +909,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <div class="advertisement-title">Advertisement</div>
     <div id="v-devdiscourse-v2"></div>
     <script>(function (v, d, o, ai) { ai = d.createElement('script'); ai.defer = true; ai.async = true; ai.src = v.location.protocol + o; d.head.appendChild(ai); })(window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');</script>
-</div>@if (!string.IsNullOrEmpty(Model.Tags)) @* { 
-    Html.RenderAction("GetTagNews", "Agencywire", new { id = Model.NewsId, tag = Model.Tags }); } *@
+</div>@if (!string.IsNullOrEmpty(Model.Tags)) 
     @await Component.InvokeAsync("TagsNews", new { id=Model.NewsId, tag=Model.Tags} );
 
     <button onclick="reset('https://www.devdiscourse.com/Article/@Model.GenerateSecondSlug()',@Model.NewsId);" class="btn btn-default btn-lg m-b-20 m-t-20 btn-block"> <img src="~/images/icons/comment_bubble.svg" alt="comments" /> POST / READ COMMENTS </button> <section id="art_@Model.NewsId" class="commentbox"> <div id="disqus_thread" style="display:none;"> <img data-src="/images/icons/disqus_loader.svg" class="center-block lazy" /> </div></section>
@@ -914,14 +930,13 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     else
     {
         <div class="advertisement-area">
-        <div class="advertisement-title">Advertisement</div>@*<div id="div-gpt-ad-1583931793021-2" style="min-height:265px"> </div>*@ 
+        <div class="advertisement-title">Advertisement</div>
         </div>
     }
     <section class="clearfix m-t-10">
     <h2 class="section-title3"> 
     <span>TRENDING</span>
     </h2>
-    @* @{Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.edition });} do later*@
     @await Component.InvokeAsync("Trends", new { filter="Trends", reg=ViewBag.edition });
     </section> 
     <section class="m-t-10" id="video_section">
@@ -933,7 +948,6 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <h2 class="section-title3">
     <span>Latest News</span> 
     </h2> 
-    @* @{Html.RenderAction("GetlatestNews", "Search", new { reg = ViewBag.region });} *@
      @await Component.InvokeAsync("LatestNews", new{ reg=ViewBag.region } );
     </section> 
     <div class="clearfix m-t-10">
@@ -943,7 +957,6 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <h2 class="section-title3"> 
     <span>OPINION / BLOG / INTERVIEW</span> 
     </h2>
-    @* @{Html.RenderAction("getOpinion", "Search", new { reg = ViewBag.region });} *@
     @await Component.InvokeAsync("Opinion", new { reg=ViewBag.region } );
     </section> 
     <section class="clearfix m-t-10">

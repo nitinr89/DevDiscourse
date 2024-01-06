@@ -4,11 +4,9 @@
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
     string domainUrl = "https://www.devdiscourse.com";
 }
-
 <link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
 <link href="~/Content/admin.css" rel="stylesheet" />
 <link href="~/Scripts/tagsInput/css/jquery.tagsinput.min.css" rel="stylesheet" />
-
 <style>
     .ui-widget-header {
         background: #cedc98;
@@ -143,11 +141,11 @@
                         <div class="p-20">
                             <div class="row m-t-10">
                                 <div class="col-sm-6 col-xs-12">
-                                    @Html.Label("VideoNewsRegions", "Region", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Label("VideoEdition", "Region", htmlAttributes: new { @class = "control-label" })
                                     <div id="RegionList" class="showListDiv"></div>
                                     @if (Model.VideoNewsRegions != null)
                                     {
-                                        @foreach (var oldreg in @Model.VideoNewsRegions)
+                                        foreach (var oldreg in Model.VideoNewsRegions)
                                         {
                                             <input type="hidden" name="OldVideoEdition" value="@oldreg.EditionId" />
                                         }
@@ -163,7 +161,6 @@
                                             {
                                                 <option value="@reg.Id">@reg.Title</option>
                                             }
-
                                         }
                                     </select>
                                 </div>
@@ -185,12 +182,12 @@
                         <div class="p-20">
                             <div class="row m-t-10">
                                 <div class="col-sm-6 col-xs-12">
-                                    @Html.Label("VideoNewsSectors", "Sector", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Label("VideoSector", "Sector", htmlAttributes: new { @class = "control-label" })
                                     <div class="">
                                         <div id="SectorList" class="showListDiv"></div>
                                         @if (Model.VideoNewsSectors != null)
                                         {
-                                            @foreach (var oldsector in Model.VideoNewsSectors)
+                                            foreach (var oldsector in Model.VideoNewsSectors)
                                             {
                                                 <input type="hidden" name="OldVideoSector" value="@oldsector.SectorId" />
                                             }
@@ -206,7 +203,6 @@
                                                 {
                                                     <option value="@sector.Id">@sector.Title</option>
                                                 }
-
                                             }
                                         </select>
                                     </div>
@@ -239,9 +235,9 @@
                             <ul class="list-group" id="trendKeyword">
                                 @if (Model.VideoNewsTags != null)
                                 {
-                                    @foreach (var tag in Model.VideoNewsTags)
+                                    foreach (var tag in Model.VideoNewsTags)
                                     {
-                                        <li class="list-group-item deleteOldFinalTag" data-title="@tag?.Tagstb?.TagTitle" data-id="@tag.Id" style="padding:0 10px;">@tag?.Tagstb?.TagTitle</li>
+                                        <li class="list-group-item deleteOldFinalTag" data-title="@tag?.Tagstb?.TagTitle" data-id="@tag?.Id" style="padding:0 10px;">@tag?.Tagstb?.TagTitle</li>
                                     }
                                 }
                             </ul>
@@ -408,7 +404,6 @@
                             <select class="form-control" id="selSector">
                                 <option value="0">All Sector</option>
                                 @{
-                                    // Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });
                                     @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" })
                                     ;
                                 }
@@ -421,7 +416,6 @@
                             <select class="form-control" id="imgSector">
                                 <option value="0">Select Sector</option>
                                 @{
-                                    // Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });
                                     @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" })
                                     ;
                                 }
@@ -480,7 +474,6 @@
                             <select class="form-control" id="selSec">
                                 <option value="0">All Sector</option>
                                 @{
-                                    // Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });
                                     @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" })
                                     ;
                                 }
@@ -577,7 +570,7 @@
                     success: function (data) {
                         var countryHtml = '';
                         $.each(data, function (i, item) {
-                            countryHtml += '<option value="' + item.Title + '">' + item.Title + '</option>';
+                            countryHtml += '<option value="' + item.title + '">' + item.title + '</option>';
                         });
                         $("#Country").html(countryHtml).val('@(Model.Country)');
                     },
@@ -677,7 +670,7 @@
                                         $('.searching').hide();
                                         $('.modal-footer').show();
                                         $.each(data, function (i, item) {
-                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.NewsId + '" tabindex="' + item.Title + '" value="' + item.Label + '">' + item.Title + '</div>');
+                                            $('#newsList').append('<div class="news-div searchNews" id="' + item.newsId + '" tabindex="' + item.title + '" value="' + item.label + '">' + item.title + '</div>');
                                         });
                                     },
                                     error: function (req, status, error) {

@@ -47,7 +47,7 @@
     TempData["creator"] = Model.Creator;
     TempData["Author"] = "Nitin" + "" + "Rawat"; 
     string authorName = "";
-    ViewBag.pageAuthor = Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56" ? "J.P. Singh" : @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName;
+    ViewBag.pageAuthor = Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56" ? "J.P. Singh" : "Nitin Rawat"; /* @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; */
     ViewBag.HasAmpPage = true;
     TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
     DateTime createdDate = TimeZoneInfo.ConvertTimeFromUtc(Model.CreatedOn, INDIAN_ZONE);
@@ -70,8 +70,9 @@
 }
 else
 {
-    authorName = @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; TempData["Author"] = authorName;
-
+@*     authorName = @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; TempData["Author"] = authorName; *@
+    authorName = "Nitin" + " " + "Rawat";
+    TempData["Author"] = authorName;
 }
 @if (!string.IsNullOrEmpty(bodykeywords))
 {
@@ -816,7 +817,7 @@ else
                     </div>
                     <section class="article-desc">
                         @{
-                              GetCleanDescription(@DataDesc);
+                             await  GetCleanDescription(@DataDesc);
                         }
 
                     </section>
@@ -851,7 +852,7 @@ else
                         <section class="article-desc f-18">
 
                             @{
-                                 GetCleanDescription(@DataDesc);
+                               await  GetCleanDescription(@DataDesc);
                             }
 
 
@@ -1014,7 +1015,6 @@ else
 </div>
 @section scripts{
     <script>
-        debugger
         var id = '@(Model.Id)';
         var inCallbackBlog = false;
         var blogPage = 1;
@@ -1213,7 +1213,6 @@ else
                     blogIndexPage++;
                     inCallbackIndex = true;
                     $("#loading").show();
-                    debugger;
                     $.ajax({
                         url: '/api/DiscourseApi/livediscourseIndexUpdates/' + id + '/' + blogIndexPage,
                         type: 'Get',
@@ -1226,7 +1225,6 @@ else
                             }
                             var indexData = '';
                             $.each(data, function (i, item) {
-                                debugger;
                                 var listData = '';
                                 var moreHtml = '';
                                 $.each(item.livediscourse, function (index, discourse) {
@@ -1236,7 +1234,6 @@ else
                                         '<div class="title">' + discourse.title + '</div>' +
                                         '</div></a>';
                                 });
-                                debugger;
                                 if (item.livediscourse.length == 3) {
                                     moreHtml = '<button id="moreindex_' + item.id + '" data-index="' + item.id + '" data-skip="3" class="btn btn-sm moreIndex btn-block m-t-5">More</button>';
                                 }
@@ -1259,7 +1256,6 @@ else
             });
             function GetDiscourseIndexById(id, skip) {
                 console.log(id, skip);
-                debugger;
                 $.ajax({
                     url: '/api/DiscourseApi/livediscourseIndexUpdatesById/' + id + '/' + skip,
                     type: 'Get',
@@ -1272,7 +1268,6 @@ else
                         }
                         var listData = '';
                         $.each(data, function (index, discourse) {
-                            debugger
                             var createdOn = new Date(discourse.createdOn); createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
                             listData += '<a href="#post_' + discourse.id + '" class="text-decoration"><div class="liveblog-list-item">' +
                                 '<div class="time">' + formating(createdOn.getDate()) + '-' + formating(createdOn.getMonth() + 1) + '-' + formating(createdOn.getFullYear()) + ' ' + formating(createdOn.getHours()) + ':' + formating(createdOn.getMinutes()) + ' IST</div>' +
@@ -1339,7 +1334,6 @@ else
                 $('#field_' + $(this).data('parent')).toggle();
             });
             $(document).on('click', '.loadCommentBtn', function () {
-                debugger;
                 getComments($(this).data('id'), $(this).data('parent'), $(this).data('page'));
                 $(this).remove();
             });
@@ -1373,7 +1367,6 @@ else
                     type: "GET",
                     success: function (data) {
                         $.each(data, function (i, item) {
-                            debugger
                             $("#single_" + data[i].commentId).remove();
                             var childHtml = '';
                             var hideHtml = '';
@@ -1494,7 +1487,6 @@ else
                     type: "POST",
                     data: { itemId: id, commentText: commentText, parentId: parentId, rootParentId: rootParentId, reply: reply },
                     success: function (data) {
-                        debugger
                         if (data == "NotAuthorized") {
                             return;
                         }

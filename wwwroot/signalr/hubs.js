@@ -7,11 +7,10 @@
  *
  */
 
-debugger;
+
 (function ($, window, undefined) {
     /// <param name="$" type="jQuery" />
     "use strict";
-    debugger;
     if (typeof ($.signalR) !== "function") {
         throw new Error("SignalR: SignalR is not loaded. Please ensure jquery.signalR-x.js is referenced before ~/signalr/js.");
     }
@@ -27,7 +26,6 @@ debugger;
 
     function registerHubProxies(instance, shouldSubscribe) {
         var key, hub, memberKey, memberValue, subscriptionMethod;
-        debugger;
         for (key in instance) {
             if (instance.hasOwnProperty(key)) {
                 hub = instance[key];
@@ -62,10 +60,8 @@ debugger;
         }
     }
 
-    debugger;
     $.hubConnection.prototype.createHubProxies = function () {
         var proxies = {};
-        debugger;
         this.starting(function () {
             // Register the hub proxies as subscribed
             // (instance, shouldSubscribe)
@@ -90,7 +86,6 @@ debugger;
             },
 
             updateMap: function (url) {
-                debugger;
                 return proxies['chatHub'].invoke.apply(proxies['chatHub'], $.merge(["UpdateMap"], $.makeArray(arguments)));
             }
         };
@@ -117,7 +112,6 @@ debugger;
 
         return proxies;
     };
-    debugger;
     signalR.hub = $.hubConnection("/signalr", { useDefaultPath: false });
     $.extend(signalR, signalR.hub.createHubProxies());
 

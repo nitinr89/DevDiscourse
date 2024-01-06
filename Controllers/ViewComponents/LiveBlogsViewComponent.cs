@@ -72,14 +72,12 @@ namespace Devdiscourse.Controllers.ViewComponents
                             Reacted = ReactType.None
                         }).Take(10).ToList();
                     return View(search);
-                }
+                }             
             }
             catch(Exception ex)
             {
                 return Content("Error: " + ex.Message);
-            }
-                
-            
+            }                 
         }
     }
 }

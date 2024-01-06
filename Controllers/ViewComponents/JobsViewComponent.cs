@@ -13,8 +13,17 @@ namespace DevDiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var search = await _db.Jobs.Where(a => a.IsPublished == true).OrderByDescending(a => a.CreatedOn).ToListAsync();
-            return View(search);
+            try
+            {
+
+
+                var search = await _db.Jobs.Where(a => a.IsPublished == true).OrderByDescending(a => a.CreatedOn).ToListAsync();
+                return View(search);
+            }
+            catch (Exception ex)
+            {
+                return Content("Error: " + ex.Message);
+            }
         }
     }
 }

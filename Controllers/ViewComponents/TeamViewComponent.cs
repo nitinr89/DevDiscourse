@@ -13,8 +13,14 @@ namespace DevDiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             await Task.Yield();
-            var search = _db.Teams.Where(a => a.Active == true).OrderBy(a => a.SrNo).ToList();
-            return View(search);
+            try
+            {
+                var search = _db.Teams.Where(a => a.Active == true).OrderBy(a => a.SrNo).ToList();
+                return View(search);
+            }catch (Exception ex)
+            {
+                return Content("Error: " + ex.Message);
+            }
         }
     }
 }

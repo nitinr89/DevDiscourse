@@ -15,8 +15,14 @@ namespace Devdiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(long id)
         {
             await Task.Yield();
-            var videoNews = _db.VideoNews.Find(id);
-            return View(videoNews);
+            try
+            {
+                var videoNews = _db.VideoNews.Find(id);
+                return View(videoNews);
+            } catch (Exception ex)
+            {
+                return Content("Error" + ex.Message);
+            }
         }
     }
 }

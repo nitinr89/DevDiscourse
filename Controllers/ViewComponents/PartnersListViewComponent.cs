@@ -15,10 +15,16 @@ namespace Devdiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(PartnerType type, string subType, int skip = 0)
         {
-            ViewBag.type = type;
-            var search = _db.Partners.Where(a => a.Type == type && a.SubType.ToUpper() == subType.ToUpper() && a.IsActive == true)
-                .OrderByDescending(a => a.CreatedOn).Skip(skip).Take(12).ToList();
-            return View( search);
+            try
+            {
+                ViewBag.type = type;
+                var search = _db.Partners.Where(a => a.Type == type && a.SubType.ToUpper() == subType.ToUpper() && a.IsActive == true)
+                    .OrderByDescending(a => a.CreatedOn).Skip(skip).Take(12).ToList();
+                return View(search);
+            }catch (Exception ex)
+            {
+                return Content("Error: " + ex.Message);
+            }
         }
     }
 }

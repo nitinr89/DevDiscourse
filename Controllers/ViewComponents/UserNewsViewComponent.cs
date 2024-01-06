@@ -14,11 +14,17 @@ namespace DevDiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(string name, int? page)
         {
-            ViewBag.name = name;
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            var news = _db.DevNews.Where(a => a.ApplicationUsers.UserName == name && a.OriginalSource == "Devdiscourse News Desk" && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new LatestNewsView { NewId = s.NewsId, Title = s.Title, CreatedOn = s.CreatedOn, ImageUrl = s.ImageUrl, Label = s.NewsLabels }).ToPagedList(pageNumber, pageSize);
-            return View(news);
+            try
+            {
+                ViewBag.name = name;
+                int pageSize = 20;
+                int pageNumber = (page ?? 1);
+                var news = _db.DevNews.Where(a => a.ApplicationUsers.UserName == name && a.OriginalSource == "Devdiscourse News Desk" && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new LatestNewsView { NewId = s.NewsId, Title = s.Title, CreatedOn = s.CreatedOn, ImageUrl = s.ImageUrl, Label = s.NewsLabels }).ToPagedList(pageNumber, pageSize);
+                return View(news);
+            }catch (Exception ex)
+            {
+                return Content("Error: " + ex.Message);
+            }
         }
     }
 }

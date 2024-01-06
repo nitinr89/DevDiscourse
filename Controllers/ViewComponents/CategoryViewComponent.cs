@@ -12,8 +12,14 @@ namespace DevDiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var search = _db.Categories.ToList().OrderBy(a => a.SrNo);
-            return View(search);
+            try
+            {
+                var search = _db.Categories.ToList().OrderBy(a => a.SrNo);
+                return View(search);
+            } catch (Exception ex)
+            {
+                return Content("Error: " + ex.Message);
+            }
         }
     }
 }

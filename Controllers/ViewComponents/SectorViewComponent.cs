@@ -17,46 +17,52 @@ namespace Devdiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(string sector, string reg = "", string filter = "")
         {
             await Task.Yield();
-            ViewBag.reg = reg;
-            ViewBag.filter = filter;
-            if (!string.IsNullOrEmpty(sector))
+            try
             {
-                var idList = sector.Split(',').Select(int.Parse).ToList();
-                var filteredItems = _db.DevSectors
-                                    .Where(m => m.Id != 8 && m.Id != 16)
-                                    .ToList() // Retrieve data from the database
-                                    .Where(m => idList.Contains(m.Id)) // Perform in-memory join
-                                    .Select(m => new ItemView
-                                    {
-                                        Id = m.Id,
-                                        Title = m.Title,
-                                    });
-
-                if (filter == "Single")
+                ViewBag.reg = reg;
+                ViewBag.filter = filter;
+                if (!string.IsNullOrEmpty(sector))
                 {
-                    filteredItems = filteredItems.Take(1);
-                }
+                    var idList = sector.Split(',').Select(int.Parse).ToList();
+                    var filteredItems = _db.DevSectors
+                                        .Where(m => m.Id != 8 && m.Id != 16)
+                                        .ToList() // Retrieve data from the database
+                                        .Where(m => idList.Contains(m.Id)) // Perform in-memory join
+                                        .Select(m => new ItemView
+                                        {
+                                            Id = m.Id,
+                                            Title = m.Title,
+                                        });
 
-                return View(filteredItems.OrderBy(a => a.Title));
+                    if (filter == "Single")
+                    {
+                        filteredItems = filteredItems.Take(1);
+                    }
+
+                    return View(filteredItems.OrderBy(a => a.Title));
+                }
+                //if (!string.IsNullOrEmpty(sector))
+                //{
+                //    var idList = sector.Split(',').ToList().Select(int.Parse).ToList();
+                //    var search = from m in _db.DevSectors
+                //                 where m.Id != 8 && m.Id != 16
+                //                 join s in idList on m.Id equals s
+                //                 select new ItemView
+                //                 {
+                //                     Id = m.Id,
+                //                     Title = m.Title,
+                //                 };
+                //    if (filter == "Single")
+                //    {
+                //        search = search.Take(1);
+                //    }
+                //    return View(search.OrderBy(a => a.Title));
+                //}
+                return View();
+            }catch (Exception ex)
+            {
+                return Content("Error: " + ex.Message);
             }
-            //if (!string.IsNullOrEmpty(sector))
-            //{
-            //    var idList = sector.Split(',').ToList().Select(int.Parse).ToList();
-            //    var search = from m in _db.DevSectors
-            //                 where m.Id != 8 && m.Id != 16
-            //                 join s in idList on m.Id equals s
-            //                 select new ItemView
-            //                 {
-            //                     Id = m.Id,
-            //                     Title = m.Title,
-            //                 };
-            //    if (filter == "Single")
-            //    {
-            //        search = search.Take(1);
-            //    }
-            //    return View(search.OrderBy(a => a.Title));
-            //}
-            return View();
         }
     }
 }

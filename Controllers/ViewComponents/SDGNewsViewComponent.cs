@@ -17,13 +17,20 @@ namespace Devdiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             await Task.Yield();
-            ViewBag.reg = "Global Edition";
-            var search = _db.DevNews
-                //Where(a => a.AdminCheck == true && a.Category.Contains("13"))
-                .Select(a => new LatestNewsView { Id = a.Id, NewId = a.NewsId, Title = a.Title, Country = a.Country, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels }).OrderByDescending(a => a.CreatedOn)
-                .Take(9).ToList();
-            return View(search);
+            try
+            {
 
+
+                ViewBag.reg = "Global Edition";
+                var search = _db.DevNews
+                    //Where(a => a.AdminCheck == true && a.Category.Contains("13"))
+                    .Select(a => new LatestNewsView { Id = a.Id, NewId = a.NewsId, Title = a.Title, Country = a.Country, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels }).OrderByDescending(a => a.CreatedOn)
+                    .Take(9).ToList();
+                return View(search);
+            } catch (Exception ex)
+            {
+                return Content("Error: " + ex.Message);
+            }
         }
     }
 }

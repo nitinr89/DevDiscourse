@@ -39,8 +39,8 @@ else
 	{
 		string controller = "ArticleDetailswithprefix";
 		string action = item.Label ?? "agency-wire";
-		@* string id = item.GenerateSecondSlug(); *@
-		long id = item.NewId;
+		string id = item.GenerateSecondSlug();
+	@* 	long id = item.NewId; *@
 
 		<div class="media p-b-10">
 			<span class="trend-number">@index</span> @if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
@@ -50,8 +50,8 @@ else
 				<div class="media-left">
 					@*	<a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">*@
 
-				@* 	<a href="@controller/@actiong/@id"> *@
-					<a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" >
+					<a href="@controller/@action/@id">
+					@* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" > *@
 						<img class="img-rounded lazy" data-src="@newsImage?width=80&height=80&format=jpg&mode=crop" src="~/Content/transparent.png?width=80&height=80&format=jpg&mode=crop" alt="@item.Title" />
 					</a>
 				</div>
@@ -73,9 +73,9 @@ else
 				}
 				@* 		<a href="@Url.RouteUrl("ArticleDetailswithprefix",
 		new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration"> *@
-				@* <a href="@controller/@actiong/@id" title="@item.Title" class="text-decoration"> *@
+				<a href="@controller/@action/@id" title="@item.Title" class="text-decoration">
 
-				<a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+				@* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration"> *@
 
 					<h4 class="media-heading trend-title">@* @Truncate(item.Title,76) *@</h4>
 				</a>
@@ -108,17 +108,17 @@ else
 			{
 				string controller = "ArticleDetailswithprefix";
 				string action = item.Label ?? "agency-wire";
-				@* 	string id = item.GenerateSecondSlug(); *@
-				long id = item.NewId;
+					string id = item.GenerateSecondSlug();
+				@* long id = item.NewId; *@
 				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 p-b-20">
 					<div class="blog-card">
 						<div class="media">
 							<div class="media-left">
 								@* <a href="@Url.Action("Index", "Article",
 					new{id=item.GenerateSecondSlug()})"> *@
-							@* 	<a href="@controller/@actiong/@id"> *@
+								<a href="@controller/@action/@id">
 
-								<a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" >
+								@* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" > *@
 
 									<div class="bg-gray left-card lazy" data-src="@item.ImageUrl?w=130&h=105&mode=crop">
 										<span class="sr-only">@item.Country</span>
@@ -128,9 +128,9 @@ else
 							<div class="media-body">
 								@* 	<a href="@Url.Action("Index", "Article",
 					new{id=item.GenerateSecondSlug()})" class="text-decoration p-b-10"> *@
-							@* 	<a href="@controller/@actiong/@id" class="text-decoration p-b-10"> *@
+								<a href="@controller/@action/@id" class="text-decoration p-b-10">
 
-								<a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10">
+								@* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10"> *@
 
 									<h4 class="no-margin">@item.Title</h4>
 								</a>

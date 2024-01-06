@@ -6,8 +6,8 @@
     {
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-        // string id = item.GenerateSecondSlug();
-        long id = item.NewsId;
+         string id = item.GenerateSecondSlug();
+        //long id = item.NewsId;
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
@@ -17,9 +17,9 @@
         <div class="media p-b - 20 m - t - 20">
             <div class="media-left">
                 @* <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" aria-label="@item.Title">*@
-              @*   <a href="@controller/@actiong/@id" aria-label="@item.Title">*@
+                 <a href="@controller/@action/@id" aria-label="@item.Title">
 
-                <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" aria-label="@item.Title">
+                @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" aria-label="@item.Title">*@
 
                     <img class="lazy width-100" src="/Content/transparent.png?width=178&height=135&mode=crop" data-src="@newsImage?width=178&height=135&mode=crop&format=jpeg" alt="@item.Title" />
                 </a>
@@ -40,9 +40,9 @@
                 </p>
                 @* <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration">*@
                
-                @* <a href="@controller/@actiong/@id" title="@item.Title" class="text-decoration">*@
+                 <a href="@controller/@action/@id" title="@item.Title" class="text-decoration">
 
-                <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+               @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
                     <h3 class="no-margin trend-title">@item.Title</h3>
                 </a> <small class="font-oswald m-t-10">@item.TimeAgo()</small>
@@ -59,8 +59,8 @@
     {
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-        // string id = item.GenerateSecondSlug();
-        long id = item.NewsId;
+         string id = item.GenerateSecondSlug();
+        //long id = item.NewsId;
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
@@ -71,17 +71,17 @@
             <div class="media-left">
                 @*   <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" aria-label="@item.Title">*@
                 
-              @*  <a href="@controller/@actiong/@id" aria-label="@item.Title">*@
-                <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" aria-label="@item.Title">
+                <a href="@controller/@action/@id" aria-label="@item.Title">
+               @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" aria-label="@item.Title">*@
 
                     <img class="lazy width-100" src="~/Content/transparent.png?width=110&height=85&mode=crop" data-src="@newsImage?width=110&height=85&mode=crop&format=jpeg" alt="@item.Title" />
                 </a>
             </div>
             <div class="media-body">
                 @* <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration"> *@
-              @*  <a href="@controller/@actiong/@id" title="@item.Title" class="text-decoration">*@
+                <a href="@controller/@action/@id" title="@item.Title" class="text-decoration">
 
-                <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+               @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
                     <h3 class="no-margin trend-title">@item.Title</h3>
                 </a> <p class="font-sans-serif text-uppercase text-muted ls-1">
@@ -109,13 +109,13 @@
             {
                 string controller = "ArticleDetailswithprefix";
                 string action = item.Label ?? "agency-wire";
-                // string id = item.GenerateSecondSlug();
-                long id = item.NewsId;
+                 string id = item.GenerateSecondSlug();
+                //long id = item.NewsId;
                 var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
                 @* <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">*@
-            @*    <a href="@controller/@actiong/@id" class="text-decoration">*@
+                <a href="@controller/@action/@id" class="text-decoration">
 
-                    <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+                   @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
                     <div style="padding-bottom:57%;background-size:cover;background-repeat:no-repeat;" class="lazy" data-src="@newsImage?width=360&height=240&mode=crop&format=jpeg">
                         <p class="font-sans-serif text-uppercase badge-tag ls-1">
@@ -139,13 +139,13 @@
             {
                 string controller = "ArticleDetailswithprefix";
                 string action = item.Label ?? "agency-wire";
-                // string id = item.GenerateSecondSlug();
-                long id = item.NewsId;
+                 string id = item.GenerateSecondSlug();
+                //long id = item.NewsId;
                 var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
                 @* <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">*@
             
-                @* <a href="@controller/@actiong/@id" class="text-decoration">*@
-                    <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+                 <a href="@controller/@action/@id" class="text-decoration">
+                   @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
                     <div style="padding-bottom:45%;background-size:cover;background-repeat:no-repeat;" class="lazy bg-highlight" data-src="@newsImage?width=250&height=120&mode=crop&format=jpeg">
                         <small class="font-sans-serif text-uppercase badge-tag ls-1">
@@ -182,13 +182,13 @@ else if (ViewBag.Sector == "11")
     {
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-        // string id = item.GenerateSecondSlug();
-        long id = item.NewsId;
+         string id = item.GenerateSecondSlug();
+       // long id = item.NewsId;
         var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
         @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">*@
-     @*   <a href="@controller/@actiong/@id" class="text-decoration">*@
+        <a href="@controller/@action/@id" class="text-decoration">
 
-            <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+           @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
             <div style="padding-bottom:45%;background-size:cover;background-repeat:no-repeat;" class="lazy bg-highlight" data-src="@newsImage?width=360&height=240&mode=crop&format=jpeg">
                 <p class="font-sans-serif text-uppercase badge-tag hidden-xs ls-1">
@@ -214,16 +214,16 @@ else if (ViewBag.Sector == "15")
     {
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-        // string id = item.GenerateSecondSlug();
-        long id = item.NewsId;
+         string id = item.GenerateSecondSlug();
+        //long id = item.NewsId;
         var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
         <div class="media p-b-20 m-t-20">
             <div class="media-left">
                 @*   <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" aria-label="@item.Title">*@
             
-                @* <a href="@controller/@actiong/@id" aria-label="@item.Title">*@
+                 <a href="@controller/@action/@id" aria-label="@item.Title">
 
-                    <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+                  @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
                     <img class="lazy width-100" src="/Content/transparent.png?width=330&height=185&mode=crop" data-src="@newsImage?width=330&height=185&mode=crop&format=jpeg" alt="@item.Title" />
                 </a>
@@ -242,9 +242,9 @@ else if (ViewBag.Sector == "15")
                     }
                 </p>
                 @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration">*@
-              @*  <a href="@controller/@actiong/@id" title="@item.Title" class="text-decoration">*@
+                <a href="@controller/@action/@id" title="@item.Title" class="text-decoration">
 
-                    <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+                 @*   <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
                     <h3 class="no-margin trend-title">@item.Title</h3>
                 </a> <p class="font-oswald p-t-10">@item.TimeAgo()</p>

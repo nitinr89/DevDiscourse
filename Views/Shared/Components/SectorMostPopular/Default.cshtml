@@ -18,8 +18,8 @@
 
                @* <a href="@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label ?? "agency-wire", id = item.GenerateSecondSlug() })" class=" text-decoration">*@
 
-
-                    <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+                @*<a href="@controller/@action/@id" class="text-decoration">*@
+                   <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
 
                     <div class="col-md-4">
                         <div class="m-p-img m-b-5 lazy" data-src="@domainUrl@newsImage?width=230&height=130&mode=crop&format=jpeg"></div>

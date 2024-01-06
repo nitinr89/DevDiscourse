@@ -14,14 +14,14 @@
         {
             string controller = "ArticleDetailswithprefix";
             string action = item.Label ?? "agency-wire";
-         @*      string id = item.GenerateSecondSlug();  *@
-            long id = item.NewId;
+              string id = item.GenerateSecondSlug(); 
+            //long id = item.NewId;
 
             // string prefix = item.Label ?? "agency-wire";
 
-            @*    <a href="@controller/@action/@id" class="infocus-item"> *@
+               <a href="@controller/@action/@id" class="infocus-item">
 
-            <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action" class="infocus-item">
+      @*       <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action" class="infocus-item"> *@
 
                 @{
                     var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
@@ -58,13 +58,11 @@
 
             string controller = "ArticleDetailswithprefix";
             string action = item.Label ?? "agency-wire";
-            @*      string id = item.GenerateSecondSlug(); *@
-            long id = item.NewId;
+                 string id = item.GenerateSecondSlug();
+            @* long id = item.NewId; *@
 
-
-                // string prefix = item.Label ?? "agency-wire";
-            @*     <a href="@controller/@action/@id" class="text-decoration p-b-10"> *@
-            <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10">
+                <a href="@controller/@action/@id" class="text-decoration p-b-10">
+       @*      <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10"> *@
 
 
 
@@ -111,17 +109,17 @@
     {
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-     @*    string id =item.GenerateSecondSlug(); *@
-        long id = item.NewId;
+        string id =item.GenerateSecondSlug();
+     @*    long id = item.NewId; *@
 
 
         //string prefix = item.Label ?? "agency-wire";
 
         <div class="col-md-6">
 
-            @*    <a href="@controller/@action/@id" class="text-decoration p-b-10"> *@
+               <a href="@controller/@action/@id" class="text-decoration p-b-10">
 
-            <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10">
+       @*      <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10"> *@
 
 
 

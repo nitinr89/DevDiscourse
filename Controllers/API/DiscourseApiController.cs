@@ -107,9 +107,9 @@ namespace DevDiscourse.Controllers.API
         {
             reg = reg == "Global Edition" ? "Universal Edition" : reg;
             var SuggestedTopics = (from m in db.LiveDiscourseInfocus
-                                   where m.Edition == reg
+                                   //where m.Edition == reg
                                    join s in db.Livediscourses on m.LivediscourseId equals s.Id
-                                   where s.AdminCheck == true && s.ParentId == 0
+                                   //where s.AdminCheck == true && s.ParentId == 0
                                    orderby m.SrNo
                                    select new { s.Id, s.Title, s.ImageUrl, s.Country }).Take(1);
             return Ok(SuggestedTopics);

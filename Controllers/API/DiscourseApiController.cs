@@ -366,7 +366,7 @@ namespace DevDiscourse.Controllers.API
                                     {
                                         m.Title,
                                         m.Id,
-                                        Livediscourse = db.Livediscourses.Where(s => s.LivediscourseIndex == m.Id && s.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new { s.Id, s.Title, s.CreatedOn }).Take(3)
+                                        Livediscourse = db.Livediscourses.Where(s => s.LivediscourseIndex == m.Id && s.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new { s.Id, s.Title, s.CreatedOn }).Take(3).ToList()
                                     }).Skip(skipItem).Take(20);
             return Ok(discourseUpdates);
         }

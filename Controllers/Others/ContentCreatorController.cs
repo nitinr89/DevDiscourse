@@ -35,7 +35,7 @@ namespace DevDiscourse.Controllers.Others
             string UserId = userManager.GetUserId(User);
             var user = db.Users.Find(UserId);
             ViewBag.userName = user.FirstName + " " + user.LastName;
-            var search = db.NewsContents.Where(a => a.Creator == UserId).ToList();
+            var search = db.Contents.Where(a => a.Creator == UserId).ToList();
             ViewBag.draft = search.Count(a => a.ContentStatus == ContentStage.Draft);
             ViewBag.pending = search.Count(a => a.ContentStatus == ContentStage.Pending);
             ViewBag.reject = search.Count(a => a.ContentStatus == ContentStage.Reject);
@@ -146,7 +146,7 @@ namespace DevDiscourse.Controllers.Others
         [Authorize(Roles = "SuperAdmin,Admin")]
         public ActionResult Contents(int? page = 1, string fl = "")
         {
-            var search = db.NewsContents.Where(a => a.ContentStatus == ContentStage.Pending).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
+            var search = db.Contents.Where(a => a.ContentStatus == ContentStage.Pending).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
             if (fl == "article")
             {
                 search = search.Where(a => a.IsVideo == false).ToList();
@@ -182,7 +182,7 @@ namespace DevDiscourse.Controllers.Others
         [Authorize(Roles = "SuperAdmin,Admin")]
         public ActionResult RejectContent(int? page = 1, string fl = "")
         {
-            var search = db.NewsContents.Where(a => a.ContentStatus == ContentStage.Reject).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
+            var search = db.Contents.Where(a => a.ContentStatus == ContentStage.Reject).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
             if (fl == "article")
             {
                 search = search.Where(a => a.IsVideo == false).ToList();
@@ -202,7 +202,7 @@ namespace DevDiscourse.Controllers.Others
             {
                 return BadRequest();
             }
-            Content newscontent = db.NewsContents.Find(id);
+            Content newscontent = db.Contents.Find(id);
             if (newscontent == null)
             {
                 return NotFound();
@@ -225,7 +225,7 @@ namespace DevDiscourse.Controllers.Others
             {
                 return BadRequest();
             }
-            Content newscontent = db.NewsContents.Find(id);
+            Content newscontent = db.Contents.Find(id);
             if (newscontent == null)
             {
                 return NotFound();
@@ -318,7 +318,7 @@ namespace DevDiscourse.Controllers.Others
                 }
                 content.Creator = userManager.GetUserId(User);
                 content.ReasonofReject = "";
-                db.NewsContents.Add(content);
+                db.Contents.Add(content);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -342,7 +342,7 @@ namespace DevDiscourse.Controllers.Others
             {
                 return BadRequest();
             }
-            Content content = db.NewsContents.Find(id);
+            Content content = db.Contents.Find(id);
             if (content == null)
             {
                 return NotFound();
@@ -426,7 +426,7 @@ namespace DevDiscourse.Controllers.Others
             {
                 return BadRequest();
             }
-            Content content = db.NewsContents.Find(id);
+            Content content = db.Contents.Find(id);
             if (content == null)
             {
                 return NotFound();
@@ -562,7 +562,7 @@ namespace DevDiscourse.Controllers.Others
                 ViewBag.edition = cookie ?? "Global Edition";
             }
             string UserId = userManager.GetUserId(User);
-            var search = db.NewsContents.Where(a => a.ContentStatus == ContentStage.Draft && a.Creator == UserId).Select(a => new ContentView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, Country = a.Country, NewsLabels = a.NewsLabels, CreatedOn = a.CreatedOn }).ToList();
+            var search = db.Contents.Where(a => a.ContentStatus == ContentStage.Draft && a.Creator == UserId).Select(a => new ContentView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, Country = a.Country, NewsLabels = a.NewsLabels, CreatedOn = a.CreatedOn }).ToList();
             // Total Draft Stories Count
             ViewBag.totalDraft = search.Count();
             return View(search.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 20));
@@ -580,7 +580,7 @@ namespace DevDiscourse.Controllers.Others
                 ViewBag.edition = cookie ?? "Global Edition";
             }
             string UserId = userManager.GetUserId(User);
-            var search = db.NewsContents.Where(a => a.ContentStatus == ContentStage.Pending && a.Creator == UserId).Select(a => new ContentView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, Country = a.Country, NewsLabels = a.NewsLabels, CreatedOn = a.CreatedOn }).ToList();
+            var search = db.Contents.Where(a => a.ContentStatus == ContentStage.Pending && a.Creator == UserId).Select(a => new ContentView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, Country = a.Country, NewsLabels = a.NewsLabels, CreatedOn = a.CreatedOn }).ToList();
             // Total Pending Stories Count
             ViewBag.totalPending = search.Count();
             return View(search.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 20));
@@ -625,7 +625,7 @@ namespace DevDiscourse.Controllers.Others
                 ViewBag.edition = cookie ?? "Global Edition";
             }
             string UserId = userManager.GetUserId(User);
-            var search = db.NewsContents.Where(a => a.ContentStatus == ContentStage.Reject && a.Creator == UserId).Select(a => new ContentView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, Country = a.Country, NewsLabels = a.NewsLabels, CreatedOn = a.CreatedOn, ReasonofReject = a.ReasonofReject }).ToList();
+            var search = db.Contents.Where(a => a.ContentStatus == ContentStage.Reject && a.Creator == UserId).Select(a => new ContentView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, Country = a.Country, NewsLabels = a.NewsLabels, CreatedOn = a.CreatedOn, ReasonofReject = a.ReasonofReject }).ToList();
             // Total Rejected Strories Count
             ViewBag.totalReject = search.Count();
             return View(search.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 20));
@@ -756,7 +756,7 @@ namespace DevDiscourse.Controllers.Others
             }
             ViewBag.userInfo = db.Users.Find(UserId);
             // Total Stories Count
-            ViewBag.totalStories = db.NewsContents.Count(a => a.Creator == UserId);
+            ViewBag.totalStories = db.Contents.Count(a => a.Creator == UserId);
             // Total Views on Devdiscourse
             var find = db.Earnings.Where(a => a.Creator == UserId).ToList();
             ViewBag.totalViews = find.Sum(a => a.ViewCount);
@@ -791,7 +791,7 @@ namespace DevDiscourse.Controllers.Others
         public void CreateEarning(long id)
         {
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
-            var find = db.NewsContents.FirstOrDefault(a => a.Title == search.Title && a.Creator == search.Creator);
+            var find = db.Contents.FirstOrDefault(a => a.Title == search.Title && a.Creator == search.Creator);
             Earnings earn = new Earnings()
             {
                 NewsId = find.Id,

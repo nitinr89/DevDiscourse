@@ -22,7 +22,7 @@ namespace DevDiscourse.Controllers.ViewComponents
             }
             ViewBag.userInfo = db.Users.Find(UserId);
             // Total Stories Count
-            ViewBag.totalStories = db.NewsContents.Count(a => a.Creator == UserId);
+            ViewBag.totalStories = db.Contents.Count(a => a.Creator == UserId);
             // Total Views on Devdiscourse
             var find = db.Earnings.Where(a => a.Creator == UserId).ToList();
             ViewBag.totalViews = find.Sum(a => a.ViewCount);

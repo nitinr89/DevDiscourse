@@ -129,13 +129,13 @@ namespace DevDiscourse.Controllers.Others
         [Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
         public ActionResult ContentList(int? page = 1)
         {
-            var search = db.NewsWire.Where(a => a.Status == ContentStage.Pending).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
+            var search = db.NewsWireModels.Where(a => a.Status == ContentStage.Pending).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
             return View(search.OrderByDescending(a => a.ModifiedOn).ToPagedList((page ?? 1), 20));
         }
         [Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
         public ActionResult PublishContent(int? page = 1)
         {
-            var search = (from a in db.NewsWire
+            var search = (from a in db.NewsWireModels
                           where a.Status == ContentStage.Publish
                           join n in db.DevNews on a.Id equals n.ReferenceId
                           orderby a.ModifiedOn descending
@@ -156,7 +156,7 @@ namespace DevDiscourse.Controllers.Others
         [Authorize(Roles = "SuperAdmin,Admin,Press Release Manager")]
         public ActionResult RejectContent(int? page = 1)
         {
-            var search = db.NewsWire.Where(a => a.Status == ContentStage.Reject).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
+            var search = db.NewsWireModels.Where(a => a.Status == ContentStage.Reject).Select(a => new ViewContent { Id = a.Id, Title = a.Title, Description = a.Description, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Creator = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, IsVideo = a.IsVideo }).ToList();
             return View(search.OrderByDescending(a => a.ModifiedOn).ToPagedList((page ?? 1), 20));
         }
         [Authorize]
@@ -172,7 +172,7 @@ namespace DevDiscourse.Controllers.Others
                 ViewBag.edition = cookie ?? "Global Edition";
             }
             var userId = userManager.GetUserId(User);
-            var search = db.NewsWire.Where(a => a.Creator == userId).ToList();
+            var search = db.NewsWireModels.Where(a => a.Creator == userId).ToList();
             ViewBag.pending = search.Count(a => a.Status == ContentStage.Pending);
             ViewBag.publish = search.Count(a => a.Status == ContentStage.Publish);
             ViewBag.reject = search.Count(a => a.Status == ContentStage.Reject);
@@ -180,7 +180,7 @@ namespace DevDiscourse.Controllers.Others
         }
         public void UpdateOldNewsWire()
         {
-            var search = (from a in db.NewsWire
+            var search = (from a in db.NewsWireModels
                           where a.Status == ContentStage.Publish
                           join n in db.DevNews on a.Title equals n.Title
                           orderby a.ModifiedOn descending
@@ -269,7 +269,7 @@ namespace DevDiscourse.Controllers.Others
                 }
                 newswire.Status = ContentStage.Pending;
                 newswire.Creator = userManager.GetUserId(User);
-                db.NewsWire.Add(newswire);
+                db.NewsWireModels.Add(newswire);
                 db.SaveChanges();
                 var searchPressReleaseManager = db.Users.Where(a => a.isPRManager == true).Select(a => new { a.FirstName, a.LastName, a.Email }).ToList();
                 if (searchPressReleaseManager.Any())
@@ -318,7 +318,7 @@ namespace DevDiscourse.Controllers.Others
             {
                 return BadRequest();
             }
-            NewsWireModel? newswire = db.NewsWire.Find(id);
+            NewsWireModel? newswire = db.NewsWireModels.Find(id);
             if (newswire == null)
             {
                 return NotFound();
@@ -461,7 +461,7 @@ namespace DevDiscourse.Controllers.Others
         {
             string UserId = userManager.GetUserId(User);
             List<NewsWireView> ResultList = new List<NewsWireView>();
-            ResultList = db.NewsWire.Where(a => a.Creator == UserId).Select(a => new NewsWireView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Status = a.Status, Country = a.Country, NewsLabels = a.NewsLabels }).ToList();
+            ResultList = db.NewsWireModels.Where(a => a.Creator == UserId).Select(a => new NewsWireView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn, Status = a.Status, Country = a.Country, NewsLabels = a.NewsLabels }).ToList();
             if (fl == "pending")
             {
                 ResultList = ResultList.Where(a => a.Status == ContentStage.Pending).ToList();
@@ -481,12 +481,12 @@ namespace DevDiscourse.Controllers.Others
             string UserId = userManager.GetUserId(User);
             ViewBag.userInfo = db.Users.Find(UserId);
             // Total Stories Count
-            ViewBag.totalStories = db.NewsWire.Count(a => a.Creator == UserId);
+            ViewBag.totalStories = db.NewsWireModels.Count(a => a.Creator == UserId);
             return PartialView("_getUserInfo");
         }
         public PartialViewResult Details(long id)
         {
-            var newswire = db.NewsWire.Find(id);
+            var newswire = db.NewsWireModels.Find(id);
             return PartialView("_details", newswire);
         }
         public string RandomName()

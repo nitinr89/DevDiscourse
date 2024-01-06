@@ -1901,8 +1901,11 @@ namespace DevDiscourse.Controllers.API
         {
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
             DateTime tenDays = search.CreatedOn.AddHours(-8);
-            var newsList = db.DevNews.Where(a => a.NewsId < id && a.CreatedOn > tenDays && (a.Sector == sector) && a.AdminCheck == true);
 
+            //var newsList = db.DevNews.Where(a => a.NewsId < id && a.CreatedOn > tenDays && (a.Sector == sector) && a.AdminCheck == true);
+
+            var newsList = db.DevNews.Where(a => a.NewsId < id && (a.Sector == sector));
+            
             if (reg != "Global Edition")
             {
                 newsList = newsList.Where(a => a.Region.Contains(reg));

@@ -29,7 +29,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         builder.Entity<SectorMapping>()
             .HasOne(ns => ns.DevSector)
-            .WithMany(s=> s.SectorMapping)
+            .WithMany(ns=> ns.SectorMapping)
             .HasForeignKey(ns => ns.SectorId);
     }
     public DbSet<DevNews> DevNews { get; set; }

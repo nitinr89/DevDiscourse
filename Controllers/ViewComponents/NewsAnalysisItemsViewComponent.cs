@@ -26,24 +26,6 @@ namespace Devdiscourse.Controllers.ViewComponents
             DateTime oneMonth = pageNumber == 1 ? DateTime.Today.AddDays(-120) : DateTime.Today.AddDays(-150);
             if (type == "Other" || region == "Global Edition")
             {
-
-                var search = (from a in _db.DevNews
-                             // where a.AdminCheck && a.CreatedOn > oneMonth
-                              select new NewsAnalysisViewModel
-                              {
-                                  NewsId = a.NewsId,
-                                  Title = a.Title,
-                                  ImageUrl = a.ImageUrl,
-                                  Country = a.Country,
-                                  CreatedOn = a.ModifiedOn,
-                                  Type = a.Type,
-                                  SubType = a.SubType,
-                                  Label = a.NewsLabels
-                              }).OrderByDescending(o => o.CreatedOn).AsNoTracking().ToPagedList(pageNumber, pageSize);
-                return View( search);
-            }
-            else
-            {
                     var search = (from a in _db.DevNews
                                   where a.AdminCheck && a.CreatedOn > oneMonth
                                   select new NewsAnalysisViewModel

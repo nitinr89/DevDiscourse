@@ -45,7 +45,7 @@
     TempData["tags"] = keywords;
     TempData["newsImage"] = newsImage;
     TempData["creator"] = Model.Creator;
-    TempData["Author"] = "Nitin" + "" + "Rawat"; 
+    TempData["Author"] = "Nitin" + "" + "Rawat";
     string authorName = "";
     ViewBag.pageAuthor = Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56" ? "J.P. Singh" : "Nitin Rawat"; /* @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; */
     ViewBag.HasAmpPage = true;
@@ -70,7 +70,7 @@
 }
 else
 {
-@*     authorName = @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; TempData["Author"] = authorName; *@
+    @*     authorName = @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; TempData["Author"] = authorName; *@
     authorName = "Nitin" + " " + "Rawat";
     TempData["Author"] = authorName;
 }
@@ -88,7 +88,7 @@ else
     }
 }
 @functions {
-   async Task  GetCleanDescription(string htmltext)
+    async Task GetCleanDescription(string htmltext)
     {
         await Task.Yield();
         htmltext = htmltext.Replace("&nbsp;", " ");
@@ -97,7 +97,8 @@ else
         htmltext = htmltext.Replace("&#39;", "'");
         htmltext = htmltext.Replace("&rdquo;", "\"");
         htmltext = htmltext.Replace("&ldquo;", "\"");
-        @Html.Raw(htmltext);
+        @Html.Raw(htmltext)
+        ;
     }
 }
 
@@ -817,7 +818,7 @@ else
                     </div>
                     <section class="article-desc">
                         @{
-                             await  GetCleanDescription(@DataDesc);
+                            await GetCleanDescription(@DataDesc);
                         }
 
                     </section>
@@ -852,7 +853,7 @@ else
                         <section class="article-desc f-18">
 
                             @{
-                               await  GetCleanDescription(@DataDesc);
+                                await GetCleanDescription(@DataDesc);
                             }
 
 
@@ -1007,8 +1008,8 @@ else
         {
             <text>
 
-                // do it later
-                 "articleBody":"@GetDescriptionText(Model.Description)",</text>
+                    // do it later
+                     "articleBody":"@GetDescriptionText(Model.Description)",</text>
         }"keywords":["@keywords"], "url":"@domainUrl@schemaUrl", "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "dateModified":"@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "@authorName"}, "publisher":{"@@type":"Organization", "name":"Devdiscourse", "url": "https://www.Devdiscourse.com", "logo":{"@@type": "ImageObject", "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png", "width": 600, "height": 60}}, "image":{"@@type": "ImageObject", "url": "@pageImage?width=1280", "height": 900, "width": 1280}}
 
     </script>
@@ -1067,7 +1068,7 @@ else
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                    var Id = $(this).data('topic');
+                                var Id = $(this).data('topic');
                     var IT = $(this).data('it');
                     var RT = $(this).data('rt');
                     $.post('/api/ReactLivediscourse/' + Id + '/' + IT + '/' + RT,
@@ -1101,12 +1102,12 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                    });
+                            });
             GetRecommendedDiscourse();
             function GetRecommendedDiscourse() {
                 $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/2').done(function (data) {
                     var recommendedHtml = '';
-                    $.each(data, function (i, item) {                       
+                    $.each(data, function (i, item) {
                         var newsUrl = convertToSlug(item.parentId, item.parenTitle);
                         var imgUrl = item.imageUrl;
                         if (imgUrl == null || imgUrl == '/images/sector/all_sectors.jpg') {
@@ -1186,12 +1187,12 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                    });
+                            });
             $(document).on('click', '.badge-custom', function () {
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                    var tagId = $(this).data('id');
+                                var tagId = $(this).data('id');
                     $.post("/api/FollowDiscourseTag/" + tagId,
                         function (data) {
                             if (data == "Follow") {
@@ -1206,7 +1207,7 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                    });
+                            });
             GetDiscourseIndex();
             function GetDiscourseIndex() {
                 if (blogIndexPage > -1 && !inCallbackIndex) {
@@ -1444,7 +1445,7 @@ else
         @*@if (User.Identity.IsAuthenticated)
                 {
                 <text>*@
-                    var id = $(this).data('btn');
+                            var id = $(this).data('btn');
                 var parentId = $(this).data('parent');
                 var rootParentId = $(this).data('root');
                 var reply = $(this).data('reply');
@@ -1461,12 +1462,12 @@ else
                 <text> window.location = "/Account/Login?returnUrl=" + returnUrl;</text>
                 }*@
 
-                });
+                        });
             $(document).on('click', '.main-comment-btn', function () {
         @*@if (User.Identity.IsAuthenticated)
                 {
                 <text>*@
-                    var id = $(this).data('btn');
+                            var id = $(this).data('btn');
                 var parentId = $(this).data('parent');
                 var rootParentId = $(this).data('root');
                 var commentText = $(document).find('#maincomment' + id).val();
@@ -1480,7 +1481,7 @@ else
                 <text> window.location = "/Account/Login?returnUrl=" + returnUrl;</text>
                 }*@
 
-                });
+                        });
             function SendData(id, commentText, parentId, rootParentId, reply, ariaId) {
                 $.ajax({
                     url: '/Livediscourse/saveDiscourseComment',

@@ -49,7 +49,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                                       join r in _db.Regions on rnr.RegionId equals r.Id
                                       let a = new { RegionNews = rnr, DevNews = dn, Region = r }
                                       where a.DevNews.AdminCheck == true
-                                            && a.Region.Title == "Global Edition" //need to change region
+                                           // && a.Region.Title == "Global Edition" //need to change region
                                             && a.DevNews.ModifiedOn > oneMonth
                                       orderby a.DevNews.ModifiedOn descending, a.RegionNews.Ranking descending
                                       select new NewsAnalysisViewModel

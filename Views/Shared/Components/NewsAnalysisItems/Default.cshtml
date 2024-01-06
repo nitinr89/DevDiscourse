@@ -9,14 +9,14 @@
     {
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-        // string id = item.GenerateSecondSlug();
-        long id = item.NewsId;
+         string id = item.GenerateSecondSlug();
+        //long id = item.NewsId;
 
         var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
 
 @*         <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
-
-        <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+       <a href="@controller/@action/@id" class="text-decoration">
+       @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
             <div class="bg-gray cover-img m-b-40" style="background-image:url(@domainUrl@newsImage?width=640&height=344&mode=crop&format=jpeg)">
                 <div class="cover-img-overlay">
@@ -47,15 +47,15 @@
     {
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-        // string id = item.GenerateSecondSlug();
-        long id = item.NewsId;
+         string id = item.GenerateSecondSlug();
+        //long id = item.NewsId;
 
         var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
 
 
     @*     <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
-        <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
-
+       @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
+        <a href="@controller/@action/@id" class="text-decoration">
 
             <div class="row m-b-40">
                 <div class="col-md-5 col-sm-4">
@@ -92,15 +92,15 @@ else
     {
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-        // string id = item.GenerateSecondSlug();
-        long id = item.NewsId;
+         string id = item.GenerateSecondSlug();
+        //long id = item.NewsId;
 
         var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
 
 
        @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
-
-        <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+            <a href="@controller/@action/@id" class="text-decoration">
+      @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
             <div class="row m-b-40">
                 <div class="col-md-5 col-sm-4">

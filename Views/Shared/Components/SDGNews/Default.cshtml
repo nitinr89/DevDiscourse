@@ -7,8 +7,8 @@
         {
             string controller = "ArticleDetailswithprefix";
             string action = item.Label ?? "agency-wire";
-            // string id = item.GenerateSecondSlug();
-            long id = item.NewId;
+             string id = item.GenerateSecondSlug();
+            //long id = item.NewId;
 
             <div class="col-xs-12 col-sm-12 col-md-4">
                 <div class="media p-t-10">
@@ -18,8 +18,8 @@
                         <div class="media-left">
 
                      @*        <a href="@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label??"agency-wire", id = item.GenerateSecondSlug() })" aria-label="@item.Title"> *@
-
-                            <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" aria-label="@item.Title">
+                            <a href="@controller/@action/@id" title="@item.Title" aria-label="@item.Title">
+                           @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" aria-label="@item.Title">*@
 
                                 <img src="@newsImage?width=100&height=80&mode=crop" class="img-rounded" />
                             </a>
@@ -42,8 +42,8 @@
                             }
                         }
                      @*    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new {prefix = item.Label??"agency-wire", id = item.GenerateSecondSlug() })" class="text-decoration p-b-10"> *@
-                        <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10">
-
+                      @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10">*@
+                        <a href="@controller/@action/@id" title="@item.Title" class="text-decoration p-b-10">
 
                             <h4 class="no-margin" style="font-weight:400">@item.Title</h4></a>
                         <div class="p-t-5 font-oswald"><small>@item.TimeAgo()</small></div>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.CricketWorldCupNews>
+    @{ 
+        string domainUrl = "https://www.devdiscourse.com";
+    }
+<div class="row m-t-20">
+    @foreach (var item in Model.Take(2))
+    {
+        var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+       // if (newsImage == "/images/defaultImage.jpg")
+       // {
+         //   newsImage = "/images/fifa/fifa-default.png";
+        //}
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                <div class="fifaNews-card" style="background-image:url(@domainUrl@newsImage?width=445&height=250&mode=crop);position:relative;">
+                    <div class="sub-title" style="bottom:0;width:100%;position:absolute;padding-left:10px;">
+                        <small>@item.TimeAgo()</small>
+                    </div>
+                </div>
+                <h4>@item.Title</h4>
+            </a>
+        </div>
+    }
+</div>
+<div class="row m-t-40">
+    @foreach (var news in Model.Skip(2))
+    {
+        var newsImage = news.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + news.ImageUrl : news.ImageUrl;
+       // if (newsImage == "/images/defaultImage.jpg")
+        //{
+       //     newsImage = "/images/fifa/fifa-default.png";
+       // }
+        <div class="col-lg-4 col-md-4 col-sm-12 p-b-20 col-xs-12">
+            <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = news.Label??"agency-wire" ,id= news.GenerateSecondSlug()})" class="text-decoration">
+                <div class="fifamini-card" style="background-image:url(@domainUrl@newsImage?width=286&height=190&mode=crop);position:relative;">
+                    <div class="sub-title" style="bottom:0;position:absolute;width:100%;padding-left:10px;">
+                        <small>@news.TimeAgo()</small>
+                    </div>
+                </div>
+                <h4>@news.Title</h4>
+            </a>
+        </div>
+    }
+</div>

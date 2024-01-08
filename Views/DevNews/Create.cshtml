@@ -483,8 +483,8 @@
     <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     @*<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>*@
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
+    @*  <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script> *@
     <script>
         $(document).ready(function () {
             var _region = "Global Edition";
@@ -505,7 +505,23 @@
             var FinalTag = [];
             var imageFor = "news";
             $('.input-tags').tagsInput();
-            // var signalConnectionId;
+
+            var signalConnectionId;
+
+            $(function () {
+                var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+                connection.on("SendFileProgress", function (fileProgress) {
+                    console.log(fileProgress);
+                });
+
+                connection.start().then(function () {
+                    console.log("Connection Start", connection.connectionId);
+                    signalConnectionId = connection.connectionId;
+                }).catch(function (err) {
+                    return console.error(err.toString());
+                });
+            });
 
             // var myHub = $.connection.fileHub;
 
@@ -574,7 +590,7 @@
                 //entity_encoding: 'raw',
                 convert_urls: true,
                 default_link_target: '_blank',
-                rel_list: [             
+                rel_list: [
                     { title: 'Do Follow', value: '' },
                     { title: 'No Follow', value: 'nofollow' },
                     { title: 'No Follow/Referer/Opener', value: 'nofollow noopener noreferrer' }
@@ -1000,7 +1016,7 @@
                         for (var i = 0; i < files.length; i++) {
                             fileData.append(files[i].name, files[i]);
                         }
-                        // fileData.append("signalConnectionId", signalConnectionId);
+                        fileData.append("signalConnectionId", signalConnectionId);
                         $.ajax({
                             url: '/api/MediaStream/UploadMedia',
                             type: "POST",

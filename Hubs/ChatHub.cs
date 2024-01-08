@@ -1,22 +1,22 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 
 namespace Devdiscourse.Hubs
 {
     public class ChatHub : Hub
     {
-        public void send(string name, string message)
+        public Task send(string name, string message)
         {
             // call the addnewmessagetopage method to update clients.
-            Clients.All.addnewmessagetopage(name, message);
+            return Clients.All.SendAsync("addnewmessagetopage", name, message);
         }
-        public void sendnotification(string title, string description, string url)
+        public Task sendnotification(string title, string description, string url)
         {
-            Clients.All.sendnotificationtoall(title, description, url);
+            return Clients.All.SendAsync("sendnotificationtoall", title, description, url);
         }
-        public void updatemap(string url)
+        public Task updatemap(string url)
         {
             // call the addnewmessagetopage method to update clients.
-            Clients.All.updatedataonmap(url);
+            return Clients.All.SendAsync("updatedataonmap", url);
         }
     }
 }

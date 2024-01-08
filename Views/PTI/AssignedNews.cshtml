@@ -43,6 +43,7 @@
     .badge {
         border-radius: unset;
     }
+
     #infocusEdition, #infocusEdition_findInList {
         width: 100% !important;
     }
@@ -206,7 +207,7 @@
                             string pageUrl = Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label ?? "agency - wire", id = item.GenerateSecondSlug() });
                         }
                         <a onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" class="btn btn-xs btn-info" target="_blank" title="Share on facebook"><span class="fa fa-facebook"></span></a>
-                        <button class="btn btn-xs btn-success twitterShare" target="_blank" title="Share on twitter" data-title="@item.Title" data-url="@domainUrl@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})"><span class="fa fa-twitter"></span></button>
+                        <button class="btn btn-xs btn-success twitterShare" target="_blank" title="Share on twitter" data-title="@item.Title" data-url="@domainUrl@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label ?? "agency-wire", id = item.GenerateSecondSlug() })"><span class="fa fa-twitter"></span></button>
                     </td>
                 </tr>
             }
@@ -256,10 +257,10 @@
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script src="~/Scripts/jquery.multiselect.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
+    @*    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script> *@
     <script type="text/javascript">
         $(document).ready(function () {
             var _selSector = '@(ViewBag.sector)';
@@ -428,15 +429,17 @@
             });
         });
         $(function () {
-            // Reference the auto-generated proxy for the hub.
-            var chat = $.connection.chatHub;
-            // Create a function that the hub can call back to display messages.
-            chat.client.NewsOpenNotification = function (id, user, colorcode) {
+            var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+            connection.on("NewsOpenNotification", function (id, user, colorcode) {
                 $('#' + id).html('<span class="pull-right badge ' + colorcode + '">' + user + '</span>');
-            };
-            $.connection.hub.start().done(function () {
+            });
+
+            connection.start().then(function () {
+                console.log("Connection Start");
+            }).catch(function (err) {
+                return console.error(err.toString());
             });
         });
     </script>
 }
-

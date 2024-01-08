@@ -6,6 +6,7 @@ using Devdiscourse.Models;
 //using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.Extensions.FileProviders;
 using Devdiscourse.Helper;
+using Devdiscourse.Hubs;
 //using SixLabors.ImageSharp.Web.DependencyInjection;
 //using SixLabors.ImageSharp.Web.Providers.Azure;
 
@@ -18,7 +19,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
+builder.Services.AddSignalR();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();//To detect mobile device request from browser
@@ -87,5 +88,6 @@ app.UseEndpoints(endpoints =>
 app.UseCors("AllowSpecificOrigin");
 
 app.MapRazorPages();
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

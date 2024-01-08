@@ -27,14 +27,17 @@ namespace DevDiscourse.Controllers.Main
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHubContext<ChatHub> context;
 
         public DevNewsController(UserManager<ApplicationUser> userManager,
             ApplicationDbContext _db,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IHubContext<ChatHub> context)
         {
             this.userManager = userManager;
             this._db = _db;
             _webHostEnvironment = webHostEnvironment;
+            this.context = context;
         }
 
         [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
@@ -658,7 +661,7 @@ namespace DevDiscourse.Controllers.Main
 
         // GET: DevNews/Edit/5
         [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
-        public ActionResult Edit(Guid? id, string ret)
+        public async Task<ActionResult> Edit(Guid? id, string ret)
         {
             if (id == null)
             {
@@ -688,7 +691,7 @@ namespace DevDiscourse.Controllers.Main
                 _db.DevNews.Update(devNews);
                 _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
                 _db.SaveChanges();
-                //context.Clients.All.NewsOpenNotification(devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+              await  context.Clients.All.SendAsync("NewsOpenNotification",devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
             }
             else
             {
@@ -702,7 +705,7 @@ namespace DevDiscourse.Controllers.Main
                 };
                 _db.UserWorks.Add(obj);
                 _db.SaveChanges();
-                //context.Clients.All.NewsOpenNotification(devNews.NewsId, user.FirstName + " " + user.LastName + " - " + "Editing", "bg-red");
+              await  context.Clients.All.SendAsync("NewsOpenNotification",devNews.NewsId, user.FirstName + " " + user.LastName + " - " + "Editing", "bg-red");
             }
             return View(devNews);
         }
@@ -976,7 +979,7 @@ namespace DevDiscourse.Controllers.Main
 
         //GET: DevNews/Edit/5
         [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
-        public ActionResult EditBlog(Guid? id, string ret)
+        public async Task<ActionResult> EditBlog(Guid? id, string ret)
         {
             ViewBag.ret = ret;
             if (id == null)
@@ -1004,7 +1007,7 @@ namespace DevDiscourse.Controllers.Main
                 _db.DevNews.Update(devNews);
                 _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
                 _db.SaveChanges();
-                //context.Clients.All.NewsOpenNotification(devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+              await  context.Clients.All.SendAsync("NewsOpenNotification",devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
             }
             return View(devNews);
         }
@@ -2162,7 +2165,7 @@ namespace DevDiscourse.Controllers.Main
             return Json("Success");
         }
         [Authorize]
-        public JsonResult AutoAssignWithAlert(long id)
+        public async Task<JsonResult> AutoAssignWithAlert(long id)
         {
             var user = GetShiftUser();
             if (user == "No User")
@@ -2186,7 +2189,7 @@ namespace DevDiscourse.Controllers.Main
             _db.SaveChanges();
 
             //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            //context.Clients.All.NewsAssignNotification("New news assign to you", user);
+           await context.Clients.All.SendAsync("NewsAssignNotification","New news assign to you", user);
 
             return Json("Success");
         }

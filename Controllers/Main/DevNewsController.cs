@@ -375,7 +375,17 @@ namespace DevDiscourse.Controllers.Main
                 //devNews.NewsId = 111;
                 _db.DevNews.Add(devNews);
                 _db.SaveChanges();
-
+                var sectorId = devNews.Sector.Split(',').Select(id => int.Parse(id.Trim()).ToString()).ToList();
+                foreach(var item in sectorId)
+                {
+                    var sectorMapping = new SectorMapping
+                    {
+                        SectorId = int.Parse(item),
+                        NewsId = devNews.Id
+                    };
+                    _db.SectorMappings.Add(sectorMapping);
+                    _db.SaveChanges();
+                }
                 var edition = ML_Edition(devNews.Description);
                 List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
                 if (edition.Any())

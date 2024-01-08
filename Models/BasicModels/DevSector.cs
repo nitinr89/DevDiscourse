@@ -15,5 +15,6 @@ namespace Devdiscourse.Models.BasicModels
         public string? Slug { get; set; }
         public virtual ICollection<DiscourseTag>? DiscourseTag { get; set; }
         public virtual ICollection<VideoNewsSector>? VideoNewsSectors { get; set; }
+        public virtual ICollection<SectorMapping>? SectorMapping { get; set; }
     }
 }

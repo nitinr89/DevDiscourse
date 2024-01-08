@@ -796,8 +796,10 @@ namespace Devdiscourse.Controllers.API
             else
             {
                 var result = db.DevNews
-                    .Where(a => a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays
-                    && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
+
+                    //.Where(a => a.Type == "Blog" && a.Region.Contains(reg))
+                    //.Where(a => a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays
+                    //&& a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
                     .Select(a => new
                     {
                         a.Id,

@@ -2,17 +2,14 @@
 
 namespace Devdiscourse.Helper
 {
-    public class SeoFriendlyRoute : Route
+    public class SeoFriendlyRoute 
     {
         private readonly RequestDelegate _next;
 
-        public SeoFriendlyRoute(IRouter target, string url, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens,
-            IInlineConstraintResolver inlineConstraintResolver, RequestDelegate next)
-            : base(target, url, defaults, constraints, dataTokens, inlineConstraintResolver)
+        public SeoFriendlyRoute(RequestDelegate next)
         {
             _next = next;
         }
-
         //public override Task RouteAsync(RouteContext context)
         //{
         //    var routeData = context.RouteData;

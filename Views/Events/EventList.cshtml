@@ -221,8 +221,8 @@
     </div>
 </div>
 @section scripts {
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
+   @*  <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script> *@
     <script type="text/javascript">
         $(document).ready(function () {
             var _selLabel = '@(ViewBag.label)';
@@ -304,13 +304,16 @@
             });
         });
         $(function () {
-            // Reference the auto-generated proxy for the hub.
-            var chat = $.connection.chatHub;
-            // Create a function that the hub can call back to display messages.
-            chat.client.NewsOpenNotification = function (id, user, colorcode) {
+            var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+            connection.on("NewsOpenNotification", function (id, user, colorcode) {
                 $('#' + id).html('<span class="pull-right badge ' + colorcode + '">' + user + '</span>');
-            };
-            $.connection.hub.start().done(function () {
+            });
+
+            connection.start().then(function () {
+                console.log("Connection Start");
+            }).catch(function (err) {
+                return console.error(err.toString());
             });
         });
     </script>

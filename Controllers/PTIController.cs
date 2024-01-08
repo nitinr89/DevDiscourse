@@ -3,7 +3,7 @@ using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
@@ -28,11 +28,13 @@ namespace DevDiscourse.Controllers
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment _environment;
-        public PTIController(ApplicationDbContext _db, UserManager<ApplicationUser> userManager, IWebHostEnvironment _environment)
+        private readonly IHubContext<ChatHub> context;
+        public PTIController(ApplicationDbContext _db, UserManager<ApplicationUser> userManager, IWebHostEnvironment _environment, IHubContext<ChatHub> context)
         {
             this._db = _db;
             this.userManager = userManager;
             this._environment = _environment;
+            this.context = context;
         }
         public string GetShiftUser()
         {
@@ -75,7 +77,7 @@ namespace DevDiscourse.Controllers
             return status;
         }
         [HttpPost]
-        public string ReutersNews(SourceNewsView obj)
+        public async Task<string> ReutersNews(SourceNewsView obj)
         {
             string description = obj.Description;
             bool AutoAssign = GetAutoAssignStatus();
@@ -110,8 +112,8 @@ namespace DevDiscourse.Controllers
             };
             _db.DevNews.Add(newsObj);
             _db.SaveChanges();
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser();
@@ -148,7 +150,7 @@ namespace DevDiscourse.Controllers
             return "Success";
         }
         [HttpPost]
-        public string IANSNews(SourceNewsView obj)
+        public async Task<string> IANSNews(SourceNewsView obj)
         {
             string description = obj.Description;
             string region = "";
@@ -195,8 +197,8 @@ namespace DevDiscourse.Controllers
             };
             _db.DevNews.Add(newsObj);
             _db.SaveChanges();
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser();
@@ -209,7 +211,7 @@ namespace DevDiscourse.Controllers
             return "success";
         }
         [HttpPost]
-        public JsonResult PTINews(SourceNewsView obj)
+        public async Task<JsonResult> PTINews(SourceNewsView obj)
         {
             string description = obj.Description;
             string region = "";
@@ -254,10 +256,10 @@ namespace DevDiscourse.Controllers
                 SourceUrl = obj.Origin,
                 Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
             };
-            //  _db.DevNews.Add(newsObj);
-            //  _db.SaveChanges();
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            _db.DevNews.Add(newsObj);
+            _db.SaveChanges();
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser();
@@ -588,7 +590,7 @@ namespace DevDiscourse.Controllers
             }
         }
         // GET: DevNews/Edit/5
-        public ActionResult Edit(Guid? id)
+        public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -610,13 +612,13 @@ namespace DevDiscourse.Controllers
             string userId = userManager.GetUserId(User);
             var userWork = _db.UserWorks.FirstOrDefault(a => a.UserId == userId);
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
             if (userWork != null && userWork.WorkStage != "Image Change")
             {
                 devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
                 _db.Entry(devNews).State = EntityState.Modified;
                 _db.SaveChanges();
-                context.Clients.All.NewsOpenNotification(devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+                await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
             }
             return View(devNews);
         }
@@ -677,7 +679,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
             return View(devNews);
         }
-        public ActionResult EditNews(Guid? id)
+        public async Task<ActionResult> EditNews(Guid? id)
         {
             if (id == null)
             {
@@ -699,13 +701,13 @@ namespace DevDiscourse.Controllers
             string userId = userManager.GetUserId(User);
             var userWork = _db.UserWorks.FirstOrDefault(a => a.UserId == userId);
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
             if (userWork != null && userWork.WorkStage != "Image Change")
             {
                 devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
                 _db.Entry(devNews).State = EntityState.Modified;
                 _db.SaveChanges();
-                context.Clients.All.NewsOpenNotification(devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+                await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
             }
             return View(devNews);
         }

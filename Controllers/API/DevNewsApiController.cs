@@ -3,7 +3,7 @@ using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
 using Devdiscourse.Hubs;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Identity;
 using System.Text.RegularExpressions;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -24,12 +24,14 @@ namespace DevDiscourse.Controllers.API
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public DevNewsApiController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
+        private readonly IHubContext<ChatHub> context;
+        public DevNewsApiController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> context)
         {
 
             this.db = db;
             this.userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
+            this.context = context;
         }
 
         //GET: api/InfocusApi
@@ -655,7 +657,7 @@ namespace DevDiscourse.Controllers.API
         }
         [Route("api/PTINews")]
         [HttpPost]
-        public string PTINews(SourceNewsView obj)
+        public async Task<string> PTINews(SourceNewsView obj)
         {
             string description = obj.Description;
             string region = "";
@@ -741,8 +743,8 @@ namespace DevDiscourse.Controllers.API
                 db.SaveChanges();
             }
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser(obj.Edition);
@@ -776,7 +778,7 @@ namespace DevDiscourse.Controllers.API
         }
         [Route("api/PTIAutoNews")]
         [HttpPost]
-        public string PTIAutoNews(MLSourceNewsView obj)
+        public async Task<string> PTIAutoNews(MLSourceNewsView obj)
         {
             string description = obj.Description;
             string region = "";
@@ -861,8 +863,8 @@ namespace DevDiscourse.Controllers.API
                 db.SaveChanges();
             }
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser(obj.Edition);
@@ -875,7 +877,7 @@ namespace DevDiscourse.Controllers.API
 
         [Route("api/PRNews")]
         [HttpPost]
-        public string PRNews(SourceNewsView obj)
+        public async Task<string> PRNews(SourceNewsView obj)
         {
             string description = obj.Description;
             string region = "";
@@ -942,8 +944,8 @@ namespace DevDiscourse.Controllers.API
             };
             db.DevNews.Add(newsObj);
             db.SaveChanges();
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             //var newsId = newsObj.NewsId;
             //var userId = GetShiftUser(obj.Edition);
@@ -955,7 +957,7 @@ namespace DevDiscourse.Controllers.API
         }
         [Route("api/ANINews")]
         [HttpPost]
-        public string ANINews(SourceNewsView obj)
+        public async Task<string> ANINews(SourceNewsView obj)
         {
             string description = obj.Description;
             string region = "";
@@ -1042,8 +1044,8 @@ namespace DevDiscourse.Controllers.API
                 db.SaveChanges();
             }
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser(obj.Edition);
@@ -1055,7 +1057,7 @@ namespace DevDiscourse.Controllers.API
         }
         [Route("api/ANIAutoNews")]
         [HttpPost]
-        public string ANIAutoNews(MLSourceNewsView obj)
+        public async Task<string> ANIAutoNews(MLSourceNewsView obj)
         {
             string description = obj.Description;
             string region = "";
@@ -1138,8 +1140,8 @@ namespace DevDiscourse.Controllers.API
                 db.RegionNewsRankings.AddRange(newsRankingList);
                 db.SaveChanges();
             }
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser(obj.Edition);
@@ -1305,7 +1307,7 @@ namespace DevDiscourse.Controllers.API
         }
         [Route("api/ReutersNews")]
         [HttpPost]
-        public string ReutersNews(SourceNewsView obj)
+        public async Task<string> ReutersNews(SourceNewsView obj)
         {
             string description = obj.Description;
             string isRepeat = obj.IsRepeat;
@@ -1374,8 +1376,8 @@ namespace DevDiscourse.Controllers.API
             }
 
             PostMessageToTwitter(newsObj.Title + " " + "https://www.devdiscourse.com/article/" + (newsObj.NewsLabels ?? "agency-wire") + "/" + newsObj.GenerateSecondSlug().ToString());
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser(obj.NewsLabel);
@@ -1388,7 +1390,7 @@ namespace DevDiscourse.Controllers.API
 
         [Route("api/ReutersAutoNews")]
         [HttpPost]
-        public string ReutersAutoNews(MLSourceNewsView obj)
+        public async Task<string> ReutersAutoNews(MLSourceNewsView obj)
         {
             string description = obj.Description;
             string isRepeat = obj.IsRepeat;
@@ -1455,8 +1457,8 @@ namespace DevDiscourse.Controllers.API
             }
 
             PostMessageToTwitter(newsObj.Title + " " + "https://www.devdiscourse.com/article/" + (newsObj.NewsLabels ?? "agency-wire") + "/" + newsObj.GenerateSecondSlug().ToString());
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser(obj.NewsLabel);
@@ -1549,7 +1551,7 @@ namespace DevDiscourse.Controllers.API
         }
         [Route("api/IANSNews")]
         [HttpPost]
-        public string IANSNews(SourceNewsView obj)
+        public async Task<string> IANSNews(SourceNewsView obj)
         {
             string description = obj.Description;
             string region = "";
@@ -1604,8 +1606,8 @@ namespace DevDiscourse.Controllers.API
             };
             db.DevNews.Add(newsObj);
             db.SaveChanges();
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser(obj.NewsLabel);
@@ -1618,7 +1620,7 @@ namespace DevDiscourse.Controllers.API
         }
         [Route("api/AFPNews")]
         [HttpPost]
-        public string AFPNews(SourceNewsView obj)
+        public async Task<string> AFPNews(SourceNewsView obj)
         {
             string description = obj.Description + " (This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)";
             string region = "";
@@ -1669,8 +1671,8 @@ namespace DevDiscourse.Controllers.API
             };
             db.DevNews.Add(newsObj);
             db.SaveChanges();
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            context.Clients.All.SendNewsNotification("New News Added on Admin Panel");
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
             // Assign To User
             var newsId = newsObj.NewsId;
             var userId = GetShiftUser(obj.NewsLabel);

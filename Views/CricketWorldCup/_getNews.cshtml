@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.CricketWorldCupNews>
+@{
+    string imgUrl = "";
+    string domainUrl = "https://www.devdiscourse.com";
+}
+<div class="row">
+    @foreach (var item in Model)
+    {
+        //if (item.ImageUrl == "/images/defaultImage.jpg")
+        //{
+        //    imgUrl = "/images/fifa/fifa-default.png";
+        //}
+        //else
+        //{
+        //    imgUrl = item.ImageUrl;
+        //}
+        imgUrl = item.ImageUrl;
+        var newsImage = imgUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + imgUrl : imgUrl;
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="height:300px">
+            <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
+                <div class="fifaNews-card" style="background-image:url(@domainUrl@newsImage?width=445&height=250&mode=crop);position:relative;">
+                    <div class="sub-title">
+                        <small>@item.TimeAgo()</small>
+                    </div>
+                </div>
+                <h4 class="">@item.Title</h4>
+            </a>
+        </div>
+    }
+</div>
+@if (Model.Count() == 10)
+{
+    <div class="col-md-12 col-xs-12">
+        <div class=" loadMoreButton text-center load_more">
+            SHOW MORE <span class="fa fa-chevron-circle-down"></span>
+        </div>
+    </div>
+}

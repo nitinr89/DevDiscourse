@@ -1,16 +1,13 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Hubs;
-using Devdiscourse.Models;
-using Devdiscourse.Models.VideoNewsModels;
 using Devdiscourse.Utility;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 using NReco.VideoConverter;
-using System.Net;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Primitives;
 
@@ -20,10 +17,12 @@ namespace DevDiscourse.Controllers.API
     {
         private readonly ApplicationDbContext db;
         private readonly IWebHostEnvironment _environment;
-        public MediaStreamController(ApplicationDbContext db, IWebHostEnvironment _environment)
+        private readonly IHubContext<ChatHub> context;
+        public MediaStreamController(ApplicationDbContext db, IWebHostEnvironment _environment, IHubContext<ChatHub> context)
         {
             this.db = db;
             this._environment = _environment;
+            this.context = context;
         }
 
         [Route("api/MediaStream/GetVideoContent/{id}")]
@@ -143,12 +142,12 @@ namespace DevDiscourse.Controllers.API
                         VideoFrameRate = 24,
                     };
                     //var context = GlobalHost.ConnectionManager.GetHubContext<FileHub>();
-                    //context.Clients.All.SendFileProgress(signalConnectionId, "0");
-                    ffMpeg.ConvertProgress += (o, args) =>
+                    await context.Clients.Client(signalConnectionId).SendAsync("SendFileProgress", "0");
+                    ffMpeg.ConvertProgress += async (o, args) =>
                     {
                         var conversionProgress = (String.Format("Progress: {0:HH:mm:ss}/{1:HH:mm:ss}", new DateTime(args.Processed.Ticks), new DateTime(args.TotalDuration.Ticks)));
                         var currentProgress = (int)((args.Processed.TotalSeconds / args.TotalDuration.TotalSeconds) * 100);
-                        //context.Clients.All.SendFileProgress(signalConnectionId, conversionProgress);
+                        await context.Clients.Client(signalConnectionId).SendAsync("SendFileProgress", conversionProgress);
                     };
                     ffMpeg.ConvertMedia(fileUrl, inputExtension, outputfileUrl, Format.mp4, convertSettings);
                     ffMpeg.GetVideoThumbnail(fileUrl, outputThumbUrl);

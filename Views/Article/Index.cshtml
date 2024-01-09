@@ -937,7 +937,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <h2 class="section-title3"> 
     <span>TRENDING</span>
     </h2>
-    @await Component.InvokeAsync("Trends", new { filter="Trends", reg=ViewBag.edition });
+    @await Component.InvokeAsync("Trends", new { filter="Trends", reg=ViewBag.edition })
     </section> 
     <section class="m-t-10" id="video_section">
     <h2 class="section-title3"> 
@@ -948,7 +948,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <h2 class="section-title3">
     <span>Latest News</span> 
     </h2> 
-     @await Component.InvokeAsync("LatestNews", new{ reg=ViewBag.region } );
+     @await Component.InvokeAsync("LatestNews", new{ reg=ViewBag.region } )
     </section> 
     <div class="clearfix m-t-10">
      @Html.Partial("_socialPartial") 
@@ -957,7 +957,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <h2 class="section-title3"> 
     <span>OPINION / BLOG / INTERVIEW</span> 
     </h2>
-    @await Component.InvokeAsync("Opinion", new { reg=ViewBag.region } );
+    @await Component.InvokeAsync("Opinion", new { reg=ViewBag.region } )
     </section> 
     <section class="clearfix m-t-10">
     <h2 class="section-title3">

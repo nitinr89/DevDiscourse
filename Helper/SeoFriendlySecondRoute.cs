@@ -11,13 +11,7 @@ namespace Devdiscourse.Helper
         {
             _next = next;
         }
-        //public SeoFriendlySecondRoute(IRouter target, string url, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens,
-        //   IInlineConstraintResolver inlineConstraintResolver, RequestDelegate next)
-        //   : base(target, url, defaults, constraints, dataTokens, inlineConstraintResolver)
-        //{
-        //    _next = next;
-        //}
-
+      
         public async Task Invoke(HttpContext context)
         {
             var routeData = context.GetRouteData();

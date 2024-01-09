@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using Microsoft.Identity.Client;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Devdiscourse.Helper
 {
@@ -6,10 +8,14 @@ namespace Devdiscourse.Helper
     {
         private readonly RequestDelegate _next;
 
+      
         public SeoFriendlyRoute(RequestDelegate next)
         {
             _next = next;
         }
+
+       
+
         //public override Task RouteAsync(RouteContext context)
         //{
         //    var routeData = context.RouteData;
@@ -34,7 +40,9 @@ namespace Devdiscourse.Helper
             }
 
             await _next(context);
+
         }
+
         private object GetIdValue(object id)
         {
             if (id != null)
@@ -51,5 +59,7 @@ namespace Devdiscourse.Helper
 
             return id;
         }
+
+       
     }
 }

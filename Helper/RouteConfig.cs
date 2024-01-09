@@ -1,4 +1,6 @@
-﻿namespace Devdiscourse.Helper
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+
+namespace Devdiscourse.Helper
 {
     public static class RouteConfig
     {
@@ -148,6 +150,13 @@
                        name: "ArticleDetailswithprefix",
                        pattern: "ArticleDetailswithprefix/{Index}/{id?}",
                        defaults: new { controller = "Article", action = "Index" });
+
+            routes.MapControllerRoute(
+                name: "ArticleDetailswithprefix",
+                pattern: "{prefix}/ArticleDetailswithprefix/{id?}",
+                defaults: new { controller = "Article", action = "Index" },
+                 constraints: new { customeroute = new SeoFriendlyRouteConstraint() }
+                );
 
             routes.MapControllerRoute(
                            name: "AboutUs",

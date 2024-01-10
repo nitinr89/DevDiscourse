@@ -12,7 +12,7 @@ namespace Devdiscourse.Models.ViewModel
         public string? Sector { get; set; }
         public string? Country { get; set; }
         public long NewId { get; set; }
-        public string Type { get; set; }
+        public string? Type { get; set; }
         public string? SubType { get; set; }
         public string? Label { get; set; }
         public int SrNo { get; set; }

@@ -991,7 +991,6 @@ else
         }
         // Map Code -----------------------------------------//
         $(".form").click(function () {
-            debugger;
             $("#legendBox").hide();
             allowGetmarker == true;
             if (this.id == "All") {
@@ -1174,10 +1173,8 @@ else
             };
             PhotoLayer();
         });
-        debugger;
         CreateMap();
         $(function () {
-            debugger;
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
             // Create a function that the hub can call back to display messages.
@@ -1189,7 +1186,6 @@ else
 
             $.connection.hub.start({transport: 'longPolling'}).done(function () {
                     //var Url = 'https://ideame.io/Survey/GetSResponse/';
-                    debugger;
                     var Url = dataUrl;
                     chat.server.updateMap(Url);
                 })

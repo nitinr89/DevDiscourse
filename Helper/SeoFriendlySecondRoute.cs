@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Devdiscourse.Helper
 {
-    public class SeoFriendlySecondRoute
+    public class SeoFriendlySecondRoute 
     {
         private readonly RequestDelegate _next;
 
@@ -11,7 +11,7 @@ namespace Devdiscourse.Helper
         {
             _next = next;
         }
-
+      
         public async Task Invoke(HttpContext context)
         {
             var routeData = context.GetRouteData();

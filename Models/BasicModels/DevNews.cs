@@ -84,6 +84,8 @@ namespace Devdiscourse.Models.BasicModels
         public virtual ICollection<UserNewsFile>? UserNewsFiles { get; set; }
         public virtual ICollection<NewsTagstb>? NewsTagstb { get; set; }
         public virtual ICollection<RegionNewsRanking>? RegionNewsRankings { get; set; }
+
+        public virtual ICollection<SectorMapping>? SectorMapping { get; set; }
         public string GenerateSlug()
         {
             string phrase = string.Format("{0}-{1}", Id, Title);

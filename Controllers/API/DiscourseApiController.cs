@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DevDiscourse.Controllers.API
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class DiscourseApiController : Controller, IDisposable
     {
         private ApplicationDbContext db;
@@ -24,7 +26,7 @@ namespace DevDiscourse.Controllers.API
             this.userManager = userManager;
         }
         [HttpGet]
-        [Route("api/Discourse/livediscourseUpdates/{parentId}/{page}")]
+        [Route("livediscourseUpdates/{parentId}/{page}")]
         public IActionResult livediscourseUpdates(long parentId, int page = 1)
         {
             var skipItem = ((page - 1) * 20);
@@ -32,17 +34,21 @@ namespace DevDiscourse.Controllers.API
             return Ok(discourseUpdates);
         }
         [HttpGet]
-        [Route("api/Discourse/SubLivediscourse/{parentId}/{page}")]
+        [Route("SubLivediscourse/{parentId}/{page}")]
         public IActionResult SubLivediscourse(long parentId, int page = 1)
         {
             var skipItem = ((page - 1) * 20);
             var discourseUpdates = db.Livediscourses.Where(a => a.ParentId == parentId).OrderByDescending(o => o.CreatedOn).Select(a => new { a.Id, a.Title, a.ImageUrl, a.ImageCaption, a.ImageCopyright, a.Country, a.CreatedOn, a.ViewCount, a.Region }).Skip(skipItem).Take(20);
             return Ok(discourseUpdates);
         }
-        [Route("api/DiscourseTopic")]
+
         [HttpPost]
-        public IActionResult DiscourseTopic(DiscourseTopic obj)
+        [Route("DiscourseTopic/{Title}/{Sector}")]
+        public IActionResult DiscourseTopic(string Title, string Sector)
         {
+            DiscourseTopic obj = new DiscourseTopic();
+            obj.Title = Title;
+            obj.Sector = Sector;      
             if (!User.Identity.IsAuthenticated)
             {
                 return BadRequest("You are not Authorized.");
@@ -63,7 +69,7 @@ namespace DevDiscourse.Controllers.API
             }
         }
         [HttpGet]
-        [Route("api/Discourse/GetSuggestedTopics")]
+        [Route("GetSuggestedTopics")]
         public IActionResult GetSuggestedTopics()
         {
             if (!User.Identity.IsAuthenticated)
@@ -89,34 +95,34 @@ namespace DevDiscourse.Controllers.API
 
         }
         [HttpGet]
-        [Route("api/Discourse/GetTrendingDiscourse/{take}/{id}")]
+        [Route("GetTrendingDiscourse/{take}/{id}")]
         public IActionResult GetTrendingDiscourse(int take, long id)
         {
             var SuggestedTopics = db.Livediscourses.Where(a => a.AdminCheck == true && a.ParentId == 0 && a.Id != id).OrderByDescending(o => o.ViewCount).Select(a => new { a.Id, a.Title, a.ImageUrl, a.Country }).Take(take);
             return Ok(SuggestedTopics);
         }
         [HttpGet]
-        [Route("api/Discourse/GetInfocusDiscourse/{reg}")]
+        [Route("GetInfocusDiscourse/{reg}")]
         public IActionResult GetInfocusDiscourse(string reg)
         {
             reg = reg == "Global Edition" ? "Universal Edition" : reg;
             var SuggestedTopics = (from m in db.LiveDiscourseInfocus
-                                   where m.Edition == reg
+                                   //where m.Edition == reg
                                    join s in db.Livediscourses on m.LivediscourseId equals s.Id
-                                   where s.AdminCheck == true && s.ParentId == 0
+                                   //where s.AdminCheck == true && s.ParentId == 0
                                    orderby m.SrNo
                                    select new { s.Id, s.Title, s.ImageUrl, s.Country }).Take(1);
             return Ok(SuggestedTopics);
         }
         [HttpGet]
-        [Route("api/Discourse/GetLatestDiscourse/{take}/{id}")]
+        [Route("GetLatestDiscourse/{take}/{id}")]
         public IActionResult GetLatestDiscourse(int take, long id)
         {
             var LatestDiscourse = db.Livediscourses.Where(a => a.AdminCheck == true && a.ParentId == 0 && a.Id != id).OrderByDescending(o => o.CreatedOn).Select(a => new { a.Id, a.Title, a.ImageUrl, a.Country }).Take(take);
             return Ok(LatestDiscourse);
         }
         [HttpGet]
-        [Route("api/Discourse/GetFollowedDiscourse/{take}")]
+        [Route("GetFollowedDiscourse/{take}")]
         public IActionResult GetFollowedDiscourse(int take)
         {
             var user = userManager.GetUserId(User);
@@ -124,7 +130,7 @@ namespace DevDiscourse.Controllers.API
             return Ok(LatestDiscourse);
         }
         [HttpGet]
-        [Route("api/Discourse/GetRecommendedDiscourse/{take}")]
+        [Route("GetRecommendedDiscourse/{take}")]
         public IActionResult GetRecommendedDiscourse(int take)
         {
             var LatestDiscourse = (from m in db.Livediscourses
@@ -144,7 +150,7 @@ namespace DevDiscourse.Controllers.API
                                    }).Take(take);
             return Ok(LatestDiscourse);
         }
-        [Route("api/FollowLiveDiscourse/{id}")]
+        [Route("FollowLiveDiscourse/{id}")]
         [HttpPost]
         public IActionResult FollowLiveDiscourse(long id)
         {
@@ -187,7 +193,7 @@ namespace DevDiscourse.Controllers.API
                 return BadRequest(ModelState);
             }
         }
-        [Route("api/FollowDiscourseTag/{id}")]
+        [Route("FollowDiscourseTag/{id}")]
         [HttpPost]
         public IActionResult FollowDiscourseTag(long id)
         {
@@ -225,7 +231,7 @@ namespace DevDiscourse.Controllers.API
             }
         }
         [HttpGet]
-        [Route("api/Discourse/GetChildTags/{title}/{parentId}/{page}")]
+        [Route("GetChildTags/{title}/{parentId}/{page}")]
         public IActionResult GetChildTags(string title, long parentId, int page = 1)
         {
             title = (title == "All") ? "" : title;
@@ -234,14 +240,14 @@ namespace DevDiscourse.Controllers.API
             return Ok(LatestDiscourse);
         }
         [HttpGet]
-        [Route("api/DevSector/GetSector")]
+        [Route("GetSector")]
         public IActionResult GetSector()
         {
             var devSectors = db.DevSectors.Select(a => new { a.Id, a.Title }).OrderByDescending(o => o.Title).ToArray();
             return Ok(devSectors);
         }
         [HttpGet]
-        [Route("api/Discourse/GetTags")]
+        [Route("GetTags")]
         public IActionResult GetTags()
         {
             if (User.Identity.IsAuthenticated)
@@ -257,7 +263,7 @@ namespace DevDiscourse.Controllers.API
                 return Ok(LatestDiscourse);
             }
         }
-        [Route("api/ReactLivediscourse/{id}/{itemType}/{reactType}")]
+        [Route("ReactLivediscourse/{id}/{itemType}/{reactType}")]
         [HttpPost]
         public IActionResult ReactLivediscourse(long id, ReactItemType itemType, ReactType reactType)
         {
@@ -326,7 +332,7 @@ namespace DevDiscourse.Controllers.API
             }
         }
         [HttpGet]
-        [Route("api/Discourse/GetDiscourseIndex/{id}/{page}")]
+        [Route("GetDiscourseIndex/{id}/{page}")]
         public IActionResult GetDiscourseIndex(long id, int page)
         {
             var skipCount = (page - 1) * 20;
@@ -334,7 +340,7 @@ namespace DevDiscourse.Controllers.API
             return Ok(DiscourseIndexes);
         }
         [HttpGet]
-        [Route("api/Discourse/GetSubBlogs/{id}/{page}")]
+        [Route("GetSubBlogs/{id}/{page}")]
         public IActionResult GetSubBlogs(long id, int page)
         {
             var skip = (page - 1) * 20;
@@ -349,7 +355,7 @@ namespace DevDiscourse.Controllers.API
             return Ok(search);
         }
         [HttpGet]
-        [Route("api/Discourse/livediscourseIndexUpdates/{parentId}/{page}")]
+        [Route("livediscourseIndexUpdates/{parentId}/{page}")]
         public IActionResult livediscourseIndexUpdates(long parentId, int page = 1)
         {
             var skipItem = ((page - 1) * 20);
@@ -360,19 +366,19 @@ namespace DevDiscourse.Controllers.API
                                     {
                                         m.Title,
                                         m.Id,
-                                        Livediscourse = db.Livediscourses.Where(s => s.LivediscourseIndex == m.Id && s.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new { s.Id, s.Title, s.CreatedOn }).Take(3)
+                                        Livediscourse = db.Livediscourses.Where(s => s.LivediscourseIndex == m.Id && s.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new { s.Id, s.Title, s.CreatedOn }).Take(3).ToList()
                                     }).Skip(skipItem).Take(20);
             return Ok(discourseUpdates);
         }
         [HttpGet]
-        [Route("api/Discourse/livediscourseIndexUpdatesById/{id}/{skip}")]
+        [Route("livediscourseIndexUpdatesById/{id}/{skip}")]
         public IActionResult livediscourseIndexUpdatesById(long id, int skip = 3)
         {
             var discourseUpdates = db.Livediscourses.Where(s => s.LivediscourseIndex == id && s.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new { s.Id, s.Title, s.CreatedOn }).Skip(skip).Take(10);
             return Ok(discourseUpdates);
         }
         [HttpGet]
-        [Route("api/Discourse/livediscourseFollower/{id}/{name}/{page}")]
+        [Route("livediscourseFollower/{id}/{name}/{page}")]
         public IActionResult livediscourseFollower(long id, string name, int page = 1)
         {
             if (name == "All")
@@ -399,7 +405,7 @@ namespace DevDiscourse.Controllers.API
         /// <param name="isMod"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/Discourse/FollowerToModerator/{id}/{isMod}")]
+        [Route("FollowerToModerator/{id}/{isMod}")]
         public IActionResult FollowerToModerator(long id, bool isMod)
         {
             if (!User.Identity.IsAuthenticated)
@@ -416,7 +422,7 @@ namespace DevDiscourse.Controllers.API
             return Ok("success");
         }
         [HttpGet]
-        [Route("api/Discourse/GetInfocusLiveDiscourse/{reg?}")]
+        [Route("GetInfocusLiveDiscourse/{reg?}")]
         public IActionResult GetInfocusLiveDiscourse(string reg)
         {
             reg = reg == "Global Edition" ? "" : reg;
@@ -433,21 +439,21 @@ namespace DevDiscourse.Controllers.API
             return Ok(InfocusLiveDiscourse);
         }
         [HttpGet]
-        [Route("api/Discourse/GetModerators/{id}")]
+        [Route("GetModerators/{id}")]
         public IActionResult GetModerators(long id)
         {
             var moderators = db.FollowLivediscourses.Where(a => a.LivediscourseId == id && a.IsModerator == true).Select(s => new { Id = s.FollowBy, Name = s.ApplicationUsers.FirstName + " " + s.ApplicationUsers.LastName });
             return Ok(moderators);
         }
         [HttpGet]
-        [Route("api/Discourse/GetDiscourseAmpIndex/{id}/{__amp_source_origin?}")]
+        [Route("GetDiscourseAmpIndex/{id}/{__amp_source_origin?}")]
         public IActionResult GetDiscourseAmpIndex(long id, string __amp_source_origin)
         {
             var returnData = db.DiscourseIndexes.Where(a => a.LivediscourseId == id).OrderByDescending(o => o.CreatedOn).Select(s => new { s.Id, s.Title }).ToList();
             return Ok(new { items = returnData, hasMorePages = returnData.Any() });
         }
         [HttpGet]
-        [Route("api/Discourse/GetDiscourseIndexItems/{id}/{moreItemsPageIndex?}/{__amp_source_origin?}")]
+        [Route("GetDiscourseIndexItems/{id}/{moreItemsPageIndex?}/{__amp_source_origin?}")]
         public IActionResult GetDiscourseIndexItems(long id, string __amp_source_origin, int? moreItemsPageIndex)
         {
             var search = db.Livediscourses.Where(a => a.LivediscourseIndex == id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(b => new DiscourseItemAmpViewModel { Id = b.Id, Title = b.Title, CreatedOn = b.CreatedOn }).Take(3).ToList();
@@ -461,7 +467,7 @@ namespace DevDiscourse.Controllers.API
             return Ok(new { items = resultData, hasMorePages = resultData.Any() });
         }
         [HttpGet]
-        [Route("api/Discourse/GetDiscourseUpdates/{id}/{moreItemsPageIndex?}/{__amp_source_origin?}")]
+        [Route("GetDiscourseUpdates/{id}/{moreItemsPageIndex?}/{__amp_source_origin?}")]
         public IActionResult GetDiscourseUpdates(long id, string __amp_source_origin, int? moreItemsPageIndex)
         {
             int pageSize = 20;

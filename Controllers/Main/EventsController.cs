@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Devdiscourse.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Devdiscourse.Hubs;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.CodeAnalysis;
@@ -21,11 +21,13 @@ namespace DevDiscourse.Controllers.Main
         private readonly ApplicationDbContext db;
         private readonly IWebHostEnvironment _environment;
         private readonly UserManager<ApplicationUser> userManager;
-        public EventsController(ApplicationDbContext db, IWebHostEnvironment _environment, UserManager<ApplicationUser> userManager)
+        private readonly IHubContext<ChatHub> context;
+        public EventsController(ApplicationDbContext db, IWebHostEnvironment _environment, UserManager<ApplicationUser> userManager, IHubContext<ChatHub> context)
         {
             this.db = db;
             this._environment = _environment;
             this.userManager = userManager;
+            this.context = context;
         }
 
         // GET: Events
@@ -422,7 +424,7 @@ namespace DevDiscourse.Controllers.Main
             return View(devNews);
         }
         // GET: DevNews/Edit/5
-        public ActionResult EditEvent(Guid? id)
+        public async Task<ActionResult> EditEvent(Guid? id)
         {
             if (id == null)
             {
@@ -444,13 +446,13 @@ namespace DevDiscourse.Controllers.Main
             string userId = userManager.GetUserId(User);
             var userWork = db.UserWorks.FirstOrDefault(a => a.UserId == userId);
 
-            var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
             if (userWork != null && userWork.WorkStage != "Image Change")
             {
                 devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
                 db.DevNews.Update(devNews);
                 db.SaveChanges();
-                context.Clients.All.NewsOpenNotification(devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+              await  context.Clients.All.SendAsync("NewsOpenNotification",devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
             }
             return View(devNews);
         }

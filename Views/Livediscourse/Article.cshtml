@@ -4,6 +4,10 @@
 @using Microsoft.AspNetCore.Identity;
 @using Microsoft.AspNetCore.Html;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject UserManager<ApplicationUser> userManager;
+@{
+    string? loginUserId = userManager.GetUserId(User);
+}
 
 @{
     string newsTitle = Model.Title.Trim();
@@ -28,26 +32,24 @@
     string pageUrl = "/live-discourse/" + Model.GenerateSecondSlug();
     ViewBag.pageType = "article";
     var DataDesc = Model.Description;
-
-    var modifiedDescription = "";/*  GetFirstParagraph(GetCleanDescription(Model.Description)); //do it later */
-
+    var modifiedDescription = System.Net.WebUtility.UrlEncode(GetCleanDescription(Model.Description).ToString()); 
     ViewBag.HasAmpPage = true;
     ViewBag.alternateHeadline = @Model.Title;
-    // ViewBag.PageDescription = @modifiedDescription; // do it later
+    ViewBag.PageDescription = @modifiedDescription; // do it later
     ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
     ViewBag.PageImage = pageImage + "?width=1280";
     ViewBag.pageKeywords = "Live Blog, " + keywords;
     ViewBag.webEdition = ViewBag.region;
     var bodykeywords = @Model.Tags;
     TempData["pageUrl"] = pageUrl;
-    TempData["firstPara"] = "abc cdf"; /* GetFirstParagraph(GetCleanDescription(Model.Description)); //do it later */
+    TempData["firstPara"] =  System.Net.WebUtility.UrlEncode(GetCleanDescription(Model.Description).ToString()); 
     TempData["title"] = Model.Title;
     TempData["tags"] = keywords;
     TempData["newsImage"] = newsImage;
     TempData["creator"] = Model.Creator;
-    TempData["Author"] = "Nitin" + "" + "Rawat"; 
+    TempData["Author"] = "Nitin" + "" + "Rawat";
     string authorName = "";
-    ViewBag.pageAuthor = Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56" ? "J.P. Singh" : @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName;
+    ViewBag.pageAuthor = Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56" ? "J.P. Singh" : "Nitin Rawat"; /* @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; */
     ViewBag.HasAmpPage = true;
     TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
     DateTime createdDate = TimeZoneInfo.ConvertTimeFromUtc(Model.CreatedOn, INDIAN_ZONE);
@@ -70,8 +72,9 @@
 }
 else
 {
-    authorName = @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; TempData["Author"] = authorName;
-
+    //authorName = @Model.ApplicationUsers.FirstName + " " + Model.ApplicationUsers.LastName; TempData["Author"] = authorName; 
+    authorName = "Nitin" + " " + "Rawat";
+    TempData["Author"] = authorName;
 }
 @if (!string.IsNullOrEmpty(bodykeywords))
 {
@@ -87,7 +90,7 @@ else
     }
 }
 @functions {
-   async Task  GetCleanDescription(string htmltext)
+    async Task GetCleanDescription(string htmltext)
     {
         await Task.Yield();
         htmltext = htmltext.Replace("&nbsp;", " ");
@@ -96,7 +99,8 @@ else
         htmltext = htmltext.Replace("&#39;", "'");
         htmltext = htmltext.Replace("&rdquo;", "\"");
         htmltext = htmltext.Replace("&ldquo;", "\"");
-        @Html.Raw(htmltext);
+        @Html.Raw(htmltext)
+        ;
     }
 }
 
@@ -284,7 +288,8 @@ else
         padding-left: 18px !important;
     }
 
-        .live:before, .live-dot:before {
+        .live:before, .live-dot:before 
+        {
             width: 9px;
             height: 9px;
             background: #ec1c23;
@@ -686,13 +691,15 @@ else
         margin-top: 30px
     }
 
-    @@media screen and (max-width:992px) {
+    @@media screen and (max-width:992px)
+    {
         .article-image-container {
             width: 100%;
         }
     }
 
-    @@media screen and (max-width:768px) {
+    @@media screen and (max-width:768px) 
+    {
         #news-content {
             margin-top: 20px;
         }
@@ -702,7 +709,8 @@ else
         }
     }
 
-    @@media screen and (max-width:640px) {
+    @@media screen and (max-width:640px) 
+    {
         .article .title {
             font-size: 28px;
         }
@@ -748,11 +756,14 @@ else
         }
     }
 
-    @@media screen and (max-width: 2560px) and (min-width: 1500px) {
-        .renderBody .container {
+    @@media screen and (max-width: 2560px) and (min-width: 1500px) 
+    {
+      .renderbody .container {
+
             width: 1170px !important;
         }
-    }</style>
+    }
+    </style>
 @section lastModified{
     <meta itemprop="datePublished" content="@Model.PublishedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
     <meta itemprop="dateModified" content="@Model.ModifiedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
@@ -816,7 +827,7 @@ else
                     </div>
                     <section class="article-desc">
                         @{
-                              GetCleanDescription(@DataDesc);
+                            await GetCleanDescription(@DataDesc);
                         }
 
                     </section>
@@ -851,7 +862,7 @@ else
                         <section class="article-desc f-18">
 
                             @{
-                                 GetCleanDescription(@DataDesc);
+                                await GetCleanDescription(@DataDesc);
                             }
 
 
@@ -992,7 +1003,7 @@ else
         {
             updateTitle = Model.Title + " - " + firstupdate.Title;
             publishedDate = TimeZoneInfo.ConvertTimeFromUtc(firstupdate.CreatedOn, INDIAN_ZONE);
-            updateBody = GetDescriptionText(firstupdate.Description).ToString();
+            updateBody =  System.Net.WebUtility.UrlEncode(GetDescriptionText(firstupdate.Description).ToString());
             schemaUrl = pageUrl + "#post_" + firstupdate.Id;
         }
     }
@@ -1005,16 +1016,13 @@ else
         else
         {
             <text>
-
-                // do it later
-                 "articleBody":"@GetDescriptionText(Model.Description)",</text>
+                 "articleBody":"@{ await GetDescriptionText(Model.Description); }",</text>
         }"keywords":["@keywords"], "url":"@domainUrl@schemaUrl", "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "dateModified":"@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "@authorName"}, "publisher":{"@@type":"Organization", "name":"Devdiscourse", "url": "https://www.Devdiscourse.com", "logo":{"@@type": "ImageObject", "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png", "width": 600, "height": 60}}, "image":{"@@type": "ImageObject", "url": "@pageImage?width=1280", "height": 900, "width": 1280}}
 
     </script>
 </div>
 @section scripts{
     <script>
-        debugger
         var id = '@(Model.Id)';
         var inCallbackBlog = false;
         var blogPage = 1;
@@ -1101,12 +1109,12 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                    });
+                            });
             GetRecommendedDiscourse();
             function GetRecommendedDiscourse() {
                 $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/2').done(function (data) {
                     var recommendedHtml = '';
-                    $.each(data, function (i, item) {                       
+                    $.each(data, function (i, item) {
                         var newsUrl = convertToSlug(item.parentId, item.parenTitle);
                         var imgUrl = item.imageUrl;
                         if (imgUrl == null || imgUrl == '/images/sector/all_sectors.jpg') {
@@ -1186,12 +1194,12 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                    });
+                            });
             $(document).on('click', '.badge-custom', function () {
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                    var tagId = $(this).data('id');
+                var tagId = $(this).data('id');
                     $.post("/api/FollowDiscourseTag/" + tagId,
                         function (data) {
                             if (data == "Follow") {
@@ -1206,14 +1214,13 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                    });
+                            });
             GetDiscourseIndex();
             function GetDiscourseIndex() {
                 if (blogIndexPage > -1 && !inCallbackIndex) {
                     blogIndexPage++;
                     inCallbackIndex = true;
                     $("#loading").show();
-                    debugger;
                     $.ajax({
                         url: '/api/DiscourseApi/livediscourseIndexUpdates/' + id + '/' + blogIndexPage,
                         type: 'Get',
@@ -1226,7 +1233,6 @@ else
                             }
                             var indexData = '';
                             $.each(data, function (i, item) {
-                                debugger;
                                 var listData = '';
                                 var moreHtml = '';
                                 $.each(item.livediscourse, function (index, discourse) {
@@ -1236,7 +1242,6 @@ else
                                         '<div class="title">' + discourse.title + '</div>' +
                                         '</div></a>';
                                 });
-                                debugger;
                                 if (item.livediscourse.length == 3) {
                                     moreHtml = '<button id="moreindex_' + item.id + '" data-index="' + item.id + '" data-skip="3" class="btn btn-sm moreIndex btn-block m-t-5">More</button>';
                                 }
@@ -1259,7 +1264,6 @@ else
             });
             function GetDiscourseIndexById(id, skip) {
                 console.log(id, skip);
-                debugger;
                 $.ajax({
                     url: '/api/DiscourseApi/livediscourseIndexUpdatesById/' + id + '/' + skip,
                     type: 'Get',
@@ -1272,7 +1276,6 @@ else
                         }
                         var listData = '';
                         $.each(data, function (index, discourse) {
-                            debugger
                             var createdOn = new Date(discourse.createdOn); createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
                             listData += '<a href="#post_' + discourse.id + '" class="text-decoration"><div class="liveblog-list-item">' +
                                 '<div class="time">' + formating(createdOn.getDate()) + '-' + formating(createdOn.getMonth() + 1) + '-' + formating(createdOn.getFullYear()) + ' ' + formating(createdOn.getHours()) + ':' + formating(createdOn.getMinutes()) + ' IST</div>' +
@@ -1291,7 +1294,6 @@ else
                     },
                 });
             }
-            ///
             //GetSubBlog();
             function GetSubBlog() {
                 console.log('load')
@@ -1339,54 +1341,50 @@ else
                 $('#field_' + $(this).data('parent')).toggle();
             });
             $(document).on('click', '.loadCommentBtn', function () {
-                debugger;
                 getComments($(this).data('id'), $(this).data('parent'), $(this).data('page'));
                 $(this).remove();
             });
-            // do it later
-            //  *@@if(Model.Creator == User.Identity.GetUserId())
-            // {
-            //     <text>
-            // $(document).on('click', '.btn-delete', function () {
-            //     var removeId = $(this).attr('id').replace("delete_", "");
-            //     $.ajax({
-            //         url: '/Livediscourse/removeComment',
-            //         type: "GET",
-            //         data: { id: removeId },
-            //         success: function (data) {
-            //             $("#single_" + removeId).remove();
-            //             console.log(data);
-            //             if ($('#itemComment_' + data).text().trim() == '') {
-            //                 $('#itemComment_' + data).html('<h4 class="text-muted no-margin">No Comments</h4>')
-            //             }
-            //         },
-            //         error: function (req, status, err) {
-            //             console.log(req.responseText)
-            //         }
-            //     });
-            //     });
-            //     </text>
-            // }
+            @if(Model.Creator == loginUserId)
+            {
+                <text>
+            $(document).on('click', '.btn-delete', function () {
+                var removeId = $(this).attr('id').replace("delete_", "");
+                $.ajax({
+                    url: '/Livediscourse/removeComment',
+                    type: "GET",
+                    data: { id: removeId },
+                    success: function (data) {
+                        $("#single_" + removeId).remove();
+                        console.log(data);
+                        if ($('#itemComment_' + data).text().trim() == '') {
+                            $('#itemComment_' + data).html('<h4 class="text-muted no-margin">No Comments</h4>')
+                        }
+                    },
+                    error: function (req, status, err) {
+                        console.log(req.responseText)
+                    }
+                });
+                });
+                </text>
+            }
             function getComments(itemId, parentId, page) {
                 $.ajax({
                     url: '/api/SearchApi/liveblogComments/' + itemId + '/' + parentId + '/' + page,
                     type: "GET",
                     success: function (data) {
                         $.each(data, function (i, item) {
-                            debugger
                             $("#single_" + data[i].commentId).remove();
                             var childHtml = '';
                             var hideHtml = '';
                             if (item.childCount > 0) {
                                 childHtml = '<div class="loadCommentBtn replyBtn" data-id="' + itemId + '" data-parent="' + data[i].commentId + '" data-page="1"><img src="/images/icons/comments.png" class="reply-icon"/> View ' + item.childCount + ' replies</div>';
                             }
-                            // do it later
-                            // *@@if(Model.Creator == User.Identity.GetUserId())
-                            // {
-                            //     <text>
-                            // hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[i].commentId+'">Delete</span>';
-                            //     </text>
-                            // }
+                           @if(Model.Creator == loginUserId)
+                            {
+                                <text>
+                            hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[i].commentId+'">Delete</span>';
+                               </text>
+                            }
                             if (data[i].parentId == 0) {
                                 $('#itemComment_' + data[i].itemId).append('<div class="comment" id="single_' + data[i].commentId + '">' +
                                     '<div class="name">' + data[i].name + '</div>' +
@@ -1448,10 +1446,10 @@ else
                 });
             }
             $(document).on('click', '.comment-btn', function () {
-        @*@if (User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated)
                 {
-                <text>*@
-                    var id = $(this).data('btn');
+                <text>                 
+                var id = $(this).data('btn');
                 var parentId = $(this).data('parent');
                 var rootParentId = $(this).data('root');
                 var reply = $(this).data('reply');
@@ -1462,18 +1460,18 @@ else
                 if (commentText.trim() != '') {
                     SendData(id, commentText, parentId, rootParentId, reply, "comment");
                 }
-        @*</text>
+        </text>
                 }
                 else {
                 <text> window.location = "/Account/Login?returnUrl=" + returnUrl;</text>
-                }*@
+                }
 
-                });
+                        });
             $(document).on('click', '.main-comment-btn', function () {
-        @*@if (User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated)
                 {
-                <text>*@
-                    var id = $(this).data('btn');
+                <text>
+                var id = $(this).data('btn');
                 var parentId = $(this).data('parent');
                 var rootParentId = $(this).data('root');
                 var commentText = $(document).find('#maincomment' + id).val();
@@ -1481,20 +1479,19 @@ else
                 if (commentText.trim() != '') {
                     SendData(id, commentText, parentId, rootParentId, reply, "maincomment");
                 }
-        @*</text>
+        </text>
                 }
                 else {
                 <text> window.location = "/Account/Login?returnUrl=" + returnUrl;</text>
-                }*@
+                }
 
-                });
+                        });
             function SendData(id, commentText, parentId, rootParentId, reply, ariaId) {
                 $.ajax({
                     url: '/Livediscourse/saveDiscourseComment',
                     type: "POST",
                     data: { itemId: id, commentText: commentText, parentId: parentId, rootParentId: rootParentId, reply: reply },
                     success: function (data) {
-                        debugger
                         if (data == "NotAuthorized") {
                             return;
                         }
@@ -1506,13 +1503,13 @@ else
                         if ($('#itemComment_' + data[0].itemId).text().trim() == 'No Comments') {
                             $('#itemComment_' + data[0].itemId).html('')
                         }
-                        // do it later
-                        // *@@if(Model.Creator == User.Identity.GetUserId())
-                        //     {
-                        //         <text>
-                        // hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[0].commentId+'">Delete</span>';
-                        //         </text>
-                        //     }
+               
+                         @if(Model.Creator == loginUserId)
+                             {
+                                 <text>
+                         hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[0].commentId+'">Delete</span>';
+                                 </text>
+                             }
                         $("#comment" + data[0].parentId).attr('paceholder', 'Your comment here...');
                         if (data[0].parentId == 0) {
                             $('#itemComment_' + data[0].itemId).append('<div class="comment" id="single_' + data[0].commentId + '">' +

@@ -2,6 +2,11 @@
 @using System.Text.RegularExpressions;
 @using Devdiscourse.Models;
 @using Microsoft.AspNetCore.Identity;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject UserManager<ApplicationUser> userManager;
+@{
+    string? loginUserId = userManager.GetUserId(User);
+}
 @{
     var domainUrl = "https://www.devdiscourse.com";
     var artilcedomainUrl = "https://www.devdiscourse.com/";
@@ -202,16 +207,21 @@
             <div class="comment-header clearfix">
                 <ul class="list-inline pull-left no-margin">
                     <li data-topic="@item.Id" data-it="1" id="like_1_@item.Id" data-rt="1" class="react-btn @likeClass">
-                        <span class="fa fa-thumbs-o-up"></span> @{ await Pluralise(@item.LikeCount, "Like");
+                        <span class="fa fa-thumbs-o-up"></span> 
+                        @{
+                            await Pluralise(item.LikeCount, "Like");
                         }
                     </li>
                     <li data-topic="@item.Id" data-it="1" id="dislike_1_@item.Id" data-rt="2" class="react-btn @dislikeClass">
-                        <span class="fa fa-thumbs-o-down"></span> @{
-                            await Pluralise(@item.DislikeCount, "Dislike");
+                        <span class="fa fa-thumbs-o-down"></span> 
+                        @{
+                            await Pluralise(item.DislikeCount, "Dislike");
                         }
-                            </li>
+                    </li>
                     <li>
-                        <span class="fa fa-comment-o"></span> @{ await Pluralise(@item.CommentCount, "Comment");
+                        <span class="fa fa-comment-o"></span> 
+                        @{
+                            await Pluralise(item.CommentCount, "Comment");
                         }
                     </li>
                 </ul>
@@ -251,25 +261,25 @@
                     {
                         <div class="comment" id="single_@comment.CommentId">
 
-                             // // <div class="name">comment.ApplicationUser.FirstNamecomment.ApplicationUser.LastName</div>
+                            @*<div class="name">comment.ApplicationUser.FirstNamecomment.ApplicationUser.LastName</div>*@
 
                             <div class="name">Nitin Rawat</div>
 
                             <div class="content">@comment.CommentText</div>
-                            <span data-topic="@comment.CommentId" data-it="3" id="like_3_@comment.CommentId" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> @Pluralise(comment.LikeCount, "Like")</span>
-                            <span data-topic="@comment.CommentId" data-it="3" id="endorse_3_@comment.CommentId" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> @Pluralise(comment.EndorseCount, "Endorse")</span>
-                            <span data-topic="@comment.CommentId" data-it="3" id="reject_3_@comment.CommentId" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> @Pluralise(comment.RejectCount, "Reject")</span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="like_3_@comment.CommentId" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> @{ await Pluralise(comment.LikeCount, "Like");}</span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="endorse_3_@comment.CommentId" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> @{ await Pluralise(comment.EndorseCount, "Endorse");}</span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="reject_3_@comment.CommentId" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> @{ await Pluralise(comment.RejectCount, "Reject");}</span>
                             <span class="btn-reply btn btn-sm" data-parent="@comment.CommentId" data-root="@comment.CommentId">Reply</span>
-                           
-                            // if (User.Identity.GetUserId() == creator) // do it later
-                            // {
-                            //     <span class="btn btn-sm btn-delete" id="delete_@comment.CommentId">Delete</span>
-                            // }
+
+                            @if (loginUserId== creator) 
+                            {
+                                <span class="btn btn-sm btn-delete" id="delete_@comment.CommentId">Delete</span>
+                            }
 
                             <div class="comment-footer commentField" id="field_@comment.CommentId">
                                 <div class="text-warning reason-text" id="reason_@comment.CommentId"></div>
                                 <div class="comment-input-container">
-            <textarea class="comment-input" id="@commentText@comment.CommentId" placeholder="Your comment here..."></textarea>
+                                    <textarea class="comment-input" id="@commentText@comment.CommentId" placeholder="Your comment here..."></textarea>
                                     <button class="comment-btn" aria-label="Save Reply" data-reply="Nitin Rawat" data-parent="@comment.CommentId" data-root="@comment.CommentId" data-btn="@comment.ItemId"><span class="fa fa-paper-plane"></span></button>
                                 </div>
                             </div>@if (comment.ChildCount > 0)
@@ -289,7 +299,7 @@
             </div>
             <div class="comment-footer">
                 <div class="comment-input-container">
-    <textarea class="comment-input" id="@maincommentText@item.Id" aria-label="Comment" placeholder="Your comment here..."></textarea>
+                    <textarea class="comment-input" id="@maincommentText@item.Id" aria-label="Comment" placeholder="Your comment here..."></textarea>
                     <button class="main-comment-btn" aria-label="Save Comment" data-reply="" data-btn="@item.Id" data-parent="0" data-root="0"><span class="fa fa-paper-plane"></span></button>
                 </div>
             </div>

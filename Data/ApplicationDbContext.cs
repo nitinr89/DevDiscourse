@@ -14,6 +14,23 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
+
+    }
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.Entity<SectorMapping>()
+            .HasKey(x => new { x.SectorId, x.NewsId });
+
+        // Configure relationships if not done through navigation properties
+        builder.Entity<SectorMapping>()
+            .HasOne(ns => ns.DevNews).WithMany(ns => ns.SectorMapping)
+            .HasForeignKey(ns => ns.NewsId);
+
+        builder.Entity<SectorMapping>()
+            .HasOne(ns => ns.DevSector)
+            .WithMany(ns=> ns.SectorMapping)
+            .HasForeignKey(ns => ns.SectorId);
     }
     public DbSet<DevNews> DevNews { get; set; }
     public DbSet<Event> Events { get; set; }
@@ -54,8 +71,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     //public DbSet<NewsTag> NewsTags { get; set; }
     public DbSet<AssignNews> AssignNews { get; set; }
     public DbSet<Job> Jobs { get; set; }
-    public DbSet<Content> NewsContents { get; set; }
-    public DbSet<NewsWireModel> NewsWire { get; set; }
+    public DbSet<Content> Contents { get; set; }
+    public DbSet<NewsWireModel> NewsWireModels { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Earnings> Earnings { get; set; }
     public DbSet<PaymentHistory> PaymentHistory { get; set; }
@@ -86,5 +103,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<LivediscourseVideo> LivediscourseVideos { get; set; }
     public DbSet<MediaInternship> MediaInternships { get; set; }
     public DbSet<RegionNewsRanking> RegionNewsRankings { get; set; }
+    public DbSet<SectorMapping> SectorMappings { get; set; }
 }
 

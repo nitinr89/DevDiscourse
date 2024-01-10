@@ -10,10 +10,13 @@
 	<PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
 	<PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
 	<ItemGroup>
-	  <Compile Remove="Models\BasicModels\DiscourseIndex.cs" />
+	  <Compile Remove="Data\Migrations\**" />
+	  <Content Remove="Data\Migrations\**" />
+	  <EmbeddedResource Remove="Data\Migrations\**" />
+	  <None Remove="Data\Migrations\**" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+	  <Compile Remove="Models\BasicModels\DiscourseIndex.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -50,7 +53,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Data\Migrations\" />
+		<Folder Include="Migrations\" />
 		<Folder Include="wwwroot\AdminFiles\ArticleFiles\" />
 		<Folder Include="wwwroot\AdminFiles\MediaInternshipCVs\" />
 		<Folder Include="wwwroot\AdminFiles\ReserachFiles\" />

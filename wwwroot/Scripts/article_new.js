@@ -178,20 +178,21 @@
             });
         }
     }
+
     GetVideos();
     function GetVideos() {
-        $.get('/api/Search/GetHomeVideoNews/' + _region, function (data) {
+        $.get('/api/SearchApi/GetHomeVideoNews/' + _region, function (data) {
             var videoHtml = '';
             var videoFirstHtml = '';
             //console.log(data);
             $.each(data.splice(0, 4), function (i, item) {
-                var slugUrl = convertToSlug(item.Id, item.Title);
+                var slugUrl = convertToSlug(item.id, item.title);
                 // var label = item.Label != null ? item.Label : "agency-wire";
                 var newsImage = '';
-                if (item.FileThumbUrl != null && item.FileThumbUrl != "/images/defaultImage.jpg" && item.FileThumbUrl != "/images/newstheme.jpg" && item.FileThumbUrl != "/images/sector/all_sectors.jpg") {
-                    newsImage = item.FileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.FileThumbUrl : item.FileThumbUrl;
+                if (item.fileThumbUrl != null && item.fileThumbUrl != "/images/defaultImage.jpg" && item.fileThumbUrl != "/images/newstheme.jpg" && item.fileThumbUrl != "/images/sector/all_sectors.jpg") {
+                    newsImage = item.fileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.fileThumbUrl : item.fileThumbUrl;
                 }
-                var country = item.Country != null ? item.Country.split(',') : [];
+                var country = item.country != null ? item.country.split(',') : [];
                 var countryText = country.length > 0 ? country[0] : "Global";
                 //if (i == 0) {
                 //    videoFirstHtml += '<a href="/news/videos/' + slugUrl + '">' +
@@ -222,10 +223,10 @@
                 //}
                 videoHtml += '<div class="col-md-12 col-sm-12">' +
                     '<a href="/news/videos/' + slugUrl + '">' +
-                    '<div class="video-cover m-b-20 lazy lazyloaded" title="' + item.Title + '" style="background-image: url(&quot;https://www.devdiscourse.com' + newsImage + '?width=555&amp;height=300&amp;mode=crop&quot;);">' +
+                    '<div class="video-cover m-b-20 lazy lazyloaded" title="' + item.title + '" style="background-image: url(&quot;https://www.devdiscourse.com' + newsImage + '?width=555&amp;height=300&amp;mode=crop&quot;);">' +
                     '<div class="cover-overlay">' +
                     '<div class="video-btn"><span class="fa fa-play"></span></div>' +
-                    '<h3 class="video-title">' + item.Title + '</h3>' +
+                    '<h3 class="video-title">' + item.title + '</h3>' +
                     '</div>' +
                     '</div>' +
                     '</a>' +

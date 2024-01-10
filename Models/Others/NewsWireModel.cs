@@ -1,8 +1,6 @@
 ﻿using Devdiscourse.Models.ContributorModels;
-using Devdiscourse;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-//using System.Web.Mvc;
 
 namespace Devdiscourse.Models.Others
 {

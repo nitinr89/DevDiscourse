@@ -22,56 +22,62 @@ namespace Devdiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(long id)
         {
             await Task.Yield();
-            if (User.Identity.IsAuthenticated)
+            try
             {
-                string user = userManager.GetUserId((System.Security.Claims.ClaimsPrincipal)User);
-                var search = _db.Livediscourses
-                    //Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(a => a.CreatedOn)
-                    .Select(s => new LiveblogViewModel
-                    {
-                        Title = s.Title,
-                        Description = s.Description,
-                        Id = s.Id,
-                        CreatedOn = s.CreatedOn,
-                        PublishedOn = s.PublishedOn,
-                        ImageUrl = s.ImageUrl,
-                        ImageCopyright = s.ImageCopyright,
-                        ModifiedOn = s.ModifiedOn,
-                        DiscourseComments = _db.DiscourseComments.Where(a => a.ItemId == s.Id && a.ParentId == 0 && a.IsHidden == false).Take(1).ToList(),
-                        CommentCount = s.CommentCount,
-                        LikeCount = s.LikeCount,
-                        DislikeCount = s.DislikeCount,
-                        Tags = s.Tags,
-                        ParentStoryLink = s.ParentStoryLink,
-                        Reacted = _db.Reacts.FirstOrDefault(r => r.ItemId == s.Id && r.ReactBy == user && r.ReactItemType == ReactItemType.SubBlog) == null ? ReactType.None : _db.Reacts.FirstOrDefault(r => r.ItemId == s.Id && r.ReactBy == user && r.ReactItemType == ReactItemType.SubBlog).ReactType
-                    }).Take(10).ToList();
-                return View(search);
+                if (User.Identity.IsAuthenticated)
+                {
+                    string user = userManager.GetUserId((System.Security.Claims.ClaimsPrincipal)User);
+                    var search = _db.Livediscourses.
+                        Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(a => a.CreatedOn)
+                        .Select(s => new LiveblogViewModel
+                        {
+                            Title = s.Title,
+                            Description = s.Description,
+                            Id = s.Id,
+                            CreatedOn = s.CreatedOn,
+                            PublishedOn = s.PublishedOn,
+                            ImageUrl = s.ImageUrl,
+                            ImageCopyright = s.ImageCopyright,
+                            ModifiedOn = s.ModifiedOn,
+                            DiscourseComments = _db.DiscourseComments.Where(a => a.ItemId == s.Id && a.ParentId == 0 && a.IsHidden == false).Take(1).ToList(),
+                            CommentCount = s.CommentCount,
+                            LikeCount = s.LikeCount,
+                            DislikeCount = s.DislikeCount,
+                            Tags = s.Tags,
+                            ParentStoryLink = s.ParentStoryLink,
+                            Reacted = _db.Reacts.FirstOrDefault(r => r.ItemId == s.Id && r.ReactBy == user && r.ReactItemType == ReactItemType.SubBlog) == null ? ReactType.None : _db.Reacts.FirstOrDefault(r => r.ItemId == s.Id && r.ReactBy == user && r.ReactItemType == ReactItemType.SubBlog).ReactType
+                        }).Take(10).ToList();
+                    return View(search);
+                }
+                else
+                {
+                    var search = _db.Livediscourses.
+                        Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(a => a.CreatedOn)        
+                        .Select(s => new LiveblogViewModel
+                        {
+                            Title = s.Title,
+                            Description = s.Description,
+                            Id = s.Id,
+                            CreatedOn = s.CreatedOn,
+                            ImageUrl = s.ImageUrl,
+                            PublishedOn = s.PublishedOn,
+                            ImageCopyright = s.ImageCopyright,
+                            ModifiedOn = s.ModifiedOn,
+                            DiscourseComments = _db.DiscourseComments.Where(a => a.ItemId == s.Id && a.ParentId == 0 && a.IsHidden == false).Take(1).ToList(),
+                            CommentCount = s.CommentCount,
+                            LikeCount = s.LikeCount,
+                            DislikeCount = s.DislikeCount,
+                            Tags = s.Tags,
+                            ParentStoryLink = s.ParentStoryLink,
+                            Reacted = ReactType.None
+                        }).Take(10).ToList();
+                    return View(search);
+                }             
             }
-            else
+            catch(Exception ex)
             {
-                var search = _db.Livediscourses
-                    //Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(a => a.CreatedOn).        
-                    .Select(s => new LiveblogViewModel
-                    {
-                        Title = s.Title,
-                        Description = s.Description,
-                        Id = s.Id,
-                        CreatedOn = s.CreatedOn,
-                        ImageUrl = s.ImageUrl,
-                        PublishedOn = s.PublishedOn,
-                        ImageCopyright = s.ImageCopyright,
-                        ModifiedOn = s.ModifiedOn,
-                        DiscourseComments = _db.DiscourseComments.Where(a => a.ItemId == s.Id && a.ParentId == 0 && a.IsHidden == false).Take(1).ToList(),
-                        CommentCount = s.CommentCount,
-                        LikeCount = s.LikeCount,
-                        DislikeCount = s.DislikeCount,
-                        Tags = s.Tags,
-                        ParentStoryLink = s.ParentStoryLink,
-                        Reacted = ReactType.None
-                    }).Take(10).ToList();
-                return View(search);
-
-            }
+                return Content("Error: " + ex.Message);
+            }                 
         }
     }
 }

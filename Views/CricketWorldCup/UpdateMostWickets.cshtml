@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Update Most Wickets";
+    ViewBag.webEdition = ViewBag.region;
+}
+<style>
+    .card {
+        padding: 40px 20px;
+        background-color: #f1f1f1;
+        margin-bottom:10px;
+        border:1px solid #ededed;
+    }
+    #main-container label {
+        margin-top:10px;
+    }
+</style>
+<div class="container">
+    <h2>Update Most Wickets</h2>
+</div>
+<div class="container" id="main-container"></div>
+<div class="container m-t-40"><a href="/images/worldcup/data/mostwickets.json" class="btn btn-primary" download=""><span class="fa fa-download"></span> Download Data</a></div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            getMostWickets();
+            function getMostWickets() {
+                $.ajax({
+                    cache: false,
+                    url: '/images/worldcup/data/mostwickets.json',
+                    type: 'Get',
+                    data: {},
+                    dataType: 'Json',
+                    success: function (data) {
+                        var dataHtml = '';
+                        $.each(data.mostwickets, function (i, item) {
+                            dataHtml += `<div class="row standing" id="${i}"><div class="col-md-6 card">
+                                            <label>Rank</label>
+                                            <input type="number" data-id="Rank" value="${item.Rank}" class="form-control"/>
+                                            <label>Name</label>
+                                            <input type="text" data-id="Name" value="${item.Name}" class="form-control"/>
+                                            <label>Country</label>
+                                            <input type="text" data-id="Country" value="${item.Country}" class="form-control"/>
+                                            <label>Wickets</label>
+                                            <input type="number" data-id="Wickets" value="${item.Wickets}" class="form-control"/></div></div>`;
+                        });
+                        $("#main-container").html(dataHtml + '<buttton class="btn btn-success" id="savedata">Save</button>');
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $(document).on('click', '#savedata', function () {
+                var mostWicketsList = [];
+                $('.standing').each(function (i, item) {
+                    var rank = $('#' + i + ' [data-id="Rank"]').val();
+                    var name = $('#' + i + ' [data-id="Name"]').val();
+                    var country = $('#' + i + ' [data-id="Country"]').val();
+                    var wickets = $('#' + i + ' [data-id="Wickets"]').val();
+                    mostWicketsList.push({
+                        "Rank": rank,
+                        "Name": name,
+                        "Country": country,
+                        "Wickets": wickets
+                    });
+                });
+                postMostWickets(mostWicketsList);
+            });
+            function postMostWickets(mostWicketsList) {
+                $.ajax({
+                    url: '/CricketWorldCup/PostMostWickets',
+                    type: 'Post',
+                    data: { wickets: '{"mostwickets":' + JSON.stringify(mostWicketsList) + '}' },
+                    dataType: 'Json',
+                    success: function (data) {
+                        console.log(JSON.parse(data));
+                        $.notify({ message: "Submit successfully!" }, { type: "success", delay: 1e3, placement: { from: "top", align: "right" } });
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        });
+    </script>
+}

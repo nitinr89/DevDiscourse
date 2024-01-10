@@ -97,26 +97,44 @@ namespace Devdiscourse.Controllers.API
         public IQueryable<NewsViewModel> GetSectorNews(string sector, string reg = "Global Edition", int page = 1)
         {
             var skipCount = (page - 1) * 20;
-            var result = db.RegionNewsRankings
+            //var result = db.RegionNewsRankings
+            //    .Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector
+            //    && a.Region.Title == "Global Edition"
+            //    && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn)
+            //    .ThenByDescending(s => s.Ranking).Skip(skipCount)
+            //    .Select(a => new NewsViewModel
+            //        {
+            //            Title = a.DevNews.Title,
+            //            NewsId = a.DevNews.NewsId,
+            //            ImageUrl = a.DevNews.ImageUrl,
+            //            Subtitle = a.DevNews.SubTitle,
+            //            Country = a.DevNews.Country,
+            //            CreatedOn = a.DevNews.ModifiedOn,
+            //            Sector = a.DevNews.Type,
+            //            SubType = a.DevNews.SubType,
+            //            Label = a.DevNews.NewsLabels,
+            //            Ranking = a.Ranking
+            //        }).AsNoTracking().Take(10).ToList();
+            //    //var result = db.DevNews.Where(a => a.AdminCheck == true && (a.Sector.Contains("," + sector + ",") || a.Sector.StartsWith("," + sector) || a.Sector.EndsWith(sector + ",") || a.Sector.Equals(sector)) && a.Region.Contains(reg)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
+            //    return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
 
-                //Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector && a.Region.Title == reg && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).ThenByDescending(s => s.Ranking).Skip(skipCount)
-
-
-                .Select(a => new NewsViewModel
-                {
-                    Title = a.DevNews.Title,
-                    NewsId = a.DevNews.NewsId,
-                    ImageUrl = a.DevNews.ImageUrl,
-                    Subtitle = a.DevNews.SubTitle,
-                    Country = a.DevNews.Country,
-                    CreatedOn = a.DevNews.ModifiedOn,
-                    Sector = a.DevNews.Type,
-                    SubType = a.DevNews.SubType,
-                    Label = a.DevNews.NewsLabels,
-                    Ranking = a.Ranking
-                }).AsNoTracking().Take(10).ToList();
-            //var result = db.DevNews.Where(a => a.AdminCheck == true && (a.Sector.Contains("," + sector + ",") || a.Sector.StartsWith("," + sector) || a.Sector.EndsWith(sector + ",") || a.Sector.Equals(sector)) && a.Region.Contains(reg)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
-            return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
+            var result = db.DevNews.Where(a => a.AdminCheck == true && a.Sector == sector
+            && a.IsSponsored == false
+           /// && a.Title == "Global Edition"
+           ).Select(a => new NewsViewModel
+           {
+               Title = a.Title,
+               NewsId = a.NewsId,
+               ImageUrl = a.ImageUrl,
+               Subtitle = a.SubTitle,
+               Country = a.Country,
+               CreatedOn = a.CreatedOn,
+               Sector = a.Sector,
+               SubType = a.SubType,
+               Label = a.NewsLabels
+              // Ranking = a.Ranking
+           }).AsNoTracking().Take(10).ToList();
+            return result.AsQueryable();
         }
         [HttpGet]
         [Route("GetTagsNews/{tag}/{reg}/{page}")]
@@ -518,7 +536,9 @@ namespace Devdiscourse.Controllers.API
             var countrySearch = country == "all" ? "" : country;
             var searchRegion = region == "Global Edition" ? "" : region;
 
-            var newsSearch = db.DevNews/*.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion))*/
+            var newsSearch = db.DevNews
+                .Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch)
+                  && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion))
                 .Select(a => new AdvancedSearchView
                 {
                     Id = a.Id,
@@ -639,7 +659,7 @@ namespace Devdiscourse.Controllers.API
             }
             var skipItem = ((page - 1) * 25) + defaultSkip;
             var comment = db.DiscourseComments
-                //.Where(a => a.ItemId == itemId && a.ParentId == parentId && a.IsHidden == false).OrderBy(o => o.CommentOn)
+                .Where(a => a.ItemId == itemId && a.ParentId == parentId && a.IsHidden == false).OrderBy(o => o.CommentOn)
                 .Select(a => new { name = a.ApplicationUser.FirstName + " " + a.ApplicationUser.LastName, commentText = a.CommentText, parentId = a.ParentId, commentId = a.CommentId, itemId = a.ItemId, isHidden = a.IsHidden, childCount = a.ChildCount, rootParentId = a.RootParentId, replyText = a.ReplyText, likeCount = a.LikeCount, dislikeCount = a.DislikeCount, endorseCount = a.EndorseCount, rejectCount = a.RejectCount }).Skip(skipItem).Take(25);
             return Ok(comment);
         }
@@ -757,7 +777,8 @@ namespace Devdiscourse.Controllers.API
             if (reg == "Global Edition")
             {
                 var result = db.DevNews
-                    //.Where(a => a.Type == "Blog" && a.CreatedOn > thirtyDays && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
+                    .Where(a => a.Type == "Blog" && a.CreatedOn > thirtyDays
+                    && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
                     .Select(a => new
                     {
                         a.Id,
@@ -775,7 +796,10 @@ namespace Devdiscourse.Controllers.API
             else
             {
                 var result = db.DevNews
-                    //.Where(a => a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
+
+                    //.Where(a => a.Type == "Blog" && a.Region.Contains(reg))
+                    //.Where(a => a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays
+                    //&& a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
                     .Select(a => new
                     {
                         a.Id,

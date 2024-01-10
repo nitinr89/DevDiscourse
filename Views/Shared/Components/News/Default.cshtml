@@ -24,12 +24,12 @@
     {
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
-        // string id = item.GenerateSecondSlug();
-        long id = item.NewId;
+         string id = item.GenerateSecondSlug();
+        //long id = item.NewId;
         @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">*@
-       @* <a href="@controller/@actiong/@id" class="text-decoration">*@
+        <a href="@controller/@action/@id" class="text-decoration">
 
-        <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+       @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
             <div class="p-t-10 p-b-10 m-b-10" style="@border">
                 <h3 class="trend-title no-margin">@item.Title</h3>

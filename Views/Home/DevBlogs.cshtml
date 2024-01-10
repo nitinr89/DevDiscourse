@@ -82,7 +82,6 @@
 
     <script>
     $(document).ready(function () {
-        debugger;
             var page = 1,
                 region = '@(ViewBag.reg)',
                 type = '@(ViewBag.type)',
@@ -104,14 +103,12 @@
                 return newsId + "-" + str;
             }
             $(window).scroll(function () {
-                debugger;
                 if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height())) {
                     loadProjectData();
                 }
             });
             function loadProjectData() {
                 if (page > -1 && !inCallback) {
-                    debugger;
                     inCallback = true;
                     page++;
                     $("div#loading").show();
@@ -121,7 +118,6 @@
                         dataType: "Html",
                         data: { page: page, region: region, type: type },
                         success: function (data, textstatus) {
-                            debugger;
                             $("div#loading").hide();
                             if (data.trim() != '') {
                                 $("#blogContainer").append(data);

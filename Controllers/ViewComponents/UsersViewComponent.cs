@@ -32,19 +32,25 @@ namespace DevDiscourse.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            List<AssignedRoleView> result = new List<AssignedRoleView>();
-            var roles = _db.Roles.Where(a => a.Name == "Admin" || a.Name == "Upfront" || a.Name == "Author").ToList();
-            foreach (var item in roles)
+            try
             {
-                var users = await userManager.GetUsersInRoleAsync(item.Name);
-                //var users = _db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(item.Id)).ToList();
-                foreach (var m in users)
+                List<AssignedRoleView> result = new List<AssignedRoleView>();
+                var roles = _db.Roles.Where(a => a.Name == "Admin" || a.Name == "Upfront" || a.Name == "Author").ToList();
+                foreach (var item in roles)
                 {
-                    result.Add(UserList(m.Id, item.Id, item.Name, m.FirstName + " " + m.LastName, m.UserName, m.Email, m.CreatedOn));
+                    var users = await userManager.GetUsersInRoleAsync(item.Name);
+                    //var users = _db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(item.Id)).ToList();
+                    foreach (var m in users)
+                    {
+                        result.Add(UserList(m.Id, item.Id, item.Name, m.FirstName + " " + m.LastName, m.UserName, m.Email, m.CreatedOn));
+                    }
                 }
+                ViewBag.data = result;
+                return View();
+            }catch (Exception ex) {
+                return Content("Error: " + ex.Message);
+
             }
-            ViewBag.data = result;
-            return View();
         }
     }
 }

@@ -1,24 +1,17 @@
 
 using System.Data;
-using System.Net;
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
-using Devdiscourse.Models.ViewModel;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Devdiscourse.Data;
 using Microsoft.EntityFrameworkCore;
-using Nancy.Json;
 using Devdiscourse.Models.VideoNewsModels;
 using X.PagedList;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
 
 namespace Devdiscourse.Controllers.Main
@@ -44,7 +37,7 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.text = text;
             ViewBag.source = source;
             ViewBag.editorPick = editorPick;
-            DateTime twoMonth = DateTime.Today.AddDays(-60);
+            DateTime twoMonth = DateTime.Today.AddDays(-120);
             IQueryable<VideoNews> videoNews;
             if (string.IsNullOrEmpty(text))
             {
@@ -78,7 +71,7 @@ namespace Devdiscourse.Controllers.Main
             return View(result);
         }
 
-        [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
+        [Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         public ActionResult Create()
         {
             ViewBag.Sector = db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo).ToList();

@@ -420,13 +420,8 @@
         <div id="NewsSector">
             <nav class="container-fluid text-center m-t-10">
                 <ul class="scrollmenu no-margin">
-                 @*    <li> <a href="@UrlHelper.Action("NewsSector", new{sector="agro-forestry"})" title="AGRO-Forestry">Agro-Forestry</a> </li> *@
-                   @*  <li> <a href="@UrlHelper.Action("NewseSctor", new{sector="art-culture"})" title="Art &amp; Culture">Art &amp; Culture</a> </li> *@
-
                     <li> <a href="@Url.RouteUrl("NewsSector", new{sector="agro-forestry"})" title="AGRO-Forestry">Agro-Forestry</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="art-culture"})" title="Art &amp; Culture">Art &amp; Culture</a> </li>
-
-
+                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="art-culture"})" title="Art &amp; Culture">Art &amp; Culture</a> </li
                     <li> <a href="@Url.RouteUrl("NewsSector", new{sector="technology"})" title="Technology">Technology</a> </li>
                     <li> <a href="@Url.RouteUrl("NewsSector", new{sector="economy-business"})" title="Economy & Business">Economy</a> </li>
                     <li> <a href="@Url.RouteUrl("NewsSector", new{sector="education"})" title="Education">Education</a> </li>
@@ -470,7 +465,6 @@
     <button type="button" id="feedbackBtn" class="hidden-xs floating-btn" title="Give Feedback"><span class="fa fa-envelope-open"></span></button>
 
     <div class="bg-white p-t-20"> @Html.Partial("_Footer") </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
     <script src="~/Content/OwlCarousel/owl.carousel.js"></script>

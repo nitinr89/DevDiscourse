@@ -40,26 +40,10 @@ namespace Devdiscourse.Controllers.ViewComponents
                     }
 
                     return View(filteredItems.OrderBy(a => a.Title));
-                }
-                //if (!string.IsNullOrEmpty(sector))
-                //{
-                //    var idList = sector.Split(',').ToList().Select(int.Parse).ToList();
-                //    var search = from m in _db.DevSectors
-                //                 where m.Id != 8 && m.Id != 16
-                //                 join s in idList on m.Id equals s
-                //                 select new ItemView
-                //                 {
-                //                     Id = m.Id,
-                //                     Title = m.Title,
-                //                 };
-                //    if (filter == "Single")
-                //    {
-                //        search = search.Take(1);
-                //    }
-                //    return View(search.OrderBy(a => a.Title));
-                //}
-                return View();
-            }catch (Exception ex)
+               }
+              return View();
+            }
+            catch (Exception ex)
             {
                 return Content("Error: " + ex.Message);
             }

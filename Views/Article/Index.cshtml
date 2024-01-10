@@ -5,6 +5,7 @@
 @using System.Threading;
 @using System.Text;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 @{
     CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
     TextInfo textInfo = cultureInfo.TextInfo;
@@ -30,7 +31,7 @@
     ViewBag.pageKeywords = keywords;
     StringBuilder DataDesc = new StringBuilder(Model.Description);
     //string DataDesc = Model.Description;
-    //var modifiedDescription = GetFirstParagraph(@Model.Description).ToString(); 
+    var modifiedDescription = GetFirstParagraph(@Model.Description).ToString(); 
     var schemaDescription = !string.IsNullOrEmpty(Model.SubTitle) ? Model.SubTitle : "Read more about " + Model.Title + " on Devdiscourse";
     ViewBag.PageDescription = schemaDescription.ToString().Trim();
     var schemaSource = string.IsNullOrEmpty(Model.NewsLabels) ? Model.Source : "Devdiscourse News Desk";
@@ -118,6 +119,11 @@ async Task GetCleanDescription(string htmltext)
     @sb.ToString();
 }
 }
+
+
+
+
+
 <style>
     .renderBody {
         margin-top: 10px;
@@ -631,7 +637,8 @@ async Task GetCleanDescription(string htmltext)
         float: right;
     }
 
-    @@media(max-width:640px) {
+    @@media(max-width:640px) 
+    {
         .title {
             font-size: 28px
         }
@@ -661,7 +668,8 @@ async Task GetCleanDescription(string htmltext)
         }
     }
 
-    @@media(max-width:425px) {
+    @@media(max-width:425px) 
+    {
         .list-padding {
             padding-left: 15px
         }
@@ -679,7 +687,8 @@ async Task GetCleanDescription(string htmltext)
         }
     }
 
-    @@media screen and (max-width:2560px) and (min-width:1500px) {
+    @@media screen and (max-width:2560px) and (min-width:1500px) 
+    {
         .renderBody .container {
             width: 1170px !important
         }
@@ -724,7 +733,7 @@ async Task GetCleanDescription(string htmltext)
     "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png"
     }
     },
-    "description": " @{ await GetFirstParagraph(@Model.Description); }"
+    "description": "@{ await GetFirstParagraph(@Model.Description); }"
     }
 </script>
 @if (@schemaAuthor == "PR Newswire")
@@ -763,9 +772,12 @@ async Task GetCleanDescription(string htmltext)
               {
                   <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("DevBlogs", "Home", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">@Model.SubType</span></a> <meta itemprop="position" content="2" /> </li>
               }
+            
+              @{
 
-              @await Component.InvokeAsync("Sector", new { sector=Model.Sector, filter="NewsSector"} );
+               @await Component.InvokeAsync("Sector", new { sector = Model.Sector, reg = "", filter = "NewsSector" })
 
+              }                        
               <li class="active">Article</li>
           </ul> 
 
@@ -829,8 +841,8 @@ else
 foreach (var item in Model.UserNewsFiles.Take(1))
 {
     @section taboolaAd{
-       @*  <link href="https://vjs.zencdn.net/7.6.6/video-js.min.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> *@
+       <link href="https://vjs.zencdn.net/7.6.6/video-js.min.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> 
 } 
 
 
@@ -910,7 +922,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <div id="v-devdiscourse-v2"></div>
     <script>(function (v, d, o, ai) { ai = d.createElement('script'); ai.defer = true; ai.async = true; ai.src = v.location.protocol + o; d.head.appendChild(ai); })(window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');</script>
 </div>@if (!string.IsNullOrEmpty(Model.Tags)) 
-    @await Component.InvokeAsync("TagsNews", new { id=Model.NewsId, tag=Model.Tags} );
+    @await Component.InvokeAsync("TagsNews", new { id=Model.NewsId, tag=Model.Tags} )
 
     <button onclick="reset('https://www.devdiscourse.com/Article/@Model.GenerateSecondSlug()',@Model.NewsId);" class="btn btn-default btn-lg m-b-20 m-t-20 btn-block"> <img src="~/images/icons/comment_bubble.svg" alt="comments" /> POST / READ COMMENTS </button> <section id="art_@Model.NewsId" class="commentbox"> <div id="disqus_thread" style="display:none;"> <img data-src="/images/icons/disqus_loader.svg" class="center-block lazy" /> </div></section>
 </article> <div id="NewsNews"></div>

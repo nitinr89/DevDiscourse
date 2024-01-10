@@ -27,8 +27,8 @@ namespace Devdiscourse.Controllers.ViewComponents
                 if (User.Identity.IsAuthenticated)
                 {
                     string user = userManager.GetUserId((System.Security.Claims.ClaimsPrincipal)User);
-                    var search = _db.Livediscourses
-                        //Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(a => a.CreatedOn)
+                    var search = _db.Livediscourses.
+                        Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(a => a.CreatedOn)
                         .Select(s => new LiveblogViewModel
                         {
                             Title = s.Title,
@@ -51,8 +51,8 @@ namespace Devdiscourse.Controllers.ViewComponents
                 }
                 else
                 {
-                    var search = _db.Livediscourses
-                        //Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(a => a.CreatedOn).        
+                    var search = _db.Livediscourses.
+                        Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(a => a.CreatedOn)        
                         .Select(s => new LiveblogViewModel
                         {
                             Title = s.Title,

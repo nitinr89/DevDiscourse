@@ -1055,6 +1055,7 @@ else
                 return Id + "-" + str;
             }
             function pluralise(count, text) {
+                debugger;
                 return count > 1 ? count + " " + text + "s" : count + " " + text;
             }
             $.ajax('/api/DiscourseApi/GetModerators/@Model.Id').done(function (data) {
@@ -1068,11 +1069,13 @@ else
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                                var Id = $(this).data('topic');
+                    debugger;
+                    var Id = $(this).data('topic');
                     var IT = $(this).data('it');
                     var RT = $(this).data('rt');
                     $.post('/api/ReactLivediscourse/' + Id + '/' + IT + '/' + RT,
                         function (data) {
+                            debugger;
                             $('#like_' + data.it + "_" + data.id + ',#dislike_' + data.it + "_" + data.id + ',#endorse_' + data.it + "_" + data.id + ',#reject_' + data.it + "_" + data.id).removeClass('reacted');
                             if (data.rt == 1) {
                                 $('#like_' + data.it + "_" + data.id).addClass('reacted');
@@ -1108,6 +1111,7 @@ else
                 $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/2').done(function (data) {
                     var recommendedHtml = '';
                     $.each(data, function (i, item) {
+                        debugger;
                         var newsUrl = convertToSlug(item.parentId, item.parenTitle);
                         var imgUrl = item.imageUrl;
                         if (imgUrl == null || imgUrl == '/images/sector/all_sectors.jpg') {
@@ -1130,6 +1134,7 @@ else
                 $.ajax('/api/DiscourseApi/GetTrendingDiscourse/2/@Model.Id').done(function (data) {
                     var trendingHtml = '';
                     $.each(data, function (i, item) {
+                        debugger;
                         var newsUrl = convertToSlug(item.id, item.title);
                         var imghtml = '';
                         if (item.imageUrl != null) {
@@ -1152,6 +1157,7 @@ else
                 $.ajax('/api/DiscourseApi/GetLatestDiscourse/2/@Model.Id').done(function (data) {
                     var latestHtml = '';
                     $.each(data, function (i, item) {
+                        debugger;
                         var newsUrl = convertToSlug(item.id, item.title);
                         var imghtml = '';
                         if (item.imageUrl != null) {
@@ -1175,6 +1181,7 @@ else
             <text>
                         $.post("/api/FollowLiveDiscourse/" + id,
                             function (data) {
+                                debugger;
                                 $('.follow-btn').html('<li><span class="btn follow-btn" title="' + data + '"><span class="fa fa-thumbs-o-up"></span> <span class="hidden-xs">' + data + '</span> </span></li>');
                                 if (data == "Follow") {
                                     $('.follow-btn').removeClass('activebtn');
@@ -1219,6 +1226,7 @@ else
                         type: 'Get',
                         dataType: 'Json',
                         success: function (data) {
+                            debugger;
                             inCallbackIndex = false;
                             if (data.length == 0) {
                                 $("#loading").hide();
@@ -1262,6 +1270,7 @@ else
                     type: 'Get',
                     dataType: 'Json',
                     success: function (data) {
+                        debugger;
                         console.log("data.length", data.length);
                         if (data.length == 0) {
                             $("#moreindex_" + id).hide();
@@ -1301,6 +1310,7 @@ else
                         data: { id: id, page: blogPage, pu: '@(pageUrl)', cu: '@(Model.Creator)' },
                         dataType: 'html',
                         success: function (data) {
+                            debugger;
                             console.log('loaded')
                             inCallbackBlog = false;
                             $("#loading").hide();
@@ -1335,6 +1345,7 @@ else
                 $('#field_' + $(this).data('parent')).toggle();
             });
             $(document).on('click', '.loadCommentBtn', function () {
+                 debugger;
                 getComments($(this).data('id'), $(this).data('parent'), $(this).data('page'));
                 $(this).remove();
             });
@@ -1363,11 +1374,14 @@ else
             //     </text>
             // }
             function getComments(itemId, parentId, page) {
+
                 $.ajax({
                     url: '/api/SearchApi/liveblogComments/' + itemId + '/' + parentId + '/' + page,
                     type: "GET",
                     success: function (data) {
+                         debugger;
                         $.each(data, function (i, item) {
+                            debugger;
                             $("#single_" + data[i].commentId).remove();
                             var childHtml = '';
                             var hideHtml = '';
@@ -1382,6 +1396,7 @@ else
                             //     </text>
                             // }
                             if (data[i].parentId == 0) {
+                                debugger;
                                 $('#itemComment_' + data[i].itemId).append('<div class="comment" id="single_' + data[i].commentId + '">' +
                                     '<div class="name">' + data[i].name + '</div>' +
                                     '<div class="content">' + data[i].commentText + '</div>' +
@@ -1399,6 +1414,7 @@ else
                                     '<div class="root-container" id="root_' + data[i].commentId + '"></div>' +
                                     '</div>');
                             } else if (data[i].parentId == data[i].rootParentId) {
+                                debugger;
                                 $('#parent_' + data[i].parentId).append('<div id="single_' + data[i].commentId + '">' +
                                     '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].replyText + ' ' + data[i].commentText + '</span></div>' +
                                     '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
@@ -1414,6 +1430,7 @@ else
                                     '</div>' + childHtml +
                                     '</div>');
                             } else {
+                                debugger;
                                 $('#root_' + data[i].rootParentId).append('<div id="single_' + data[i].commentId + '">' +
                                     '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].replyText + ' ' + data[i].commentText + '</span></div>' +
                                     '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
@@ -1431,8 +1448,10 @@ else
                             }
                         });
                         if (data.length == 25 && parentId == 0) {
+                            debugger;
                             $('#itemComment_' + itemId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
                         } else if (data.length == 25) {
+                            debugger;
                             $('#parent_' + parentId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
                         }
                     },
@@ -1445,6 +1464,7 @@ else
         @*@if (User.Identity.IsAuthenticated)
                 {
                 <text>*@
+                                       debugger;
                             var id = $(this).data('btn');
                 var parentId = $(this).data('parent');
                 var rootParentId = $(this).data('root');
@@ -1467,6 +1487,7 @@ else
         @*@if (User.Identity.IsAuthenticated)
                 {
                 <text>*@
+                                       debugger;
                             var id = $(this).data('btn');
                 var parentId = $(this).data('parent');
                 var rootParentId = $(this).data('root');
@@ -1488,6 +1509,7 @@ else
                     type: "POST",
                     data: { itemId: id, commentText: commentText, parentId: parentId, rootParentId: rootParentId, reply: reply },
                     success: function (data) {
+                        debugger;
                         if (data == "NotAuthorized") {
                             return;
                         }
@@ -1508,6 +1530,7 @@ else
                         //     }
                         $("#comment" + data[0].parentId).attr('paceholder', 'Your comment here...');
                         if (data[0].parentId == 0) {
+                            debugger;
                             $('#itemComment_' + data[0].itemId).append('<div class="comment" id="single_' + data[0].commentId + '">' +
                                 '<div class="name">' + data[0].name + '</div>' +
                                 '<div class="content">' + data[0].commentText + '</div>' +
@@ -1525,6 +1548,7 @@ else
                                 '<div class="root-container" id="root_' + data[0].commentId + '"></div>' +
                                 '</div>');
                         } else if (data[0].parentId == data[0].rootParentId) {
+                            debugger;
                             $('#parent_' + data[0].parentId).append('<div id="single_' + data[0].commentId + '">' +
                                 '<div class="comment reply">' +
                                 '<span class="name">' + data[0].name + '</span> <span class="content">' + data[0].replyText + ' ' + data[0].commentText + '</span>' +
@@ -1541,6 +1565,7 @@ else
                                 '</div>' +
                                 '</div></div>');
                         } else {
+                            debugger;
                             $('#root_' + data[0].rootParentId).append('<div id="single_' + data[0].commentId + '">' +
                                 '<div class="comment reply">' +
                                 '<span class="name">' + data[0].name + ' </span>' +

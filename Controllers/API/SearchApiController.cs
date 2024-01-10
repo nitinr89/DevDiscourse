@@ -659,7 +659,7 @@ namespace Devdiscourse.Controllers.API
             }
             var skipItem = ((page - 1) * 25) + defaultSkip;
             var comment = db.DiscourseComments
-                //.Where(a => a.ItemId == itemId && a.ParentId == parentId && a.IsHidden == false).OrderBy(o => o.CommentOn)
+                .Where(a => a.ItemId == itemId && a.ParentId == parentId && a.IsHidden == false).OrderBy(o => o.CommentOn)
                 .Select(a => new { name = a.ApplicationUser.FirstName + " " + a.ApplicationUser.LastName, commentText = a.CommentText, parentId = a.ParentId, commentId = a.CommentId, itemId = a.ItemId, isHidden = a.IsHidden, childCount = a.ChildCount, rootParentId = a.RootParentId, replyText = a.ReplyText, likeCount = a.LikeCount, dislikeCount = a.DislikeCount, endorseCount = a.EndorseCount, rejectCount = a.RejectCount }).Skip(skipItem).Take(25);
             return Ok(comment);
         }

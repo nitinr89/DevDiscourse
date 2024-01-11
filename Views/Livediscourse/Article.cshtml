@@ -31,18 +31,18 @@
     var keywords = String.Join(", ", dataTags);
     string pageUrl = "/live-discourse/" + Model.GenerateSecondSlug();
     ViewBag.pageType = "article";
-    var DataDesc = Model.Description;
-    var modifiedDescription = System.Net.WebUtility.UrlEncode(GetCleanDescription(Model.Description).ToString()); 
+    string ? DataDesc = Model.Description;
+    // var modifiedDescription = GetCleanDescription(Model.Description).ToString(); 
     ViewBag.HasAmpPage = true;
     ViewBag.alternateHeadline = @Model.Title;
-    ViewBag.PageDescription = @modifiedDescription; // do it later
+  /*   ViewBag.PageDescription = @modifiedDescription; */ // do it later
     ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
     ViewBag.PageImage = pageImage + "?width=1280";
     ViewBag.pageKeywords = "Live Blog, " + keywords;
     ViewBag.webEdition = ViewBag.region;
     var bodykeywords = @Model.Tags;
     TempData["pageUrl"] = pageUrl;
-    TempData["firstPara"] =  System.Net.WebUtility.UrlEncode(GetCleanDescription(Model.Description).ToString()); 
+    //TempData["firstPara"] =  System.Net.WebUtility.UrlEncode(GetCleanDescription(Model.Description).ToString()); 
     TempData["title"] = Model.Title;
     TempData["tags"] = keywords;
     TempData["newsImage"] = newsImage;
@@ -63,7 +63,7 @@
     bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
     var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
     string encodeValue = System.Net.WebUtility.UrlEncode(Model.Title);
-    string encodeValueOne = System.Net.WebUtility.UrlEncode(GetFirstParagraph(Model.Description).ToString());
+    string encodeValueOne = GetFirstParagraph(Model.Description).ToString();
 }
 @if (@Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56")
 {
@@ -121,8 +121,7 @@ else
         text = lineBreakRegex.Replace(text, Environment.NewLine);
         text = stripFormattingRegex.Replace(text, string.Empty);
         text = Regex.Replace(text, @"[^,.A-Za-z0-9\s-]", "");
-        @text
-        ;
+        @text;
     }
 }
 @functions {
@@ -827,7 +826,7 @@ else
                     </div>
                     <section class="article-desc">
                         @{
-                            await GetCleanDescription(@DataDesc);
+                             await GetCleanDescription(@DataDesc);
                         }
 
                     </section>
@@ -862,7 +861,7 @@ else
                         <section class="article-desc f-18">
 
                             @{
-                                await GetCleanDescription(@DataDesc);
+                                 await GetCleanDescription(@DataDesc);
                             }
 
 
@@ -1003,7 +1002,7 @@ else
         {
             updateTitle = Model.Title + " - " + firstupdate.Title;
             publishedDate = TimeZoneInfo.ConvertTimeFromUtc(firstupdate.CreatedOn, INDIAN_ZONE);
-            updateBody =  System.Net.WebUtility.UrlEncode(GetDescriptionText(firstupdate.Description).ToString());
+            // updateBody =  System.Net.WebUtility.UrlEncode(GetDescriptionText(firstupdate.Description).ToString());
             schemaUrl = pageUrl + "#post_" + firstupdate.Id;
         }
     }
@@ -1016,7 +1015,7 @@ else
         else
         {
             <text>
-                 "articleBody":"@{ await GetDescriptionText(Model.Description); }",</text>
+                 "articleBody":"@{ /* await GetDescriptionText(Model.Description); */ }",</text>
         }"keywords":["@keywords"], "url":"@domainUrl@schemaUrl", "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "dateModified":"@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "@authorName"}, "publisher":{"@@type":"Organization", "name":"Devdiscourse", "url": "https://www.Devdiscourse.com", "logo":{"@@type": "ImageObject", "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png", "width": 600, "height": 60}}, "image":{"@@type": "ImageObject", "url": "@pageImage?width=1280", "height": 900, "width": 1280}}
 
     </script>

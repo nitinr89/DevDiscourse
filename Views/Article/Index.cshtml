@@ -31,7 +31,7 @@
     ViewBag.pageKeywords = keywords;
     StringBuilder DataDesc = new StringBuilder(Model.Description);
     //string DataDesc = Model.Description;
-    var modifiedDescription = GetFirstParagraph(@Model.Description).ToString(); 
+    //var modifiedDescription = GetFirstParagraph(Model.Description).ToString(); 
     var schemaDescription = !string.IsNullOrEmpty(Model.SubTitle) ? Model.SubTitle : "Read more about " + Model.Title + " on Devdiscourse";
     ViewBag.PageDescription = schemaDescription.ToString().Trim();
     var schemaSource = string.IsNullOrEmpty(Model.NewsLabels) ? Model.Source : "Devdiscourse News Desk";
@@ -707,7 +707,7 @@ async Task GetCleanDescription(string htmltext)
     schemaType = "OpinionNewsArticle";
     newsTitle = "Opinion: " + newsTitle;
 }
-<script type="application/ld+json">
+ <script type="application/ld+json">
     {
     "@@context": "http://schema.org",
     "@@type": "NewsArticle",
@@ -733,9 +733,9 @@ async Task GetCleanDescription(string htmltext)
     "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png"
     }
     },
-    "description": "@{ await GetFirstParagraph(@Model.Description); }"
+    "description": "@{ await GetFirstParagraph(Model.Description); }"
     }
-</script>
+</script> 
 @if (@schemaAuthor == "PR Newswire")
 {
     <style>
@@ -848,7 +848,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
 
 
 <script type="application/ld+json">
-    {"@@context":"https://schema.org/","@@type":"VideoObject","name":"@newsTitle","@@id":"@domainUrl@pageUrl","datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","description":"@{ await GetDescriptionText(@Model.Description);}","thumbnailURL":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","thumbnail":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","contentUrl":"@item.FilePath","author":{"@@type":"Person","name":"Devdiscourse News Desk"}}
+    {"@@context":"https://schema.org/","@@type":"VideoObject","name":"@newsTitle","@@id":"@domainUrl@pageUrl","datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","description":"@{ await GetDescriptionText(Model.Description);}","thumbnailURL":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","thumbnail":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","contentUrl":"@item.FilePath","author":{"@@type":"Person","name":"Devdiscourse News Desk"}}
 </script>
 <video id="my-video" class="video-js center-block" controls preload="auto" width="640" height="360" @*poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"*@ poster="@item.FileThumbUrl" data-setup='{"fluid": true}' autoplay> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a> </p></video> <div class="modal fade" id="embedVideoDialog" role="dialog"> <div class="modal-dialog modal-sm"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Embed This Media</h4> </div><div class="modal-body"> <input type="text" id="embedCode" class="form-control" value='<iframe width="640" height="360" frameborder="0" src="https://www.devdiscourse.com/videos/embedmedia/@item.Id"></iframe>' /> </div></div></div></div>}<div>
     @if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "News")
@@ -881,7 +881,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
          }
     </ul>
 </section> <hr class="seperator m-b-20" /> <section class="article-cont">
-    @{ await GetCleanDescription(@DataDesc.ToString());} @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk" && !isCrawler)
+    @{ await GetCleanDescription(DataDesc.ToString());} @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk" && !isCrawler)
     {
         if (!isCrawler)
         {<p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>}

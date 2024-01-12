@@ -618,12 +618,14 @@ namespace DevDiscourse.Controllers
             {
                 return NotFound();
             }
-            //if (!Request.Browser.Crawler)
-            //{
-            //    livediscourse.ViewCount = livediscourse.ViewCount + 1;
-            //    db.Entry(livediscourse).State = EntityState.Modified;
-            //    await db.SaveChangesAsync();
-            //}
+            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+            bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
+            if (!isCrawler)
+            {
+                livediscourse.ViewCount = livediscourse.ViewCount + 1;
+                db.Entry(livediscourse).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
             if (User.Identity.IsAuthenticated)
             {
                 var user = userManager.GetUserId(User);

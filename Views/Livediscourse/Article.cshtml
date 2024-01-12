@@ -1174,7 +1174,6 @@ else
                 });
             }
             $(document).on('click', '.follow-btn', function () {
-            debugger;
         @if (User.Identity.IsAuthenticated)
         {
             <text>
@@ -1194,7 +1193,6 @@ else
         }
                             });
             $(document).on('click', '.badge-custom', function () {
-                debugger;
         @if (User.Identity.IsAuthenticated)
         {
             <text>
@@ -1258,7 +1256,6 @@ else
                 }
             }
             $(document).on('click', '.moreIndex', function () {
-                debugger;
                 $(this).hide();
                 GetDiscourseIndexById($(this).attr('data-index'), $(this).attr('data-skip'));
             });
@@ -1338,11 +1335,9 @@ else
             $(window).scroll(bindScroll);
             //Comment
             $(document).on('click', '.btn-reply', function () {
-                debugger;
                 $('#field_' + $(this).data('parent')).toggle();
             });
             $(document).on('click', '.loadCommentBtn', function () {
-                debugger;
                 getComments($(this).data('id'), $(this).data('parent'), $(this).data('page'));
                 $(this).remove();
             });
@@ -1350,7 +1345,6 @@ else
             {
                 <text>
             $(document).on('click', '.btn-delete', function () {
-                debugger;
                 var removeId = $(this).attr('id').replace("delete_", "");
                 $.ajax({
                     url: '/Livediscourse/removeComment',
@@ -1449,7 +1443,6 @@ else
                 });
             }
             $(document).on('click', '.comment-btn', function () {
-                debugger;
         @if (User.Identity.IsAuthenticated)
                 {
                 <text>                 
@@ -1472,7 +1465,6 @@ else
 
                         });
             $(document).on('click', '.main-comment-btn', function () {
-                debugger;
         @if (User.Identity.IsAuthenticated)
                 {
                 <text>

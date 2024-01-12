@@ -3,6 +3,7 @@ using Devdiscourse.Hubs;
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
+using DocumentFormat.OpenXml.InkML;
 using Html2Amp;
 using Html2Amp.Sanitization;
 using Html2Amp.Sanitization.Implementation;
@@ -43,14 +44,6 @@ namespace Devdiscourse.Controllers.Main
             }
             return sMacAddress;
         }
-
-        //do later
-        //public string GetDeviceInfo()
-        //{
-        //    var deviceInfo = Request.UserAgent;
-        //    return deviceInfo;
-        //}
-
         public string GetIPAddress()
         {
             string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
@@ -77,18 +70,15 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.id = id;
             return View();
         }
-
         public async Task<ActionResult> Index(string prefix, long? id, string reg = "")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            string scheme = "";//Request.Url.AbsoluteUri; do later
+            string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             string absoluteUri = HttpContext.Request.GetDisplayUrl();
             if (id == null || id == 0)
             {
                 throw new HttpException(404, "Error 404");
             }
-            //NewsCache search = null;
-            //var search = await db.DevNews.FirstOrDefaultAsync(a => a.NewsId == id && a.AdminCheck == true);
             var search = await db.DevNews.Where(dn => dn.NewsId == id && dn.AdminCheck).FirstOrDefaultAsync();
             if (search == null)
             {
@@ -97,8 +87,7 @@ namespace Devdiscourse.Controllers.Main
             var suffix = scheme.IndexOf("?amp");
             if ((prefix == "agency-wire" || prefix == null) && search.NewsLabels != null && suffix == -1)
             {
-                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = search.NewsLabels, id = search.GenerateSecondSlug() });
-             //   return RedirectToRoutePermanent("Article", new { prefix = search.NewsLabels, id = search.GenerateSecondSlug() });
+                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = search.NewsLabels, id = search.GenerateSecondSlug() });            
             }
             else if (prefix == null && search.NewsLabels == null && suffix == -1)
             {
@@ -122,15 +111,14 @@ namespace Devdiscourse.Controllers.Main
                     new YouTubeVideoSanitizer(),
                     new AmpIFrameSanitizer()
                 });
-            //string ampHtml = converter.ConvertFromHtml(search.Description).AmpHtml;
-            //ViewBag.ampHtml = ampHtml;
             var geolocation = GetGeoLocation();
             var MACAddress = GetMACAddress();
-            //do it later
-            //if (!Request.Browser.Crawler)
-            //{
-            //    await UpdateViewCount(search.NewsId, search.Title, search.Creator, geolocation, MACAddress);
-            //}
+            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+            bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
+            if (!isCrawler)
+            {
+                await UpdateViewCount(search.NewsId, search.Title, search.Creator, geolocation, MACAddress);
+            }
             string? cookie = Request.Cookies["Edition"];
             if (reg != "")
             {
@@ -160,7 +148,6 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.MACAddress = MACAddress;
             return View(search);
         }
-
         public GeoLocationViewModel GetGeoLocation()
         {
             GeoLocationViewModel location = new GeoLocationViewModel();
@@ -186,11 +173,8 @@ namespace Devdiscourse.Controllers.Main
 
             return location;
         }
-
         public async Task<string> UpdateViewCount(long id, string title, string user, GeoLocationViewModel location, string MACAddress)
         {
-            // Get Mac Address
-            //string deviceinfo = GetDeviceInfo();// do later
             string ipaddress = GetPublicIP();
             if (ipaddress == "")
             {
@@ -200,30 +184,14 @@ namespace Devdiscourse.Controllers.Main
             var country = db.Countries.FirstOrDefault(a => a.Title == location.country_name);
             if (country != null)
             {
-                region = country.Regions.Title;
+                region = country.Title;
             }
             // Find News in DevNews
             var search = await db.DevNews.FirstOrDefaultAsync(a => a.NewsId == id);
-            // Check Content log
-            //var logSearch = await db.ContentLogs.FirstOrDefaultAsync(a => a.IPAddress == ipaddress && a.DeviceInfo == deviceinfo && a.NewsId == search.NewsId);
-            //if (logSearch == null)
-            //{
-            //ContentLog logs = new ContentLog()
-            //{
-            //    IPAddress = ipaddress,
-            //    DeviceInfo = deviceinfo,
-            //    MacAddress =  MACAddress,
-            //    NewsId = search.NewsId,
-            //    UserRegion = region,
-            //    CreatedOn = DateTime.UtcNow
-            //};
-            //db.ContentLogs.Add(logs);
-            //await db.SaveChangesAsync();
-            // Update View Count in DevNews
             search.ViewCount = search.ViewCount + 1;
             db.Entry(search).State = EntityState.Modified;
+            db.Entry(search).Property(n => n.NewsId).IsModified = false;
             await db.SaveChangesAsync();
-            //}
             return "OK";
         }
         public async Task<ActionResult> Mobile(string prefix, long? id)

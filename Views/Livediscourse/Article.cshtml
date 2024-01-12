@@ -32,10 +32,8 @@
     string pageUrl = "/live-discourse/" + Model.GenerateSecondSlug();
     ViewBag.pageType = "article";
     string ? DataDesc = Model.Description;
-    // var modifiedDescription = GetCleanDescription(Model.Description).ToString(); 
     ViewBag.HasAmpPage = true;
     ViewBag.alternateHeadline = @Model.Title;
-  /*   ViewBag.PageDescription = @modifiedDescription; */ // do it later
     ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
     ViewBag.PageImage = pageImage + "?width=1280";
     ViewBag.pageKeywords = "Live Blog, " + keywords;
@@ -63,7 +61,7 @@
     bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
     var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
     string encodeValue = System.Net.WebUtility.UrlEncode(Model.Title);
-    string encodeValueOne = GetFirstParagraph(Model.Description).ToString();
+    string encodeValueOne = "";//System.Net.WebUtility.UrlEncode(GetCleanDescription(Model.Description).ToString());
 }
 @if (@Model.Creator == "3df123f7-0a8f-43c1-967d-bc26c4463b56")
 {

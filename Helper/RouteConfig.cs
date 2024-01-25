@@ -327,6 +327,13 @@ namespace Devdiscourse.Helper
                  pattern: "events/big-five-board-awards",
                  defaults: new { controller = "Events", action = "BigFiveBoardAwards" }
              );
+
+            routes.MapControllerRoute(
+             name: "MotherNotPatient",
+             pattern: "mother-not-patient",
+             defaults: new { controller = "Campaign", action = "MotherNotPatient" }
+           );
+
         }
     }
 }

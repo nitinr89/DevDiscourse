@@ -40,6 +40,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                     //    //.AsNoTracking()
                     //    .ToList();
                     //return View(resultList);
+                    
                     var resultList = _db.DevNews
       .Where(dn => dn.AdminCheck == true &&
                    dn.CreatedOn < todayDate && dn.CreatedOn > weekend && dn.CreatedOn < todayDate && dn.Id != id &&

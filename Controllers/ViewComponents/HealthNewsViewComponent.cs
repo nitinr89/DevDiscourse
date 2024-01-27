@@ -21,53 +21,53 @@ namespace Devdiscourse.Controllers.ViewComponents
 
 
                 ViewBag.Sector = "2";
-                DateTime twoMonth = DateTime.UtcNow.AddDays(-2);
+                DateTime twoMonth = DateTime.UtcNow.AddDays(-120);
 
-                var result = _db.RegionNewsRankings.Where(a => a.DevNews.CreatedOn > twoMonth && a.DevNews.AdminCheck == true && a.DevNews.Sector == "2" && a.Region.Title == reg && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).Select(a => new NewsViewModel
-                {
-                    Title = a.DevNews.Title,
-                    NewsId = a.DevNews.NewsId,
-                    ImageUrl = a.DevNews.ImageUrl,
-                    Subtitle = a.DevNews.SubTitle,
-                    Country = a.DevNews.Country,
-                    CreatedOn = a.DevNews.ModifiedOn,
-                    Sector = a.DevNews.Type,
-                    SubType = a.DevNews.SubType,
-                    Label = a.DevNews.NewsLabels,
-                    Ranking = a.Ranking
-                }).AsNoTracking().Take(30).ToList();
-                return View(result.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(a => a.Ranking).Take(6));
-
-
-                //            var resultList = _db.DevNews
-                //.Where(dn => dn.AdminCheck == true &&
-                //            dn.CreatedOn > twoMonth &&
-                //            dn.Sector == "2")
-                //.OrderByDescending(dn => dn.CreatedOn)
-                //.Take(65)
-                //.Select(dn => new NewsViewModel
+                //var result = _db.RegionNewsRankings.Where(a => a.DevNews.CreatedOn > twoMonth && a.DevNews.AdminCheck == true && a.DevNews.Sector == "2" && a.Region.Title == reg && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).Select(a => new NewsViewModel
                 //{
-                //    NewsId = dn.NewsId,
-                //    Title = dn.Title,
-                //    ImageUrl = dn.ImageUrl,
-                //    CreatedOn = dn.ModifiedOn,
-                //    Subtitle = dn.SubTitle,
-                //    SubType = dn.SubType,
-                //    Country = dn.Country,
-                //    Sector = dn.Sector,
-                //    Label = dn.NewsLabels,
-                //    Ranking = 0
-                //})
-                //.ToList();
+                //    Title = a.DevNews.Title,
+                //    NewsId = a.DevNews.NewsId,
+                //    ImageUrl = a.DevNews.ImageUrl,
+                //    Subtitle = a.DevNews.SubTitle,
+                //    Country = a.DevNews.Country,
+                //    CreatedOn = a.DevNews.ModifiedOn,
+                //    Sector = a.DevNews.Type,
+                //    SubType = a.DevNews.SubType,
+                //    Label = a.DevNews.NewsLabels,
+                //    Ranking = a.Ranking
+                //}).AsNoTracking().Take(30).ToList();
+                //return View(result.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(a => a.Ranking).Take(6));
 
-                //            var groupedResult = resultList
-                //                .GroupBy(s => s.Title)
-                //                .Select(group => group.OrderByDescending(a => a.Ranking).FirstOrDefault())
-                //                .OrderByDescending(o => o.Ranking)
-                //                .Take(30)
-                //                .ToList();
 
-                //            return View(groupedResult);
+                var resultList = _db.DevNews
+    .Where(dn => dn.AdminCheck == true &&
+                dn.CreatedOn > twoMonth &&
+                dn.Sector == "2")
+    .OrderByDescending(dn => dn.CreatedOn)
+    .Take(65)
+    .Select(dn => new NewsViewModel
+    {
+        NewsId = dn.NewsId,
+        Title = dn.Title,
+        ImageUrl = dn.ImageUrl,
+        CreatedOn = dn.ModifiedOn,
+        Subtitle = dn.SubTitle,
+        SubType = dn.SubType,
+        Country = dn.Country,
+        Sector = dn.Sector,
+        Label = dn.NewsLabels,
+        Ranking = 0
+    })
+    .ToList();
+
+                var groupedResult = resultList
+                    .GroupBy(s => s.Title)
+                    .Select(group => group.OrderByDescending(a => a.Ranking).FirstOrDefault())
+                    .OrderByDescending(o => o.Ranking)
+                    .Take(30)
+                    .ToList();
+
+                return View(groupedResult);
             }
             catch (Exception ex)
             {

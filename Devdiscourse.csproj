@@ -9,19 +9,14 @@
 
 	<PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
 	<PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
-	<ItemGroup>
-	  <Compile Remove="Data\Migrations\**" />
-	  <Content Remove="Data\Migrations\**" />
-	  <EmbeddedResource Remove="Data\Migrations\**" />
-	  <None Remove="Data\Migrations\**" />
-	</ItemGroup>
+
 	<ItemGroup>
 	  <Compile Remove="Models\BasicModels\DiscourseIndex.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CaptchaMvc.Mvc5" Version="1.5.0" />
 		<PackageReference Include="ClosedXML" Version="0.102.1" />
+		<PackageReference Include="DNTCaptcha.Core" Version="4.9.2" />
 		<PackageReference Include="HtmlToAmp" Version="1.0.0" />
 		<PackageReference Include="MetadataExtractor" Version="2.8.1" />
 		<PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
@@ -53,7 +48,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Migrations\" />
 		<Folder Include="wwwroot\AdminFiles\ArticleFiles\" />
 		<Folder Include="wwwroot\AdminFiles\MediaInternshipCVs\" />
 		<Folder Include="wwwroot\AdminFiles\ReserachFiles\" />

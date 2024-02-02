@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Owin.Security;
-//using CaptchaMvc.HtmlHelpers;
 using Devdiscourse.Models;
 using Devdiscourse.Models.ResearchModels;
 using Devdiscourse.Models.BasicModels;
@@ -9,9 +7,8 @@ using Devdiscourse.Models.Others;
 using Microsoft.AspNetCore.Mvc;
 using Devdiscourse.Data;
 using Microsoft.AspNetCore.Authorization;
-using Azure;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using DNTCaptcha.Core;
 
 namespace DevDiscourse.Controllers
 {
@@ -21,16 +18,19 @@ namespace DevDiscourse.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ApplicationDbContext _db;
+        private readonly IDNTCaptchaValidatorService validatorService;
 
         public AccountController(SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            ApplicationDbContext _db)
+            ApplicationDbContext _db,
+            IDNTCaptchaValidatorService validatorService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.roleManager = roleManager;
             this._db = _db;
+            this.validatorService = validatorService;
         }
 
         //
@@ -177,6 +177,11 @@ namespace DevDiscourse.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!validatorService.HasRequestValidCaptchaEntry())
+                {
+                    TempData["captchaError"] = "Invalid Captcha";
+                    return View(model);
+                }
                 //if (this.IsCaptchaValid("Captcha is not valid"))
                 //{
                 var user = new ApplicationUser
@@ -200,17 +205,24 @@ namespace DevDiscourse.Controllers
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    //EmailController email = new EmailController();
+                    try
+                    {
+                        string code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                        EmailController email = new EmailController();
 
-                    //string emailData = string.Format("<div style='padding:30px;background-color:#ececec'><div style='margin-left:32%'><img src='http://www.devdiscourse.com/AdminFiles/Logo/Dev-Logo-New.png'/></div>" +
-                    //         "<div style='font-size:20px; padding-top:30px;padding-bottom:20px'><span>Please confirm " + model.Email + " account by clicking </span><a href =\"" + callbackUrl + "\">here</a><p>if above link does not work then open this url in browser :</p><p style='font-size:14px'>" + callbackUrl + "</p>" + 
-                    //         "</div><div style='background-color:#4d4d4d; text-align:center; margin-top:10px; margin-bottom:10px; padding:10px; cursor:pointer;'><span style ='color:white;'> " +
-                    //         "© Copyright 2019 <a href ='http://www.visionri.com' style='color:white;text-decoration:unset;'> VisionRI</a></span><span style='margin-left:10px;margin-right:10px;height:30px;border-left:2px solid white;'></span><span><a href='http://devdiscourse.com/Home/Disclaimer' style='color:white;text-decoration:unset;'>Disclaimer</a></span><span style='margin-left:10px;margin-right:10px;height:30px;border-left:2px solid white;'></span>" +
-                    //        "<span><a href='http://devdiscourse.com/Home/TermsConditions' style='color:white;text-decoration:unset;'>Terms & Conditions</a></span></div></div>");
+                        string emailData = string.Format("<div style='padding:30px;background-color:#ececec'><div style='margin-left:32%'><img src='http://www.devdiscourse.com/AdminFiles/Logo/Dev-Logo-New.png'/></div>" +
+                                 "<div style='font-size:20px; padding-top:30px;padding-bottom:20px'><span>Please confirm " + model.Email + " account by clicking </span><a href =\"" + callbackUrl + "\">here</a><p>if above link does not work then open this url in browser :</p><p style='font-size:14px'>" + callbackUrl + "</p>" +
+                                 "</div><div style='background-color:#4d4d4d; text-align:center; margin-top:10px; margin-bottom:10px; padding:10px; cursor:pointer;'><span style ='color:white;'> " +
+                                 "© Copyright 2019 <a href ='http://www.visionri.com' style='color:white;text-decoration:unset;'> VisionRI</a></span><span style='margin-left:10px;margin-right:10px;height:30px;border-left:2px solid white;'></span><span><a href='http://devdiscourse.com/Home/Disclaimer' style='color:white;text-decoration:unset;'>Disclaimer</a></span><span style='margin-left:10px;margin-right:10px;height:30px;border-left:2px solid white;'></span>" +
+                                "<span><a href='http://devdiscourse.com/Home/TermsConditions' style='color:white;text-decoration:unset;'>Terms & Conditions</a></span></div></div>");
 
-                    //email.SendMail(model.Email, emailData, "Confirm Devdiscourse account");
+                        email.SendMail(model.Email, emailData, "Confirm Devdiscourse account");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
 
                     //using (var client = new WebClient())
                     //{

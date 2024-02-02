@@ -7,6 +7,7 @@ using Devdiscourse.Models;
 using Microsoft.Extensions.FileProviders;
 using Devdiscourse.Helper;
 using Devdiscourse.Hubs;
+using DNTCaptcha.Core;
 //using SixLabors.ImageSharp.Web.DependencyInjection;
 //using SixLabors.ImageSharp.Web.Providers.Azure;
 
@@ -18,7 +19,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddSignalR();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
@@ -42,6 +43,12 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddDNTCaptcha(option =>
+{
+    option.UseCookieStorageProvider().ShowThousandsSeparators(false);
+    option.WithEncryptionKey("thisisasecretkey@12345");
 });
 
 IFileProvider physicalProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());

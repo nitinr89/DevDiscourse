@@ -1,5 +1,5 @@
 ﻿@model Devdiscourse.Models.RegisterViewModel
-@using CaptchaMvc.HtmlHelpers
+@addTagHelper *, DNTCaptcha.Core
 @{
     ViewBag.Title = "Register for Latest Development News | Devdiscourse";
     string domainUrl = "http://www.devdiscourse.com";
@@ -29,11 +29,13 @@
         -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     }
-    .validation-summary-errors ul{
+
+    .validation-summary-errors ul {
         list-style: none;
         padding-left: 0;
         font-size: 12px;
     }
+
     .field-validation-error {
         color: #a94442;
     }
@@ -83,11 +85,25 @@
                             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control inputBox", @placeholder = "CONFIRM PASSWORD" })
                             @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                         </div>
-                    </div> 
+                    </div>
                     <div class="form-group">
                         <div class="col-md-12 no-padding">
-                            @*@Html.MathCaptcha()*@
-                            @* @Html.Captcha("Try another", "Enter the text you see above:", 5, "The Captcha field is required", true) *@
+                            <dnt-captcha asp-captcha-generator-max="999999"
+                                         asp-captcha-generator-min="111111"
+                                         asp-captcha-generator-language="English"
+                                         asp-captcha-generator-display-mode="ShowDigits"
+                                         asp-fore-color="#333333"
+                                         asp-back-color="#ccc"
+                                         asp-font-name="Tahoma"
+                                         asp-font-size="20"
+                                         asp-use-relative-urls="true"
+                                         asp-placeholder="Enter Captcha"
+                                         asp-text-box-class="form-control inputBox"
+                                         asp-text-box-template="<span>{0}</span>" />
+                            @if (TempData["captchaError"] != null)
+                            {
+                                <span class="text-danger">@TempData["captchaError"]</span>
+                            }
                         </div>
                     </div>
                     <div class="form-group">
@@ -109,12 +125,12 @@
             // Active Menu Icon
             $(document).find('.linkBtn').removeClass('active');
             $(document).find('#loginLink').addClass('active');
-             $(document).find('#regDropDown').change(function () {
-        var date = new Date();
-        date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
-        document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
-        window.location.href = $(this).find('option:selected').attr('data-to');
-    });
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
         });
     </script>
 }

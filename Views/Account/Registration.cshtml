@@ -1,5 +1,5 @@
 ﻿@model Devdiscourse.Models.RegistrationViewModel
-@using CaptchaMvc.HtmlHelpers
+@addTagHelper *, DNTCaptcha.Core
 @{
     ViewBag.Title = "Registration for Press Release - Devdiscourse";
     string domainUrl = "http://www.devdiscourse.com";
@@ -150,7 +150,7 @@
                 <div class="col-xs-12 col-sm-8 col-lg-6">
                     <label class="control-label">Organization Address</label>
                     <div class="">
-                        @Html.TextBoxFor(m => m.Street, new { @class = "form-control inputBox", @placeholder="Street" })
+                        @Html.TextBoxFor(m => m.Street, new { @class = "form-control inputBox", @placeholder = "Street" })
                         @Html.ValidationMessageFor(m => m.Street, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -185,9 +185,22 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-lg-4">
-                    @*@Html.MathCaptcha()*@
-                 @*    @Html.Captcha("Try another", "Enter the text you see above:", 5, "The Captcha field is required", true) *@
-                 
+                    <dnt-captcha asp-captcha-generator-max="999999"
+                                 asp-captcha-generator-min="111111"
+                                 asp-captcha-generator-language="English"
+                                 asp-captcha-generator-display-mode="ShowDigits"
+                                 asp-fore-color="#333333"
+                                 asp-back-color="#ccc"
+                                 asp-font-name="Tahoma"
+                                 asp-font-size="20"
+                                 asp-use-relative-urls="true"
+                                 asp-placeholder="Enter Captcha"
+                                 asp-text-box-class="form-control inputBox"
+                                 asp-text-box-template="<span>{0}</span>" />
+                    @if (TempData["captchaError"] != null)
+                    {
+                        <span class="text-danger">@TempData["captchaError"]</span>
+                    }
                 </div>
             </div>
             <div class="row">

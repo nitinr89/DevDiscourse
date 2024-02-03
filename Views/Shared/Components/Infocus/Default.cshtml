@@ -9,6 +9,7 @@
 
 
 <div class="row">
+    sadasdsadsadsadasffdsf
     <div class="col-md-6 col-lg-6 p-b-10">
         @foreach (var item in Model.Take(1))
         {
@@ -68,9 +69,9 @@
 
                 <div class="media p-b-20">
                     @{
-                        //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
+                        var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
 
-                        var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
+                        //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
                     }<div class="media-left">
                         <img src="@newsImage" class="imgOne" alt="@item.Title" />
                         @*  <img src="@newsImage"imagesharp-height="100" imagesharp-width="200" alt="@item.Title" /> *@

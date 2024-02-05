@@ -297,61 +297,62 @@ namespace DevDiscourse.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> InternshipRegister(InternshipRegisterViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                if (!validatorService.HasRequestValidCaptchaEntry())
+                if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.Name, LastName = "", DateOfBirth = DateTime.UtcNow.AddYears(-20), PhoneNumber = "", Country = model.Nationality, ProfilePic = "/AdminFiles/Logo/img_avatar.png", EmailConfirmed = true };
-                    var result = await userManager.CreateAsync(user, model.Password);
-                    if (result.Succeeded)
+                    if (!validatorService.HasRequestValidCaptchaEntry())
                     {
-
-                        if (Request.Form.Files.Count > 0)
+                        var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.Name, LastName = "", DateOfBirth = DateTime.UtcNow.AddYears(-20), PhoneNumber = "", Country = model.Nationality, ProfilePic = "/AdminFiles/Logo/img_avatar.png", EmailConfirmed = true };
+                        var result = await userManager.CreateAsync(user, model.Password);
+                        if (result.Succeeded)
                         {
-                            for (var i = 0; i < Request.Form.Files.Count; i++)
+
+                            if (Request.Form.Files.Count > 0)
                             {
-
-                                var file = Request.Form.Files[i];
-                                if (file == null || file.Length <= 0) continue;
-                                var fileName = RandomName();
-                                var fileExtension = Path.GetExtension(file.FileName);
-                                var fileKey = Request.Form.Files[i].Name;
-                                if (fileKey == "CVUrl")
+                                for (var i = 0; i < Request.Form.Files.Count; i++)
                                 {
-                                    CloudBlobContainer blobContainer = GetCloudBlobContainer();
-                                    CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-                                    using (var stream = file.OpenReadStream())
-                                    {
-                                        await blob.UploadFromStreamAsync(stream);
-                                        model.CVUrl = blob.Uri.ToString();
-                                    }
 
+                                    var file = Request.Form.Files[i];
+                                    if (file == null || file.Length <= 0) continue;
+                                    var fileName = RandomName();
+                                    var fileExtension = Path.GetExtension(file.FileName);
+                                    var fileKey = Request.Form.Files[i].Name;
+                                    if (fileKey == "CVUrl")
+                                    {
+                                        CloudBlobContainer blobContainer = GetCloudBlobContainer();
+                                        CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                                        using (var stream = file.OpenReadStream())
+                                        {
+                                            await blob.UploadFromStreamAsync(stream);
+                                            model.CVUrl = blob.Uri.ToString();
+                                        }
+
+                                    }
                                 }
                             }
+                            MediaInternship mediaInternship = new MediaInternship()
+                            {
+                                UserId = user.Id,
+                                Editions = model.Editions,
+                                Sectors = model.Sectors,
+                                CVUrl = model.CVUrl
+                            };
+                            _db.MediaInternships.Add(mediaInternship);
+                            await _db.SaveChangesAsync();
+                            var userId = await userManager.FindByIdAsync(user.Id);
+                            if (userId != null) { await this.userManager.AddToRoleAsync(userId, "Subscriber"); }
+                            // await this.userManager.AddToRoleAsync(user.Id, "Subscriber");
+                            // await signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            await signInManager.SignInAsync(user, isPersistent: false);
+                            return RedirectToAction("Index", "Home");
                         }
-                        MediaInternship mediaInternship = new MediaInternship()
-                        {
-                            UserId = user.Id,
-                            Editions = model.Editions,
-                            Sectors = model.Sectors,
-                            CVUrl = model.CVUrl
-                        };
-                        _db.MediaInternships.Add(mediaInternship);
-                        await _db.SaveChangesAsync();
-                        var userId = await userManager.FindByIdAsync(user.Id);
-                        if(userId != null) { await this.userManager.AddToRoleAsync(userId, "Subscriber"); }
-                       // await this.userManager.AddToRoleAsync(user.Id, "Subscriber");
-                        // await signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        await signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Index", "Home");
+                        AddErrors(result);
                     }
-                    AddErrors(result);
                 }
-            }
-            ViewBag.Sectors = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
-            ViewBag.Editions = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                ViewBag.Sectors = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
+                ViewBag.Editions = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
+                // If we got this far, something failed, redisplay form
+                return View(model);
+         
         }
         //[AllowAnonymous]
         //public JsonResult RegisterUser(MobileUserViewModel obj)

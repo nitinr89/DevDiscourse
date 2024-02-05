@@ -20,7 +20,7 @@ namespace Devdiscourse.Controllers.ViewComponents
             await Task.Yield();
             try
             {
-                DateTime weekend = DateTime.Today.AddDays(-121);
+                DateTime weekend = DateTime.Today.AddDays(-4);
                 var resultList = _db.DevNews.AsNoTracking()
                   //  .Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region == reg && a.Sector == Convert.ToString(sector)).OrderByDescending(o => o.ViewCount)
                   .Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Sector == Convert.ToString(sector))

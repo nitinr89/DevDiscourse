@@ -37,22 +37,22 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //        Ranking = a.Ranking
                 //    }).AsNoTracking().Take(20).ToList();
                 //return View(resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
-                var resultList = _db.DevNews
-    .Where(dn => dn.AdminCheck == true &&
-                 dn.Sector == Convert.ToString(sector))
-    .OrderByDescending(dn => dn.CreatedOn)
+                var resultList = _db.RegionNewsRankings
+    .Where(dn => dn.DevNews.AdminCheck == true &&dn.DevNews.IsSponsored==false&&
+                 dn.DevNews.Sector == Convert.ToString(sector))
+    .OrderByDescending(dn => dn.DevNews.CreatedOn)
     .Take(65)
     .Select(dn => new NewsViewModel
     {
-        NewsId = dn.NewsId,
-        Title = dn.Title,
-        ImageUrl = dn.ImageUrl,
-        CreatedOn = dn.ModifiedOn,
-        Subtitle = dn.SubTitle,
-        SubType = dn.SubType,
-        Country = dn.Country,
-        Sector = dn.Sector,
-        Label = dn.NewsLabels,
+        NewsId = dn.DevNews.NewsId,
+        Title = dn.DevNews.Title,
+        ImageUrl = dn.DevNews.ImageUrl,
+        CreatedOn = dn.DevNews.ModifiedOn,
+        Subtitle = dn.DevNews.SubTitle,
+        SubType = dn.DevNews.SubType,
+        Country = dn.DevNews.Country,
+        Sector = dn.DevNews.Sector,
+        Label = dn.DevNews.NewsLabels,
         Ranking = 0
     })
     .ToList();

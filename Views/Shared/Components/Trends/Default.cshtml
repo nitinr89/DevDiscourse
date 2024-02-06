@@ -50,7 +50,8 @@
 {
     foreach (var item in Model)
     {
-        string baseUrl = "https://localhost:7266/";
+        //string baseUrl = "https://localhost:7266/";
+        string baseUrl = "https://devdiscourse-devdiscoursenetcore.azurewebsites.net/";
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
         string id = item.GenerateSecondSlug();
@@ -124,7 +125,7 @@ else
         <div class="row">
             @foreach (var item in Model)
             {
-                string baseUrl = "https://localhost:7266/";
+                string baseUrl = "https://devdiscourse-devdiscoursenetcore.azurewebsites.net/";
                 string controller = "ArticleDetailswithprefix";
                 string action = item.Label ?? "agency-wire";
                 string id = item.GenerateSecondSlug();

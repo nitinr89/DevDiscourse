@@ -14,7 +14,9 @@
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
             //newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-            newsImage = "https://devdiscourse.blob.core.windows.net/devnews/27_07_2022_09_49_39_348629.jpg?width=250&height=120&mode=crop&format=jpeg&quotsss";
+            //newsImage = "https://devdiscourse.blob.core.windows.net/devnews/27_07_2022_09_49_39_348629.jpg?width=250&height=120&mode=crop&format=jpeg&quotsss";
+             newsImage = item.ImageUrl;
+        
         }
         <div class="media p-b - 20 m - t - 20">
             <div class="media-left">
@@ -60,7 +62,9 @@
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+           // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+             newsImage = item.ImageUrl;
+        
         }
         <div class="media p-b-20 m-t-20">
             <div class="media-left">

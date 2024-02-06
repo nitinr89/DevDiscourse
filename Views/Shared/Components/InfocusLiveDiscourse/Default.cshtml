@@ -9,13 +9,17 @@
             string id = item.GenerateSlug();
          
             //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/13_02_2019_15_50_27_8830586.jpg?width=360&height=240&mode=crop&format=jpeg&quot";
-           var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-            foreach (var child in item.children.Take(1))
+           //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            var newsImage = item.ImageUrl;
+           
+           foreach (var child in item.children.Take(1))
             {
                 if (!string.IsNullOrEmpty(@child.ImageUrl) && child.ImageUrl != "/images/sector/all_sectors.jpg")
                 {
                    
-                    newsImage = child.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + child.ImageUrl : child.ImageUrl;
+                   // newsImage = child.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + child.ImageUrl : child.ImageUrl;
+                    newsImage = child.ImageUrl;
+                
                 }
                 else
                 {
@@ -59,9 +63,10 @@
             string controller = "live-discourse";
             string id = item.GenerateSlug();
         
-            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-           
-            
+           // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+
+         var  newsImage = item.ImageUrl;
+
            <a href="@controller/@id" class="text-decoration"> 
            @* <a asp-controller="@controller" asp-route-id="@id" class="text-decoration">*@
                 <img class="lazy img-responsive full-width" data-src="@newsImage?width=295&height=120&mode=crop" src="~/Content/transparent.png?width=width=37&height=15&mode=crop" alt="@item.Title" /> <h3 class="trend-title no-margin p-b-20 p-t-5">@item.Title</h3> </a>

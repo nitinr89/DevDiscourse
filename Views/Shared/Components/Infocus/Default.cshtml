@@ -25,8 +25,8 @@
       @*       <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action" class="infocus-item"> *@
 
                 @{
-                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
-
+                    //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
+                    var newsImage = item.ImageUrl;
                     // var newsImage = item.ImageUrl.Contains("devdiscourse.blob.core.windows.net")
                     // ? Url.ImageSharp(item.ImageUrl, 100, 200, "crop")
                     // : item.ImageUrl;
@@ -126,8 +126,8 @@
 
                 <div class="media p-b-20">
                     @{
-                        var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
-
+                       // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
+                        var newsImage = item.ImageUrl;
                         //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
                     }<div class="media-left">
                         <img src="@newsImage?w=10&h=20&mode=crop" class="imgOne" alt="@item.Title" />

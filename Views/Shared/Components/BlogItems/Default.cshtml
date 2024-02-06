@@ -23,8 +23,8 @@
 
                         @{ 
                             var imageUrl = !string.IsNullOrEmpty(item.ImageUrl) ? item.ImageUrl : "";
-                            var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + imageUrl : imageUrl;
-
+                            //var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + imageUrl : imageUrl;
+                            var newsImage = item.ImageUrl;
                         }
                         <div class="news-card bg-gray" style="background-image:url(@newsImage?width=350&height=240&mode=crop),url(/AdminFiles/Logo/ic_notFound.png)"></div>
                     </a>

@@ -13,7 +13,8 @@
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
 
-                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+               // var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
 
                <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
 
@@ -54,7 +55,8 @@
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
 
-                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+               // var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl;
                @* <a href="@controller/@action/@id" class="text-decoration">*@
                  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
                 
@@ -98,7 +100,8 @@
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
 
-                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+               // var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
                 <div class="col-md-6 p-l-0">
                    @* <a href="@controller/@action/@id" class="text-decoration">*@
                        <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">

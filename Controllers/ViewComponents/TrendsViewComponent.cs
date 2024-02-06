@@ -17,9 +17,9 @@ namespace DevDiscourse.Controllers.ViewComponents
             await Task.Yield();
             try { 
             ViewBag.filter = filter;
-            DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-120);
+            DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
             //DateTime todayDate = DateTime.Today.AddDays(-50).AddTicks(-10);
-            DateTime weekend = todayDate.AddDays(-122).AddTicks(1);
+            DateTime weekend = todayDate.AddDays(-2).AddTicks(1);
                 //DateTime weekend = todayDate.AddDays(-20).AddTicks(1);
                 if (reg == "Global Edition")
                 {

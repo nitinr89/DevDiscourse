@@ -21,8 +21,8 @@ namespace Devdiscourse.Controllers.ViewComponents
             if (reg == "")
             {
                 var search = (from a in _db.DevNews
-                              //where a.AdminCheck == true && a.Type == "Blog" && a.CreatedOn > todayDate
-                              //orderby a.PublishedOn descending
+                              where a.AdminCheck == true && a.Type == "Blog" && a.CreatedOn > todayDate
+                              orderby a.PublishedOn descending
                               select new NewsViewModel
                               {
                                   Title = a.Title,
@@ -39,8 +39,10 @@ namespace Devdiscourse.Controllers.ViewComponents
             else
             {
                 var search = (from a in _db.DevNews
-                              //where a.AdminCheck == true && a.Region.Contains(reg) && a.Type == "Blog" && a.CreatedOn > todayDate
-                              //orderby a.PublishedOn descending
+                              where a.AdminCheck == true &&
+                              a.Region.Contains("South Asia") && //region=India not working
+                              a.Type == "Blog" && a.CreatedOn > todayDate
+                              orderby a.PublishedOn descending
                               select new NewsViewModel
                               {
                                   Title = a.Title,

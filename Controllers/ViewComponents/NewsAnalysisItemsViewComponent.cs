@@ -20,12 +20,12 @@ namespace Devdiscourse.Controllers.ViewComponents
             await Task.Yield();
             try
             {
-            int pageSize = 25;
-            int pageNumber = (page ?? 1);
-            ViewBag.page = pageNumber;
-            DateTime oneMonth = pageNumber == 1 ? DateTime.Today.AddDays(-120) : DateTime.Today.AddDays(-150);
-            if (type == "Other" || region == "Global Edition")
-            {
+                int pageSize = 25;
+                int pageNumber = (page ?? 1);
+                ViewBag.page = pageNumber;
+                DateTime oneMonth = pageNumber == 1 ? DateTime.Today.AddDays(-2) : DateTime.Today.AddDays(-15);
+                if (type == "Other" || region == "Global Edition")
+                {
                     var search = (from a in _db.DevNews
                                   where a.AdminCheck && a.CreatedOn > oneMonth
                                   select new NewsAnalysisViewModel
@@ -43,30 +43,46 @@ namespace Devdiscourse.Controllers.ViewComponents
                 }
                 else
                 {
-                   
-                    var resultList = (from rnr in _db.RegionNewsRankings
-                                      join dn in _db.DevNews on rnr.NewsId equals dn.Id
-                                      join r in _db.Regions on rnr.RegionId equals r.Id
-                                      let a = new { RegionNews = rnr, DevNews = dn, Region = r }
-                                      where a.DevNews.AdminCheck == true
-                                           // && a.Region.Title == "Global Edition" //need to change region
-                                            && a.DevNews.ModifiedOn > oneMonth
-                                      orderby a.DevNews.ModifiedOn descending, a.RegionNews.Ranking descending
-                                      select new NewsAnalysisViewModel
-                                      {
-                                          NewsId = a.DevNews.NewsId,
-                                          Title = a.DevNews.Title,
-                                          ImageUrl = a.DevNews.ImageUrl,
-                                          Country = a.DevNews.Country,
-                                          CreatedOn = a.DevNews.ModifiedOn,
-                                          Type = a.DevNews.Type,
-                                          SubType = a.DevNews.SubType,
-                                          Label = a.DevNews.NewsLabels,
-                                          Ranking = a.RegionNews.Ranking
-                                      })
-                        .Take(50)
-                        .ToList();
-                    return View(resultList);
+                    var search = _db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true &&
+                     a.Region.Title == "South Asia" &&
+                    a.DevNews.CreatedOn > oneMonth)
+                        .Select(a => new NewsAnalysisViewModel
+                        {
+                            NewsId = a.DevNews.NewsId,
+                            Title = a.DevNews.Title,
+                            ImageUrl = a.DevNews.ImageUrl,
+                            Country = a.DevNews.Country,
+                            CreatedOn = a.DevNews.ModifiedOn,
+                            Type = a.DevNews.Type,
+                            SubType = a.DevNews.SubType,
+                            Label = a.DevNews.NewsLabels,
+                            Ranking = a.Ranking
+                        }).AsNoTracking().OrderByDescending(o => o.CreatedOn).ToPagedList(pageNumber, pageSize);
+                    return View(search.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable());
+
+                    //var resultList = (from rnr in _db.RegionNewsRankings
+                    //                  join dn in _db.DevNews on rnr.NewsId equals dn.Id
+                    //                  join r in _db.Regions on rnr.RegionId equals r.Id
+                    //                  let a = new { RegionNews = rnr, DevNews = dn, Region = r }
+                    //                  where a.DevNews.AdminCheck == true
+                    //                       // && a.Region.Title == "Global Edition" //need to change region
+                    //                        && a.DevNews.ModifiedOn > oneMonth
+                    //                  orderby a.DevNews.ModifiedOn descending, a.RegionNews.Ranking descending
+                    //                  select new NewsAnalysisViewModel
+                    //                  {
+                    //                      NewsId = a.DevNews.NewsId,
+                    //                      Title = a.DevNews.Title,
+                    //                      ImageUrl = a.DevNews.ImageUrl,
+                    //                      Country = a.DevNews.Country,
+                    //                      CreatedOn = a.DevNews.ModifiedOn,
+                    //                      Type = a.DevNews.Type,
+                    //                      SubType = a.DevNews.SubType,
+                    //                      Label = a.DevNews.NewsLabels,
+                    //                      Ranking = a.RegionNews.Ranking
+                    //                  })
+                    //    .Take(50)
+                    //    .ToList();
+                    //return View(resultList);
                 }
             }
             catch (Exception ex)

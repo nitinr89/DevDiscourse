@@ -54,8 +54,7 @@
                 <span class="pull-right infocus-badge">@item.SubType</span>
             }<div class="row">
                 @{
-                    var newsImage = item.ImageUrl;
-                   // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
                    //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/13_02_2019_15_50_27_8830586.jpg?width=360&height=240&mode=crop&format=jpeg&quot";
                 }
                 <div class="col-md-12 col-sm-6">

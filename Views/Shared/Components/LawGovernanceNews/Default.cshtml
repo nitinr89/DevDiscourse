@@ -111,7 +111,10 @@
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
-                var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
+                var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {
+                   // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                    newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl;
+                }
                 @* <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">*@
                 <a href="@controller/@action/@id" class="text-decoration">
 
@@ -141,7 +144,10 @@
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
-                var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
+                var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { 
+                   // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; 
+                    newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl; 
+                }
                 @* <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">*@
             
                  <a href="@controller/@action/@id" class="text-decoration">
@@ -184,7 +190,11 @@ else if (ViewBag.Sector == "11")
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
        // long id = item.NewsId;
-        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
+        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") 
+        {
+           // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; 
+            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl; 
+        }
         @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">*@
         <a href="@controller/@action/@id" class="text-decoration">
 
@@ -216,7 +226,11 @@ else if (ViewBag.Sector == "15")
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
-        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
+        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
+        {
+           // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; 
+            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl; 
+        }
         <div class="media p-b-20 m-t-20">
             <div class="media-left">
                 @*   <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" aria-label="@item.Title">*@

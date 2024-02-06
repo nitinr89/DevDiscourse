@@ -18,7 +18,7 @@ namespace DevDiscourse.Controllers.ViewComponents
             await Task.Yield();
             try { 
             reg = reg == "Global Edition" ? "" : reg;
-            DateTime thirtyDays = DateTime.Today.AddDays(-120);
+            DateTime thirtyDays = DateTime.Today.AddDays(-15);
                 //var thirtyDays = DateTime.Now.AddDays(-30);
                 if (reg == "")
                 {
@@ -47,7 +47,7 @@ namespace DevDiscourse.Controllers.ViewComponents
 
                     //new 
                     var infocus = (from dn in _db.DevNews
-                                   where dn.AdminCheck
+                                   where dn.AdminCheck==true
                                          && dn.PublishedOn > thirtyDays
                                          && dn.Type == "Blog"
                                          && dn.SubType != "Interview"
@@ -100,7 +100,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                                    where dn.AdminCheck
                                          && dn.PublishedOn > thirtyDays
                                          && dn.Type == "Blog"
-                                         && dn.SubType != "Interview"
+                                         && dn.SubType != "Interview" && dn.Region.Contains("South Asia")
                                    // orderby dn.PublishedOn descending
                                    select new NewsViewModel
                                    {

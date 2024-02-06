@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Devdiscourse.Controllers.ViewComponents
 {
-    public class LawGovernanceNewsViewComponent:ViewComponent
+    public class LawGovernanceNewsViewComponent : ViewComponent
     {
         private readonly ApplicationDbContext _db;
 
@@ -22,7 +22,7 @@ namespace Devdiscourse.Controllers.ViewComponents
 
 
                 ViewBag.Sector = "11";
-                DateTime twoMonth = DateTime.UtcNow.AddDays(-120);
+                DateTime twoMonth = DateTime.UtcNow.AddDays(-2);
 
                 //var result = _db.RegionNewsRankings.Where(a => a.DevNews.CreatedOn > twoMonth && a.DevNews.AdminCheck == true && a.DevNews.Sector == "11" && a.Region.Title == reg && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).Select(a => new NewsViewModel
                 //{
@@ -39,23 +39,23 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //}).AsNoTracking().Take(30).ToList();
                 //return View(result.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(a => a.Ranking).Take(6));
 
-                var resultList = _db.DevNews
-      .Where(dn => dn.AdminCheck == true &&
-                   dn.CreatedOn > twoMonth &&
-                   dn.Sector == "11")
-      .OrderByDescending(dn => dn.CreatedOn)
+                var resultList = _db.RegionNewsRankings
+      .Where(dn => dn.DevNews.AdminCheck == true && dn.DevNews.IsSponsored == false &&
+                   dn.DevNews.CreatedOn > twoMonth &&
+                   dn.DevNews.Sector == "11")
+      .OrderByDescending(dn => dn.DevNews.CreatedOn)
       .Take(65)
       .Select(dn => new NewsViewModel
       {
-          NewsId = dn.NewsId,
-          Title = dn.Title,
-          ImageUrl = dn.ImageUrl,
-          CreatedOn = dn.ModifiedOn,
-          Subtitle = dn.SubTitle,
-          SubType = dn.SubType,
-          Country = dn.Country,
-          Sector = dn.Sector,
-          Label = dn.NewsLabels,
+          NewsId = dn.DevNews.NewsId,
+          Title = dn.DevNews.Title,
+          ImageUrl = dn.DevNews.ImageUrl,
+          CreatedOn = dn.DevNews.ModifiedOn,
+          Subtitle = dn.DevNews.SubTitle,
+          SubType = dn.DevNews.SubType,
+          Country = dn.DevNews.Country,
+          Sector = dn.DevNews.Sector,
+          Label = dn.DevNews.NewsLabels,
           Ranking = 0
       })
       .ToList();

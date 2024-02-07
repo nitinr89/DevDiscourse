@@ -38,7 +38,8 @@
 			 string id = item.GenerateSecondSlug();
 			//long id = item.NewsId;
 			//newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-			newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_18_37_21_0109025.png?";
+			newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl;
+			//newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_18_37_21_0109025.png?";
 @* 			<a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
 @*	<a href="@controller/@action/@id" class="text-decoration">*@
 			<a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action"  class="text-decoration">

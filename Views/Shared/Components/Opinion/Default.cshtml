@@ -16,7 +16,9 @@
 			//newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
 			//newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_05_2019_11_51_19_0419949.jpg?";
 			@*<a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">*@
-				<a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action"  class="text-decoration">
+			@* 	<a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action"  class="text-decoration"> *@
+
+			<a href="@controller/@action/@id"  class="text-decoration">
 			@*<a href="@controller/@action/@id" class="text-decoration">*@
 
 				<div class="row">
@@ -43,8 +45,8 @@
 			//newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_18_37_21_0109025.png?";
 @* 			<a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
 @*	<a href="@controller/@action/@id" class="text-decoration">*@
-			<a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action"  class="text-decoration">
-
+		@* 	<a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action"  class="text-decoration"> *@
+			<a href="@controller/@action/@id" class="text-decoration">
 				<div class="row">
 					<div class="col-md-12 col-sm-5">
 						<img src="@domainUrl@newsImage?width=265&height=165&mode=crop" class="img-responsive full-width m-t-10" alt="@item.Title" />
@@ -74,7 +76,8 @@
 			 string id = item.GenerateSecondSlug();
 			//long id = item.NewsId;
 		@* 	<a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
-				<a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action"  class="text-decoration">
+				@* <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action"  class="text-decoration"> *@
+			<a href="@controller/@action/@id" class="text-decoration">
 				@*<a href="@controller/@action/@id" class="text-decoration">*@
 
 				<h3 class="f-16 fg-black opinion-title">@item.Title</h3>
@@ -111,7 +114,8 @@
 			 string id = item.GenerateSecondSlug();
 			//long id = item.NewsId;
 			@*<a href="@controller/@action/@id" class="text-decoration">*@
-				<a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action"  class="text-decoration">
+				@* <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action"  class="text-decoration"> *@
+			<a href="@controller/@action/@id" class="text-decoration">
 				<h3 class="f-16 fg-black opinion-title">@item.Title</h3>
 			</a>
 		}

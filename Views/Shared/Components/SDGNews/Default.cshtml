@@ -14,7 +14,9 @@
                 <div class="media p-t-10">
                     @if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
                     {
-                        var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                        //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                       var newsImage = item.ImageUrl;
+                        
                         <div class="media-left">
 
                      @*        <a href="@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label??"agency-wire", id = item.GenerateSecondSlug() })" aria-label="@item.Title"> *@

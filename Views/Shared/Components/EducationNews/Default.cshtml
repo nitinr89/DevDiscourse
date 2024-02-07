@@ -9,8 +9,8 @@
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
             // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-
-            newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/11_03_2020_13_19_01_7721992.jpg?width=110&height=85&mode=crop&format=j";
+             newsImage = item.ImageUrl;
+           // newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/11_03_2020_13_19_01_7721992.jpg?width=110&height=85&mode=crop&format=j";
         }
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";
@@ -56,7 +56,8 @@
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            newsImage = item.ImageUrl;
+            //newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
         }
         string controller = "ArticleDetailswithprefix";
         string action = item.Label ?? "agency-wire";

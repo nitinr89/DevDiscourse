@@ -6,8 +6,9 @@
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-            newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
+             //newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            newsImage = item.ImageUrl;
+            //newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
         }
         <div class="media p-b-20 m-t-20">
             <div class="media-left" id="Agro-culture">
@@ -54,8 +55,12 @@
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-            newsImage = "https://devdiscourse.blob.core.windows.net/devnews/04_06_2020_12_24_02_9070784.jpg?";
+             // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+
+               newsImage =  item.ImageUrl;
+
+
+            //newsImage = "https://devdiscourse.blob.core.windows.net/devnews/04_06_2020_12_24_02_9070784.jpg?";
         }
 
         string controller = "ArticleDetailswithprefix";

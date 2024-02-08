@@ -560,14 +560,14 @@ namespace Devdiscourse.Controllers.API
             //{
             //    newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
             //}
-            if (beforeDate != "")
+            if (beforeDate != "null")
             {
                // DateTime filterDate = DateTime.Parse(beforeDate.AsDateTime(DateTime.Now.AddDays(-60)).ToString());
                 DateTime filterDate = DateTime.Parse(beforeDate);
                 newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
                 //newsSearch = newsSearch.Take(50);
             }
-            if (afterDate != "")
+            if (afterDate != "null")
             {
               //  DateTime filterDate2 = DateTime.Parse(afterDate.AsDateTime(DateTime.Now.AddDays(-80)).ToString());
                 DateTime filterDate2 = DateTime.Parse(afterDate);

@@ -98,27 +98,20 @@ namespace DevDiscourse.Controllers.ViewComponents
                     //    .Skip(skip).Take(take);
                     //return View(result.ToList());
 
-                    //var infocus = (from dn in _db.DevNews
-                    //               select new LatestNewsView
-                    //               {
-                    //                   Id = dn.Id,
-                    //                   NewId = dn.NewsId,
-                    //                   Title = dn.Title,
-                    //                   ImageUrl = dn.ImageUrl,
-                    //                   CreatedOn = dn.ModifiedOn,
-                    //                   Type = dn.Type,
-                    //                   SubType = dn.SubType,
-                    //                   Country = dn.Country,
-                    //                   Label = dn.NewsLabels,
-                    //                   Ranking = 0
-                    //               }).OrderByDescending(a => a.CreatedOn)
-                    // .Take(65)
-                    // .ToList();
-                    //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
 
+                    var region = (from c in _db.Countries
+                                  join r in _db.Regions on c.RegionId equals r.Id
+                                  where c.Title == reg
+                                  select new
+                                  {
+                                      r.Title
+                                  }).FirstOrDefault();
+                    string regionTitle = "Global Edition";
+
+                    if (region != null && region.Title != null) regionTitle = region.Title;
 
                     var result = _db.DevNews.Where(a => a.Type != "Blog" && a.CreatedOn > tenDays && a.AdminCheck == true 
-                   // && a.Region.Contains(reg) 
+                    && a.Region.Contains(regionTitle) 
                     && a.Sector != null && a.NewsLabels != null)
                         .AsNoTracking().OrderByDescending(a => a.ModifiedOn).
                         Select(a => new LatestNewsView 

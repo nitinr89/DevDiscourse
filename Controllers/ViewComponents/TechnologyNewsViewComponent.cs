@@ -60,10 +60,20 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
 
                 //working 
+                var region = (from c in _db.Countries
+                              join r in _db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+
+                if (region != null && region.Title != null) regionTitle = region.Title;
+
                 var resultList = _db.RegionNewsRankings
-     .Where(dn => dn.DevNews   .AdminCheck == true &&
-                  dn.DevNews.CreatedOn > twoMonth &&
-                  dn.DevNews.Sector == "6")
+     .Where(dn => dn.DevNews.CreatedOn > twoMonth && dn.DevNews.AdminCheck == true &&
+                  dn.DevNews.Sector == "6" && dn.Region.Title == regionTitle && dn.DevNews.IsSponsored == false)
      .OrderByDescending(dn => dn.DevNews.CreatedOn)
      .Take(65)
      .Select(dn => new NewsViewModel
@@ -90,7 +100,7 @@ namespace Devdiscourse.Controllers.ViewComponents
 
                 return View(groupedResult);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Content("Internel Server Error: " + ex.Message);
             }

@@ -51,7 +51,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                                          && dn.PublishedOn > thirtyDays
                                          && dn.Type == "Blog"
                                          && dn.SubType != "Interview"
-                                   //  orderby dn.PublishedOn descending
+                                     orderby dn.PublishedOn descending
                                    select new NewsViewModel
                                    {
                                        NewsId = dn.NewsId,
@@ -96,12 +96,23 @@ namespace DevDiscourse.Controllers.ViewComponents
 
 
                     //new query
+
+                    var region = (from c in _db.Countries
+                                  join r in _db.Regions on c.RegionId equals r.Id
+                                  where c.Title == reg
+                                  select new
+                                  {
+                                      r.Title
+                                  }).FirstOrDefault();
+                    string regionTitle = "Global Edition";
+
+                    if (region != null && region.Title != null) regionTitle = region.Title;
                     var infocus = (from dn in _db.DevNews
                                    where dn.AdminCheck
                                          && dn.PublishedOn > thirtyDays
                                          && dn.Type == "Blog"
-                                         && dn.SubType != "Interview" && dn.Region.Contains("South Asia")
-                                   // orderby dn.PublishedOn descending
+                                        && dn.Region.Contains(regionTitle) && dn.SubType != "Interview"
+                                    orderby dn.PublishedOn descending
                                    select new NewsViewModel
                                    {
                                        NewsId = dn.NewsId,

@@ -1,5 +1,6 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
+using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack;
@@ -43,8 +44,18 @@ namespace Devdiscourse.Controllers.ViewComponents
                 }
                 else
                 {
+                    var reg = (from c in _db.Countries
+                                  join r in _db.Regions on c.RegionId equals r.Id
+                                  where c.Title == region
+                                  select new
+                                  {
+                                      r.Title
+                                  }).FirstOrDefault();
+                    string regionTitle = "Global Edition";
+
+                    if (region != null && reg.Title != null) regionTitle = reg.Title;
                     var search = _db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true &&
-                     a.Region.Title == "South Asia" &&
+                     a.Region.Title ==regionTitle &&
                     a.DevNews.CreatedOn > oneMonth)
                         .Select(a => new NewsAnalysisViewModel
                         {

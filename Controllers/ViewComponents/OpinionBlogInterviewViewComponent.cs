@@ -38,9 +38,20 @@ namespace Devdiscourse.Controllers.ViewComponents
             }
             else
             {
+
+                var region = (from c in _db.Countries
+                              join r in _db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+
+                if (region != null && region.Title != null) regionTitle = region.Title;
                 var search = (from a in _db.DevNews
                               where a.AdminCheck == true &&
-                              a.Region.Contains("South Asia") && //region=India not working
+                              a.Region.Contains(regionTitle) && //region=India not working
                               a.Type == "Blog" && a.CreatedOn > todayDate
                               orderby a.PublishedOn descending
                               select new NewsViewModel

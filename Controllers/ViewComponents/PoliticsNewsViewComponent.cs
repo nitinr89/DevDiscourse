@@ -36,11 +36,20 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //    Ranking = a.Ranking
                 //}).AsNoTracking().Take(30).ToList();
                 //return View(result.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(a => a.Ranking).Take(6));
+                var region = (from c in _db.Countries
+                              join r in _db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+
+                if (region != null && region.Title != null) regionTitle = region.Title;
 
                 var resultList = _db.RegionNewsRankings
-     .Where(dn => dn.DevNews.AdminCheck == true && dn.DevNews.IsSponsored==false&&
-                  dn.DevNews.CreatedOn > twoMonth &&
-                  dn.DevNews.Sector == "19")
+     .Where(dn => dn.DevNews.CreatedOn > twoMonth && dn.DevNews.AdminCheck == true &&
+                  dn.DevNews.Sector == "19" && dn.Region.Title == regionTitle && dn.DevNews.IsSponsored == false)
      .OrderByDescending(dn => dn.DevNews.CreatedOn)
      .Take(65)
      .Select(dn => new NewsViewModel

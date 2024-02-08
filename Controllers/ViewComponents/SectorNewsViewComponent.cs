@@ -37,9 +37,18 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //        Ranking = a.Ranking
                 //    }).AsNoTracking().Take(20).ToList();
                 //return View(resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
+                var region = (from c in _db.Countries
+                              join r in _db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+
+                if (region != null && region.Title != null) regionTitle = region.Title;
                 var resultList = _db.RegionNewsRankings
-    .Where(dn => dn.DevNews.AdminCheck == true &&dn.DevNews.IsSponsored==false&&
-                 dn.DevNews.Sector == Convert.ToString(sector))
+    .Where(dn => dn.DevNews.AdminCheck == true && dn.DevNews.Sector == Convert.ToString(sector) && dn.Region.Title==regionTitle && dn.DevNews.IsSponsored == false)
     .OrderByDescending(dn => dn.DevNews.CreatedOn)
     .Take(65)
     .Select(dn => new NewsViewModel
@@ -65,7 +74,8 @@ namespace Devdiscourse.Controllers.ViewComponents
                     .ToList();
 
                 return View(groupedResult);
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return Content("Error: " + ex.Message);
             }

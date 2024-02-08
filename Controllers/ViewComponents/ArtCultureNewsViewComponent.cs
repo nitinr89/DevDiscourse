@@ -57,12 +57,20 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //    .Take(65)
                 //    .ToList();
                 //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+                var region = (from c in _db.Countries
+                              join r in _db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
 
+                if (region != null && region.Title != null) regionTitle = region.Title;
 
                 var resultList = _db.RegionNewsRankings
-    .Where(dn => dn.DevNews.AdminCheck == true &&
-                dn.DevNews.CreatedOn > twoMonth && dn.DevNews.IsSponsored == false &&
-                dn.DevNews.Sector == "14")
+    .Where(dn => dn.DevNews.CreatedOn > twoMonth && dn.DevNews.AdminCheck == true &&
+                 dn.DevNews.Sector == "14" && dn.Region.Title == regionTitle && dn.DevNews.IsSponsored == false)
     .OrderByDescending(dn => dn.DevNews.CreatedOn)
     .Take(65)
     .Select(dn => new NewsViewModel

@@ -20,7 +20,7 @@ namespace DevDiscourse.Controllers.ViewComponents
             {
 
 
-                var lastThreeHour = DateTime.UtcNow.AddDays(-63);
+                var lastThreeHour = DateTime.UtcNow.AddDays(-12);
                 //var infocus = _db.RegionNewsRankings
                 //  .Where(a => a.DevNews.AdminCheck == true
                 //              && a.Region.Title == reg

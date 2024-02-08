@@ -1,4 +1,5 @@
 ﻿using Devdiscourse.Data;
+using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
 using DocumentFormat.OpenXml.InkML;
 using Microsoft.AspNetCore.Mvc;
@@ -48,11 +49,24 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //   .AsNoTracking().Take(20).ToListAsync();
                 //      return View(result);
 
+                var region = (from c in _db.Countries
+                              join r in _db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+
+                if (region != null && region.Title != null) regionTitle = region.Title;
 
                 var resultList = _db.RegionNewsRankings
-     .Where(dn => dn.DevNews.AdminCheck == true && 
-                  dn.DevNews.CreatedOn > twoMonth &&
-                  dn.DevNews.Sector == "10")
+                    .Where(dn => dn.DevNews.CreatedOn > twoMonth &&
+                       dn.DevNews.AdminCheck == true &&
+                       dn.DevNews.Sector == "10" &&
+                       dn.Region.Title == regionTitle &&
+                       !dn.DevNews.IsSponsored
+                  )
     .OrderByDescending(dn => dn.DevNews.CreatedOn)
      .Take(65)
      .Select(dn => new NewsViewModel

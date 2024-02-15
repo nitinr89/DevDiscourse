@@ -8,11 +8,10 @@
     string action = item.Label ?? "agency-wire";
     // string id = item.GenerateSecondSlug();
     long id = item.NewsId;
-    var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+    var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl;
 
-    <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
-        @*
-    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
+
+        <a href="@controller/@action/@id" class="text-decoration">
 
         <div class="m-b-30 col-md-12">
             <div class="row">

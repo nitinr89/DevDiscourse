@@ -42,7 +42,7 @@
 <ul class="ar-ul">
     @foreach (var item in Model)
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;

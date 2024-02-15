@@ -83,7 +83,7 @@ namespace DevDiscourse.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("Id,Title,SubTitle,Description,Sector,ImageUrl,ParentId,Author,IsPublic,ImageCopyright,ImageCaption,LivediscourseIndex,Region,Country,Tags,Close_Date,Status")] Livediscourse livediscourse,IFormFile? ImageUrl, string? ChooseImage, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileSize, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        public async Task<ActionResult> Create([Bind("Id,Title,SubTitle,Description,Sector,ImageUrl,ParentId,Author,IsPublic,ImageCopyright,ImageCaption,LivediscourseIndex,Region,Country,Tags,Close_Date,Status")] Livediscourse livediscourse, IFormFile? ImageUrl, string? ChooseImage, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileSize, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
         {
             var user = userManager.GetUserId(User);
             var isModerator = await IsModerator(livediscourse.ParentId, user);
@@ -222,7 +222,7 @@ namespace DevDiscourse.Controllers
                     if (userFileList.Count > 0)
                     {
                         db.LivediscourseVideos.AddRange(userFileList);
-                       await db.SaveChangesAsync();
+                        await db.SaveChangesAsync();
                     }
                 }
 
@@ -285,7 +285,7 @@ namespace DevDiscourse.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind("Id,Title,SubTitle,Description,Sector,ImageUrl,ParentId,ImageCopyright,Author,ImageCaption,Tags,AdminCheck,Region,Country,Creator,LivediscourseIndex,IsPublic,CreatedOn,ModifiedOn,PublishedOn,ViewCount,LikeCount,Close_Date,Status")] Livediscourse livediscourse,IFormFile? ImageUrlUpdate, string? ChooseImage, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<long> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
+        public async Task<ActionResult> Edit([Bind("Id,Title,SubTitle,Description,Sector,ImageUrl,ParentId,ImageCopyright,Author,ImageCaption,Tags,AdminCheck,Region,Country,Creator,LivediscourseIndex,IsPublic,CreatedOn,ModifiedOn,PublishedOn,ViewCount,LikeCount,Close_Date,Status")] Livediscourse livediscourse, IFormFile? ImageUrlUpdate, string? ChooseImage, List<string> FileTitle, List<string> FilePath, List<string> MimeType, List<string> FileVideoSize, List<long> FileDelete, List<string> FileCaption, List<string> FileThumbUrl, List<string> FileDuration)
         {
             if (ModelState.IsValid)
             {
@@ -540,7 +540,7 @@ namespace DevDiscourse.Controllers
         }
         public PartialViewResult GetAmpLivediscourseUpdates(long id)
         {
-             var search = db.Livediscourses.Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new LiveblogViewModel { Id = s.Id, Title = s.Title, ImageUrl = s.ImageUrl, Description = s.Description, CreatedOn = s.CreatedOn }).ToList();
+            var search = db.Livediscourses.Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new LiveblogViewModel { Id = s.Id, Title = s.Title, ImageUrl = s.ImageUrl, Description = s.Description, CreatedOn = s.CreatedOn }).ToList();
             return PartialView("AmpLivediscourseUpdates", search);
         }
         public PartialViewResult GetDiscourseIndex(long id)
@@ -550,14 +550,14 @@ namespace DevDiscourse.Controllers
         }
         public JsonResult GetDiscourseIndexItems(long id, string __amp_source_origin, int? moreItemsPageIndex)
         {
-            var search = db.Livediscourses.Where(a => a.LivediscourseIndex == id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(b => new DiscourseItemAmpViewModel { Id = b.Id, Title = b.Title, CreatedOn = b.CreatedOn}).Take(3).ToList();
+            var search = db.Livediscourses.Where(a => a.LivediscourseIndex == id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(b => new DiscourseItemAmpViewModel { Id = b.Id, Title = b.Title, CreatedOn = b.CreatedOn }).Take(3).ToList();
             if (!string.IsNullOrEmpty(__amp_source_origin))
             {
                 HttpContext.Response.Headers.Add("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
             }
             int pageSize = 10;
             int pageNumber = (moreItemsPageIndex ?? 1);
-            var resultData = search.Select(b=> new { Id = b.Id, Title = b.Title, CreatedOn = b.CreatedOn.ToString(), Url = "/live-discourse" + "/" + b.GenerateSecondSlug().ToString() }).ToPagedList(pageNumber, pageSize);
+            var resultData = search.Select(b => new { Id = b.Id, Title = b.Title, CreatedOn = b.CreatedOn.ToString(), Url = "/live-discourse" + "/" + b.GenerateSecondSlug().ToString() }).ToPagedList(pageNumber, pageSize);
             return Json(new { items = resultData, hasMorePages = resultData.Any() });
         }
         static string GetMimeType(string fileName)
@@ -609,45 +609,54 @@ namespace DevDiscourse.Controllers
         }
         public async Task<ActionResult> Article(long? id)
         {
-            if (id == null)
+            try
             {
-                return BadRequest();
+                if (id == null)
+                {
+                    return BadRequest();
+                }
+                Livediscourse livediscourse = await db.Livediscourses.FindAsync(id);
+                if (livediscourse == null)
+                {
+                    return NotFound();
+                }
+                var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+                bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
+                if (!isCrawler)
+                {
+                    livediscourse.ViewCount = livediscourse.ViewCount + 1;
+                    db.Entry(livediscourse).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                }
+                if (User.Identity.IsAuthenticated)
+                {
+                    var user = userManager.GetUserId(User);
+                    var searchFollow = await db.FollowLivediscourses.FirstOrDefaultAsync(a => a.FollowBy == user && a.LivediscourseId == id);
+                    ViewBag.searchFollow = searchFollow;
+                    ViewBag.isModerstor = await IsModerator(long.Parse(id.ToString()), user);
+                }
+                string? cookie = Request.Cookies["Edition"];
+                switch (cookie)
+                {
+                    case null:
+                        ViewBag.region = "Global Edition";
+                        break;
+                    default:
+                        ViewBag.region = cookie.Replace("Edition=", "") ?? "Global Edition";
+                        break;
+                }
+
+                var blogUpdates =await db.Livediscourses.Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Take(10).ToListAsync();
+                ViewBag.BlogUpdates = blogUpdates;
+                ViewBag.FirstBlogUpdates = blogUpdates.Take(1);
+                ViewBag.HasUpdates = blogUpdates.Any();
+                return View(livediscourse);
             }
-            Livediscourse livediscourse = await db.Livediscourses.FindAsync(id);
-            if (livediscourse == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return Content("Internel Server Error 500: " + ex.Message);
             }
-            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
-            bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
-            if (!isCrawler)
-            {
-                livediscourse.ViewCount = livediscourse.ViewCount + 1;
-                db.Entry(livediscourse).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-            }
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = userManager.GetUserId(User);
-                var searchFollow = await db.FollowLivediscourses.FirstOrDefaultAsync(a => a.FollowBy == user && a.LivediscourseId == id);
-                ViewBag.searchFollow = searchFollow;
-                ViewBag.isModerstor = await IsModerator(long.Parse(id.ToString()), user);
-            }
-            string? cookie = Request.Cookies["Edition"];
-            switch (cookie)
-            {
-                case null:
-                    ViewBag.region = "Global Edition";
-                    break;
-                default:
-                    ViewBag.region = cookie.Replace("Edition=", "") ?? "Global Edition";
-                    break;
-            }
-            var blogUpdates = await db.Livediscourses.Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Take(10).ToListAsync();
-            ViewBag.BlogUpdates = blogUpdates;
-            ViewBag.FirstBlogUpdates = blogUpdates.Take(1);
-            ViewBag.HasUpdates = blogUpdates.Any();
-            return View(livediscourse);
+
         }
         public async Task<ActionResult> MobileArticle(long? id, string user)
         {
@@ -931,9 +940,9 @@ namespace DevDiscourse.Controllers
             //return PartialView("_getInfocusLiveDiscourse", InfocusLiveDiscourse);
             reg = reg == "Global Edition" ? "Universal Edition" : reg;
             var InfocusLiveDiscourse = (from m in db.LiveDiscourseInfocus
-                                        where m.Edition==reg
+                                        where m.Edition == reg
                                         join s in db.Livediscourses on m.LivediscourseId equals s.Id
-                                        where s.AdminCheck == true && s.ParentId == 0 
+                                        where s.AdminCheck == true && s.ParentId == 0
                                         orderby m.SrNo
                                         select new DiscourseViewModel
                                         {

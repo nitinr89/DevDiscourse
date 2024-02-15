@@ -44,18 +44,27 @@ namespace Devdiscourse.Controllers.ViewComponents
                 }
                 else
                 {
-                    var reg = (from c in _db.Countries
-                                  join r in _db.Regions on c.RegionId equals r.Id
-                                  where c.Title == region
-                                  select new
-                                  {
-                                      r.Title
-                                  }).FirstOrDefault();
-                    string regionTitle = "Global Edition";
+                    //if (region == "India")
+                    //{
+                        var reg = (from c in _db.Countries
+                                   join r in _db.Regions on c.RegionId equals r.Id
+                                   where c.Title == region
+                                   select new
+                                   {
+                                       r.Title
+                                   }).FirstOrDefault();
+                        string regionTitle = "Global Edition";
 
-                    if (region != null && reg.Title != null) regionTitle = reg.Title;
+                        //if (region != null && reg.Title != null)
+                        //{
+                        //    regionTitle = reg.Title;
+                        //    region = regionTitle;
+                        //}
+                        var result = reg != null && reg.Title != null ? regionTitle = reg.Title : regionTitle = region;
+                 //   }
+
                     var search = _db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true &&
-                     a.Region.Title ==regionTitle &&
+                     a.Region.Title == result &&
                     a.DevNews.CreatedOn > oneMonth)
                         .Select(a => new NewsAnalysisViewModel
                         {

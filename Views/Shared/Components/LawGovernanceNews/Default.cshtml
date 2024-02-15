@@ -4,7 +4,7 @@
 @functions {
     async Task MediaTempate(Devdiscourse.Models.ViewModel.NewsViewModel item)
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
@@ -58,7 +58,7 @@
 {
     async Task MediaTempate_two(Devdiscourse.Models.ViewModel.NewsViewModel item)
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
@@ -109,7 +109,7 @@
         <div class="col-md-7">
             @foreach (var item in Model.Take(2))
             {
-                string controller = "ArticleDetailswithprefix";
+                string controller = "/article";
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
@@ -142,7 +142,7 @@
         </div> <div class="col-md-5">
             @foreach (var item in Model.Skip(2).Take(3))
             {
-                string controller = "ArticleDetailswithprefix";
+                string controller = "/article";
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
@@ -188,7 +188,7 @@ else if (ViewBag.Sector == "11")
 {
     foreach (var item in Model.Take(5))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
        // long id = item.NewsId;
@@ -224,7 +224,7 @@ else if (ViewBag.Sector == "15")
 {
     foreach (var item in Model.Take(6))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;

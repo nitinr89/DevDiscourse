@@ -22,7 +22,7 @@
 @functions {
     async Task MediaTempate(Devdiscourse.Models.ViewModel.LatestNewsView item, string border)
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewId;

@@ -12,7 +12,7 @@
     <div class="col-md-6 col-lg-6 p-b-10">
         @foreach (var item in Model.Take(1))
         {
-            string controller = "ArticleDetailswithprefix";
+            string controller = "/article";
             string action = item.Label ?? "agency-wire";
               string id = item.GenerateSecondSlug(); 
             //long id = item.NewId;
@@ -56,7 +56,7 @@
         @foreach (var item in Model.Skip(1).Take(3))
         {
 
-            string controller = "ArticleDetailswithprefix";
+            string controller = "/article";
             string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
             @* long id = item.NewId; *@
@@ -107,7 +107,7 @@
 <div class="row">
     @foreach (var item in Model.Skip(4).Take(2))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
         string id =item.GenerateSecondSlug();
      @*    long id = item.NewId; *@

@@ -5,7 +5,7 @@
     <div class="row">
         @foreach (var item in Model.Skip(skipcount).Take(3))
         {
-            string controller = "ArticleDetailswithprefix";
+            string controller = "article";
             string action = item.Label ?? "agency-wire";
              string id = item.GenerateSecondSlug();
             //long id = item.NewId;

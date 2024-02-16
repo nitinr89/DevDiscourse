@@ -8,7 +8,7 @@
 		@foreach (var item in Model.Take(1))
 		{
 			var newsImage = "";
-			string controller = "ArticleDetailswithprefix";
+			string controller = "/article";
 			string action = item.Label ?? "agency-wire";
 			 string id = item.GenerateSecondSlug();
 			//long id = item.NewsId;
@@ -36,7 +36,7 @@
 		@foreach (var item in Model.Skip(1).Take(1))
 		{
 			var newsImage = "";
-			string controller = "ArticleDetailswithprefix";
+			string controller = "/article";
 			string action = item.Label ?? "agency-wire";
 			 string id = item.GenerateSecondSlug();
 			newsImage = item.ImageUrl;
@@ -71,7 +71,7 @@
 	<div class="col-md-3 col-md-pull-6">
 		@foreach (var item in Model.Skip(2).Take(4))
 		{
-			string controller = "ArticleDetailswithprefix";
+			string controller = "/article";
 			string action = item.Label ?? "agency-wire";
 			 string id = item.GenerateSecondSlug();
 			//long id = item.NewsId;
@@ -109,7 +109,7 @@
 		@foreach (var item in Model.Skip(6).Take(4))
 		{
 	@* 		<a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
-			string controller = "ArticleDetailswithprefix";
+			string controller = "/article";
 			string action = item.Label ?? "agency-wire";
 			 string id = item.GenerateSecondSlug();
 			//long id = item.NewsId;

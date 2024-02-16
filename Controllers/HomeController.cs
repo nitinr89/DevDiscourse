@@ -938,8 +938,8 @@ namespace DevDiscourse.Controllers
             //{
             //    LastSixMonth = DateTime.UtcNow.AddMonths(-60);
             //}
-            var search = _db.DevNews
-                //Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
+            var search = _db.DevNews.
+                Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
                 .Select(a => new AdvancedSearchView { 
                     Id = a.Id, 
                     NewsId = a.NewsId, 
@@ -951,24 +951,35 @@ namespace DevDiscourse.Controllers
                     CreatedOn = a.PublishedOn,
                     Label = a.NewsLabels, 
                     Country = a.Author }).Take(50)
-                //.OrderByDescending(m => m.CreatedOn)
+                .OrderByDescending(m => m.CreatedOn)
                 .ToList();
             if (region != "Global Edition")
             {
+
+                var reg = (from c in _db.Countries
+                           join r in _db.Regions on c.RegionId equals r.Id
+                           where c.Title == region
+                           select new
+                           {
+                               r.Title
+                           }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+
+                if (reg != null && reg.Title != null) regionTitle = reg.Title;
                 search = search.Take(50)
-                    //.Where(a => a.Region != null && a.Region.Contains(region))
+                    .Where(a => a.Region != null && a.Region.Contains(regionTitle))
                     .ToList();
             }
-            if (!string.IsNullOrEmpty(type))
+            if (string.IsNullOrEmpty(type))
             {
                 search = search.Take(50)
-                    //.Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase))
+                    .Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
             else
             {
                 search = search.Take(50)
-                    //.Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase))
+                    .Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
             int pageSize = 10;

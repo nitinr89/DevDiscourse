@@ -1,11 +1,9 @@
-﻿
-@model Devdiscourse.Models.BasicModels.DevNews
+﻿@model Devdiscourse.Models.BasicModels.DevNews
 @using System.Globalization;
 @using System.Text.RegularExpressions;
 @using System.Threading;
 @using System.Text;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
 @{
     CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
     TextInfo textInfo = cultureInfo.TextInfo;
@@ -119,9 +117,6 @@ async Task GetCleanDescription(string htmltext)
     @sb.ToString();
 }
 }
-
-
-
 
 
 <style>
@@ -637,8 +632,7 @@ async Task GetCleanDescription(string htmltext)
         float: right;
     }
 
-    @@media(max-width:640px) 
-    {
+    @@media(max-width:640px) {
         .title {
             font-size: 28px
         }
@@ -668,8 +662,7 @@ async Task GetCleanDescription(string htmltext)
         }
     }
 
-    @@media(max-width:425px) 
-    {
+    @@media(max-width:425px) {
         .list-padding {
             padding-left: 15px
         }
@@ -687,13 +680,17 @@ async Task GetCleanDescription(string htmltext)
         }
     }
 
-    @@media screen and (max-width:2560px) and (min-width:1500px) 
-    {
+    @@media screen and (max-width:2560px) and (min-width:1500px) {
         .renderBody .container {
             width: 1170px !important
         }
     }
 </style>
+
+
+
+
+
 @section lastModified{
     <meta itemprop="datePublished" content="@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
     <meta itemprop="dateModified" content="@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
@@ -736,6 +733,9 @@ async Task GetCleanDescription(string htmltext)
     "description": "@{ await GetFirstParagraph(Model.Description); }"
     }
 </script> 
+
+
+
 @if (@schemaAuthor == "PR Newswire")
 {
     <style>
@@ -746,44 +746,29 @@ async Task GetCleanDescription(string htmltext)
 }
 <div class="container full-width mt-minus-30">
     @if (!isCrawler)
-    {
-        <div class="advertisement-area"> <div class="advertisement-title">Advertisement</div></div>
-    }
+    {<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div>@*<div class="text-center" style="min-height:100px"></div>*@ </div>}
 </div><div class="container">
-
-      <ul class="breadcrumb breadcrumb_new m-t-20" itemscope itemtype="http://schema.org/BreadcrumbList">
-
-              <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
-                  <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item">
-                      <span itemprop="name">Home</span>
-                  </a>
-                  <meta itemprop="position" content="1" />
-              </li>
-
-              @if (Model.Type == "News" && Model.Category != "15")
-              {
-                  <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="/news" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
-              }
-              else if (Model.Type == "News" && Model.Category == "15")
-              {
-                  <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Sports", new{cat="INDvsENG"})" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
-              }
-              else
-              {
-                  <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("DevBlogs", "Home", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">@Model.SubType</span></a> <meta itemprop="position" content="2" /> </li>
-              }
-            
+    <ul class="breadcrumb breadcrumb_new m-t-20" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li>
+        @if (Model.Type == "News" && Model.Category != "15")
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="/news" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
+}
+        else if (Model.Type == "News" && Model.Category == "15")
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Sports", new{cat="INDvsENG"})" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li>
+}
+        else
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("DevBlogs", "Home", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">@Model.SubType</span></a> <meta itemprop="position" content="2" /> </li>
+}           
               @{
 
                @await Component.InvokeAsync("Sector", new { sector = Model.Sector, reg = "", filter = "NewsSector" })
 
-              }                        
-              <li class="active">Article</li>
-          </ul> 
-
-
-
-<div class="article-divider clearfix" style="display:none;" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div><div class="row">
+              }  
+<li class="active">Article</li>
+</ul> <div class="article-divider clearfix" style="display:none;" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div><div class="row">
     <div class="col-md-8">
         <article>
             <h1 class="title">@Model.Title</h1> @if (!string.IsNullOrEmpty(@Model.SubTitle))
@@ -804,9 +789,7 @@ default: <span><a href="/news-source/@Model.Source.Trim()">@Model.Source.Trim()<
                 {<a href="/Home/AuthorArticles?fl=@Model.Author.Trim()">
                         @if (!string.IsNullOrEmpty(Model.Themes))
                         {
-                            //var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + Model.Themes : string.Concat(domainUrl, Model.Themes);
-                            var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl +  Model.Themes : string.Concat(domainUrl, Model.Themes);
-                            <img class="img-circle author-avatar" src="@authorImage?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />}
+                            var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + Model.Themes : string.Concat(domainUrl, Model.Themes);<img class="img-circle author-avatar" src="@authorImage?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />}
                         else
                         {<img class="img-circle author-avatar" src="@domainUrl/?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />}@Model.Author.Trim()
                     </a> <span class="list-divider"> | </span>}@if (!string.IsNullOrEmpty(Model.SourceUrl))
@@ -817,9 +800,7 @@ default: <span><a href="/news-source/@Model.Source.Trim()">@Model.Source.Trim()<
     {<span>Los Angeles</span>}
     else
     {<span class="text-capitalize">@textInfo.ToTitleCase(@Model.SourceUrl.ToLower())</span>}<span class="list-divider"> | </span>}<span>Updated: @modifiedDate.ToString("dd-MM-yyyy HH:mm") IST | Created: @publishedDate.ToString("dd-MM-yyyy HH:mm") IST</span>
-</div>
-@* @if (Model.UserNewsFiles.Count == 0) *@
-@if ( Model.UserNewsFiles == null )
+</div>@if (Model.UserNewsFiles == null)
 {
     if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "News")
     {<section class="admin-section">
@@ -838,20 +819,14 @@ else
 }
 else
 {
-
-   
 foreach (var item in Model.UserNewsFiles.Take(1))
 {
-    @section taboolaAd{
-       <link href="https://vjs.zencdn.net/7.6.6/video-js.min.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> 
+   @section taboolaAd{
+        <link href="https://vjs.zencdn.net/7.6.6/video-js.min.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>  
 } 
-
-
-
 <script type="application/ld+json">
-    {"@@context":"https://schema.org/","@@type":"VideoObject","name":"@newsTitle","@@id":"@domainUrl@pageUrl","datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","description":"@{ 
-        GetDescriptionText(Model.Description);}","thumbnailURL":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","thumbnail":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","contentUrl":"@item.FilePath","author":{"@@type":"Person","name":"Devdiscourse News Desk"}}
+    {"@@context":"https://schema.org/","@@type":"VideoObject","name":"@newsTitle","@@id":"@domainUrl@pageUrl","datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","description":"@GetDescriptionText(@Model.Description)","thumbnailURL":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","thumbnail":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg","uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")","contentUrl":"@item.FilePath","author":{"@@type":"Person","name":"Devdiscourse News Desk"}}
 </script>
 <video id="my-video" class="video-js center-block" controls preload="auto" width="640" height="360" @*poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"*@ poster="@item.FileThumbUrl" data-setup='{"fluid": true}' autoplay> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a> </p></video> <div class="modal fade" id="embedVideoDialog" role="dialog"> <div class="modal-dialog modal-sm"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Embed This Media</h4> </div><div class="modal-body"> <input type="text" id="embedCode" class="form-control" value='<iframe width="640" height="360" frameborder="0" src="https://www.devdiscourse.com/videos/embedmedia/@item.Id"></iframe>' /> </div></div></div></div>}<div>
     @if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) && Model.Type == "News")
@@ -878,23 +853,23 @@ foreach (var item in Model.UserNewsFiles.Take(1))
         <li> <a class="social-btn" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@encodedValue', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> @*Twitter*@</a> </li>
         <li> <a class="social-btn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=@encodedValue&summary=@encodeValue&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span> @*LinkedIn*@</a> </li>
         <li> <a class="social-btn" aria-label="Subscribe on Youtube" rel="noopener" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span> @*Youtube*@</a> </li>
+        
         @if (isMobile)
         {
             <li> <a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> @*Whatsapp*@</a> </li>
-         }
+}
     </ul>
 </section> <hr class="seperator m-b-20" /> <section class="article-cont">
-    @{ await GetCleanDescription(DataDesc.ToString());} @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk" && !isCrawler)
+     await GetCleanDescription(@DataDesc.ToString()) @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk" && !isCrawler)
     {
         if (!isCrawler)
         {<p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>}
     }
-    else if((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() == "Devdiscourse News Desk" && !isCrawler)
-    {
-        <p>
-        (With inputs from agencies.)</p>
-    }@*@if (!Request.Browser.Crawler){<p> Download The Devdiscourse <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" target="_blank">News App</a> for Latest News.</p>}*@
+    else if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() == "Devdiscourse News Desk" && !isCrawler)
+    {<p>(With inputs from agencies.)</p>}@*@if (!Request.Browser.Crawler){<p> Download The Devdiscourse <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" target="_blank">News App</a> for Latest News.</p>}*@
 </section>
+
+
 @if (!string.IsNullOrEmpty(Model.Tags) && !isCrawler)
 {
     <section>
@@ -911,13 +886,9 @@ foreach (var item in Model.UserNewsFiles.Take(1))
             }
     } 
     } </ul>
-    </section>@*<section> <ul class="list-inline"> <li class="f-18">READ MORE ON:</li>@{var tag = (Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
-        {
-            if (!string.IsNullOrEmpty(t.Trim()))
-            {<li> <a href="/news?tag=@Url.Encode(@t.Trim())" class="tag">@t.Trim()</a> </li>}
-    }}</ul> </section>*@
+    </section>
     }
-    @if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Source))
+ @if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Source))
 {
     <section class="m-t-30">
     <ul class="list-inline"> <li class="f-18">FIRST PUBLISHED IN:</li><li> <span class="badge tag" style="color:#fff">@Model.Source</span> </li></ul> </section>}<div class="advertisement-area m-t-10">
@@ -932,9 +903,23 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     (window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');
     </script>
 </div>@if (!string.IsNullOrEmpty(Model.Tags)) 
-    @await Component.InvokeAsync("TagsNews", new { id=Model.NewsId, tag=Model.Tags} )
 
-    <button onclick="reset('https://www.devdiscourse.com/Article/@Model.GenerateSecondSlug()',@Model.NewsId);" class="btn btn-default btn-lg m-b-20 m-t-20 btn-block"> <img src="~/images/icons/comment_bubble.svg" alt="comments" /> POST / READ COMMENTS </button> <section id="art_@Model.NewsId" class="commentbox"> <div id="disqus_thread" style="display:none;"> <img data-src="/images/icons/disqus_loader.svg" class="center-block lazy" /> </div></section>
+    @await Component.InvokeAsync("GetTagNews", new { id=Model.NewsId, tag=Model.Tags} )
+
+
+    <button onclick="reset('https://www.devdiscourse.com/Article/@Model.GenerateSecondSlug()',@Model.NewsId);" class="btn btn-default btn-lg m-b-20 m-t-20 btn-block"> 
+    <img src="~/images/icons/comment_bubble.svg" alt="comments" /> POST / READ COMMENTS 
+    </button> 
+    
+    
+    <section id="art_@Model.NewsId" class="commentbox"> <div id="disqus_thread" style="display:none;"> 
+    <img data-src="/images/icons/disqus_loader.svg" class="center-block lazy" /> 
+    </div>
+    </section>
+
+
+
+
 </article> <div id="NewsNews"></div>
 </div><div class="col-md-4">
     @if (Model.NewsId == 1813875)
@@ -948,75 +933,19 @@ foreach (var item in Model.UserNewsFiles.Take(1))
         <a href="https://www.tikroyal.com/tiktok-followers?utm_source=devdiscourse&utm_medium=banner&utm_campaign=1837471&utm_term=buy+tiktok+followers" title="buy tiktok followers"><img src="https://uploads.tikroyal.com/cdn/gallery/xqdqn37oenjyyxbrs2yr.png" class="img-responsive" alt="buy tiktok followers"></a> 
         </div>
         </div>
-    }
-    else
-    {
-        <div class="advertisement-area">
-        <div class="advertisement-title">Advertisement</div>
-        </div>
-    }
-    <section class="clearfix m-t-10">
-    <h2 class="section-title3"> 
-    <span>TRENDING</span>
-    </h2>
-    @await Component.InvokeAsync("Trends", new { filter="Trends", reg=ViewBag.edition })
-    </section> 
-    <section class="m-t-10" id="video_section">
-    <h2 class="section-title3"> 
-    <span>DevShots</span> 
-    </h2>
-    </section> 
-    <section class="clearfix m-t-10">
-    <h2 class="section-title3">
-    <span>Latest News</span> 
-    </h2> 
-     @await Component.InvokeAsync("LatestNews", new{ reg=ViewBag.region } )
-    </section> 
-    <div class="clearfix m-t-10">
-     @Html.Partial("_socialPartial") 
-    </div>
-    <section class="clearfix m-t-10"> 
-    <h2 class="section-title3"> 
-    <span>OPINION / BLOG / INTERVIEW</span> 
-    </h2>
-   @* @await Component.InvokeAsync("Opinion", new { reg=ViewBag.region } )*@
-    @await Component.InvokeAsync("OpinionBlogInterview", new { reg=ViewBag.region } )
-    </section> 
-    <section class="clearfix m-t-10">
-    <h2 class="section-title3">
-    <span>Connect us on</span>
-    </h2> 
-    <a target="_blank" href="https://www.facebook.com/devdiscourse" rel="noreferrer" aria-label="Devdiscourse Facebook Page" class="btn btn-connect facebook">
-    <span class="fa fa-facebook" aria-hidden="true">
-    </span> Facebook</a>
-    <a target="_blank" href="https://twitter.com/dev_discourse" rel="noreferrer" aria-label="Devdiscourse Twitter Page" class="btn btn-connect twitter">
-    <span class="fa fa-twitter" aria-hidden="true"></span> 
-    Twitter</a>
-    <a target="_blank" href="https://www.linkedin.com/showcase/dev_discourse/" rel="noreferrer" aria-label="Devdiscourse LinkedIn Page" class="btn btn-connect linkedin">
-    <span class="fa fa-linkedin" aria-hidden="true"></span>
-    LinkedIn</a> 
-    <a target="_blank" href="https://www.quora.com/profile/DevDiscourse" rel="noreferrer" aria-label="Devdiscourse Quora Page" class="btn btn-connect quora">
-    <span class="fa fa-quora" aria-hidden="true">
-    </span> Quora</a>
-    <a target="_blank" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" rel="noreferrer" aria-label="Subscribe on Youtube" class="btn btn-connect youtube">
-    <span class="fa fa-youtube" aria-hidden="true">
-    </span> Youtube</a>
-    <a target="_blank" href="https://news.google.com/publications/CAAqBwgKMMDbhQsw7_-CAw?hl=en-AU&gl=AU&ceid=AU%3Aen" rel="noreferrer" aria-label="Subscribe on Google News" class="btn btn-connect facebook"> 
-    <img src="~/images/icons/google_news.svg" /> 
-    Google News </a> 
-    <a target="_blank" href="http://feeds.feedburner.com/devdiscourse/NCFS" rel="noreferrer" aria-label="Devdiscourse RSS Feed" class="btn btn-connect rss">
-    <span class="fa fa-rss" aria-hidden="true"></span> RSS</a> 
-    </section>
+    }<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div>@*<div id="div-gpt-ad-1583931793021-2" style="min-height:265px"> </div>*@ </div>}<section class="clearfix m-t-10"> <h2 class="section-title3"> <span>TRENDING</span> </h2>@await Component.InvokeAsync("Trends", new { filter="Trends", reg=ViewBag.edition })</section> <section class="m-t-10" id="video_section"> <h2 class="section-title3"> <span>DevShots</span> </h2> </section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Latest News</span> </h2> @await Component.InvokeAsync("LatestNews", new{ reg=ViewBag.region } )</section> <div class="clearfix m-t-10"> @Html.Partial("_socialPartial") </div><section class="clearfix m-t-10"> <h2 class="section-title3"> <span>OPINION / BLOG / INTERVIEW</span> </h2> @await Component.InvokeAsync("OpinionBlogInterview", new { reg=ViewBag.region } )</section> <section class="clearfix m-t-10"> <h2 class="section-title3"> <span>Connect us on</span> </h2> <a target="_blank" href="https://www.facebook.com/devdiscourse" rel="noreferrer" aria-label="Devdiscourse Facebook Page" class="btn btn-connect facebook"><span class="fa fa-facebook" aria-hidden="true"></span> Facebook</a> <a target="_blank" href="https://twitter.com/dev_discourse" rel="noreferrer" aria-label="Devdiscourse Twitter Page" class="btn btn-connect twitter"><span class="fa fa-twitter" aria-hidden="true"></span> Twitter</a> <a target="_blank" href="https://www.linkedin.com/showcase/dev_discourse/" rel="noreferrer" aria-label="Devdiscourse LinkedIn Page" class="btn btn-connect linkedin"><span class="fa fa-linkedin" aria-hidden="true"></span> LinkedIn</a> <a target="_blank" href="https://www.quora.com/profile/DevDiscourse" rel="noreferrer" aria-label="Devdiscourse Quora Page" class="btn btn-connect quora"><span class="fa fa-quora" aria-hidden="true"></span> Quora</a> <a target="_blank" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" rel="noreferrer" aria-label="Subscribe on Youtube" class="btn btn-connect youtube"><span class="fa fa-youtube" aria-hidden="true"></span> Youtube</a> <a target="_blank" href="https://news.google.com/publications/CAAqBwgKMMDbhQsw7_-CAw?hl=en-AU&gl=AU&ceid=AU%3Aen" rel="noreferrer" aria-label="Subscribe on Google News" class="btn btn-connect facebook"> <img src="~/images/icons/google_news.svg" /> Google News </a> <a target="_blank" href="http://feeds.feedburner.com/devdiscourse/NCFS" rel="noreferrer" aria-label="Devdiscourse RSS Feed" class="btn btn-connect rss"><span class="fa fa-rss" aria-hidden="true"></span> RSS</a> </section>
 </div>
 </div>
 </div>
 @section scripts{
     <script type="text/javascript">
 @if (isMobile) { <text>var _ismobile = true;</text>} else {<text>var _ismobile = false;</text> } var _sector = '@(Model.Sector)'; var _region = '@(ViewBag.region)'; var label = '@(Model.NewsLabels)' == "" ? "agency-wire" : '@(Model.NewsLabels)'; var _id = '@(Model.Id)'; var skip = -1; var inCallback = !1; var newsId = '@(Model.NewsId)'; var newsUrl = '@pageUrl'; var news_image_url = '@newsImage'; var news_title = '@Model.Title'; var news_country = '@Model.Country'; var published = '@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")'; var bannerArr = ["/AdminFiles/COE/pharma_728x90.jpg", "/AdminFiles/COE/retail_728x90.jpg", "/AdminFiles/COE/supply_chain_728x90.jpg", "/AdminFiles/COE/telehealth_728x90.jpg", "/AdminFiles/COE/workplace_728x90.jpg", "/AdminFiles/Ads/Banner/vithi_banner2.jpg", "/AdminFiles/Ads/Banner/IDEA_kms_banner.jpg", "/AdminFiles/Ads/Banner/natural_resourse_banner.jpg", "/AdminFiles/Ads/Banner/transport_banner.png"]; var mobileBannerArr = [ "/AdminFiles/COE/pharma_300x300.jpg", "/AdminFiles/COE/retail_300x300.jpg", "/AdminFiles/COE/supply_chain_300x300.jpg", "/AdminFiles/COE/telehealth_300x300.jpg", "/AdminFiles/COE/workplace_300x300.jpg", "/AdminFiles/Ads/Banner/vithi_mobile.jpg", "/AdminFiles/Ads/Banner/IDEA_kms_mobile.jpg", "/AdminFiles/Ads/Banner/natural_resourse_mobile.jpg", "/AdminFiles/Ads/Banner/transport_mobile.jpg"]; var urlLinkArr = ["https://www.visionri.com/insight/13-pharma-post-covid-19-reducing-political-clout-can-alter-business-models", "https://www.visionri.com/insight/14-retail-post-covid-19-knocking-down-persistent-barriers-to-change", "https://www.visionri.com/insight/15--supply-chains-post-covid-19-disruptions-to-accelerate-long-pending-revamping", "https://www.visionri.com/insight/16-telehealth-post-covid-19-breaking-stereotypes-and-embracing-the-potential-of-technology", "https://www.visionri.com/insight/17--workplaces-post-covid-19-tech-innovations-to-catalyse-a-remote-working-culture", "http://visionri.com/Home/Vithi", "http://www.visionri.com/Home/IdeaKM", "http://visionri.com/Markets/NaturalResourceManagement", "http://visionri.com/Markets/Transport"]; $(".linkBtn").removeClass("active"), $('#newsLink').addClass("active");@if(isMobile){<text>var initHeight = 70;</text>}else{<text>var initHeight = 10;</text>}@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")) { <text>var _isAdmin = true;</text> } else {<text> var _isAdmin = false; </text>}function twitterLoaded() { twttr.events.bind('loaded', function (event) { @*$('.twitter-tweet').css({ display: 'flex' })*@ }) }</script>
+    
     <script src="~/Scripts/article_new.js"></script>
     <script type="text/javascript">var disqus_shortname = 'www-devdiscourse-com-1'; var disqus_url = ''; var disqus_config = function () { this.language = "en"; }; var reset = function (newUrl, data_id) { if (typeof DISQUS === "undefined") { $('#disqus_thread').show(); var dsq = document.createElement('script'); dsq.type = 'text/javascript'; /*dsq.async=true;*/ dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq); } else { $('.commentbox').html(''); $('#art_' + data_id).html('<div id="disqus_thread"></div>'); DISQUS.reset({ reload: true, config: function () { this.page.identifier = __newId; this.page.url = newUrl; } }); } };</script>
     <script src="~/Scripts/lazysizes.min.js" async></script>
-    @if (Model.UserNewsFiles == null)
+
+    @if (Model.UserNewsFiles != null)
     {
         <script src="https://vjs.zencdn.net/7.6.6/video.min.js"></script>
         <script>
@@ -1042,7 +971,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     {
         <script async src="//www.instagram.com/embed.js"></script>
         <script async src="https://platform.twitter.com/widgets.js" onload="twitterLoaded()" charset="utf-8"></script>
-        <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
-        @* <script type="text/javascript">@if (!Request.Browser.Crawler){<text> addLog(); function addLog(){$.post('https://devdiscourse-app.herokuapp.com/news_log',{event_type: "VIEW", article_id: newsId, url: 'https://www.devdiscourse.com' + newsUrl, article_image_url: news_image_url, published_datetime: published, article_sector: _sector.split(',')[0], article_headline: news_title, article_country: news_country, article_region: _region,user_mac_address:'@(ViewBag.MACAddress)',ip_address:'@(ViewBag.publicIP)'}, function (data){console.log(data);});}</text>}</script>*@
+        <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>     
+    
     }
 }

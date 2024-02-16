@@ -393,8 +393,7 @@
 <div class="container p-t-10">
     <div class="advertisement-area" style="min-height:122px"> <div class="advertisement-title">Advertisement</div> </div>
     @{
-        @await Component.InvokeAsync("SectorTopStories", new { sector = ViewBag.sector, reg = ViewBag.region })
-        ;
+        @await Component.InvokeAsync("SectorTopStories", new { sector = ViewBag.sector, reg = ViewBag.region });
     }
 
 </div>

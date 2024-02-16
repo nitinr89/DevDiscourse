@@ -37,21 +37,6 @@ namespace DevDiscourse.Controllers
         {
             this._db = _db;
         }
-
-        //public string GetMACAddress()
-        //{
-        //    NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
-        //    string sMacAddress = string.Empty;
-        //    foreach (NetworkInterface adapter in nics)
-        //    {
-        //        if (sMacAddress == string.Empty)// only return MAC Address from first card  
-        //        {
-        //            IPInterfaceProperties properties = adapter.GetIPProperties();
-        //            sMacAddress = adapter.GetPhysicalAddress().ToString();
-        //        }
-        //    }
-        //    return sMacAddress;
-        //}
         public string GetMACAddress()
         {
             string sMacAddress = string.Empty;

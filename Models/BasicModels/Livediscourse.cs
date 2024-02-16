@@ -11,14 +11,14 @@ namespace Devdiscourse.Models.BasicModels
 
 
         [Required]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         public string? SubTitle { get; set; }
         
         [Display(Name = "Summary")]
         //[AllowHtml]
         public string? Description { get; set; }
         [Required]
-        public string Sector { get; set; }
+        public string? Sector { get; set; }
         [Display(Name = "Image")]
         public string? ImageUrl { get; set; }
         [Display(Name = "Image Copyright")]
@@ -29,8 +29,8 @@ namespace Devdiscourse.Models.BasicModels
         public string? Tags { get; set; }
         [Display(Name = "Admin Check")]
         public bool AdminCheck { get; set; }
-        public string Region { get; set; }
-        public string Country { get; set; }
+        public string? Region { get; set; }
+        public string? Country { get; set; }
         public int ViewCount { get; set; }
         public int LikeCount { get; set; }
         public int DislikeCount { get; set; }

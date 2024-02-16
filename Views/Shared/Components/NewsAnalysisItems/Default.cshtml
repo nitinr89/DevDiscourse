@@ -7,7 +7,7 @@
 {
     foreach (var item in Model.Take(1))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
@@ -45,7 +45,7 @@
     }
     foreach (var item in Model.Skip(1))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
@@ -90,7 +90,7 @@ else
 {
     foreach (var item in Model)
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;

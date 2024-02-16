@@ -33,7 +33,7 @@
     async Task MediaTempate_two(Devdiscourse.Models.ViewModel.NewsViewModel item)
     {
         var newsImage = "";
-        string controller = "ArticleDetailswithprefix";
+        string controller = "article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
@@ -74,7 +74,7 @@
             @foreach (var item in Model.Take(2))
             {
                 var newsImage = "";
-                string controller = "ArticleDetailswithprefix";
+                string controller = "article";
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
@@ -105,7 +105,7 @@
             @foreach (var item in Model.Skip(2).Take(3))
             {
                 var newsImage = "";
-                string controller = "ArticleDetailswithprefix";
+                string controller = "article";
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
@@ -150,7 +150,7 @@ else if (ViewBag.Sector == "11")
     foreach (var item in Model.Take(5))
     {
         var newsImage = "";
-        string controller = "ArticleDetailswithprefix";
+        string controller = "article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
        // long id = item.NewsId;
@@ -184,7 +184,7 @@ else if (ViewBag.Sector == "15")
     foreach (var item in Model.Take(6))
     {
         var newsImage = ""; 
-          string controller = "ArticleDetailswithprefix";
+        string controller = "article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;

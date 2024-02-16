@@ -4,7 +4,7 @@
 @functions {
     async Task MediaTempate(Devdiscourse.Models.ViewModel.NewsViewModel item)
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
         string id = item.GenerateSecondSlug();
         var newsImage = "";
@@ -54,7 +54,7 @@
     async Task MediaTempate_two(Devdiscourse.Models.ViewModel.NewsViewModel item)
     {
         var newsImage = "";
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
         string id = item.GenerateSecondSlug();
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
@@ -104,7 +104,7 @@
         <div class="col-md-7">
             @foreach (var item in Model.Take(2))
             {
-                string controller = "ArticleDetailswithprefix";
+                string controller = "Article";
                 string action = item.Label ?? "agency-wire";
                 string id = item.GenerateSecondSlug();
                 var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
@@ -134,7 +134,7 @@
         </div> <div class="col-md-5">
             @foreach (var item in Model.Skip(2).Take(3))
             {
-                string controller = "ArticleDetailswithprefix";
+                string controller = "/article";
                 string action = item.Label ?? "agency-wire";
                 string id = item.GenerateSecondSlug();
                 var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
@@ -177,7 +177,7 @@ else if (ViewBag.Sector == "11")
 {
     foreach (var item in Model.Take(5))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
         string id = item.GenerateSecondSlug();
         var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }
@@ -209,7 +209,7 @@ else if (ViewBag.Sector == "15")
 {
     foreach (var item in Model.Take(6))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
         string id = item.GenerateSecondSlug();
         var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; }

@@ -894,7 +894,14 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <ul class="list-inline"> <li class="f-18">FIRST PUBLISHED IN:</li><li> <span class="badge tag" style="color:#fff">@Model.Source</span> </li></ul> </section>}<div class="advertisement-area m-t-10">
     <div class="advertisement-title">Advertisement</div>
     <div id="v-devdiscourse-v2"></div>
-    <script>(function (v, d, o, ai) { ai = d.createElement('script'); ai.defer = true; ai.async = true; ai.src = v.location.protocol + o; d.head.appendChild(ai); })(window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');</script>
+    <script>
+    (function (v, d, o, ai) { ai = d.createElement('script'); 
+    ai.defer = true; ai.async = true;
+    ai.src = v.location.protocol + o; 
+    d.head.appendChild(ai);
+    })
+    (window, document, '//a.vdo.ai/core/v-devdiscourse-v2/vdo.ai.js');
+    </script>
 </div>@if (!string.IsNullOrEmpty(Model.Tags)) 
 
     @await Component.InvokeAsync("GetTagNews", new { id=Model.NewsId, tag=Model.Tags} )

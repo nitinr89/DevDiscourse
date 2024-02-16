@@ -38,7 +38,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //    }).AsNoTracking().Take(60).ToList();
                 //return View(result.OrderByDescending(a => a.Ranking).Take(12));
                 var resultList = _db.RegionNewsRankings
-    .Where(dn => dn.DevNews.AdminCheck == true && dn.DevNews.IsSponsored==false&&
+    .Where(dn => dn.DevNews.AdminCheck == true && dn.DevNews.IsSponsored==false&& dn.Region.Title == reg &&
                 dn.DevNews.Sector == Convert.ToString(sector) && dn.DevNews.CreatedOn > twoMonth)
     .OrderByDescending(dn => dn.DevNews.CreatedOn)
     .Take(65)

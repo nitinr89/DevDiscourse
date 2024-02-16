@@ -22,7 +22,7 @@ namespace Devdiscourse.Helper
 
             routes.MapControllerRoute(
                        name: "ArticleDetailswithprefix",
-                       pattern: "Article/{Prefix}/{id?}",
+                       pattern: "article/{Prefix}/{id?}",
                        defaults: new { controller = "Article", action = "Index" });
 
             routes.MapControllerRoute(

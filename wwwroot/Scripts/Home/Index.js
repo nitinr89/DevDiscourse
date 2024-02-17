@@ -40,7 +40,6 @@
     $("#opinion1 .owl-prev").html('<span class="fa fa-angle-left"></span>');
     $("#opinion1 .owl-next").html('<span class="fa fa-angle-right"></span>');
 
-    debugger;
     GetVideoNews();
 
    
@@ -59,12 +58,10 @@
     }
 
     function GetVideoNews() {
-        debugger;
         var ApiDataUrl = "/api/SearchApi/GetHomeVideoNews/" + encodeURI(_edition);
         $.getJSON(ApiDataUrl, function (data) {         
             var videohtml = '';
             $.each(data, function (i, item) {
-                debugger;
                 var slugUrl = convertToSlug(item.id, item.title);
                 var newsImage = item.fileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.fileThumbUrl : item.fileThumbUrl;
                 var label = item.label != null ? item.label : "agency-wire";

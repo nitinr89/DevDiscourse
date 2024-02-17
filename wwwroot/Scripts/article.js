@@ -16,16 +16,13 @@ function convertToSlug(newsId, str) {
     $(document).find('#regDropDown').change(function () { var date = new Date(); date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/"; window.location.href = $(this).find('option:selected').attr('data-to') });
     $(window).scroll(function () { if (skip < 8 && !inCallback) {  GetPreviousNews()  } });      
     function GetPreviousNews() {
-        debugger;
         if (skip > -2 && !inCallback) {
             inCallback = !0; skip++; $("#loading").show();
             if (_sector != "0") {
-                debugger
                 prevNewsUrl = '/api/DevNewsApi/GetPreviousSectorNews/' + newsId + '/' + _sector.split(',')[0] + '/' + _region + '/' + skip;
             } else { prevNewsUrl = '/api/DevNewsApi/GetPreviousNews/' + newsId + '/' + label + '/' + _region + '/' + skip; }
             $.ajax({
                 url: prevNewsUrl, type: 'Get', dataType: 'Json', success: function (data) {
-                    debugger
                     if (data == 'done') { $("#loading").hide(); return }
                     var subtitle = data.subtitle == null ? "" : '<h2 class="subtitle">' + data.subtitle + '</h2>';
                     var label = data.label == null ? "agency-wire" : data.label;

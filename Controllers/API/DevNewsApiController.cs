@@ -1898,9 +1898,6 @@ namespace DevDiscourse.Controllers.API
             return Ok(resultNewsList);
         }
 
-
-
-
         [Route("api/DevNewsApi/GetPreviousSectorNews/{id}/{sector}/{reg}/{skip}")]
         [HttpGet]
         public IActionResult GetPreviousSectorNews(long id, string sector, string reg = "Global Edition", int skip = 0)
@@ -1967,7 +1964,6 @@ namespace DevDiscourse.Controllers.API
             return Ok(resultNewsList);
         }
 
-
         [Route("api/GetSearchedNews/{text}")]
         [HttpGet]
         public IActionResult GetSearchedNews(string text)
@@ -1989,7 +1985,7 @@ namespace DevDiscourse.Controllers.API
             }
             return Ok("NoUser");
         }
-        [Route("api/GetTagNews/{id}/{tag}")]
+        [Route("api/DevNewsApi/GetTagNews/{id}/{tag}")]
         [HttpGet]
         public IActionResult GetTagNews(long id, string tag)
         {

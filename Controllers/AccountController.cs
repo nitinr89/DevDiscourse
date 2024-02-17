@@ -16,30 +16,30 @@ namespace DevDiscourse.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly ApplicationDbContext _db;
-        private readonly IDNTCaptchaValidatorService validatorService;
-        private readonly IWebHostEnvironment hostingEnvironment;
-        private readonly IConfiguration _configuration;
-        
-        public AccountController(SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,
-            ApplicationDbContext _db,
-            IDNTCaptchaValidatorService validatorService,
-            IWebHostEnvironment hostingEnvironment)
-            IDNTCaptchaValidatorService validatorService, IConfiguration configuration)
-        {
-            this.signInManager = signInManager;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this._db = _db;
-            this.validatorService = validatorService;
-            this.hostingEnvironment = hostingEnvironment;
-            _configuration = configuration;
-        }
+         private readonly SignInManager<ApplicationUser> signInManager;
+ private readonly UserManager<ApplicationUser> userManager;
+ private readonly RoleManager<IdentityRole> roleManager;
+ private readonly ApplicationDbContext _db;
+ private readonly IDNTCaptchaValidatorService validatorService;
+ private readonly IWebHostEnvironment hostingEnvironment;
+ private readonly IConfiguration _configuration;
+ 
+ public AccountController(SignInManager<ApplicationUser> signInManager,
+     UserManager<ApplicationUser> userManager,
+     RoleManager<IdentityRole> roleManager,
+     ApplicationDbContext _db,
+     IDNTCaptchaValidatorService validatorService,
+     IWebHostEnvironment hostingEnvironment,
+     IConfiguration configuration)
+ {
+     this.signInManager = signInManager;
+     this.userManager = userManager;
+     this.roleManager = roleManager;
+     this._db = _db;
+     this.validatorService = validatorService;
+     this.hostingEnvironment = hostingEnvironment;
+     _configuration = configuration;
+ }
 
         //
         // GET: /Account/Login

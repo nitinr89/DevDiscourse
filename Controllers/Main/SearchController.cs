@@ -74,7 +74,7 @@ namespace Devdiscourse.Controllers.Main
             return View();
         }
 
-
+        [Route("news/videos/{id?}")]
         public async Task<ActionResult> Videos(long? id)
         {
             var videoNews = await _db.VideoNews.FindAsync(id);

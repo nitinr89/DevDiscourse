@@ -948,9 +948,10 @@ namespace DevDiscourse.Controllers
                            }).FirstOrDefault();
                 string regionTitle = "Global Edition";
 
-                if (reg != null && reg.Title != null) regionTitle = reg.Title;
+                //if (reg != null && reg.Title != null) regionTitle = reg.Title;
+                var result = reg != null && reg.Title != null ? regionTitle = reg.Title : regionTitle = region;
                 search = search.Take(50)
-                    .Where(a => a.Region != null && a.Region.Contains(regionTitle))
+                    .Where(a => a.Region != null && a.Region.Contains(result))
                     .ToList();
             }
             if (string.IsNullOrEmpty(type))

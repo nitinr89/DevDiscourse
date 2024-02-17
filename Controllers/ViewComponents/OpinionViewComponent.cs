@@ -97,9 +97,9 @@ namespace DevDiscourse.Controllers.ViewComponents
 
 
                     //new query
-                    string regionTitle = "";
-                    if (reg == "India")
-                    {
+                    //string regionTitle = "";
+                    //if (reg == "India")
+                    //{
                         var region = (from c in _db.Countries
                                       join r in _db.Regions on c.RegionId equals r.Id
                                       where c.Title == reg
@@ -107,20 +107,21 @@ namespace DevDiscourse.Controllers.ViewComponents
                                       {
                                           r.Title
                                       }).FirstOrDefault();
-                        regionTitle = "Global Edition";
+                      string regionTitle = "Global Edition";
 
-                        if (region != null && region.Title != null)
-                        {
-                            regionTitle = region.Title;
-                            reg = regionTitle;
-                        }
-                    }
+                        //if (region != null && region.Title != null)
+                        //{
+                        //    regionTitle = region.Title;
+                        //    reg = regionTitle;
+                        //}
+                        var result = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
+                   // }
 
                     var infocus = (from dn in _db.DevNews
                                    where dn.AdminCheck
                                          && dn.PublishedOn > thirtyDays
                                          && dn.Type == "Blog"
-                                        && dn.Region.Contains(reg) && dn.SubType != "Interview"
+                                        && dn.Region.Contains(result) && dn.SubType != "Interview"
                                    orderby dn.PublishedOn descending
                                    select new NewsViewModel
                                    {

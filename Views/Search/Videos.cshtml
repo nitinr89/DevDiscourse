@@ -214,7 +214,7 @@
             height: auto;
         }
     }</style>
-@section taboolaAd{
+@section taboolaAd {
     <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
     <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 }
@@ -242,7 +242,8 @@
 
 <div style="background-color:#f1f1f1" class="p-b-20">
     <div class="container p-t-20 p-b-20">
-        <ul class="breadcrumb breadcrumb_new" itemscope itemtype="http://schema.org/BreadcrumbList"> <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsSector", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsVideo")" target="_top" class="isDisabled" itemprop="item"><span itemprop="name">DevShots</span></a> <meta itemprop="position" content="3" /> </li></ul> @if (ViewBag.videoNews != null)
+        <ul class="breadcrumb breadcrumb_new" itemscope itemtype="http://schema.org/BreadcrumbList"> <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsSector", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsVideo")" target="_top" class="isDisabled" itemprop="item"><span itemprop="name">DevShots</span></a> <meta itemprop="position" content="3" /> </li></ul> 
+        @if (ViewBag.videoNews != null)
         {
             <div class="row clearfix" id="videoContainer">
                 @{
@@ -264,10 +265,10 @@
         {
             <div class="row clearfix" id="videoContainer"> <div class="col-md-8"> <div style="padding-bottom:56.2%;background-color:#333"></div></div></div>
         }
-        
+
         <div id="topDevshots">
             <h2 class="section-title" style="margin-bottom:15px;"> <span style="background-color:#f1f1f1"> TOP DevShots</span> </h2>
-            @await Component.InvokeAsync("VideoTopStories",new { sector=ViewBag.sector, reg="Global Edition" });
+            @await Component.InvokeAsync("VideoTopStories", new { sector = ViewBag.sector, reg = "Global Edition" });
 
         </div>
     </div>
@@ -277,16 +278,16 @@
         <div class="col-xs-12 col-md-8">
             <h1 class="section-title"> <span>LATEST DevShots</span> </h1> <div class="row" id="newsContainer">
 
-                @await Component.InvokeAsync("VideoNews", new { reg=ViewBag.region });
+                @await Component.InvokeAsync("VideoNews", new { reg = ViewBag.region });
 
             </div><div id="loading" style="display:none;"> <p class="text-center"> <span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div>
         </div><div class="col-xs-12 col-md-4">
             <div class="clearfix" id="opinion"></div><div class="clearfix m-t-30">
                 <h2 class="section-title2"> <span>TRENDING</span> </h2>
 
-                @await Component.InvokeAsync("Trends", new { filter="Trends" , reg=ViewBag.region });
+                @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.region });
 
-                
+
             </div><div class="m-t-20 clearfix" id="latestNews"></div>
             <div id="AfricaEditionNews"></div>
             <div id="EditionNews"></div>
@@ -299,7 +300,7 @@
 
 
 
-@section scripts{
+@section scripts {
     <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
@@ -328,7 +329,7 @@
         @if (ViewBag.videoNews != null)
         {
             <text>
-                var player = videojs('my-video');
+                            var player = videojs('my-video');
                 videojs.registerComponent("customButton", customButton);
                 player.getChild("controlBar").addChild("customButton", {});
                 player.play();
@@ -353,8 +354,7 @@
                     });
                     $(this).children().prepend('<span class="pull-right text-uppercase country-sub" id="nowplaying">Now Playing</span>');
                 });
-            if ('@(ViewBag.videoNews)' == '')
-            {
+            if ('@(ViewBag.videoNews)' == '') {
                 if ($('.playVideo').length != 0) {
                     $('.playVideo')[0].click();
                 } else {

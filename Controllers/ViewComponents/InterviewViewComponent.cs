@@ -30,7 +30,8 @@ namespace Devdiscourse.Controllers.ViewComponents
                                 r.Title
                             }).FirstOrDefault();
                 string regionTitle = "Global Edition";
-                if (regs != null && regs.Title != null) regionTitle = regs.Title;
+                //if (regs != null && regs.Title != null) regionTitle = regs.Title;
+                var region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
                 DateTime thirtyDays = DateTime.Today.AddDays(-30);
                 if (reg == "Global Edition")
                 {
@@ -52,7 +53,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                 else
                 {
                     var result = (from m in _db.Infocus
-                                  where m.Edition == regionTitle && m.ItemType == "Interview"
+                                  where m.Edition == region && m.ItemType == "Interview"
                                   join a in _db.DevNews on m.NewsId equals a.NewsId
                                   where a.AdminCheck == true
                                   select new NewsViewModel

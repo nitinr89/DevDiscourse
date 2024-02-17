@@ -52,10 +52,11 @@ namespace Devdiscourse.Controllers.ViewComponents
                                }).FirstOrDefault();
                     string regionTitle = "Global Edition";
 
-                    if (reg != null && reg.Title != null) { regionTitle = reg.Title; region = regionTitle; }
+                    //if (reg != null && reg.Title != null) { regionTitle = reg.Title; region = regionTitle; }
+                    var result = reg != null && reg.Title != null ? regionTitle = reg.Title : regionTitle = region;
 
                     search = search.Take(50)
-                        .Where(a => a.Region != null && a.Region.Contains(region))
+                        .Where(a => a.Region != null && a.Region.Contains(result))
                            .ToList();
                 }
                 if (!string.IsNullOrEmpty(type))

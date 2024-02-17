@@ -1,4 +1,5 @@
 ﻿using Devdiscourse.Data;
+using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,15 +14,26 @@ namespace Devdiscourse.Controllers.Main
         }
         public async Task<ActionResult> Index(string sector = "all", string tag = "")
         {
-            ViewBag.sectorSlug = sector;
             string? cookie = Request.Cookies["Edition"];
+            var regs = (from c in _db.Countries
+                        join r in _db.Regions on c.RegionId equals r.Id
+                        where c.Title == cookie
+                        select new
+                        {
+                            r.Title
+                        }).FirstOrDefault();
+            string regionTitle = "Global Edition";
+            if (regs != null && regs.Title != null) regionTitle = regs.Title;
+            if (string.IsNullOrWhiteSpace(sector)) sector = "all";
+            ViewBag.sectorSlug = sector;
             if (cookie == null)
             {
                 ViewBag.region = "Global Edition";
             }
             else
             {
-                ViewBag.region = cookie ?? "Global Edition";
+                ViewBag.region = regionTitle ?? "Global Edition";
+
             }
             if (!string.IsNullOrEmpty(tag))
             {
@@ -33,9 +45,6 @@ namespace Devdiscourse.Controllers.Main
             else if (sector == "all" || sector == "All")
             {
                 return RedirectToActionPermanent("NewsAnalysis", "AgencyWire");
-                //ViewBag.sectorName = "";
-                //ViewBag.sector = "0";
-                //return View("AllNews");
             }
             else
             {
@@ -62,6 +71,7 @@ namespace Devdiscourse.Controllers.Main
             return View();
         }
 
+
         public async Task<ActionResult> Videos(long? id)
         {
             var videoNews = await _db.VideoNews.FindAsync(id);
@@ -69,9 +79,10 @@ namespace Devdiscourse.Controllers.Main
             {
                 ViewBag.videoNews = videoNews;
                   ViewBag.Tags = string.Join(", ", videoNews.VideoNewsTags.Select(s => s.Tagstb?.TagTitle).ToArray());
-              
 
-                //if (!Request.Browser.Crawler)
+                var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+                bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
+                if (!isCrawler)
                 {
                     videoNews.ViewCount = videoNews.ViewCount + 1;
                     _db.Entry(videoNews).State = EntityState.Modified;

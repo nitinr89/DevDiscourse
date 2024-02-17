@@ -24,7 +24,7 @@ namespace Devdiscourse.Models.BasicModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long NewsId { get; set; }
         [Required]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [Display(Name = "Alternate Headline")]
         public string? AlternateHeadline { get; set; }
@@ -34,7 +34,7 @@ namespace Devdiscourse.Models.BasicModels
         [Required]
         [Display(Name = "Summary")]
         //[AllowHtml]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public string? Type { get; set; }
         public string? SubType { get; set; }
         [Display(Name = "Labels")]
@@ -42,7 +42,7 @@ namespace Devdiscourse.Models.BasicModels
 
         public string? Category { get; set; }
         [Required]
-        public string Sector { get; set; }
+        public string? Sector { get; set; }
         public string? Themes { get; set; }
         [Display(Name = "Image")]
         public string? ImageUrl { get; set; }

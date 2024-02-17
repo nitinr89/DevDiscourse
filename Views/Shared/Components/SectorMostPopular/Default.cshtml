@@ -11,15 +11,16 @@
 
             @foreach (var item in Model.Take(Take))
             {
-                string controller = "ArticleDetailswithprefix";
+                string controller = "article";
                 string action = item.Label ?? "agency-wire";
                 string id = item.GenerateSecondSlug();
-                var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+             //   var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl;
 
-               @* <a href="@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label ?? "agency-wire", id = item.GenerateSecondSlug() })" class=" text-decoration">*@
+               <a href="@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label ?? "agency-wire", id = item.GenerateSecondSlug() })" class=" text-decoration">
 
-                @*<a href="@controller/@action/@id" class="text-decoration">*@
-                   <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">
+                @* <a href="@controller/@action/@id" class="text-decoration"> *@
+            @*        <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration"> *@
 
                     <div class="col-md-4">
                         <div class="m-p-img m-b-5 lazy" data-src="@domainUrl@newsImage?width=230&height=130&mode=crop&format=jpeg"></div>

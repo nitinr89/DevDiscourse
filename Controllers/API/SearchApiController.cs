@@ -103,38 +103,41 @@ namespace Devdiscourse.Controllers.API
             //    && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn)
             //    .ThenByDescending(s => s.Ranking).Skip(skipCount)
             //    .Select(a => new NewsViewModel
-            //        {
-            //            Title = a.DevNews.Title,
-            //            NewsId = a.DevNews.NewsId,
-            //            ImageUrl = a.DevNews.ImageUrl,
-            //            Subtitle = a.DevNews.SubTitle,
-            //            Country = a.DevNews.Country,
-            //            CreatedOn = a.DevNews.ModifiedOn,
-            //            Sector = a.DevNews.Type,
-            //            SubType = a.DevNews.SubType,
-            //            Label = a.DevNews.NewsLabels,
-            //            Ranking = a.Ranking
-            //        }).AsNoTracking().Take(10).ToList();
-            //    //var result = db.DevNews.Where(a => a.AdminCheck == true && (a.Sector.Contains("," + sector + ",") || a.Sector.StartsWith("," + sector) || a.Sector.EndsWith(sector + ",") || a.Sector.Equals(sector)) && a.Region.Contains(reg)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
-            //    return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
+            //    {
+            //        Title = a.DevNews.Title,
+            //        NewsId = a.DevNews.NewsId,
+            //        ImageUrl = a.DevNews.ImageUrl,
+            //        Subtitle = a.DevNews.SubTitle,
+            //        Country = a.DevNews.Country,
+            //        CreatedOn = a.DevNews.ModifiedOn,
+            //        Sector = a.DevNews.Type,
+            //        SubType = a.DevNews.SubType,
+            //        Label = a.DevNews.NewsLabels,
+            //        Ranking = a.Ranking
+            //    }).AsNoTracking().Take(10).ToList();
+            ////var result = db.DevNews.Where(a => a.AdminCheck == true && (a.Sector.Contains("," + sector + ",") || a.Sector.StartsWith("," + sector) || a.Sector.EndsWith(sector + ",") || a.Sector.Equals(sector)) && a.Region.Contains(reg)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
+            //return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
 
-            var result = db.DevNews.Where(a => a.AdminCheck == true && a.Sector == sector
-            && a.IsSponsored == false
-           /// && a.Title == "Global Edition"
-           ).Select(a => new NewsViewModel
-           {
-               Title = a.Title,
-               NewsId = a.NewsId,
-               ImageUrl = a.ImageUrl,
-               Subtitle = a.SubTitle,
-               Country = a.Country,
-               CreatedOn = a.CreatedOn,
-               Sector = a.Sector,
-               SubType = a.SubType,
-               Label = a.NewsLabels
-              // Ranking = a.Ranking
-           }).AsNoTracking().Take(10).ToList();
-            return result.AsQueryable();
+            var result = db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector
+                && a.DevNews.IsSponsored == false
+                && a.Region.Title == "Global Edition"
+               )//.OrderByDescending(a => a.DevNews.CreatedOn).ThenByDescending(s => s.Ranking).Skip(skipCount)
+               .Select(a => new NewsViewModel
+               {
+                   Title = a.DevNews.Title,
+                   NewsId = a.DevNews.NewsId,
+                   ImageUrl = a.DevNews.ImageUrl,
+                   Subtitle = a.DevNews.SubTitle,
+                   Country = a.DevNews.Country,
+                   CreatedOn = a.DevNews.CreatedOn,
+                   Sector = a.DevNews.Sector,
+                   SubType = a.DevNews.SubType,
+                   Label = a.DevNews.NewsLabels,
+                   Ranking = a.Ranking
+               }).AsNoTracking().Take(10).ToList();
+            //return result.AsQueryable();
+            return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
+
         }
         [HttpGet]
         [Route("GetTagsNews/{tag}/{reg}/{page}")]
@@ -557,20 +560,22 @@ namespace Devdiscourse.Controllers.API
             //{
             //    newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
             //}
-            if (beforeDate != "")
+            if (beforeDate != "null")
             {
-                DateTime filterDate = DateTime.Parse(beforeDate.AsDateTime(DateTime.Now.AddDays(-60)).ToString());
-                //newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
-                newsSearch = newsSearch.Take(50);
+               // DateTime filterDate = DateTime.Parse(beforeDate.AsDateTime(DateTime.Now.AddDays(-60)).ToString());
+                DateTime filterDate = DateTime.Parse(beforeDate);
+                newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
+                //newsSearch = newsSearch.Take(50);
             }
-            if (afterDate != "")
+            if (afterDate != "null")
             {
-                DateTime filterDate2 = DateTime.Parse(afterDate.AsDateTime(DateTime.Now.AddDays(-80)).ToString());
-                //newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
-                newsSearch = newsSearch.Take(50);
+              //  DateTime filterDate2 = DateTime.Parse(afterDate.AsDateTime(DateTime.Now.AddDays(-80)).ToString());
+                DateTime filterDate2 = DateTime.Parse(afterDate);
+                newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
+               // newsSearch = newsSearch.Take(50);
             }
-            //return newsSearch.OrderByDescending(a => a.CreatedOn).Skip(skipCount).Take(20);
-            return newsSearch.Skip(skipCount).Take(50);
+            return newsSearch.OrderByDescending(a => a.CreatedOn).Skip(skipCount).Take(20);
+            //return newsSearch.Skip(skipCount).Take(50);
         }
 
         [HttpGet]

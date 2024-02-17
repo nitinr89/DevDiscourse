@@ -45,7 +45,8 @@
     var newsImage = "";
     if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
     {
-        newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+       // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+        newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
     }
     <a href="@Url.RouteUrl("ArticleDetailswithprefix",new { prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
         @*<div class="row m-b-20">

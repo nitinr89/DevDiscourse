@@ -8,7 +8,8 @@
         <div class="col-md-6">
             @foreach (var item in Model.Take(1))
             {
-                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                var newsImage = item.ImageUrl;
+                ///var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
                 <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
                     <div class="m-b-30">
                         <div class="bg-gray cover-img" style="background-image:url(@domainUrl@newsImage?width=640&height=344&mode=crop&anchor=top&format=jpeg)">
@@ -38,7 +39,8 @@
         <div class="col-md-6 p-l-0">
             @foreach (var item in Model.Skip(1).Take(3))
             {
-                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                var newsImage = item.ImageUrl;
+               // var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
                 <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
                     <div class="m-b-20 col-md-12">
                         <div class="row">

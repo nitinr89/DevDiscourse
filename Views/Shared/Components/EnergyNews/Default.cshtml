@@ -8,10 +8,11 @@
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+             newsImage = item.ImageUrl;
+            //newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
             //newsImage = "https://devdiscourse.blob.core.windows.net/devnews/07_04_2022_12_10_31_6326514.png?width=110&height=85&mode=crop&format=jpeg";
         }
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
@@ -54,9 +55,10 @@
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            newsImage = item.ImageUrl;
+            //newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
         }
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
        // long id = item.NewsId;
@@ -97,7 +99,7 @@
         <div class="col-md-7">
             @foreach (var item in Model.Take(2))
             {
-                string controller = "ArticleDetailswithprefix";
+                string controller = "/article";
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                // long id = item.NewsId;
@@ -126,7 +128,7 @@
         </div> <div class="col-md-5">
             @foreach (var item in Model.Skip(2).Take(3))
             {
-                string controller = "ArticleDetailswithprefix";
+                string controller = "Article";
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                 //long id=item.NewsId;
@@ -168,7 +170,7 @@ else if (ViewBag.Sector == "11")
 {
     foreach (var item in Model.Take(5))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
        // long id = item.NewsId;
@@ -200,7 +202,7 @@ else if (ViewBag.Sector == "15")
 {
     foreach (var item in Model.Take(6))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
         // string id = item.GenerateSecondSlug();
         long id = item.NewsId;

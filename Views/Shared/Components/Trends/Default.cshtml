@@ -51,7 +51,8 @@
     foreach (var item in Model)
     {
         string baseUrl = "https://localhost:7266/";
-        string controller = "ArticleDetailswithprefix";
+      //  string baseUrl = "https://devdiscourse-devdiscoursenetcore.azurewebsites.net/";
+        string controller = "article";
         string action = item.Label ?? "agency-wire";
         string id = item.GenerateSecondSlug();
         @* 	long id = item.NewId; *@
@@ -59,7 +60,8 @@
         <div class="media p-b-10">
             <span class="trend-number">@index</span> @if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
             {
-                var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/13_02_2019_15_50_27_8830586.jpg?width=360&height=240&mode=crop&format=jpeg&quot";
+               var newsImage = item.ImageUrl;
+                //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/13_02_2019_15_50_27_8830586.jpg?width=360&height=240&mode=crop&format=jpeg&quot";
                 //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
                 <div class="media-left">
                     @*	<a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">*@
@@ -125,7 +127,8 @@ else
             @foreach (var item in Model)
             {
                 string baseUrl = "https://localhost:7266/";
-                string controller = "ArticleDetailswithprefix";
+              //  string baseUrl = "https://devdiscourse-devdiscoursenetcore.azurewebsites.net/";
+                string controller = "article";
                 string action = item.Label ?? "agency-wire";
                 string id = item.GenerateSecondSlug();
                 @* long id = item.NewId; *@

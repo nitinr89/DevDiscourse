@@ -21,8 +21,8 @@ namespace Devdiscourse.Controllers.ViewComponents
             if (reg == "")
             {
                 var search = (from a in _db.DevNews
-                              //where a.AdminCheck == true && a.Type == "Blog" && a.CreatedOn > todayDate
-                              //orderby a.PublishedOn descending
+                              where a.AdminCheck == true && a.Type == "Blog" && a.CreatedOn > todayDate
+                              orderby a.PublishedOn descending
                               select new NewsViewModel
                               {
                                   Title = a.Title,
@@ -38,9 +38,24 @@ namespace Devdiscourse.Controllers.ViewComponents
             }
             else
             {
+
+                var region = (from c in _db.Countries
+                              join r in _db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+
+              //  if (region != null && region.Title != null) regionTitle = region.Title;
+                var result = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
+
                 var search = (from a in _db.DevNews
-                              //where a.AdminCheck == true && a.Region.Contains(reg) && a.Type == "Blog" && a.CreatedOn > todayDate
-                              //orderby a.PublishedOn descending
+                              where a.AdminCheck == true &&
+                              a.Region.Contains(result) && //region=India not working
+                              a.Type == "Blog" && a.CreatedOn > todayDate
+                              orderby a.PublishedOn descending
                               select new NewsViewModel
                               {
                                   Title = a.Title,

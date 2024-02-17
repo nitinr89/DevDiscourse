@@ -393,8 +393,7 @@
 <div class="container p-t-10">
     <div class="advertisement-area" style="min-height:122px"> <div class="advertisement-title">Advertisement</div> </div>
     @{
-        @await Component.InvokeAsync("SectorTopStories", new { sector = ViewBag.sector, reg = ViewBag.region })
-        ;
+        @await Component.InvokeAsync("SectorTopStories", new { sector = ViewBag.sector, reg = ViewBag.region });
     }
 
 </div>
@@ -466,7 +465,8 @@
 
                         var label = item.label != null ? item.label : "agency-wire";
 
-                        var Image = item.image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.image : item.image;
+                       // var Image = item.image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.image : item.image;
+                        var Image = item.image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? item.image : item.image;
 
                         alertHtml += '<a href="/article/' + label + '/' + slugUrl + '"class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="/content/transparent.png?width=60&height=60" data-src="' + Image + '?width=60&height=60&mode=crop&format=jpeg" width="60" height="60" alt="News" class="img-rounded pull-right lazy"/></div></div></a>'
                     });
@@ -535,7 +535,8 @@
                                 var newsImage = '/images/sector/all_sectors.jpg';
                                 if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
                                     // newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl;
-                                    newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
+                                     newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.imageUrl : item.imageUrl;
+                                    //newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
                                 }
                                 var createdOn = new Date(item.createdOn);
                                 createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());

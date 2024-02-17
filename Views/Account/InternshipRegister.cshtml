@@ -1,4 +1,5 @@
 ﻿@model Devdiscourse.Models.InternshipRegisterViewModel
+@addTagHelper *, DNTCaptcha.Core
 @{
     ViewBag.Title = "Register for Online Media Internship Program | Devdiscourse";
     string domainUrl = "http://www.devdiscourse.com";
@@ -168,6 +169,22 @@
                     <div class="form-group">
                         <div class="col-md-12 no-padding">
                         @*     @Html.Captcha("Try another", "Enter the text you see above:", 5, "The Captcha field is required", true) *@
+                            <dnt-captcha asp-captcha-generator-max="999999"
+                                         asp-captcha-generator-min="111111"
+                                         asp-captcha-generator-language="English"
+                                         asp-captcha-generator-display-mode="ShowDigits"
+                                         asp-fore-color="#333333"
+                                         asp-back-color="#ccc"
+                                         asp-font-name="Tahoma"
+                                         asp-font-size="50"
+                                         asp-use-relative-urls="true"
+                                         asp-placeholder="Enter Captcha"
+                                         asp-text-box-class="form-control inputBox"
+                                         asp-text-box-template="<span>{0}</span>" />
+                            @if (TempData["captchaError"] != null)
+                            {
+                                <span class="text-danger">@TempData["captchaError"]</span>
+                            }
                    
                         </div>
                     </div>

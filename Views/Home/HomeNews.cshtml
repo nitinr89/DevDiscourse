@@ -646,7 +646,29 @@
             }
         </div>
     </div>
-</div>@*<div class="video-container"> <div class="container p-b-20"> <h2 class="section-title2"> <span style="background-color:#f4f4f4">Interviews</span> </h2> <div id="interviewCarousel" class="owl-carousel"> @{Html.RenderAction("GetInterview", "Home", new{reg=@ViewBag.edition});}</div></div></div>*@
+</div>
+
+
+
+
+<div class="video-container">
+    <div class="container p-b-20">
+        <h2 class="section-title2">
+            <span style="background-color:#f4f4f4">Interviews</span>
+        </h2>
+        <div id="interviewCarousel" class="owl-carousel">
+
+            @{
+                @await Component.InvokeAsync("Interview", new { reg = @ViewBag.edition })
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -706,7 +728,6 @@
             <h2 class="section-title" title="WASH NEWS">
                 <span>WASH</span>
             </h2> @{
-                // Html.RenderAction("GetWashNews", "SectorNews", new { reg = @ViewBag.edition });
                     @await Component.InvokeAsync("WashNews", new {reg=ViewBag.edition});
             }
             <div class="clearfix">

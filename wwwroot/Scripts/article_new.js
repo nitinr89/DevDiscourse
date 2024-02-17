@@ -23,26 +23,28 @@
                 dataType: 'Json',
                 success: function (result) {
                     $.each(result, function (i, data) {
-                        var subtitle = data.Subtitle == null ? "" : '<h2 class="sub-title">' + data.Subtitle + '</h2>';
+                        debugger
+                        var subtitle = data.subtitle == null ? "" : '<h2 class="sub-title">' + data.subtitle + '</h2>';
                         var label = data.label == null ? "agency-wire" : data.label;
-                        var slug = data.Slug == null ? "" : data.Slug;
-                        var encodedTitle = encodeURI(data.Title);
+                        var slug = data.slug == null ? "" : data.slug;
+                        var encodedTitle = encodeURI(data.title);
                         if (_isAdmin == true) {
-                            adminSection = data.Type == "News" ? '<section class="admin-section"><a href="/DevNews/Edit?id=' + data.Id + '"  target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a></section>' : '<section class="admin-section"><a href="/DevNews/EditBlog?id=' + data.Id + '"  target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a></section>';
+                            adminSection = data.type == "News" ? '<section class="admin-section"><a href="/DevNews/Edit?id=' + data.id + '"  target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a></section>' : '<section class="admin-section"><a href="/DevNews/EditBlog?id=' + data.id + '"  target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a></section>';
                         }
                         var firstPublishedIn = '';
-                        if (data.Source != null && data.Source != "") {
-                            firstPublishedIn = data.Type == 'Blog' ? '<section class="m-t-30"><ul class="list-inline"><li class="f-18">FIRST PUBLISHED IN: </li><li><span class="badge tag">' + data.Source + '</span></li></ul></section>' : '';
+                        if (data.source != null && data.source != "") {
+                            firstPublishedIn = data.type == 'Blog' ? '<section class="m-t-30"><ul class="list-inline"><li class="f-18">FIRST PUBLISHED IN: </li><li><span class="badge tag">' + data.source + '</span></li></ul></section>' : '';
                         }
+                        debugger
                         var cityHtml = "";
-                        if (data.SourceUrl !== null && data.SourceUrl !== "" && data.SourceUrl.toLowerCase().indexOf('washington') != -1) {
+                        if (data.sourceUrl !== null && data.sourceUrl !== "" && data.sourceUrl.toLowerCase().indexOf('washington') != -1) {
                             cityHtml = '<li>Washington DC</li><li class="list-divider">|</li>';
-                        } else if (data.SourceUrl !== null && data.SourceUrl !== "" && data.SourceUrl.toLowerCase().indexOf('losangeles') != -1) {
+                        } else if (data.sourceUrl !== null && data.sourceUrl !== "" && data.sourceUrl.toLowerCase().indexOf('losangeles') != -1) {
                             cityHtml = '<li>Los Angeles</li><li class="list-divider">|</li>';
-                        } else if (data.SourceUrl !== null && data.SourceUrl !== "") {
-                            cityHtml = '<li class="text-capitalize">' + data.SourceUrl.toLowerCase() + '</li><li class="list-divider">|</li>';
+                        } else if (data.sourceUrl !== null && data.sourceUrl !== "") {
+                            cityHtml = '<li class="text-capitalize">' + data.sourceUrl.toLowerCase() + '</li><li class="list-divider">|</li>';
                         }
-                        imageCopyright = data.ImageCopyright == null ? "" : data.ImageCopyright;
+                        imageCopyright = data.imageCopyright == null ? "" : data.imageCopyright;
                         var imageHtml = '';
                         var BannerIndex = i % 7;
                         var addBannerUrl = bannerArr[BannerIndex];
@@ -68,7 +70,7 @@
                                     '</div>';
                             }
                             adBanners = '<div class="carousel slide custom-carousel" data-ride="carousel"><div class="carousel-inner" role="listbox">' + slides + '</div></div>';
-                            whatsappIcon = '<li><a class="social-btn wa" href="whatsapp://send?text=https://www.devdiscourse.com/article/' + label + '/' + data.Slug + '" rel="nofollow" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span></a><li>';
+                            whatsappIcon = '<li><a class="social-btn wa" href="whatsapp://send?text=https://www.devdiscourse.com/article/' + label + '/' + data.slug + '" rel="nofollow" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span></a><li>';
                             //adOnMobile = amazonAd;
                         }
                         else {
@@ -82,29 +84,29 @@
                         //    adOnMobile = '';
                         //}
                         
-                        var imageUrl = data.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "https://www.devdiscourse.com/remote.axd?" + data.ImageUrl : "https://www.devdiscourse.com" + data.ImageUrl;
-                        if (data.ImageUrl != null && data.ImageUrl != "/images/defaultImage.jpg" && data.ImageUrl != "/images/newstheme.jpg" && data.ImageUrl != "/images/sector/all_sectors.jpg") {
-                            imageHtml = '<figure class="figure"><picture> <source srcset="' + imageUrl + '?width=920&format=webp" type="image/webp"> <source srcset="' + imageUrl + '?width=920&format=jpeg" type="image/jpeg"><img src="' + imageUrl + '?width=920&format=jpeg" class="img-responsive" alt="' + data.Title + '"></picture><figcaption class="fig-caption">' + imageCopyright + '</figcaption></figure>';
+                        var imageUrl = data.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "https://www.devdiscourse.com/remote.axd?" + data.imageUrl : "https://www.devdiscourse.com" + data.imageUrl;
+                        if (data.imageUrl != null && data.imageUrl != "/images/defaultImage.jpg" && data.imageUrl != "/images/newstheme.jpg" && data.imageUrl != "/images/sector/all_sectors.jpg") {
+                            imageHtml = '<figure class="figure"><picture> <source srcset="' + imageUrl + '?width=920&format=webp" type="image/webp"> <source srcset="' + imageUrl + '?width=920&format=jpeg" type="image/jpeg"><img src="' + imageUrl + '?width=920&format=jpeg" class="img-responsive" alt="' + data.title + '"></picture><figcaption class="fig-caption">' + imageCopyright + '</figcaption></figure>';
                         }
                         var source = "";
                         if (data.Type == 'News') {
-                            switch (data.Source) {
-                                case "PTI": source = '<li><a href="/pti-stories/">' + data.Source + '</a></li><li class="list-divider">|</li>'; break;
-                                case "Reuters": source = '<li><a href="/reuters-stories/">' + data.Source + '</a></li><li class="list-divider">|</li>'; break;
-                                case "IANS": source = '<li><a href="/ians-stories/">' + data.Source + '</a></li><li class="list-divider">|</li>'; break;
-                                case "Devdiscourse News Desk": source = '<li><a href="/devdiscourse-stories/">' + data.Source + '</a></li><li class="list-divider">|</li>'; break;
-                                case "ANI": source = '<li><a href="/ani-stories/">' + data.Source + '</a></li><li class="list-divider">|</li>'; break;
-                                case "PR Newswire": source = '<li><a href="/pr-newswire/">' + data.Source + '</a></li><li class="list-divider">|</li>'; break;
-                                default: source = '<li><a href="/news-source/' + data.Source + '">' + data.Source + '</a></li><li class="list-divider">|</li>'; break;
+                            switch (data.source) {
+                                case "PTI": source = '<li><a href="/pti-stories/">' + data.source + '</a></li><li class="list-divider">|</li>'; break;
+                                case "Reuters": source = '<li><a href="/reuters-stories/">' + data.source + '</a></li><li class="list-divider">|</li>'; break;
+                                case "IANS": source = '<li><a href="/ians-stories/">' + data.source + '</a></li><li class="list-divider">|</li>'; break;
+                                case "Devdiscourse News Desk": source = '<li><a href="/devdiscourse-stories/">' + data.source + '</a></li><li class="list-divider">|</li>'; break;
+                                case "ANI": source = '<li><a href="/ani-stories/">' + data.source + '</a></li><li class="list-divider">|</li>'; break;
+                                case "PR Newswire": source = '<li><a href="/pr-newswire/">' + data.source + '</a></li><li class="list-divider">|</li>'; break;
+                                default: source = '<li><a href="/news-source/' + data.source + '">' + data.source + '</a></li><li class="list-divider">|</li>'; break;
                             }
-                        } else if (data.Type == "Blog" && data.Author != null && data.Author != "") {
+                        } else if (data.type == "Blog" && data.author != null && data.author != "") {
                             var authorImage = '';
-                            if (data.Themes != null) {
-                                authorImage = data.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + data.Themes : 'https://www.devdiscourse.com' + data.Themes;
+                            if (data.themes != null) {
+                                authorImage = data.themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + data.themes : 'https://www.devdiscourse.com' + data.themes;
                             } else {
-                                authorImage = data.Avatar;
+                                authorImage = data.avatar;
                             }
-                            source = '<li><a href = "/Home/AuthorArticles?fl=' + data.Author.Trim() + '"> <img class="img-circle author-avatar" src="' + authorImage + '?width=30&height=30&mode=crop" onerror="this.src=&#39;/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop&#39;" alt="' + data.Author + '" />' + data.Author.Trim() + '</a></li>';
+                            source = '<li><a href = "/Home/AuthorArticles?fl=' + data.Author.Trim() + '"> <img class="img-circle author-avatar" src="' + authorImage + '?width=30&height=30&mode=crop" onerror="this.src=&#39;/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop&#39;" alt="' + data.author + '" />' + data.author.Trim() + '</a></li>';
                         }
                         var shareHtml = '<ul class="list-inline no-margin share-button-list"><li class="l-h-28">SHARE</li><li><a onclick="window.open(&#39;https://www.facebook.com/sharer/sharer.php?u=https://www.devdiscourse.com/article/' + label + '/' + slug + '&#39;, &#39;facebook_share&#39;, &#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="Share on Facebook" class="social-btn"><span class="fa fa-facebook fb"></span></a></li>' +
                             '<li><a onclick="window.open(&#39;http://twitter.com/share?url=https://www.devdiscourse.com/article/' + label + '/' + slug + '&amp;text=' + encodedTitle + '&#39;, &#39;facebook_share&#39;, &#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="share on Twitter" class="social-btn"><span class="fa fa-twitter tw"></span></a> </li>' +
@@ -112,11 +114,11 @@
                             '<li><a class="social-btn" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span></a> </li>' +
                             whatsappIcon + '</ul>';
 
-                        var modifiedOn = new Date(data.ModifiedOn); modifiedOn.setMinutes(modifiedOn.getMinutes() - (new Date).getTimezoneOffset());
-                        var publishedOn = new Date(data.PublishedOn);
+                        var modifiedOn = new Date(data.modifiedOn); modifiedOn.setMinutes(modifiedOn.getMinutes() - (new Date).getTimezoneOffset());
+                        var publishedOn = new Date(data.publishedOn);
                         publishedOn.setMinutes(publishedOn.getMinutes() - (new Date).getTimezoneOffset());
-                        var tag = data.Tags != null ? data.Tags.split(',').splice(0, 30) : [];
-                        var country = data.Country != null ? data.Country.split(',') : [];
+                        var tag = data.tags != null ? data.tags.split(',').splice(0, 30) : [];
+                        var country = data.country != null ? data.country.split(',') : [];
                         var tagHtml = '';
                         var countryHtml = '';
                         if (tag.length > 0) {
@@ -141,29 +143,29 @@
                             addBannerUrlHtml = '<div class="advertisement-area m-b-10"> <div class="advertisement-title">Advertisement</div>' + adBanners + '</div>';
                         }
                         function formating(input) { return input < 10 ? '0' + input : input; }
-                        var html = addBannerUrlHtml + '<div class="article-divider clearfix" data-articleurl="' + data.Slug + '" data-articletitle="' + data.Title + '"><span>Next Article</span></div><article>' +
-                            '<h2 class="title">' + data.Title + '</h2>' + subtitle + '<hr class="seperator" />' +
+                        var html = addBannerUrlHtml + '<div class="article-divider clearfix" data-articleurl="' + data.slug + '" data-articletitle="' + data.title + '"><span>Next Article</span></div><article>' +
+                            '<h2 class="title">' + data.title + '</h2>' + subtitle + '<hr class="seperator" />' +
                             '<div class="m-b-10 m-t-10">' +
                             '<ul class="list-inline metadata">' + source + cityHtml + '<li>Updated: ' + formating(modifiedOn.getDate()) + '-' + formating(modifiedOn.getMonth() + 1) + '-' + modifiedOn.getFullYear() + ' ' + formating(modifiedOn.getHours()) + ':' + formating(modifiedOn.getMinutes()) + ' IST</li>' + '<li class="list-divider">|</li>' + '<li>Created: ' + formating(publishedOn.getDate()) + '-' + formating(publishedOn.getMonth() + 1) + '-' + publishedOn.getFullYear() + ' ' + formating(publishedOn.getHours()) + ':' + formating(publishedOn.getMinutes()) + ' IST</li></ul>' +
                             '</div>' + adminSection + imageHtml +
                             '<section class="left-section clearfix">' + countryHtml + shareHtml + '</section>' +
                             '<hr class="seperator m-b-20" />' +
-                            '<section class="article-cont">' + data.Description + '</section>' + tagHtml + firstPublishedIn +
-                            '<button onclick="reset(\'https://www.devdiscourse.com/Article/' + data.Slug + '\',' + data.NewsId + ');" class="btn btn-default btn-lg m-b-20 m-t-20 btn-block"><img src="/images/icons/comment_bubble.svg" alt="comments" /> POST / READ COMMENTS</button> <section id="art_' + data.NewsId + '" class="commentbox"> <div id="disqus_thread" style="display:none;"><img src="/images/icons/disqus_loader.svg" class="center-block" /></div> </section>' +
+                            '<section class="article-cont">' + data.description + '</section>' + tagHtml + firstPublishedIn +
+                            '<button onclick="reset(\'https://www.devdiscourse.com/Article/' + data.slug + '\',' + data.newsId + ');" class="btn btn-default btn-lg m-b-20 m-t-20 btn-block"><img src="/images/icons/comment_bubble.svg" alt="comments" /> POST / READ COMMENTS</button> <section id="art_' + data.newsId + '" class="commentbox"> <div id="disqus_thread" style="display:none;"><img src="/images/icons/disqus_loader.svg" class="center-block" /></div> </section>' +
                             '</article>';
 
                         $('#NewsNews').append(html);
                         ga('send', 'pageview', location.pathname);
                         inCallback = !1; $("#loading").hide();
                         if (imageHtml == '') {
-                            var totalHeight = 0; $('#art-' + data.NewsId + ' p').each(function () {
+                            var totalHeight = 0; $('#art-' + data.newsId + ' p').each(function () {
                                 totalHeight = totalHeight + $(this).outerHeight(!0);
                             });
                             if (totalHeight > 350) {
-                                $('#art-' + data.NewsId).height(300);
+                                $('#art-' + data.newsId).height(300);
                             } else {
-                                $('#art-' + data.NewsId).css({ height: 'auto' });
-                                $('#art-' + data.NewsId + '+.full-read-overlay').remove();
+                                $('#art-' + data.newsId).css({ height: 'auto' });
+                                $('#art-' + data.newsId + '+.full-read-overlay').remove();
                             }
                         }
                     });
@@ -194,33 +196,7 @@
                 }
                 var country = item.country != null ? item.country.split(',') : [];
                 var countryText = country.length > 0 ? country[0] : "Global";
-                //if (i == 0) {
-                //    videoFirstHtml += '<a href="/news/videos/' + slugUrl + '">' +
-                //        '<div class="video-cover m-b-20 lazy lazyload" title="' + item.Title + '" data-src="https://www.devdiscourse.com' + newsImage + '?width=555&height=300&mode=crop">' +
-                //        '<div class="cover-overlay">' +
-                //        '<h3 class="video-title">' + item.Title + '</h3>' +
-                //        '<small class="fg-white no-margin">' +
-                //        countryText +
-                //        '</small>' +
-                //        '</div>' +
-                //        '<div class="video-btn"><span class="fa fa-play"></span></div>' +
-                //        '</div></a>';
-                //} else {
-                //    videoHtml += '<a href="/article/' + label + '/' + slugUrl + '">' +
-                //        '<div class="media m-b-10" title="' + item.Title + '">' +
-                //        '<div class="media-left">' +
-                //        '<div class="video-cover small lazy" data-src="https://www.devdiscourse.com' + newsImage + '?width=100&height=90&mode=crop">' +
-                //        '<div class="video-btn small"><span class="fa fa-play"></span></div>' +
-                //        '</div>' +
-                //        '</div>' +
-                //        '<div class="media-body">' +
-                //        '<h4 class="fg-black f-16 font-normal no-margin l-h">' + item.Title + '</h4>' +
-                //        '<small class="text-muted">' +
-                //        countryText +
-                //        '</small>' +
-                //        '</div>' +
-                //        '</div></a>';
-                //}
+           
                 videoHtml += '<div class="col-md-12 col-sm-12">' +
                     '<a href="/news/videos/' + slugUrl + '">' +
                     '<div class="video-cover m-b-20 lazy lazyloaded" title="' + item.title + '" style="background-image: url(&quot;https://www.devdiscourse.com' + newsImage + '?width=555&amp;height=300&amp;mode=crop&quot;);">' +

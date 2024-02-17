@@ -6,13 +6,14 @@
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-            newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
+             //newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            newsImage = item.ImageUrl;
+            //newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
         }
         <div class="media p-b-20 m-t-20">
             <div class="media-left" id="Agro-culture">
                 @{
-                    string controller = "ArticleDetailswithprefix";
+                    string controller = "/article";
                     string action = item.Label ?? "agency-wire";
                     string id = item.GenerateSecondSlug();
                 }
@@ -54,11 +55,15 @@
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-            // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-            newsImage = "https://devdiscourse.blob.core.windows.net/devnews/04_06_2020_12_24_02_9070784.jpg?";
+             // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+
+               newsImage =  item.ImageUrl;
+
+
+            //newsImage = "https://devdiscourse.blob.core.windows.net/devnews/04_06_2020_12_24_02_9070784.jpg?";
         }
 
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
         string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
@@ -99,7 +104,7 @@
         <div class="col-md-7">
             @foreach (var item in Model.Take(2))
             {
-                string controller = "Article";
+                string controller = "/article";
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
@@ -129,7 +134,7 @@
         </div> <div class="col-md-5">
             @foreach (var item in Model.Skip(2).Take(3))
             {
-                string controller = "ArticleDetailswithprefix";
+                string controller = "/article";
                 string action = item.Label ?? "agency-wire";
                  string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
@@ -171,7 +176,7 @@ else if (ViewBag.Sector == "11")
 {
     foreach (var item in Model.Take(5))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
@@ -203,7 +208,7 @@ else if (ViewBag.Sector == "15")
 {
     foreach (var item in Model.Take(6))
     {
-        string controller = "ArticleDetailswithprefix";
+        string controller = "/article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();
         //long id = item.NewsId;

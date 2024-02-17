@@ -12,7 +12,7 @@
     string id = item.GenerateSecondSlug();
     //long id = item.NewsId;
 
-    string pageUrl = "/article/" + item.GenerateSecondSlug();
+    string pageUrl = "/article"; //+ item.GenerateSecondSlug();
     <div class="p-b-20 col-md-12 col-xs-12 col-sm-12 col-lg-12">
         <div class="blog-card">
             <div class="row">
@@ -20,7 +20,7 @@
 
                     @*     <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title"> *@
                     @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" title="@item.Title"> *@
-                    <a href="@controller/@action/@id" title="=@item.Title">
+                    <a href="@pageUrl/@action/@id" title="=@item.Title">
 
                         @{
                             var imageUrl = !string.IsNullOrEmpty(item.ImageUrl) ? item.ImageUrl : "";
@@ -50,7 +50,7 @@
 
                         @*             <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration">@item.Title</a> *@
                         @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" title="@item.Title" class="text-decoration">@item.Title</a> *@
-                        <a href="@controller/@action/@id" title="@item.Title" class="text-decoration">@item.Title</a>
+                        <a href="@pageUrl/@action/@id" title="@item.Title" class="text-decoration">@item.Title</a>
 
                     </h3>
                     <p>@item.Country</p>

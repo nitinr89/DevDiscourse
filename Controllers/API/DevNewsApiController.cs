@@ -1897,34 +1897,41 @@ namespace DevDiscourse.Controllers.API
             }
             return Ok(resultNewsList);
         }
+
+
+
+
         [Route("api/GetPreviousSectorNews/{id}/{sector}/{reg}/{skip}")]
         [HttpGet]
         public IActionResult GetPreviousSectorNews(long id, string sector, string reg = "Global Edition", int skip = 0)
         {
+
+            var regs = (from c in db.Countries
+                       join r in db.Regions on c.RegionId equals r.Id
+                       where c.Title == reg
+                        select new
+                       {
+                           r.Title
+                       }).FirstOrDefault();
+            string regionTitle = "Global Edition";
+
+            var region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
+
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
             DateTime tenDays = search.CreatedOn.AddHours(-8);
 
-            //var newsList = db.DevNews.Where(a => a.NewsId < id && a.CreatedOn > tenDays && (a.Sector == sector) && a.AdminCheck == true);
-            var sectorIds = sector.Split(',').Select(int.Parse).ToList();
-            var newsList = db.DevNews.Where(a => a.SectorMapping.Any(ns => sectorIds.Contains(ns.SectorId)));
+            var newsList = db.DevNews.Where(a => a.NewsId < id && a.CreatedOn > tenDays && (a.Sector == sector) && a.AdminCheck == true);
+            //var sectorIds = sector.Split(',').Select(int.Parse).ToList();
+            //var newsList = db.DevNews.Where(a => a.SectorMapping.Any(ns => sectorIds.Contains(ns.SectorId)));
             
-            if (reg != "Global Edition")
+            if (region != "Global Edition")
             {
-                newsList = newsList.Where(a => a.Region.Contains(reg));
+                newsList = newsList.Where(a => a.Region.Contains(region));
             }
-            //newsList = newsList.OrderByDescending(o => o.CreatedOn).Skip(skip).Take(9);
+            newsList = newsList.OrderByDescending(o => o.CreatedOn).Skip(skip).Take(9);
             List<ApiNewsView> resultNewsList = new List<ApiNewsView>();
             foreach (var news in newsList.ToList())
             {
-                //var tags = news.Tags ?? "";
-                //var tagArray = tags.Split(',').ToList();
-                //var DataDesc = news.Description;
-                //foreach (var tag in tagArray.OrderBy(a => a.Length))
-                //{
-                //    var replaceTag = tag.Replace("(", "");
-                //    replaceTag = replaceTag.Replace(")", "");
-                //    DataDesc = Regex.Replace(DataDesc, " " + replaceTag.Trim() + " ", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">" + replaceTag.Trim() + "</a> ");
-                //}
                 var tags = news.Tags ?? "";
                 var tagArray = tags.Split(',').Where(l => !string.IsNullOrEmpty(l)).ToList();
                 var DataDesc = news.Description;
@@ -1937,28 +1944,30 @@ namespace DevDiscourse.Controllers.API
                 {
                     Title = news.Title,
                     Description = DataDesc,
-                    Subtitle = news.SubTitle,
+                    Subtitle = (news.SubTitle!=null) ? news.SubTitle : "Default",
                     ImageUrl = news.ImageUrl,
-                    Country = news.Country,
-                    Type = news.Type,
-                    SubType = news.SubType,
-                    Source = news.Source,
-                    Themes = news.Themes,
-                    Avatar = news.ApplicationUsers.ProfilePic,
-                    SourceUrl = news.SourceUrl,
-                    Tags = news.Tags,
-                    Label = news.NewsLabels,
+                    Country = (news.Country!=null)? news.Country : "Default",
+                    Type = (news.Type!=null)? news.Type : "Default",
+                    SubType = (news.SubType!=null)? news.SubType : "Default",
+                    Source = (news.Source!=null)? news.Source : "Default",
+                    Themes = (news.Themes != null) ? news.Themes : "Default",
+                    Avatar = news.ApplicationUsers?.ProfilePic??"",
+                    SourceUrl = (news.SourceUrl != null) ? news.SourceUrl : "Default",
+                    Tags = (news.Tags != null) ? news.Tags : "Default",
+                    Label = (news.NewsLabels != null) ? news.NewsLabels : "Default",
                     Slug = news.GenerateSecondSlug(),
                     ModifiedOn = news.ModifiedOn,
                     CreatedOn = news.CreatedOn,
                     PublishedOn = news.PublishedOn,
                     NewsId = news.NewsId,
                     Id = news.Id,
-                    ImageCopyright = news.ImageCopyright
+                    ImageCopyright = (news.ImageCopyright != null) ? news.ImageCopyright : "Default"
                 });
             }
             return Ok(resultNewsList);
         }
+
+
         [Route("api/GetSearchedNews/{text}")]
         [HttpGet]
         public IActionResult GetSearchedNews(string text)

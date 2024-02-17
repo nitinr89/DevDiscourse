@@ -16,9 +16,10 @@ namespace DevDiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(string reg)
         {
             await Task.Yield();
-            try { 
-            reg = reg == "Global Edition" ? "" : reg;
-            DateTime thirtyDays = DateTime.Today.AddDays(-120);
+            try
+            {
+                reg = reg == "Global Edition" ? "" : reg;
+                DateTime thirtyDays = DateTime.Today.AddDays(-15);
                 //var thirtyDays = DateTime.Now.AddDays(-30);
                 if (reg == "")
                 {
@@ -47,11 +48,11 @@ namespace DevDiscourse.Controllers.ViewComponents
 
                     //new 
                     var infocus = (from dn in _db.DevNews
-                                   where dn.AdminCheck
+                                   where dn.AdminCheck == true
                                          && dn.PublishedOn > thirtyDays
                                          && dn.Type == "Blog"
                                          && dn.SubType != "Interview"
-                                   //  orderby dn.PublishedOn descending
+                                   orderby dn.PublishedOn descending
                                    select new NewsViewModel
                                    {
                                        NewsId = dn.NewsId,
@@ -96,12 +97,32 @@ namespace DevDiscourse.Controllers.ViewComponents
 
 
                     //new query
+                    //string regionTitle = "";
+                    //if (reg == "India")
+                    //{
+                        var region = (from c in _db.Countries
+                                      join r in _db.Regions on c.RegionId equals r.Id
+                                      where c.Title == reg
+                                      select new
+                                      {
+                                          r.Title
+                                      }).FirstOrDefault();
+                      string regionTitle = "Global Edition";
+
+                        //if (region != null && region.Title != null)
+                        //{
+                        //    regionTitle = region.Title;
+                        //    reg = regionTitle;
+                        //}
+                        var result = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
+                   // }
+
                     var infocus = (from dn in _db.DevNews
                                    where dn.AdminCheck
                                          && dn.PublishedOn > thirtyDays
                                          && dn.Type == "Blog"
-                                         && dn.SubType != "Interview"
-                                   // orderby dn.PublishedOn descending
+                                        && dn.Region.Contains(result) && dn.SubType != "Interview"
+                                   orderby dn.PublishedOn descending
                                    select new NewsViewModel
                                    {
                                        NewsId = dn.NewsId,
@@ -118,7 +139,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                                   .ToList();
                     return View(infocus.ToList());
                 }
-                
+
 
             }
             catch (Exception ex)

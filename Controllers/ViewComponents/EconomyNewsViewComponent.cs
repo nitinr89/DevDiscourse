@@ -22,7 +22,7 @@ namespace Devdiscourse.Controllers.ViewComponents
             try
             {
                 ViewBag.Sector = "1";
-                DateTime twoMonth = DateTime.UtcNow.AddDays(-120);
+                DateTime twoMonth = DateTime.UtcNow.AddDays(-2);
 
                 //var result = _db.RegionNewsRankings.Where(a => a.DevNews.CreatedOn > twoMonth && a.DevNews.AdminCheck == true && a.DevNews.Sector == "1" && a.Region.Title == reg && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).Select(a => new NewsViewModel
                 //{
@@ -39,26 +39,34 @@ namespace Devdiscourse.Controllers.ViewComponents
                 //}).AsNoTracking().Take(30).ToList();
                 //return View(result.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(a => a.Ranking).Take(6));
 
+                var region = (from c in _db.Countries
+                              join r in _db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+
+                if (region != null && region.Title != null) regionTitle = region.Title;
 
 
-
-                var resultList = _db.DevNews
-    .Where(dn => dn.AdminCheck == true &&
-                dn.CreatedOn > twoMonth &&
-                dn.Sector == "1")
-    .OrderByDescending(dn => dn.CreatedOn)
+                var resultList = _db.RegionNewsRankings
+    .Where(dn => dn.DevNews.CreatedOn > twoMonth && dn.DevNews.AdminCheck == true &&
+                dn.DevNews.Sector == "1" && dn.Region.Title == regionTitle && dn.DevNews.IsSponsored == false)
+    .OrderByDescending(dn => dn.DevNews.CreatedOn)
     .Take(65)
     .Select(dn => new NewsViewModel
     {
-        NewsId = dn.NewsId,
-        Title = dn.Title,
-        ImageUrl = dn.ImageUrl,
-        CreatedOn = dn.ModifiedOn,
-        Subtitle = dn.SubTitle,
-        SubType = dn.SubType,
-        Country = dn.Country,
-        Sector = dn.Sector,
-        Label = dn.NewsLabels,
+        NewsId = dn.DevNews.NewsId,
+        Title = dn.DevNews.Title,
+        ImageUrl = dn.DevNews.ImageUrl,
+        CreatedOn = dn.DevNews.ModifiedOn,
+        Subtitle = dn.DevNews.SubTitle,
+        SubType = dn.DevNews.SubType,
+        Country = dn.DevNews.Country,
+        Sector = dn.DevNews.Sector,
+        Label = dn.DevNews.NewsLabels,
         Ranking = 0
     })
     .ToList();
@@ -76,6 +84,6 @@ namespace Devdiscourse.Controllers.ViewComponents
             {
                 return Content("Error: " + ex.Message);
             }
-            }
+        }
     }
 }

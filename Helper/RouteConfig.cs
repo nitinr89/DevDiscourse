@@ -6,6 +6,13 @@ namespace Devdiscourse.Helper
     {
         public static void ConfigureRoutes(IEndpointRouteBuilder routes)
         {
+            
+                routes.MapControllerRoute(
+                    name: "custom",
+                    pattern: "{action=Index}/{id?}",
+                    defaults: new { controller = "Home" });
+
+
             routes.MapControllerRoute(
                name: "CommonEvent",
                pattern: "media-partner-event/{id?}",
@@ -22,7 +29,7 @@ namespace Devdiscourse.Helper
 
             routes.MapControllerRoute(
                        name: "ArticleDetailswithprefix",
-                       pattern: "Article/{Prefix}/{id?}",
+                       pattern: "article/{Prefix}/{id?}",
                        defaults: new { controller = "Article", action = "Index" });
 
             routes.MapControllerRoute(
@@ -147,15 +154,15 @@ namespace Devdiscourse.Helper
                         );
 
             routes.MapControllerRoute(
-                       name: "ArticleDetailswithprefix",
-                       pattern: "ArticleDetailswithprefix/{Index}/{id?}",
+                       name: "Article",
+                       pattern: "article/{Index}/{id?}",
                        defaults: new { controller = "Article", action = "Index" });
 
             routes.MapControllerRoute(
-                name: "ArticleDetailswithprefix",
-                pattern: "{prefix}/ArticleDetailswithprefix/{id?}",
-                defaults: new { controller = "Article", action = "Index" },
-                 constraints: new { customeroute = new SeoFriendlyRouteConstraint() }
+                name: "Article",
+                pattern: "{prefix}/article/{id?}",
+                defaults: new { controller = "Article", action = "Index" }
+                 //constraints: new { customeroute = new SeoFriendlyRouteConstraint()  }
                 );
 
             routes.MapControllerRoute(

@@ -1901,7 +1901,7 @@ namespace DevDiscourse.Controllers.API
 
 
 
-        [Route("api/GetPreviousSectorNews/{id}/{sector}/{reg}/{skip}")]
+        [Route("api/DevNewsApi/GetPreviousSectorNews/{id}/{sector}/{reg}/{skip}")]
         [HttpGet]
         public IActionResult GetPreviousSectorNews(long id, string sector, string reg = "Global Edition", int skip = 0)
         {

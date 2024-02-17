@@ -14,16 +14,19 @@ namespace Devdiscourse.Controllers.Main
         }
         public async Task<ActionResult> Index(string sector = "all", string tag = "")
         {
-            string? cookie = Request.Cookies["Edition"];
-            var regs = (from c in _db.Countries
-                        join r in _db.Regions on c.RegionId equals r.Id
-                        where c.Title == cookie
-                        select new
-                        {
-                            r.Title
-                        }).FirstOrDefault();
-            string regionTitle = "Global Edition";
-            if (regs != null && regs.Title != null) regionTitle = regs.Title;
+            string? cookie = Request.Cookies["Edition"];  
+            var reg = cookie;
+            var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id where c.Title == reg select new { r.Title }).FirstOrDefault();
+            string regionTitle = string.Empty;
+            var region = string.Empty;
+            if (reg == "")
+            {
+                region = "Global Edition";
+            }
+            else
+            {
+                region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
+            }
             if (string.IsNullOrWhiteSpace(sector)) sector = "all";
             ViewBag.sectorSlug = sector;
             if (cookie == null)
@@ -32,7 +35,7 @@ namespace Devdiscourse.Controllers.Main
             }
             else
             {
-                ViewBag.region = regionTitle ?? "Global Edition";
+                ViewBag.region = region ?? "Global Edition";
 
             }
             if (!string.IsNullOrEmpty(tag))

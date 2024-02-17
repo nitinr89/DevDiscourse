@@ -94,14 +94,24 @@ namespace DevDiscourse.Controllers
                 }
                 else
                 {
-                    var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id where c.Title == reg select new{ r.Title}).FirstOrDefault();
-                    string regionTitle = "Global Edition";
-                    var userRegion = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
+
+                        var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id where c.Title == reg select new { r.Title }).FirstOrDefault();
+                        string regionTitle = string.Empty;
+                        var region = string.Empty;
+                        if (reg == "")
+                        {
+                            region = "Global Edition";
+                        }
+                        else
+                        {
+                            region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
+                        }
+
                     string cookieName = "Edition";
                     CookieOptions options = new CookieOptions();
                     options.Expires = DateTime.UtcNow.AddDays(1);
-                    string cookieValue = userRegion ?? "Global Edition";
-                    ViewBag.edition = userRegion ?? "Global Edition";
+                    string cookieValue = region ?? "Global Edition";
+                    ViewBag.edition = region ?? "Global Edition";
                     Response.Cookies.Append(cookieName, cookieValue, options);
                 }
             }

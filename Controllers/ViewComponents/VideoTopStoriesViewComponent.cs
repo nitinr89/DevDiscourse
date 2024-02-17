@@ -18,12 +18,12 @@ namespace Devdiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(string sectore, string reg = "Global Edition")
         {
             await Task.Yield();
-            try { 
-            DateTime lastTenDays = DateTime.Today.AddDays(-10);
+            try {
+                DateTime lastTenDays = DateTime.Today.AddDays(-10);
                 if (reg == "Global Edition")
                 {
                     var resultList = _db.VideoNews
-                        //.Where(a => a.AdminCheck == true && a.CreatedOn > lastTenDays && a.EditorPick == true)
+                        .Where(a => a.AdminCheck == true && a.CreatedOn > lastTenDays && a.EditorPick == true)
                         .Select(a => new VideoViewModel
                         {
                             Id = a.Id,
@@ -38,7 +38,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                 else
                 {
                     var resultList = _db.VideoNews
-                        //.Where(a => a.AdminCheck == true && a.CreatedOn > lastTenDays && a.EditorPick == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
+                        .Where(a => a.AdminCheck == true && a.CreatedOn > lastTenDays && a.EditorPick == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
                         .Select(a => new VideoViewModel
                         {
                             Id = a.Id,

@@ -8,14 +8,19 @@
     var addBannerUrl = '';
     var whatsappIcon = '';
     $(document).find('#regDropDown').change(function () { var date = new Date(); date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/"; window.location.href = $(this).find('option:selected').attr('data-to') });
-    $(window).scroll(function () { if (skip < 0 && !inCallback) { GetPreviousNews(); } });
+    $(window).scroll(function () {
+        if (skip < 0 && !inCallback) {
+            GetPreviousNews();
+        }
+    });
     function GetPreviousNews() {
+
         if (skip > -2 && !inCallback) {
             inCallback = !0; skip++; $("#loading").show();
             if (_sector != "0") {
-                prevNewsUrl = '/api/GetPreviousSectorNews/' + newsId + '/' + _sector.split(',')[0] + '/' + _region + '/' + skip;
+                prevNewsUrl = '/api/DevNewsApi/GetPreviousSectorNews/' + newsId + '/' + _sector.split(',')[0] + '/' + _region + '/' + skip;
             } else {
-                prevNewsUrl = '/api/GetPreviousNews/' + newsId + '/' + label + '/' + _region + '/' + skip;
+                prevNewsUrl = '/api/DevNewsApi/GetPreviousNews/' + newsId + '/' + label + '/' + _region + '/' + skip;
             }
             $.ajax({
                 url: prevNewsUrl,
@@ -23,7 +28,6 @@
                 dataType: 'Json',
                 success: function (result) {
                     $.each(result, function (i, data) {
-                        debugger
                         var subtitle = data.subtitle == null ? "" : '<h2 class="sub-title">' + data.subtitle + '</h2>';
                         var label = data.label == null ? "agency-wire" : data.label;
                         var slug = data.slug == null ? "" : data.slug;

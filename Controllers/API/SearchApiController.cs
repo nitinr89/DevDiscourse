@@ -52,12 +52,6 @@ namespace Devdiscourse.Controllers.API
             }
         }
 
-        //[Route("GetDetails/{id}")]
-        //public string GetDetails([FromRoute] int id)
-        //{
-        //    return "OK";
-        //}
-
         [HttpGet]
         [Route("GetHomeVideoNews/{reg}")]
         public IQueryable<VideoViewModel> GetHomeVideoNews(string reg = "Global Edition")
@@ -65,7 +59,7 @@ namespace Devdiscourse.Controllers.API
             if (reg == "Global Edition")
             {
                 var result = db.VideoNews
-                    //.Where(a => a.AdminCheck == true)
+                    .Where(a => a.AdminCheck == true)
                     .Select(a => new VideoViewModel
                     {
                         Id = a.Id,
@@ -79,7 +73,7 @@ namespace Devdiscourse.Controllers.API
             else
             {
                 var result = db.VideoNews
-                    //.Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
+                    .Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
                     .Select(a => new VideoViewModel
                     {
                         Id = a.Id,
@@ -674,7 +668,7 @@ namespace Devdiscourse.Controllers.API
         public async Task<IActionResult> GetNewsAlert()
         {
             DateTime threeDays = DateTime.Today.AddDays(-2);
-            var newsAlerts = await db.DevNews//.Where(a => a.NewsLabels == "Newsalert" && a.CreatedOn > threeDays && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn)
+            var newsAlerts = await db.DevNews.Where(a => a.NewsLabels == "Newsalert" && a.CreatedOn > threeDays && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn)
                                              .Select(s => new
                                              {
                                                  s.NewsId,
@@ -694,7 +688,7 @@ namespace Devdiscourse.Controllers.API
         }
 
         [Route("GetOpinion/{reg}")]
-        // [System.Web.Mvc.OutputCache(Duration = 300, VaryByParam = "*")]
+         //[OutputCache(Duration = 300, VaryByParam = "*")]
         public IHttpActionResult GetOpinion(string reg)
         {
             reg = reg == "Global Edition" ? "" : reg;
@@ -757,7 +751,7 @@ namespace Devdiscourse.Controllers.API
             DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
             DateTime weekend = todayDate.AddDays(-3).AddTicks(1);
             var result = db.DevNews
-                //.Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region.Contains(reg))
+                .Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region.Contains(reg))
                 .Select(a => new
                 {
                     Id = a.Id,
@@ -802,9 +796,9 @@ namespace Devdiscourse.Controllers.API
             {
                 var result = db.DevNews
 
-                    //.Where(a => a.Type == "Blog" && a.Region.Contains(reg))
-                    //.Where(a => a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays
-                    //&& a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
+                    .Where(a => a.Type == "Blog" && a.Region.Contains(reg))
+                    .Where(a => a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays
+                    && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
                     .Select(a => new
                     {
                         a.Id,

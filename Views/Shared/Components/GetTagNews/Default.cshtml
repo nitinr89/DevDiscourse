@@ -12,8 +12,8 @@
             <h2 class="ar-title">ALSO READ</h2> <ul class="ar-ul">
                 @foreach (var item in Model)
                 {
-
-                    string controller = "ArticleDetailswithprefix";
+                    string baseurl = "https://localhost:7266/";
+                    string controller = "Article";
                     string action = item.Label ?? "agency-wire";
                     long id = item.NewId;
 
@@ -21,7 +21,7 @@
                         <h3 class="f-18 no-margin font-normal l-h">
 
 
-                            <a href="@controller/@action/@id" class="text-decoration">
+                            <a href="@baseurl@controller/@action/@id" class="text-decoration">
                               
                                 @item.Title
 

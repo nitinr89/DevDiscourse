@@ -1915,9 +1915,7 @@ namespace DevDiscourse.Controllers.API
                        }).FirstOrDefault();
             string regionTitle = "Global Edition";
 
-            if (regs != null && regs.Title != null) regionTitle = regs.Title;
-
-
+            var region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
 
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
             DateTime tenDays = search.CreatedOn.AddHours(-8);
@@ -1926,9 +1924,9 @@ namespace DevDiscourse.Controllers.API
             //var sectorIds = sector.Split(',').Select(int.Parse).ToList();
             //var newsList = db.DevNews.Where(a => a.SectorMapping.Any(ns => sectorIds.Contains(ns.SectorId)));
             
-            if (regs.Title != "Global Edition")
+            if (region != "Global Edition")
             {
-                newsList = newsList.Where(a => a.Region.Contains(regs.Title));
+                newsList = newsList.Where(a => a.Region.Contains(region));
             }
             newsList = newsList.OrderByDescending(o => o.CreatedOn).Skip(skip).Take(9);
             List<ApiNewsView> resultNewsList = new List<ApiNewsView>();

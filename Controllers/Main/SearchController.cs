@@ -32,7 +32,6 @@ namespace Devdiscourse.Controllers.Main
             }
             else
             {
-                //ViewBag.region = cookie ?? "Global Edition";
                 ViewBag.region = regionTitle ?? "Global Edition";
 
             }
@@ -72,6 +71,7 @@ namespace Devdiscourse.Controllers.Main
             return View();
         }
 
+
         public async Task<ActionResult> Videos(long? id)
         {
             var videoNews = await _db.VideoNews.FindAsync(id);
@@ -79,9 +79,10 @@ namespace Devdiscourse.Controllers.Main
             {
                 ViewBag.videoNews = videoNews;
                   ViewBag.Tags = string.Join(", ", videoNews.VideoNewsTags.Select(s => s.Tagstb?.TagTitle).ToArray());
-              
 
-                //if (!Request.Browser.Crawler)
+                var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+                bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
+                if (!isCrawler)
                 {
                     videoNews.ViewCount = videoNews.ViewCount + 1;
                     _db.Entry(videoNews).State = EntityState.Modified;

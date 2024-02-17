@@ -1,23 +1,15 @@
 ﻿using Devdiscourse.Data;
+using Devdiscourse.Models;
 using Devdiscourse.Models.ViewModel;
 using DocumentFormat.OpenXml.Bibliography;
-//using DevDiscourse.Hubs;
-//using Devdiscourse.Models;
-//using Devdiscourse.Models.BasicModels;
-//using Devdiscourse.Models.ViewModel;
-//using Html2Amp;
-//using Html2Amp.Sanitization;
-//using Html2Amp.Sanitization.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-//using Newtonsoft.Json.Linq;
-//using PagedList;
+using ServiceStack.Host;
 using System;
 using System.Collections.Generic;
-//using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -26,13 +18,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using X.PagedList;
-//using System.Web.Mvc;
+
 
 namespace DevDiscourse.Controllers
 {
     public class HomeController : Controller, IDisposable
     {
         private ApplicationDbContext _db;
+        private readonly UserManager<ApplicationUser> userManager;
         public HomeController(ApplicationDbContext _db)
         {
             this._db = _db;
@@ -51,24 +44,24 @@ namespace DevDiscourse.Controllers
             }
             return sMacAddress;
         }
-        //[OutputCache(Duration = 60, VaryByParam = "none")]
-        //public ActionResult Disclaimer()
-        //{
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.edition = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.edition = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
-        //[OutputCache(Duration = 60, VaryByParam = "none")]
+        [OutputCache(Duration = 60)]
+        public ActionResult Disclaimer()
+        {
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.edition = "Global Edition";
+            }
+            else
+            {
+                ViewBag.edition = cookie ?? "Global Edition";
+            }
+            return View();
+        }
+
+        [OutputCache(Duration = 60)]
         public ActionResult PrivacyPolicy()
         {
-            //HttpCookie cookie = Request.Cookies["Edition"];
             string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
             {
@@ -83,12 +76,14 @@ namespace DevDiscourse.Controllers
         public ActionResult Index(string reg = "")
         {
             ViewBag.edition = "Global Edition";
-            //if (Request.Browser.Crawler)
-            //{
-            //	ViewBag.edition = "Global Edition";
-            //}
-            //else
-            //{
+            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+            bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
+            if (isCrawler)
+            {
+                ViewBag.edition = "Global Edition";
+            }
+            else
+            {
             string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
             {
@@ -99,7 +94,9 @@ namespace DevDiscourse.Controllers
                 }
                 else
                 {
-                    string? userRegion = _db.Countries.FirstOrDefault(a => a.Title.Contains(UserCountry))?.Title;
+                    var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id where c.Title == reg select new{ r.Title}).FirstOrDefault();
+                    string regionTitle = "Global Edition";
+                    var userRegion = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
                     string cookieName = "Edition";
                     CookieOptions options = new CookieOptions();
                     options.Expires = DateTime.UtcNow.AddDays(1);
@@ -138,7 +135,7 @@ namespace DevDiscourse.Controllers
                 }
                 ViewBag.edition = edition.Replace("Edition=", "") ?? "Global Edition";
             }
-            //}
+          }
             return View();
         }
         public ActionResult Contribute()
@@ -181,46 +178,46 @@ namespace DevDiscourse.Controllers
             return countryName;
         }
 
-        //public async Task<ActionResult> Detail(Guid? id, string reg = "Global Edition", string fl = "")
-        //{
-        //    ViewBag.region = reg;
-        //    ViewBag.fl = fl;
-        //    if (id == null || id == new Guid())
-        //    {
-        //        throw new HttpException(404, "Error 404");
-        //    }
-        //    var search = await _db.DevNews.FirstOrDefaultAsync(a => a.Id == id);
-        //    if (search == null)
-        //    {
-        //        throw new HttpException(404, "Error 404");
-        //    }
-        //    string scheme = Request.Url.AbsoluteUri;
-        //    var suffix = scheme.IndexOf("?amp");
-        //    if (suffix == -1)
-        //    {
-        //        return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = "agency-wire", id = search.GenerateSecondSlug() });
-        //    }
-        //    else
-        //    {
-        //        return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = "agency-wire", id = search.GenerateSecondSlug(), amp = "" });
-        //    }
-        //}
-        //public ActionResult UserProfile()
-        //{
-        //    string userId = User.Identity.GetUserId();
-        //    ViewBag.profile = _db.Users.Find(userId).ProfilePic;
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.edition = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.edition = cookie.Value ?? "Global Edition";
-        //    }
-        //    return View();
-        //}
-        //[OutputCache(Duration = 60, VaryByParam = "*")]
+        public async Task<ActionResult> Detail(Guid? id, string reg = "Global Edition", string fl = "")
+        {
+            ViewBag.region = reg;
+            ViewBag.fl = fl;
+            if (id == null || id == new Guid())
+            {
+                throw new HttpException(404, "Error 404");
+            }
+            var search = await _db.DevNews.FirstOrDefaultAsync(a => a.Id == id);
+            if (search == null)
+            {
+                throw new HttpException(404, "Error 404");
+            }
+            var scheme = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.Path}{this.Request.QueryString}";
+            var suffix = scheme.IndexOf("?amp");
+            if (suffix == -1)
+            {
+                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = "agency-wire", id = search.GenerateSecondSlug() });
+            }
+            else
+            {
+                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = "agency-wire", id = search.GenerateSecondSlug(), amp = "" });
+            }
+        }
+        public ActionResult UserProfile()
+        {
+            string userId = userManager.GetUserId(User);
+            ViewBag.profile = _db.Users.Find(userId).ProfilePic;
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.edition = "Global Edition";
+            }
+            else
+            {
+                ViewBag.edition = cookie ?? "Global Edition";
+            }
+            return View();
+        }
+        [OutputCache(Duration = 60)]
         public async Task<ActionResult> Search(string region = "", string sector = "All", string tag = "", string cat = "", string label = "")
         {
             region = region.Replace("+", " ");
@@ -302,20 +299,21 @@ namespace DevDiscourse.Controllers
             return View();
         }
 
-        //public JsonResult pledge()
-        //{
-        //    var search = (from m in _db.CampaignPetitions
-        //                  where m.PledgeType != null
-        //                  select new
-        //                  {
-        //                      m.FirstName,
-        //                      m.LastName,
-        //                      Join = m.CreatedOn,
-        //                      m.Email,
-        //                      m.PledgeType
-        //                  }).ToList();
-        //    return Json(search, JsonRequestBehavior.AllowGet);
-        //}
+        public JsonResult pledge()
+        {
+            var search = (from m in _db.CampaignPetitions
+                          where m.PledgeType != null
+                          select new
+                          {
+                              m.FirstName,
+                              m.LastName,
+                              Join = m.CreatedOn,
+                              m.Email,
+                              m.PledgeType
+                          }).ToList();
+            return Json(search);
+        }
+
         //public ActionResult DevEvents(string reg = "Global Edition")
         //{
         //    ViewBag.reg = reg;
@@ -1366,7 +1364,7 @@ namespace DevDiscourse.Controllers
                 var fetchedData = query.ToList(); // Fetch the data from the database
 
                 var search = fetchedData
-                    //.Where(m => regList.Contains(m.RegionTitle)) // Filter based on regList
+                    .Where(m => regList.Contains(m.RegionTitle)) // Filter based on regList
                     .Select(m => new { m.Title })
                     .OrderBy(a => a.Title)
                     .ToList();

@@ -21,19 +21,20 @@ namespace Devdiscourse.Controllers.ViewComponents
             try
             {
 
-
-                var regs = (from c in _db.Countries
-                            join r in _db.Regions on c.RegionId equals r.Id
-                            where c.Title == reg
-                            select new
-                            {
-                                r.Title
-                            }).FirstOrDefault();
-                string regionTitle = "Global Edition";
-                //if (regs != null && regs.Title != null) regionTitle = regs.Title;
-                var region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
+                var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id  where c.Title == reg select new  { r.Title }).FirstOrDefault();
+                string regionTitle = string.Empty;
+                var region = string.Empty;
+                if(reg=="")
+                { 
+                    region = "Global Edition";
+                }
+                else 
+                { 
+                    region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg; 
+                }
+              
                 DateTime thirtyDays = DateTime.Today.AddDays(-30);
-                if (reg == "Global Edition")
+                if (region == "Global Edition")
                 {
                     var result = (from m in _db.Infocus
                                   where m.Edition == "Universal Edition" && m.ItemType == "Interview"

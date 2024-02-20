@@ -42,7 +42,7 @@
 <ul class="ar-ul">
     @foreach (var item in Model)
     {
-        string baseUrl = "https://localhost:7266/";
+        string baseUrl = Url.Content("~/");
         string controller = "article";
         string action = item.Label ?? "agency-wire";
          string id = item.GenerateSecondSlug();

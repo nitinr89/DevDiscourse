@@ -50,7 +50,7 @@
 {
     foreach (var item in Model)
     {
-        string baseUrl = "https://localhost:7266/";
+        string baseUrl = Url.Content("~/");
       //  string baseUrl = "https://devdiscourse-devdiscoursenetcore.azurewebsites.net/";
         string controller = "article";
         string action = item.Label ?? "agency-wire";

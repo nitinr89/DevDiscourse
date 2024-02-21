@@ -8,6 +8,7 @@ using Html2Amp.Sanitization.Implementation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
@@ -25,12 +26,10 @@ namespace Devdiscourse.Controllers.API
     public class SearchApiController : ControllerBase
     {
         public ApplicationDbContext db;
-
         public SearchApiController(ApplicationDbContext _db)
         {
             db = _db;
         }
-
         [HttpGet]
         [Route("GetVideoNews/{reg}/{page}")]
         public IQueryable<VideoViewModel> GetVideoNews(string reg = "Global Edition", int page = 1)
@@ -135,7 +134,7 @@ namespace Devdiscourse.Controllers.API
         }
         [HttpGet]
         [Route("GetTagsNews/{tag}/{reg}/{page}")]
-        // [System.Web.Mvc.OutputCache(Duration = 60, VaryByParam = "*")]
+        [System.Web.Mvc.OutputCache(Duration = 60)]
         public IQueryable<LatestNewsView> GetTagsNews(string tag, string reg = "Global Edition", int page = 1)
         {
             DateTime oneMonth = DateTime.UtcNow.AddDays(-40);
@@ -159,7 +158,6 @@ namespace Devdiscourse.Controllers.API
             return result;
 
         }
-
 
         [HttpGet]
         [Route("NewsForMongo")]
@@ -289,7 +287,6 @@ namespace Devdiscourse.Controllers.API
             }
             return titlecase;
         }
-
         public DevSector GetSectorTitle(string sector)
         {
             var id = sector.Split(',').ToList().Select(int.Parse).FirstOrDefault();
@@ -300,7 +297,6 @@ namespace Devdiscourse.Controllers.API
             }
             return new DevSector();
         }
-
         public string GetTagFormat(string tags)
         {
             StringBuilder sb = new StringBuilder();
@@ -365,7 +361,6 @@ namespace Devdiscourse.Controllers.API
             string ampHtml = converter.ConvertFromHtml(Description).AmpHtml;
             return ampHtml;
         }
-
         [HttpGet]
         [Route("AmpRelatedNews/{id}/{reg}/{sector}/{__amp_source_origin?}")]
         public IHttpActionResult AmpRelatedNews(long id, string reg, string sector, string __amp_source_origin)
@@ -457,7 +452,6 @@ namespace Devdiscourse.Controllers.API
             });
             return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = resultList.Any() });
         }
-
         [HttpGet]
         [Route("GetAmpVideoNews/{reg}/{__amp_source_origin?}")]
         public IHttpActionResult GetAmpVideoNews(string reg, string __amp_source_origin)
@@ -492,36 +486,6 @@ namespace Devdiscourse.Controllers.API
             }
 
         }
-
-        //[HttpGet]
-        //[Route("GetAdvancedSearch/{text}/{type}/{sector}/{country}/{region}/{beforeDate}/{afterDate}/{page}")]
-        //public IQueryable<AdvancedSearchView> GetAdvancedSearch(string text, string type, string sector, string country, string region = "Global Edition", string beforeDate = "", string afterDate = "", int page = 1)
-        //{
-        //    var skipCount = (page - 1) * 20;
-        //    var stringSearch = text == "all" ? "" : text;
-        //    var typeSearch = type == "all" ? "" : type;
-        //    var countrySearch = country == "all" ? "" : country;
-        //    var searchRegion = region == "Global Edition" ? "" : region;
-
-        //    var newsSearch = db.DevNews
-        //        //.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion))
-        //        .Select(a => new AdvancedSearchView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.Sector, Country = a.Country, Region = a.Region, Type = a.Type, SubType = a.SubType, NewsId = a.NewsId, Label = a.NewsLabels });
-        //    //if (sector != "all")
-        //    //{
-        //    //    newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
-        //    //}
-        //    if (beforeDate != "")
-        //    {
-        //        DateTime filterDate = DateTime.Parse(beforeDate);
-        //        newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
-        //    }
-        //    if (afterDate != "")
-        //    {
-        //        DateTime filterDate2 = DateTime.Parse(afterDate);
-        //        newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
-        //    }
-        //    return newsSearch.OrderByDescending(a => a.CreatedOn).Skip(skipCount).Take(20);
-        //}
 
         [HttpGet]
         [Route("GetAdvancedSearch/{text}/{type}/{sector}/{country}/{region}/{beforeDate?}/{afterDate?}/{page}")]
@@ -688,7 +652,7 @@ namespace Devdiscourse.Controllers.API
         }
 
         [Route("GetOpinion/{reg}")]
-         //[OutputCache(Duration = 300, VaryByParam = "*")]
+        [OutputCache(Duration = 300)]
         public IHttpActionResult GetOpinion(string reg)
         {
             reg = reg == "Global Edition" ? "" : reg;
@@ -869,7 +833,7 @@ namespace Devdiscourse.Controllers.API
         }
         [HttpGet]
         [Route("GetAmpOpinion/{reg}")]
-        //[System.Web.Mvc.OutputCache(Duration = 300, VaryByParam = "*")]
+        [OutputCache(Duration = 300)]
         public IHttpActionResult GetAmpOpinion(string reg)
         {
             DateTime thirtyDays = DateTime.Today.AddDays(-90);
@@ -1135,16 +1099,5 @@ namespace Devdiscourse.Controllers.API
             return text;
 
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing && db != null)
-        //    {
-        //        db.Dispose();
-        //        db = null;
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
     }
 }

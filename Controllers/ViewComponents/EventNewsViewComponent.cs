@@ -1,6 +1,5 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevDiscourse.Controllers.ViewComponents
@@ -16,8 +15,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             try
             {
-
-
+                await Task.Yield();
                 var search = _db.DevNews
                     .Where(a => a.AdminCheck == true)// && (a.Category.StartsWith(id + ",") || a.Category.EndsWith("," + id) || a.Category.Contains("," + id + ",") || a.Category == id))
                     .OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take)

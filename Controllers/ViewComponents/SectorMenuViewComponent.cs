@@ -1,6 +1,5 @@
 ﻿
 using Devdiscourse.Data;
-using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Devdiscourse.Controllers.ViewComponents

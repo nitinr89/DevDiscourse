@@ -17,6 +17,7 @@ namespace Devdiscourse.Controllers.ViewComponents
         {
             try
             {
+                await Task.Yield();
                 DateTime todayDate = DateTime.Today.AddDays(10).AddTicks(-1);
                 var resultList = _db.DevNews
                     .Where(a => a.AdminCheck == true && a.CreatedOn < todayDate && a.EditorPick == true && a.Region.Contains("South Asia") && a.Category == category.ToString())

@@ -1,6 +1,5 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack;
@@ -44,8 +43,6 @@ namespace Devdiscourse.Controllers.ViewComponents
                 }
                 else
                 {
-                    //if (region == "India")
-                    //{
                         var reg = (from c in _db.Countries
                                    join r in _db.Regions on c.RegionId equals r.Id
                                    where c.Title == region
@@ -54,15 +51,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                                        r.Title
                                    }).FirstOrDefault();
                         string regionTitle = "Global Edition";
-
-                        //if (region != null && reg.Title != null)
-                        //{
-                        //    regionTitle = reg.Title;
-                        //    region = regionTitle;
-                        //}
                         var result = reg != null && reg.Title != null ? regionTitle = reg.Title : regionTitle = region;
-                 //   }
-
                     var search = _db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true &&
                      a.Region.Title == result &&
                     a.DevNews.CreatedOn > oneMonth)
@@ -79,30 +68,6 @@ namespace Devdiscourse.Controllers.ViewComponents
                             Ranking = a.Ranking
                         }).AsNoTracking().OrderByDescending(o => o.CreatedOn).ToPagedList(pageNumber, pageSize);
                     return View(search.OrderByDescending(o => o.CreatedOn.Date).ThenByDescending(s => s.Ranking).AsEnumerable());
-
-                    //var resultList = (from rnr in _db.RegionNewsRankings
-                    //                  join dn in _db.DevNews on rnr.NewsId equals dn.Id
-                    //                  join r in _db.Regions on rnr.RegionId equals r.Id
-                    //                  let a = new { RegionNews = rnr, DevNews = dn, Region = r }
-                    //                  where a.DevNews.AdminCheck == true
-                    //                       // && a.Region.Title == "Global Edition" //need to change region
-                    //                        && a.DevNews.ModifiedOn > oneMonth
-                    //                  orderby a.DevNews.ModifiedOn descending, a.RegionNews.Ranking descending
-                    //                  select new NewsAnalysisViewModel
-                    //                  {
-                    //                      NewsId = a.DevNews.NewsId,
-                    //                      Title = a.DevNews.Title,
-                    //                      ImageUrl = a.DevNews.ImageUrl,
-                    //                      Country = a.DevNews.Country,
-                    //                      CreatedOn = a.DevNews.ModifiedOn,
-                    //                      Type = a.DevNews.Type,
-                    //                      SubType = a.DevNews.SubType,
-                    //                      Label = a.DevNews.NewsLabels,
-                    //                      Ranking = a.RegionNews.Ranking
-                    //                  })
-                    //    .Take(50)
-                    //    .ToList();
-                    //return View(resultList);
                 }
             }
             catch (Exception ex)

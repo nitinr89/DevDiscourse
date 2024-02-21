@@ -41,7 +41,6 @@ namespace DevDiscourse.Controllers.API
             var discourseUpdates = db.Livediscourses.Where(a => a.ParentId == parentId).OrderByDescending(o => o.CreatedOn).Select(a => new { a.Id, a.Title, a.ImageUrl, a.ImageCaption, a.ImageCopyright, a.Country, a.CreatedOn, a.ViewCount, a.Region }).Skip(skipItem).Take(20);
             return Ok(discourseUpdates);
         }
-
         [HttpPost]
         [Route("DiscourseTopic/{Title}/{Sector}")]
         public IActionResult DiscourseTopic(string Title, string Sector)

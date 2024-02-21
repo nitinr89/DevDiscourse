@@ -1,6 +1,5 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
-using Devdiscourse.Utility;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevDiscourse.Controllers.ViewComponents
@@ -15,7 +14,6 @@ namespace DevDiscourse.Controllers.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(string reg = "Global Edition")
         {
             await Task.Yield();
-
             try
             {
                 var lastThreeHour = DateTime.UtcNow.AddDays(-12);
@@ -28,6 +26,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                                   && a.DevNews.NewsLabels != "Newsalert"
                                   && !new[] { "14", "18", "19", "9" }.Contains(a.DevNews.Sector)
                                orderby a.DevNews.ModifiedOn descending
+
                                select new LatestNewsView
                                {
                                    Id = a.DevNews.Id,
@@ -48,7 +47,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                 return Content("Error: " + ex.Message);
 
             }
-            
+
         }
     }
 }

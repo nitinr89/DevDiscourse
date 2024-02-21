@@ -1,6 +1,5 @@
-﻿using System.Net;
+﻿
 using Devdiscourse.Data;
-using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -172,7 +171,6 @@ namespace DevDiscourse.Controllers.Main
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

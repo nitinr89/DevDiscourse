@@ -17,6 +17,7 @@ namespace Devdiscourse.Controllers.ViewComponents
         {
             try
             {
+                await Task.Yield();
                 ViewBag.type = type;
                 var search = _db.Partners.Where(a => a.Type == type && a.SubType.ToUpper() == subType.ToUpper() && a.IsActive == true)
                     .OrderByDescending(a => a.CreatedOn).Skip(skip).Take(12).ToList();

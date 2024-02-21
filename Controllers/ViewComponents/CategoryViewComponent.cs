@@ -14,6 +14,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             try
             {
+                await Task.Yield();
                 var search = _db.Categories.ToList().OrderBy(a => a.SrNo);
                 return View(search);
             } catch (Exception ex)

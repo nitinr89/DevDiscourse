@@ -14,8 +14,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             try
             {
-
-
+                await Task.Yield();
                 var search = _db.Labels.ToList();
                 return View(search);
             }catch (Exception ex)

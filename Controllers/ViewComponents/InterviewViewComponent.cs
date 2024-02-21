@@ -1,7 +1,5 @@
 ﻿using Devdiscourse.Data;
-using Devdiscourse.Models.ContributorModels;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,12 +13,11 @@ namespace Devdiscourse.Controllers.ViewComponents
         {
             _db = db;
         }
-
         public async Task<IViewComponentResult> InvokeAsync(string reg)
         {
             try
             {
-
+                await Task.Yield();
                 var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id  where c.Title == reg select new  { r.Title }).FirstOrDefault();
                 string regionTitle = string.Empty;
                 var region = string.Empty;

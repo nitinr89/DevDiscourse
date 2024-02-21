@@ -8,12 +8,10 @@ namespace Devdiscourse.Controllers.ViewComponents
     public class AmpInterviewViewComponent:ViewComponent
     {
         private readonly ApplicationDbContext _db;
-
         public AmpInterviewViewComponent(ApplicationDbContext db)
         {
             _db = db;
         }
-
         public async Task<IViewComponentResult> InvokeAsync()
         {
             await Task.Yield();

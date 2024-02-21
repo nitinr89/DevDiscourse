@@ -1,7 +1,5 @@
 ﻿using Devdiscourse.Data;
-using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevDiscourse.Controllers.ViewComponents
@@ -15,6 +13,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(DateTime? bfd, DateTime? afd, int skip = 0, string reg = "Global Edition", string sec = "0", string country = "", string text = "")
         {
+            await Task.Yield();
             var search = _db.DevNews.Where(a => a.AdminCheck == true).OrderByDescending(a => a.ModifiedOn).Select(a => new AnalyticView { Id = a.NewsId, Title = a.Title, Region = a.Region, Country = a.Country, Sector = a.Sector, CreatedOn = a.CreatedOn, ModifiedOn = a.ModifiedOn });
             if (sec != "0")
             {

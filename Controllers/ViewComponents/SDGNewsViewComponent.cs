@@ -2,7 +2,6 @@
 using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Devdiscourse.Controllers.ViewComponents
 {
@@ -19,8 +18,6 @@ namespace Devdiscourse.Controllers.ViewComponents
             await Task.Yield();
             try
             {
-
-
                 ViewBag.reg = "Global Edition";
                 var search = _db.DevNews
                     .Where(a => a.AdminCheck == true && a.Category.Contains("13"))

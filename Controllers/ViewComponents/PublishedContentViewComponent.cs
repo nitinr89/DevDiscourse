@@ -13,6 +13,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(string userId = "", string fl = "")
         {
+            await Task.Yield();
             List<PublishView> ResultList = new List<PublishView>();
             if (!String.IsNullOrEmpty(userId))
             {

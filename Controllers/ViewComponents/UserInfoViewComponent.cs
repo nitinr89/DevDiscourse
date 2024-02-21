@@ -16,6 +16,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(string UserId = "")
         {
+            await Task.Yield();
             if (UserId == "")
             {
                 UserId = userManager.GetUserId((System.Security.Claims.ClaimsPrincipal)User);

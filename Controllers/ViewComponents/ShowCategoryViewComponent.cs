@@ -14,6 +14,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             try
             {
+                await Task.Yield();
                 var idList = id.Split(',').ToList();
                 var search = _db.Categories.Where(a => idList.Contains(a.Id.ToString())).ToList();
                 return View(search);

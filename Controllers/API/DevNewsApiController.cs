@@ -76,6 +76,7 @@ namespace DevDiscourse.Controllers.API
             }
 
         }
+
         // GET: api/DevNewsApi
         [Route("api/DevNews/GetDevNews/{Page}/{Edition}")]
         public List<NewsView> GetDevNews(int Page, string Edition)
@@ -166,6 +167,7 @@ namespace DevDiscourse.Controllers.API
             }
 
         }
+
         [Route("api/DevNews/GetSectorDevNews/{Edition}/{sector}/{page}")]
         public IActionResult GetSectorDevNews(string Edition, string sector, int? page)
         {
@@ -183,70 +185,9 @@ namespace DevDiscourse.Controllers.API
                 NewsType = a.DevNews.Type,
                 Ranking = a.Ranking
             }).OrderByDescending(m => m.Ranking).Skip(skipCount).Take(10).ToList();
-            return Json(result);
-
-
-            //int skip = 10 * (Page - 1);
-            //var secList = sector.Split(',').ToList();
-            //var regArr = new List<String>();
-            //DateTime LastSevenDays = DateTime.Today.AddDays(-7);
-            //regArr = region.Split(',').ToList();
-            //if (regArr.IndexOf("Global Edition") == -1)
-            //{
-            //    var search = from a in db.DevNews
-            //                 from s in secList
-            //                 where secList.Contains(a.Sector) && a.AdminCheck == true && regArr.Contains(a.Region) && a.Type == "News" && a.CreatedOn > LastSevenDays
-            //                 orderby a.CreatedOn descending
-            //                 select new NewsView
-            //                 {
-            //                     Id = a.NewsId,
-            //                     Title = a.Title,
-            //                     ImageUrl = a.ImageUrl,
-            //                     CreatedOn = a.ModifiedOn,
-            //                     Sector = a.Sector,
-            //                     Country = a.Country,
-            //                     NewsType = a.Type
-            //                 };
-            //    return search.Skip(skip).Take(10);
-            //}
-            //else if (regArr.IndexOf("Global Edition") != -1)
-            //{
-            //    regArr = regArr.Where(val => val != "Global Edition").ToList();
-            //    var search = from a in db.DevNews
-            //                 from s in secList
-            //                 where secList.Contains(a.Sector) && a.AdminCheck == true && a.Type == "News" && a.CreatedOn > LastSevenDays
-            //                 orderby a.CreatedOn descending
-            //                 select new NewsView
-            //                 {
-            //                     Id = a.NewsId,
-            //                     Title = a.Title,
-            //                     ImageUrl = a.ImageUrl,
-            //                     CreatedOn = a.ModifiedOn,
-            //                     Sector = a.Sector,
-            //                     Country = a.Country,
-            //                     NewsType = a.Type
-            //                 };
-            //    return search.Skip(skip).Take(10);
-            //}
-            //else
-            //{
-            //    var search = from a in db.DevNews
-            //                 from s in secList
-            //                 where secList.Contains(a.Sector) && a.AdminCheck == true && a.Region.Contains(region) && a.Type == "News" && a.CreatedOn > LastSevenDays
-            //                 orderby a.CreatedOn descending
-            //                 select new NewsView
-            //                 {
-            //                     Id = a.NewsId,
-            //                     Title = a.Title,
-            //                     ImageUrl = a.ImageUrl,
-            //                     CreatedOn = a.ModifiedOn,
-            //                     Sector = a.Sector,
-            //                     Country = a.Country,
-            //                     NewsType = a.Type
-            //                 };
-            //    return search.Skip(skip).Take(10);
-            //}
+            return Json(result);          
         }
+
         [Route("api/DevNews/GetSectorArticle/{reg}/{sector}")]
         public IQueryable<NewsViewModel> GetSectorArticle(string reg, string sector)
         {
@@ -360,6 +301,7 @@ namespace DevDiscourse.Controllers.API
                 return result;
             }
         }
+
         [OutputCache(Duration = 120)]
         [Route("api/DevNews/GetVideoNews/{reg}")]
         public IQueryable<LatestNewsView> GetVideoNews(string reg = "Global Edition")
@@ -376,6 +318,7 @@ namespace DevDiscourse.Controllers.API
                 return result;
             }
         }
+
         [Route("api/DevNews/GetRelatedDevNews/{sector}/{region}/{newsId}")]
         public IQueryable<NewsView> GetRelatedDevNews(string sector, string region, long newsId)
         {
@@ -416,6 +359,7 @@ namespace DevDiscourse.Controllers.API
                 return search.OrderByDescending(a => a.CreatedOn).Take(3);
             }
         }
+
         [Route("api/DevNews/GetRecommendedNews/{page}/{id}/{sectors}")]
         public IQueryable<NewsView> GetRecommendedNews(int page, string id, string sectors)
         {
@@ -438,6 +382,7 @@ namespace DevDiscourse.Controllers.API
                          };
             return search.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(10);
         }
+
         [Route("api/News/GetRecommendedNews/{page}/{id}/{sectors}")]
         public IActionResult RecommendedNews(int page, string id, string sectors)
         {
@@ -1268,7 +1213,6 @@ namespace DevDiscourse.Controllers.API
             return newsObj.NewsId.ToString();
         }
 
-
         [Route("api/UpdateNews/{NewsId}/{Keywords}")]
         public string UpdateNews(long NewsId, string Keywords)
         {
@@ -2000,7 +1944,6 @@ namespace DevDiscourse.Controllers.API
                           select new { Title = a.Title, NewId = a.NewsId, Label = a.NewsLabels }).Distinct().Take(5).ToList();
             return Ok(result);
         }
-
         private bool DevNewsExists(Guid id)
         {
             return db.DevNews.Count(e => e.Id == id) > 0;
@@ -2376,7 +2319,6 @@ namespace DevDiscourse.Controllers.API
 
             return Json(new { Id = user.Id, FirstName = user.FirstName, Email = user.Email, msg = "Success" });
         }
-
         public string Decrypt(string cipherText)
         {
             string EncryptionKey = "MAKV2SPBNI99212";
@@ -2398,7 +2340,6 @@ namespace DevDiscourse.Controllers.API
             }
             return cipherText;
         }
-
         public string encrypt(string clearText)
         {
             string EncryptionKey = "MAKV2SPBNI99212";
@@ -2420,7 +2361,6 @@ namespace DevDiscourse.Controllers.API
             }
             return clearText;
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && db != null)

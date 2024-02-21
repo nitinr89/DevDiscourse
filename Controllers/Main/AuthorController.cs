@@ -1,4 +1,4 @@
-﻿using Devdiscourse.Models;
+﻿
 using Devdiscourse.Models.ViewModel;
 using X.PagedList;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,6 @@ namespace DevDiscourse.Controllers.Main
         {
             this._db = _db;
         }
-
         // GET: Author
         public ActionResult Index(string name)
         {

@@ -17,7 +17,6 @@ namespace Devdiscourse.Controllers.ViewComponents
             await Task.Yield();
             try
             {
-
                 reg = reg == "Global Edition" ? "Universal Edition" : reg;
                 var InfocusLiveDiscourse = (from m in _db.LiveDiscourseInfocus
                                             where m.Edition == reg
@@ -37,24 +36,7 @@ namespace Devdiscourse.Controllers.ViewComponents
             catch (Exception ex)
             {
                 return Content("Error: " + ex.Message);
-            }
-            //var infocus = (from dn in _db.DevNews
-            //               select new DiscourseViewModel
-            //               {
-            //                   Id = Convert.ToInt64(dn.Id),
-            //                   //NewId = dn.NewsId,
-            //                   Title = dn.Title,
-            //                   ImageUrl = dn.ImageUrl,
-            //                   //CreatedOn = dn.ModifiedOn,
-            //                   //Type = dn.Type,
-            //                   //SubType = dn.SubType,
-            //                   //Country = dn.Country,
-            //                   //Label = dn.NewsLabels,
-            //                   // Ranking = 0
-            //               }).OrderByDescending(a => a.Title)
-            //    .Take(65)
-            //    .ToList();
-            //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Title).Take(6).ToList());
+            }      
         }
     }
 }

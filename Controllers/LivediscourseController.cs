@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OutputCaching;
+using NuGet.Protocol.Core.Types;
 
 namespace DevDiscourse.Controllers
 {
@@ -673,12 +674,14 @@ namespace DevDiscourse.Controllers
                 description = Regex.Replace(description, "width=\"100%\"", "width=\"300\"");
                 description = Regex.Replace(description, "height=\"480\"", "height=\"200\"");
                 ViewBag.AmpDescriptoion = description;
-                //if (!Request.Browser.Crawler)
-                //{
-                //    livediscourse.ViewCount = livediscourse.ViewCount + 1;
-                //    db.Entry(livediscourse).State = EntityState.Modified;
-                //    await db.SaveChangesAsync();
-                //}
+                var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+                bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
+                if(isCrawler)
+                {
+                    livediscourse.ViewCount = livediscourse.ViewCount + 1;
+                    db.Entry(livediscourse).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                }
                 var blogUpdates = await db.Livediscourses.Where(a => a.ParentId == id && a.AdminCheck == true).Take(10).ToListAsync();
                 ViewBag.BlogUpdates = blogUpdates;
             }
@@ -926,18 +929,6 @@ namespace DevDiscourse.Controllers
         [OutputCache(Duration = 60)]
         public PartialViewResult GetInfocusLiveDiscourse(string reg)
         {
-            //reg = reg == "Global Edition" ? "" : reg;
-            //var InfocusLiveDiscourse = (from m in db.Livediscourse
-            //                            where m.Region.Contains(reg) && m.ParentId == 0 && m.AdminCheck == true
-            //                            orderby m.ModifiedOn descending
-            //                            select new DiscourseViewModel
-            //                            {
-            //                                Id = m.Id,
-            //                                Title = m.Title,
-            //                                ImageUrl = m.ImageUrl,
-            //                                children = db.Livediscourse.Where(a => a.ParentId == m.Id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new DiscourseChildViewModel { Id = s.Id, Title = s.Title, ImageUrl = s.ImageUrl }).Take(2).ToList()
-            //                            }).Take(3);
-            //return PartialView("_getInfocusLiveDiscourse", InfocusLiveDiscourse);
             reg = reg == "Global Edition" ? "Universal Edition" : reg;
             var InfocusLiveDiscourse = (from m in db.LiveDiscourseInfocus
                                         where m.Edition == reg

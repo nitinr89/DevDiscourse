@@ -14,7 +14,6 @@ namespace Devdiscourse.Controllers
         public IActionResult Index(string slug)
         {
 
-            // HttpCookie cookie = Request.Cookies["Edition"];
             string? cookie = Request.Cookies["Edition"];
             
             
@@ -27,12 +26,8 @@ namespace Devdiscourse.Controllers
                     ViewBag.region = cookie ?? "Global Edition";
                     break;
             }
-           // var search = _db.Categories.SingleOrDefault(a => a.Slug == slug);
             var search = _db.Categories.FirstOrDefault(a => a.Slug == slug);
-            //var search = _db.Categories.Where(a => a.Slug == slug).Take(10);
-            //ViewBag.data = search;
             return View(search);
-            //return View();
         }
         public string RandomName()
         {

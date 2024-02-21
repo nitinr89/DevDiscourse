@@ -1,25 +1,10 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
-using Devdiscourse.Models;
+﻿using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ResearchModels;
 using Devdiscourse.Data;
-using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Web.Http;
 using X.PagedList;
 using System.Web.Mvc;
-using DocumentFormat.OpenXml.Spreadsheet;
 using DevDiscourse.Controllers;
 using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;

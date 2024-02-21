@@ -461,22 +461,22 @@ namespace DevDiscourse.Controllers
         {
             ViewBag.skipCount = skip;
             DateTime tenDays = DateTime.Today.AddHours(-10);
-            //var infocusData = _db.Infocus.Where(a => a.Edition == reg).Select(a => a.NewsId);
+      
             if (reg == "Global Edition")
             {
                 var result = _db.DevNews.Where(a => a.Type != "Blog" && a.CreatedOn > tenDays && a.AdminCheck == true && a.Sector != null && a.NewsLabels != null)
-                    //.AsNoTracking()
+                    .AsNoTracking()
                     .OrderByDescending(a => a.ModifiedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, Sector = a.SubTitle, Country = a.Country, NewId = a.NewsId, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels })
-                    //.AsNoTracking()
+                    .AsNoTracking()
                     .Skip(skip).Take(take);
                 return PartialView("_getNews", result.ToList());
             }
             else
             {
                 var result = _db.DevNews.Where(a => a.Type != "Blog" && a.CreatedOn > tenDays && a.AdminCheck == true && a.Region.Contains(reg) && a.Sector != null && a.NewsLabels != null)
-                    //.AsNoTracking()
+                    .AsNoTracking()
                     .OrderByDescending(a => a.ModifiedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, Sector = a.SubTitle, Country = a.Country, NewId = a.NewsId, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels })
-                    //.AsNoTracking()
+                    .AsNoTracking()
                     .Skip(skip).Take(take);
                 return PartialView("_getNews", result.ToList());
             }
@@ -896,16 +896,14 @@ namespace DevDiscourse.Controllers
         //}
         public PartialViewResult GetAdvancedSearch(string text, string type, string sector, string region, string country, DateTime? beforeDate, DateTime? afterDate, int? page)
         {
-            // List<AdvancedSearchView> resultList = new List<AdvancedSearchView>();
             var stringSearch = text ?? "";
             var typeSearch = type ?? "";
             var countrySearch = country ?? "";
             var searchRegion = region == "Global Edition" ? "" : region;
 
             var newsSearch = _db.DevNews
-                //.Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion))
+                .Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch) && a.Title.Contains(stringSearch) && a.Region.Contains(searchRegion))
                 .Select(a => new AdvancedSearchView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.Sector, Themes = a.Themes, Country = a.Country, Region = a.Region, Tags = a.Tags, Type = a.Type, SubType = a.SubType, IsGlobal = a.IsGlobal, NewsId = a.NewsId, Label = a.NewsLabels });
-            //resultList = newsSearch.ToList();
             if (sector != "0")
             {
                 newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
@@ -922,7 +920,7 @@ namespace DevDiscourse.Controllers
             }
             int pageSize = 20;
             int pageNumber = (page ?? 1);
-            return PartialView("_getAdvancedSearch", newsSearch/*.OrderByDescending(m => m.CreatedOn)*/.ToPagedList(pageNumber, pageSize));
+            return PartialView("_getAdvancedSearch", newsSearch.OrderByDescending(m => m.CreatedOn).ToPagedList(pageNumber, pageSize));
         }
         public PartialViewResult GetBlogItems(int? page, string type, string region = "Global Edition")
         {
@@ -948,7 +946,6 @@ namespace DevDiscourse.Controllers
                 .ToList();
             if (region != "Global Edition")
             {
-
                 var reg = (from c in _db.Countries
                            join r in _db.Regions on c.RegionId equals r.Id
                            where c.Title == region
@@ -957,8 +954,6 @@ namespace DevDiscourse.Controllers
                                r.Title
                            }).FirstOrDefault();
                 string regionTitle = "Global Edition";
-
-                //if (reg != null && reg.Title != null) regionTitle = reg.Title;
                 var result = reg != null && reg.Title != null ? regionTitle = reg.Title : regionTitle = region;
                 search = search.Take(50)
                     .Where(a => a.Region != null && a.Region.Contains(result))

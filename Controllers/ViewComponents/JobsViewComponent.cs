@@ -15,8 +15,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             try
             {
-
-
+                await Task.Yield();
                 var search = await _db.Jobs.Where(a => a.IsPublished == true).OrderByDescending(a => a.CreatedOn).ToListAsync();
                 return View(search);
             }

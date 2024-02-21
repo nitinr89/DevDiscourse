@@ -20,7 +20,6 @@ namespace Devdiscourse.Controllers.Main
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
-
         public VideoNewsController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             this.db = db;

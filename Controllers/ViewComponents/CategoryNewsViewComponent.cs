@@ -18,6 +18,7 @@ namespace Devdiscourse.Controllers.ViewComponents
         {
             try
             {
+                await Task.Yield();
                 DateTime todayDate = DateTime.Today.AddDays(3).AddTicks(-1);
                 var search = _db.DevNews
                     .Where(a => a.AdminCheck == true && a.CreatedOn > todayDate && (a.Category == category.ToString()))

@@ -258,7 +258,6 @@ namespace DevDiscourse.Controllers.Main
             ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
             return View();
         }
-
         // POST: DevNews/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -451,7 +450,6 @@ namespace DevDiscourse.Controllers.Main
             ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", devNews.Region);
             return View(devNews);
         }
-
         public List<NewsRankingViewModel> ML_Edition(string content)
         {
             List<NewsRankingViewModel> newsRankingList = new List<NewsRankingViewModel>();
@@ -485,7 +483,6 @@ namespace DevDiscourse.Controllers.Main
             ViewBag.Region = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
             return View();
         }
-
         // POST: DevNews/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -1696,7 +1693,6 @@ namespace DevDiscourse.Controllers.Main
             }
             return View(devNews);
         }
-
         //POST: DevNews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -1723,91 +1719,7 @@ namespace DevDiscourse.Controllers.Main
                 message = "Success"
             };
             return Json(data);
-        }
-        //public void TwitterAutoPost(string message)
-        //{
-        //    string key = "u7HZgW2I4d81u9bQPTod8r3SM";
-        //    string secret = "Wmcc16GQpfTWf0LKKO38zRL13rWeJo0eCnEqkVVOw6TQGy3wVG";
-        //    string token = "937962626222497793-tToleFf4epeWGgi1lz1GQP7Xgdve7SL";
-        //    string tokenSecret = "J1XVzLl1ZT7Z9AihW4k6VxWyCaiIypr2amsrbrth69FsX";
-
-        //    var service = new TwitterService(key, secret);
-        //    service.AuthenticateWith(token, tokenSecret);
-        //    var result = service.SendTweet(new SendTweetOptions
-        //    {
-        //        Status = message
-        //    });
-        //}
-        //public void PostOnTwitter()
-        //{
-        //    string key = "u7HZgW2I4d81u9bQPTod8r3SM";
-        //    string secret = "Wmcc16GQpfTWf0LKKO38zRL13rWeJo0eCnEqkVVOw6TQGy3wVG";
-        //    string token = "937962626222497793-tToleFf4epeWGgi1lz1GQP7Xgdve7SL";
-        //    string tokenSecret = "J1XVzLl1ZT7Z9AihW4k6VxWyCaiIypr2amsrbrth69FsX";
-        //    string message = "Off-the-Shelf #Nuclear #Plants Could Soon Help #Power #Electric #Cars http://www.devdiscourse.com/Home/Detail/c2e46cf9-2bd1-431a-a151-bc0e112951ca";
-
-        //    string imagePath = "";
-
-        //    var service = new TweetSharp.TwitterService(key, secret);
-        //    service.AuthenticateWith(token, tokenSecret);
-        //    // Tweet wtih image
-        //    if (imagePath.Length > 0)
-        //    {
-        //        using (var stream = new FileStream(Server.MapPath(imagePath), FileMode.Open))
-        //        {
-        //            var result = service.SendTweetWithMedia(new SendTweetWithMediaOptions
-        //            {
-        //                Status = message,
-        //                Images = new Dictionary<string, Stream> { { "john", stream } }
-        //            });
-        //        }
-        //    }
-        //    else // just message
-        //    {
-        //        var result = service.SendTweet(new SendTweetOptions
-        //        {
-        //            Status = message
-        //        });
-        //    }
-        //}
-        //public string PostFacebookWall()
-        //{
-        //    string message = "Happening #Africa looks forward to #digital transformation https://www.devdiscourse.com/live-discourse/1-happening-africa-looks-forward-to-digital-transformation";
-
-        //    var responsePost = "";
-        //    string app_id = "1962446954071172";
-        //    string app_secret = "58d385826aae3dc0025a880e6227b197";
-        //    string scope = "publish_pages,manage_pages,read_page_mailboxes, pages_show_list,pages_manage_cta";
-
-        //    if (Request["code"] == null)
-        //    {
-        //        Response.Redirect(string.Format(
-        //            "https://graph.facebook.com/oauth/authorize?client_id={0}&redirect_uri={1}&scope={2}",
-        //            app_id, Request.Url.AbsoluteUri, scope));
-        //    }
-        //    else
-        //    {
-        //        Dictionary<string, string> tokens = new Dictionary<string, string>();
-        //        string url = string.Format("https://graph.facebook.com/oauth/access_token?client_id={0}&redirect_uri={1}&scope={2}&code={3}&client_secret={4}",
-        //        app_id, Request.Url.AbsoluteUri, scope, Request["code"].ToString(), app_secret);
-        //        HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-        //        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-        //        {
-        //            StreamReader reader = new StreamReader(response.GetResponseStream());
-        //            string vals = reader.ReadToEnd();
-        //            foreach (string token in vals.Split('&'))
-        //            {
-        //                tokens.Add(token.Substring(0, token.IndexOf("=")), token.Substring(token.IndexOf("=") + 1, token.Length - token.IndexOf("=") - 1));
-        //            }
-
-        //        }
-        //        string access_token = tokens["access_token"];
-        //        //var client = new FacebookClient(access_token);
-        //        //client.Post("/me/feed", new { message = message });
-
-        //    }
-        //    return responsePost;
-        //}
+        }    
         public JsonResult DataSearch(string sector)
         {
             var sectorList = sector.Split(',').ToList();
@@ -1926,7 +1838,6 @@ namespace DevDiscourse.Controllers.Main
             };
             return Json(data);
         }
-
         public JsonResult SendNotification(long[] idArr, string description)
         {
             //EmailController email = new EmailController();
@@ -2089,7 +2000,6 @@ namespace DevDiscourse.Controllers.Main
             }
             return container;
         }
-
         public JsonResult AssignNewsToUser(long id, string user)
         {
             var search = _db.DevNews.FirstOrDefault(a => a.NewsId == id);
@@ -2265,84 +2175,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews = devNews.Where(a => a.Creator == uid);
             }
             return View(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
-        }
-
-        //public JsonResult UploadVideo()
-        //{
-        //    if (Request.Files.Count > 0)
-        //    {
-        //        string mimeType = "";
-        //        string fileCaption = "";
-        //        string fileSize = "";
-        //        string fname = "";
-        //        string furl = "";
-        //        var headline = "";
-        //        var tags = "";
-        //        for (var i = 0; i < Request.Files.Count; i++)
-        //        {
-        //            var file = Request.Files[i];
-        //            if (file == null || file.ContentLength <= 0) continue;
-        //            var fileName = RandomName();
-
-        //            fname = Path.GetFileNameWithoutExtension(file.FileName);
-        //            var fileExtension = Path.GetExtension(file.FileName);
-        //            mimeType = MimeMapping.GetMimeMapping(file.FileName);
-        //            fileSize = file.ContentLength.ToString();
-        //            fileCaption = fileName + fileExtension;
-
-
-        //            string fileUrl = Path.Combine(Server.MapPath("~/images"), fileName + fileExtension);
-        //            file.SaveAs(fileUrl);
-        //            string outputfileUrl = Path.Combine(Server.MapPath("~/images/output"), fileName + ".mp4");
-        //            string inputExtension = fileExtension.Replace(".", "");
-        //            HostingEnvironment.QueueBackgroundWorkItem(ct => ConvertVideo(fileUrl, inputExtension, outputfileUrl));
-
-        //            //file upload to blob
-        //            //CloudBlobContainer blobContainer = GetCloudBlobImageContainer();
-        //            //CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-        //            //blob.UploadFromStream(System.IO.File.OpenRead(outputfileUrl));
-        //            //furl = blob.Uri.ToString();
-        //            furl = "/images/output/" + fileName + fileExtension;
-        //            IEnumerable<MetadataExtractor.Directory> directories = ImageMetadataReader.ReadMetadata(fileUrl);
-        //            foreach (var directory in directories.Where(a => a.Name == "IPTC"))
-        //            {
-        //                foreach (var tag in directory.Tags)
-        //                {
-        //                    if (tag.Name == "Headline" || tag.Name == "headline")
-        //                    {
-        //                        headline = tag.Description;
-        //                    }
-        //                    if (tag.Name == "Keywords" || tag.Name == "keywords")
-        //                    {
-        //                        tags = tag.Description;
-        //                    }
-        //                }
-        //            }
-        //            if (System.IO.File.Exists(fileUrl))
-        //            {
-        //                System.IO.File.Delete(fileUrl);
-        //            }
-        //            //string imgUrl = blob.Uri.ToString();
-        //        }
-        //        if (headline != "")
-        //        {
-        //            fname = headline;
-        //        }
-        //        var returnUrl = JsonConvert.SerializeObject(new { FileName = fname, FileUrl = furl, Tags = tags, Caption = fileCaption, MimeType = mimeType, FileSize = fileSize });
-        //        return Json(returnUrl, JsonRequestBehavior.AllowGet);
-        //    }
-        //    return Json("Error", JsonRequestBehavior.AllowGet);
-        //}
-        //public void ConvertVideo(string fileUrl, string inputExtension, string outputfileUrl)
-        //{
-        //    //var ffMpeg = new FFMpegConverter();
-        //    //ConvertSettings convertSettings = new ConvertSettings()
-        //    //{
-        //    //    VideoFrameSize = FrameSize.hd720,
-        //    //    VideoFrameRate = 30
-        //    //};
-        //    //ffMpeg.ConvertMedia(fileUrl, inputExtension, outputfileUrl, Format.mp4, convertSettings);
-        //}
+        }    
         static string GetMimeType(string fileName)
         {
             string mimeType;
@@ -2358,7 +2191,6 @@ namespace DevDiscourse.Controllers.Main
 
             return mimeType;
         }
-
         private async Task<CloudBlobContainer> GetCloudBlobImageContainer()
         {
             var config = new ConfigurationBuilder()

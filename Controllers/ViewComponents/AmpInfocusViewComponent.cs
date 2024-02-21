@@ -17,6 +17,7 @@ namespace Devdiscourse.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string reg="Global Edition")
         {
+            await Task.Yield();
             var search = (from m in _db.Infocus
                           where m.Edition == reg && (m.ItemType == "News" || m.ItemType == "Blog")
                           join s in _db.DevNews.Where(s => s.AdminCheck == true) on m.NewsId equals s.NewsId

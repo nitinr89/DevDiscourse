@@ -1,6 +1,5 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +8,6 @@ namespace Devdiscourse.Controllers.ViewComponents
     public class LatestNewsViewComponent : ViewComponent
     {
         private readonly ApplicationDbContext _db;
-
         public LatestNewsViewComponent(ApplicationDbContext db)
         {
             _db = db;
@@ -21,18 +19,6 @@ namespace Devdiscourse.Controllers.ViewComponents
             DateTime twoDays = DateTime.Today.AddDays(-2);
             if (reg == "Global Edition")
             {
-                //var result = _db.DevNews.Where(a => a.Type != "Blog" && a.CreatedOn > twoDays && a.AdminCheck == true)
-                //    .Select(a => new NewsViewModel
-                //    {
-                //        Title = a.Title,
-                //        CreatedOn = a.ModifiedOn,
-                //        ImageUrl = a.ImageUrl,
-                //        Subtitle = a.Description,
-                //        NewsId = a.NewsId,
-                //        Label = a.NewsLabels
-                //    }).OrderByDescending(a => a.CreatedOn).AsNoTracking().Take(4);
-                //return View(result.ToList());
-
                 var result = (from dn in _db.DevNews
                               where dn.AdminCheck == true && dn.CreatedOn > twoDays && dn.Type != "Blog"
                               select new NewsViewModel
@@ -45,25 +31,10 @@ namespace Devdiscourse.Controllers.ViewComponents
                                   Label = dn.NewsLabels,
                               }).OrderByDescending(a => a.CreatedOn).AsNoTracking()
                      .Take(5);
-                return View(result.ToList());
-
-                //     .Take(65)
-                //     .ToList();
-                //return View(infocus.GroupBy(s => s.Title).Select(a => a.FirstOrDefault()).OrderByDescending(o => o.Ranking).Take(6).ToList());
+                return View(result.ToList());               
             }
             else
             {
-                //var result = _db.DevNews.Where(a => a.Type != "Blog" && a.CreatedOn > twoDays && a.AdminCheck == true && a.Region.Contains(reg))
-                //    .Select(a => new NewsViewModel
-                //    {
-                //        Title = a.Title,
-                //        CreatedOn = a.ModifiedOn,
-                //        ImageUrl = a.ImageUrl,
-                //        Subtitle = a.Description,
-                //        NewsId = a.NewsId,
-                //        Label = a.NewsLabels
-                //    }).OrderByDescending(a => a.CreatedOn).AsNoTracking().Take(4);
-                //return View(result.ToList());
                 var region = (from c in _db.Countries
                               join r in _db.Regions on c.RegionId equals r.Id
                               where c.Title == reg

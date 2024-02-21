@@ -1,8 +1,6 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace Devdiscourse.Controllers.ViewComponents

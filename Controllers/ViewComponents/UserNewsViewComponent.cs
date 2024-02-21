@@ -16,6 +16,7 @@ namespace DevDiscourse.Controllers.ViewComponents
         {
             try
             {
+                await Task.Yield();
                 ViewBag.name = name;
                 int pageSize = 20;
                 int pageNumber = (page ?? 1);

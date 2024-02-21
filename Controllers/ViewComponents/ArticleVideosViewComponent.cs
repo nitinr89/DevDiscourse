@@ -1,6 +1,5 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +13,6 @@ namespace Devdiscourse.Controllers.ViewComponents
         {
             _db = db;
         }
-
         public async Task<IViewComponentResult> InvokeAsync(string reg = "Global Edition")
         {
             await Task.Yield();

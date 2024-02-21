@@ -1,7 +1,6 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DevDiscourse.Controllers.ViewComponents
 {
@@ -20,32 +19,8 @@ namespace DevDiscourse.Controllers.ViewComponents
             {
                 reg = reg == "Global Edition" ? "" : reg;
                 DateTime thirtyDays = DateTime.Today.AddDays(-15);
-                //var thirtyDays = DateTime.Now.AddDays(-30);
                 if (reg == "")
                 {
-
-
-                    //old
-                    // var infocus = (from dn in _db.DevNews
-                    //                where dn.AdminCheck == true && dn.PublishedOn > thirtyDays && dn.Type == "Blog" && dn.SubType != "Interview"
-                    //                select new NewsViewModel
-                    //                {
-                    //                    // Id = dn.Id,
-                    //                    NewsId = dn.NewsId,
-                    //                    Title = dn.Title,
-                    //                    ImageUrl = dn.ImageUrl,
-                    //                    CreatedOn = dn.ModifiedOn,
-                    //                    Subtitle = dn.SubTitle,
-                    //                    SubType = dn.Themes,
-                    //                    Country = dn.Country,
-                    //                    Label = dn.NewsLabels,
-                    //                    // Ranking = 0
-                    //                })
-                    //.Take(10);
-                    //.ToList();
-                    // return View(infocus.ToList());
-
-
                     //new 
                     var infocus = (from dn in _db.DevNews
                                    where dn.AdminCheck == true
@@ -73,33 +48,6 @@ namespace DevDiscourse.Controllers.ViewComponents
                 else
                 {
 
-                    //this was wroking 
-                    //var infocus = (from dn in _db.DevNews
-                    //               where dn.AdminCheck == true && dn.PublishedOn > thirtyDays && dn.Type == "Blog" && dn.Region.Contains(reg) && dn.SubType != "Interview"
-                    //               			  orderby dn.PublishedOn descending
-                    //               select new NewsViewModel
-                    //               {
-                    //                   // Id = dn.Id,
-                    //                     NewsId = dn.NewsId,
-                    //                   Title = dn.Title,
-                    //                   ImageUrl = dn.ImageUrl,
-                    //                   CreatedOn = dn.ModifiedOn,
-                    //                   Subtitle=dn.SubType,
-                    //                   SubType = dn.Themes,
-                    //                   Country = dn.Country,
-                    //                   Label = dn.NewsLabels,
-                    //                   Ranking = 0
-                    //               })
-                    //.Take(10);
-                    ////.ToList();
-                    //return View(infocus.ToList());
-
-
-
-                    //new query
-                    //string regionTitle = "";
-                    //if (reg == "India")
-                    //{
                         var region = (from c in _db.Countries
                                       join r in _db.Regions on c.RegionId equals r.Id
                                       where c.Title == reg
@@ -108,15 +56,7 @@ namespace DevDiscourse.Controllers.ViewComponents
                                           r.Title
                                       }).FirstOrDefault();
                       string regionTitle = "Global Edition";
-
-                        //if (region != null && region.Title != null)
-                        //{
-                        //    regionTitle = region.Title;
-                        //    reg = regionTitle;
-                        //}
-                        var result = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
-                   // }
-
+                   var result = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
                     var infocus = (from dn in _db.DevNews
                                    where dn.AdminCheck
                                          && dn.PublishedOn > thirtyDays

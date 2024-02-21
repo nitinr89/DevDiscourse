@@ -2,7 +2,6 @@
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Devdiscourse.Models;
 
@@ -10,7 +9,6 @@ namespace Devdiscourse.Controllers.ViewComponents
 {
     public class LiveBlogsViewComponent : ViewComponent
     {
-
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> userManager;
         public LiveBlogsViewComponent(ApplicationDbContext db, UserManager<ApplicationUser> userManager)

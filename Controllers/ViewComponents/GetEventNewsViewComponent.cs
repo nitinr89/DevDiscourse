@@ -16,7 +16,7 @@ namespace DevDiscourse.Controllers.ViewComponents
             try
             {
 
-
+                await Task.Yield();
                 var search = _db.DevNews
                     .Where(a => a.AdminCheck == true) //(a.Category.StartsWith("21,") || a.Category.EndsWith(",21") || a.Category.Contains(",21,") || a.Category == "21"))
                     .OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take)

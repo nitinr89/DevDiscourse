@@ -8,12 +8,10 @@ namespace Devdiscourse.Controllers.ViewComponents
     public class AllNewsViewComponent : ViewComponent
     {
         private readonly ApplicationDbContext _db;
-
         public AllNewsViewComponent(ApplicationDbContext db)
         {
             _db = db;
         }
-
         public async Task<IViewComponentResult> InvokeAsync(string reg="Global Edition")
         {
             await Task.Yield();

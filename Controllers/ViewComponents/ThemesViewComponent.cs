@@ -1,6 +1,5 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Devdiscourse.Controllers.ViewComponents
@@ -18,6 +17,7 @@ namespace Devdiscourse.Controllers.ViewComponents
         {
             try
             {
+                await Task.Yield();
                 ViewBag.filter = filter;
                 var idList = theme.Split(',').ToList().Select(int.Parse).ToList();
                 var search = from m in _db.DevThemes

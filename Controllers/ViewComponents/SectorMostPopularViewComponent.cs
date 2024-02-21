@@ -2,7 +2,6 @@
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 namespace Devdiscourse.Controllers.ViewComponents
 {

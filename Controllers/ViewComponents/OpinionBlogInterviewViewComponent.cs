@@ -1,6 +1,5 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Devdiscourse.Controllers.ViewComponents
@@ -16,6 +15,7 @@ namespace Devdiscourse.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string reg)
         {
+            await Task.Yield();
             DateTime todayDate = DateTime.Today.AddDays(-30);
             reg = reg == "Global Edition" ? "" : reg;
             if (reg == "")
@@ -47,8 +47,6 @@ namespace Devdiscourse.Controllers.ViewComponents
                                   r.Title
                               }).FirstOrDefault();
                 string regionTitle = "Global Edition";
-
-              //  if (region != null && region.Title != null) regionTitle = region.Title;
                 var result = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
 
                 var search = (from a in _db.DevNews

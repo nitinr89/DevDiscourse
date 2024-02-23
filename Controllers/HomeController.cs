@@ -1,22 +1,14 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models;
 using Devdiscourse.Models.ViewModel;
-using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ServiceStack.Host;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
 using X.PagedList;
 
 
@@ -925,10 +917,11 @@ namespace DevDiscourse.Controllers
         public PartialViewResult GetBlogItems(int? page, string type, string region = "Global Edition")
         {
             DateTime LastSixMonth = DateTime.UtcNow.AddMonths(-24);
-            //if (Request.IsAjaxRequest())
-            //{
-            //    LastSixMonth = DateTime.UtcNow.AddMonths(-60);
-            //}
+            bool isAjax = HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            if (isAjax)
+            {
+                LastSixMonth = DateTime.UtcNow.AddMonths(-60);
+            }
             var search = _db.DevNews.
                 Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
                 .Select(a => new AdvancedSearchView { 
@@ -959,7 +952,7 @@ namespace DevDiscourse.Controllers
                     .Where(a => a.Region != null && a.Region.Contains(result))
                     .ToList();
             }
-            if (string.IsNullOrEmpty(type))
+            if (!string.IsNullOrEmpty(type))
             {
                 search = search.Take(50)
                     .Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase))

@@ -5,25 +5,18 @@ using Devdiscourse.Models.ViewModel;
 using Html2Amp;
 using Html2Amp.Sanitization;
 using Html2Amp.Sanitization.Implementation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web.Http;
-using System.Web.WebPages;
-using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
-using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Devdiscourse.Controllers.API
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SearchApiController : ControllerBase
+    public class SearchApiController : Controller
     {
         public ApplicationDbContext db;
         public SearchApiController(ApplicationDbContext _db)
@@ -90,51 +83,61 @@ namespace Devdiscourse.Controllers.API
         public IQueryable<NewsViewModel> GetSectorNews(string sector, string reg = "Global Edition", int page = 1)
         {
             var skipCount = (page - 1) * 20;
-            //var result = db.RegionNewsRankings
-            //    .Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector
-            //    && a.Region.Title == "Global Edition"
-            //    && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn)
-            //    .ThenByDescending(s => s.Ranking).Skip(skipCount)
-            //    .Select(a => new NewsViewModel
-            //    {
-            //        Title = a.DevNews.Title,
-            //        NewsId = a.DevNews.NewsId,
-            //        ImageUrl = a.DevNews.ImageUrl,
-            //        Subtitle = a.DevNews.SubTitle,
-            //        Country = a.DevNews.Country,
-            //        CreatedOn = a.DevNews.ModifiedOn,
-            //        Sector = a.DevNews.Type,
-            //        SubType = a.DevNews.SubType,
-            //        Label = a.DevNews.NewsLabels,
-            //        Ranking = a.Ranking
-            //    }).AsNoTracking().Take(10).ToList();
-            ////var result = db.DevNews.Where(a => a.AdminCheck == true && (a.Sector.Contains("," + sector + ",") || a.Sector.StartsWith("," + sector) || a.Sector.EndsWith(sector + ",") || a.Sector.Equals(sector)) && a.Region.Contains(reg)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
-            //return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
+            var region = (from c in db.Countries
+                          join r in db.Regions on c.RegionId equals r.Id
+                          where c.Title == reg
+                          select new
+                          {
+                              r.Title
+                          }).FirstOrDefault();
+            string regionTitle = "Global Edition";
+            var useRegion = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
 
-            var result = db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector
-                && a.DevNews.IsSponsored == false
-                && a.Region.Title == "Global Edition"
-               )//.OrderByDescending(a => a.DevNews.CreatedOn).ThenByDescending(s => s.Ranking).Skip(skipCount)
-               .Select(a => new NewsViewModel
-               {
-                   Title = a.DevNews.Title,
-                   NewsId = a.DevNews.NewsId,
-                   ImageUrl = a.DevNews.ImageUrl,
-                   Subtitle = a.DevNews.SubTitle,
-                   Country = a.DevNews.Country,
-                   CreatedOn = a.DevNews.CreatedOn,
-                   Sector = a.DevNews.Sector,
-                   SubType = a.DevNews.SubType,
-                   Label = a.DevNews.NewsLabels,
-                   Ranking = a.Ranking
-               }).AsNoTracking().Take(10).ToList();
-            //return result.AsQueryable();
+            var result = db.RegionNewsRankings
+                .Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector
+                && a.Region.Title == useRegion
+                && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn)
+                .ThenByDescending(s => s.Ranking).Skip(skipCount)
+                .Select(a => new NewsViewModel
+                {
+                    Title = a.DevNews.Title,
+                    NewsId = a.DevNews.NewsId,
+                    ImageUrl = a.DevNews.ImageUrl,
+                    Subtitle = a.DevNews.SubTitle,
+                    Country = a.DevNews.Country,
+                    CreatedOn = a.DevNews.ModifiedOn,
+                    Sector = a.DevNews.Type,
+                    SubType = a.DevNews.SubType,
+                    Label = a.DevNews.NewsLabels,
+                    Ranking = a.Ranking
+                }).AsNoTracking().Take(10).ToList();
+            //var result = db.DevNews.Where(a => a.AdminCheck == true && (a.Sector.Contains("," + sector + ",") || a.Sector.StartsWith("," + sector) || a.Sector.EndsWith(sector + ",") || a.Sector.Equals(sector)) && a.Region.Contains(reg)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
             return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
+
+            //var result = db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector
+            //    && a.DevNews.IsSponsored == false
+            //    && a.Region.Title == "Global Edition"
+            //   )//.OrderByDescending(a => a.DevNews.CreatedOn).ThenByDescending(s => s.Ranking).Skip(skipCount)
+            //   .Select(a => new NewsViewModel
+            //   {
+            //       Title = a.DevNews.Title,
+            //       NewsId = a.DevNews.NewsId,
+            //       ImageUrl = a.DevNews.ImageUrl,
+            //       Subtitle = a.DevNews.SubTitle,
+            //       Country = a.DevNews.Country,
+            //       CreatedOn = a.DevNews.CreatedOn,
+            //       Sector = a.DevNews.Sector,
+            //       SubType = a.DevNews.SubType,
+            //       Label = a.DevNews.NewsLabels,
+            //       Ranking = a.Ranking
+            //   }).AsNoTracking().Take(10).ToList();
+            //return result.AsQueryable();
+           // return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
 
         }
         [HttpGet]
         [Route("GetTagsNews/{tag}/{reg}/{page}")]
-        [System.Web.Mvc.OutputCache(Duration = 60)]
+        [OutputCache(Duration = 60)]
         public IQueryable<LatestNewsView> GetTagsNews(string tag, string reg = "Global Edition", int page = 1)
         {
             DateTime oneMonth = DateTime.UtcNow.AddDays(-40);
@@ -161,11 +164,11 @@ namespace Devdiscourse.Controllers.API
 
         [HttpGet]
         [Route("NewsForMongo")]
-        public IHttpActionResult NewsForMongo(int page = 1)
+        public IActionResult NewsForMongo(int page = 1)
         {
             DateTime oneMonth = DateTime.Today.AddDays(-45);
             var result = db.DevNews.Where(a => a.CreatedOn > oneMonth).Select(a => new { Id = a.NewsId, keywords = a.Tags.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) }).ToList();//some change
-            return (IHttpActionResult)Ok(result);
+            return Ok(result);
         }
         [HttpGet]
         [Route("GetAllNews/{page}")]
@@ -177,7 +180,7 @@ namespace Devdiscourse.Controllers.API
         }
         [HttpGet]
         [Route("LatestNews/{__amp_source_origin?}")]
-        public IHttpActionResult GetAmpLatestNewsItems(string __amp_source_origin)
+        public IActionResult GetAmpLatestNewsItems(string __amp_source_origin)
         {
             DateTime threeDays = DateTime.Today.AddDays(-2);
             var resultData = (db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > threeDays).OrderByDescending(m => m.CreatedOn)
@@ -199,12 +202,12 @@ namespace Devdiscourse.Controllers.API
                     a.Country,
                     Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString()
                 });
-            return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = resultData.Any() });
+            return Ok(new { items = returnData, hasMorePages = resultData.Any() });
         }
 
         [Route("GetPreviousSectorAmpNews/{id}/{sector}/{reg}")]
         [HttpGet]
-        public IHttpActionResult GetPreviousSectorAmpNews(long id, string sector, string reg = "Global Edition", int skip = 0)
+        public IActionResult GetPreviousSectorAmpNews(long id, string sector, string reg = "Global Edition", int skip = 0)
         {
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
             DateTime tenDays = search.CreatedOn.AddDays(-2);
@@ -274,7 +277,7 @@ namespace Devdiscourse.Controllers.API
                     Disclaimer = disclaimer
                 });
             }
-            return (IHttpActionResult)Ok(new { items = resultNewsList, hasMorePages = false });
+            return (IActionResult)Ok(new { items = resultNewsList, hasMorePages = false });
         }
         public string GetCity(string city)
         {
@@ -363,7 +366,7 @@ namespace Devdiscourse.Controllers.API
         }
         [HttpGet]
         [Route("AmpRelatedNews/{id}/{reg}/{sector}/{__amp_source_origin?}")]
-        public IHttpActionResult AmpRelatedNews(long id, string reg, string sector, string __amp_source_origin)
+        public IActionResult AmpRelatedNews(long id, string reg, string sector, string __amp_source_origin)
         {
             DateTime threeDays = DateTime.Today.AddDays(-3);
             var secFirst = sector.Split(',')[0];
@@ -379,7 +382,7 @@ namespace Devdiscourse.Controllers.API
                         a.Country,
                         Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString()
                     });
-                return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
             else
             {
@@ -393,13 +396,13 @@ namespace Devdiscourse.Controllers.API
                         a.Country,
                         Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString()
                     });
-                return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
 
         }
         [HttpGet]
         [Route("GetampTrends/{reg}/{__amp_source_origin?}")]
-        public IHttpActionResult GetampTrends(string reg, string __amp_source_origin)
+        public IActionResult GetampTrends(string reg, string __amp_source_origin)
         {
             DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
             DateTime weekend = todayDate.AddDays(-2).AddTicks(1);
@@ -416,7 +419,7 @@ namespace Devdiscourse.Controllers.API
                     ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
                     SrNo = sr + 1
                 });
-                return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
             else
             {
@@ -431,13 +434,13 @@ namespace Devdiscourse.Controllers.API
                     ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
                     SrNo = sr + 1
                 });
-                return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
 
         }
         [HttpGet]
         [Route("GetAmpVideos/{__amp_source_origin?}")]
-        public IHttpActionResult GetAmpVideos(string __amp_source_origin)
+        public IActionResult GetAmpVideos(string __amp_source_origin)
         {
             DateTime todayDate = DateTime.Today.AddDays(-30);
             var resultList = db.VideoNews.Where(a => a.AdminCheck == true).Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, FileThumbUrl = a.VideoThumbUrl, CreatedOn = a.CreatedOn, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Take(20).AsNoTracking();
@@ -450,11 +453,11 @@ namespace Devdiscourse.Controllers.API
                 CreatedOn = a.CreatedOn.ToString("dd MMMM yyyy"),
                 Duration = a.Duration
             });
-            return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = resultList.Any() });
+            return (IActionResult)Ok(new { items = returnData, hasMorePages = resultList.Any() });
         }
         [HttpGet]
         [Route("GetAmpVideoNews/{reg}/{__amp_source_origin?}")]
-        public IHttpActionResult GetAmpVideoNews(string reg, string __amp_source_origin)
+        public IActionResult GetAmpVideoNews(string reg, string __amp_source_origin)
         {
             if (reg == "Global Edition")
             {
@@ -468,7 +471,7 @@ namespace Devdiscourse.Controllers.API
                     defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
                     ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl
                 });
-                return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
             else
             {
@@ -482,7 +485,7 @@ namespace Devdiscourse.Controllers.API
                     defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
                     ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl
                 });
-                return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
 
         }
@@ -520,17 +523,17 @@ namespace Devdiscourse.Controllers.API
             //}
             if (beforeDate != "null")
             {
-               // DateTime filterDate = DateTime.Parse(beforeDate.AsDateTime(DateTime.Now.AddDays(-60)).ToString());
+                // DateTime filterDate = DateTime.Parse(beforeDate.AsDateTime(DateTime.Now.AddDays(-60)).ToString());
                 DateTime filterDate = DateTime.Parse(beforeDate);
                 newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
                 //newsSearch = newsSearch.Take(50);
             }
             if (afterDate != "null")
             {
-              //  DateTime filterDate2 = DateTime.Parse(afterDate.AsDateTime(DateTime.Now.AddDays(-80)).ToString());
+                //  DateTime filterDate2 = DateTime.Parse(afterDate.AsDateTime(DateTime.Now.AddDays(-80)).ToString());
                 DateTime filterDate2 = DateTime.Parse(afterDate);
                 newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
-               // newsSearch = newsSearch.Take(50);
+                // newsSearch = newsSearch.Take(50);
             }
             return newsSearch.OrderByDescending(a => a.CreatedOn).Skip(skipCount).Take(20);
             //return newsSearch.Skip(skipCount).Take(50);
@@ -573,28 +576,28 @@ namespace Devdiscourse.Controllers.API
         }
         [HttpGet]
         [Route("AppRelatedNews/{id}/{reg}/{sector}/{__amp_source_origin?}")]
-        public IHttpActionResult AppRelatedNews(long id, string sector, string __amp_source_origin)
+        public IActionResult AppRelatedNews(long id, string sector, string __amp_source_origin)
         {
             DateTime threeDays = DateTime.Today.AddDays(-3);
             var secFirst = sector.Split(',')[0];
             var search = db.DevNews.Where(m => m.AdminCheck == true && m.CreatedOn > threeDays && m.NewsId != id && (m.Sector.StartsWith(secFirst + ",") || m.Sector.Contains("," + secFirst + ",") || m.Sector.EndsWith("," + secFirst) || m.Sector == secFirst)).OrderByDescending(o => o.CreatedOn).Select(s => new LatestNewsView { Title = s.Title, NewId = s.NewsId, Label = s.NewsLabels, ImageUrl = s.ImageUrl, Country = s.Country }).Distinct().Take(5);
             var returnData = search.AsEnumerable().Select(a => new { a.Title, a.Label, ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl, a.Country, Url = "/mobilearticle/" + a.GenerateSecondSlug().ToString() });
-            return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+            return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
         }
         [HttpGet]
         [HttpGet]
         [Route("AppLatestNews/{__amp_source_origin?}")]
-        public IHttpActionResult AppLatestNews(string __amp_source_origin)
+        public IActionResult AppLatestNews(string __amp_source_origin)
         {
             DateTime threeDays = DateTime.Today.AddDays(-2);
             var resultData = (db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > threeDays).OrderByDescending(m => m.CreatedOn).Select(b => new LatestNewsView { Title = b.Title, NewId = b.NewsId, ImageUrl = b.ImageUrl, Country = b.Country })).Take(5);
             var returnData = resultData.AsEnumerable().Select(a => new { a.Title, a.Country, Url = "/mobilearticle/" + a.GenerateSecondSlug().ToString() });
-            return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = resultData.Any() });
+            return (IActionResult)Ok(new { items = returnData, hasMorePages = resultData.Any() });
         }
 
         [HttpGet]
         [Route("GetAppTrends/{__amp_source_origin?}")]
-        public IHttpActionResult GetAppTrends(string __amp_source_origin)
+        public IActionResult GetAppTrends(string __amp_source_origin)
         {
             DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
             DateTime weekend = todayDate.AddDays(-2).AddTicks(1);
@@ -608,7 +611,7 @@ namespace Devdiscourse.Controllers.API
                 defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
                 ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl
             });
-            return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+            return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
         }
 
         [HttpGet]
@@ -645,15 +648,15 @@ namespace Devdiscourse.Controllers.API
 
         [HttpGet]
         [Route("GetInfographics")]
-        public IHttpActionResult GetInfographics()
+        public IActionResult GetInfographics()
         {
             var Infographics = db.Memes.Where(a => a.IsActive == true).OrderByDescending(o => o.CreatedOn).Select(s => new { s.Title, s.ImageUrl }).Take(10);
-            return (IHttpActionResult)Ok(Infographics);
+            return (IActionResult)Ok(Infographics);
         }
 
         [Route("GetOpinion/{reg}")]
         [OutputCache(Duration = 300)]
-        public IHttpActionResult GetOpinion(string reg)
+        public IActionResult GetOpinion(string reg)
         {
             reg = reg == "Global Edition" ? "" : reg;
             DateTime thirtyDays = DateTime.Today.AddDays(-30);
@@ -681,7 +684,7 @@ namespace Devdiscourse.Controllers.API
                 {
                     search = db.DevNews.Where(a => a.Type == "Blog" && a.CreatedOn > thirtyDays && a.AdminCheck == true).OrderByDescending(o => o.PublishedOn).Select(a => new { a.Id, a.Title, a.CreatedOn, ImageUrl = a.ApplicationUsers.ProfilePic, AuthorImage = a.Themes, a.Description, Name = a.Author, a.NewsId, Label = a.NewsLabels }).AsNoTracking().Take(10);
                 }
-                return (IHttpActionResult)Ok(search);
+                return (IActionResult)Ok(search);
             }
             else
             {
@@ -706,7 +709,7 @@ namespace Devdiscourse.Controllers.API
                 {
                     search = db.DevNews.Where(a => a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays && a.AdminCheck == true).OrderByDescending(o => o.PublishedOn).Select(a => new { a.Id, a.Title, a.CreatedOn, ImageUrl = a.ApplicationUsers.ProfilePic, AuthorImage = a.Themes, a.Description, Name = a.Author, a.NewsId, Label = a.NewsLabels }).AsNoTracking().Take(10);
                 }
-                return (IHttpActionResult)Ok(search);
+                return (IActionResult)Ok(search);
             }
         }
         [Route("GetEditionNews/{reg}/{edition}")]
@@ -779,7 +782,7 @@ namespace Devdiscourse.Controllers.API
             }
         }
         [Route("GetInterview/{reg}")]
-        public IHttpActionResult GetInterview(string reg)
+        public IActionResult GetInterview(string reg)
         {
             DateTime thirtyDays = DateTime.Today.AddDays(-30);
             if (reg == "Global Edition")
@@ -799,7 +802,7 @@ namespace Devdiscourse.Controllers.API
                                   a.ModifiedOn,
                                   m.SrNo
                               }).OrderBy(a => a.SrNo).AsNoTracking().Take(10);
-                return (IHttpActionResult)Ok(result);
+                return (IActionResult)Ok(result);
             }
             else
             {
@@ -818,23 +821,23 @@ namespace Devdiscourse.Controllers.API
                                   a.ModifiedOn,
                                   m.SrNo
                               }).OrderBy(a => a.SrNo).AsNoTracking().Take(10);
-                return (IHttpActionResult)Ok(result);
+                return (IActionResult)Ok(result);
             }
         }
 
         [Route("GetAmpEditionNews/{reg}/{__amp_source_origin?}")]
-        public IHttpActionResult GetAmpEditionNews(string reg = "South Asia", string __amp_source_origin = "")
+        public IActionResult GetAmpEditionNews(string reg = "South Asia", string __amp_source_origin = "")
         {
             DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
             DateTime weekend = todayDate.AddDays(-3).AddTicks(1);
             var result = db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region.Contains(reg)).OrderByDescending(m => m.CreatedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).Take(5);
             var returnData = result.AsEnumerable().Select(a => new { a.Title, a.Label, ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl, a.Country, Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString() });
-            return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = result.Any() });
+            return (IActionResult)Ok(new { items = returnData, hasMorePages = result.Any() });
         }
         [HttpGet]
         [Route("GetAmpOpinion/{reg}")]
         [OutputCache(Duration = 300)]
-        public IHttpActionResult GetAmpOpinion(string reg)
+        public IActionResult GetAmpOpinion(string reg)
         {
             DateTime thirtyDays = DateTime.Today.AddDays(-90);
             reg = reg == "Global Edition" ? "" : reg;
@@ -863,7 +866,7 @@ namespace Devdiscourse.Controllers.API
                     ImageUrl = (a.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
                     Author = a.Country
                 });
-                return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
             else
             {
@@ -890,13 +893,13 @@ namespace Devdiscourse.Controllers.API
                     ImageUrl = (a.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
                     Author = a.Country
                 });
-                return (IHttpActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
 
         }
         [HttpGet]
         [Route("AmpInfocusMore")]
-        public IHttpActionResult GetAmpInfocusMore(string __amp_source_origin = "")
+        public IActionResult GetAmpInfocusMore(string __amp_source_origin = "")
         {
             var halfDay = DateTime.UtcNow.AddHours(-12);
             var infocus = db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true && a.DevNews.CreatedOn > halfDay && a.Region.Title == "Global Edition" && !a.DevNews.Title.Contains("News Summary") && !a.DevNews.Title.Contains("Highlights") && a.DevNews.NewsLabels != "Newsalert" && a.DevNews.Sector != "14" && a.DevNews.Sector != "18" && a.DevNews.Sector != "19" && a.DevNews.Sector != "9").Select(s => new LatestNewsView
@@ -920,7 +923,7 @@ namespace Devdiscourse.Controllers.API
                 url = "https://www.devdiscourse.com/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString() + "?amp",
                 image = (a.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") == -1 ? "https://www.devdiscourse.com/" + a.ImageUrl + "?width=240&height=240&mode=crop" : "https://www.devdiscourse.com/remote.axd?" + a.ImageUrl + "?width=240&height=240&mode=crop",
             });
-            return (IHttpActionResult)Ok(new
+            return (IActionResult)Ok(new
             {
                 bookendVersion = "v1.0",
                 shareProviders = new string[] { "facebook", "twitter", "email" },
@@ -937,7 +940,7 @@ namespace Devdiscourse.Controllers.API
         }
         [HttpGet]
         [Route("getNewsAnalysis")]
-        public IHttpActionResult getNewsAnalysis()
+        public IActionResult getNewsAnalysis()
         {
             List<string> editionList = new List<string>() { "Central Africa", "East Africa", "Southern Africa", "West Africa", "East and South East Asia", "Europe and Central Asia", "Latin America and Caribbean", "Middle East and North Africa", "North America", "South Asia", "Pacific" };
             DateTime threeDays = DateTime.Today.AddDays(-3);
@@ -963,12 +966,12 @@ namespace Devdiscourse.Controllers.API
                 }
             }
             var results = NewsAnalysisList.GroupBy(p => p.Edition).OrderBy(o => o.Key);
-            return (IHttpActionResult)Ok(new { total = news.Count(), results });
+            return (IActionResult)Ok(new { total = news.Count(), results });
         }
         [HttpGet]
         [Route("GetPreviousNews/{id}/{label}/{reg}/{__amp_source_origin?}")]
         [HttpGet]
-        public IHttpActionResult GetPreviousNews(long id, string label, string reg, string __amp_source_origin)
+        public IActionResult GetPreviousNews(long id, string label, string reg, string __amp_source_origin)
         {
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
             DateTime tenDays = search.CreatedOn.AddDays(-5);
@@ -1007,7 +1010,7 @@ namespace Devdiscourse.Controllers.API
                     Id = news.Id,
                 });
             }
-            return (IHttpActionResult)Ok(new { items = resultNewsList });
+            return (IActionResult)Ok(new { items = resultNewsList });
         }
         [HttpGet]
         [Route("CategoryNews/{Id}/{page}")]
@@ -1019,7 +1022,7 @@ namespace Devdiscourse.Controllers.API
         }
         [HttpGet]
         [Route("GetAllInfocus")]
-        public IHttpActionResult GetAllInfocus()
+        public IActionResult GetAllInfocus()
         {
             var search = (from m in db.Infocus
                           join s in db.DevNews on m.NewsId equals s.NewsId
@@ -1030,11 +1033,11 @@ namespace Devdiscourse.Controllers.API
                               newsId = "\"" + s.NewsId + "\"",
                               title = s.Title
                           }).AsNoTracking().Distinct().OrderByDescending(a => Guid.NewGuid()).Skip(1).Take(1);
-            return (IHttpActionResult)Ok(search);
+            return (IActionResult)Ok(search);
         }
         [HttpGet]
         [Route("GetAllData")]
-        public IHttpActionResult GetAllData()
+        public IActionResult GetAllData()
         {
             var search = (from s in db.DevNews
                           where s.Sector != "0" && !s.Sector.Contains(",") && !string.IsNullOrEmpty(s.WorkStage)
@@ -1043,10 +1046,10 @@ namespace Devdiscourse.Controllers.API
                               label = s.Sector,
                               title = s.Title
                           }).Take(50000);
-            return (IHttpActionResult)Ok(search);
+            return (IActionResult)Ok(search);
         }
         [Route("GetAllSector")]
-        public IHttpActionResult GetAllSector()
+        public IActionResult GetAllSector()
         {
             var search = from s in db.DevSectors
                          select new
@@ -1054,11 +1057,11 @@ namespace Devdiscourse.Controllers.API
                              Id = s.Id,
                              title = s.Title
                          };
-            return (IHttpActionResult)Ok(search);
+            return (IActionResult)Ok(search);
         }
         [HttpGet]
         [Route("GetSingleSector/{id}")]
-        public IHttpActionResult GetAllSector(int id)
+        public IActionResult GetAllSector(int id)
         {
             var search = (from s in db.DevNews
                           where s.Sector.Contains(",") && !string.IsNullOrEmpty(s.WorkStage)
@@ -1073,7 +1076,7 @@ namespace Devdiscourse.Controllers.API
                 label = a.label,
                 description = CleanDesc(a.description)
             });
-            return (IHttpActionResult)Ok(returnData);
+            return (IActionResult)Ok(returnData);
         }
         public string CleanDesc(string htmltext)
         {

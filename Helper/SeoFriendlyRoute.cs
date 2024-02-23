@@ -1,7 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using System.Text.RegularExpressions;
-using System.Web;
-
+﻿using System.Text.RegularExpressions;
 namespace Devdiscourse.Helper
 {
     public class SeoFriendlyRoute 

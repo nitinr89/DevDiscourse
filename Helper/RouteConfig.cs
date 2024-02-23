@@ -1,7 +1,4 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using System.Web.Mvc;
-
-namespace Devdiscourse.Helper
+﻿namespace Devdiscourse.Helper
 {
     public static class RouteConfig
     {
@@ -35,10 +32,12 @@ namespace Devdiscourse.Helper
 
             routes.MapControllerRoute(
             name: "NewsVideo",
-            pattern: "news/videos/{id}",
-            defaults: new { controller = "Search",
-                action = "Videos",
-                id = UrlParameter.Optional });
+            pattern: "news/videos/{id?}",
+            defaults: new
+            {
+                controller = "Search",
+                action = "Videos"
+            });
 
             routes.MapControllerRoute(
             name: "NewsSector",

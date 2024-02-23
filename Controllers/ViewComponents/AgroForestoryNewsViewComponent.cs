@@ -27,14 +27,13 @@ namespace Devdiscourse.Controllers.ViewComponents
                                   r.Title
                               }).FirstOrDefault();
                 string regionTitle = "Global Edition";
-
-                if (region != null && region.Title != null) regionTitle = region.Title;
+                var userRegion = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
 
                 var resultList = _db.RegionNewsRankings
                     .Where(dn => dn.DevNews.CreatedOn > twoMonth &&
                        dn.DevNews.AdminCheck == true &&
                        dn.DevNews.Sector == "10" &&
-                       dn.Region.Title == regionTitle &&
+                       dn.Region.Title == userRegion &&
                        !dn.DevNews.IsSponsored
                   )
     .OrderByDescending(dn => dn.DevNews.CreatedOn)

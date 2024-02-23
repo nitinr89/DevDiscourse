@@ -4,12 +4,11 @@ using Devdiscourse.Models.ResearchModels;
 using Devdiscourse.Data;
 using Microsoft.AspNetCore.Identity;
 using X.PagedList;
-using System.Web.Mvc;
 using DevDiscourse.Controllers;
-using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
-using Controller = Microsoft.AspNetCore.Mvc.Controller;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack.Host;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Devdiscourse.Controllers.Research
 {
@@ -38,7 +37,7 @@ namespace Devdiscourse.Controllers.Research
             ViewBag.loginId = userManager.GetUserId(User);
             return View();
         }
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public ActionResult Dashboard()
         {
             string id = userManager.GetUserId(User);
@@ -58,7 +57,7 @@ namespace Devdiscourse.Controllers.Research
             }
             return View();
         }
-        [System.Web.Mvc.Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public ActionResult ResearchFeedBack()
         {
             ViewBag.edition = "Global Edition";
@@ -221,14 +220,14 @@ namespace Devdiscourse.Controllers.Research
             var search = _db.DevNews.Where(a => a.AdminCheck == true && a.Category.Contains("13")).Select(a => new { a.Region, a.IsGlobal, a.Sector, a.ModifiedOn, a.Title, Url = "/article/" + a.NewsId.ToString(), a.ImageUrl });
             if (!string.IsNullOrEmpty(__amp_source_origin))
             {
-               // HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);// do later
+                // HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);// do later
 
             }
             var result = search.OrderByDescending(m => m.ModifiedOn).Select(b => new { b.Title, b.Url, b.ImageUrl });
             int pageSize = 10;
             int pageNumber = (moreItemsPageIndex ?? 1);
             var resultData = result.ToPagedList(pageNumber, pageSize);
-            return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
+            return Json(new { items = resultData, hasMorePages = resultData.Any() });
         }
         public Microsoft.AspNetCore.Mvc.PartialViewResult GoalDetails(int? id)
         {
@@ -287,7 +286,7 @@ namespace Devdiscourse.Controllers.Research
             var search = _db.SDGSamurais.FirstOrDefault(a => a.Creator == userId);
             if (search != null)
             {
-                return Json("Already Joined", JsonRequestBehavior.AllowGet);
+                return Json("Already Joined");
             }
             else
             {
@@ -311,7 +310,7 @@ namespace Devdiscourse.Controllers.Research
                 _db.SDGSamurais.Add(obj);
                 _db.SaveChanges();
                 CreateLog("SDG Samurai", obj.Ranks.Title, obj.Id.ToString(), obj.Creator, "/Research/");
-                return Json("Successfully Join", JsonRequestBehavior.AllowGet);
+                return Json("Successfully Join");
             }
         }
         public void CreateLog(string title, string logFor, string creator, string activityToUser, string activityUrl)
@@ -334,12 +333,12 @@ namespace Devdiscourse.Controllers.Research
         {
             if (string.IsNullOrEmpty(email))
             {
-                return Json("Something went wrong!", JsonRequestBehavior.AllowGet);
+                return Json("Something went wrong!");
             }
             var search = _db.AdoptSDGTools.FirstOrDefault(a => a.Email == email);
             if (search != null)
             {
-                return Json("Already Adopt this user", JsonRequestBehavior.AllowGet);
+                return Json("Already Adopt this user");
             }
             else
             {
@@ -368,13 +367,13 @@ namespace Devdiscourse.Controllers.Research
                         "<span><a href='http://devdiscourse.com/Home/PrivacyPolicy' style='color:white;text-decoration:unset;'>Terms & Conditions</a></span></div></div>");
 
                 emailobj.SendMail(email, emailData, "Institutional Partnership");
-                return Json("Successfully Adopt", JsonRequestBehavior.AllowGet);
+                return Json("Successfully Adopt");
             }
         }
         public Microsoft.AspNetCore.Mvc.JsonResult GetUserPic(string email)
         {
             var search = _db.Users.FirstOrDefault(a => a.Email == email).ProfilePic;
-            return Json(search, JsonRequestBehavior.AllowGet);
+            return Json(search);
         }
         // Generate Random Code String
         public string RandomString()
@@ -389,7 +388,7 @@ namespace Devdiscourse.Controllers.Research
             ViewBag.fid = id;
             return View();
         }
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public ActionResult SummaryReport()
         {
             string id = userManager.GetUserId(User);
@@ -408,7 +407,7 @@ namespace Devdiscourse.Controllers.Research
             }
             return View();
         }
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public ActionResult Feedbacks()
         {
             string id = userManager.GetUserId(User);
@@ -464,13 +463,13 @@ namespace Devdiscourse.Controllers.Research
         {
             if (id == null || id == new Guid())
             {
-                return Json("Something went wrong!", JsonRequestBehavior.AllowGet);
+                return Json("Something went wrong!");
             }
             string userId = userManager.GetUserId(User);
             var search = _db.ResponseReports.FirstOrDefault(a => a.ReportBy == userId && a.ResponseId == id);
             if (search != null)
             {
-                return Json("Already report on this response!", JsonRequestBehavior.AllowGet);
+                return Json("Already report on this response!");
             }
             else
             {
@@ -484,7 +483,7 @@ namespace Devdiscourse.Controllers.Research
                 };
                 _db.ResponseReports.Add(resObj);
                 _db.SaveChanges();
-                return Json("Submit successfully!", JsonRequestBehavior.AllowGet);
+                return Json("Submit successfully!");
             }
         }
         public Microsoft.AspNetCore.Mvc.JsonResult SaveComment(Guid itemId, string itemTitle, string comment, long parentId)
@@ -501,14 +500,14 @@ namespace Devdiscourse.Controllers.Research
             };
             _db.UserComments.Add(obj);
             _db.SaveChanges();
-            return Json("Success!", JsonRequestBehavior.AllowGet);
+            return Json("Success!");
         }
         public Microsoft.AspNetCore.Mvc.JsonResult MobileResponseReport(Guid id, string text, string question, string userId)
         {
             var search = _db.ResponseReports.FirstOrDefault(a => a.ReportBy == userId && a.ResponseId == id);
             if (search != null)
             {
-                return Json("Already report on this response!", JsonRequestBehavior.AllowGet);
+                return Json("Already report on this response!");
             }
             else
             {
@@ -522,7 +521,7 @@ namespace Devdiscourse.Controllers.Research
                 };
                 _db.ResponseReports.Add(resObj);
                 _db.SaveChanges();
-                return Json("Submit successfully!", JsonRequestBehavior.AllowGet);
+                return Json("Submit successfully!");
             }
         }
         public Microsoft.AspNetCore.Mvc.JsonResult SaveMobileComment(Guid itemId, string itemTitle, string comment, long parentId, string userId)
@@ -538,7 +537,7 @@ namespace Devdiscourse.Controllers.Research
             };
             _db.UserComments.Add(obj);
             _db.SaveChanges();
-            return Json(obj, JsonRequestBehavior.AllowGet);
+            return Json(obj);
         }
         //public PartialViewResult GetComments(Guid itemId)
         //{
@@ -564,7 +563,7 @@ namespace Devdiscourse.Controllers.Research
             search.CommentText = text;
             _db.Entry(search).State = EntityState.Modified;
             _db.SaveChanges();
-            return Json("Success", JsonRequestBehavior.AllowGet);
+            return Json("Success");
         }
         public Microsoft.AspNetCore.Mvc.JsonResult LikeDislike(Guid id, string question, Behaviour behaviour)
         {
@@ -591,7 +590,7 @@ namespace Devdiscourse.Controllers.Research
                 _db.SaveChanges();
             }
             var responseCount = _db.UserBehaviours.Where(a => a.ResponseId == id);
-            return Json(new { like = responseCount.Count(a => a.BehaviourType == Behaviour.Like), dislike = responseCount.Count(a => a.BehaviourType == Behaviour.Dislike) }, JsonRequestBehavior.AllowGet);
+            return Json(new { like = responseCount.Count(a => a.BehaviourType == Behaviour.Like), dislike = responseCount.Count(a => a.BehaviourType == Behaviour.Dislike) });
         }
         public Microsoft.AspNetCore.Mvc.JsonResult MobileLikeDislike(Guid id, string question, string userId, Behaviour behaviour)
         {
@@ -617,12 +616,12 @@ namespace Devdiscourse.Controllers.Research
                 _db.SaveChanges();
             }
             var responseCount = _db.UserBehaviours.Where(a => a.ResponseId == id);
-            return Json(new { like = responseCount.Count(a => a.BehaviourType == Behaviour.Like), dislike = responseCount.Count(a => a.BehaviourType == Behaviour.Dislike) }, JsonRequestBehavior.AllowGet);
+            return Json(new { like = responseCount.Count(a => a.BehaviourType == Behaviour.Like), dislike = responseCount.Count(a => a.BehaviourType == Behaviour.Dislike) });
         }
         public Microsoft.AspNetCore.Mvc.JsonResult GetCount(Guid id)
         {
             var responseCount = _db.UserBehaviours.Where(a => a.ResponseId == id);
-            return Json(new { like = responseCount.Count(a => a.BehaviourType == Behaviour.Like), dislike = responseCount.Count(a => a.BehaviourType == Behaviour.Dislike) }, JsonRequestBehavior.AllowGet);
+            return Json(new { like = responseCount.Count(a => a.BehaviourType == Behaviour.Like), dislike = responseCount.Count(a => a.BehaviourType == Behaviour.Dislike) });
         }
         public ActionResult NearContribution(string id, string location)
         {
@@ -656,7 +655,7 @@ namespace Devdiscourse.Controllers.Research
             }
             return View();
         }
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public ActionResult ResearchSurvey()
         {
             string? cookie = Request.Cookies["Edition"];
@@ -670,7 +669,7 @@ namespace Devdiscourse.Controllers.Research
             }
             return View();
         }
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public ActionResult SubmitSurvey(string id)
         {
             var userId = userManager.GetUserId(User);

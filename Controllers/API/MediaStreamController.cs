@@ -103,7 +103,7 @@ namespace DevDiscourse.Controllers.API
         [HttpPost]
         public async Task<IActionResult> UploadMedia()
         {
-            var signalConnectionId = HttpContext.Request.Form["signalConnectionId"];
+            string? signalConnectionId = HttpContext.Request.Form["signalConnectionId"];
 
             if (HttpContext.Request.Form.Files.Count > 0)
             {
@@ -142,12 +142,14 @@ namespace DevDiscourse.Controllers.API
                         VideoFrameRate = 24,
                     };
                     //var context = GlobalHost.ConnectionManager.GetHubContext<FileHub>();
-                    await context.Clients.Client(signalConnectionId).SendAsync("SendFileProgress", "0");
+                    if (!string.IsNullOrEmpty(signalConnectionId))
+                        await context.Clients.Client(signalConnectionId).SendAsync("SendFileProgress", "0");
                     ffMpeg.ConvertProgress += async (o, args) =>
                     {
                         var conversionProgress = (String.Format("Progress: {0:HH:mm:ss}/{1:HH:mm:ss}", new DateTime(args.Processed.Ticks), new DateTime(args.TotalDuration.Ticks)));
                         var currentProgress = (int)((args.Processed.TotalSeconds / args.TotalDuration.TotalSeconds) * 100);
-                        await context.Clients.Client(signalConnectionId).SendAsync("SendFileProgress", conversionProgress);
+                        if (!string.IsNullOrEmpty(signalConnectionId))
+                            await context.Clients.Client(signalConnectionId).SendAsync("SendFileProgress", conversionProgress);
                     };
                     ffMpeg.ConvertMedia(fileUrl, inputExtension, outputfileUrl, Format.mp4, convertSettings);
                     ffMpeg.GetVideoThumbnail(fileUrl, outputThumbUrl);

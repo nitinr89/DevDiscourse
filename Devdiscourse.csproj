@@ -11,7 +11,7 @@
 	<PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
 
 	<ItemGroup>
-	  <Compile Remove="Models\BasicModels\DiscourseIndex.cs" />
+		<Compile Remove="Models\BasicModels\DiscourseIndex.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -19,9 +19,7 @@
 		<PackageReference Include="DNTCaptcha.Core" Version="4.9.2" />
 		<PackageReference Include="HtmlToAmp" Version="1.0.0" />
 		<PackageReference Include="MetadataExtractor" Version="2.8.1" />
-		<PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
 		<PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.3" />
-		<PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12" />
@@ -49,6 +47,7 @@
 
 	<ItemGroup>
 		<Folder Include="wwwroot\AdminFiles\ArticleFiles\" />
+		<Folder Include="wwwroot\AdminFiles\NewsImages\" />
 		<Folder Include="wwwroot\AdminFiles\MediaInternshipCVs\" />
 		<Folder Include="wwwroot\AdminFiles\ReserachFiles\" />
 		<Folder Include="wwwroot\AdminFiles\UserFiles\" />

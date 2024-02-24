@@ -1,9 +1,8 @@
-﻿using ServiceStack;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Devdiscourse.Helper
 {
-    public class SeoFriendlySecondRoute 
+    public class SeoFriendlySecondRoute
     {
         private readonly RequestDelegate _next;
 
@@ -11,16 +10,23 @@ namespace Devdiscourse.Helper
         {
             _next = next;
         }
-      
+
         public async Task Invoke(HttpContext context)
         {
-            var routeData = context.GetRouteData();
+            // Check if the request path is for an article page
+            var path = context.Request.Path.Value;
 
-            if (routeData != null && routeData.Values.ContainsKey("id"))
+            // Assuming the article pages follow the pattern "/article/..."
+            if (path != null && path.StartsWith("/article/"))
             {
-                routeData.Values["id"] = GetIdValue(routeData.Values["id"]);
-            }
+                var routeData = context.GetRouteData();
 
+                if (routeData != null && routeData.Values.ContainsKey("id"))
+                {
+                    // Modify the "id" value only if the request is for an article page
+                    routeData.Values["id"] = GetIdValue(routeData.Values["id"]);
+                }
+            }
             await _next(context);
         }
 

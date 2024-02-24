@@ -70,7 +70,7 @@ namespace DevDiscourse.Controllers.API
             {
                 return NotFound(); // Handle the case where the item with the given id is not found
             }
-            var filePath = "path/to/your/video.mp4"; // Replace with the actual path to your video file
+            var filePath = search.VideoUrl;    //"path/to/your/video.mp4"; // Replace with the actual path to your video file
             var fileInfo = new FileInfo(filePath);
             var streamer = new VideoStream(search.BlobName, "imagegallery");
             var response = new FileStreamResult(new FileStream(filePath, FileMode.Open), "video/mp4")

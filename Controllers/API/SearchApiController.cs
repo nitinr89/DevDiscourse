@@ -31,14 +31,14 @@ namespace Devdiscourse.Controllers.API
             if (reg == "Global Edition")
             {
                 var result = db.VideoNews
-                    //.Where(a => a.AdminCheck == true)
+                    .Where(a => a.AdminCheck == true)
                     .Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
                 return result;
             }
             else
             {
-                var result = db.VideoNews
-                    //Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
+                var result = db.VideoNews.
+                    Where(a => a.AdminCheck == true && a.VideoNewsRegions.Any(r => r.Edition.Title == reg))
                     .Select(a => new VideoViewModel { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, FileThumbUrl = a.VideoThumbUrl, Duration = a.Duration }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
                 return result;
             }
@@ -114,26 +114,6 @@ namespace Devdiscourse.Controllers.API
             //var result = db.DevNews.Where(a => a.AdminCheck == true && (a.Sector.Contains("," + sector + ",") || a.Sector.StartsWith("," + sector) || a.Sector.EndsWith(sector + ",") || a.Sector.Equals(sector)) && a.Region.Contains(reg)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
             return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
 
-            //var result = db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector
-            //    && a.DevNews.IsSponsored == false
-            //    && a.Region.Title == "Global Edition"
-            //   )//.OrderByDescending(a => a.DevNews.CreatedOn).ThenByDescending(s => s.Ranking).Skip(skipCount)
-            //   .Select(a => new NewsViewModel
-            //   {
-            //       Title = a.DevNews.Title,
-            //       NewsId = a.DevNews.NewsId,
-            //       ImageUrl = a.DevNews.ImageUrl,
-            //       Subtitle = a.DevNews.SubTitle,
-            //       Country = a.DevNews.Country,
-            //       CreatedOn = a.DevNews.CreatedOn,
-            //       Sector = a.DevNews.Sector,
-            //       SubType = a.DevNews.SubType,
-            //       Label = a.DevNews.NewsLabels,
-            //       Ranking = a.Ranking
-            //   }).AsNoTracking().Take(10).ToList();
-            //return result.AsQueryable();
-           // return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
-
         }
         [HttpGet]
         [Route("GetTagsNews/{tag}/{reg}/{page}")]
@@ -142,8 +122,9 @@ namespace Devdiscourse.Controllers.API
         {
             DateTime oneMonth = DateTime.UtcNow.AddDays(-40);
             var skipCount = (page - 1) * 20;
+
             var result = db.DevNews
-                //.Where(a => a.CreatedOn > oneMonth && a.AdminCheck == true && a.Tags.Contains(tag))
+                .Where(a => a.CreatedOn > oneMonth && a.AdminCheck == true && a.Tags.Contains(tag))
                 .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
             return result;
 
@@ -156,7 +137,7 @@ namespace Devdiscourse.Controllers.API
             DateTime oneMonth = DateTime.Today.AddDays(-60);
             var skipCount = (page - 1) * 20;
             var result = db.DevNews
-                //.Where(a => a.AdminCheck == true && a.Category.Contains("13"))
+                .Where(a => a.AdminCheck == true && a.Category.Contains("13"))
                 .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
             return result;
 

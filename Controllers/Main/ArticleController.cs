@@ -42,6 +42,12 @@ namespace Devdiscourse.Controllers.Main
             }
             return sMacAddress;
         }
+        public string GetDeviceInfo()
+        {
+            var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
+            var deviceInfo = userAgent;
+            return deviceInfo;
+        }
         public string GetIPAddress()
         {
             string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
@@ -109,6 +115,8 @@ namespace Devdiscourse.Controllers.Main
                     new YouTubeVideoSanitizer(),
                     new AmpIFrameSanitizer()
                 });
+            string ampHtml = converter.ConvertFromHtml(search.Description).AmpHtml;
+            ViewBag.ampHtml = ampHtml;
             var geolocation = GetGeoLocation();
             var MACAddress = GetMACAddress();
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
@@ -173,6 +181,7 @@ namespace Devdiscourse.Controllers.Main
         }
         public async Task<string> UpdateViewCount(long id, string title, string user, GeoLocationViewModel location, string MACAddress)
         {
+            string deviceinfo = GetDeviceInfo();
             string ipaddress = GetPublicIP();
             if (ipaddress == "")
             {

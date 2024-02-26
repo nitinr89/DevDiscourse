@@ -140,7 +140,7 @@
                 <h2 class="section-title2">
                     <span>TRENDING</span>
                 </h2>
-                // @{
+                 @{
                     //     Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.region });
                         @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.region });
                 }

@@ -31,6 +31,13 @@
             defaults: new { controller = "Article", action = "Index" });
 
             routes.MapControllerRoute(
+            name: "MobileArticle",
+            pattern: "mobilearticle/{id}/{reg}",
+            defaults: new { controller = "Article", action = "Mobile" }
+
+            );
+
+            routes.MapControllerRoute(
             name: "NewsVideo",
             pattern: "news/videos/{id?}",
             defaults: new

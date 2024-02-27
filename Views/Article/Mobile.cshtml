@@ -1,0 +1,943 @@
+﻿@model Devdiscourse.Models.BasicModels.DevNews
+@using System.Text.RegularExpressions;
+@using Devdiscourse.Models;
+@using Microsoft.AspNetCore.Html
+@using Microsoft.AspNetCore.Identity;
+@using Nancy.Helpers
+@inject UserManager<ApplicationUser> userManager;
+
+@{
+    string newsTitle = Model.Title.Trim();
+    ViewBag.Title = @newsTitle;
+    ViewBag.alternateHeadline = newsTitle;
+    ViewBag.TitleKeyword = Html.Raw(HttpUtility.HtmlDecode(Model.Title.Trim()));
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.pageType = "article";
+    ViewBag.pageAuthor = Model.Source;
+    string imageUrl = @Model.ImageUrl ?? "";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "?width=1280";
+    string NewsLabel = Model.NewsLabels ?? "agency-wire";
+    string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();
+    ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
+    TempData["pageUrl"] = pageUrl;
+    var dataTags = (@Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).Take(15);
+    var keywords = String.Join(", ", dataTags);
+    var bodykeywords = @Model.Tags;
+    ViewBag.pageKeywords = keywords;
+    var DataDesc = Model.Description;
+    // var modifiedDescription = GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString());
+    string modifiedDescription = @newsTitle + " " + GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
+    var isCrawler = Context.Request.Headers["User-Agent"].ToString().Contains("bot");
+    var IsMobile = Context.Request.Headers["User-Agent"].ToString().Contains("Mobile", StringComparison.OrdinalIgnoreCase);
+    ViewBag.PageDescription = @modifiedDescription;
+    var schemaSource = string.IsNullOrEmpty(Model.NewsLabels) ? Model.Source : "Devdiscourse News Desk";
+    TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+    DateTime createdDate = TimeZoneInfo.ConvertTimeFromUtc(Model.CreatedOn, INDIAN_ZONE);
+    DateTime publishedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.PublishedOn, INDIAN_ZONE);
+    DateTime modifiedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.ModifiedOn, INDIAN_ZONE);
+    // TempData["firstPara"] = GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString()).ToString();
+    TempData["firstPara"] = GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
+    TempData["title"] = Model.Title;
+    TempData["tags"] = keywords;
+    TempData["type"] = Model.Type;
+    TempData["createdOn"] = createdDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz");
+    TempData["newsImage"] = newsImage;
+    TempData["publishedOn"] = publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz");
+    TempData["modifiedOn"] = modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz");
+    TempData["creator"] = Model.Creator;
+    TempData["author"] = Model.Author;
+    var Server = @System.Net.WebUtility.UrlEncode(Model.Title);
+    string? loginUserId = userManager.GetUserId(User);
+}
+@if (!string.IsNullOrEmpty(bodykeywords))
+{
+    var tagArray = bodykeywords.Split(',').ToList();
+    foreach (var tag in tagArray.OrderBy(a => a.Length))
+    {
+        var replaceTag = tag.Replace("(", "");
+        replaceTag = replaceTag.Replace(")", "");
+        DataDesc = Regex.Replace(DataDesc, "\"" + replaceTag.Trim() + "\"", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">\"" + replaceTag.Trim() + "\"</a> ");
+        DataDesc = Regex.Replace(DataDesc, " " + replaceTag.Trim() + ", ", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">" + replaceTag.Trim() + "</a>, ");
+        DataDesc = Regex.Replace(DataDesc, " " + replaceTag.Trim() + " ", " <a href=\"/news?tag=" + replaceTag.Trim() + "\">" + replaceTag.Trim() + "</a> ");
+
+    }
+}
+@functions {
+    async Task Truncate(string text)
+    {
+        if (text.Length == 0)
+        {
+            @text
+        }
+        else if (text.Length > 300)
+        {
+            string output = string.Concat(text.Substring(0, 295).ToString(), "...");
+            @output
+        }
+        else
+        {
+            @text
+        }
+    }
+}
+@functions {
+    async Task GetFirstParagraph(string htmltext)
+    {
+        Match m = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
+        if (m.Success)
+        {
+            @m.Groups[1].Value
+            ;
+        }
+        else
+        {
+            @htmltext
+            ;
+        }
+    }
+}
+@functions {
+    async Task FirstCharToUpper(string s)
+    {
+        if (string.IsNullOrEmpty(s))
+        {
+            var outData = "";
+            @outData
+        }
+        var output = char.ToUpper(s[0]) + s.Substring(1);
+        @output
+    }
+}
+@functions {
+    async Task GetslugLabel(string text)
+    {
+        byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
+        string str = System.Text.Encoding.ASCII.GetString(bytes).ToLower();
+        str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+        str = Regex.Replace(str, @"\s+", " ").Trim();
+        str = str.Substring(0, str.Length <= 150 ? str.Length : 150).Trim();
+        str = Regex.Replace(str, @"\s", "-"); // hyphens
+        @str
+        ;
+    }
+}
+@functions {
+    async Task GetDescriptionText(string htmltext)
+    {
+        const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
+        const string stripFormatting = @"<[^>]*(>|$)";
+        const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
+        var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+        var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+        var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+        var text = htmltext.Replace("&nbsp;", " ");
+        text = System.Net.WebUtility.HtmlDecode(text);
+        text = tagWhiteSpaceRegex.Replace(text, "><");
+        text = lineBreakRegex.Replace(text, Environment.NewLine);
+        text = stripFormattingRegex.Replace(text, string.Empty);
+        @text
+        ;
+    }
+}
+@functions {
+    async Task<string> GetCleanDescription(string htmltext)
+    {
+        htmltext = htmltext.Replace("&nbsp;", " ");
+        htmltext = htmltext.Replace("&rsquo;", "'");
+        htmltext = htmltext.Replace("&lsquo;", "'");
+        htmltext = htmltext.Replace("&#39;", "'");
+        htmltext = htmltext.Replace("&rdquo;", "\"");
+        htmltext = htmltext.Replace("&ldquo;", "\"");
+        var result = @Html.Raw(htmltext);
+        return result.ToString();
+    }
+}
+@if (ViewBag.blogUpdate != null)
+{
+    @section lastModified {
+    <meta http-equiv="last-modified" content="@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
+    }
+}
+<link href="~/Content/article.css" rel="stylesheet" />
+<style>
+    .comment-footer {
+        padding: 20px;
+        background-color: #f3f3f3;
+        border-top: 1px solid #d9d7d7
+    }
+
+    .comment-input-container {
+        background-color: #e1e1e1;
+        border-radius: 4px;
+    }
+
+    .comment-input {
+        display: table-cell;
+        background-color: transparent;
+        font-family: sans-serif;
+        vertical-align: top;
+        border: none;
+        resize: none;
+        width: calc(100% - 45px);
+        height: 40px;
+        padding: 9px 10px;
+        font-size: 14px;
+        color: #666;
+    }
+
+        .comment-input:focus {
+            outline: none;
+            border: none;
+        }
+
+    .comment-btn, .main-comment-btn {
+        display: table-cell;
+        vertical-align: top;
+        width: 40px;
+        margin: 0;
+        height: 40px;
+        background-color: transparent;
+        color: #666;
+        border: none;
+    }
+
+    .comment-header {
+        border-bottom: 1px solid #d9d7d7;
+        background-color: #f3f3f3;
+        padding: 6px 10px;
+        font-size: 20px;
+        border-radius: 3px;
+        font-family: sans-serif;
+        margin-top: 15px;
+    }
+
+    .comment-body {
+        padding: 10px 0;
+        font-family: sans-serif;
+    }
+
+    .comment {
+        padding: 6px 14px;
+        border-bottom: 1px solid #e1e1e1;
+    }
+
+        .comment .name {
+            font-size: 15px;
+            color: #444;
+            font-weight: 600;
+        }
+
+        .comment .content {
+            margin-top: 0px;
+            color: #666;
+            font-size: 14px;
+        }
+
+    .btn-reply, .btn-delete {
+        color: #9e9e9e;
+        margin-left: 10px;
+    }
+
+        .btn-reply:hover {
+            color: #ff6a00;
+        }
+
+        .btn-delete:hover {
+            color: red;
+        }
+
+    .right .comment:last-child {
+        border-bottom: none;
+    }
+
+    .commentField {
+        display: none;
+    }
+
+    .replyBtn {
+        font-size: 13px;
+        margin: 5px;
+        color: #555;
+        cursor: pointer;
+    }
+
+        .replyBtn img {
+            width: 14px;
+            margin: 0 5px 0 0;
+        }
+
+    .child-container {
+        padding-left: 10px;
+        border-left: 2px solid #eee;
+    }
+
+    .root-container {
+        padding-left: 5px;
+        margin-left: 10px;
+    }
+
+    .comment.reply {
+        background-color: #f6f6f6;
+        margin-top: 15px;
+        border-radius: 10px;
+        border: 1px solid #e6e6e6;
+    }
+
+    .root-container .comment {
+        border-left: 2px solid #ff6a00;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+</style>
+<div class="container">
+    @*<a href="http://visionri.com" target="_blank"><img src="~/AdminFiles/Ads/Banner/visionri_digital_development_banner.jpg" class="img-responsive center-block" alt="add-banner" /></a>*@
+    <meta itemprop="sourceOrganization" content="Devdiscourse" />
+    <meta itemprop="publisher" content="Devdiscourse" />
+    <ul class="breadcrumb breadcrumb_new" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+            <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a>
+            <meta itemprop="position" content="1" />
+        </li>
+        @if (Model.Type == "News" && Model.Category != "15")
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.Action("Search", "Home", new { sector = "" })" target="_top" itemprop="item"><span itemprop="name">News</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        else if (Model.Type == "News" && Model.Category == "15")
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.Action("Index", "Sports", new { cat = "INDvsENG" })" target="_top" itemprop="item"><span itemprop="name">News</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        else
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="@Url.Action("DevBlogs", "Home", new { sector = "" })" target="_top" itemprop="item"><span itemprop="name">Live Blogs</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        @if (!string.IsNullOrEmpty(Model.NewsLabels))
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="/stories/@GetslugLabel(Model.NewsLabels)" target="_top" itemprop="item"><span itemprop="name" class="text-capitalize">@FirstCharToUpper(Model.NewsLabels)</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        else
+        {
+            <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                <a href="/news/All" target="_top" itemprop="item"><span itemprop="name" class="text-capitalize">Agency-Wire</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+        }
+        <li class="active">Article</li>
+    </ul>
+    <div class="row all-row">
+        <div class="col-xs-12 col-md-8">
+            <div class="clearfix">
+                <em class="live">LIVE</em>
+                <article>
+                    <h1 class="title">@Model.Title </h1>
+                    @if (!string.IsNullOrEmpty(Model.SubTitle))
+                    {
+                        <h2 class="subtitle"> @Model.SubTitle</h2>
+                    }
+                    <hr class="hrcss" />
+                    <div class="news-meta clearfix">
+                        <a href="/devdiscourse-stories/">Devdiscourse News Desk</a>
+                        @if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Author))
+                        {
+                            <span class="meta-divider"></span>
+                            <span>
+                                <a href="/Home/AuthorArticles?fl=@Model.Author">@Model.Author</a>
+                            </span>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.SourceUrl))
+                        {
+                            <span class="meta-divider"></span>
+                            <span class="text-capitalize">@Model.SourceUrl.ToLower()</span>
+                        }@if (!string.IsNullOrEmpty(Model.Country))
+                        {
+                            var countryList = Model.Country.Split(','); string country = countryList[0];
+                            <span class="meta-divider"></span>
+                            <span class="text-capitalize">@country</span>
+                        }
+                        <div class="news-date">
+                            <span class="meta-divider date-divider"></span>
+                            <span>Updated: @Model.ModifiedOn.ToClientTime().ToString("dd-MM-yyyy HH:mm") IST</span>
+                            <span class="meta-divider"></span>
+                            <span>Created: @Model.PublishedOn.ToClientTime().ToString("dd-MM-yyyy HH:mm") IST</span>
+                        </div>
+                        <div class="share-links">
+                            <a rel="nofollow" class="btn social-btn" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook">
+                                <span class="fa fa-facebook"></span>
+                            </a>
+                            @* <a rel="nofollow" class="btn social-btn" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@Server.UrlEncode(@Model.Title)', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter">*@
+                            <a rel="nofollow" class="btn social-btn" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=Server', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter">
+                                <span class="fa fa-twitter"></span>
+                            </a>
+                            @*  <a rel="nofollow" class="btn social-btn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=@Server.UrlEncode(@Model.Title)&summary=@Server.UrlEncode(@Model.SubTitle)&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn">*@
+                            <a rel="nofollow" class="btn social-btn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=Server&summary=Server&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn">
+                                <span class="fa fa-linkedin"></span>
+                            </a>
+                            @if (IsMobile)
+                            {
+                                <a class="btn social-btn" href="whatsapp://send?text=@domainUrl@pageUrl" rel="nofollow" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp"></span></a>
+                            }
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
+                    {
+                        <div class="article-image-container">
+                            <img src="@newsImage?width=920" class="img-responsive m-b-10 center-block" title="@Model.Title" alt="@Model.Title" />
+                            <p class="meta" style="margin-bottom:5px;">
+                                @Model.ImageCaption @Model.ImageCopyright
+                                @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                                {
+                                    <a href="@Url.Action("Edit", "DevNews", new { id = Model.Id })" target="_blank" rel="nofollow" class="btn btn-primary"><span class="fa fa-pencil"></span> Edit</a>
+                                }
+                            </p>
+                        </div>
+                    }
+                    else if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                    {
+                        <p class="meta" style="margin-bottom:5px;">
+                            <a href="@Url.Action("Edit", "DevNews", new { id = Model.Id })" target="_blank" rel="nofollow" class="btn btn-primary"><span class="fa fa-pencil"></span> Edit</a>
+                        </p>
+                    }
+                    <div class="newsDescArticle clearfix" id="newsDesc">
+                        @GetCleanDescription(DataDesc)
+                        @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS") && !DataDesc.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && String.IsNullOrEmpty(Model.NewsLabels))
+                        {
+                            <p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>
+                        }
+                        else if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS") && !DataDesc.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && Model.Source == "Devdiscourse News Desk" && !String.IsNullOrEmpty(Model.NewsLabels))
+                        {
+                            <p>(With inputs from agencies.)</p>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Tags))
+                        {
+                            <div>
+                                <span class="fg-black f-18">
+                                    READ MORE ON :
+                                </span>
+                                <span>
+                                    @{
+                                        var tag = Model.Tags.Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.OrderBy(x => Guid.NewGuid()).Take(20))
+                                        {
+                                            if (!string.IsNullOrEmpty(t.Trim()))
+                                            {
+                                                <a href="@Url.Action("Search", "Home", new { tag = t, sector = "All" })" class="badge tag">@t</a>
+                                            }
+                                        }
+                                    }
+                                </span>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Country))
+                        {
+                            <div>
+                                <span class="fg-black f-18">
+                                    COUNTRY :
+                                </span>
+                                @{
+                                    var countryarr = Model.Country.Split(','); foreach (var cou in countryarr)
+                                    {
+                                        <span class="badge">@cou</span>
+                                    }
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div class="f-16 p-t-20 m-t-20" id="news-content" style="border-top:2px solid #ff6a00;">
+                        @{
+                            // Html.RenderAction("GetLiveBlogs", "LiveBlogs", new { id = Model.NewsId });
+                            await Component.InvokeAsync("LiveBlogs", new { id = Model.NewsId });
+                        }
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Tags))
+                    {
+                        // Html.RenderAction("GetTagNews", "Agencywire", new { id = Model.NewsId, tag = Model.Tags });
+                        await Component.InvokeAsync("GetTagNews", new { id = Model.NewsId, tag = Model.Tags });
+                    }
+                </article>
+
+                @if (Model.Type != "Discourse")
+                {
+                    <hr />
+                    <a class="btn btn-primary m-b-20 m-t-20 btn-block" rel="nofollow" href="/post-comments/@Model.NewsId"><span class="fa fa-comments-o"></span> POST A COMMENT</a>
+                }
+
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <aside>
+                <div class="m-t-20 clearfix" id="opinion"></div>
+                <div class="clearfix m-t-30" id="sideDiv"> </div>
+                <div id="AfricaEditionNews"></div>
+                <div id="EditionNews"></div>
+                <div class="clearfix m-t-30"> @Html.Partial("_socialPartial") </div>
+                <div id="videoNews" class="clearfix m-t-20"></div>
+                <div class="m-t-20 clearfix" id="AlsoRead"></div>
+            </aside>
+            @if (Model.Creator == loginUserId)
+            {
+                <text></text>
+            }
+        </div>
+    </div>
+</div>
+@if (!isCrawler)
+{
+    <link href="~/Content/Carbon_Ads.min.css" defer rel="stylesheet" />
+}
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js" defer></script>
+    <script src="~/signalr/hubs" defer></script>
+    <script>
+        var newsId = '@(Model.NewsId)';
+        var label = '@(Model.NewsLabels)' == "" ? "agency-wire" : '@(Model.NewsLabels)';
+        var skip = -1;
+        var _sector = "@(Model.Sector)", _id = "@(Model.Id)";
+        var pageurl = "/article/" + label + "/" + '@Model.GenerateSecondSlug()';
+        function twitterLoaded() {
+            twttr.events.bind(
+                'loaded',
+                function (event) {
+                    $(document).find('.twitter-tweet').css({ display: 'block', width: 'auto' });
+                }
+            );
+        }
+        $(document).on('click', '.btn-reply', function () {
+            $('#field_' + $(this).data('parent')).toggle();
+        });
+        $(document).on('click', '.loadCommentBtn', function () {
+            //console.log($(this).data('id'), $(this).data('parent'), $(this).data('page'));
+            getComments($(this).data('id'), $(this).data('parent'), $(this).data('page'));
+            $(this).remove();
+        });
+        @if (Model.Creator == loginUserId)
+        {
+            <text>
+                $(document).on('click', '.btn-delete', function () {
+                    var removeId = $(this).attr('id').replace("delete_", "");
+                    $.ajax({
+                        url: '/Liveblogs/removeComment',
+                        type: "GET",
+                        data: { id: removeId },
+                        success: function (result) {
+                            $("#single_" + removeId).remove();
+                        },
+                        error: function (req, status, err) {
+                            console.log(req.responseText)
+                        }
+                    });
+                });
+            </text>
+        }
+            function getComments(itemId, parentId, page) {
+                $.ajax({
+                    url: '/api/Search/liveblogComments/' + itemId + '/' + parentId + '/' + page,
+                    type: "GET",
+                    success: function (data) {
+                        console.log(data);
+                        $.each(data, function (i, item) {
+                            $("#single_" + data[i].commentId).remove();
+                            var childHtml = '';
+                            var hideHtml = '';
+                            if (item.childCount > 0) {
+                                childHtml = '<div class="loadCommentBtn replyBtn" data-id="' + itemId + '" data-parent="' + data[i].commentId + '" data-page="1"><img src="/images/icons/comments.png"/> View ' + item.childCount + ' replies</div>';
+                            }
+        @if (Model.Creator == loginUserId)
+        {
+            <text>
+                                    hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[i].commentId + '">Delete</span>';
+            </text>
+        }
+                                if (data[i].parentId == 0) {
+                                $('#itemComment_' + data[i].itemId).append('<div class="comment" id="single_' + data[i].commentId + '">' +
+                                    '<div class="name">' + data[i].name + '</div>' +
+                                    '<div class="content">' + data[i].commentText + '</div>' +
+                                    '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].commentId + '">Reply</span>' + hideHtml +
+                                    '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
+                                    '<div class="comment-input-container">' +
+                                    '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                    '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].commentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                    '</div>' +
+                                    '</div>' + childHtml +
+                                    '<div class="child-container" id="parent_' + data[i].commentId + '"></div>' +
+                                    '<div class="root-container" id="root_' + data[i].commentId + '"></div>' +
+                                    '</div>');
+                            } else if (data[i].parentId == data[i].rootParentId) {
+                                $('#parent_' + data[i].parentId).append('<div id="single_' + data[i].commentId + '">' +
+                                    '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].commentText + '</span></div>' +
+                                    '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].parentId + '">Reply</span>' + hideHtml +
+                                    '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
+                                    '<div class="comment-input-container">' +
+                                    '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                    '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].parentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                    '</div>' +
+                                    '</div>' + childHtml +
+                                    '</div>');
+                            } else {
+                                $('#root_' + data[i].rootParentId).append('<div id="single_' + data[i].commentId + '">' +
+                                    '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].replyText + ' ' + data[i].commentText + '</span></div>' +
+                                    '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].rootParentId + '">Reply</span>' + hideHtml +
+                                    '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
+                                    '<div class="comment-input-container">' +
+                                    '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                    '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].rootParentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                    '</div>' +
+                                    '</div>' + childHtml +
+                                    '</div>');
+                            }
+                        });
+                        if (data.length == 25 && parentId == 0) {
+                            $('#itemComment_' + itemId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
+                        } else if (data.length == 25) {
+                            $('#parent_' + parentId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
+                        }
+                    },
+                    error: function (req, status, err) {
+                        console.log(req.responseText)
+                    }
+                });
+            }
+        $(document).on('click', '.comment-btn', function () {
+            var id = $(this).data('btn');
+            var parentId = $(this).data('parent');
+            var rootParentId = $(this).data('root');
+            var reply = $(this).data('reply');
+            var commentText = $(document).find('#comment' + parentId).val();
+            if (commentText.trim() != '') {
+                SendData(id, commentText, parentId, rootParentId, reply, "comment");
+            }
+        });
+        $(document).on('click', '.main-comment-btn', function () {
+            var id = $(this).data('btn');
+            var parentId = $(this).data('parent');
+            var rootParentId = $(this).data('root');
+            var commentText = $(document).find('#maincomment' + id).val();
+            var reply = $(this).data('reply');
+            if (commentText.trim() != '') {
+                SendData(id, commentText, parentId, rootParentId, reply, "maincomment");
+            }
+        });
+        function SendData(id, commentText, parentId, rootParentId, reply, ariaId) {
+            $.ajax({
+                url: '/Liveblogs/saveDiscourseComment',
+                type: "POST",
+                data: { itemId: id, commentText: commentText, parentId: parentId, rootParentId: rootParentId, reply: reply },
+                success: function (data) {
+                    var hideHtml = '';
+                    var textrea = ariaId == "maincomment" ? '#maincomment' + id : '#comment' + parentId;
+                    $(document).find(textrea).val('');
+                    $('.commentField').hide();
+        @if (Model.Creator == loginUserId)
+        {
+            <text>
+                            hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[0].commentId + '">Delete</span>';
+            </text>
+        }
+                            if (data[0].parentId == 0) {
+                        $('#itemComment_' + data[0].itemId).append('<div class="comment" id="single_' + data[0].commentId + '">' +
+                            '<div class="name">' + data[0].name + '</div>' +
+                            '<div class="content">' + data[0].commentText + '</div>' +
+                            '<span class="btn-reply btn btn-sm" data-parent="' + data[0].commentId + '" data-root="' + data[0].commentId + '">Reply</span>' + hideHtml +
+                            '<div class="comment-footer commentField" id="field_' + data[0].commentId + '">' +
+                            '<div class="comment-input-container">' +
+                            '<textarea class="comment-input" id="comment' + data[0].commentId + '" placeholder="Your comment here..."></textarea>' +
+                            '<button class="comment-btn" data-reply="' + data[0].name + '" data-parent="' + data[0].commentId + '" data-root="' + data[0].commentId + '" data-btn="' + data[0].itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="child-container" id="parent_' + data[0].commentId + '"></div>' +
+                            '<div class="root-container" id="root_' + data[0].commentId + '"></div>' +
+                            '</div>');
+                    } else if (data[0].parentId == data[0].rootParentId) {
+                        $('#parent_' + data[0].parentId).append('<div id="single_' + data[0].commentId + '">' +
+                            '<div class="comment reply">' +
+                            '<span class="name">' + data[0].name + '</span> <span class="content">' + data[0].commentText + '</span>' +
+                            '</div>' +
+                            '<span class="btn-reply btn btn-sm" data-parent="' + data[0].commentId + '" data-root="' + data[0].parentId + '">Reply</span>' + hideHtml +
+                            '<div class="comment-footer commentField" id="field_' + data[0].commentId + '">' +
+                            '<div class="comment-input-container">' +
+                            '<textarea class="comment-input" id="comment' + data[0].commentId + '" placeholder="Your comment here..."></textarea>' +
+                            '<button class="comment-btn" data-reply="' + data[0].name + '" data-parent="' + data[0].commentId + '" data-root="' + data[0].parentId + '" data-btn="' + data[0].itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>');
+                    } else {
+                        $('#root_' + data[0].rootParentId).append('<div id="single_' + data[0].commentId + '">' +
+                            '<div class="comment reply">' +
+                            '<span class="name">' + data[0].name + ' </span>' +
+                            '<span class="content">' + data[0].replyText + ' ' + data[0].commentText + '<span>' +
+                            '</div>' +
+                            '<span class="btn-reply btn btn-sm" data-parent="' + data[0].commentId + '" data-root="' + data[0].rootParentId + '">Reply</span>' + hideHtml +
+                            '<div class="comment-footer commentField" id="field_' + data[0].commentId + '">' +
+                            '<div class="comment-input-container">' +
+                            '<textarea class="comment-input" id="comment' + data[0].commentId + '" placeholder="Your comment here..."></textarea>' +
+                            '<button class="comment-btn" data-reply="' + data[0].name + '" data-parent="' + data[0].commentId + '" data-root="' + data[0].rootParentId + '" data-btn="' + data[0].itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                            '</div></div></div>');
+                    }
+                },
+                error: function (req, status, err) {
+                    console.log(req.responseText)
+                }
+            });
+        }
+        @if (IsMobile)
+        {
+            <text>var initHeight = 70; </text>
+        }
+        else
+        {
+            <text>var initHeight = 10; </text>
+        }
+            function imageLoad(img) {
+                var imageContainerHeight = $('#art-' + img + ' .article-image-container').height();
+                var totalHeight = 0;
+                $('#art-' + img + ' p').each(function () {
+                    totalHeight = totalHeight + $(this).outerHeight(true);
+                });
+                if (totalHeight > imageContainerHeight + 180 + initHeight) {
+                    $('#art-' + img).height(imageContainerHeight + 180 + initHeight)
+                }
+                else {
+                    $('#art-' + img).css({ height: 'auto' });
+                    $('#art-' + img + '+.full-read-overlay').remove();
+                }
+            }
+        $(document).ready(function () {
+            GetOpinion(); function GetOpinion() { var ApiDataUrl = "/api/Search/GetAnalysis/@ViewBag.region/@Model.NewsId"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.NewsId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card m-t-10"><h3 class="media-title no-margin">' + item.Title + '</h3></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) }
+            GetEditionNews("Africa", "AFRICAN EDITIONS", "/"); @if (ViewBag.region != "South Asia")
+        {
+            <text>GetEditionNews("South Asia", "SOUTH ASIA EDITION", "/south-asia"); </text>
+        }
+        @if (ViewBag.region != "Pacific")
+        {
+            <text>GetEditionNews("Pacific", "PACIFIC EDITION", "/pacific"); </text>
+        }
+        @if (ViewBag.region != "East and South East Asia")
+        {
+            <text>GetEditionNews("East and South East Asia", "EAST AND SOUTH EAST ASIA EDITION", "/south-east-asia"); </text>
+        }
+        @if (ViewBag.region != "Europe and Central Asia")
+        {
+            <text>GetEditionNews("Europe and Central Asia", "EUROPE AND CENTRAL ASIA EDITION", "/europe-central-asia"); </text>
+        }
+        @if (ViewBag.region != "North America")
+        {
+            <text>GetEditionNews("North America", "NORTH AMERICA EDITION", "/north-america"); </text>
+        }
+        @if (ViewBag.region != "Latin America and Caribbean")
+        {
+            <text>GetEditionNews("Latin America and Caribbean", "LATIN AMERICA AND CARIBBEAN EDITION", "latin-america"); </text>
+        }
+            function GetEditionNews(region, title, editionSlug) {
+                $.ajax({
+                    url: '/api/Search/GetEditionNews/' + region + '/' + title, type: "GET", success: function (result) {
+                        var latestItems = ''; if (result.news.length > 0) {
+                            var content = ''; $.each(result.news, function (i, item) {
+                                var slugUrl = convertToSlug(item.NewId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var newsType = ''; if (item.Type == "Event") { newsType = '<span class="pull-right infocus-badge">' + item.Type + '</span>' }
+                                else if (item.Type == "Blog") { if (item.SubType != "" || item.SubType != null) { newsType = '<span class="pull-right infocus-badge">' + item.SubType + '</span>' } else { newsType = '<span class="pull-right infocus-badge">Blog</span>' } }
+                                var imageContent = ""; if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.Title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '?width=90&height=90&mode=crop"></div></a></div>' }
+                                content += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="media news-media-card">' + newsType + imageContent + '<div class="media-body"><h3 class="media-title"><a href="/article/' + label + '/' + slugUrl + '" class="text-decoration">' + item.Title + '</a></h3></div></div></a>'
+                            }); var urlhtml = ''; if (result.edition == "AFRICA EDITION") { urlhtml = result.edition } else { urlhtml = '<a href="' + editionSlug + '" class="text-decoration">' + result.edition + '</a>' }
+                            latestItems = '<div class="clearfix m-t-40"><h2 class="section-title"><span>' + urlhtml + '</span></h2>' + content + '</div>'; if (result.edition == "AFRICAN EDITIONS") { $('#AfricaEditionNews').append(latestItems) } else { $('#EditionNews').append(latestItems) }
+                            $('.lazy').lazy();
+                        }
+                    }, error: function (req, status, err) { console.log(req.responseText) }
+                })
+            }
+            $(document).on('click', '.full-read-btn', function () {
+                var alsoTag = $(this).attr('data-tag');
+                var alsoId = $(this).attr('data-id');
+                $('#' + alsoId).css({ height: "auto" });
+                $(this).parent().remove();
+                fetchReadAlso(alsoId.replace('art-', ''), alsoTag.split('.').join('').split(',').reverse().splice(3, 3).join(','));
+            });
+            function fetchReadAlso(id, tag) {
+                $.ajax({
+                    url: '/api/GetTagNews/' + id + '/' + tag,
+                    type: "GET",
+                    success: function (result) {
+                        var alsoArticle = '';
+                        var content = '';
+                        if (result.length > 0) {
+                            $.each(result, function (i, item) {
+                                content += '<li class="also-title"> <a href="/article/' + (item.Label == null ? 'agency-wire' : item.Label + '/' + convertToSlug(item.NewId, item.Title)) + '" class="text-decoration"> ' + item.Title + '</a></li>';
+                            });
+                            alsoArticle = '<div class="also-container"><h4 class="ar-title">ALSO READ</h4>' +
+                                '<ul class="ar-ul">' + content + '</ul></div>';
+                            $(alsoArticle).insertBefore("#tag_" + id);
+                        }
+                    },
+                    error: function (req, status, err) {
+                        console.log(req.responseText)
+                    }
+                });
+            }
+            function convertToSlug(newsId, str) {
+                str = str.replace(/^\s+|\s+$/g, '');
+                str = str.toLowerCase();
+                var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+                var to = "aaaaeeeeiiiioooouuuunc------";
+                for (var i = 0, l = from.length; i < l; i++) {
+                    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+                }
+                str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+                return newsId + "-" + str;
+            }
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+        @{
+            <text>$.ajax("/Home/GetTrends?id=@(Model.Id)&filter=Trends").done(function (d) { $("#sideDiv").html('<div class="section-title2"><span>TRENDING</span></div><div>' + d + '</div>'); $('.lazy').lazy(); }); </text>
+        }
+                $.ajax("/Agencywire/GetLatestNews?reg=@(ViewBag.region)").done(function (data) { $('#AlsoRead').append('<div class="clearfix">' + data + '</div>'); });
+            $.ajax("/Agencywire/otherEdition?id=@(Model.NewsId)&reg=@(ViewBag.region)").done(function (data) { $('#AlsoRead').append('<div class="clearfix">' + data + '</div>'); });
+            $.ajax("/Home/GetVideoNews?id=@(Model.NewsId)&reg=@(ViewBag.region)&filter=article").done(function (e) { $("#videoNews").html(e), $(".lazy").lazy() }), $(".linkBtn").removeClass("active"), $('#newsLink').addClass("active"); var secArr = _sector.split(","), sectorArray = []; function SaveData() { localStorage.removeItem("CacheData"); var e = localStorage.getItem("CurrentArticle"); if (null == localStorage.getItem("CacheSector")) { for (var t = 1; t <= 17; t++)sectorArray.push(new SectorWithCount(t, 0)); for (var r = 0; r < sectorArray.length; r++)for (var o = 0; o < secArr.length; o++)sectorArray[r].sector == secArr[o] && (sectorArray[r].count = parseInt(sectorArray[r].count) + 1); sectorArray.sort(SortByCount); var a = { Sectors: sectorArray }; localStorage.setItem("CacheSector", JSON.stringify(a)), localStorage.setItem("CurrentArticle", _id) } else { var c = JSON.parse(localStorage.getItem("CacheSector")); if (_id != e) { localStorage.setItem("CurrentArticle", _id); var n = c.Sectors; $.each(n, function (e, t) { for (var r = 0; r < secArr.length; r++)t.sector == secArr[r] && (t.count = parseInt(t.count) + 1) }), n.sort(SortByCount); a = { Sectors: n }; localStorage.setItem("CacheSector", JSON.stringify(a)) } } } function SortByCount(e, t) { return t.count - e.count } function SectorWithCount(e, t) { this.sector = e, this.count = t } SaveData();
+            $(document).on('click', '#moreGblNews', function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=Global Edition;expires=" + date.toGMTString() + "; path=/";
+                window.location.href = "/news/all";
+            });
+            var blogSkip = 1;
+            var inCallbackBlog = false;
+            var endBlog = false;
+            //$(window).scroll(function() {
+            //    if (!inCallbackBlog && !endBlog) {
+            //        GetSubBlog()
+            //    }
+            //});
+
+            GetSubBlog();
+            function GetSubBlog() {
+                if (blogSkip > 0 && !inCallbackBlog) {
+                    inCallbackBlog = true;
+                    blogSkip++;
+                    $("#loading").show();
+                    $.ajax({
+                        url: '/api/Search/GetSubBlogs/' + newsId + '/' + blogSkip,
+                        type: 'Get',
+                        dataType: 'Json',
+                        success: function (data) {
+                            inCallbackBlog = false;
+                            if (data.length == 0) {
+                                endBlog = true;
+                                $("#loading").hide();
+                                return;
+                            }
+                            $.each(data, function (i, item) {
+                                var imageHtml = '';
+                                var hash = "%23post_";
+                                var cdate = new Date(item.CreatedOn);
+                                cdate.setMinutes(cdate.getMinutes() - (new Date).getTimezoneOffset());
+                                var encodedTitle = encodeURI(item.Title);
+                                function formating(input) { return input < 10 ? '0' + input : input };
+                                if (item.ImageUrl != null) {
+                                    var iurl = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "https://www.devdiscourse.com/remote.axd?" + item.ImageUrl : "https://www.devdiscourse.com" + item.ImageUrl;
+                                    imageHtml = '<img src="' + iurl + '?width=640" />'
+                                }
+                                var lefthtml = '<div class="left" style="min-width:100px;">' +
+                                    '<small class="text-muted">' + formating(cdate.getHours()) + ':' + formating(cdate.getMinutes()) + ':' + formating(cdate.getSeconds()) + '</small>' +
+                                    '<ul class="social-list m-t-5">' +
+                                    '<li><a rel="nofollow" onclick="window.open(&#39;https://www.facebook.com/sharer/sharer.php?u=https://www.devdiscourse.com' + pageurl + hash + item.Id + '&#39;, &#39;facebook_share&#39;, &#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="Share on Facebook"><div class="blog-social-icon"><i class="fa fa-facebook"></i></div></a></li>' +
+                                    '<li><a rel="nofollow" onclick="window.open(&#39;http://twitter.com/share?url=https://www.devdiscourse.com' + pageurl + hash + item.Id + '&amp;text=' + encodedTitle + '&#39;, &#39;facebook_share&#39;, &#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="share on Twitter"><div class="blog-social-icon"><i class="fa fa-twitter"></i></div></a></li>' +
+                                    '<li><a rel="nofollow" onclick="window.open(&#39;https://www.linkedin.com/shareArticle?mini=true&url=https://www.devdiscourse.com' + pageurl + hash + item.Id + '&title=' + encodedTitle + '&source=devdiscourse.com&#39;, &#39;linkedIn_share&#39;, &#39;height= 620, width = 400, toolbar = no, menubar = no, scrollbars = no, resizable = no, location = no, directories = no, status = no &#39;);" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"><div class="blog-social-icon"><i class="fa fa-linkedin"></i></div></a></li>' +
+                                    '</ul>' +
+                                    '</div>';
+                                var htmlstr = '<div class="liveblog m-b-10 p-t-10" id="post_' + item.Id + '" style="border: 1px solid #e1e1e1;padding: 15px 20px;">' + lefthtml +
+                                    '<div class="right">' +
+                                    '<h4 class="media-heading">' + item.Title + '</h4>' + imageHtml +
+                                    '<div>' + item.Description + '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                                $('#news-content').append(htmlstr);
+                                twttr.widgets.load();
+                            });
+                            if (data.length == 10) {
+                                $('#news-content').append('<div class="btn btn-primary btn-block" id="loadMoreSubBlog">Load previous updates</button>');
+                            }
+                        },
+                        error: function () {
+                            console.log('error')
+                        }
+                    });
+                }
+            }
+            $(document).on('click', '#loadMoreSubBlog', function () {
+                $(this).remove();
+                GetSubBlog();
+            });
+        });
+    </script>
+    @if (!isCrawler)
+    {
+        <text>
+            @*<script src="~/Scripts/Survey.min.js"></script>
+    <script>var sectorSurvey = "", sector_type = _sector.split(",")[0]; switch (sector_type) { case "1": sectorSurvey = "058705cd-d4b5-4cd7-8ec1-48e413d5bafd"; break; case "2": sectorSurvey = "ab014a17-70fd-4758-aa25-8783824d82d8"; break; case "3": sectorSurvey = "73bad475-0439-412a-80fc-916ef2c778b5"; break; case "4": sectorSurvey = "b473735e-40f5-4b0a-aff7-f267ea3d3f4a"; break; case "5": sectorSurvey = "ab014a17-70fd-4758-aa25-8783824d82d8"; break; case "6": sectorSurvey = "73bad475-0439-412a-80fc-916ef2c778b5"; break; case "7": sectorSurvey = "1c91b704-ae68-4d1b-a572-6e27f29af4bd"; break; case "9": sectorSurvey = "ebdb5f26-b98c-4186-bcfe-763006efb162"; break; case "10": sectorSurvey = "058705cd-d4b5-4cd7-8ec1-48e413d5bafd"; break; case "11": sectorSurvey = "e626e513-6e35-4e54-aa94-5689681a1a7a"; break; case "12": sectorSurvey = "ef522de0-7892-46d1-88fa-32e5bc7c75ff"; break; case "14": sectorSurvey = "1c91b704-ae68-4d1b-a572-6e27f29af4bd"; break; case "15": sectorSurvey = "70e7cff3-2a00-4fae-a4c9-80918fb67da7"; break; case "17": sectorSurvey = "ebdb5f26-b98c-4186-bcfe-763006efb162"; break; case "18": sectorSurvey = "058705cd-d4b5-4cd7-8ec1-48e413d5bafd"; break; case "19": sectorSurvey = "e626e513-6e35-4e54-aa94-5689681a1a7a"; break; default: var secIdArray = ["058705cd-d4b5-4cd7-8ec1-48e413d5bafd", "b473735e-40f5-4b0a-aff7-f267ea3d3f4a", "1c91b704-ae68-4d1b-a572-6e27f29af4bd", "70e7cff3-2a00-4fae-a4c9-80918fb67da7", "ebdb5f26-b98c-4186-bcfe-763006efb162", "e626e513-6e35-4e54-aa94-5689681a1a7a", "ab014a17-70fd-4758-aa25-8783824d82d8", "73bad475-0439-412a-80fc-916ef2c778b5", "ef522de0-7892-46d1-88fa-32e5bc7c75ff"], rendomNum = Math.floor(Math.random() * secIdArray.length); sectorSurvey = secIdArray[rendomNum] +'"" != sectorSurvey ? setTimeout(function () { getCountries("survey", sectorSurvey); $('#surveyDialog').modal('show'); }, 20000) : $("#survey").hide();</script>*@
+            <script async src="//www.instagram.com/embed.js"></script>
+            <script async src="https://platform.twitter.com/widgets.js" onload="twitterLoaded()" charset="utf-8"></script>
+            <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
+            <script defer src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+            <script>
+                (function () {
+                    if (typeof _bsa !== 'undefined' && _bsa) {
+                        _bsa.init('flexbar', 'CK7DC53I', 'placement:demo');
+                    }
+                })();
+            </script>
+        </text>
+    }
+    <script>
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call back to display messages.
+            chat.client.LiveBlogNotification = function (id, parentId, title, description, imageurl, createdOn) {
+                var imageHtml = '';
+                var hash = "%23post_";
+                var cdate = new Date(createdOn);
+                cdate.setMinutes(cdate.getMinutes() - (new Date).getTimezoneOffset());
+                var encodedTitle = encodeURI(title);
+                function formating(input) { return input < 10 ? '0' + input : input };
+                if (newsId == parentId) {
+                    if (imageurl != null) {
+                        var iurl = imageurl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "https://www.devdiscourse.com/remote.axd?" + imageurl : "https://www.devdiscourse.com" + imageurl;
+                        imageHtml = '<img src="' + iurl + '?width=640" />'
+                    }
+                    var lefthtml = '<div class="left" style="min-width:100px;">' +
+                        '<small class="text-muted">' + formating(cdate.getHours()) + ':' + formating(cdate.getMinutes()) + ':' + formating(cdate.getSeconds()) + '</small>' +
+                        '<ul class="social-list m-t-5">' +
+                        '<li><a rel="nofollow" onclick="window.open(&#39;https://www.facebook.com/sharer/sharer.php?u=https://www.devdiscourse.com/' + pageurl + hash + id + '&#39;, &#39;facebook_share&#39;,&#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="Share on Facebook"><div class="blog-social-icon"><i class="fa fa-facebook"></i></div></a></li>' +
+                        '<li><a rel="nofollow" onclick="window.open(&#39;http://twitter.com/share?url=https://www.devdiscourse.com/' + pageurl + hash + id + '&amp;text=' + encodedTitle + '&#39;, &#39;facebook_share&#39;, &#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="share on Twitter"><div class="blog-social-icon"><i class="fa fa-twitter"></i></div></a></li>' +
+                        '<li><a rel="nofollow" onclick="window.open(&#39;https://www.linkedin.com/shareArticle?mini=true&url=https://www.devdiscourse.com/' + pageurl + hash + id + '&title=' + encodedTitle + '&source=devdiscourse.com&#39;, &#39;linkedIn_share&#39;, &#39;height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"><div class="blog-social-icon"><i class="fa fa-linkedin"></i></div></a></li>' +
+                        '</ul>' +
+                        '</div>';
+                    var htmlstr = '<div class="liveblog m-b-10 p-t-10" id="post_' + id + '" style="border: 1px solid #e1e1e1;padding: 15px 20px;">' +
+                        lefthtml +
+                        '<div class="right">' +
+                        '<h4 class="media-heading">' + title + '</h4>' + imageHtml +
+                        '<div>' + description + '</div>' +
+                        '</div>' +
+                        '</div>';
+                    $('#news-content').prepend(htmlstr);
+                    twttr.widgets.load();
+                }
+            };
+            $.connection.hub.start().done(function () {
+            });
+        });
+    </script>
+}

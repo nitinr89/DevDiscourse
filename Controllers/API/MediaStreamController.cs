@@ -63,57 +63,25 @@ namespace DevDiscourse.Controllers.API
             return response;
         }
         [Route("api/MediaStream/GetVideoStream/{id}")]
-        public IActionResult GetVideoStream(long id)
+        public async Task<IActionResult> GetVideoStream(long id)
         {
             var search = db.VideoNews.Find(id);
             if (search == null)
             {
-                return NotFound(); // Handle the case where the item with the given id is not found
+                return NotFound();
             }
-            var filePath = search.VideoUrl;    //"path/to/your/video.mp4"; // Replace with the actual path to your video file
-            var fileInfo = new FileInfo(filePath);
-            var streamer = new VideoStream(search.BlobName, "imagegallery");
-            //string absolutePath = GetAbsolutePath(filePath);
-            var response = new FileStreamResult(new FileStream(filePath, FileMode.Open), "video/mp4")
-            {
-                FileDownloadName = search.BlobName,
-                EnableRangeProcessing = true
-            };
+            var httpClient = new HttpClient();
+            var httpResponseMessage = await httpClient.GetAsync(search.VideoUrl, HttpCompletionOption.ResponseHeadersRead);
 
-            var rangeHeader = Request.Headers[HeaderNames.Range];
-            if (!StringValues.IsNullOrEmpty(rangeHeader))
+            if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                var rangeHeaderString = rangeHeader.ToString();
-                var ranges = RangeHeaderValue.Parse(rangeHeaderString);
-                var range = ranges.Ranges.FirstOrDefault();
-                if (range != null)
-                {
-                    streamer.Start = range.From ?? 0;
-                    streamer.End = range.To ?? fileInfo.Length - 1;
-                    response.FileStream.Seek(streamer.Start, SeekOrigin.Begin);
-                    response.FileStream.SetLength(streamer.End - streamer.Start + 1);
-                    HttpContext.Response.StatusCode = 206;
-                    HttpContext.Response.Headers.Add("Content-Range", $"bytes {streamer.Start}-{streamer.End}/{fileInfo.Length}");
-                }
+                return NotFound();
             }
-            HttpContext.Response.Headers.Add("Accept-Ranges", "bytes");
-            return response;
+
+            var stream = await httpResponseMessage.Content.ReadAsStreamAsync();
+
+            return new FileStreamResult(stream, "video/mp4") { EnableRangeProcessing = true };
         }
-
-        //static string GetAbsolutePath(string url)
-        //{
-        //    try
-        //    {
-        //        Uri uri = new Uri(url);
-        //        return uri.AbsolutePath;
-        //    }
-        //    catch (UriFormatException ex)
-        //    {
-        //        // Handle invalid URL format
-        //        Console.WriteLine($"Invalid URL: {ex.Message}");
-        //        return string.Empty;
-        //    }
-        //}
 
         [Route("api/MediaStream/UploadMedia")]
         [HttpPost]

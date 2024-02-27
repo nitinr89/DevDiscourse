@@ -73,11 +73,13 @@ namespace DevDiscourse.Controllers.API
             var filePath = search.VideoUrl;    //"path/to/your/video.mp4"; // Replace with the actual path to your video file
             var fileInfo = new FileInfo(filePath);
             var streamer = new VideoStream(search.BlobName, "imagegallery");
+            //string absolutePath = GetAbsolutePath(filePath);
             var response = new FileStreamResult(new FileStream(filePath, FileMode.Open), "video/mp4")
             {
                 FileDownloadName = search.BlobName,
                 EnableRangeProcessing = true
             };
+
             var rangeHeader = Request.Headers[HeaderNames.Range];
             if (!StringValues.IsNullOrEmpty(rangeHeader))
             {
@@ -88,10 +90,8 @@ namespace DevDiscourse.Controllers.API
                 {
                     streamer.Start = range.From ?? 0;
                     streamer.End = range.To ?? fileInfo.Length - 1;
-
                     response.FileStream.Seek(streamer.Start, SeekOrigin.Begin);
                     response.FileStream.SetLength(streamer.End - streamer.Start + 1);
-
                     HttpContext.Response.StatusCode = 206;
                     HttpContext.Response.Headers.Add("Content-Range", $"bytes {streamer.Start}-{streamer.End}/{fileInfo.Length}");
                 }
@@ -99,6 +99,22 @@ namespace DevDiscourse.Controllers.API
             HttpContext.Response.Headers.Add("Accept-Ranges", "bytes");
             return response;
         }
+
+        //static string GetAbsolutePath(string url)
+        //{
+        //    try
+        //    {
+        //        Uri uri = new Uri(url);
+        //        return uri.AbsolutePath;
+        //    }
+        //    catch (UriFormatException ex)
+        //    {
+        //        // Handle invalid URL format
+        //        Console.WriteLine($"Invalid URL: {ex.Message}");
+        //        return string.Empty;
+        //    }
+        //}
+
         [Route("api/MediaStream/UploadMedia")]
         [HttpPost]
         public async Task<IActionResult> UploadMedia()

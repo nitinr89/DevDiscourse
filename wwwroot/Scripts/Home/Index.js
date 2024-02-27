@@ -59,9 +59,11 @@
 
     function GetVideoNews() {
         var ApiDataUrl = "/api/SearchApi/GetHomeVideoNews/" + encodeURI(_edition);
-        $.getJSON(ApiDataUrl, function (data) {         
+        $.getJSON(ApiDataUrl, function (data) {
+            debugger;
             var videohtml = '';
             $.each(data, function (i, item) {
+                debugger;
                 var slugUrl = convertToSlug(item.id, item.title);
                 var newsImage = item.fileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.fileThumbUrl : item.fileThumbUrl;
                 var label = item.label != null ? item.label : "agency-wire";

@@ -214,13 +214,13 @@ namespace Devdiscourse.Controllers.API
                 if (!string.IsNullOrEmpty(news.Themes))
                 {
                     authorImage = news.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + news.Themes : news.Themes;
-                    authorName = news.Author.Trim();
+                    authorName = news.Author?.Trim();
 
                 }
                 else
                 {
-                    authorImage = news.ApplicationUsers.ProfilePic;
-                    authorName = news.ApplicationUsers.FirstName;
+                    authorImage = news.ApplicationUsers?.ProfilePic;
+                    authorName = news.ApplicationUsers?.FirstName;
                 }
                 var disclaimer = "";
                 if ((news.OriginalSource == "Reuters" || news.OriginalSource == "PTI" || news.OriginalSource == "IANS" || news.OriginalSource == "ANI") && (news.Source ?? "").Trim() != "Devdiscourse News Desk")
@@ -346,14 +346,23 @@ namespace Devdiscourse.Controllers.API
             return ampHtml;
         }
         [HttpGet]
-        [Route("AmpRelatedNews/{id}/{reg}/{sector}/{__amp_source_origin?}")]
+        [Route("api/SearchApi/AmpRelatedNews/{id}/{reg}/{sector}/{__amp_source_origin?}")]
         public IActionResult AmpRelatedNews(long id, string reg, string sector, string __amp_source_origin)
         {
             DateTime threeDays = DateTime.Today.AddDays(-3);
             var secFirst = sector.Split(',')[0];
             if (reg == "Global Edition")
             {
-                var search = db.DevNews.Where(m => m.AdminCheck == true && m.CreatedOn > threeDays && m.NewsId != id && (m.Sector.StartsWith(secFirst + ",") || m.Sector.Contains("," + secFirst + ",") || m.Sector.EndsWith("," + secFirst) || m.Sector == secFirst)).OrderByDescending(o => o.CreatedOn).Select(s => new LatestNewsView { Title = s.Title, NewId = s.NewsId, Label = s.NewsLabels, ImageUrl = s.ImageUrl, Country = s.Country }).Distinct().Take(5);
+                var search = db.DevNews.Where(m => m.AdminCheck == true && m.CreatedOn > threeDays && m.NewsId != id && (m.Sector.StartsWith(secFirst + ",") || m.Sector.Contains("," + secFirst + ",") || m.Sector.EndsWith("," + secFirst) || m.Sector == secFirst))
+                    .OrderByDescending(o => o.CreatedOn)
+                    .Select(s => new LatestNewsView
+                    {
+                        Title = s.Title, 
+                        NewId = s.NewsId,
+                        Label = s.NewsLabels,
+                        ImageUrl = s.ImageUrl,
+                        Country = s.Country
+                    }).Distinct().Take(5);
                 var returnData = search.AsEnumerable()
                     .Select(a => new
                     {
@@ -363,11 +372,21 @@ namespace Devdiscourse.Controllers.API
                         a.Country,
                         Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString()
                     });
-                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return Ok(new { items = returnData, hasMorePages = search.Any() });
             }
             else
             {
-                var search = db.DevNews.Where(m => m.AdminCheck == true && m.Region.Contains(reg) && m.CreatedOn > threeDays && m.NewsId != id && (m.Sector.StartsWith(secFirst + ",") || m.Sector.Contains("," + secFirst + ",") || m.Sector.EndsWith("," + secFirst) || m.Sector == secFirst)).OrderByDescending(o => o.CreatedOn).Select(s => new LatestNewsView { Title = s.Title, NewId = s.NewsId, Label = s.NewsLabels, ImageUrl = s.ImageUrl, Country = s.Country }).Distinct().Take(5);
+                var region = (from c in db.Countries
+                              join r in db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+                var userRegion = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
+
+                var search = db.DevNews.Where(m => m.AdminCheck == true && m.Region.Contains(userRegion) && m.CreatedOn > threeDays && m.NewsId != id && (m.Sector.StartsWith(secFirst + ",") || m.Sector.Contains("," + secFirst + ",") || m.Sector.EndsWith("," + secFirst) || m.Sector == secFirst)).OrderByDescending(o => o.CreatedOn).Select(s => new LatestNewsView { Title = s.Title, NewId = s.NewsId, Label = s.NewsLabels, ImageUrl = s.ImageUrl, Country = s.Country }).Distinct().Take(5);
                 var returnData = search.AsEnumerable()
                     .Select(a => new
                     {
@@ -377,7 +396,7 @@ namespace Devdiscourse.Controllers.API
                         a.Country,
                         Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString()
                     });
-                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return Ok(new { items = returnData, hasMorePages = search.Any() });
             }
 
         }
@@ -540,17 +559,27 @@ namespace Devdiscourse.Controllers.API
         public IQueryable<LatestNewsView> GetLatestNews(string reg = "Global Edition")
         {
             DateTime threemonths = DateTime.Today.AddDays(-5);
+            var region = (from c in db.Countries
+                          join r in db.Regions on c.RegionId equals r.Id
+                          where c.Title == reg
+                          select new
+                          {
+                              r.Title
+                          }).FirstOrDefault();
+            string regionTitle = "Global Edition";
+            var userRegion = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
             if (reg == "Global Edition")
             {
+
                 var result = db.DevNews
-                    //.Where(a => (a.IsGlobal == true || a.Region.Contains(reg)) && a.CreatedOn > threemonths && a.AdminCheck == true && a.Sector != null).OrderByDescending(a => a.ModifiedOn)
+                    .Where(a => (a.IsGlobal == true || a.Region.Contains(userRegion)) && a.CreatedOn > threemonths && a.AdminCheck == true && a.Sector != null).OrderByDescending(a => a.ModifiedOn)
                     .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.SubTitle, Country = a.Country, NewId = a.NewsId, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels }).AsNoTracking().Take(6);
                 return result;
             }
             else
             {
                 var result = db.DevNews
-                    //.Where(a => a.AdminCheck == true && a.CreatedOn > threemonths && a.Region.Contains(reg) && a.Sector != null).OrderByDescending(a => a.ModifiedOn)
+                    .Where(a => a.AdminCheck == true && a.CreatedOn > threemonths && a.Region.Contains(userRegion) && a.Sector != null).OrderByDescending(a => a.ModifiedOn)
                     .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, Sector = a.SubTitle, Country = a.Country, NewId = a.NewsId, Type = a.Type, SubType = a.SubType, Label = a.NewsLabels }).AsNoTracking().Take(6);
                 return result;
             }
@@ -847,12 +876,21 @@ namespace Devdiscourse.Controllers.API
                     ImageUrl = (a.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
                     Author = a.Country
                 });
-                return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
+                return Ok(new { items = returnData, hasMorePages = search.Any() });
             }
             else
             {
+                var region = (from c in db.Countries
+                              join r in db.Regions on c.RegionId equals r.Id
+                              where c.Title == reg
+                              select new
+                              {
+                                  r.Title
+                              }).FirstOrDefault();
+                string regionTitle = "Global Edition";
+                var userRegion = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
                 var search = (from a in db.DevNews
-                              where a.AdminCheck == true && a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays
+                              where a.AdminCheck == true && a.Type == "Blog" && a.Region.Contains(userRegion) && a.CreatedOn > thirtyDays
                               orderby a.CreatedOn descending
                               select new LatestNewsView
                               {
@@ -1082,6 +1120,15 @@ namespace Devdiscourse.Controllers.API
             text = Regex.Replace(text, @"[^,.A-Za-z0-9\s-]", "");
             return text;
 
+        }
+          protected override void Dispose(bool disposing)
+        {
+            if (disposing && db != null)
+            {
+                db.Dispose();
+                db = null;
+            }
+            base.Dispose(disposing);
         }
     }
 }

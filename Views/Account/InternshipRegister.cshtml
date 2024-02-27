@@ -220,8 +220,10 @@
                     dataType: 'Json',
                     success: function (data) {
                         var NationalityHtml = '<option value="">--Select Country--</option>';
+               
                         $.each(data, function (i, item) {
-                            NationalityHtml += '<option value="' + item.Title + '">' + item.Title + '</option>';
+                            NationalityHtml += '<option value="' + item.title + '">' + item.title + '</option>';
+                       
                         });
                         $("#Nationality").html(NationalityHtml);
                     },

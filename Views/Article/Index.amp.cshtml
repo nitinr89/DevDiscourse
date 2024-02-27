@@ -107,7 +107,7 @@
     var converter = new HtmlToAmpConverter();
     converter.WithSanitizers(
         new HashSet<ISanitizer>
-                                                                {
+                                                                                                                                                        {
 new InstagramSanitizer(),
 new TwitterSanitizer(),
 new AudioSanitizer(),
@@ -120,7 +120,7 @@ new TargetAttributeSanitizer(),
 new XmlAttributeSanitizer(),
 new YouTubeVideoSanitizer(),
 new AmpIFrameSanitizer()
-                                                                });
+                                                                                                                                                        });
     string ampHtml = converter.ConvertFromHtml(datadescription).AmpHtml;
 
     //if (IdArray.Any())
@@ -219,14 +219,18 @@ new AmpIFrameSanitizer()
             @functions {
     async Task<string> GetCleanDescription(string htmltext)
     {
+        var sb = new StringBuilder();
         htmltext = htmltext.Replace("&nbsp;", " ");
         htmltext = htmltext.Replace("&rsquo;", "'");
         htmltext = htmltext.Replace("&lsquo;", "'");
         htmltext = htmltext.Replace("&#39;", "'");
         htmltext = htmltext.Replace("&rdquo;", "\"");
         htmltext = htmltext.Replace("&ldquo;", "\"");
-        var result = @Html.Raw(htmltext).ToString();
-        return result;
+        // var result = @Html.Raw(htmltext).ToString();
+        // return result;
+        var text = @Html.Raw(htmltext);
+        sb.Append(text);
+        return sb.ToString();
     }
         }
             @if (!string.IsNullOrEmpty(@Model.NewsLabels))
@@ -303,37 +307,37 @@ new AmpIFrameSanitizer()
         {
             postCount++;
             <text>
-                                             {
-                                             "@@type":"LiveBlogPosting",
-                                             "headline":"@item.ModifiedOn.ToLocalTime().ToString("hh:mm") @ist @Truncate(@item.Title, 65)",
-                                             "url":"@domainUrl@pageUrl#post_@item.Id",
-                                             "datePublished":"@item.CreatedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
-                                             "image": {
-                                             "@@context": "http://schema.org",
-                                             "@@type": "ImageObject",
-                                             "width": "400px",
-                                             "height": "60px",
-                                             "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"
-                                             },
-                                             "publisher": {
-                                             "@@type":"Organization",
-                                             "name":"Devdiscourse",
-                                             "logo": {
-                                             "@@type": "ImageObject",
-                                             "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png",
-                                             "width": "400px",
-                                             "height": "60px"
-                                             }
-                                             },
-                                             "author": {
-                                             "@@type": "Organization",
-                                             "sameAs": "https://www.devdiscourse.com",
-                                             "name": "Devdiscourse"
-                                             },
-                                             "mainEntityOfPage":"@domainUrl@pageUrl",
-                                             "dateModified":"@item.ModifiedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
-                                             "articleBody":"@GetDescriptionText(item.Description)"
-                                             }</text>
+                                                                                         {
+                 "@@type":"LiveBlogPosting",
+                 "headline":"@item.ModifiedOn.ToLocalTime().ToString("hh:mm") @ist @Truncate(@item.Title, 65)",
+                 "url":"@domainUrl@pageUrl#post_@item.Id",
+                 "datePublished":"@item.CreatedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
+                 "image": {
+                 "@@context": "http://schema.org",
+                 "@@type": "ImageObject",
+                 "width": "400px",
+                  "height": "60px",
+                 "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"
+                  },
+                  "publisher": {
+                  "@@type":"Organization",
+                  "name":"Devdiscourse",
+                   "logo": {
+                   "@@type": "ImageObject",
+                     "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png",
+                 "width": "400px",
+                  "height": "60px"
+                  }
+                     },
+                   "author": {
+                     "@@type": "Organization",
+                     "sameAs": "https://www.devdiscourse.com",
+                  "name": "Devdiscourse"
+                  },
+                 "mainEntityOfPage":"@domainUrl@pageUrl",
+             "dateModified":"@item.ModifiedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
+              "articleBody":"@GetDescriptionText(item.Description)"
+          }</text>
             if (postCount < ViewBag.BlogUpdatesCount)
             {
                 <text>,</text>
@@ -400,7 +404,103 @@ else
     <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
 }
 @section customCss {
-                                body{padding-bottom:43px;padding-top:54px}.fg-orange{color:#ff6a00}.bg-white{background-color:#fff} .description .fg-blue a,.description a.fg-blue,.fg-blue{color: #0000ff} .bg-yellow{background-color: #ffff00}.title-cont{height:100px}.font-title{font-weight:400;line-height:22px;font-size:15px;margin:0}.square-card{width:44%;display:inline-block;vertical-align:top;margin:5px 2%;} .author{font-size:12px} .gray-bg{border-radius:5px;padding:3px 10px 6px 10px;background-color:#f2f2f2} .sector{margin:0;padding:0;}.sector li{list-style:none;background-color:#474747;padding:2px 6px;display:inline-block;border-radius:3px;font-size:12px;}.sector li a{color:#fff;text-decoration:none}.upper-country{text-transform:uppercase;font-size:12px;font-weight:500;color:#666}.news-slide { width: 75%; height: 100px; border: 1px solid rgba(0, 0, 0, 0.04); border-radius: 5px; box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }.description strong,.description b{font-weight:600}.img-avt {border-radius:50%;margin-right:5px;vertical-align: middle;}.breadcrumb { padding: 0; background-color: transparent; margin-bottom: 20px; list-style: none; border-radius: 4px; color:#808080; } .breadcrumb > li { display: inline-block; } .breadcrumb > li a { color: #337ab7; text-decoration:none; } .breadcrumb > li + li:before { content: "›"; padding: 0 5px; font-size: 16px; color: #4d4d4d; }#statcounter {width: 1px;height:1px;}.blog img{object-fit:cover}.full-bottom{background-image:url(@newsFrameImage);background-size:cover} .full-bottom img{object-fit:@objectfit}.description a{color: #fd7e00;text-decoration: none;}.title{font-size:30px;line-height:36px;font-weight:500;margin:20px 0}.sub-title{font-size:18px;line-height:24px;font-weight:400;color:rgba(0, 0, 0, 0.54);margin:20px 0;}.source{font-size:13px;line-height:15px;margin:8px 0;color:#333}.meta{font-size:12px;line-height:15px;color:#666;margin-bottom:10px;}amp-social-share{border-radius:50%;vertical-align:bottom;outline:none}.share-text{line-height:32px;margin-right:10px;vertical-align:bottom} .description p,.description ul,.description ol{font-size:19px;line-height:1.58} .description table p,.description table td,.description table th{font-size:17px;margin-top:0;margin-bottom:5px;}.description table td,.description table th{padding:6px 10px}  .table,table { width: 100%; max-width: 100%; margin-bottom: 20px;border-collapse: collapse; border-spacing: 0; }table h3,table h4{margin:0} .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th { border: 1px solid #ddd;padding: 6px 10px}.share-btn-group{padding:5px 0;background-color:#fff;border-top:1px solid #eee;outline:none;font-family:sans-serif;position:fixed;bottom:0;width:100%}.share-btn-group:active,.share-btn-group:focus{background-color:#fff;outline-color:transparent}.img-caption{padding:3px 15px;color:#666;background-color: #ebebeb;margin:0;}.tag{display:inline-block;min-width:10px;padding:4px 13px 5px 13px;margin:5px;font-weight:400;text-align:center;text-decoration:none;border-radius:20px;color:#444444;background-color:#f7f7f7;font-size:14px}.latest-news-post{background-color:#f2f2f2;margin-top:8px;padding:8px 0;min-height:75px}.latest-news-post .country{background-color:#333;color:#fff; border-radius:3px; padding:0 5px 2px 5px;font-size:12px;}.m-b-10{margin-bottom:10px}.also-container{border-bottom:2px solid #e2e2e2;margin:20px 0}.ar-ul{padding-left:30px}.also-title{padding:4px 0 4px 25px;font-size:18px;position:relative;font-weight:400;line-height:23px}.also-title:after{content:"⬛ ";position:absolute;left:5px;font-size:9px;top:7px;}.single-news-post{padding-bottom:5px;margin-bottom:10px;border-bottom:1px solid #eaeaea}.single-news-post .title,.latest-news-post .title,.news-slide .title{font-weight:400;font-size:15px;margin:3px 0 0 0;line-height:22px}.single-news-post .country{color:#666;margin:0}.single-news-post .post-image,.single-news-post .post-content,.news-slide .post-image,.news-slide .post-content{display:table-cell;vertical-align:top}.single-news-post .post-image,.news-slide .post-image{padding-right:10px;}.image-rad{border-radius:5px;}.image-circle{border-radius:50%}.ad{margin:20px 0}.video-post .image{position:relative}.video-post .overlay{position:absolute;background-color:rgba(0,0,0,.7);top:0;width:100%;height:100%;text-align:center}.play-icon{background-color:#ff6a00;color:#fff;width:60px;padding:5px 0;text-align:center;margin:auto;margin-top:20%;font-size:22px}.more-btn{text-decoration:none;float:right;color:#222;background-color:#eee;padding:2px 10px;border-color:#999;border-width:2px 0;border-style:solid;margin-bottom:20px;margin-top:10px;clear:both;cursor:pointer}.divider{height:50px}.next-article{text-overflow:ellipsis;overflow:hidden;vertical-align:bottom;padding:4px 10px;background-color:#ff6a00;color:#fff;float:right}.description a{text-decoration:none}.live-blog{border-bottom:1px solid #eee}.highlight-containter { border: 1px solid #e6e6e6;background-color: #f3f3f3;margin-top:20px; }.highlight-containter h3{ margin:0; } .highlight-containter ul { font-weight: 500; color: #666; list-style: square; } .highlight-containter .top-line { width: 95%; height: 3px; margin-bottom: 20px; background-color: #ff6a00; }.highlight-containter .bottom-line { width:95%; margin-top:20px; height:3px; background-color:#ff6a00; }.p-20{padding:20px}.nextArticle{float:right}.advertisement-area{ background-color:#f1f1f1; text-align:center; padding:10px; border-radius:2px; } .advertisement-title { font-family: Arial, Helvetica, sans-serif; font-size: 11px; text-transform: uppercase; margin-bottom: 5px; color: #6d6d6d; }
+                             body
+                             {
+                                 padding-bottom:43px;
+                                 padding-top:54px}.fg-orange{color:#ff6a00}.bg-white{background-color:#fff} .description .fg-blue a,.description a.fg-blue,.fg-blue{color: #0000ff} .bg-yellow{background-color: #ffff00}.title-cont{height:100px}.font-title{font-weight:400;
+                                     line-height:22px;
+                                     font-size:15px;margin:0
+                                 }
+                                 .square-card
+                                 {
+                                     width:44%;
+                                     display:inline-block;
+                                     vertical-align:top;
+                                     margin:5px 2%;
+                                 }
+                                         .author
+                                         {
+                                             font-size:12px
+                                         }
+                                         .gray-bg
+                                         {
+                                             border-radius:5px;
+                                         padding:3px 10px 6px 10px;
+                                         background-color:#f2f2f2
+                                         }
+                                         .sector
+                                         {
+                                             margin:0;padding:0;
+                                         }
+                                         .sector li
+                                         {
+                                             list-style:none;background-color:#474747;
+                                             padding:2px 6px;
+                                             display:inline-block;
+                                             border-radius:3px;
+                                             font-size:12px;
+                                         }
+                                         .sector li a
+                                         {
+                                             color:#fff;
+                                             text-decoration:none
+                                         }
+                                         .upper-country{
+                                             text-transform:uppercase;font-size:12px;
+                                             font-weight:500;
+                                             color:#666}.news-slide { width: 75%;
+                                                 height: 100px;
+                                                 border: 1px solid rgba(0, 0, 0, 0.04);
+                                                 border-radius: 5px;
+                                                 box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                                             }
+                                             .description strong,.description b
+                                             {
+                                                 font-weight:600}.img-avt {border-radius:50%;margin-right:5px;vertical-align: middle;
+                                                 }
+                                                 .breadcrumb
+                                                 {
+                                                     padding: 0;
+                                                     background-color: transparent;
+                                                     margin-bottom: 20px;
+                                                     list-style: none;
+                                                     border-radius: 4px; color:#808080;
+                                                 }
+                                                 .breadcrumb > li
+                                                 {
+                                                     display: inline-block;
+                                                 }
+                                                 .breadcrumb > li a
+                                                 {
+                                                     color: #337ab7;
+                                                     text-decoration:none;
+                                                 }
+                                                 .breadcrumb > li + li:before
+                                                 {
+                                                     content: "›";
+                                                     padding: 0 5px;
+                                                     font-size: 16px;
+                                                     color: #4d4d4d;
+                                                 }
+                                                 #statcounter
+                                                 {
+                                                     width: 1px;height:1px;
+                                                 }
+                                                 .blog img{
+                                                     object-fit:cover
+                                                 }
+                                                 .full-bottom
+                                                 {
+                                                     background-image:url(@newsFrameImage);
+                                                     background-size:cover
+                                                 }
+                                                 .full-bottom img
+                                                 {
+                                                     object-fit:@objectfit
+                         }
+                         .description a
+                         {
+                             color: #fd7e00;text-decoration: none;}.title{font-size:30px;line-height:36px;font-weight:500;margin:20px 0}.sub-title{font-size:18px;line-height:24px;font-weight:400;color:rgba(0, 0, 0, 0.54);margin:20px 0;}.source{font-size:13px;line-height:15px;margin:8px 0;color:#333}.meta{font-size:12px;line-height:15px;color:#666;margin-bottom:10px;}amp-social-share{border-radius:50%;vertical-align:bottom;outline:none}.share-text{line-height:32px;margin-right:10px;vertical-align:bottom} .description p,.description ul,.description ol{font-size:19px;line-height:1.58} .description table p,.description table td,.description table th{font-size:17px;margin-top:0;margin-bottom:5px;}.description table td,.description table th{padding:6px 10px}  .table,table { width: 100%; max-width: 100%; margin-bottom: 20px;border-collapse: collapse; border-spacing: 0; }table h3,table h4{margin:0} .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th { border: 1px solid #ddd;padding: 6px 10px}.share-btn-group{padding:5px 0;background-color:#fff;border-top:1px solid #eee;outline:none;font-family:sans-serif;position:fixed;bottom:0;width:100%}.share-btn-group:active,.share-btn-group:focus{background-color:#fff;outline-color:transparent}.img-caption{padding:3px 15px;color:#666;background-color: #ebebeb;margin:0;}.tag{display:inline-block;min-width:10px;padding:4px 13px 5px 13px;margin:5px;font-weight:400;text-align:center;text-decoration:none;border-radius:20px;color:#444444;background-color:#f7f7f7;font-size:14px}.latest-news-post{background-color:#f2f2f2;margin-top:8px;padding:8px 0;min-height:75px}.latest-news-post .country{background-color:#333;color:#fff; border-radius:3px; padding:0 5px 2px 5px;font-size:12px;}.m-b-10{margin-bottom:10px}.also-container{border-bottom:2px solid #e2e2e2;margin:20px 0}.ar-ul{padding-left:30px}.also-title{padding:4px 0 4px 25px;font-size:18px;position:relative;font-weight:400;line-height:23px}.also-title:after{content:"⬛ ";position:absolute;left:5px;font-size:9px;top:7px;}.single-news-post{padding-bottom:5px;margin-bottom:10px;border-bottom:1px solid #eaeaea}.single-news-post .title,.latest-news-post .title,.news-slide .title{font-weight:400;font-size:15px;margin:3px 0 0 0;line-height:22px}.single-news-post .country{color:#666;margin:0}.single-news-post .post-image,.single-news-post .post-content,.news-slide .post-image,.news-slide .post-content{display:table-cell;vertical-align:top}.single-news-post .post-image,.news-slide .post-image{padding-right:10px;}.image-rad{border-radius:5px;}.image-circle{border-radius:50%}.ad{margin:20px 0}.video-post .image{position:relative}.video-post .overlay{position:absolute;background-color:rgba(0,0,0,.7);top:0;width:100%;height:100%;text-align:center}.play-icon{background-color:#ff6a00;color:#fff;width:60px;padding:5px 0;text-align:center;margin:auto;margin-top:20%;font-size:22px}.more-btn{text-decoration:none;float:right;color:#222;background-color:#eee;padding:2px 10px;border-color:#999;border-width:2px 0;border-style:solid;margin-bottom:20px;margin-top:10px;clear:both;cursor:pointer}.divider{height:50px}.next-article{text-overflow:ellipsis;overflow:hidden;vertical-align:bottom;padding:4px 10px;background-color:#ff6a00;color:#fff;float:right}.description a{text-decoration:none}.live-blog{border-bottom:1px solid #eee}.highlight-containter { border: 1px solid #e6e6e6;background-color: #f3f3f3;margin-top:20px; }.highlight-containter h3{ margin:0; } .highlight-containter ul { font-weight: 500; color: #666; list-style: square; } .highlight-containter .top-line { width: 95%; height: 3px; margin-bottom: 20px; background-color: #ff6a00; }.highlight-containter .bottom-line { width:95%; margin-top:20px; height:3px; background-color:#ff6a00; }.p-20{padding:20px}.nextArticle{float:right}.advertisement-area{ background-color:#f1f1f1; text-align:center; padding:10px; border-radius:2px; } .advertisement-title { font-family: Arial, Helvetica, sans-serif; font-size: 11px; text-transform: uppercase; margin-bottom: 5px; color: #6d6d6d; }
 }
 @if (Model.NewsId == 1813875)
 {
@@ -504,17 +604,21 @@ else
     }<div class="meta"> Updated: @modifiedDate.ToString("dd-MM-yyyy HH:mm") IST | Created: @publishedDate.ToString("dd-MM-yyyy HH:mm") IST </div>
 </div>
 <div class="cont-container">
-    @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
+    @if (!string.IsNullOrEmpty(@Model.ImageUrl) && @Model.ImageUrl != "/images/defaultImage.jpg" && @Model.ImageUrl != "/images/newstheme.jpg" && @Model.ImageUrl != "/images/sector/all_sectors.jpg")
     {
-        var newsImageUrl = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.ImageUrl : Model.ImageUrl; if (Model.UserNewsFiles.Count == 0)
+        var newsImageUrl = @Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + @Model.ImageUrl : @Model.ImageUrl; if (@Model.UserNewsFiles?.Count == 0)
         {
             <amp-img class="full-bottom" src="@domainUrl@newsImageUrl?width=1280" alt="@Model.Title" layout="responsive" width="1280" height="720"></amp-img> <p class="img-caption"> <small>@Model.ImageCopyright</small> </p>
         }
         else
         {
-            foreach (var item in Model.UserNewsFiles.Take(1))
+            if (Model.UserNewsFiles != null)
             {
-                <script type="application/ld+json">{"@@context": "https://schema.org/", "@@type": "VideoObject", "name": "@newsTitle", "@@id": "@domainUrl@pageUrl", "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "description" : "@GetDescriptionText(@Model.Description)", "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "contentUrl": "@item.FilePath", "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}</script> <amp-video id="my-video" class="video-js center-block" controls width="640" height="360" layout="responsive" poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <div fallback> <p>This browser does not support the video element.</p></div></amp-video>
+                foreach (var item in Model.UserNewsFiles.Take(1))
+                {
+                    <script type="application/ld+json">{"@@context": "https://schema.org/", "@@type": "VideoObject", "name": "@newsTitle", "@@id": "@domainUrl@pageUrl", "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "description" : "@GetDescriptionText(@Model.Description)", "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "contentUrl": "@item.FilePath", "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}</script> <amp-video id="my-video" class="video-js center-block" controls width="640" height="360" layout="responsive" poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <div fallback> <p>This browser does not support the video element.</p></div></amp-video>
+                }
+
             }
         }
     }
@@ -552,19 +656,91 @@ else
                     if (!string.IsNullOrEmpty(t.Trim()))
                     {
                         @*                         <a href="/news?tag=@Url.Encode(@t)" class="tag">@t</a> *@
-                        var encodedTag = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(replaceTag));
-
-                        <a href="/news?tag=@encodedTag" class="tag">@replaceTag</a>
+                        // var encodedTag = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(replaceTag));
+                        string encodeUrl = System.Net.WebUtility.UrlEncode(t.Trim());
+                        <a href="/news?tag=@encodeUrl" class="tag">@t</a>
                     }
                 }
             }
         </div>
     }
 </div>
-<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><div class="text-center p-5"> <amp-embed width="320" height="50" type="doubleclick" data-slot="devdiscourse_320x50_AMP_HB" rtc-config='{"urls": ["https://pbs.nextmillmedia.com/openrtb2/amp?tag_id=11416"]}'> </amp-embed> @*<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="ca-pub-5016155138623826" data-ad-slot='TagC_300x250'> </amp-ad>*@ </div></div>
-<div class="news-box p-t-20"> <div class="also-container"> <h3 class="ar-title">READ MORE</h3> <amp-list src="/api/Search/AmpRelatedNews/@Model.NewsId/@ViewBag.region/@Model.Sector" width="auto" height="280" class="blogList"> <template type="amp-mustache"> <div class="also-title"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration v-a-m">{{Title}}</a> </div></template> </amp-list> </div></div>
-<div class="news-box"> <amp-list src="/api/Search/GetPreviousSectorAmpNews/@Model.NewsId/@Model.Sector/@ViewBag.region" width="auto" height="1500" class=""> <template type="amp-mustache"> <div> <div class="article-divider clearfix" data-articleurl="{{Slug}}?amp" data-articletitle="{{Title}}"> <span>Next Article</span> </div><h2 class="title">{{Title}}</h2>{{#Subtitle}}<h3 class="sub-title">{{Subtitle}}</h3>{{/Subtitle}}{{#Sector}}<ul class="sector"> <li> <a href="/news/{{SectorSlug}}" target="_top"><span class="text-capitalize">{{Sector}}</span></a> </li></ul>{{/Sector}}<p class="source">{{#Source}}<a class="no-text-decoration" href="{{SourceUrl}}">{{Source}}</a>{{/Source}}{{#IsBlog}}<a class="no-text-decoration" href="/Home/AuthorArticles?fl={{Themes}}"> <amp-img class="img-avt" layout="fixed" width="30" height="30" src="{{Avatar}}?width=30&height=30&mode=crop" alt="{{Themes}}"> <amp-img alt="{{Themes}}" fallback width="30" height="30" src="/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop"></amp-img> </amp-img>{{Themes}}</a>{{/IsBlog}}{{#SourceUrl}}<span> |{{SourceUrl}}</span>{{/SourceUrl}}{{#Country}}<span> |{{Country}}</span>{{/Country}}</p><div class="meta"> Updated:{{ModifiedOnString}}IST | Created:{{PublishedOnString}}IST </div><div class="cont-container"> <amp-img class="full-bottom" src="{{ImageUrl}}?width=1280" alt="{{Title}}" layout="responsive" width="1280" height="720"></amp-img> <p class="img-caption"> <small>{{ImageCopyright}}</small> </p></div><div class="description">{{{Description}}}{{#Disclaimer}}<p>{{Disclaimer}}</p>{{/Disclaimer}}</div>{{#Tags}}<div class="m-b-10"> <h3 class="page-title">READ MORE ON</h3>{{{TagArray}}}</div>{{/Tags}}<amp-analytics type="googleanalytics" id="google_analytics"> <script type="application/json">{"vars":{"account": "UA-123167123-1"}, "triggers":{"track pageview":{"on": "visible", "request": "pageview", "vars":{"title": "{{Title}}", "ampdocurl": "@domainUrl/article/{{Label}}/{{Slug}}?amp"}}}}</script> </amp-analytics> @*<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="ca-pub-5016155138623826" data-ad-slot='TagC_300x250'> </amp-ad> </div>*@ </div></template> </amp-list> </div>
-<div class="news-box p-t-20"> <h3 class="page-title">OPINION / BLOG</h3> <amp-list src="/api/Search/GetAmpOpinion/@ViewBag.region" width="auto" height="500" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration"> <div class="single-news-post"> <div class="post-image">{{#AuthorImage}}<amp-img src="https://www.devdiscourse.com{{AuthorImage}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45"></amp-img>{{/AuthorImage}}{{^AuthorImage}}<amp-img src="https://www.devdiscourse.com{{ImageUrl}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45"></amp-img>{{/AuthorImage}}</div><div class="post-content"> <div class="gray-bg"> <span class="author font-oswald">{{Author}}</span> <h4 class="title">{{Title}}</h4> </div></div></div></a> </template> </amp-list> </div>
+<div class="advertisement-area">
+    <div class="advertisement-title">Advertisement</div>
+    <div class="text-center p-5">
+        <amp-embed width="320" height="50" type="doubleclick" data-slot="devdiscourse_320x50_AMP_HB" rtc-config='{"urls": ["https://pbs.nextmillmedia.com/openrtb2/amp?tag_id=11416"]}'>
+        </amp-embed> @*<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="ca-pub-5016155138623826" data-ad-slot='TagC_300x250'> </amp-ad>*@
+    </div>
+</div>
+<div class="news-box p-t-20">
+    <div class="also-container">
+        <h3 class="ar-title">READ MORE</h3>
+        <amp-list src="/api/SearchApi/AmpRelatedNews/@Model.NewsId/@ViewBag.region/@Model.Sector" width="auto" height="280" class="blogList">
+            <template type="amp-mustache">
+                <div class="also-title">
+
+                    <a href="@domainUrl{{Url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
+                        {{Title}}
+                    </a>
+
+                </div>
+            </template>
+        </amp-list>
+    </div>
+</div>
+<div class="news-box">
+    <amp-list src="/api/SearchApi/GetPreviousSectorAmpNews/@Model.NewsId/@Model.Sector/@ViewBag.region" width="auto" height="1500" class="">
+        <template type="amp-mustache">
+            <div>
+                <div class="article-divider clearfix" data-articleurl="{{Slug}}?amp" data-articletitle="{{Title}}">
+                    <span>Next Article</span>
+                </div>
+                <h2 class="title">{{Title}}</h2>{{#Subtitle}}
+                <h3 class="sub-title">{{Subtitle}}</h3>
+                {{/Subtitle}}{{#Sector}}<ul class="sector">
+                    <li>
+                        <a href="/news/{{SectorSlug}}" target="_top">
+                            <span class="text-capitalize">{{Sector}}</span>
+                        </a>
+                    </li>
+                </ul>{{/Sector}}
+                <p class="source">
+                    {{#Source}}<a class="no-text-decoration" href="{{SourceUrl}}">{{Source}}</a>{{/Source}}{{#IsBlog}}
+                    <a class="no-text-decoration" href="/Home/AuthorArticles?fl={{Themes}}">
+                        <amp-img class="img-avt" layout="fixed" width="30" height="30" src="{{Avatar}}?width=30&height=30&mode=crop" alt="{{Themes}}"> <amp-img alt="{{Themes}}" fallback width="30" height="30" src="/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop"></amp-img> </amp-img>{{Themes}}
+                    </a>{{/IsBlog}}{{#SourceUrl}}<span> |{{SourceUrl}}</span>{{/SourceUrl}}{{#Country}}<span> |{{Country}}</span>{{/Country}}
+                </p><div class="meta"> Updated:{{ModifiedOnString}}IST | Created:{{PublishedOnString}}IST </div><div class="cont-container"> <amp-img class="full-bottom" src="{{ImageUrl}}?width=1280" alt="{{Title}}" layout="responsive" width="1280" height="720"></amp-img> <p class="img-caption"> <small>{{ImageCopyright}}</small> </p></div><div class="description">{{{Description}}}{{#Disclaimer}}<p>{{Disclaimer}}</p>{{/Disclaimer}}</div>{{#Tags}}<div class="m-b-10"> <h3 class="page-title">READ MORE ON</h3>{{{TagArray}}}</div>{{/Tags}}<amp-analytics type="googleanalytics" id="google_analytics"> <script type="application/json">{"vars":{"account": "UA-123167123-1"}, "triggers":{"track pageview":{"on": "visible", "request": "pageview", "vars":{"title": "{{Title}}", "ampdocurl": "@domainUrl/article/{{Label}}/{{Slug}}?amp"}}}}</script> </amp-analytics> @*<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="ca-pub-5016155138623826" data-ad-slot='TagC_300x250'> </amp-ad> </div>*@
+            </div>
+        </template>
+    </amp-list>
+</div>
+<div class="news-box p-t-20">
+    <h3 class="page-title">OPINION / BLOG</h3>
+    <amp-list src="/api/SearchApi/GetAmpOpinion/@ViewBag.region" width="auto" height="500" class="blogList">
+        <template type="amp-mustache">
+            <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    <div class="post-image">
+                        {{#AuthorImage}}
+                        <amp-img src="https://www.devdiscourse.com{{AuthorImage}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45">
+                        </amp-img>
+                        {{/AuthorImage}}{{^AuthorImage}}
+                        <amp-img src="https://www.devdiscourse.com{{ImageUrl}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45">
+                        </amp-img>
+                        {{/AuthorImage}}
+                    </div>
+                    <div class="post-content">
+                        <div class="gray-bg">
+                            <span class="author font-oswald">{{Author}}</span>
+                            <h4 class="title">{{Title}}</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+</div>
 <div class="news-box">
     @{
         @*   Html.RenderAction("GetAmpInterview", "Search"); *@
@@ -572,9 +748,75 @@ else
 
     }<h3 class="page-title">LATEST NEWS</h3>
 </div>
-<div class="cont-container"> <amp-list src="/api/Search/LatestNews" width="auto" height="540" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration"> <div class="latest-news-post"> <div class="news-box">{{#Country}}<span class="country">{{Country}}</span>{{/Country}}{{^Country}}<span class="country">Global</span>{{/Country}}<h4 class="title">{{Title}}</h4> </div></div></a> </template> </amp-list> </div>
-<div class="news-box"> @*<h4 class="page-title">TRENDING</h4> <amp-list src="/api/Search/GetampTrends/@ViewBag.region" width="auto" height="485" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration" target="_blank"> <div class="square-card"> <amp-img src="{{ImageUrl}}?width=168&height=134&mode=crop" layout="responsive" width="168" alt="{{Title}}" height="134" class="image-rad"></amp-img> <div class="title-cont"> <h4 class="font-title">{{Title}}</h4> </div></div></a> </template> </amp-list>*@ <h4 class="page-title">VIDEOS</h4> <amp-list src="/api/Search/GetAmpVideoNews/@ViewBag.region" width="auto" height="320" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{title}}" class="no-text-decoration"> <div class="video-post">{{^defaultImage}}<div class="image"> <amp-img src="@domainUrl{{ImageUrl}}?width=320&height=180&mode=crop" layout="responsive" width="640" alt="{{Title}}" height="360"></amp-img> <div class="overlay"> <div class="play-icon">►</div></div></div>{{/defaultImage}}<div class="single-news-post"> <h4 class="title p-t-5">{{Title}}</h4> </div></div></a> </template> </amp-list> <div class="divider"> <a href="/news/videos" class="more-btn">View All</a> </div>@*<div class="ad"> <a href="http://visionri.com" target="_blank"><amp-img src="/AdminFiles/Ads/Banner/digital_development_mobile.jpg" width="320" height="50" layout="responsive"></amp-img></a> </div>*@ <amp-embed width="320" height="50" type="doubleclick" data-slot="devdiscourse_320x50_stickybottom_amp_HB" rtc-config='{"urls": ["https://pbs.nextmillmedia.com/openrtb2/amp?tag_id=8096"]}'> </amp-embed> </div>
-<div class="share-btn-group"> <div class="news-box"> <amp-social-share type="twitter" width="32" height="32" aria-label="Share on twitter"></amp-social-share> <amp-social-share type="facebook" width="32" height="32" data-param-app_id="1962446954071172" data-attribution="1962446954071172" aria-label="Share on facebook"></amp-social-share> <amp-social-share type="linkedin" width="32" height="32" aria-label="Share on linkedin"></amp-social-share> <amp-social-share type="whatsapp" width="32" height="32" aria-label="Share on whatsapp"></amp-social-share> </div></div>
+<div class="cont-container">
+    <amp-list src="/api/SearchApi/GetLatestNews" width="auto" height="540" class="blogList">
+        <template type="amp-mustache">
+         @*   // @foreach (var item in Model){ *@
+            <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+
+                <div class="latest-news-post">
+                    <div class="news-box">
+                        {{#Country}}
+                        <span class="country">
+                            {{Country}}
+
+                        </span>
+                        {{/Country}}{{^Country}}
+                        <span class="country">
+                            Global
+                        </span>
+                        {{/Country}}
+                        <h4 class="title">{{Title}}</h4>
+                    </div>
+                </div>
+            </a>
+         @*   // } *@
+        </template>
+    </amp-list>
+</div>
+<div class="news-box">
+    @*<h4 class="page-title">TRENDING</h4>
+    <amp-list src="/api/Search/GetampTrends/@ViewBag.region" width="auto" height="485" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration" target="_blank"> <div class="square-card">
+    <amp-img src="{{ImageUrl}}?width=168&height=134&mode=crop" layout="responsive" width="168" alt="{{Title}}" height="134" class="image-rad"></amp-img> <div class="title-cont">
+    <h4 class="font-title">{{Title}}</h4> </div></div></a>
+    </template> </amp-list>*@
+    <h4 class="page-title">VIDEOS</h4>
+    <amp-list src="/api/SearchApi/GetAmpVideoNews/@ViewBag.region" width="auto" height="320" class="blogList">
+        <template type="amp-mustache">
+            <a href="@domainUrl{{Url}}?amp" title="{{title}}" class="no-text-decoration">
+                <div class="video-post">
+                    {{^defaultImage}}<div class="image">
+                        <amp-img src="@domainUrl{{ImageUrl}}?width=320&height=180&mode=crop" layout="responsive" width="640" alt="{{Title}}" height="360"></amp-img>
+                        <div class="overlay">
+                            <div class="play-icon">
+                                ►
+
+                            </div>
+                        </div>
+                    </div>{{/defaultImage}}<div class="single-news-post">
+                        <h4 class="title p-t-5">{{Title}}</h4>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+    <div class="divider">
+        <a href="/news/videos" class="more-btn">View All</a>
+    </div>@*<div class="ad"> <a href="http://visionri.com" target="_blank"><amp-img src="/AdminFiles/Ads/Banner/digital_development_mobile.jpg" width="320" height="50" layout="responsive"></amp-img></a> </div>*@
+    <amp-embed width="320" height="50" type="doubleclick" data-slot="devdiscourse_320x50_stickybottom_amp_HB" rtc-config='{"urls": ["https://pbs.nextmillmedia.com/openrtb2/amp?tag_id=8096"]}'>
+    </amp-embed>
+</div>
+<div class="share-btn-group">
+    <div class="news-box">
+        <amp-social-share type="twitter" width="32" height="32" aria-label="Share on twitter"></amp-social-share>
+        <amp-social-share type="facebook" width="32" height="32" data-param-app_id="1962446954071172" data-attribution="1962446954071172" aria-label="Share on facebook">
+
+        </amp-social-share>
+        <amp-social-share type="linkedin" width="32" height="32" aria-label="Share on linkedin"></amp-social-share> <amp-social-share type="whatsapp" width="32" height="32" aria-label="Share on whatsapp">
+
+        </amp-social-share>
+    </div>
+</div>
 <amp-analytics type="googleanalytics" id="google_analytics">
     <script type="application/json">
         {"vars":{"account": "UA-123167123-1"}, "triggers":{"track pageview":{"on": "visible", "request": "pageview", "vars":{"title": "@pageTitle", "ampdocurl": "@domainUrl@pageUrl"}}}}

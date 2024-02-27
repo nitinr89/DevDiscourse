@@ -77,6 +77,7 @@ namespace Devdiscourse.Controllers.Main
         public async Task<ActionResult> Index(string prefix, long? id, string reg = "")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            bool isAmpMode = HttpContext.Items.ContainsKey("IsAmpMode") && (bool)HttpContext.Items["IsAmpMode"];
             string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             string absoluteUri = HttpContext.Request.GetDisplayUrl();
             if (id == null || id == 0)
@@ -91,7 +92,7 @@ namespace Devdiscourse.Controllers.Main
             var suffix = scheme.IndexOf("?amp");
             if ((prefix == "agency-wire" || prefix == null) && search.NewsLabels != null && suffix == -1)
             {
-                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = search.NewsLabels, id = search.GenerateSecondSlug() });            
+                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = search.NewsLabels, id = search.GenerateSecondSlug() });
             }
             else if (prefix == null && search.NewsLabels == null && suffix == -1)
             {
@@ -99,6 +100,8 @@ namespace Devdiscourse.Controllers.Main
             }
             ViewBag.label = search.NewsLabels ?? "";
             var converter = new HtmlToAmpConverter();
+            //if (isAmpMode)
+            //{
             converter.WithSanitizers(
                 new HashSet<ISanitizer>
                 {
@@ -117,6 +120,7 @@ namespace Devdiscourse.Controllers.Main
                 });
             string ampHtml = converter.ConvertFromHtml(search.Description).AmpHtml;
             ViewBag.ampHtml = ampHtml;
+            //}
             var geolocation = GetGeoLocation();
             var MACAddress = GetMACAddress();
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
@@ -152,7 +156,8 @@ namespace Devdiscourse.Controllers.Main
             }
             ViewBag.publicIP = geolocation.IPv4;
             ViewBag.MACAddress = MACAddress;
-            return View(search);
+            if (scheme.EndsWith("?amp")) return View("Index.amp", search);
+            else return View(search);
         }
         public GeoLocationViewModel GetGeoLocation()
         {

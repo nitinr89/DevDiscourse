@@ -34,7 +34,7 @@ namespace Devdiscourse.Models.BasicModels
         [Required]
         [Display(Name = "Summary")]
         //[AllowHtml]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         public string? Type { get; set; }
         public string? SubType { get; set; }
         [Display(Name = "Labels")]

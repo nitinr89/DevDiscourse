@@ -17,7 +17,7 @@
                     string baseurl = Url.Content("~/");
                     string controller = "article";
                     string action = item.Label ?? "agency-wire";
-                    long id = item.NewId;
+                    string id = item.GenerateSecondSlug();
 
                     <li class="also-title">
                         <h3 class="f-18 no-margin font-normal l-h">

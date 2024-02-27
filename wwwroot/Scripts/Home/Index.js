@@ -60,12 +60,10 @@
     function GetVideoNews() {
         var ApiDataUrl = "/api/SearchApi/GetHomeVideoNews/" + encodeURI(_edition);
         $.getJSON(ApiDataUrl, function (data) {
-            debugger;
             var videohtml = '';
             $.each(data, function (i, item) {
-                debugger;
                 var slugUrl = convertToSlug(item.id, item.title);
-                var newsImage = item.fileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.fileThumbUrl : item.fileThumbUrl;
+                var newsImage = item.fileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.fileThumbUrl : item.fileThumbUrl;
                 var label = item.label != null ? item.label : "agency-wire";
                 videohtml += '<div class="item"><a href="/news/videos/' + slugUrl + '" title="' + item.title.split('"').join('') + '" class="text-decoration"><div class="news-card bg-gray lazy" data-src="' + newsImage + '?width=435&height=245&format=jpeg&mode=crop&quality=60"><div style="width:100%;height:100%;background-color:rgba(0,0,0,.3);padding:15px"><div class="media" style="bottom:15px;position:absolute"><div class="media-left"><div class="text-center" style="color: #fff; width: 40px; font-size: 17px; border: 2px solid #fff; border-radius: 50%; height: 40px; line-height: 40px; padding-left: 3px;"><span class="fa fa-play"></span></div></div><div class="media-body"><h3 class="no-margin" style="color:#fff;font-size:18px;line-height:1.26">' + item.title + '</h3></div></div></div></div></a></div>';
             });

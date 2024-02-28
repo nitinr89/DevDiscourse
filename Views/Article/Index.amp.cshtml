@@ -564,7 +564,7 @@ else
                     }
                     else
                     {
-                        <amp-img class="img-avt" layout="fixed" width="30" height="30" src="@domainUrl/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop" alt="@Model.ApplicationUsers.FirstName"> <amp-img alt="@Model.ApplicationUsers.FirstName" fallback width="30" height="30" src="/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop"></amp-img> </amp-img>
+                        <amp-img class="img-avt" layout="fixed" width="30" height="30" src="@domainUrl/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop" alt="@Model.ApplicationUsers?.FirstName"> <amp-img alt="@Model.ApplicationUsers?.FirstName" fallback width="30" height="30" src="/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop"></amp-img> </amp-img>
                     }@Model.Author.Trim()
                 </a>
             }@titlecase @country
@@ -678,7 +678,8 @@ else
             <template type="amp-mustache">
                 <div class="also-title">
 
-                    <a href="@domainUrl{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
+                   @*  <a href="@domainUrl{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m"> *@
+                    <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
                         {{title}}
                     </a>
 
@@ -717,7 +718,8 @@ else
     <h3 class="page-title">OPINION / BLOG</h3>
     <amp-list src="/api/SearchApi/GetAmpOpinion/@ViewBag.region" width="auto" height="500" class="blogList">
         <template type="amp-mustache">
-            <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration">
+         @*    <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
+            <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
                 <div class="single-news-post">
                     <div class="post-image">
                         {{#authorImage}}
@@ -751,8 +753,8 @@ else
     <amp-list src="/api/SearchApi/GetAmpLatestNewsItems" width="auto" height="540" class="blogList">
         <template type="amp-mustache">
         
-            <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration">
-
+       @*      <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
+            <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
                 <div class="latest-news-post">
                     <div class="news-box">
                         {{#country}}
@@ -784,7 +786,8 @@ else
     <h4 class="page-title">VIDEOS</h4>
     <amp-list src="/api/SearchApi/GetAmpVideoNews/@ViewBag.region" width="auto" height="320" class="blogList">
         <template type="amp-mustache">
-            <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration">
+          @*   <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
+            <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
                 <div class="video-post">
                     {{^defaultImage}}<div class="image">
                         <amp-img src="@domainUrl{{imageUrl}}?width=320&height=180&mode=crop" layout="responsive" width="640" alt="{{title}}" height="360"></amp-img>

@@ -2098,8 +2098,10 @@ namespace DevDiscourse.Controllers.Main
             _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
 
+            var userName = await userManager.FindByIdAsync(user);
+
             //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("NewsAssignNotification", "New news assign to you", user);
+            await context.Clients.All.SendAsync("NewsAssignNotification", "New news assign to ", userName?.FirstName + " " + userName?.LastName);
 
             return Json("Success");
         }

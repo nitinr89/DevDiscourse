@@ -35,9 +35,9 @@
     ViewBag.pageKeywords = keywords;
 
     // string modifiedDescription = @newsTitle + " " + GetFirstParagraph(GetCleanDescription(@Model.Description).ToHtmlString());
-    string modifiedDescription = @newsTitle + " " + @GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
+    //string modifiedDescription = @newsTitle + " " + @GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
 
-    var schemaDescription = !string.IsNullOrEmpty(Model.SubTitle) ? Model.SubTitle : @Truncate(modifiedDescription, 159).ToString();
+    //var schemaDescription = !string.IsNullOrEmpty(Model.SubTitle) ? Model.SubTitle : @Truncate(modifiedDescription, 159).ToString();
     ViewBag.PageDescription = "Read more about " + @ViewBag.Title.Trim() + " on Devdiscourse.";
     ViewBag.alternateHeadline = newsTitle;
     string sourceCategory = "Agency-wire";
@@ -99,11 +99,6 @@
     datadescription = datadescription.Replace("style=\"color: #0000ff;\"", "class=\"fg-blue\"");
     datadescription = datadescription.Replace("style=\"background-color: #ffff00;\"", "class=\"bg-yellow\"");
     datadescription = datadescription.Replace("style=\"background-color: #ffffff;\"", "class=\"bg-white\"");
-    //var found = 0;
-    //if (!Request.Browser.Crawler)
-    //{
-    //    datadescription = Regex.Replace(datadescription, "</p>", x => found++ == 1 ? "</p><div class=\"advertisement-area\"> <div class=\"advertisement-title\">Advertisement</div><amp-embed width=\"300\" height=\"250\" type=\"doubleclick\" data-slot=\"devdiscourse_300x250_AMP_HB\" rtc-config='{ \"urls\": [\"https://pbs.nextmillmedia.com/openrtb2/amp?tag_id=11415\"] }' > </amp-embed>  </div>" : x.Value);
-    //}
     var converter = new HtmlToAmpConverter();
     converter.WithSanitizers(
         new HashSet<ISanitizer>
@@ -120,13 +115,7 @@ new TargetAttributeSanitizer(),
 new XmlAttributeSanitizer(),
 new YouTubeVideoSanitizer(),
 new AmpIFrameSanitizer()
-                                                                                                                                                        });
-    string ampHtml = converter.ConvertFromHtml(datadescription).AmpHtml;
-
-    //if (IdArray.Any())
-    //{
-    //    datadescription = Regex.Replace(@ampDecs, "<blockquote(.|\n)*?</blockquote>", m => "<amp-twitter width=\"375\" height=\"472\" layout=\"responsive\" data-tweetid=\"" + IdArray[count++] + "\"></amp-twitter>");
-    //}
+                                                                                                                                                        }); string ampHtml = converter.ConvertFromHtml(datadescription).AmpHtml;
 
 
 }
@@ -744,7 +733,8 @@ else
 </div>
 <div class="news-box">
     @{
-      await Component.InvokeAsync("AmpInterview");
+     
+        await Component.InvokeAsync("AmpInterview");
 
     }
     <h3 class="page-title">LATEST NEWS</h3>

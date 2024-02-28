@@ -5,7 +5,7 @@
         <div class="">
             <div class="infocus-cover">
                 @{
-                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
                 }
                 <amp-img src="@newsImage?width=400&height=270&mode=crop"
                          width="400"

@@ -20,8 +20,8 @@
     string pageTitle = newsTitle;
     ViewBag.webEdition = ViewBag.region;
     string imageUrl = @Model.ImageUrl ?? "";
-    var newsFrameImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=6&height=4&mode=crop&blur=90" : string.Concat(domainUrl, imageUrl) + "?width=6&height=4&mode=crop&blur=90";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=1280" : string.Concat(domainUrl, imageUrl) + "?width=1280";
+    var newsFrameImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl  + imageUrl + "?width=6&height=4&mode=crop&blur=90" : string.Concat(domainUrl, imageUrl) + "?width=6&height=4&mode=crop&blur=90";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl  + imageUrl + "?width=1280" : string.Concat(domainUrl, imageUrl) + "?width=1280";
     ViewBag.PageImage = newsImage;
     string NewsLabel = Model.NewsLabels ?? "agency-wire";
     string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();
@@ -35,7 +35,7 @@
     ViewBag.pageKeywords = keywords;
 
     // string modifiedDescription = @newsTitle + " " + GetFirstParagraph(GetCleanDescription(@Model.Description).ToHtmlString());
-    string modifiedDescription = @newsTitle + " " + GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
+    string modifiedDescription = @newsTitle + " " + @GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
 
     var schemaDescription = !string.IsNullOrEmpty(Model.SubTitle) ? Model.SubTitle : @Truncate(modifiedDescription, 159).ToString();
     ViewBag.PageDescription = "Read more about " + @ViewBag.Title.Trim() + " on Devdiscourse.";
@@ -278,7 +278,7 @@ new AmpIFrameSanitizer()
          "coverageStartTime":"@Model.CreatedOn",
          "headline":"@Truncate(Model.Title, 100)",
         @*  "description":"@GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString()).ToString()", *@
-         "description":"@GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString())",
+         "description":"@{ await GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());}",
          "image":{
          "@@context": "http://schema.org",
          "@@type": "ImageObject",
@@ -336,7 +336,7 @@ new AmpIFrameSanitizer()
                   },
                  "mainEntityOfPage":"@domainUrl@pageUrl",
              "dateModified":"@item.ModifiedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
-              "articleBody":"@GetDescriptionText(item.Description)"
+              "articleBody":"@{ await GetDescriptionText(item.Description);}"
           }</text>
             if (postCount < ViewBag.BlogUpdatesCount)
             {
@@ -379,7 +379,7 @@ else
         "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png"
         }
         },
-        "description": "@GetFirstParagraph(@Model.Description)"
+        "description": "@{ await GetFirstParagraph(@Model.Description);}",
         }
     </script>
 }
@@ -519,8 +519,7 @@ else
         <h2 class="sub-title">@Model.SubTitle</h2>
     }<ul class="sector">
         @{
-            // Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "NewsSector" });
-            await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "NewsSector" });
+            @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "NewsSector" });
         }
     </ul> @{
         string country = ""; if (!string.IsNullOrEmpty(@Model.Country)) { country = "| " + Model.Country.Replace(",", ", "); }
@@ -616,7 +615,7 @@ else
             {
                 foreach (var item in Model.UserNewsFiles.Take(1))
                 {
-                    <script type="application/ld+json">{"@@context": "https://schema.org/", "@@type": "VideoObject", "name": "@newsTitle", "@@id": "@domainUrl@pageUrl", "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "description" : "@GetDescriptionText(@Model.Description)", "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "contentUrl": "@item.FilePath", "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}</script> <amp-video id="my-video" class="video-js center-block" controls width="640" height="360" layout="responsive" poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <div fallback> <p>This browser does not support the video element.</p></div></amp-video>
+                    <script type="application/ld+json">{"@@context": "https://schema.org/", "@@type": "VideoObject", "name": "@newsTitle", "@@id": "@domainUrl@pageUrl", "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "description" : @{ await  GetDescriptionText(@Model.Description);}, "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "contentUrl": "@item.FilePath", "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}</script> <amp-video id="my-video" class="video-js center-block" controls width="640" height="360" layout="responsive" poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <div fallback> <p>This browser does not support the video element.</p></div></amp-video>
                 }
 
             }
@@ -641,7 +640,6 @@ else
         <amp-live-list layout="container" data-poll-interval="15000" data-max-items-per-page="10" id="amp-live-list-insert-blog">
             <button update on="tap:amp-live-list-insert-blog.update" class="ampstart-btn ml1 caps"> You have updates </button> <div items>
                 @{
-                    @*  Html.RenderAction("GetLiveBlogsamp", "LiveBlogs", new { id = Model.NewsId }); *@
                     await Component.InvokeAsync("LiveBlogsamp", new { id = Model.NewsId });
                 }
             </div>
@@ -673,14 +671,15 @@ else
     </div>
 </div>
 <div class="news-box p-t-20">
+
     <div class="also-container">
         <h3 class="ar-title">READ MORE</h3>
         <amp-list src="/api/SearchApi/AmpRelatedNews/@Model.NewsId/@ViewBag.region/@Model.Sector" width="auto" height="280" class="blogList">
             <template type="amp-mustache">
                 <div class="also-title">
 
-                    <a href="@domainUrl{{Url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
-                        {{Title}}
+                    <a href="@domainUrl{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
+                        {{title}}
                     </a>
 
                 </div>
@@ -692,24 +691,24 @@ else
     <amp-list src="/api/SearchApi/GetPreviousSectorAmpNews/@Model.NewsId/@Model.Sector/@ViewBag.region" width="auto" height="1500" class="">
         <template type="amp-mustache">
             <div>
-                <div class="article-divider clearfix" data-articleurl="{{Slug}}?amp" data-articletitle="{{Title}}">
+                <div class="article-divider clearfix" data-articleurl="{{slug}}?amp" data-articletitle="{{title}}">
                     <span>Next Article</span>
                 </div>
-                <h2 class="title">{{Title}}</h2>{{#Subtitle}}
-                <h3 class="sub-title">{{Subtitle}}</h3>
-                {{/Subtitle}}{{#Sector}}<ul class="sector">
+                <h2 class="title">{{title}}</h2>{{#subtitle}}
+                <h3 class="sub-title">{{subtitle}}</h3>
+                {{/subtitle}}{{#sector}}<ul class="sector">
                     <li>
-                        <a href="/news/{{SectorSlug}}" target="_top">
-                            <span class="text-capitalize">{{Sector}}</span>
+                        <a href="/news/{{sectorSlug}}" target="_top">
+                            <span class="text-capitalize">{{sector}}</span>
                         </a>
                     </li>
-                </ul>{{/Sector}}
+                </ul>{{/sector}}
                 <p class="source">
-                    {{#Source}}<a class="no-text-decoration" href="{{SourceUrl}}">{{Source}}</a>{{/Source}}{{#IsBlog}}
+                    {{#source}}<a class="no-text-decoration" href="{{SourceUrl}}">{{source}}</a>{{/source}}{{#isBlog}}
                     <a class="no-text-decoration" href="/Home/AuthorArticles?fl={{Themes}}">
-                        <amp-img class="img-avt" layout="fixed" width="30" height="30" src="{{Avatar}}?width=30&height=30&mode=crop" alt="{{Themes}}"> <amp-img alt="{{Themes}}" fallback width="30" height="30" src="/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop"></amp-img> </amp-img>{{Themes}}
-                    </a>{{/IsBlog}}{{#SourceUrl}}<span> |{{SourceUrl}}</span>{{/SourceUrl}}{{#Country}}<span> |{{Country}}</span>{{/Country}}
-                </p><div class="meta"> Updated:{{ModifiedOnString}}IST | Created:{{PublishedOnString}}IST </div><div class="cont-container"> <amp-img class="full-bottom" src="{{ImageUrl}}?width=1280" alt="{{Title}}" layout="responsive" width="1280" height="720"></amp-img> <p class="img-caption"> <small>{{ImageCopyright}}</small> </p></div><div class="description">{{{Description}}}{{#Disclaimer}}<p>{{Disclaimer}}</p>{{/Disclaimer}}</div>{{#Tags}}<div class="m-b-10"> <h3 class="page-title">READ MORE ON</h3>{{{TagArray}}}</div>{{/Tags}}<amp-analytics type="googleanalytics" id="google_analytics"> <script type="application/json">{"vars":{"account": "UA-123167123-1"}, "triggers":{"track pageview":{"on": "visible", "request": "pageview", "vars":{"title": "{{Title}}", "ampdocurl": "@domainUrl/article/{{Label}}/{{Slug}}?amp"}}}}</script> </amp-analytics> @*<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="ca-pub-5016155138623826" data-ad-slot='TagC_300x250'> </amp-ad> </div>*@
+                        <amp-img class="img-avt" layout="fixed" width="30" height="30" src="{{Avatar}}?width=30&height=30&mode=crop" alt="{{themes}}"> <amp-img alt="{{themes}}" fallback width="30" height="30" src="/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop"></amp-img> </amp-img>{{themes}}
+                    </a>{{/isBlog}}{{#sourceUrl}}<span> |{{sourceUrl}}</span>{{/sourceUrl}}{{#country}}<span> |{{country}}</span>{{/country}}
+                </p><div class="meta"> Updated:{{modifiedOnString}}IST | Created:{{publishedOnString}}IST </div><div class="cont-container"> <amp-img class="full-bottom" src="{{imageUrl}}?width=1280" alt="{{title}}" layout="responsive" width="1280" height="720"></amp-img> <p class="img-caption"> <small>{{imageCopyright}}</small> </p></div><div class="description">{{{description}}}{{#disclaimer}}<p>{{disclaimer}}</p>{{/disclaimer}}</div>{{#tags}}<div class="m-b-10"> <h3 class="page-title">READ MORE ON</h3>{{{tagArray}}}</div>{{/tags}}<amp-analytics type="googleanalytics" id="google_analytics"> <script type="application/json">{"vars":{"account": "UA-123167123-1"}, "triggers":{"track pageview":{"on": "visible", "request": "pageview", "vars":{"title": "{{title}}", "ampdocurl": "@domainUrl/article/{{label}}/{{slug}}?amp"}}}}</script> </amp-analytics> @*<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="ca-pub-5016155138623826" data-ad-slot='TagC_300x250'> </amp-ad> </div>*@
             </div>
         </template>
     </amp-list>
@@ -718,21 +717,21 @@ else
     <h3 class="page-title">OPINION / BLOG</h3>
     <amp-list src="/api/SearchApi/GetAmpOpinion/@ViewBag.region" width="auto" height="500" class="blogList">
         <template type="amp-mustache">
-            <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+            <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration">
                 <div class="single-news-post">
                     <div class="post-image">
-                        {{#AuthorImage}}
-                        <amp-img src="https://www.devdiscourse.com{{AuthorImage}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45">
+                        {{#authorImage}}
+                        <amp-img src="https://www.devdiscourse.com{{authorImage}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45">
                         </amp-img>
-                        {{/AuthorImage}}{{^AuthorImage}}
-                        <amp-img src="https://www.devdiscourse.com{{ImageUrl}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45">
+                        {{/authorImage}}{{^authorImage}}
+                        <amp-img src="https://www.devdiscourse.com{{imageUrl}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45">
                         </amp-img>
-                        {{/AuthorImage}}
+                        {{/authorImage}}
                     </div>
                     <div class="post-content">
                         <div class="gray-bg">
-                            <span class="author font-oswald">{{Author}}</span>
-                            <h4 class="title">{{Title}}</h4>
+                            <span class="author font-oswald">{{author}}</span>
+                            <h4 class="title">{{title}}</h4>
 
                         </div>
                     </div>
@@ -743,50 +742,52 @@ else
 </div>
 <div class="news-box">
     @{
-        @*   Html.RenderAction("GetAmpInterview", "Search"); *@
-        await Component.InvokeAsync("AmpInterview");
+      await Component.InvokeAsync("AmpInterview");
 
-    }<h3 class="page-title">LATEST NEWS</h3>
+    }
+    <h3 class="page-title">LATEST NEWS</h3>
 </div>
 <div class="cont-container">
-    <amp-list src="/api/SearchApi/LatestNews" width="auto" height="540" class="blogList">
+    <amp-list src="/api/SearchApi/GetAmpLatestNewsItems" width="auto" height="540" class="blogList">
         <template type="amp-mustache">
-         @*   // @foreach (var item in Model){ *@
-            <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+        
+            <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration">
 
                 <div class="latest-news-post">
                     <div class="news-box">
-                        {{#Country}}
+                        {{#country}}
                         <span class="country">
-                            {{Country}}
+                            {{country}}
 
                         </span>
-                        {{/Country}}{{^Country}}
+                        {{/country}}{{^country}}
                         <span class="country">
                             Global
                         </span>
-                        {{/Country}}
-                        <h4 class="title">{{Title}}</h4>
+                        {{/country}}
+                        <h4 class="title">{{title}}</h4>
                     </div>
                 </div>
             </a>
-         @*   // } *@
+
         </template>
     </amp-list>
 </div>
 <div class="news-box">
     @*<h4 class="page-title">TRENDING</h4>
-    <amp-list src="/api/Search/GetampTrends/@ViewBag.region" width="auto" height="485" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration" target="_blank"> <div class="square-card">
+    <amp-list src="/api/SearchApi/GetampTrends/@ViewBag.region" width="auto" height="485" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration" target="_blank"> <div class="square-card">
     <amp-img src="{{ImageUrl}}?width=168&height=134&mode=crop" layout="responsive" width="168" alt="{{Title}}" height="134" class="image-rad"></amp-img> <div class="title-cont">
     <h4 class="font-title">{{Title}}</h4> </div></div></a>
     </template> </amp-list>*@
+
+
     <h4 class="page-title">VIDEOS</h4>
     <amp-list src="/api/SearchApi/GetAmpVideoNews/@ViewBag.region" width="auto" height="320" class="blogList">
         <template type="amp-mustache">
-            <a href="@domainUrl{{Url}}?amp" title="{{title}}" class="no-text-decoration">
+            <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration">
                 <div class="video-post">
                     {{^defaultImage}}<div class="image">
-                        <amp-img src="@domainUrl{{ImageUrl}}?width=320&height=180&mode=crop" layout="responsive" width="640" alt="{{Title}}" height="360"></amp-img>
+                        <amp-img src="@domainUrl{{imageUrl}}?width=320&height=180&mode=crop" layout="responsive" width="640" alt="{{title}}" height="360"></amp-img>
                         <div class="overlay">
                             <div class="play-icon">
                                 ►
@@ -794,12 +795,15 @@ else
                             </div>
                         </div>
                     </div>{{/defaultImage}}<div class="single-news-post">
-                        <h4 class="title p-t-5">{{Title}}</h4>
+                        <h4 class="title p-t-5">{{title}}</h4>
                     </div>
                 </div>
             </a>
         </template>
     </amp-list>
+
+
+
     <div class="divider">
         <a href="/news/videos" class="more-btn">View All</a>
     </div>@*<div class="ad"> <a href="http://visionri.com" target="_blank"><amp-img src="/AdminFiles/Ads/Banner/digital_development_mobile.jpg" width="320" height="50" layout="responsive"></amp-img></a> </div>*@

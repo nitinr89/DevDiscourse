@@ -123,7 +123,7 @@ namespace Devdiscourse.Models
         public string Editions { get; set; }
         public string Sectors { get; set; }
         [Display(Name = "Upload CV")]
-        public string CVUrl { get; set; }
+        public string? CVUrl { get; set; }
     }
 
     public class RegistrationViewModel

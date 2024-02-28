@@ -28,7 +28,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                               Label = a.NewsLabels,
                               Country = a.Country
                           }).AsNoTracking().Take(10);
-            return View( result);
+            return View(result);
         }
     }
 }

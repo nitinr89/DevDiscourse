@@ -885,16 +885,18 @@ foreach (var item in Model.UserNewsFiles.Take(1))
 
 @if (!string.IsNullOrEmpty(Model.Tags) && !isCrawler)
 {
-    <section>
-    <ul class="list-inline"> 
-    <li class="f-18">READ MORE ON:</li> 
-    @{ 
-        var tag = (Model.Tags ?? "").Split(',').Where(s => !string.IsNullOrEmpty(s.Trim())).Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
+                    <section>
+                        <ul class="list-inline"> 
+                            <li class="f-18">READ MORE ON:</li> 
+                            @{
+                              
+                                var tag = (Model.Tags ?? "").Split(',').Where(s => !string.IsNullOrEmpty(s.Trim())).Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
         foreach (var t in tag.Take(20))
         {
+             string encodeUrl = System.Net.WebUtility.UrlEncode(t.Trim());
             if (!string.IsNullOrEmpty(t.Trim()))
             {
-                <li> <a href="/news?tag=@encodedTitle" class="tag">@t.Trim()</a>
+                <li> <a href="/news?tag=@encodeUrl" class="tag">@t.Trim()</a>
             </li>
             }
     } 

@@ -17,8 +17,8 @@ namespace Devdiscourse.Controllers.ViewComponents
             await Task.Yield();
             DateTime todayDate = DateTime.Today.AddDays(-10);
             var result = (from a in _db.DevNews
-                         // where a.AdminCheck == true && a.SubType == "Interview" && a.CreatedOn > todayDate
-                          //orderby a.PublishedOn descending
+                          where a.AdminCheck == true && a.SubType == "Interview" && a.CreatedOn > todayDate
+                          orderby a.PublishedOn descending
                           select new LatestNewsView
                           {
                               Title = a.Title,

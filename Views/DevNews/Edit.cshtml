@@ -618,6 +618,24 @@
             var tagString = `@(Html.Raw(@newsTag))`;
             var FinalTag = $('<div>').html(tagString.trim()).text().split(',');
             var lastTwoTag = FinalTag.slice().reverse().splice(0, 2).reverse();
+
+            var signalConnectionId;
+
+            $(function () {
+                var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+                connection.on("SendFileProgress", function (fileProgress) {
+                    console.log(fileProgress);
+                });
+
+                connection.start().then(function () {
+                    console.log("Connection Start", connection.connectionId);
+                    signalConnectionId = connection.connectionId;
+                }).catch(function (err) {
+                    return console.error(err.toString());
+                });
+            });
+
             $("#title_character").html('Character  Count: ' + $("#Title").val().length);
             $("#headlineTextarea").on('input', function () {
                 $('#Title').val($(this).val());
@@ -1081,6 +1099,7 @@
                         for (var i = 0; i < files.length; i++) {
                             fileData.append(files[i].name, files[i]);
                         }
+                        fileData.append("signalConnectionId", signalConnectionId);
                         $.ajax({
                             url: '/api/MediaStream/UploadMedia',
                             type: "POST",

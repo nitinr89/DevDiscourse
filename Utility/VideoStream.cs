@@ -77,7 +77,8 @@ namespace Devdiscourse.Utility
             //        PublicAccess = BlobContainerPublicAccessType.Blob
             //    });
             //}
-            bool created = Convert.ToBoolean(container.CreateIfNotExistsAsync());
+            // bool created = Convert.ToBoolean(container.CreateIfNotExistsAsync());
+            bool created = container.CreateIfNotExistsAsync().GetAwaiter().GetResult();
             if (created)
             {
                 container.SetPermissionsAsync(new BlobContainerPermissions

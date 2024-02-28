@@ -564,7 +564,7 @@
     </div>
 </div>
 <video id="vid" style="display:none" controls></video>
-@section scripts{
+@section scripts {
     <script src="~/Scripts/jquery.multiselect.js"></script>
     <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
@@ -592,6 +592,24 @@
             var _skipCount = 0;
             var _fromOldGallery = false;
             var forAuthor = "default";
+
+            var signalConnectionId;
+
+            $(function () {
+                var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+                connection.on("SendFileProgress", function (fileProgress) {
+                    console.log(fileProgress);
+                });
+
+                connection.start().then(function () {
+                    console.log("Connection Start", connection.connectionId);
+                    signalConnectionId = connection.connectionId;
+                }).catch(function (err) {
+                    return console.error(err.toString());
+                });
+            });
+
             $('#Type').val(_type);
             $('#NewsLabels').val(_selLabels);
             $('#SubType').val(_subtype);
@@ -1115,6 +1133,7 @@
                         for (var i = 0; i < files.length; i++) {
                             fileData.append(files[i].name, files[i]);
                         }
+                        fileData.append("signalConnectionId", signalConnectionId);
                         $.ajax({
                             url: '/api/MediaStream/UploadMedia',
                             type: "POST",

@@ -130,7 +130,7 @@ namespace DevDiscourse.Controllers.Main
                 DateTime filterDate2 = DateTime.Parse(afd.ToString());
                 devNews = devNews.Where(a => a.CreatedOn > filterDate2);
             }
-            if (!String.IsNullOrEmpty(uid))
+            if (!String.IsNullOrEmpty(uid) && uid != "null")
             {
                 devNews = devNews.Where(a => a.Creator == uid);
             }
@@ -223,7 +223,7 @@ namespace DevDiscourse.Controllers.Main
                 DateTime filterDate2 = DateTime.Parse(afd.ToString());
                 devNews = devNews.Where(a => a.CreatedOn > filterDate2);
             }
-            if (!String.IsNullOrEmpty(uid))
+            if (!String.IsNullOrEmpty(uid) && uid != "null")
             {
                 devNews = devNews.Where(a => a.Creator == uid);
             }
@@ -688,7 +688,7 @@ namespace DevDiscourse.Controllers.Main
                 _db.DevNews.Update(devNews);
                 _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
                 _db.SaveChanges();
-              await  context.Clients.All.SendAsync("NewsOpenNotification",devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+                await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
             }
             else
             {
@@ -702,7 +702,7 @@ namespace DevDiscourse.Controllers.Main
                 };
                 _db.UserWorks.Add(obj);
                 _db.SaveChanges();
-              await  context.Clients.All.SendAsync("NewsOpenNotification",devNews.NewsId, user.FirstName + " " + user.LastName + " - " + "Editing", "bg-red");
+                await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, user.FirstName + " " + user.LastName + " - " + "Editing", "bg-red");
             }
             return View(devNews);
         }
@@ -1004,7 +1004,7 @@ namespace DevDiscourse.Controllers.Main
                 _db.DevNews.Update(devNews);
                 _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
                 _db.SaveChanges();
-              await  context.Clients.All.SendAsync("NewsOpenNotification",devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+                await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
             }
             return View(devNews);
         }
@@ -1719,7 +1719,7 @@ namespace DevDiscourse.Controllers.Main
                 message = "Success"
             };
             return Json(data);
-        }    
+        }
         public JsonResult DataSearch(string sector)
         {
             var sectorList = sector.Split(',').ToList();
@@ -2099,7 +2099,7 @@ namespace DevDiscourse.Controllers.Main
             _db.SaveChanges();
 
             //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-           await context.Clients.All.SendAsync("NewsAssignNotification","New news assign to you", user);
+            await context.Clients.All.SendAsync("NewsAssignNotification", "New news assign to you", user);
 
             return Json("Success");
         }
@@ -2170,12 +2170,12 @@ namespace DevDiscourse.Controllers.Main
                 DateTime filterDate2 = DateTime.Parse(afd.ToString());
                 devNews = devNews.Where(a => a.CreatedOn > filterDate2);
             }
-            if (!String.IsNullOrEmpty(uid))
+            if (!String.IsNullOrEmpty(uid) && uid != "null")
             {
                 devNews = devNews.Where(a => a.Creator == uid);
             }
             return View(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
-        }    
+        }
         static string GetMimeType(string fileName)
         {
             string mimeType;

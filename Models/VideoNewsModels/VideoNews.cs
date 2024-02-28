@@ -11,7 +11,7 @@ namespace Devdiscourse.Models.VideoNewsModels
         public long Id { get; set; }
 
         [Required]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [Display(Name = "Alternate Headline")]
         public string? AlternateHeadline { get; set; }
         //[AllowHtml]
@@ -69,6 +69,9 @@ namespace Devdiscourse.Models.VideoNewsModels
         }
         public VideoNews()
         {
+            VideoNewsTags =   new List<VideoNewsTag>();
+            VideoNewsRegions = new List<VideoNewsRegion>();
+            VideoNewsSectors = new List<VideoNewsSector>();
             if (CreatedOn == new DateTime())
             {
                 CreatedOn = DateTime.UtcNow;

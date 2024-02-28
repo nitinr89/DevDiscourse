@@ -713,20 +713,23 @@
                         } *@
                     </ul>
                 </section>
-                @*   @if (!string.IsNullOrEmpty(Model.Tags) && !Request.Browser.Crawler)
+                @if (!string.IsNullOrEmpty(Model.Tags))
                 {
-                <section>
-                <ul class="list-inline">
-                <li class="f-18">READ MORE ON: </li>
-                @{var tag = (Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
-                {
-                if (!string.IsNullOrEmpty(t.Trim()))
-                {
-                <li> <a href="/news?tag=@t.Trim()" class="tag">@t.Trim()</a> </li>
+                    <section>
+                        <ul class="list-inline">
+                            <li class="f-18">READ MORE ON: </li>
+                            @{
+                                var tag = (Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
+                                {
+                                    if (!string.IsNullOrEmpty(t.Trim()))
+                                    {
+                                        <li> <a href="/news?tag=@t.Trim()" class="tag">@t.Trim()</a> </li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </section>
                 }
-                }}
-                </ul>
-                </section>} *@
                 @if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Source))
                 {
                     <section class="m-t-30">
@@ -739,7 +742,8 @@
                 @if (!string.IsNullOrEmpty(Model.Tags))
                 {
                     @* Html.RenderAction("GetTagNews", "Agencywire", new { id = Model.NewsId, tag = Model.Tags });  *@
-                    @await Component.InvokeAsync("TagNews", new { id = Model.NewsId, tag = Model.Tags });
+                    @await Component.InvokeAsync("TagNews", new { id = Model.NewsId, tag = Model.Tags })
+                    ;
                 }
                 @if (!string.IsNullOrEmpty(Model.Country))
                 {

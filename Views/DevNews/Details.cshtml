@@ -8,7 +8,8 @@
     ViewBag.webEdition = ViewBag.region;
     ViewBag.HasAmpPage = true;
     string imageUrl = @Model.ImageUrl ?? "";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=920" : string.Concat(domainUrl, imageUrl) + "?width=920";
+    // var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=920" : string.Concat(domainUrl, imageUrl) + "?width=920";
+    var newsImage = imageUrl + "?width=920";
     ViewBag.PageImage = newsImage;
     string NewsLabel = Model.NewsLabels ?? "agency-wire";
     string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();
@@ -630,7 +631,7 @@
                     if (Model.UserNewsFiles?.Count == 0)
                     {
                         <figure class="figure">
-                            <img src="@newsImage&format=jpeg" class="img-responsive" alt="@Model.Title" />
+                            <img src="@Model.ImageUrl" class="img-responsive" alt="@Model.Title" />
                             <figcaption class="fig-caption">@Model.ImageCaption @Model.ImageCopyright</figcaption>
                         </figure>
                     }
@@ -738,6 +739,7 @@
                 @if (!string.IsNullOrEmpty(Model.Tags))
                 {
                     @* Html.RenderAction("GetTagNews", "Agencywire", new { id = Model.NewsId, tag = Model.Tags });  *@
+                    @await Component.InvokeAsync("TagNews", new { id = Model.NewsId, tag = Model.Tags });
                 }
                 @if (!string.IsNullOrEmpty(Model.Country))
                 {

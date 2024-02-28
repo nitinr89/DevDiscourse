@@ -160,8 +160,8 @@ namespace Devdiscourse.Controllers.API
             return result;
         }
         [HttpGet]
-        [Route("LatestNews/{__amp_source_origin?}")]
-        public IActionResult GetAmpLatestNewsItems(string __amp_source_origin)
+        [Route("GetAmpLatestNewsItems")]
+        public IActionResult GetAmpLatestNewsItems()
         {
             DateTime threeDays = DateTime.Today.AddDays(-2);
             var resultData = (db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > threeDays).OrderByDescending(m => m.CreatedOn)
@@ -190,6 +190,7 @@ namespace Devdiscourse.Controllers.API
         [HttpGet]
         public IActionResult GetPreviousSectorAmpNews(long id, string sector, string reg = "Global Edition", int skip = 0)
         {
+            
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
             DateTime tenDays = search.CreatedOn.AddDays(-2);
             List<ApiNewsView> resultNewsList = new List<ApiNewsView>();
@@ -213,7 +214,7 @@ namespace Devdiscourse.Controllers.API
 
                 if (!string.IsNullOrEmpty(news.Themes))
                 {
-                    authorImage = news.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + news.Themes : news.Themes;
+                    authorImage = news.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? news.Themes : news.Themes;
                     authorName = news.Author?.Trim();
 
                 }
@@ -234,7 +235,7 @@ namespace Devdiscourse.Controllers.API
                     Subtitle = news.SubTitle,
                     Sector = newsSector.Title,
                     SectorSlug = newsSector.Slug,
-                    ImageUrl = (news.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + news.ImageUrl : news.ImageUrl,
+                    ImageUrl = (news.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? news.ImageUrl : news.ImageUrl,
                     Country = news.Country,
                     Type = news.Type,
                     SubType = news.SubType,
@@ -346,8 +347,8 @@ namespace Devdiscourse.Controllers.API
             return ampHtml;
         }
         [HttpGet]
-        [Route("api/SearchApi/AmpRelatedNews/{id}/{reg}/{sector}/{__amp_source_origin?}")]
-        public IActionResult AmpRelatedNews(long id, string reg, string sector, string __amp_source_origin)
+        [Route("AmpRelatedNews/{id}/{reg}/{sector}")]
+        public IActionResult AmpRelatedNews(long id, string reg, string sector)
         {
             DateTime threeDays = DateTime.Today.AddDays(-3);
             var secFirst = sector.Split(',')[0];
@@ -456,8 +457,8 @@ namespace Devdiscourse.Controllers.API
             return (IActionResult)Ok(new { items = returnData, hasMorePages = resultList.Any() });
         }
         [HttpGet]
-        [Route("GetAmpVideoNews/{reg}/{__amp_source_origin?}")]
-        public IActionResult GetAmpVideoNews(string reg, string __amp_source_origin)
+        [Route("GetAmpVideoNews/{reg}")]
+        public IActionResult GetAmpVideoNews(string reg)
         {
             if (reg == "Global Edition")
             {

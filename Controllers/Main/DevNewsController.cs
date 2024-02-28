@@ -1711,8 +1711,13 @@ namespace DevDiscourse.Controllers.Main
         public JsonResult UpdateIndexed(Guid id)
         {
             var search = _db.DevNews.Find(id);
+            if (search == null)
+            {
+                return Json(new { message = "Not Found" });
+            }
             search.IsIndexed = true;
             _db.DevNews.Update(search);
+            _db.Entry(search).Property(x => x.NewsId).IsModified = false;
             _db.SaveChanges();
             var data = new
             {

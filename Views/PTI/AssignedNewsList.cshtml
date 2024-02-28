@@ -104,7 +104,7 @@
             <tr>
                 <th>
                     Edition
-                </th>              
+                </th>
                 <th>
                     Sector
                 </th>
@@ -134,7 +134,7 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Region)
-                    </td>                    
+                    </td>
                     <td>
                         @* @{ Html.RenderAction("GetSector", "Home", new { sector = item.Sector, filter = "Plane" });} *@
                         @await Component.InvokeAsync("Sector", new { sector = item.Sector, filter = "Plane" });
@@ -145,7 +145,8 @@
                     <td>
                         @if (!String.IsNullOrEmpty(item.ImageUrl))
                         {
-                            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                            @* var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; *@
+                            var newsImage = item.ImageUrl;
                             <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
                         }
                         else
@@ -188,7 +189,7 @@
 
     <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
         <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
-        @Html.PagedListPager(Model, page => Url.Action("AssignedNewsList", "PTI", new { page, userId = ViewBag.userId, region = ViewBag.region, sector = ViewBag.sector,source = ViewBag.source, country = ViewBag.country, text = ViewBag.text }))
+        @Html.PagedListPager(Model, page => Url.Action("AssignedNewsList", "PTI", new { page, userId = ViewBag.userId, region = ViewBag.region, sector = ViewBag.sector, source = ViewBag.source, country = ViewBag.country, text = ViewBag.text }))
     </div>
 </div>
 <div id="InfocusModal" class="modal fade" role="dialog">
@@ -211,7 +212,7 @@
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
             var _selUserId = '@(ViewBag.userId)';
@@ -227,12 +228,12 @@
                 url: "/api/GetuserbyRole/Upfront"
             }).done(function (data) {
                 var userHtml = '<option value="">--Select User--</option>';
-                $.each(data,function (i,item) {
-                    userHtml += `<option value="${item.UserId}">${item.FirstName} ${item.LastName}</option>`;
+                $.each(data, function (i, item) {
+                    userHtml += `<option value="${item.userId}">${item.firstName} ${item.lastName}</option>`;
                 });
                 $('#seluser').html(userHtml);
                 $('#seluser').val(_selUserId);
-                
+
             });
             $('.lazy').lazy();
             $('#seluser').val(_selUserId);
@@ -308,7 +309,7 @@
                     success: function (data) {
                         $('#selCountry').html("").append('<option value="">Select</option>');
                         $.each(data, function (i, item) {
-                            $('#selCountry').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                            $('#selCountry').append('<option value="' + item.title + '">' + item.title + '</option>');
                         });
                         $('#selCountry').val(_country);
                     },

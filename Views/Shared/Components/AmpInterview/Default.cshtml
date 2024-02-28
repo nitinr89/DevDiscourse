@@ -12,7 +12,7 @@
         {
             <div>
                 @{
-                    var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                    var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
                 }
                 <a target="_top" class="no-text-decoration" title="@item.Title" href="@Url.RouteUrl("ArticleDetailswithprefix", new { prefix = item.Label ?? "agency-wire", id = item.GenerateSecondSlug() })?amp" role="listitem">
                     <div class="square-cardss">

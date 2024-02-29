@@ -17,7 +17,7 @@ namespace Devdiscourse.Helper
             var path = context.Request.Path.Value;
 
             // Assuming the article pages follow the pattern "/article/..."
-            if (path != null && (path.StartsWith("/article/") || path.StartsWith("/news/") || path.StartsWith("/ContentCreator/ContentDetails/")))
+            if (path != null && (path.StartsWith("/article/") || path.StartsWith("/news/") || path.StartsWith("/live-discourse") || path.StartsWith("/ContentCreator/ContentDetails/")))
             {
                 var routeData = context.GetRouteData();
 

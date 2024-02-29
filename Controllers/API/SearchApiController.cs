@@ -160,8 +160,8 @@ namespace Devdiscourse.Controllers.API
             return result;
         }
         [HttpGet]
-        [Route("GetAmpLatestNewsItems")]
-        public IActionResult GetAmpLatestNewsItems()
+        [Route("GetAmpLatestNewsItems/{__amp_source_origin?}")]
+        public IActionResult GetAmpLatestNewsItems(string __amp_source_origin = "")
         {
             DateTime threeDays = DateTime.Today.AddDays(-2);
             var resultData = (db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > threeDays).OrderByDescending(m => m.CreatedOn)
@@ -186,9 +186,9 @@ namespace Devdiscourse.Controllers.API
             return Ok(new { items = returnData, hasMorePages = resultData.Any() });
         }
 
-        [Route("GetPreviousSectorAmpNews/{id}/{sector}/{reg}")]
+        [Route("GetPreviousSectorAmpNews/{id}/{sector}/{reg}/{__amp_source_origin?}")]
         [HttpGet]
-        public IActionResult GetPreviousSectorAmpNews(long id, string sector, string reg = "Global Edition", int skip = 0)
+        public IActionResult GetPreviousSectorAmpNews(long id, string sector, string reg = "Global Edition", string  __amp_source_origin="")
         {
             
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
@@ -347,8 +347,8 @@ namespace Devdiscourse.Controllers.API
             return ampHtml;
         }
         [HttpGet]
-        [Route("AmpRelatedNews/{id}/{reg}/{sector}")]
-        public IActionResult AmpRelatedNews(long id, string reg, string sector)
+        [Route("AmpRelatedNews/{id}/{reg}/{sector}/{__amp_source_origin?}")]
+        public IActionResult AmpRelatedNews(long id, string reg, string sector, string __amp_source_origin ="")
         {
             DateTime threeDays = DateTime.Today.AddDays(-3);
             var secFirst = sector.Split(',')[0];
@@ -457,8 +457,8 @@ namespace Devdiscourse.Controllers.API
             return (IActionResult)Ok(new { items = returnData, hasMorePages = resultList.Any() });
         }
         [HttpGet]
-        [Route("GetAmpVideoNews/{reg}")]
-        public IActionResult GetAmpVideoNews(string reg)
+        [Route("GetAmpVideoNews/{reg}/{__amp_source_origin?}")]
+        public IActionResult GetAmpVideoNews(string reg, string __amp_source_origin="")
         {
             if (reg == "Global Edition")
             {
@@ -847,9 +847,9 @@ namespace Devdiscourse.Controllers.API
             return (IActionResult)Ok(new { items = returnData, hasMorePages = result.Any() });
         }
         [HttpGet]
-        [Route("GetAmpOpinion/{reg}")]
+        [Route("GetAmpOpinion/{reg}/{__amp_source_origin?}")]
         [OutputCache(Duration = 300)]
-        public IActionResult GetAmpOpinion(string reg)
+        public IActionResult GetAmpOpinion(string reg, string __amp_source_origin = "")
         {
             DateTime thirtyDays = DateTime.Today.AddDays(-90);
             reg = reg == "Global Edition" ? "" : reg;

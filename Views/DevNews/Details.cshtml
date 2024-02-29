@@ -631,7 +631,7 @@
 
                 @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
                 {
-                    if (Model.UserNewsFiles?.Count == 0)
+                    if (Model.UserNewsFiles == null || Model.UserNewsFiles.Count == 0)
                     {
                         <figure class="figure">
                             <img src="@Model.ImageUrl" class="img-responsive" alt="@Model.Title" />

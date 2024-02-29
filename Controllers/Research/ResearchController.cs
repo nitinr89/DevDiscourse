@@ -24,6 +24,7 @@ namespace Devdiscourse.Controllers.Research
         }
         public ActionResult Index(int id = 0)
         {
+            string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             ViewBag.sdgGoalId = id;
             string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
@@ -35,7 +36,9 @@ namespace Devdiscourse.Controllers.Research
                 ViewBag.edition = cookie ?? "Global Edition";
             }
             ViewBag.loginId = userManager.GetUserId(User);
-            return View();
+            // return View();
+            if (scheme.EndsWith("?amp")) return View("Index.amp");
+            else return View();
         }
         [Authorize]
         public ActionResult Dashboard()
@@ -214,13 +217,14 @@ namespace Devdiscourse.Controllers.Research
         //    var search = _db.SDGSamurais.OrderByDescending(a => a.SDGPosition).Take(12).ToList();
         //    return PartialView("_getSamuai", search);
         //}
-        public Microsoft.AspNetCore.Mvc.JsonResult GetAmpSDGNews(string __amp_source_origin, int? moreItemsPageIndex)
+        public JsonResult GetAmpSDGNews(string __amp_source_origin, int? moreItemsPageIndex)
         {
             ViewBag.reg = "Global Edition";
             var search = _db.DevNews.Where(a => a.AdminCheck == true && a.Category.Contains("13")).Select(a => new { a.Region, a.IsGlobal, a.Sector, a.ModifiedOn, a.Title, Url = "/article/" + a.NewsId.ToString(), a.ImageUrl });
             if (!string.IsNullOrEmpty(__amp_source_origin))
             {
-                // HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);// do later
+                 //HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);// do later
+                HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", __amp_source_origin);
 
             }
             var result = search.OrderByDescending(m => m.ModifiedOn).Select(b => new { b.Title, b.Url, b.ImageUrl });

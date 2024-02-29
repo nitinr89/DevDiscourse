@@ -16,7 +16,7 @@
     string newsTitle = Model.Title.Trim();
     ViewBag.Title = newsTitle;
     //string domainUrl = "https://www.devdiscourse.com";
-    string domainUrl = Url.Content("~/");
+    string domainUrl = Url.Content("~");
     string pageTitle = newsTitle;
     ViewBag.webEdition = ViewBag.region;
     string imageUrl = @Model.ImageUrl ?? "";
@@ -592,23 +592,45 @@ else
     }<div class="meta"> Updated: @modifiedDate.ToString("dd-MM-yyyy HH:mm") IST | Created: @publishedDate.ToString("dd-MM-yyyy HH:mm") IST </div>
 </div>
 <div class="cont-container">
-    @if (!string.IsNullOrEmpty(@Model.ImageUrl) && @Model.ImageUrl != "/images/defaultImage.jpg" && @Model.ImageUrl != "/images/newstheme.jpg" && @Model.ImageUrl != "/images/sector/all_sectors.jpg")
+    @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
     {
-        var newsImageUrl = @Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + @Model.ImageUrl : @Model.ImageUrl; if (@Model.UserNewsFiles?.Count == 0)
+        var newsImageUrl = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? Model.ImageUrl : Model.ImageUrl;
+        if (Model.UserNewsFiles == null)
         {
-            <amp-img class="full-bottom" src="@domainUrl@newsImageUrl?width=1280" alt="@Model.Title" layout="responsive" width="1280" height="720"></amp-img> <p class="img-caption"> <small>@Model.ImageCopyright</small> </p>
+            <amp-img class="full-bottom" src="@domainUrl@newsImageUrl?width=1280" alt="@Model.Title" layout="responsive" width="1280" height="720"></amp-img>
+
+            <p class="img-caption">
+                <small>
+                    @Model.ImageCopyright
+                </small>
+            </p>
         }
         else
         {
-            if (Model.UserNewsFiles != null)
-            {
-                foreach (var item in Model.UserNewsFiles.Take(1))
-                {
-                    <script type="application/ld+json">{"@@context": "https://schema.org/", "@@type": "VideoObject", "name": "@newsTitle", "@@id": "@domainUrl@pageUrl", "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "description" : @{ await  GetDescriptionText(@Model.Description);}, "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "contentUrl": "@item.FilePath", "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}</script> <amp-video id="my-video" class="video-js center-block" controls width="640" height="360" layout="responsive" poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <div fallback> <p>This browser does not support the video element.</p></div></amp-video>
-                }
+            foreach (var item in Model.UserNewsFiles.Take(1))
+             {
+                    <script type="application/ld+json">
+                        {
+                        "@@context": "https://schema.org/", 
+                        "@@type": "VideoObject", 
+                        "name": "@newsTitle", 
+                        "@@id": "@domainUrl@pageUrl", 
+                        "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
+                        "description" : @{ await  GetDescriptionText(@Model.Description);},
+                        "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", 
+                        "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", 
+                        "contentUrl": "@item.FilePath", 
+                        "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", 
+                        "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}
 
-            }
-        }
+                    </script>
+                <amp-video id="my-video" class="video-js center-block" controls width="640" height="360" layout="responsive" poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg">
+                    <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" />
+                    <div fallback> <p>This browser does not support the video element.</p></div>
+                </amp-video>
+              }
+
+         }  
     }
 </div>
 <div class="news-box">
@@ -766,8 +788,9 @@ else
     </amp-list>
 </div>
 <div class="news-box">
+
     @*<h4 class="page-title">TRENDING</h4>
-    <amp-list src="/api/SearchApi/GetampTrends/@ViewBag.region" width="auto" height="485" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration" target="_blank"> <div class="square-card">
+    <amp-list src="@domainUrl/api/SearchApi/GetampTrends/@ViewBag.region" width="auto" height="485" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration" target="_blank"> <div class="square-card">
     <amp-img src="{{ImageUrl}}?width=168&height=134&mode=crop" layout="responsive" width="168" alt="{{Title}}" height="134" class="image-rad"></amp-img> <div class="title-cont">
     <h4 class="font-title">{{Title}}</h4> </div></div></a>
     </template> </amp-list>*@

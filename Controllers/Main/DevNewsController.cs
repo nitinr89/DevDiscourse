@@ -1711,8 +1711,13 @@ namespace DevDiscourse.Controllers.Main
         public JsonResult UpdateIndexed(Guid id)
         {
             var search = _db.DevNews.Find(id);
+            if (search == null)
+            {
+                return Json(new { message = "Not Found" });
+            }
             search.IsIndexed = true;
             _db.DevNews.Update(search);
+            _db.Entry(search).Property(x => x.NewsId).IsModified = false;
             _db.SaveChanges();
             var data = new
             {
@@ -2098,8 +2103,10 @@ namespace DevDiscourse.Controllers.Main
             _db.Entry(search).Property("IsIndexed").IsModified = true;
             _db.SaveChanges();
 
+            var userName = await userManager.FindByIdAsync(user);
+
             //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("NewsAssignNotification", "New news assign to you", user);
+            await context.Clients.All.SendAsync("NewsAssignNotification", "New news assign to ", userName?.FirstName + " " + userName?.LastName);
 
             return Json("Success");
         }

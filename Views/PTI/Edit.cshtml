@@ -22,230 +22,231 @@
     @using (Html.BeginForm("Edit", "PTI", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
-    <div class="form-horizontal p-20">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        <div class="form-horizontal p-20">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control inputText" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                <div id="title_character"></div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control inputText" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    <div id="title_character"></div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SubTitle, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.SubTitle, new { htmlAttributes = new { @class = "form-control inputText" } })
-                @Html.ValidationMessageFor(model => model.SubTitle, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubTitle, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.SubTitle, new { htmlAttributes = new { @class = "form-control inputText" } })
+                    @Html.ValidationMessageFor(model => model.SubTitle, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", style = "height:120px;" })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                <div id="wordCount">[ Words entered: 0 ]</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 col-xs-12">
-                <div class="form-group p-5">
-                    @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        <div id="RegionList" class="showListDiv"></div>
-                        <input type="text" class="form-control hidden" id="Region" name="Region" />
-                        @Html.DropDownList("Region", null, htmlAttributes: new { @class = "form-control", id = "Region_multi", @multiple = "multiple" })
-                        @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", style = "height:120px;" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    <div id="wordCount">[ Words entered: 0 ]</div>
                 </div>
             </div>
-            <div class="col-md-3 col-xs-12">
-                <div class="form-group p-5">
-                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        <div id="CountryList" class="showListDiv"></div>
-                        <input type="text" class="form-control hidden" id="Country" name="Country" />
-                        <select class="form-control" id="Country_multi" multiple="multiple" style="height:100px"></select>
-                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-12">
-                <div class="form-group p-5">
-                    @Html.LabelFor(model => model.Sector, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        <div id="SectorList" class="showListDiv"></div>
-                        <input type="text" class="form-control hidden" id="Sector" name="Sector" />
-                        @Html.DropDownList("Sector", null, htmlAttributes: new { @class = "form-control", id = "Sector_multi", @multiple = "multiple" })
-                        @Html.ValidationMessageFor(model => model.Sector, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-12">
-                <div class="form-group p-5">
-                    @Html.LabelFor(model => model.NewsLabels, htmlAttributes: new { @class = "control-label" })
-                    <div class="">
-                        @Html.DropDownList("NewsLabels", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.NewsLabels, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.DropDownList("Category", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        @Html.HiddenFor(model => model.Type)
-        @Html.HiddenFor(model => model.Author)
-        <div class="form-group">
             <div class="row">
-                <div class="col-md-4 p-b-10">
-                    @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label" })
-                    @{
-                    var newsImage = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.ImageUrl : Model.ImageUrl;
-                    }
-                    <img src="~/Content/transparent.png" data-src="@newsImage?width=240&height=180&mode=crop" style="max-width:240px;" class="img-responsive lazy" />
+                <div class="col-md-3 col-xs-12">
+                    <div class="form-group p-5">
+                        @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            <div id="RegionList" class="showListDiv"></div>
+                            <input type="text" class="form-control hidden" id="Region" name="Region" />
+                            @Html.DropDownList("Region", null, htmlAttributes: new { @class = "form-control", id = "Region_multi", @multiple = "multiple" })
+                            @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4 col-md-offset-2 p-b-10" id="showImage">
+                <div class="col-md-3 col-xs-12">
+                    <div class="form-group p-5">
+                        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            <div id="CountryList" class="showListDiv"></div>
+                            <input type="text" class="form-control hidden" id="Country" name="Country" />
+                            <select class="form-control" id="Country_multi" multiple="multiple" style="height:100px"></select>
+                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12">
+                    <div class="form-group p-5">
+                        @Html.LabelFor(model => model.Sector, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            <div id="SectorList" class="showListDiv"></div>
+                            <input type="text" class="form-control hidden" id="Sector" name="Sector" />
+                            @Html.DropDownList("Sector", null, htmlAttributes: new { @class = "form-control", id = "Sector_multi", @multiple = "multiple" })
+                            @Html.ValidationMessageFor(model => model.Sector, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12">
+                    <div class="form-group p-5">
+                        @Html.LabelFor(model => model.NewsLabels, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.DropDownList("NewsLabels", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NewsLabels, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.DropDownList("Category", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.Type)
+            @Html.HiddenFor(model => model.Author)
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4 p-b-10">
+                        @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label" })
+                        @{
+                            // var newsImage = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.ImageUrl : Model.ImageUrl;
+                            var newsImage = Model.ImageUrl;
+                        }
+                        <img src="@newsImage?width=240&height=180&mode=crop" style="max-width:240px;" class="img-responsive lazy" />
+                    </div>
+                    <div class="col-md-4 col-md-offset-2 p-b-10" id="showImage">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.HiddenFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+                        <input type="file" class="form-control" id="ImageUrlUpdate" name="ImageUrlUpdate" />
+                        @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2 text-center" style="padding-top:5px">
+                        <span style="background-color:#ff6a00;color:#fff;font-size:large;padding: 6px 6px;margin-top:5px">OR</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" class="btn btn-primary" value="Choose image from gallery" id="selFromGallery" />
+                        <input type="text" class="form-control hidden" id="ChooseImage" name="ChooseImage" />
+                    </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-4">
-                    @Html.HiddenFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
-                    <input type="file" class="form-control" id="ImageUrlUpdate" name="ImageUrlUpdate" />
-                    @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-md-2 text-center" style="padding-top:5px">
-                    <span style="background-color:#ff6a00;color:#fff;font-size:large;padding: 6px 6px;margin-top:5px">OR</span>
-                </div>
-                <div class="col-md-4">
-                    <input type="button" class="btn btn-primary" value="Choose image from gallery" id="selFromGallery" />
-                    <input type="text" class="form-control hidden" id="ChooseImage" name="ChooseImage" />
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImageCopyright, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.ImageCopyright, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ImageCopyright, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ImageCopyright, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.ImageCopyright, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ImageCopyright, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Source, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    <input id="Source" name="Source" value="@Model.Source" class="form-control" type="text" list="sourceList" />
+                    <datalist id="sourceList">
+                        <option value="Reuters" tabindex="(With inputs from Reuters)">Reuters</option>
+                        <option value="GOV.UK" tabindex="(With inputs from GOV.UK)">GOV.UK</option>
+                        <option value="PTI" tabindex="(This is a reproduced story from PTI as it is)">PTI</option>
+                        <option value="IRU" tabindex="">IRU</option>
+                        <option value="AfDB" tabindex="(With inputs from AfDB)">AfDB</option>
+                        <option value="ADB" tabindex="(With inputs from ADB)">ADB</option>
+                        <option value="IDB" tabindex="(With inputs from IDB)">IDB</option>
+                        <option value="IAEA" tabindex="(With inputs from IAEA)">IAEA</option>
+                        <option value="A2i" tabindex="(With inputs from A2i)">A2i</option>
+                        <option value="South Africa Government Press Release" tabindex="(With inputs from SAnews)">South Africa Government Press Release</option>
+                        <option value="US Government Press Release" tabindex="(With inputs from USDS)">US Government Press Release</option>
+                        <option value="UN" tabindex="(With inputs from UN)">UN</option>
+                        <option value="EIB" tabindex="(With inputs from EIB)">EIB</option>
+                        <option value="IMF" tabindex="(With inputs from IMF)">IMF</option>
+                        <option value="WHO" tabindex="(With inputs from WHO)">WHO</option>
+                        <option value="UNDP" tabindex="(With inputs from UNDP)">UNDP</option>
+                    </datalist>
+                    @Html.ValidationMessageFor(model => model.Source, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
+            @Html.HiddenFor(model => model.OriginalSource)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Source, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                <input id="Source" name="Source" value="@Model.Source" class="form-control" type="text" list="sourceList" />
-                <datalist id="sourceList">
-                    <option value="Reuters" tabindex="(With inputs from Reuters)">Reuters</option>
-                    <option value="GOV.UK" tabindex="(With inputs from GOV.UK)">GOV.UK</option>
-                    <option value="PTI" tabindex="(This is a reproduced story from PTI as it is)">PTI</option>
-                    <option value="IRU" tabindex="">IRU</option>
-                    <option value="AfDB" tabindex="(With inputs from AfDB)">AfDB</option>
-                    <option value="ADB" tabindex="(With inputs from ADB)">ADB</option>
-                    <option value="IDB" tabindex="(With inputs from IDB)">IDB</option>
-                    <option value="IAEA" tabindex="(With inputs from IAEA)">IAEA</option>
-                    <option value="A2i" tabindex="(With inputs from A2i)">A2i</option>
-                    <option value="South Africa Government Press Release" tabindex="(With inputs from SAnews)">South Africa Government Press Release</option>
-                    <option value="US Government Press Release" tabindex="(With inputs from USDS)">US Government Press Release</option>
-                    <option value="UN" tabindex="(With inputs from UN)">UN</option>
-                    <option value="EIB" tabindex="(With inputs from EIB)">EIB</option>
-                    <option value="IMF" tabindex="(With inputs from IMF)">IMF</option>
-                    <option value="WHO" tabindex="(With inputs from WHO)">WHO</option>
-                    <option value="UNDP" tabindex="(With inputs from UNDP)">UNDP</option>
-                </datalist>
-                @Html.ValidationMessageFor(model => model.Source, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.SourceUrl, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.SourceUrl, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SourceUrl, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        @Html.HiddenFor(model => model.OriginalSource)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SourceUrl, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.SourceUrl, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SourceUrl, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label" })
-            <div class="">
-                @Html.EditorFor(model => model.Tags, new { htmlAttributes = new { @class = "form-control input-tags" } })
-                @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-    {
-        <div class="row">
-            <div class="col-md-4 col-xs-12">
-                <div class="form-group">
-                    @Html.CheckBoxFor(model => model.AdminCheck, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.LabelFor(model => model.AdminCheck, htmlAttributes: new { @class = "control-label" })
-                    @Html.ValidationMessageFor(model => model.AdminCheck, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.Tags, new { htmlAttributes = new { @class = "form-control input-tags" } })
+                    @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-md-4 col-xs-12">
-                <div class="form-group">
-                    @Html.CheckBoxFor(model => model.IsVideo, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.LabelFor(model => model.IsVideo, htmlAttributes: new { @class = "control-label" })
-                    @Html.ValidationMessageFor(model => model.IsVideo, "", new { @class = "text-danger" })
+            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+            {
+                <div class="row">
+                    <div class="col-md-4 col-xs-12">
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.AdminCheck, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.AdminCheck, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.AdminCheck, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.IsVideo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.IsVideo, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.IsVideo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-4 col-xs-12">
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.IsSponsored, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.IsSponsored, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.IsSponsored, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.EditorPick, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.EditorPick, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.EditorPick, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.IsStandout, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.IsStandout, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.IsStandout, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.AdminCheck)
+                @Html.HiddenFor(model => model.IsSponsored)
+                @Html.HiddenFor(model => model.EditorPick)
+                @Html.HiddenFor(model => model.IsVideo)
+                @Html.HiddenFor(model => model.IsStandout)
+            }
+            @Html.HiddenFor(model => model.IsGlobal)
+            @Html.HiddenFor(model => model.IsInfocus)
+            @Html.HiddenFor(model => model.IsIndexed)
+            @Html.HiddenFor(model => model.Creator)
+            @Html.HiddenFor(model => model.CreatedOn)
+            @Html.HiddenFor(model => model.ModifiedOn)
+            @Html.HiddenFor(model => model.ViewCount)
+            @Html.HiddenFor(model => model.FileSize)
+            @Html.HiddenFor(model => model.WorkStage)
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary btn-lg" />
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4 col-xs-12">
-                <div class="form-group">
-                    @Html.CheckBoxFor(model => model.IsSponsored, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.LabelFor(model => model.IsSponsored, htmlAttributes: new { @class = "control-label" })
-                    @Html.ValidationMessageFor(model => model.IsSponsored, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-md-4 col-xs-12">
-                <div class="form-group">
-                    @Html.CheckBoxFor(model => model.EditorPick, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.LabelFor(model => model.EditorPick, htmlAttributes: new { @class = "control-label" })
-                    @Html.ValidationMessageFor(model => model.EditorPick, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-md-4 col-xs-12">
-                <div class="form-group">
-                    @Html.CheckBoxFor(model => model.IsStandout, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.LabelFor(model => model.IsStandout, htmlAttributes: new { @class = "control-label" })
-                    @Html.ValidationMessageFor(model => model.IsStandout, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-}
-else
-{
-    @Html.HiddenFor(model => model.AdminCheck)
-    @Html.HiddenFor(model => model.IsSponsored)
-    @Html.HiddenFor(model => model.EditorPick)
-    @Html.HiddenFor(model => model.IsVideo)
-    @Html.HiddenFor(model => model.IsStandout)
-        }
-        @Html.HiddenFor(model => model.IsGlobal)
-        @Html.HiddenFor(model => model.IsInfocus)
-        @Html.HiddenFor(model => model.IsIndexed)
-        @Html.HiddenFor(model => model.Creator)
-        @Html.HiddenFor(model => model.CreatedOn)
-        @Html.HiddenFor(model => model.ModifiedOn)
-        @Html.HiddenFor(model => model.ViewCount)
-        @Html.HiddenFor(model => model.FileSize)
-        @Html.HiddenFor(model => model.WorkStage)
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary btn-lg" />
-        </div>
-    </div>
 
     }
 </div>
@@ -324,7 +325,7 @@ else
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script src="~/Scripts/jquery.multiselect.js"></script>
     <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
@@ -504,7 +505,7 @@ else
                     success: function (data) {
                         $('#Country_multi').replaceWith(' <select class="form-control" id="Country_multi" multiple="multiple" style="height:100px"></select>');
                         $.each(data, function (i, item) {
-                            $('#Country_multi').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                            $('#Country_multi').append('<option value="' + item.title + '">' + item.title + '</option>');
                         });
                         $('#Country_multi').multiselect('refresh');
                         $('.actionButtons').hide();

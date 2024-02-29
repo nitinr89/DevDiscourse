@@ -8,7 +8,6 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 using X.PagedList;
-using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -16,7 +15,6 @@ using Devdiscourse.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using AuthorizeAttribute = Microsoft.AspNetCore.Authorization.AuthorizeAttribute;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.StaticFiles;
@@ -617,6 +615,7 @@ namespace DevDiscourse.Controllers
             {
                 devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
                 _db.Entry(devNews).State = EntityState.Modified;
+                _db.Entry(devNews).Property(x => x.NewsId).IsModified = false;
                 _db.SaveChanges();
                 await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
             }
@@ -657,7 +656,8 @@ namespace DevDiscourse.Controllers
                     }
                 }
                 devNews.ModifiedOn = DateTime.UtcNow;
-                _db.Entry(devNews).State = EntityState.Modified;
+                _db.DevNews.Update(devNews);
+                _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
                 _db.SaveChanges();
                 if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
                 {
@@ -705,7 +705,8 @@ namespace DevDiscourse.Controllers
             if (userWork != null && userWork.WorkStage != "Image Change")
             {
                 devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
-                _db.Entry(devNews).State = EntityState.Modified;
+                _db.DevNews.Update(devNews);
+                _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
                 _db.SaveChanges();
                 await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
             }
@@ -746,7 +747,8 @@ namespace DevDiscourse.Controllers
                     }
                 }
                 devNews.ModifiedOn = DateTime.UtcNow;
-                _db.Entry(devNews).State = EntityState.Modified;
+                _db.DevNews.Update(devNews);
+                _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
                 _db.SaveChanges();
                 if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
                 {

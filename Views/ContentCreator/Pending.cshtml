@@ -64,22 +64,22 @@
             </div>
         </div>
         @*<div class="icon-cont bg-white m-t-10">
-            <a href="@Url.Action("Earnings", "ContentCreator")">
-                <img src="~/images/contibutor/earnings.svg" class="icon" />
-                <div class="text-center">Earnings</div>
-            </a>
+        <a href="@Url.Action("Earnings", "ContentCreator")">
+        <img src="~/images/contibutor/earnings.svg" class="icon" />
+        <div class="text-center">Earnings</div>
+        </a>
         </div>
         <div class="icon-cont bg-white">
-            <a href="@Url.Action("Settings", "ContentCreator")">
-                <img src="~/images/contibutor/setting.svg" class="icon" />
-                <div class="text-center">Payment Settings</div>
-            </a>
+        <a href="@Url.Action("Settings", "ContentCreator")">
+        <img src="~/images/contibutor/setting.svg" class="icon" />
+        <div class="text-center">Payment Settings</div>
+        </a>
         </div>
         <div class="icon-cont bg-white">
-            <a href="@Url.Action("History", "ContentCreator")">
-                <img src="~/images/contibutor/history.svg" class="icon" />
-                <div class="text-center">Payment History</div>
-            </a>
+        <a href="@Url.Action("History", "ContentCreator")">
+        <img src="~/images/contibutor/history.svg" class="icon" />
+        <div class="text-center">Payment History</div>
+        </a>
         </div>*@
     </div>
     <div class="main">
@@ -97,7 +97,8 @@
             <div class="p-10 m-t-10 bg-white shadow">
                 <div class="media">
                     <div class="media-left">
-                        <div class="news-image-card lazy bg-gray" data-src="/remote.axd?@item.ImageUrl?width=120&height=100&mode=crop"></div>
+                        @* <div class="news-image-card lazy bg-gray" data-src="/remote.axd?@item.ImageUrl?width=120&height=100&mode=crop"></div> *@
+                        <img class="news-image-card lazy bg-gray" src="@item.ImageUrl?width=120&height=100&mode=crop" />
                     </div>
                     <div class="media-body p-l-10">
                         <p class="pull-right">Submitted: @item.CreatedOn.ToString("dd-MM-yyyy")</p>
@@ -145,7 +146,7 @@
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script>
         $(document).ready(function () {
             // Active Menu Icon

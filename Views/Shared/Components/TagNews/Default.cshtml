@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
+@if (@Model.Count() > 0)
+{
+    <div class="also-container">
+        <div>
+            <h2 class="ar-title">ALSO READ</h2> <ul class="ar-ul">
+                @foreach (var item in Model)
+                {
+                    <li class="also-title"><h3 class="f-18 no-margin font-normal l-h"> <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> @item.Title</a></h3> </li>
+                }
+            </ul>
+        </div>
+    </div>
+}

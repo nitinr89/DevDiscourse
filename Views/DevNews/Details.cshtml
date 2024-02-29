@@ -2,13 +2,16 @@
 @using System.Globalization;
 @using System.Text.RegularExpressions;
 @using System.Threading;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 @{
     ViewBag.Title = Model.Title + " | Devdiscourse News";
     string domainUrl = "https://www.devdiscourse.com";
     ViewBag.webEdition = ViewBag.region;
     ViewBag.HasAmpPage = true;
     string imageUrl = @Model.ImageUrl ?? "";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=920" : string.Concat(domainUrl, imageUrl) + "?width=920";
+    // var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=920" : string.Concat(domainUrl, imageUrl) + "?width=920";
+    var newsImage = imageUrl + "?width=920";
     ViewBag.PageImage = newsImage;
     string NewsLabel = Model.NewsLabels ?? "agency-wire";
     string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();
@@ -31,6 +34,7 @@
     var schemaAuthor = Model.Source;
     CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
     TextInfo textInfo = cultureInfo.TextInfo;
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
 }
 @if (!string.IsNullOrEmpty(bodykeywords))
 {
@@ -630,7 +634,7 @@
                     if (Model.UserNewsFiles?.Count == 0)
                     {
                         <figure class="figure">
-                            <img src="@newsImage&format=jpeg" class="img-responsive" alt="@Model.Title" />
+                            <img src="@Model.ImageUrl" class="img-responsive" alt="@Model.Title" />
                             <figcaption class="fig-caption">@Model.ImageCaption @Model.ImageCopyright</figcaption>
                         </figure>
                     }
@@ -706,26 +710,29 @@
                         <li><a class="social-btn" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp; 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li>
                         <li><a class="social-btn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span></a> </li>
                         <li><a class="social-btn" aria-label="Subscribe on Youtube" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span></a> </li>
-                        @*  @if (Request.Browser.IsMobileDevice)
+                        @if (isMobile)
                         {
-                        <li><a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> </a> </li>
-                        } *@
+                            <li><a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> </a> </li>
+                        }
                     </ul>
                 </section>
-                @*   @if (!string.IsNullOrEmpty(Model.Tags) && !Request.Browser.Crawler)
+                @if (!string.IsNullOrEmpty(Model.Tags))
                 {
-                <section>
-                <ul class="list-inline">
-                <li class="f-18">READ MORE ON: </li>
-                @{var tag = (Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
-                {
-                if (!string.IsNullOrEmpty(t.Trim()))
-                {
-                <li> <a href="/news?tag=@t.Trim()" class="tag">@t.Trim()</a> </li>
+                    <section>
+                        <ul class="list-inline">
+                            <li class="f-18">READ MORE ON: </li>
+                            @{
+                                var tag = (Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase); foreach (var t in tag.Take(20))
+                                {
+                                    if (!string.IsNullOrEmpty(t.Trim()))
+                                    {
+                                        <li> <a href="/news?tag=@t.Trim()" class="tag">@t.Trim()</a> </li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </section>
                 }
-                }}
-                </ul>
-                </section>} *@
                 @if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Source))
                 {
                     <section class="m-t-30">
@@ -738,6 +745,8 @@
                 @if (!string.IsNullOrEmpty(Model.Tags))
                 {
                     @* Html.RenderAction("GetTagNews", "Agencywire", new { id = Model.NewsId, tag = Model.Tags });  *@
+                    @await Component.InvokeAsync("TagNews", new { id = Model.NewsId, tag = Model.Tags })
+                    ;
                 }
                 @if (!string.IsNullOrEmpty(Model.Country))
                 {
@@ -824,10 +833,10 @@
                             <li><a class="social-btn" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;, 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> Twitter</a> </li>
                             <li><a class="social-btn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span> LinkedIn</a> </li>
                             <li><a class="social-btn" aria-label="Subscribe on Youtube" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span> Youtube</a> </li>
-                            @*  @if (Request.Browser.IsMobileDevice)
+                            @if (isMobile)
                             {
-                            <li><a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> Whatsapp</a> </li>
-                            } *@
+                                <li><a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp:send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> Whatsapp</a> </li>
+                            }
                         </ul>
                     </section>
                 </div>

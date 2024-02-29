@@ -16,12 +16,12 @@
     string newsTitle = Model.Title.Trim();
     ViewBag.Title = newsTitle;
     //string domainUrl = "https://www.devdiscourse.com";
-    string domainUrl = Url.Content("~/");
+    string domainUrl = Url.Content("~");
     string pageTitle = newsTitle;
     ViewBag.webEdition = ViewBag.region;
     string imageUrl = @Model.ImageUrl ?? "";
-    var newsFrameImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl  + imageUrl + "?width=6&height=4&mode=crop&blur=90" : string.Concat(domainUrl, imageUrl) + "?width=6&height=4&mode=crop&blur=90";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl  + imageUrl + "?width=1280" : string.Concat(domainUrl, imageUrl) + "?width=1280";
+    var newsFrameImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=6&height=4&mode=crop&blur=90" : string.Concat(domainUrl, imageUrl) + "?width=6&height=4&mode=crop&blur=90";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=1280" : string.Concat(domainUrl, imageUrl) + "?width=1280";
     ViewBag.PageImage = newsImage;
     string NewsLabel = Model.NewsLabels ?? "agency-wire";
     string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();
@@ -102,7 +102,7 @@
     var converter = new HtmlToAmpConverter();
     converter.WithSanitizers(
         new HashSet<ISanitizer>
-                                                                                                                                                        {
+                                                                                                                                                                {
 new InstagramSanitizer(),
 new TwitterSanitizer(),
 new AudioSanitizer(),
@@ -115,7 +115,7 @@ new TargetAttributeSanitizer(),
 new XmlAttributeSanitizer(),
 new YouTubeVideoSanitizer(),
 new AmpIFrameSanitizer()
-                                                                                                                                                        }); string ampHtml = converter.ConvertFromHtml(datadescription).AmpHtml;
+                                                                                                                                                                }); string ampHtml = converter.ConvertFromHtml(datadescription).AmpHtml;
 
 
 }
@@ -267,7 +267,9 @@ new AmpIFrameSanitizer()
          "coverageStartTime":"@Model.CreatedOn",
          "headline":"@Truncate(Model.Title, 100)",
         @*  "description":"@GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString()).ToString()", *@
-         "description":"@{ await GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());}",
+         "description":"@{
+            await GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
+        }",
          "image":{
          "@@context": "http://schema.org",
          "@@type": "ImageObject",
@@ -296,37 +298,39 @@ new AmpIFrameSanitizer()
         {
             postCount++;
             <text>
-                                                                                         {
-                 "@@type":"LiveBlogPosting",
-                 "headline":"@item.ModifiedOn.ToLocalTime().ToString("hh:mm") @ist @Truncate(@item.Title, 65)",
-                 "url":"@domainUrl@pageUrl#post_@item.Id",
-                 "datePublished":"@item.CreatedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
-                 "image": {
-                 "@@context": "http://schema.org",
-                 "@@type": "ImageObject",
-                 "width": "400px",
-                  "height": "60px",
-                 "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"
-                  },
-                  "publisher": {
-                  "@@type":"Organization",
-                  "name":"Devdiscourse",
-                   "logo": {
-                   "@@type": "ImageObject",
-                     "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png",
-                 "width": "400px",
-                  "height": "60px"
-                  }
-                     },
-                   "author": {
-                     "@@type": "Organization",
-                     "sameAs": "https://www.devdiscourse.com",
-                  "name": "Devdiscourse"
-                  },
-                 "mainEntityOfPage":"@domainUrl@pageUrl",
-             "dateModified":"@item.ModifiedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
-              "articleBody":"@{ await GetDescriptionText(item.Description);}"
-          }</text>
+                                                                                             {
+                     "@@type":"LiveBlogPosting",
+                     "headline":"@item.ModifiedOn.ToLocalTime().ToString("hh:mm") @ist @Truncate(@item.Title, 65)",
+                     "url":"@domainUrl@pageUrl#post_@item.Id",
+                     "datePublished":"@item.CreatedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
+                     "image": {
+                     "@@context": "http://schema.org",
+                     "@@type": "ImageObject",
+                     "width": "400px",
+                      "height": "60px",
+                     "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"
+                      },
+                      "publisher": {
+                      "@@type":"Organization",
+                      "name":"Devdiscourse",
+                       "logo": {
+                       "@@type": "ImageObject",
+                         "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png",
+                     "width": "400px",
+                      "height": "60px"
+                      }
+                         },
+                       "author": {
+                         "@@type": "Organization",
+                         "sameAs": "https://www.devdiscourse.com",
+                      "name": "Devdiscourse"
+                      },
+                     "mainEntityOfPage":"@domainUrl@pageUrl",
+                 "dateModified":"@item.ModifiedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
+                  "articleBody":"@{
+                    await GetDescriptionText(item.Description);
+                }"
+              }</text>
             if (postCount < ViewBag.BlogUpdatesCount)
             {
                 <text>,</text>
@@ -368,7 +372,9 @@ else
         "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png"
         }
         },
-        "description": "@{ await GetFirstParagraph(@Model.Description);}",
+        "description": "@{
+            await GetFirstParagraph(@Model.Description);
+        }",
         }
     </script>
 }
@@ -393,99 +399,99 @@ else
     <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
 }
 @section customCss {
-                             body
-                             {
-                                 padding-bottom:43px;
-                                 padding-top:54px}.fg-orange{color:#ff6a00}.bg-white{background-color:#fff} .description .fg-blue a,.description a.fg-blue,.fg-blue{color: #0000ff} .bg-yellow{background-color: #ffff00}.title-cont{height:100px}.font-title{font-weight:400;
-                                     line-height:22px;
-                                     font-size:15px;margin:0
-                                 }
-                                 .square-card
+                                 body
                                  {
-                                     width:44%;
-                                     display:inline-block;
-                                     vertical-align:top;
-                                     margin:5px 2%;
-                                 }
-                                         .author
-                                         {
-                                             font-size:12px
-                                         }
-                                         .gray-bg
-                                         {
-                                             border-radius:5px;
-                                         padding:3px 10px 6px 10px;
-                                         background-color:#f2f2f2
-                                         }
-                                         .sector
-                                         {
-                                             margin:0;padding:0;
-                                         }
-                                         .sector li
-                                         {
-                                             list-style:none;background-color:#474747;
-                                             padding:2px 6px;
-                                             display:inline-block;
-                                             border-radius:3px;
-                                             font-size:12px;
-                                         }
-                                         .sector li a
-                                         {
-                                             color:#fff;
-                                             text-decoration:none
-                                         }
-                                         .upper-country{
-                                             text-transform:uppercase;font-size:12px;
-                                             font-weight:500;
-                                             color:#666}.news-slide { width: 75%;
-                                                 height: 100px;
-                                                 border: 1px solid rgba(0, 0, 0, 0.04);
-                                                 border-radius: 5px;
-                                                 box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-                                             }
-                                             .description strong,.description b
+                                     padding-bottom:43px;
+                                     padding-top:54px}.fg-orange{color:#ff6a00}.bg-white{background-color:#fff} .description .fg-blue a,.description a.fg-blue,.fg-blue{color: #0000ff} .bg-yellow{background-color: #ffff00}.title-cont{height:100px}.font-title{font-weight:400;
+                                         line-height:22px;
+                                         font-size:15px;margin:0
+                                     }
+                                     .square-card
+                                     {
+                                         width:44%;
+                                         display:inline-block;
+                                         vertical-align:top;
+                                         margin:5px 2%;
+                                     }
+                                             .author
                                              {
-                                                 font-weight:600}.img-avt {border-radius:50%;margin-right:5px;vertical-align: middle;
+                                                 font-size:12px
+                                             }
+                                             .gray-bg
+                                             {
+                                                 border-radius:5px;
+                                             padding:3px 10px 6px 10px;
+                                             background-color:#f2f2f2
+                                             }
+                                             .sector
+                                             {
+                                                 margin:0;padding:0;
+                                             }
+                                             .sector li
+                                             {
+                                                 list-style:none;background-color:#474747;
+                                                 padding:2px 6px;
+                                                 display:inline-block;
+                                                 border-radius:3px;
+                                                 font-size:12px;
+                                             }
+                                             .sector li a
+                                             {
+                                                 color:#fff;
+                                                 text-decoration:none
+                                             }
+                                             .upper-country{
+                                                 text-transform:uppercase;font-size:12px;
+                                                 font-weight:500;
+                                                 color:#666}.news-slide { width: 75%;
+                                                     height: 100px;
+                                                     border: 1px solid rgba(0, 0, 0, 0.04);
+                                                     border-radius: 5px;
+                                                     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
                                                  }
-                                                 .breadcrumb
+                                                 .description strong,.description b
                                                  {
-                                                     padding: 0;
-                                                     background-color: transparent;
-                                                     margin-bottom: 20px;
-                                                     list-style: none;
-                                                     border-radius: 4px; color:#808080;
-                                                 }
-                                                 .breadcrumb > li
-                                                 {
-                                                     display: inline-block;
-                                                 }
-                                                 .breadcrumb > li a
-                                                 {
-                                                     color: #337ab7;
-                                                     text-decoration:none;
-                                                 }
-                                                 .breadcrumb > li + li:before
-                                                 {
-                                                     content: "›";
-                                                     padding: 0 5px;
-                                                     font-size: 16px;
-                                                     color: #4d4d4d;
-                                                 }
-                                                 #statcounter
-                                                 {
-                                                     width: 1px;height:1px;
-                                                 }
-                                                 .blog img{
-                                                     object-fit:cover
-                                                 }
-                                                 .full-bottom
-                                                 {
-                                                     background-image:url(@newsFrameImage);
-                                                     background-size:cover
-                                                 }
-                                                 .full-bottom img
-                                                 {
-                                                     object-fit:@objectfit
+                                                     font-weight:600}.img-avt {border-radius:50%;margin-right:5px;vertical-align: middle;
+                                                     }
+                                                     .breadcrumb
+                                                     {
+                                                         padding: 0;
+                                                         background-color: transparent;
+                                                         margin-bottom: 20px;
+                                                         list-style: none;
+                                                         border-radius: 4px; color:#808080;
+                                                     }
+                                                     .breadcrumb > li
+                                                     {
+                                                         display: inline-block;
+                                                     }
+                                                     .breadcrumb > li a
+                                                     {
+                                                         color: #337ab7;
+                                                         text-decoration:none;
+                                                     }
+                                                     .breadcrumb > li + li:before
+                                                     {
+                                                         content: "›";
+                                                         padding: 0 5px;
+                                                         font-size: 16px;
+                                                         color: #4d4d4d;
+                                                     }
+                                                     #statcounter
+                                                     {
+                                                         width: 1px;height:1px;
+                                                     }
+                                                     .blog img{
+                                                         object-fit:cover
+                                                     }
+                                                     .full-bottom
+                                                     {
+                                                         background-image:url(@newsFrameImage);
+                                                         background-size:cover
+                                                     }
+                                                     .full-bottom img
+                                                     {
+                                                         object-fit:@objectfit
                          }
                          .description a
                          {
@@ -508,7 +514,8 @@ else
         <h2 class="sub-title">@Model.SubTitle</h2>
     }<ul class="sector">
         @{
-            @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "NewsSector" });
+            @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "NewsSector" })
+            ;
         }
     </ul> @{
         string country = ""; if (!string.IsNullOrEmpty(@Model.Country)) { country = "| " + Model.Country.Replace(",", ", "); }
@@ -592,39 +599,66 @@ else
     }<div class="meta"> Updated: @modifiedDate.ToString("dd-MM-yyyy HH:mm") IST | Created: @publishedDate.ToString("dd-MM-yyyy HH:mm") IST </div>
 </div>
 <div class="cont-container">
-    @if (!string.IsNullOrEmpty(@Model.ImageUrl) && @Model.ImageUrl != "/images/defaultImage.jpg" && @Model.ImageUrl != "/images/newstheme.jpg" && @Model.ImageUrl != "/images/sector/all_sectors.jpg")
+    @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
     {
-        var newsImageUrl = @Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + @Model.ImageUrl : @Model.ImageUrl; if (@Model.UserNewsFiles?.Count == 0)
+        var newsImageUrl = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? Model.ImageUrl : Model.ImageUrl;
+        if (Model.UserNewsFiles == null)
         {
-            <amp-img class="full-bottom" src="@domainUrl@newsImageUrl?width=1280" alt="@Model.Title" layout="responsive" width="1280" height="720"></amp-img> <p class="img-caption"> <small>@Model.ImageCopyright</small> </p>
+            <amp-img class="full-bottom" src="@domainUrl@newsImageUrl?width=1280" alt="@Model.Title" layout="responsive" width="1280" height="1040"></amp-img>
+
+            <p class="img-caption">
+                <small>
+                    @Model.ImageCopyright
+                </small>
+            </p>
         }
         else
         {
-            if (Model.UserNewsFiles != null)
+            foreach (var item in Model.UserNewsFiles.Take(1))
             {
-                foreach (var item in Model.UserNewsFiles.Take(1))
-                {
-                    <script type="application/ld+json">{"@@context": "https://schema.org/", "@@type": "VideoObject", "name": "@newsTitle", "@@id": "@domainUrl@pageUrl", "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "description" : @{ await  GetDescriptionText(@Model.Description);}, "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "contentUrl": "@item.FilePath", "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}</script> <amp-video id="my-video" class="video-js center-block" controls width="640" height="360" layout="responsive" poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg"> <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" /> <div fallback> <p>This browser does not support the video element.</p></div></amp-video>
-                }
+                <script type="application/ld+json">
+                    {
+                    "@@context": "https://schema.org/",
+                    "@@type": "VideoObject",
+                    "name": "@newsTitle",
+                    "@@id": "@domainUrl@pageUrl",
+                    "datePublished": "@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
+                    "description" : @{
+                        await GetDescriptionText(@Model.Description);
+                    },
+                    "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg",
+                    "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg",
+                    "contentUrl": "@item.FilePath",
+                    "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
+                    "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}
 
+                </script>
+                <amp-video id="my-video" class="video-js center-block" controls width="640" height="360" layout="responsive" poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg">
+                    <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" />
+                    <div fallback> <p>This browser does not support the video element.</p></div>
+                </amp-video>
             }
+
         }
     }
 </div>
 <div class="news-box">
     <div class="description">
-        @Html.Raw(ampHtml) @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !datadescription.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk")
+        @Html.Raw(ampHtml)
+        @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !datadescription.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk")
         {
             <p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>
         }
         else if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !datadescription.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() == "Devdiscourse News Desk")
         {
             <p>(With inputs from agencies.)</p>
-        }@if (@Model.Type == "Blog" && !string.IsNullOrEmpty(@Model.Source))
+        }
+        @if (@Model.Type == "Blog" && !string.IsNullOrEmpty(@Model.Source))
         {
             <div class="ad"> <span class="left badge">FIRST PUBLISHED ON: </span> <span class="right">@Model.Source</span> </div>
         }
-    </div>@if (Model.Type == "LiveBlog")
+    </div>
+    @if (Model.Type == "LiveBlog")
     {
         <amp-live-list layout="container" data-poll-interval="15000" data-max-items-per-page="10" id="amp-live-list-insert-blog">
             <button update on="tap:amp-live-list-insert-blog.update" class="ampstart-btn ml1 caps"> You have updates </button> <div items>
@@ -633,7 +667,8 @@ else
                 }
             </div>
         </amp-live-list>
-    }@if (!string.IsNullOrEmpty(Model.Tags))
+    }
+    @if (!string.IsNullOrEmpty(Model.Tags))
     {
         <div class="m-b-10">
             <h3 class="page-title">READ MORE ON</h3> @{
@@ -642,8 +677,6 @@ else
                     var replaceTag = Regex.Replace(tag.ToString(), "[()]", "").Trim();
                     if (!string.IsNullOrEmpty(t.Trim()))
                     {
-                        @*                         <a href="/news?tag=@Url.Encode(@t)" class="tag">@t</a> *@
-                        // var encodedTag = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(replaceTag));
                         string encodeUrl = System.Net.WebUtility.UrlEncode(t.Trim());
                         <a href="/news?tag=@encodeUrl" class="tag">@t</a>
                     }
@@ -656,18 +689,18 @@ else
     <div class="advertisement-title">Advertisement</div>
     <div class="text-center p-5">
         <amp-embed width="320" height="50" type="doubleclick" data-slot="devdiscourse_320x50_AMP_HB" rtc-config='{"urls": ["https://pbs.nextmillmedia.com/openrtb2/amp?tag_id=11416"]}'>
-        </amp-embed> @*<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="ca-pub-5016155138623826" data-ad-slot='TagC_300x250'> </amp-ad>*@
+        </amp-embed> 
     </div>
 </div>
 <div class="news-box p-t-20">
 
     <div class="also-container">
         <h3 class="ar-title">READ MORE</h3>
-        <amp-list src="/api/SearchApi/AmpRelatedNews/@Model.NewsId/@ViewBag.region/@Model.Sector" width="auto" height="280" class="blogList">
+        <amp-list src="@domainUrl/api/SearchApi/AmpRelatedNews/@Model.NewsId/@ViewBag.region/@Model.Sector" width="auto" height="280" class="blogList">
             <template type="amp-mustache">
                 <div class="also-title">
 
-                   @*  <a href="@domainUrl{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m"> *@
+                    @*  <a href="@domainUrl{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m"> *@
                     <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
                         {{title}}
                     </a>
@@ -676,9 +709,11 @@ else
             </template>
         </amp-list>
     </div>
+
+
 </div>
 <div class="news-box">
-    <amp-list src="/api/SearchApi/GetPreviousSectorAmpNews/@Model.NewsId/@Model.Sector/@ViewBag.region" width="auto" height="1500" class="">
+    <amp-list src="@domainUrl/api/SearchApi/GetPreviousSectorAmpNews/@Model.NewsId/@Model.Sector/@ViewBag.region" width="auto" height="1500" class="">
         <template type="amp-mustache">
             <div>
                 <div class="article-divider clearfix" data-articleurl="{{slug}}?amp" data-articletitle="{{title}}">
@@ -694,28 +729,55 @@ else
                     </li>
                 </ul>{{/sector}}
                 <p class="source">
-                    {{#source}}<a class="no-text-decoration" href="{{SourceUrl}}">{{source}}</a>{{/source}}{{#isBlog}}
-                    <a class="no-text-decoration" href="/Home/AuthorArticles?fl={{Themes}}">
-                        <amp-img class="img-avt" layout="fixed" width="30" height="30" src="{{Avatar}}?width=30&height=30&mode=crop" alt="{{themes}}"> <amp-img alt="{{themes}}" fallback width="30" height="30" src="/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop"></amp-img> </amp-img>{{themes}}
-                    </a>{{/isBlog}}{{#sourceUrl}}<span> |{{sourceUrl}}</span>{{/sourceUrl}}{{#country}}<span> |{{country}}</span>{{/country}}
-                </p><div class="meta"> Updated:{{modifiedOnString}}IST | Created:{{publishedOnString}}IST </div><div class="cont-container"> <amp-img class="full-bottom" src="{{imageUrl}}?width=1280" alt="{{title}}" layout="responsive" width="1280" height="720"></amp-img> <p class="img-caption"> <small>{{imageCopyright}}</small> </p></div><div class="description">{{{description}}}{{#disclaimer}}<p>{{disclaimer}}</p>{{/disclaimer}}</div>{{#tags}}<div class="m-b-10"> <h3 class="page-title">READ MORE ON</h3>{{{tagArray}}}</div>{{/tags}}<amp-analytics type="googleanalytics" id="google_analytics"> <script type="application/json">{"vars":{"account": "UA-123167123-1"}, "triggers":{"track pageview":{"on": "visible", "request": "pageview", "vars":{"title": "{{title}}", "ampdocurl": "@domainUrl/article/{{label}}/{{slug}}?amp"}}}}</script> </amp-analytics> @*<div class="advertisement-area"> <div class="advertisement-title">Advertisement</div><amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="ca-pub-5016155138623826" data-ad-slot='TagC_300x250'> </amp-ad> </div>*@
+                    {{#source}}<a class="no-text-decoration" href="{{sourceUrl}}">{{source}}</a>
+                    {{/source}}{{#isBlog}}
+                    <a class="no-text-decoration" href="/Home/AuthorArticles?fl={{themes}}">
+                        <amp-img class="img-avt" layout="fixed" width="30" height="30" src="{{avatar}}?width=30&height=30&mode=crop" alt="{{themes}}"> <amp-img alt="{{themes}}" fallback width="30" height="30" src="/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop">
+                        </amp-img> 
+                        </amp-img>
+                        {{themes}}
+                    </a>{{/isBlog}}{{#sourceUrl}}<span> |{{sourceUrl}}</span>
+                    {{/sourceUrl}}{{#country}}<span> |{{country}}</span>
+                    {{/country}}
+                </p><div class="meta"> Updated:{{modifiedOnString}}IST | Created:{{publishedOnString}}IST </div>
+                <div class="cont-container"> <amp-img class="full-bottom" src="{{imageUrl}}?width=1280" alt="{{title}}" layout="responsive" width="1280" height="720"></amp-img> 
+                <p class="img-caption"> <small>{{imageCopyright}}</small> </p>
+                </div>
+                <div class="description">{{{description}}}{{#disclaimer}}<p>{{disclaimer}}</p>
+                {{/disclaimer}}</div>{{#tags}}<div class="m-b-10"> 
+                <h3 class="page-title">READ MORE ON</h3>{{{tagArray}}}</div>
+                {{/tags}}
+               
+                
+                <amp-analytics type="googleanalytics" id="google_analytics">
+                    <script type="application/json">
+                            {
+                            "vars":{"account": "UA-123167123-1"},
+                            "triggers":{"track pageview":{"on": "visible", "request": "pageview",
+                            "vars":{"title": "{{title}}",
+                            "ampdocurl": "@domainUrl/article/{{label}}/{{slug}}?amp"}
+                        }
+                        }
+                        }
+                    </script>
+                </amp-analytics>
             </div>
         </template>
     </amp-list>
 </div>
 <div class="news-box p-t-20">
     <h3 class="page-title">OPINION / BLOG</h3>
-    <amp-list src="/api/SearchApi/GetAmpOpinion/@ViewBag.region" width="auto" height="500" class="blogList">
+    <amp-list src="@domainUrl/api/SearchApi/GetAmpOpinion/@ViewBag.region" width="auto" height="500" class="blogList">
         <template type="amp-mustache">
-         @*    <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
+            @*    <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
             <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
                 <div class="single-news-post">
                     <div class="post-image">
                         {{#authorImage}}
-                        <amp-img src="https://www.devdiscourse.com{{authorImage}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45">
+                        <amp-img src="https://www.devdiscourse.com{{authorImage}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{title}}" height="45">
                         </amp-img>
                         {{/authorImage}}{{^authorImage}}
-                        <amp-img src="https://www.devdiscourse.com{{imageUrl}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{Title}}" height="45">
+                        <amp-img src="https://www.devdiscourse.com{{imageUrl}}?width=45&height=45&mode=crop" class="image-circle" layout="fixed" width="45" alt="{{title}}" height="45">
                         </amp-img>
                         {{/authorImage}}
                     </div>
@@ -733,17 +795,17 @@ else
 </div>
 <div class="news-box">
     @{
-     
+
         await Component.InvokeAsync("AmpInterview");
 
     }
     <h3 class="page-title">LATEST NEWS</h3>
 </div>
 <div class="cont-container">
-    <amp-list src="/api/SearchApi/GetAmpLatestNewsItems" width="auto" height="540" class="blogList">
+    <amp-list src="@domainUrl/api/SearchApi/GetAmpLatestNewsItems" width="auto" height="540" class="blogList">
         <template type="amp-mustache">
-        
-       @*      <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
+
+            @*      <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
             <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
                 <div class="latest-news-post">
                     <div class="news-box">
@@ -766,17 +828,11 @@ else
     </amp-list>
 </div>
 <div class="news-box">
-    @*<h4 class="page-title">TRENDING</h4>
-    <amp-list src="/api/SearchApi/GetampTrends/@ViewBag.region" width="auto" height="485" class="blogList"> <template type="amp-mustache"> <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration" target="_blank"> <div class="square-card">
-    <amp-img src="{{ImageUrl}}?width=168&height=134&mode=crop" layout="responsive" width="168" alt="{{Title}}" height="134" class="image-rad"></amp-img> <div class="title-cont">
-    <h4 class="font-title">{{Title}}</h4> </div></div></a>
-    </template> </amp-list>*@
-
 
     <h4 class="page-title">VIDEOS</h4>
-    <amp-list src="/api/SearchApi/GetAmpVideoNews/@ViewBag.region" width="auto" height="320" class="blogList">
+    <amp-list src="@domainUrl/api/SearchApi/GetAmpVideoNews/@ViewBag.region" width="auto" height="320" class="blogList">
         <template type="amp-mustache">
-          @*   <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
+            @*   <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
             <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
                 <div class="video-post">
                     {{^defaultImage}}<div class="image">
@@ -784,7 +840,6 @@ else
                         <div class="overlay">
                             <div class="play-icon">
                                 ►
-
                             </div>
                         </div>
                     </div>{{/defaultImage}}<div class="single-news-post">

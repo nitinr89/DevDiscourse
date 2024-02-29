@@ -31,7 +31,7 @@
     var keywords = String.Join(", ", dataTags);
     string pageUrl = "/live-discourse/" + Model.GenerateSecondSlug();
     ViewBag.pageType = "article";
-    string ? DataDesc = Model.Description;
+    string? DataDesc = Model.Description;
     ViewBag.HasAmpPage = true;
     ViewBag.alternateHeadline = @Model.Title;
     ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
@@ -40,7 +40,7 @@
     ViewBag.webEdition = ViewBag.region;
     var bodykeywords = @Model.Tags;
     TempData["pageUrl"] = pageUrl;
-    //TempData["firstPara"] =  System.Net.WebUtility.UrlEncode(GetCleanDescription(Model.Description).ToString()); 
+    //TempData["firstPara"] =  System.Net.WebUtility.UrlEncode(GetCleanDescription(Model.Description).ToString());
     TempData["title"] = Model.Title;
     TempData["tags"] = keywords;
     TempData["newsImage"] = newsImage;
@@ -70,7 +70,7 @@
 }
 else
 {
-    //authorName = Model.ApplicationUsers.FirstName ?? "JP" + " " + Model.ApplicationUsers.LastName ?? "Singh"; 
+    //authorName = Model.ApplicationUsers.FirstName ?? "JP" + " " + Model.ApplicationUsers.LastName ?? "Singh";
     authorName = "Nitin" + " " + "Rawat";
     TempData["Author"] = authorName;
 }
@@ -119,7 +119,8 @@ else
         text = lineBreakRegex.Replace(text, Environment.NewLine);
         text = stripFormattingRegex.Replace(text, string.Empty);
         text = Regex.Replace(text, @"[^,.A-Za-z0-9\s-]", "");
-        @text;
+        @text
+        ;
     }
 }
 @functions {
@@ -285,8 +286,7 @@ else
         padding-left: 18px !important;
     }
 
-        .live:before, .live-dot:before 
-        {
+        .live:before, .live-dot:before {
             width: 9px;
             height: 9px;
             background: #ec1c23;
@@ -688,15 +688,13 @@ else
         margin-top: 30px
     }
 
-    @@media screen and (max-width:992px)
-    {
+    @@media screen and (max-width:992px) {
         .article-image-container {
             width: 100%;
         }
     }
 
-    @@media screen and (max-width:768px) 
-    {
+    @@media screen and (max-width:768px) {
         #news-content {
             margin-top: 20px;
         }
@@ -706,8 +704,7 @@ else
         }
     }
 
-    @@media screen and (max-width:640px) 
-    {
+    @@media screen and (max-width:640px) {
         .article .title {
             font-size: 28px;
         }
@@ -753,15 +750,13 @@ else
         }
     }
 
-    @@media screen and (max-width: 2560px) and (min-width: 1500px) 
-    {
-      .renderbody .container {
-
+    @@media screen and (max-width: 2560px) and (min-width: 1500px) {
+        .renderbody .container {
             width: 1170px !important;
         }
     }
-    </style>
-@section lastModified{
+</style>
+@section lastModified {
     <meta itemprop="datePublished" content="@Model.PublishedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
     <meta itemprop="dateModified" content="@Model.ModifiedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
 }
@@ -824,7 +819,7 @@ else
                     </div>
                     <section class="article-desc">
                         @{
-                             await GetCleanDescription(@DataDesc);
+                            await GetCleanDescription(@DataDesc);
                         }
 
                     </section>
@@ -859,7 +854,7 @@ else
                         <section class="article-desc f-18">
 
                             @{
-                                 await GetCleanDescription(@DataDesc);
+                                await GetCleanDescription(@DataDesc);
                             }
 
 
@@ -1013,12 +1008,14 @@ else
         else
         {
             <text>
-                 "articleBody":"@{ /* await GetDescriptionText(Model.Description); */ }",</text>
+                             "articleBody":"@{
+                    /* await GetDescriptionText(Model.Description); */
+                }",</text>
         }"keywords":["@keywords"], "url":"@domainUrl@schemaUrl", "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "dateModified":"@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "@authorName"}, "publisher":{"@@type":"Organization", "name":"Devdiscourse", "url": "https://www.Devdiscourse.com", "logo":{"@@type": "ImageObject", "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png", "width": 600, "height": 60}}, "image":{"@@type": "ImageObject", "url": "@pageImage?width=1280", "height": 900, "width": 1280}}
 
     </script>
 </div>
-@section scripts{
+@section scripts {
     <script>
         var id = '@(Model.Id)';
         var inCallbackBlog = false;
@@ -1072,7 +1069,7 @@ else
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                    var Id = $(this).data('topic');
+                                                        var Id = $(this).data('topic');
                     var IT = $(this).data('it');
                     var RT = $(this).data('rt');
                     $.post('/api/ReactLivediscourse/' + Id + '/' + IT + '/' + RT,
@@ -1106,7 +1103,7 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                            });
+                                                    });
             GetRecommendedDiscourse();
             function GetRecommendedDiscourse() {
                 $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/2').done(function (data) {
@@ -1137,7 +1134,8 @@ else
                         var newsUrl = convertToSlug(item.id, item.title);
                         var imghtml = '';
                         if (item.imageUrl != null) {
-                            var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : "https://www.devdiscourse.com" + item.imageUrl;
+                            // var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : "https://www.devdiscourse.com" + item.imageUrl;
+                            var newsImage = item.imageUrl;
                             imghtml = '<div class="media-left"><img src="' + newsImage + '?width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
                         }
                         trendingHtml += '<a href="/live-discourse/' + newsUrl + '" class="text-decoration">' +
@@ -1159,7 +1157,8 @@ else
                         var newsUrl = convertToSlug(item.id, item.title);
                         var imghtml = '';
                         if (item.imageUrl != null) {
-                            var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : "https://www.devdiscourse.com" + item.imageUrl;
+                            // var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : "https://www.devdiscourse.com" + item.imageUrl;
+                            var newsImage = item.imageUrl;
                             imghtml = '<div class="media-left"><img src="' + newsImage + '?width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
                         }
                         latestHtml += '<a href="/live-discourse/' + newsUrl + '" class="text-decoration">' +
@@ -1191,12 +1190,12 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                            });
+                                                    });
             $(document).on('click', '.badge-custom', function () {
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                var tagId = $(this).data('id');
+                                                    var tagId = $(this).data('id');
                     $.post("/api/FollowDiscourseTag/" + tagId,
                         function (data) {
                             if (data == "Follow") {
@@ -1211,7 +1210,7 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                            });
+                                                    });
             GetDiscourseIndex();
             function GetDiscourseIndex() {
                 if (blogIndexPage > -1 && !inCallbackIndex) {
@@ -1341,148 +1340,150 @@ else
                 getComments($(this).data('id'), $(this).data('parent'), $(this).data('page'));
                 $(this).remove();
             });
-            @if(Model.Creator == loginUserId)
-            {
-                <text>
-            $(document).on('click', '.btn-delete', function () {
-                var removeId = $(this).attr('id').replace("delete_", "");
-                $.ajax({
-                    url: '/Livediscourse/removeComment',
-                    type: "GET",
-                    data: { id: removeId },
-                    success: function (data) {
-                        $("#single_" + removeId).remove();
-                        console.log(data);
-                        if ($('#itemComment_' + data).text().trim() == '') {
-                            $('#itemComment_' + data).html('<h4 class="text-muted no-margin">No Comments</h4>')
-                        }
-                    },
-                    error: function (req, status, err) {
-                        console.log(req.responseText)
-                    }
-                });
-                });
-                </text>
-            }
-            function getComments(itemId, parentId, page) {
-                $.ajax({
-                    url: '/api/SearchApi/liveblogComments/' + itemId + '/' + parentId + '/' + page,
-                    type: "GET",
-                    success: function (data) {
-                        $.each(data, function (i, item) {
-                            $("#single_" + data[i].commentId).remove();
-                            var childHtml = '';
-                            var hideHtml = '';
-                            if (item.childCount > 0) {
-                                childHtml = '<div class="loadCommentBtn replyBtn" data-id="' + itemId + '" data-parent="' + data[i].commentId + '" data-page="1"><img src="/images/icons/comments.png" class="reply-icon"/> View ' + item.childCount + ' replies</div>';
-                            }
-                           @if(Model.Creator == loginUserId)
-                            {
-                                <text>
-                            hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[i].commentId+'">Delete</span>';
-                               </text>
-                            }
-                            if (data[i].parentId == 0) {
-                                $('#itemComment_' + data[i].itemId).append('<div class="comment" id="single_' + data[i].commentId + '">' +
-                                    '<div class="name">' + data[i].name + '</div>' +
-                                    '<div class="content">' + data[i].commentText + '</div>' +
-                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
-                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="endorse_3_' + data[i].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> ' + pluralise(item.endorseCount, "Endorse") + '</span>' +
-                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="reject_3_' + data[i].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> ' + pluralise(item.rejectCount, "Reject") + '</span>' +
-                                    '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].commentId + '">Reply</span>' +
-                                    hideHtml + '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
-                                    '<div class="text-warning reason-text" id="reason_' + data[i].commentId + '"></div>' +
-                                    '<div class="comment-input-container">' +
-                                    '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
-                                    '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].commentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
-                                    '</div></div>' + childHtml +
-                                    '<div class="child-container" id="parent_' + data[i].commentId + '"></div>' +
-                                    '<div class="root-container" id="root_' + data[i].commentId + '"></div>' +
-                                    '</div>');
-                            } else if (data[i].parentId == data[i].rootParentId) {
-                                $('#parent_' + data[i].parentId).append('<div id="single_' + data[i].commentId + '">' +
-                                    '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].replyText + ' ' + data[i].commentText + '</span></div>' +
-                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
-                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="endorse_3_' + data[i].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> ' + pluralise(item.endorseCount, "Endorse") + '</span>' +
-                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="reject_3_' + data[i].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> ' + pluralise(item.rejectCount, "Reject") + '</span>' +
-                                    '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].parentId + '">Reply</span>' +
-                                    hideHtml + '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
-                                    '<div class="text-warning reason-text" id="reason_' + data[i].commentId + '"></div>' +
-                                    '<div class="comment-input-container">' +
-                                    '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
-                                    '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].parentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
-                                    '</div>' +
-                                    '</div>' + childHtml +
-                                    '</div>');
-                            } else {
-                                $('#root_' + data[i].rootParentId).append('<div id="single_' + data[i].commentId + '">' +
-                                    '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].replyText + ' ' + data[i].commentText + '</span></div>' +
-                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
-                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="endorse_3_' + data[i].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> ' + pluralise(item.endorseCount, "Endorse") + '</span>' +
-                                    '<span data-topic="' + data[i].commentId + '" data-it="3" id="reject_3_' + data[i].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> ' + pluralise(item.rejectCount, "Reject") + '</span>' +
-                                    '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].rootParentId + '">Reply</span>' +
-                                    hideHtml + '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
-                                    '<div class="text-warning reason-text" id="reason_' + data[i].commentId + '"></div>' +
-                                    '<div class="comment-input-container">' +
-                                    '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
-                                    '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].rootParentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
-                                    '</div>' +
-                                    '</div>' + childHtml +
-                                    '</div>');
+        @if (Model.Creator == loginUserId)
+        {
+            <text>
+                    $(document).on('click', '.btn-delete', function () {
+                        var removeId = $(this).attr('id').replace("delete_", "");
+                        $.ajax({
+                            url: '/Livediscourse/removeComment',
+                            type: "GET",
+                            data: { id: removeId },
+                            success: function (data) {
+                                $("#single_" + removeId).remove();
+                                console.log(data);
+                                if ($('#itemComment_' + data).text().trim() == '') {
+                                    $('#itemComment_' + data).html('<h4 class="text-muted no-margin">No Comments</h4>')
+                                }
+                            },
+                            error: function (req, status, err) {
+                                console.log(req.responseText)
                             }
                         });
-                        if (data.length == 25 && parentId == 0) {
-                            $('#itemComment_' + itemId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
-                        } else if (data.length == 25) {
-                            $('#parent_' + parentId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
+                    });
+            </text>
+        }
+                function getComments(itemId, parentId, page) {
+                    $.ajax({
+                        url: '/api/SearchApi/liveblogComments/' + itemId + '/' + parentId + '/' + page,
+                        type: "GET",
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+                                $("#single_" + data[i].commentId).remove();
+                                var childHtml = '';
+                                var hideHtml = '';
+                                if (item.childCount > 0) {
+                                    childHtml = '<div class="loadCommentBtn replyBtn" data-id="' + itemId + '" data-parent="' + data[i].commentId + '" data-page="1"><img src="/images/icons/comments.png" class="reply-icon"/> View ' + item.childCount + ' replies</div>';
+                                }
+        @if (Model.Creator == loginUserId)
+        {
+            <text>
+                                        hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[i].commentId + '">Delete</span>';
+            </text>
+        }
+                                                    if (data[i].parentId == 0) {
+                                    $('#itemComment_' + data[i].itemId).append('<div class="comment" id="single_' + data[i].commentId + '">' +
+                                        '<div class="name">' + data[i].name + '</div>' +
+                                        '<div class="content">' + data[i].commentText + '</div>' +
+                                        '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
+                                        '<span data-topic="' + data[i].commentId + '" data-it="3" id="endorse_3_' + data[i].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> ' + pluralise(item.endorseCount, "Endorse") + '</span>' +
+                                        '<span data-topic="' + data[i].commentId + '" data-it="3" id="reject_3_' + data[i].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> ' + pluralise(item.rejectCount, "Reject") + '</span>' +
+                                        '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].commentId + '">Reply</span>' +
+                                        hideHtml + '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
+                                        '<div class="text-warning reason-text" id="reason_' + data[i].commentId + '"></div>' +
+                                        '<div class="comment-input-container">' +
+                                        '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                        '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].commentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                        '</div></div>' + childHtml +
+                                        '<div class="child-container" id="parent_' + data[i].commentId + '"></div>' +
+                                        '<div class="root-container" id="root_' + data[i].commentId + '"></div>' +
+                                        '</div>');
+                                } else if (data[i].parentId == data[i].rootParentId) {
+                                    $('#parent_' + data[i].parentId).append('<div id="single_' + data[i].commentId + '">' +
+                                        '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].replyText + ' ' + data[i].commentText + '</span></div>' +
+                                        '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
+                                        '<span data-topic="' + data[i].commentId + '" data-it="3" id="endorse_3_' + data[i].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> ' + pluralise(item.endorseCount, "Endorse") + '</span>' +
+                                        '<span data-topic="' + data[i].commentId + '" data-it="3" id="reject_3_' + data[i].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> ' + pluralise(item.rejectCount, "Reject") + '</span>' +
+                                        '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].parentId + '">Reply</span>' +
+                                        hideHtml + '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
+                                        '<div class="text-warning reason-text" id="reason_' + data[i].commentId + '"></div>' +
+                                        '<div class="comment-input-container">' +
+                                        '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                        '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].parentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                        '</div>' +
+                                        '</div>' + childHtml +
+                                        '</div>');
+                                } else {
+                                    $('#root_' + data[i].rootParentId).append('<div id="single_' + data[i].commentId + '">' +
+                                        '<div class="comment reply"><span class="name">' + data[i].name + '</span> <span class="content">' + data[i].replyText + ' ' + data[i].commentText + '</span></div>' +
+                                        '<span data-topic="' + data[i].commentId + '" data-it="3" id="like_3_' + data[i].commentId + '" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> ' + pluralise(item.likeCount, "Like") + '</span>' +
+                                        '<span data-topic="' + data[i].commentId + '" data-it="3" id="endorse_3_' + data[i].commentId + '" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> ' + pluralise(item.endorseCount, "Endorse") + '</span>' +
+                                        '<span data-topic="' + data[i].commentId + '" data-it="3" id="reject_3_' + data[i].commentId + '" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> ' + pluralise(item.rejectCount, "Reject") + '</span>' +
+                                        '<span class="btn-reply btn btn-sm" data-parent="' + data[i].commentId + '" data-root="' + data[i].rootParentId + '">Reply</span>' +
+                                        hideHtml + '<div class="comment-footer commentField" id="field_' + data[i].commentId + '">' +
+                                        '<div class="text-warning reason-text" id="reason_' + data[i].commentId + '"></div>' +
+                                        '<div class="comment-input-container">' +
+                                        '<textarea class="comment-input" id="comment' + data[i].commentId + '" placeholder="Your comment here..."></textarea>' +
+                                        '<button class="comment-btn" data-reply="' + data[i].name + '" data-parent="' + data[i].commentId + '" data-root="' + data[i].rootParentId + '" data-btn="' + itemId + '"><span class="fa fa-paper-plane"></span></button>' +
+                                        '</div>' +
+                                        '</div>' + childHtml +
+                                        '</div>');
+                                }
+                            });
+                            if (data.length == 25 && parentId == 0) {
+                                $('#itemComment_' + itemId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
+                            } else if (data.length == 25) {
+                                $('#parent_' + parentId).append('<div class="p-10 btn btn-block loadCommentBtn" data-id="' + itemId + '" data-parent="' + parentId + '" data-page="' + page + 1 + '">LOAD MORE COMMENTS</div>');
+                            }
+                        },
+                        error: function (req, status, err) {
+                            console.log(req.responseText)
                         }
-                    },
-                    error: function (req, status, err) {
-                        console.log(req.responseText)
-                    }
-                });
-            }
+                    });
+                }
             $(document).on('click', '.comment-btn', function () {
         @if (User.Identity.IsAuthenticated)
-                {
-                <text>                 
-                var id = $(this).data('btn');
-                var parentId = $(this).data('parent');
-                var rootParentId = $(this).data('root');
-                var reply = $(this).data('reply');
-                if (reasonForReply != '') {
-                    reply = reasonForReply;
-                }
-                var commentText = $(document).find('#comment' + parentId).val();
-                if (commentText.trim() != '') {
-                    SendData(id, commentText, parentId, rootParentId, reply, "comment");
-                }
-        </text>
-                }
-                else {
-                <text> window.location = "/Account/Login?returnUrl=" + returnUrl;</text>
-                }
+        {
+            <text>
+                                                    var id = $(this).data('btn');
+                    var parentId = $(this).data('parent');
+                    var rootParentId = $(this).data('root');
+                    var reply = $(this).data('reply');
+                    if (reasonForReply != '') {
+                        reply = reasonForReply;
+                    }
+                    var commentText = $(document).find('#comment' + parentId).val();
+                    if (commentText.trim() != '') {
+                        SendData(id, commentText, parentId, rootParentId, reply, "comment");
+                    }
+            </text>
+        }
+        else
+        {
+            <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
+        }
 
-                        });
+                                                });
             $(document).on('click', '.main-comment-btn', function () {
         @if (User.Identity.IsAuthenticated)
-                {
-                <text>
-                var id = $(this).data('btn');
-                var parentId = $(this).data('parent');
-                var rootParentId = $(this).data('root');
-                var commentText = $(document).find('#maincomment' + id).val();
-                var reply = $(this).data('reply');
-                if (commentText.trim() != '') {
-                    SendData(id, commentText, parentId, rootParentId, reply, "maincomment");
-                }
-        </text>
-                }
-                else {
-                <text> window.location = "/Account/Login?returnUrl=" + returnUrl;</text>
-                }
+        {
+            <text>
+                                                    var id = $(this).data('btn');
+                    var parentId = $(this).data('parent');
+                    var rootParentId = $(this).data('root');
+                    var commentText = $(document).find('#maincomment' + id).val();
+                    var reply = $(this).data('reply');
+                    if (commentText.trim() != '') {
+                        SendData(id, commentText, parentId, rootParentId, reply, "maincomment");
+                    }
+            </text>
+        }
+        else
+        {
+            <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
+        }
 
-                        });
+                                                });
             function SendData(id, commentText, parentId, rootParentId, reply, ariaId) {
                 $.ajax({
                     url: '/Livediscourse/saveDiscourseComment',
@@ -1500,14 +1501,14 @@ else
                         if ($('#itemComment_' + data[0].itemId).text().trim() == 'No Comments') {
                             $('#itemComment_' + data[0].itemId).html('')
                         }
-               
-                         @if(Model.Creator == loginUserId)
-                             {
-                                 <text>
-                         hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[0].commentId+'">Delete</span>';
-                                 </text>
-                             }
-                        $("#comment" + data[0].parentId).attr('paceholder', 'Your comment here...');
+
+        @if (Model.Creator == loginUserId)
+        {
+            <text>
+                                hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[0].commentId + '">Delete</span>';
+            </text>
+        }
+                            $("#comment" + data[0].parentId).attr('paceholder', 'Your comment here...');
                         if (data[0].parentId == 0) {
                             $('#itemComment_' + data[0].itemId).append('<div class="comment" id="single_' + data[0].commentId + '">' +
                                 '<div class="name">' + data[0].name + '</div>' +

@@ -28,6 +28,7 @@
         font-size: 14px;
         padding-top: 5px;
     }
+
     .image-caption {
         height: 50px;
         width: 480px;
@@ -99,7 +100,8 @@
     <div class="gallery m-t-20" id="gallery">
         @foreach (var item in Model)
         {
-            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            @* var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; *@
+            var newsImage = item.ImageUrl;
             <div class="pics animation all 2">
                 <div style="display:inline-block">
                     <img class="img-fluid img-responsive" src="@newsImage?width=480" onload="imageLoaded(this)" data-id="@item.Id" alt="Image Gallery">
@@ -127,7 +129,7 @@
         @Html.PagedListPager(Model, page => Url.Action("Images", "UserFiles", new { page, text = ViewBag.text }))
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script>
         var _inputSearchText = '@(ViewBag.text)';
 

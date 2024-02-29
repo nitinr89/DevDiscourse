@@ -128,7 +128,7 @@
             <label>Author</label>
             <select class="form-control newsfilter" id="selUser">
                 <option value="">Select</option>
-                @foreach(var item in ViewBag.usrList)
+                @foreach (var item in ViewBag.usrList)
                 {
                     <option value="@item.Id">@item.User</option>
                 }
@@ -226,7 +226,8 @@
                     <td>
                         @if (!String.IsNullOrEmpty(item.ImageUrl))
                         {
-                            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                            @* var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; *@
+                            var newsImage = item.ImageUrl;
                             <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
                         }
                         else
@@ -313,7 +314,7 @@
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
             var _selLabel = '@(ViewBag.label)';
@@ -339,35 +340,35 @@
             if (_editorPick == "True") {
                 $("#editorPick").prop("checked", true);
             }
-        $('.lazy').lazy();
-        getCountries();
-        getShiftUser();
-        $("#status").change(function () {
-            $.ajax({
-                url: '/DevNews/UpdateAutoAssignStatus',
-                type: 'Get',
-                dataType: 'Json',
-                data: { status: $(this).prop("checked")},
-                success: function (data) {
-                    alert(data);
-                },
-                error: function () {
-                },
+            $('.lazy').lazy();
+            getCountries();
+            getShiftUser();
+            $("#status").change(function () {
+                $.ajax({
+                    url: '/DevNews/UpdateAutoAssignStatus',
+                    type: 'Get',
+                    dataType: 'Json',
+                    data: { status: $(this).prop("checked") },
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function () {
+                    },
+                });
             });
-        });
-        function getShiftUser() {
-            $.ajax({
-                url: '/Admin/GetShiftUser',
-                type: 'Get',
-                dataType: 'Json',
-                success: function (data) {
-                    var shiftUsers = data.map(item => `'<option value="${item.id}">${item.firstName} ${item.lastName}</option>'`)
-                    $('#shiftUsers').html(shiftUsers.join(''));
-                },
-                error: function () {
-                },
-            });
-        }
+            function getShiftUser() {
+                $.ajax({
+                    url: '/Admin/GetShiftUser',
+                    type: 'Get',
+                    dataType: 'Json',
+                    success: function (data) {
+                        var shiftUsers = data.map(item => `'<option value="${item.id}">${item.firstName} ${item.lastName}</option>'`)
+                        $('#shiftUsers').html(shiftUsers.join(''));
+                    },
+                    error: function () {
+                    },
+                });
+            }
             function getCountries() {
                 $.ajax({
                     url: '/Home/GetCountry',

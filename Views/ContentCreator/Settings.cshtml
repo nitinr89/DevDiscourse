@@ -395,7 +395,7 @@
                     success: function (data) {     
                         $('#coutryList').append('<option value="">Select Country</option');
                         $.each(data, function (i, item) {
-                            $('#coutryList').append('<option value="' + item.Title + '">' + item.Title + '</option>');
+                            $('#coutryList').append('<option value="' + item.title + '">' + item.title + '</option>');
                         });
                         if (_selectedCountry != "") {
                             $('#coutryList').val(_selectedCountry);

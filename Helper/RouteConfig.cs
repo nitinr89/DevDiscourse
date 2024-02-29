@@ -63,7 +63,11 @@
             pattern: "news-analysis/{type?}",
             defaults: new { controller = "Agencywire", action = "NewsAnalysis" }
             );
-
+            routes.MapControllerRoute(
+            name: "CoronavirusAwareness",
+            pattern: "coronavirus-awareness-campaign",
+            defaults: new { controller = "CoronaVirus", action = "Index" }
+          );
             routes.MapControllerRoute(
             name: "LivediscourseHome",
             pattern: "live-discourse",

@@ -1,0 +1,135 @@
+﻿@model Devdiscourse.Models.ViewModel.EmailFormModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "Knowledge and Media Partners | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse seek partnership with individuals and organizations for content contribution and content sharing as well as work with reputed institutions and firms as media partner.";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = @ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/partners";
+    ViewBag.pageKeywords = "media partnership, knowlegde partnership, devdiscourse media partner";
+    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+<style>
+    .renderBody {
+        margin-top: 0;
+    }
+
+    .input-margin10 {
+        margin-top: 15px;
+    }
+
+    .linktext, .linktext:hover {
+        text-decoration: none;
+        color: #222;
+    }
+
+    .no-b-r {
+        border-radius: 0;
+    }
+
+    .m-p-btn {
+        color: #ff7b00;
+        text-decoration: none;
+        margin-left: 20px;
+    }
+
+    .arrow-img {
+        width: 12px;
+        margin-right: 5px;
+        vertical-align: unset
+    }
+
+    .img-container {
+        background-color: #e9e9e9;
+    }
+
+    .content-container {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+
+
+    @@media(max-width:425px) {
+        .pagelink {
+            display: block;
+            padding: 5px 0;
+            text-align: left;
+        }
+
+        .content-container {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            text-align: left;
+        }
+
+        .media-right {
+            width: 26% !important;
+        }
+
+        .f-20 {
+            font-size: 14px;
+        }
+
+        .m-p-btn {
+            margin-left: 0;
+        }
+
+        .orgKBtn {
+            margin-top: 10px;
+        }
+
+        .partner-card {
+            height: 290px;
+        }
+    }
+
+    @@media(max-width:320px) {
+        .f-20 {
+            font-size: 12px;
+        }
+
+        .arrow-img {
+            width: 10px;
+            margin-right: 2px;
+            vertical-align: unset
+        }
+    }
+</style>
+<div class="img-container">
+   @*  @if (!Request.Browser.IsMobileDevice) *@
+    @if (!isMobile)
+    {
+        <img src="~/images/mediapartners/partners.jpg" class="img-responsive center-block" alt="Partners" />
+    }
+    else
+    {
+        <img src="~/images/mediapartners/mobilep.jpg" class="img-responsive center-block" alt="Partners" />
+    }
+</div>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="container content-container header-content text-center">
+    <p>Devdiscourse seek partnership with individuals and organizations for content contribution and content sharing as well as work with reputed institutions and firms as media partner.</p>
+    <div class="p-t-20">
+        <a href="/partners/knowledge-partners" style="color:#ff7b00;text-decoration:none;" class="pagelink f-20">
+            <img src="~/images/mediapartners/arrow.svg" alt="🡪" class="arrow-img" />
+            KNOWLEDGE PARTNERS
+        </a>
+        <a href="/partners/media-partners" class="pagelink m-p-btn f-20" style="color:#ff7b00;text-decoration:none;">
+            <img src="~/images/mediapartners/arrow.svg" alt="🡪" class="arrow-img" />
+            MEDIA PARTNERS
+        </a>
+    </div>
+</div>
+@section scripts {
+    <script>
+        $(document).find('#regDropDown').change(function () {
+            var date = new Date();
+            date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+            document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+            window.location.href = $(this).find('option:selected').attr('data-to');
+        });
+    </script>
+}

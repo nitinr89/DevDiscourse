@@ -194,7 +194,11 @@
             pattern: "partners/knowledge-partners",
             defaults: new { controller = "MediaPartnership", action = "Index" }
             );
-
+            routes.MapControllerRoute(
+        name: "PartnersList",
+        pattern: "partnerslist",
+        defaults: new { controller = "Partners", action = "Index" }
+      );
             routes.MapControllerRoute(
             name: "MediaPartnership",
             pattern: "partners/media-partners",
@@ -215,6 +219,11 @@
             pattern: "partnership/{action}/{type?}",
             defaults: new { controller = "MediaPartnership", action = "KnowledgePartners" }
             );
+            routes.MapControllerRoute(
+             name: "Partnership",
+             pattern: "partners",
+             defaults: new { controller = "MediaPartnership", action = "partners" }
+           );
             routes.MapControllerRoute(
             name: "InternetOfThingsWorld",
             pattern: "events/internetthingsworld",

@@ -1,0 +1,272 @@
+﻿@{
+    Layout = "~/Views/Shared/_ampLayout.cshtml";
+    ViewBag.Title = "Research | Blogs | News";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/Research";
+    ViewBag.PageDescription = "Devdiscourse provides international development news. Get todays Headline from Economy, Transport, Energy, Digital Development, WASH, Health, Technology, Art and culture, Urban Development, live news coverage across the world";
+    ViewBag.pageKeywords = "Development news, International Breaking News, energy news,urban development news,transport news,economy news,finance news,sports news,art and culture news,education news,latest news,Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+}
+@section headerScripts {
+    <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+    <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+    <script async custom-element="amp-lightbox" src="https://cdn.ampproject.org/v0/amp-lightbox-0.1.js"></script>
+}
+@section customCss {
+    *{box-sizing: border-box;}
+    amp-img.cover img{object-fit:cover;}
+    amp-img.contain img{object-fit:contain;}
+    .m-t-20{margin-top:20px;}
+    .bg-orange{background-color:#ff6a00;padding:30px 5px;}.bg-orange *{color:#fff;text-decoration:none;}.bg-orange h4{margin:5px 0;}
+    .single-section{position: relative;display: flex;}
+    .single-section .section-thumbnail{-webkit-box-flex: 0; -ms-flex: 0 0 120px; flex: 0 0 50px;text-align:center; min-width: 50px; margin-right: 10px; position: relative; z-index: 1;}
+    .lightbox {
+    background: rgba(0,0,0,0.8); width: 100%; height: 100%; position: absolute; display: flex; align-items: center; justify-content: center;
+    }.bg-white{background-color:#fff;}
+    .lightbox form *{
+    display:block;
+    }
+}
+<div class="content">
+    <amp-img src="https://www.devdiscourse.com/images/mobile_research_home.png"
+             width="425"
+             height="120"
+             class="contain"
+             layout="responsive"
+             alt="Participatory Monitoring of Sustainable Development Goals"></amp-img>
+</div>
+<div class="content">
+    <h2 class="page-title">The Research</h2>
+    <p>Seventeen Sustainable Development Goals (SDGs) and 169 targets to be achieved by 2030 - the development agenda for the global community has been agreed upon and set. Each country will choose the indicators that are best suited to track its own progress towards sustainable development.</p>
+    <p>Then there are a risks that, by focusing solely on the SDG indicators, governments may waste resources on data for data’s sake, rather than identifying local priorities. Understanding of local priorities require a simple but well-structured bottom-up approach to track the progress towards SDGs by taking into account the views of target beneficiaries and the people involved. Taking a bottom-up approach will be essential to successfully identify and deliver on priorities.</p>
+    <p>Participatory monitoring is one way of generating the data needed to close the information gaps and achieve the evidence base needed for robust implementation of the SDGs. In this sense, the data/information pouring in from the participatory monitoring will complement, and not intended to substitute, the monitoring based on the non-participatory data compiled by the authorities at national, regional and global level.</p>
+    <p>The use of IT tools is changing the face of participatory monitoring paradigm by enabling the citizens to provide and the government agencies to receive the feedback on developmental interventions and availability as well as quality of basic services such as roads, water and sanitation, public health facilities, etc.</p>
+    <p>This research project has been structured around two activity streams – first, generating the ideas and proof of concepts to develop and upgrade IT tools for participatory monitoring of SDGs worldwide; second, actually using the developed tools for generation of data/information for participatory monitoring which will complement the monitoring of indicators based on recorded non-participatory data sets.</p>
+    <p>Generating the ideas and proof of concepts to develop and upgrade IT tools is being steered by Digital Development Department (3D) of VisionRI guided by a designated research team. A panel of technical advisors provide the mentoring role and contribute for the generation of ideas through online and offline brain-storming and panel discussion sessions periodically.</p>
+    <p>The web and android based tool being used for this research is a module of the software, IDEA-M&E, designed and developed by VisionRI for the monitoring and evaluation of developmental interventions.</p>
+    <p>The execution modality of the research is generating crowd-sourced data through a well-designed program of voluntary participation named ‘League of SDGs Samurai’.</p>
+    <p>The online platform for the research project displays data pouring in for the research on an interactive map as ‘Live Monitoring’. With the help of maps, analytics, and other tools one can witness the continuous monitoring on her screen in real time.</p>
+    <p>We understand that the crowd sourced data generated under the research project may be useful for governments, development agencies, research institutions, civil society organizations and community groups. For such institutions interested in getting the raw data feed as well as basic analytics for the geographical areas of their interest, we invite institutional partnerships under a simple arrangement called ‘Adopt the Research’. Under this arrangement, we expect the partner institution to duly declare and publicise that it has adopted this research on its website and other publicity material in order to catalyse the process of crowd-sourced data generation. In return, the partner institution will be provided free of cost access to dashboard displaying the crowd sourced data from geographical area of its interest.</p>
+</div>
+<div class="content">
+    <div class="bg-orange fg-white">
+        <div class="single-section">
+            <div class="section-thumbnail">
+                <amp-img src="https://www.devdiscourse.com/images/SDGs/icons/live_monitoring.svg" width="40" alt="Live Monitoring Stream" height="40"></amp-img>
+            </div>
+            <div class="section-content">
+                <h4 class="title">
+                    <a href="/Research?amp#lms">Live Monitoring Stream</a>
+                </h4>
+                <p>
+                    The platform that never takes a rest. You can witness the continuous monitoring of the march towards achieving the Sustainable Development Goals on your screen in real time as a crowd sourced data flow. To see live monitoring
+                    <a href="/Research?amp#lms">click here.</a>
+                </p>
+            </div>
+        </div>
+        <div class="single-section">
+            <div class="section-thumbnail">
+                <amp-img src="https://www.devdiscourse.com/images/SDGs/icons/sdg_samurai.svg" width="40" alt="League of SDGs Samurai" height="40"></amp-img>
+            </div>
+            <div class="section-content">
+                <h4 class="title">
+                    <a href="/Research?amp#ss">League of SDGs Samurai</a>
+                </h4>
+                <p>In the present - daemons surrounds us in the form of inefficiencies, corruption, pollution, poverty, inequality, and what not. Our Earth is losing its sustainability, its balance, day in and day out.</p>
+                <p>It’s now time for you to be the change, it’s now time to be the saviour, it’s now time to be the ‘Samurai’ for the Sustainable Development of our mother earth, a ‘SDG-Samurai’, by actively participating in monitoring of Sustainable Development Goals.</p>
+                <p>Speak up for the ground realities in your community, your locality or any other area you are concerned about regarding basic services such as water and sanitation facilities, public health status and facilities, roads and transport, energy services, education facilities, environmental status, agriculture activities and gender equality and empowerment of women and girls. You can speak up your mind on government’s policies, plans, programs, projects and administration. The world will see and listen to you through this research platform.</p>
+                <p>You can simply respond to few multiple choice questions posed under the research, click and send a picture or record and send audio and video clips. The whole world will see and listen to what you will speak out for. Starting as a volunteer you can rise in ranks in the ‘League of SDGs Samurai’ as Second Lieutenant, Colonel, Brigadier or even higher than that up to General. Each contribution to research by you will add to your score as SDGs Samurai and ensure your promotion to higher ranks.</p>
+                <p>Your contribution will add to the collective voice of other fellow SDGs Samurai and catalyse the process of change we aspire for our communities and localities by monitoring the march towards achieving the Sustainable Development Goals.</p>
+                <p>We invite you to speak out and be the saviour! Please <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse">download and install</a> our app from google play store and provide your contribution by selecting the thematic area about which you wish to speak out. To see who is there in league <a href="/Research?amp#ss">click here.</a></p>
+            </div>
+        </div>
+        <div class="single-section">
+            <div class="section-thumbnail">
+                <amp-img src="https://www.devdiscourse.com/images/SDGs/icons/adopt_the_tools.svg" width="40" alt="Institutional Partnership" height="40"></amp-img>
+            </div>
+            <div class="section-content">
+                <h4 class="title">
+                    <a href="/Research?amp#ss">Institutional Partnership</a>
+                </h4>
+                <p>
+                    Interested in getting the raw data feed as well as basic analytics for the geographical areas of your interest? Want to communicate with volunteers providing data from geographical are of your interest? We invite your institution for partnership under a simple arrangement called ‘Adopt the Research’. Under this arrangement, we expect your institution to duly declare and publicise that it has adopted this research on its website and other publicity material in order to catalyse the process of crowd-sourced data generation. In return, your institution will be provided free of cost access to dashboard displaying the crowd sourced data from geographical area of its interest as well platform for communicating with volunteers providing data.
+                    Write us by <span>clicking here.</span>
+                </p>
+            </div>
+        </div>
+        <div class="single-section">
+            <div class="section-thumbnail">
+                <amp-img src="https://www.devdiscourse.com/images/SDGs/icons/sdg_news.svg" width="40" alt="SDGs Stories" height="40"></amp-img>
+            </div>
+            <div class="section-content">
+                <h4 class="title">
+                    <a href="/Research?amp#sdgn">SDGs Stories</a>
+                </h4>
+                <p>
+                    World’s citizen need to be aware what SDGs are and how these goals contribute in enhancing the welfare of human society, and what are their rights to demand for better services. Information to world community on SDGs agenda and related actions especially at the local level are all crucial steps towards achieving mission SDGs. Creating awareness on the SDGs among community members and concerned government stakeholders improves and sustains interactions between government and the people, thereby setting a platform towards achieving the SDGs by 2030 through increased demand for improved services delivery.
+                </p>
+                <p>
+                    With an objective to disseminate the maximum information about SDGs and enhance the level of awareness we cover all related to SDGs here, may it be news stories, case studies, research briefings, events and discussions.
+                    To see SDGs stories <a href="/Research?amp#sdgn">click here.</a>
+                </p>
+            </div>
+        </div>
+        <div class="single-section">
+            <div class="section-thumbnail">
+                <amp-img src="https://www.devdiscourse.com/images/SDGs/icons/SDG.svg" width="40" alt="Institutional Partnership" height="40"></amp-img>
+            </div>
+            <div class="section-content">
+                <h4 class="title">
+                    <a href="/Research#sdg">Sustainable Development Goals</a>
+                </h4>
+                <p id="lms">The Sustainable Development Goals (SDGs), otherwise known as the Global Goals, are a universal call to action to end poverty, protect the planet and ensure that all people enjoy peace and prosperity. To know more about SDGs <a href="/Research#sdg">click here.</a></p>
+            </div>
+        </div>
+    </div>
+    <h2 class="page-title">LIVE MONITORING STREAM</h2>
+    <amp-iframe width="200" height="140"
+                sandbox="allow-scripts allow-same-origin"
+                layout="responsive"
+                frameborder="0"
+                src="https://www.devdiscourse.com/research/map">
+    </amp-iframe>
+</div>
+<div class="content" id="sdgn">
+    <h2 class="page-title">SDGs Stories</h2>
+    <amp-state id="newsState" src="@Url.Action("GetAmpSDGNews","Research",new { moreItemsPageIndex = 1 })"></amp-state>
+    <amp-state id="news">
+        <script type="application/json">
+            {
+            "moreItemsPageIndex": 2,
+            "hasMorePages": true
+            }
+        </script>
+    </amp-state>
+    <amp-list src="@Url.Action("GetAmpSDGNews","Research",new { moreItemsPageIndex = 1 })" [src]="newsState.items" width="auto" height="1000" [height]="newsState.items.length * 95" class="blogList">
+        <template type="amp-mustache">
+            <a href="{{url}}?amp" title="{{title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    <div class="post-thumbnail">
+                        <amp-img src="{{imageUrl}}?w=140&h=85&mode=crop" layout="responsive" width="140" alt="{{title}}" height="85"></amp-img>
+                    </div>
+                    <div class="post-content">
+                        <h4 class="title">{{title}}</h4>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+    <form method="GET"
+          action="@Url.Action("GetAmpSDGNews","Research")"
+          action-xhr="@Url.Action("GetAmpSDGNews","Research")"
+          target="_top"
+          on="submit-success: AMP.setState({
+              newsState: {
+                items: newsState.items.concat(event.response.items)
+              },
+              news: {
+                moreItemsPageIndex: news.moreItemsPageIndex + 1,
+                hasMorePages: event.response.hasMorePages
+              }
+            });">
+        <input type="hidden" name="moreItemsPageIndex" value="2" [value]="news.moreItemsPageIndex">
+        <button type="submit" title="Load More" class="load-btn show" [class]="(news.hasMorePages == false ? 'hide' : 'load-btn show')">Show more <span class="fa fa-chevron-circle-down"></span></button>
+    </form>
+    <div class="ad-container">
+        <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" title="Download App from Playstore" target="_blank">
+            <amp-img src="https://www.devdiscourse.com/images/SDGs/research-googleplay.jpg"
+                     width="728"
+                     height="90"
+                     class="contain"
+                     layout="responsive"
+                     alt="Download the Devdiscourse App"></amp-img>
+        </a>
+    </div>
+</div>
+@*<amp-lightbox id="my-lightbox"
+              layout="nodisplay">
+    <div class="lightbox">
+        <div class="content bg-white">
+            <span on="tap:my-lightbox.close" role="button" tabindex="0">x</span>
+            <h1>Hello World!</h1>
+            <form method="post"
+                  class="p2"
+                  action-xhr="/components/amp-form/submit-form-input-text-xhr"
+                  target="_top">
+                <p>Form Submission with Page Update</p>
+                <div class="ampstart-input inline-block relative m0 p0 mb3">
+                    <input type="text"
+                           class="block border-none p0 m0"
+                           name="name"
+                           placeholder="Name..."
+                           required>
+                    <input type="email"
+                           class="block border-none p0 m0"
+                           name="email"
+                           placeholder="Email..."
+                           required>
+                </div>
+                <input type="submit"
+                       value="Subscribe"
+                       class="ampstart-btn caps">
+                <div submit-success>
+                    <template type="amp-mustache">
+                        Success! Thanks {{name}} for trying the
+                        <code>amp-form</code> demo! Try to insert the word "error" as a name input in the form to see how
+                        <code>amp-form</code> handles errors.
+                    </template>
+                </div>
+                <div submit-error>
+                    <template type="amp-mustache">
+                        Error! Thanks {{name}} for trying the
+                        <code>amp-form</code> demo with an error response.
+                    </template>
+                </div>
+            </form>
+        </div>
+    </div>
+</amp-lightbox>*@
+@*<div class="content full-bottom">
+        <div class="decoration"></div>
+        <div class="news-boxes">
+            @{ Html.RenderAction("AmpNewsBySector", "Home", new { reg = ViewBag.edition, sector = "6", skip = 0, take = 1 });}
+            @{ Html.RenderAction("AmpNewsBySector", "Home", new { reg = ViewBag.edition, sector = "2", skip = 0, take = 1 });}
+            @{ Html.RenderAction("AmpNewsBySector", "Home", new { reg = ViewBag.edition, sector = "1", skip = 0, take = 1 });}
+            @{ Html.RenderAction("AmpNewsBySector", "Home", new { reg = ViewBag.edition, sector = "9", skip = 0, take = 1 });}
+            <div class="clear"></div>
+        </div>
+    </div>*@
+@*<div class="amp-ad-container">
+        <a target="_blank"
+           href="http://www.visionri.com">
+            <amp-img src="https://www.devdiscourse.com/AdminFiles/Adds/visionri%20320x100.jpg"
+                     width="300"
+                     height="100"
+                     layout="responsive"
+                     alt="a4a image"></amp-img>
+        </a>
+    </div>*@
+<amp-analytics type="googleanalytics">
+    <script type="application/json">
+        {
+        "vars": {
+        "account": "UA-106388823-1"
+        },
+        "triggers": {
+        "default pageview": {
+        "on": "visible",
+        "request": "pageview",
+        "vars": {
+        "title": "Google AMP"
+        }
+        }
+        }
+        }
+    </script>
+</amp-analytics>

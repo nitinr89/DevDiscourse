@@ -500,6 +500,7 @@ namespace Devdiscourse.Controllers.API
             var typeSearch = type == "all" ? "" : type;
             var countrySearch = country == "all" ? "" : country;
             var searchRegion = region == "Global Edition" ? "" : region;
+           // var sectorId = Convert.ToInt32(sector);
 
             var newsSearch = db.DevNews
                 .Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch)
@@ -518,10 +519,10 @@ namespace Devdiscourse.Controllers.API
                     NewsId = a.NewsId,
                     Label = a.NewsLabels
                 });
-            //if (sector != "all")
-            //{
-            //    newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
-            //}
+            if (sector != "all")
+            {
+                newsSearch = newsSearch.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
+            }
             if (beforeDate != "null")
             {
                 // DateTime filterDate = DateTime.Parse(beforeDate.AsDateTime(DateTime.Now.AddDays(-60)).ToString());

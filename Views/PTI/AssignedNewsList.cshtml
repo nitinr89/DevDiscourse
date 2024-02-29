@@ -9,6 +9,7 @@
     ViewBag.Title = "Assigned News";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
 }
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 <link href="~/Content/admin.css" rel="stylesheet" />
 <style>
@@ -159,7 +160,16 @@
                         {
                             var workstage = item.WorkStage.Split(',');
                             <span id="@item.NewsId">
-                                <span class="pull-right badge @workstage[1]">@workstage[0]</span>
+                                @if (item.CreatedOn != item.ModifiedOn)
+                                {
+
+                                    var workstageStep = workstage[0].Split('-');
+                                    <span class="pull-right bg-green badge text-capitalize">@workstageStep[0] - Edited</span>
+                                }
+                                else
+                                {
+                                    <span class="text-capitalize pull-right badge @workstage[1]">@workstage[0]</span>
+                                }
                             </span>
                         }
                         else
@@ -213,6 +223,7 @@
     </div>
 </div>
 @section scripts {
+    <script src="~/Scripts/jquery.multiselect.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             var _selUserId = '@(ViewBag.userId)';

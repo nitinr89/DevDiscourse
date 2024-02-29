@@ -785,7 +785,11 @@ namespace DevDiscourse.Controllers.Others
         }
         public PartialViewResult GetBankDetails(string userId)
         {
-            var search = db.Payments.FirstOrDefault(a => a.Creator == userId);
+            Payment? search = db.Payments.FirstOrDefault(a => a.Creator == userId);
+            if (search == null)
+            {
+                return PartialView("_getBankDetails", new Payment());
+            }
             return PartialView("_getBankDetails", search);
         }
         public void CreateEarning(long id)

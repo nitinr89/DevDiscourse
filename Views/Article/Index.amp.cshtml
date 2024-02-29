@@ -66,6 +66,9 @@
     string objectfit = "contain";// Model.OriginalSource == "PR Newswire" ? "contain" : "cover";
 
 }
+@{
+    var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}";
+}
 @if (!string.IsNullOrEmpty(Model.SourceUrl))
 {
     titlecase = titlecase == "Washington Dc" ? "| Washington DC" : textInfo.ToTitleCase("| " + Model.SourceUrl.ToLower());
@@ -696,7 +699,7 @@ else
 
     <div class="also-container">
         <h3 class="ar-title">READ MORE</h3>
-        <amp-list src="https://192.168.1.142/api/SearchApi/AmpRelatedNews/@Model.NewsId/@ViewBag.region/@Model.Sector" width="auto" height="280" class="blogList">
+        <amp-list src="@baseUrl/api/SearchApi/AmpRelatedNews/@Model.NewsId/@ViewBag.region/@Model.Sector" width="auto" height="280" class="blogList">
             <template type="amp-mustache">
                 <div class="also-title">
 
@@ -713,7 +716,7 @@ else
 
 </div>
 <div class="news-box">
-    <amp-list src="https://192.168.1.142/api/SearchApi/GetPreviousSectorAmpNews/@Model.NewsId/@Model.Sector/@ViewBag.region" width="auto" height="1500" class="">
+    <amp-list src="api/SearchApi/GetPreviousSectorAmpNews/@Model.NewsId/@Model.Sector/@ViewBag.region" width="auto" height="1500" class="">
         <template type="amp-mustache">
             <div>
                 <div class="article-divider clearfix" data-articleurl="{{slug}}?amp" data-articletitle="{{title}}">
@@ -767,7 +770,7 @@ else
 </div>
 <div class="news-box p-t-20">
     <h3 class="page-title">OPINION / BLOG</h3>
-    <amp-list src="https://192.168.1.142/api/SearchApi/GetAmpOpinion/@ViewBag.region" width="auto" height="500" class="blogList">
+    <amp-list src="@baseUrl/api/SearchApi/GetAmpOpinion/@ViewBag.region" width="auto" height="500" class="blogList">
         <template type="amp-mustache">
             @*    <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
             <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">
@@ -802,7 +805,7 @@ else
     <h3 class="page-title">LATEST NEWS</h3>
 </div>
 <div class="cont-container">
-    <amp-list src="https://192.168.1.142/api/SearchApi/GetAmpLatestNewsItems" width="auto" height="540" class="blogList">
+    <amp-list src="@baseUrl/api/SearchApi/GetAmpLatestNewsItems" width="auto" height="540" class="blogList">
         <template type="amp-mustache">
 
             @* <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
@@ -830,7 +833,7 @@ else
 <div class="news-box">
 
     <h4 class="page-title">VIDEOS</h4>
-    <amp-list src="https://192.168.1.142/api/SearchApi/GetAmpVideoNews/@ViewBag.region" width="auto" height="320" class="blogList">
+    <amp-list src="@baseUrl/api/SearchApi/GetAmpVideoNews/@ViewBag.region" width="auto" height="320" class="blogList">
         <template type="amp-mustache">
             @*   <a href="@domainUrl{{url}}?amp" title="{{title}}" class="no-text-decoration"> *@
             <a href="{{url}}?amp" title="{{@Model.Title}}" class="no-text-decoration v-a-m">

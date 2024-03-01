@@ -596,6 +596,7 @@ namespace DevDiscourse.Controllers
         }
         public ActionResult Home()
         {
+      
             string? cookie = Request.Cookies["Edition"];
             switch (cookie)
             {
@@ -607,9 +608,11 @@ namespace DevDiscourse.Controllers
                     break;
             }
             return View();
+         
         }
         public async Task<ActionResult> Article(long? id)
         {
+            string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             try
             {
                 if (id == null)
@@ -651,7 +654,9 @@ namespace DevDiscourse.Controllers
                 ViewBag.BlogUpdates = blogUpdates;
                 ViewBag.FirstBlogUpdates = blogUpdates.Take(1);
                 ViewBag.HasUpdates = blogUpdates.Any();
-                return View(livediscourse);
+                //return View(livediscourse);
+                if (scheme.EndsWith("?amp")) return View("Article.amp",livediscourse);
+                else return View(livediscourse);
             }
             catch (Exception ex)
             {

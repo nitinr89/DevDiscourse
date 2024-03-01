@@ -259,7 +259,7 @@ namespace Devdiscourse.Controllers.API
                     Disclaimer = disclaimer
                 });
             }
-            return (IActionResult)Ok(new { items = resultNewsList, hasMorePages = false });
+            return Ok(new { items = resultNewsList, hasMorePages = false });
         }
         public string GetCity(string city)
         {

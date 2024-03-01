@@ -1,0 +1,224 @@
+﻿@{
+    Layout = "~/Views/Shared/_ampLayout.cshtml";
+    ViewBag.Title = "Global Development News | News Briefings";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.webEdition = ViewBag.region;
+    string sector = ViewBag.sector.ToString().ToLower() == "all" ? "0" : ViewBag.sector.ToString();
+
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+    string sectorId = "";
+    if (!string.IsNullOrEmpty(ViewBag.labelSlug))
+    {
+        sectorId = ViewBag.labelSlug;
+    }
+    else if (!string.IsNullOrEmpty(ViewBag.sectorSlug))
+    {
+        sectorId = ViewBag.sectorSlug;
+    }
+    else
+    {
+        sectorId = ViewBag.sector;
+    }
+}
+@section headerScripts {
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+    <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+}
+@{
+    switch (sectorId)
+    {
+        case "agro-forestry":
+            ViewBag.Title = "Agro-Forestry News | Devdiscourse";
+            ViewBag.pageKeywords = "agriculture news, agriculture, food security, technology in agriculture, agriculture credit, agriculture marketing and extension services, agriculture policies, irrigation and farm management";
+            ViewBag.PageDescription = "News about agriculture, food security, technology in agriculture, agriculture credit, agriculture marketing and extension services, agriculture policies, irrigation and farm management.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/agro-forestry";
+            break;
+        case "art-culture":
+            ViewBag.Title = "Art & Culture News | Devdiscourse";
+            ViewBag.pageKeywords = "art and culture news, art and culture, festivals, events, films, Hollywood, Bollywood, drama, dance, acting, painting, artefacts, traditional arts, music, ethnic arts and culture";
+            ViewBag.PageDescription = "News about art and culture, festivals, events, films, Hollywood, Bollywood, drama, dance, acting, painting, artefacts, traditional arts, music, ethnic arts and culture.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/art-culture";
+            break;
+        case "digital-development":
+            ViewBag.Title = "Digital Development News | Devdiscourse";
+            ViewBag.pageKeywords = "Digital development news, Technology, robotics, Digital India, space, digital technology, socail media, electronic gadgets, artificial intelligence,  digital design, digital innovation";
+            ViewBag.PageDescription = "News about digital development, robotics, electronic gadgets, space, social media, information technology, digital design and innovation.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/digital-development";
+            break;
+        case "economy-business":
+            ViewBag.Title = "Economics & Business News | Devdiscourse";
+            ViewBag.pageKeywords = "economy news,economic trends, GDP growth, inflation, employment, exchange rates, stock markets, business trends, corporates, start-ups, takeovers, commodity prices";
+            ViewBag.PageDescription = "News about economic trends, GDP growth, inflation, employment, exchange rates, stock markets, business trends, corporates, start-ups, takeovers, commodity prices.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/economy-business";
+            break;
+        case "education":
+            ViewBag.Title = "Education News | Devdiscourse";
+            ViewBag.pageKeywords = "education policies, programs and investments, educational institutions, literacy campaigns, quality of education, schooling, higher education, universities";
+            ViewBag.PageDescription = "News about education policies, programs and investments, educational institutions, literacy campaigns, quality of education, schooling, higher education, universities.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/education";
+            break;
+        case "energy-extractives":
+            ViewBag.Title = "Education News | Devdiscourse";
+            ViewBag.pageKeywords = "energy trends, renewable energy, oil and gas, electricity, energy policy, programs, investments, business trends, corporates, energy pricing, energy and society";
+            ViewBag.PageDescription = "News about energy trends, renewable energy, oil and gas, electricity, energy policy, programs, investments, business trends, corporates, energy pricing, energy and society.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/energy-extractives";
+            break;
+        case "politics":
+            ViewBag.Title = "Get latest Politics News, Election news, Indian politics, International politics, Political parties";
+            ViewBag.pageKeywords = "politics, politicians, elections, democracy, political parties, political statements, political events, rallies, agitations, strikes, political violence, voters, public";
+            ViewBag.PageDescription = "News about politics, politicians, elections, democracy, political parties, political statements, political events, rallies, agitations, strikes, political violence, voters, public.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/politics";
+            break;
+        case "finance":
+            ViewBag.Title = "Finance News | Devdiscourse";
+            ViewBag.pageKeywords = "financial markets, financial transactions, stock markets, investments, funding, interest rates, shares, mutual funds, loans, banking, corporate finance, derivatives";
+            ViewBag.PageDescription = "News about financial markets, financial transactions, stock markets, investments, funding, interest rates, shares, mutual funds, loans, banking, corporate finance, derivatives.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/finance";
+            break;
+        case "governance":
+            ViewBag.Title = "Governance News | Devdiscourse";
+            ViewBag.pageKeywords = "governance, public administration, e-governance, law and order, government ministries, departments, good governance, democratic practices, public services";
+            ViewBag.PageDescription = "News about governance, public administration, e-governance, law and order, government ministries, departments, good governance, democratic practices, public services.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/governance";
+            break;
+        case "health":
+            ViewBag.Title = "Health News | Devdiscourse";
+            ViewBag.pageKeywords = "health trends, public health policies, programs, investments, researches, medicines, treatments, epidemics, WHO, hospitals, laboratories, medical equipment";
+            ViewBag.PageDescription = "News about health trends, public health policies, programs, investments, researches, medicines, treatments, epidemics, WHO, hospitals, laboratories, medical equipment.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/health";
+            break;
+        case "environment-natural-resources":
+            ViewBag.Title = "Environment & Natural Resources News | Devdiscourse";
+            ViewBag.pageKeywords = "environment, ecology, climate change, disasters, water resources, natural resources, environmental policies, programs, investments, awareness, environmental management";
+            ViewBag.PageDescription = "News about environment, ecology, climate change, disasters, water resources, natural resources, environmental policies, programs, investments, awareness, environmental management.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/environment-natural-resources";
+            break;
+        case "socialgender":
+            ViewBag.Title = "Social & Gender News | Devdiscourse";
+            ViewBag.pageKeywords = "Social development, social order, gender issues, gender equality, women security, crimes against women, inequality, poverty, social welfare schemes, policies, programs, investments";
+            ViewBag.PageDescription = "News about Social development, social order, gender issues, gender equality, women security, crimes against women, inequality, poverty, social welfare schemes, policies, programs, investments.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/socialgender";
+            break;
+        case "sports":
+            ViewBag.Title = "Sports News | Devdiscourse";
+            ViewBag.pageKeywords = "sports, football, cricket, hockey, players, coaches, FIFA, Asia Cup, sports policy, programs, investments, gold medal, silver medal, bronze medal, matches, scores, goals, runs";
+            ViewBag.PageDescription = "News about sports, football, cricket, hockey, players, coaches, FIFA, Asia Cup, sports policy, programs, investments, gold medal, silver medal, bronze medal, matches, scores, goals, runs.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/sports";
+            break;
+        case "transport":
+            ViewBag.Title = "Transport News | Devdiscourse";
+            ViewBag.pageKeywords = "transport, roads, rail, airlines, airports, buss terminals, parking, cargo, transport planning, ToD, electric vehicles, transport technology, vehicle fleets, transport business, transport and climate change";
+            ViewBag.PageDescription = "News about transport, roads, rail, airlines, airports, buss terminals, parking, cargo, transport planning, ToD, electric vehicles, transport technology, vehicle fleets, transport business, transport and climate change.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/transport";
+            break;
+        case "urban-development":
+            ViewBag.Title = "Urban Development News | Devdiscourse";
+            ViewBag.pageKeywords = "cities, urban policies, programs, investment, regulation, urban planning, smart cities, urban transport, green cities, urbanization, urban poverty, land use";
+            ViewBag.PageDescription = "News about cities, urban policies, programs, investment, regulation, urban planning, smart cities, urban transport, green cities, urbanization, urban poverty and land use.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/urban-development";
+            break;
+        case "wash":
+            ViewBag.Title = "Water and Sanitation News | Devdiscourse";
+            ViewBag.pageKeywords = "water and sanitation, hygiene, sanitation and health, sanitation trends, policy, programs, investments, sanitation awareness, solid waste management, water supply, sewerage system, rural sanitation, ODF";
+            ViewBag.PageDescription = "News about water and sanitation, hygiene, sanitation and health, sanitation trends, policy, programs, investments, sanitation awareness, solid waste management, water supply, sewerage system, rural sanitation and ODF.";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/news/wash";
+            break;
+        case "science-environment":
+            ViewBag.Title = "Latest Science News, Science Articles, Intresting Science Articles, Science News Article";
+            ViewBag.pageKeywords = "science news, science articles, latest science news, science daily, scientific articles, interesting science articles, latest scientific news, news articles";
+            ViewBag.PageDescription = "Get latest  news online from devdiscourse,Latest science news online,science news, science articles, latest science news, science daily, scientific articles, interesting science articles, latest scientific news, news articles";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/science-environment";
+            break;
+        case "technology":
+            ViewBag.Title = "Latest Tech News, Technology News, Technology News Today, Gadgets News & Reviews";
+            ViewBag.pageKeywords = "Technology news, new technology information technology latest, computer and technology news, top 5 tech news, new tech stories, latest high tech news, latest technology issues";
+            ViewBag.PageDescription = "Get latest technology news online from devdiscourse, Technology news, new technology information technology latest, computer and technology news, top 5 tech news, new tech stories, latest high tech news, latest technology issues";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/technology";
+            break;
+        case "entertainment":
+            ViewBag.Title = "Latest Entertainment News, Bollywood News, Hollywood News, Celebrity News, Entertaining hollywood movies, est entertainment news websites";
+            ViewBag.pageKeywords = "Best entertainment news websites, celebrity websites, entertaining hollywood movies, entertaining bollywood movies, entertainment news";
+            ViewBag.PageDescription = "Get latest entertainment news online from devdiscourse, celebrity websites, entertaining hollywood movies, entertaining bollywood movies, entertainment news";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/entertainment";
+            break;
+        case "business":
+            ViewBag.Title = "Latest Business News, Market News, Online business News, Celebrity News, Entertaining hollywood movies, est entertainment news websites";
+            ViewBag.pageKeywords = "Market News, Online business News, how to start a business, business insider, international news, how to earn money, financial news, economic news";
+            ViewBag.PageDescription = "Get latest Business News online from devdiscourse, Market News, Online business News, financial news, economic news";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/business";
+            break;
+        case "sports-games":
+            ViewBag.Title = "Latest Sports News, Cricket News, Today's sports news, Live cricket match watch online, Soccer games, Football matches";
+            ViewBag.pageKeywords = "Latest Sports News, Cricket News, Today's sports news, Live cricket match watch online, Soccer games, Football matches";
+            ViewBag.PageDescription = "Get latest Sports News online from devdiscourse, Cricket News, Today's sports news, Live cricket match watch online, Soccer games, Football matches";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/stories/sports-games";
+            break;
+        default:
+            ViewBag.Title = "Global Development News | Devdiscourse";
+            ViewBag.pageKeywords = @ViewBag.sectorName + " News, Latest Trending News, Breaking News, Development News | Devdiscourse";
+            ViewBag.PageDescription = "Daily News, International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+            ViewBag.PostUrl = "https://www.devdiscourse.com/News";
+            break;
+    }
+}
+<div class="content">
+    <h2 class="page-title">
+        @if (ViewBag.sector.ToString() != "All")
+        {
+            <span>@ViewBag.sectorName News</span>
+        }
+        else
+        {
+            <span>All News</span>
+        }
+    </h2>
+    <amp-state id="newsState" src="@Url.Action("GetAmpNewsItems","Home",new { sector = sector,region = ViewBag.region,tag=ViewBag.tag,label = ViewBag.labelSlug, moreItemsPageIndex = 1 })"></amp-state>
+    <amp-state id="news">
+        <script type="application/json">
+            {
+            "moreItemsPageIndex": 2,
+            "hasMorePages": true
+            }
+        </script>
+    </amp-state>
+    <amp-list src="@Url.Action("GetAmpNewsItems","Home",new { sector = sector,region = ViewBag.region,tag=ViewBag.tag,label = ViewBag.labelSlug, moreItemsPageIndex = 1 })" [src]="newsState.items" width="auto" height="1000" [height]="newsState.items.length * 95" class="blogList">
+        <template type="amp-mustache">
+            <a href="{{url}}?amp" title="{{title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    {{^defaultImage}}
+                    <div class="post-thumbnail">
+                        <amp-img src="{{imageUrl}}?width=140&height=85&mode=crop" layout="responsive" width="140" alt="{{title}}" height="85"></amp-img>
+                    </div>
+                    {{/defaultImage}}
+                    <div class="post-content">
+                        <h4 class="title">{{title}}</h4>
+                        <p class="country">{{country}}</p>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+    <form method="GET"
+          action="@Url.Action("GetAmpNewsItems","Home")"
+          action-xhr="@Url.Action("GetAmpNewsItems","Home")"
+          target="_top"
+          on="submit-success: AMP.setState({
+              newsState: {
+                items: newsState.items.concat(event.response.items)
+              },
+              news: {
+                moreItemsPageIndex: news.moreItemsPageIndex + 1,
+                hasMorePages: event.response.hasMorePages
+              }
+            });">
+        <input type="hidden" name="moreItemsPageIndex" value="2" [value]="news.moreItemsPageIndex">
+        <input type="hidden" name="sector" value="@sector" />
+        <input type="hidden" name="tag" value="@ViewBag.tag" />
+        <input type="hidden" name="region" value="@ViewBag.region" />
+        <button type="submit" title="Load More" class="load-btn show" [class]="(news.hasMorePages == false ? 'hide' : 'load-btn show')">Show more <span class="fa fa-chevron-circle-down"></span></button>
+    </form>
+</div>

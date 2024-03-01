@@ -926,28 +926,32 @@ namespace DevDiscourse.Controllers
         }
         public PartialViewResult GetBlogItems(int? page, string type, string region = "Global Edition")
         {
+            if(region != "Global Edition" && region != "")
+            {
+
+            }
             DateTime LastSixMonth = DateTime.UtcNow.AddMonths(-24);
             bool isAjax = HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-            if (isAjax)
-            {
-                LastSixMonth = DateTime.UtcNow.AddMonths(-60);
-            }
-            var search = _db.DevNews.
-                Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
-                .Select(a => new AdvancedSearchView { 
-                    Id = a.Id, 
-                    NewsId = a.NewsId, 
-                    Title = a.Title,
-                    SubType = a.SubType,             
-                    ImageUrl = a.ImageUrl, 
-                    Region = a.Region, 
-                    IsGlobal = a.IsGlobal, 
-                    CreatedOn = a.PublishedOn,
-                    Label = a.NewsLabels, 
-                    Country = a.Author }).Take(50)
-                .OrderByDescending(m => m.CreatedOn)
-                .ToList();
-            if (region != "Global Edition")
+			if (isAjax)
+			{
+				LastSixMonth = DateTime.UtcNow.AddMonths(-60);
+			}
+			var search = _db.DevNews.AsNoTracking().
+				Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
+				.Select(a => new AdvancedSearchView
+				{
+					Id = a.Id,
+					NewsId = a.NewsId,
+					Title = a.Title,
+					SubType = a.SubType,
+					ImageUrl = a.ImageUrl,
+					Region = a.Region,
+					IsGlobal = a.IsGlobal,
+					CreatedOn = a.PublishedOn,
+					Label = a.NewsLabels,
+					Country = a.Author
+				}).OrderByDescending(m => m.CreatedOn).ToList();
+			if (region != "Global Edition")
             {
                 var reg = (from c in _db.Countries
                            join r in _db.Regions on c.RegionId equals r.Id
@@ -958,18 +962,37 @@ namespace DevDiscourse.Controllers
                            }).FirstOrDefault();
                 string regionTitle = "Global Edition";
                 var result = reg != null && reg.Title != null ? regionTitle = reg.Title : regionTitle = region;
-                search = search.Take(50)
-                    .Where(a => a.Region != null && a.Region.Contains(result))
-                    .ToList();
+                search = search.Where(a => a.Region != null && a.Region.Contains(result)).ToList();
             }
-            if (!string.IsNullOrEmpty(type))
+			if (!string.IsNullOrEmpty(type))
+			{
+				search = search.Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase)).ToList();
+			}
+			else
+			{
+				search = search.Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase)).ToList();
+			}
+			int pageSize = 10;
+			int pageNumber = (page ?? 1);
+			return PartialView("_getBlogItems", search.ToPagedList(pageNumber, pageSize));
+		}
+
+        public JsonResult GetAmpBlogItems(string __amp_source_origin, int? moreItemsPageIndex)
+        {
+            var search = _db.DevNews.Where(a => a.Type == "Blog" && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Select(a => new { a.Region, a.Title, a.IsGlobal, a.ImageUrl, Url = "/article/" + a.NewsLabels + "/" + a.NewsId.ToString() }).ToList();
+            int pageSize = 10;
+            int pageNumber = (moreItemsPageIndex ?? 1);
+            if (!string.IsNullOrEmpty(__amp_source_origin))
             {
-                search = search.Take(50)
-                    .Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                //HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
+                HttpContext.Response.Headers.Add("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
             }
-            else
+            var resultData = search.Select(b => new { b.Title, b.Url, b.ImageUrl }).ToPagedList(pageNumber, pageSize);
+            var result = new
             {
+                items = resultData,
+                hasMorePages = resultData.HasNextPage
+            };
                 search = search.Take(50)
                     .Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase))
                     .ToList();
@@ -995,7 +1018,6 @@ namespace DevDiscourse.Controllers
                 items = resultData,
                 hasMorePages = resultData.HasNextPage
             };
-
             return Json(result);
             //return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
         }

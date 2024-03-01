@@ -716,7 +716,7 @@ else
 
 </div>
 <div class="news-box">
-    <amp-list src="api/SearchApi/GetPreviousSectorAmpNews/@Model.NewsId/@Model.Sector/@ViewBag.region" width="auto" height="1500" class="">
+    <amp-list src="@baseUrl/api/SearchApi/GetPreviousSectorAmpNews/@Model.NewsId/@Model.Sector/@ViewBag.region" width="auto" height="1500" class="">
         <template type="amp-mustache">
             <div>
                 <div class="article-divider clearfix" data-articleurl="{{slug}}?amp" data-articletitle="{{title}}">

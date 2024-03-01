@@ -993,7 +993,31 @@ namespace DevDiscourse.Controllers
                 items = resultData,
                 hasMorePages = resultData.HasNextPage
             };
+                search = search.Take(50)
+                    .Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return PartialView("_getBlogItems", search.ToPagedList(pageNumber, pageSize));
+        }
+        public JsonResult GetAmpBlogItems(string __amp_source_origin, int? moreItemsPageIndex)
+        {
+            var search = _db.DevNews.Where(a => a.Type == "Blog" && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Select(a => new { a.Region, a.Title, a.IsGlobal, a.ImageUrl, Url = "/article/" + a.NewsLabels + "/" + a.NewsId.ToString() }).ToList();
+            int pageSize = 10;
+            int pageNumber = (moreItemsPageIndex ?? 1);
+            if (!string.IsNullOrEmpty(__amp_source_origin))
+            {
+                //HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
+                HttpContext.Response.Headers.Add("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
 
+            }
+            var resultData = search.Select(b => new { b.Title, b.Url, b.ImageUrl }).ToPagedList(pageNumber, pageSize);
+            var result = new
+            {
+                items = resultData,
+                hasMorePages = resultData.HasNextPage
+            };
             return Json(result);
             //return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
         }

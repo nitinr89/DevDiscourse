@@ -224,6 +224,7 @@ namespace DevDiscourse.Controllers
         {
             region = region.Replace("+", " ");
             ViewBag.sector = sector;
+            string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             if (sector != "All" && sector != "Videos" && sector != "EditorPic" && sector != "Sponsored")
             {
                 var sectorSearch = await _db.DevSectors.FirstOrDefaultAsync(a => a.Slug == sector);
@@ -269,7 +270,9 @@ namespace DevDiscourse.Controllers
             {
                 ViewBag.region = "Global Edition";
             }
-            return View();
+           // return View();
+            if (scheme.EndsWith("?amp")) return View("Search.amp");
+            else return View();
         }
         public async Task<ActionResult> AdvancedSearch(string text = "")
         {
@@ -288,6 +291,7 @@ namespace DevDiscourse.Controllers
         }
         public ActionResult DevBlogs(string type = "")
         {
+            string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             ViewBag.type = type;
             string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
@@ -298,7 +302,9 @@ namespace DevDiscourse.Controllers
             {
                 ViewBag.reg = cookie ?? "Global Edition";
             }
-            return View();
+            //return View();
+            if (scheme.EndsWith("?amp")) return View("DevBlogs.amp");
+            else return View();
         }
 
         public JsonResult pledge()
@@ -835,45 +841,48 @@ namespace DevDiscourse.Controllers
         //    //var result = search.OrderByDescending(m => m.CreatedOn);
 
         //}
-        //public JsonResult GetAmpNewsItems(string __amp_source_origin, string sector, string region, string tag, string label, int? moreItemsPageIndex)
-        //{
-        //    DateTime oneMonth = DateTime.Today.AddDays(-30);
-        //    var search = _db.DevNews.AsNoTracking().Where(a => a.AdminCheck == true && a.CreatedOn > oneMonth).Select(a => new { a.Region, a.IsGlobal, a.Sector, a.CreatedOn, a.Title, Url = "/article/" + (a.NewsLabels ?? "agency-wire") + "/" + a.NewsId.ToString(), a.ImageUrl, a.Country, a.Tags, a.NewsLabels, a.NewsId });
-        //    if (region != "Global Edition")
-        //    {
-        //        search = search.Where(s => s.Region.Contains(region));
-        //    }
-        //    if (!string.IsNullOrEmpty(sector) && sector != "0")
-        //    {
-        //        search = search.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
-        //    }
-        //    if (!string.IsNullOrEmpty(tag))
-        //    {
-        //        search = search.Where(s => s.Tags.Contains("," + tag + ",") || s.Tags.StartsWith(tag + ",") || s.Tags.EndsWith("," + tag) || s.Tags == tag);
-        //    }
-        //    if (!string.IsNullOrEmpty(label))
-        //    {
-        //        search = search.Where(s => s.NewsLabels == label);
-        //    }
-        //    if (!string.IsNullOrEmpty(__amp_source_origin))
-        //    {
-        //        HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
+        public JsonResult GetAmpNewsItems(string __amp_source_origin, string sector, string region, string tag, string label, int? moreItemsPageIndex)
+        {
+            DateTime oneMonth = DateTime.Today.AddDays(-30);
+            var search = _db.DevNews.AsNoTracking().Where(a => a.AdminCheck == true && a.CreatedOn > oneMonth).Select(a => new { a.Region, a.IsGlobal, a.Sector, a.CreatedOn, a.Title, Url = "/article/" + (a.NewsLabels ?? "agency-wire") + "/" + a.NewsId.ToString(), a.ImageUrl, a.Country, a.Tags, a.NewsLabels, a.NewsId });
+            if (region != "Global Edition")
+            {
+                search = search.Where(s => s.Region.Contains(region));
+            }
+            if (!string.IsNullOrEmpty(sector) && sector != "0")
+            {
+                search = search.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
+            }
+            if (!string.IsNullOrEmpty(tag))
+            {
+                search = search.Where(s => s.Tags.Contains("," + tag + ",") || s.Tags.StartsWith(tag + ",") || s.Tags.EndsWith("," + tag) || s.Tags == tag);
+            }
+            if (!string.IsNullOrEmpty(label))
+            {
+                search = search.Where(s => s.NewsLabels == label);
+            }
+            if (!string.IsNullOrEmpty(__amp_source_origin))
+            {
+                //HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
+                HttpContext.Response.Headers.Add("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
 
-        //    }
-        //    var result = search.OrderByDescending(m => m.CreatedOn).Select(b => new
-        //    {
-        //        b.Title,
-        //        b.NewsLabels,
-        //        b.NewsId,
-        //        b.Country,
-        //        defaultImage = b.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-        //        ImageUrl = b.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? b.ImageUrl : "/remote.axd?" + b.ImageUrl
-        //    });
-        //    int pageSize = 10;
-        //    int pageNumber = (moreItemsPageIndex ?? 1);
-        //    var resultData = result.ToPagedList(pageNumber, pageSize);
-        //    return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
-        //}
+            }
+            var result = search.OrderByDescending(m => m.CreatedOn).Select(b => new
+            {
+                b.Title,
+                b.NewsLabels,
+                b.NewsId,
+                b.Country,
+                defaultImage = b.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
+                // ImageUrl = b.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? b.ImageUrl : "/remote.axd?" + b.ImageUrl
+                ImageUrl = b.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? b.ImageUrl : b.ImageUrl
+            });
+            int pageSize = 10;
+            int pageNumber = (moreItemsPageIndex ?? 1);
+            var resultData = result.ToPagedList(pageNumber, pageSize);
+            //return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
+            return Json(new { items = resultData, hasMorePages = resultData.Any() });
+        }
         //public JsonResult GetAmpLatestNewsItems(string __amp_source_origin, int? moreItemsPageIndex)
         //{
         //    DateTime threeDays = DateTime.Today.AddDays(-3);
@@ -966,19 +975,27 @@ namespace DevDiscourse.Controllers
             int pageNumber = (page ?? 1);
             return PartialView("_getBlogItems", search.ToPagedList(pageNumber, pageSize));
         }
-        //public JsonResult GetAmpBlogItems(string __amp_source_origin, int? moreItemsPageIndex)
-        //{
-        //    var search = _db.DevNews.Where(a => a.Type == "Blog" && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Select(a => new { a.Region, a.Title, a.IsGlobal, a.ImageUrl, Url = "/article/" + a.NewsLabels + "/" + a.NewsId.ToString() }).ToList();
-        //    int pageSize = 10;
-        //    int pageNumber = (moreItemsPageIndex ?? 1);
-        //    if (!string.IsNullOrEmpty(__amp_source_origin))
-        //    {
-        //        HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
+        public JsonResult GetAmpBlogItems(string __amp_source_origin, int? moreItemsPageIndex)
+        {
+            var search = _db.DevNews.Where(a => a.Type == "Blog" && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Select(a => new { a.Region, a.Title, a.IsGlobal, a.ImageUrl, Url = "/article/" + a.NewsLabels + "/" + a.NewsId.ToString() }).ToList();
+            int pageSize = 10;
+            int pageNumber = (moreItemsPageIndex ?? 1);
+            if (!string.IsNullOrEmpty(__amp_source_origin))
+            {
+                //HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
+                HttpContext.Response.Headers.Add("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
 
-        //    }
-        //    var resultData = search.Select(b => new { b.Title, b.Url, b.ImageUrl }).ToPagedList(pageNumber, pageSize);
-        //    return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
-        //}
+            }
+            var resultData = search.Select(b => new { b.Title, b.Url, b.ImageUrl }).ToPagedList(pageNumber, pageSize);
+            var result = new
+            {
+                items = resultData,
+                hasMorePages = resultData.HasNextPage
+            };
+
+            return Json(result);
+            //return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
+        }
         //public PartialViewResult GetEvents()
         //{
         //    DateTime startToday = DateTime.Today;

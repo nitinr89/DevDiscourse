@@ -1,6 +1,5 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models;
-using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -77,16 +76,16 @@ namespace DevDiscourse.Controllers
             }
             else
             {
-            string? cookie = Request.Cookies["Edition"];
-            if (cookie == null)
-            {
-                string UserCountry = getUserLocation();
-                if (string.IsNullOrEmpty(UserCountry))
+                string? cookie = Request.Cookies["Edition"];
+                if (cookie == null)
                 {
-                    ViewBag.edition = "Global Edition";
-                }
-                else
-                {
+                    string UserCountry = getUserLocation();
+                    if (string.IsNullOrEmpty(UserCountry))
+                    {
+                        ViewBag.edition = "Global Edition";
+                    }
+                    else
+                    {
 
                         var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id where c.Title == reg select new { r.Title }).FirstOrDefault();
                         string regionTitle = string.Empty;
@@ -100,45 +99,45 @@ namespace DevDiscourse.Controllers
                             region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
                         }
 
-                    string cookieName = "Edition";
-                    CookieOptions options = new CookieOptions();
-                    options.Expires = DateTime.UtcNow.AddDays(1);
-                    string cookieValue = region ?? "Global Edition";
-                    ViewBag.edition = region ?? "Global Edition";
-                    Response.Cookies.Append(cookieName, cookieValue, options);
+                        string cookieName = "Edition";
+                        CookieOptions options = new CookieOptions();
+                        options.Expires = DateTime.UtcNow.AddDays(1);
+                        string cookieValue = region ?? "Global Edition";
+                        ViewBag.edition = region ?? "Global Edition";
+                        Response.Cookies.Append(cookieName, cookieValue, options);
+                    }
                 }
-            }
-            else
-            {
-                string edition = cookie;
-                switch (edition)
+                else
                 {
-                    case "Central Africa":
-                        return RedirectToAction("CentralAfrica", "Home");
-                    case "East Africa":
-                        return RedirectToAction("EastAfrica", "Home");
-                    case "North America":
-                        return RedirectToAction("NorthAmerica", "Home");
-                    case "Southern Africa":
-                        return RedirectToAction("SouthernAfrica", "Home");
-                    case "West Africa":
-                        return RedirectToAction("WestAfrica", "Home");
-                    case "South Asia":
-                        return RedirectToAction("SouthAsia", "Home");
-                    case "East and South East Asia":
-                        return RedirectToAction("EastAndSouthEastAsia", "Home");
-                    case "Pacific":
-                        return RedirectToAction("Pacific", "Home");
-                    case "Europe and Central Asia":
-                        return RedirectToAction("EuropeAndCentralAsia", "Home");
-                    case "Latin America and Caribbean":
-                        return RedirectToAction("LatinAmericaAndCaribbean", "Home");
-                    case "Middle East and North Africa":
-                        return RedirectToAction("MiddleEastAndNorthAfrica", "Home");
+                    string edition = cookie;
+                    switch (edition)
+                    {
+                        case "Central Africa":
+                            return RedirectToAction("CentralAfrica", "Home");
+                        case "East Africa":
+                            return RedirectToAction("EastAfrica", "Home");
+                        case "North America":
+                            return RedirectToAction("NorthAmerica", "Home");
+                        case "Southern Africa":
+                            return RedirectToAction("SouthernAfrica", "Home");
+                        case "West Africa":
+                            return RedirectToAction("WestAfrica", "Home");
+                        case "South Asia":
+                            return RedirectToAction("SouthAsia", "Home");
+                        case "East and South East Asia":
+                            return RedirectToAction("EastAndSouthEastAsia", "Home");
+                        case "Pacific":
+                            return RedirectToAction("Pacific", "Home");
+                        case "Europe and Central Asia":
+                            return RedirectToAction("EuropeAndCentralAsia", "Home");
+                        case "Latin America and Caribbean":
+                            return RedirectToAction("LatinAmericaAndCaribbean", "Home");
+                        case "Middle East and North Africa":
+                            return RedirectToAction("MiddleEastAndNorthAfrica", "Home");
+                    }
+                    ViewBag.edition = edition.Replace("Edition=", "") ?? "Global Edition";
                 }
-                ViewBag.edition = edition.Replace("Edition=", "") ?? "Global Edition";
             }
-          }
             return View();
         }
         public ActionResult Contribute()
@@ -223,9 +222,9 @@ namespace DevDiscourse.Controllers
         [OutputCache(Duration = 60)]
         public async Task<ActionResult> Search(string region = "", string sector = "All", string tag = "", string cat = "", string label = "")
         {
-            string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             region = region.Replace("+", " ");
             ViewBag.sector = sector;
+            string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             if (sector != "All" && sector != "Videos" && sector != "EditorPic" && sector != "Sponsored")
             {
                 var sectorSearch = await _db.DevSectors.FirstOrDefaultAsync(a => a.Slug == sector);
@@ -271,7 +270,7 @@ namespace DevDiscourse.Controllers
             {
                 ViewBag.region = "Global Edition";
             }
-            //return View();
+           // return View();
             if (scheme.EndsWith("?amp")) return View("Search.amp");
             else return View();
         }
@@ -460,7 +459,7 @@ namespace DevDiscourse.Controllers
         {
             ViewBag.skipCount = skip;
             DateTime tenDays = DateTime.Today.AddHours(-10);
-      
+
             if (reg == "Global Edition")
             {
                 var result = _db.DevNews.Where(a => a.Type != "Blog" && a.CreatedOn > tenDays && a.AdminCheck == true && a.Sector != null && a.NewsLabels != null)
@@ -875,8 +874,8 @@ namespace DevDiscourse.Controllers
                 b.NewsId,
                 b.Country,
                 defaultImage = b.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-               // ImageUrl = b.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? b.ImageUrl : "/remote.axd?" + b.ImageUrl
-                ImageUrl = b.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? b.ImageUrl :  b.ImageUrl
+                // ImageUrl = b.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? b.ImageUrl : "/remote.axd?" + b.ImageUrl
+                ImageUrl = b.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? b.ImageUrl : b.ImageUrl
             });
             int pageSize = 10;
             int pageNumber = (moreItemsPageIndex ?? 1);
@@ -926,32 +925,32 @@ namespace DevDiscourse.Controllers
         }
         public PartialViewResult GetBlogItems(int? page, string type, string region = "Global Edition")
         {
-            if(region != "Global Edition" && region != "")
+            if (region != "Global Edition" && region != "")
             {
 
             }
             DateTime LastSixMonth = DateTime.UtcNow.AddMonths(-24);
             bool isAjax = HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-			if (isAjax)
-			{
-				LastSixMonth = DateTime.UtcNow.AddMonths(-60);
-			}
-			var search = _db.DevNews.AsNoTracking().
-				Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
-				.Select(a => new AdvancedSearchView
-				{
-					Id = a.Id,
-					NewsId = a.NewsId,
-					Title = a.Title,
-					SubType = a.SubType,
-					ImageUrl = a.ImageUrl,
-					Region = a.Region,
-					IsGlobal = a.IsGlobal,
-					CreatedOn = a.PublishedOn,
-					Label = a.NewsLabels,
-					Country = a.Author
-				}).OrderByDescending(m => m.CreatedOn).ToList();
-			if (region != "Global Edition")
+            if (isAjax)
+            {
+                LastSixMonth = DateTime.UtcNow.AddMonths(-60);
+            }
+            var search = _db.DevNews.AsNoTracking().
+                Where(a => a.Type == "Blog" && a.CreatedOn > LastSixMonth && a.AdminCheck == true)
+                .Select(a => new AdvancedSearchView
+                {
+                    Id = a.Id,
+                    NewsId = a.NewsId,
+                    Title = a.Title,
+                    SubType = a.SubType,
+                    ImageUrl = a.ImageUrl,
+                    Region = a.Region,
+                    IsGlobal = a.IsGlobal,
+                    CreatedOn = a.PublishedOn,
+                    Label = a.NewsLabels,
+                    Country = a.Author
+                }).OrderByDescending(m => m.CreatedOn).ToList();
+            if (region != "Global Edition")
             {
                 var reg = (from c in _db.Countries
                            join r in _db.Regions on c.RegionId equals r.Id
@@ -964,38 +963,13 @@ namespace DevDiscourse.Controllers
                 var result = reg != null && reg.Title != null ? regionTitle = reg.Title : regionTitle = region;
                 search = search.Where(a => a.Region != null && a.Region.Contains(result)).ToList();
             }
-			if (!string.IsNullOrEmpty(type))
-			{
-				search = search.Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase)).ToList();
-			}
-			else
-			{
-				search = search.Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase)).ToList();
-			}
-			int pageSize = 10;
-			int pageNumber = (page ?? 1);
-			return PartialView("_getBlogItems", search.ToPagedList(pageNumber, pageSize));
-		}
-
-        public JsonResult GetAmpBlogItems(string __amp_source_origin, int? moreItemsPageIndex)
-        {
-            var search = _db.DevNews.Where(a => a.Type == "Blog" && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Select(a => new { a.Region, a.Title, a.IsGlobal, a.ImageUrl, Url = "/article/" + a.NewsLabels + "/" + a.NewsId.ToString() }).ToList();
-            int pageSize = 10;
-            int pageNumber = (moreItemsPageIndex ?? 1);
-            if (!string.IsNullOrEmpty(__amp_source_origin))
+            if (!string.IsNullOrEmpty(type))
             {
-                //HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
-                HttpContext.Response.Headers.Add("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
+                search = search.Where(a => string.Equals(a.SubType, type, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-            var resultData = search.Select(b => new { b.Title, b.Url, b.ImageUrl }).ToPagedList(pageNumber, pageSize);
-            var result = new
+            else
             {
-                items = resultData,
-                hasMorePages = resultData.HasNextPage
-            };
-                search = search.Take(50)
-                    .Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                search = search.Where(a => !string.Equals(a.SubType, "interview", StringComparison.OrdinalIgnoreCase)).ToList();
             }
             int pageSize = 10;
             int pageNumber = (page ?? 1);
@@ -1018,6 +992,7 @@ namespace DevDiscourse.Controllers
                 items = resultData,
                 hasMorePages = resultData.HasNextPage
             };
+
             return Json(result);
             //return Json(new { items = resultData, hasMorePages = resultData.Any() }, JsonRequestBehavior.AllowGet);
         }

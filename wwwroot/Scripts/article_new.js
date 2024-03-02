@@ -39,7 +39,6 @@
                         if (data.source != null && data.source != "") {
                             firstPublishedIn = data.type == 'Blog' ? '<section class="m-t-30"><ul class="list-inline"><li class="f-18">FIRST PUBLISHED IN: </li><li><span class="badge tag">' + data.source + '</span></li></ul></section>' : '';
                         }
-                        debugger
                         var cityHtml = "";
                         if (data.sourceUrl !== null && data.sourceUrl !== "" && data.sourceUrl.toLowerCase().indexOf('washington') != -1) {
                             cityHtml = '<li>Washington DC</li><li class="list-divider">|</li>';

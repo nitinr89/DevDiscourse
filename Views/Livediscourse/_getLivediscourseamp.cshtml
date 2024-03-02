@@ -61,7 +61,7 @@
             }
             <div class="description">@Html.Raw(@ampHtml)</div>
             @{
-                var itemUrl = $"{Context.Request.Scheme}://{Context.Request.Host}/Livediscourse/Article/post#{item.Id}";
+                var itemUrl = $"{Context.Request.Scheme}://{Context.Request.Host}/Livediscourse/article/post#{item.Id}";
             }
             <div class="">
                 <amp-social-share type="twitter" class="share-btn" width="32" height="32" data-param-url="@itemUrl" data-param-text="@item.Title" aria-label="Share on twitter"></amp-social-share>

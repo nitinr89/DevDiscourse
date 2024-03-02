@@ -7,7 +7,7 @@
 }
 @foreach (var item in Model)
 {
-    string controller = "Article";
+    string controller = "article";
     string action = item.Label ?? "agency-wire";
     string id = item.GenerateSecondSlug();
     //long id = item.NewsId;

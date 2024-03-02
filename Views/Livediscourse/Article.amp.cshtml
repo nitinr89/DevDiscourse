@@ -94,6 +94,7 @@ else
 @functions {
     async Task GetFirstParagraph(string htmltext)
     {
+        await Task.Yield();
         Match m = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
         if (m.Success)
         {
@@ -110,6 +111,7 @@ else
 @functions {
     async Task Truncate(string input, int length)
     {
+        await Task.Yield();
         if (string.IsNullOrEmpty(input))
         {
             <text> </text>
@@ -129,6 +131,7 @@ else
 @functions {
     async Task GetDescriptionText(string htmltext)
     {
+        await Task.Yield();
         const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";//matches one or more (white space or line breaks) between '>' and '<'
         const string stripFormatting = @"<[^>]*(>|$)";//match any character between '<' and '>', even when end tag is missing
         const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";//matches: <br>,<br/>,<br />,<BR>,<BR/>,<BR />
@@ -151,6 +154,7 @@ else
 @functions {
     async Task<string> GetCleanDescription(string htmltext)
     {
+        await Task.Yield();
         var sb = new StringBuilder();
         htmltext = htmltext.Replace("&nbsp;", " ");
         htmltext = htmltext.Replace("&rsquo;", "'");
@@ -212,10 +216,14 @@ else
         {
             var newsImageUrl = ""; DateTime updatePublishedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.PublishedOn, INDIAN_ZONE); DateTime updateModifiedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.ModifiedOn, INDIAN_ZONE);
             DateTime updateCreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.CreatedOn, INDIAN_ZONE);
-            if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg") 
+            if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg")
             {
-                newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + item.ImageUrl : string.Concat(domainUrl, item.ImageUrl); } else { newsImageUrl = newsImage;
-                }
+                newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl;
+            }
+            else
+            {
+                newsImageUrl = newsImage;
+            }
             <div itemtype="http://schema.org/BlogPosting" itemprop="liveBlogUpdate" itemscope="itemscope" data-type="text">
                 <h2 itemprop="headline" content="@item.Title"></h2><div itemprop="articleBody" style="display:none">
                     <strong>
@@ -227,23 +235,25 @@ else
                         {
                             <text> PM</text>
                         }
-                    </strong>@GetDescriptionText(item.Description)
-                </div> 
+                    </strong>@{ await GetDescriptionText(item.Description);}
+                </div>
                 <time itemprop="datePublished" datetime="@updatePublishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")"></time>
                 <span itemscope="itemscope" itemprop="author" itemtype="https://schema.org/Person">
-                    <meta content="https://www.devdiscourse.com/" itemprop="sameAs"> <meta content="Devdiscourse" itemprop="name"> 
-                    </span> <meta itemprop="dateModified" content="@updateModifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")"> 
-                    <span itemprop="image" itemscope="itemscope" itemtype="https://schema.org/ImageObject"> 
-                        <meta itemprop="url" content="@newsImageUrl"> <meta itemprop="width" content="1280">
-                        <meta itemprop="height" content="720"> </span>
-                        <span itemprop="publisher" itemscope="itemscope" itemtype="https://schema.org/Organization">
-                            <span itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject">
-                                <meta itemprop="url" content="https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png">
-                                </span> <meta itemprop="name" content="Devdiscourse"> </span>
-                                <meta itemprop="mainEntityOfPage" content="@domainUrl@pageUrl">
-                                <time itemprop="url" content="@domainUrl@pageUrl#post_@item.Id">
+                    <meta content="https://www.devdiscourse.com/" itemprop="sameAs"> <meta content="Devdiscourse" itemprop="name">
+                </span> <meta itemprop="dateModified" content="@updateModifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
+                <span itemprop="image" itemscope="itemscope" itemtype="https://schema.org/ImageObject">
+                    <meta itemprop="url" content="@newsImageUrl"> <meta itemprop="width" content="1280">
+                    <meta itemprop="height" content="720">
+                </span>
+                <span itemprop="publisher" itemscope="itemscope" itemtype="https://schema.org/Organization">
+                    <span itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png">
+                    </span> <meta itemprop="name" content="Devdiscourse">
+                </span>
+                <meta itemprop="mainEntityOfPage" content="@domainUrl@pageUrl">
+                <time itemprop="url" content="@domainUrl@pageUrl#post_@item.Id">
 
-                                </time>
+                </time>
             </div>
         }
     </div>
@@ -271,8 +281,8 @@ else
     </div>
     @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
     {
-        var newsImageUrl = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.ImageUrl : Model.ImageUrl;
-        <amp-img class="full-bottom" src="@domainUrl@newsImageUrl?width=1280" alt="@Model.Title" layout="responsive" width="1280" height="720"></amp-img>
+        var newsImageUrl = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? Model.ImageUrl : Model.ImageUrl;
+        <amp-img class="full-bottom" src="@newsImageUrl?width=1280" alt="@Model.Title" layout="responsive" width="1280" height="720"></amp-img>
         <p class="img-caption">
             <small>@Model.ImageCopyright</small>
         </p>
@@ -281,17 +291,15 @@ else
     {
         <amp-instagram data-shortcode="BmNVEkSAx6a" data-captioned width="400" height="400" layout="responsive"> </amp-instagram>
     }
+
     <amp-live-list layout="container" data-poll-interval="15000" data-max-items-per-page="10" id="amp-live-list-insert-blog">
         <button update on="tap:amp-live-list-insert-blog.update" class="ampstart-btn ml1 caps"> You have updates </button>
         <div items>
-            @{
-                // @Html.RenderAction("GetLivediscourseamp", "Livediscourse", new { id = Model.Id });
-                  await Component.InvokeAsync("Livediscourseamp", new { id = Model.Id });
-               // var id = Model.Id;
-               
-            }
+            @await Component.InvokeAsync("Livediscourseamp", new { id = Model.Id }); 
         </div>
     </amp-live-list>
+
+
     @if (!string.IsNullOrEmpty(Model.Tags) && !isCrawler)
     {
         <div class="m-b-10">
@@ -320,60 +328,3 @@ else
     <amp-pixel src="https://c.statcounter.com/11890858/0/f7953c93/1/?nocache=RANDOM">
     </amp-pixel>
 </div>
-@{
-    string updateTitle = "";
-    string updateBody = "";
-    foreach (var firstupdate in ViewBag.FirstBlogUpdates)
-    {
-        updateTitle = firstupdate.Title;
-        publishedDate = TimeZoneInfo.ConvertTimeFromUtc(firstupdate.CreatedOn, INDIAN_ZONE);
-        updateBody = GetDescriptionText(firstupdate.Description).ToString();
-    }
-}
-<script type="application/ld+json">
-        {
-        "@@context":"http://schema.org",
-        "@@type":"NewsArticle",
-        "mainEntityOfPage": {
-        "@@type": "WebPage",
-        "@@id": "@domainUrl@pageUrl"
-        },
-        "headline":"@Model.Title",   @if (ViewBag.hasUpdates == true)
-    {
-        <text>"alternativeHeadline":"@updateTitle","articleBody":"@updateBody",</text>
-    }
-    else
-    {
-        <text>"articleBody":"@GetDescriptionText(Model.Description)",</text>
-    }
-        "keywords":["@keywords"],
-        "url":"@domainUrl@pageUrl",
-       @* "description":"@GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString()).ToString()",*@
-            "description":"@{
-        await GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
-    }",
-        "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
-        "dateModified":"@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
-        "author":{
-        "@@type":"Person",
-        "name":"@authorName"
-        },
-        "publisher":{
-        "@@type":"Organization",
-        "name":"Devdiscourse",
-        "url": "https://www.Devdiscourse.com",
-        "logo":{
-        "@@type":"ImageObject",
-        "url":"https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png",
-        "width":600,
-        "height":60
-        }
-        },
-        "image":{
-        "@@type":"ImageObject",
-        "url":"@newsImage?width=1280",
-        "height":900,
-        "width":1200
-        }
-        }
-</script>

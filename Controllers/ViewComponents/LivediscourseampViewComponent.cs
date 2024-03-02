@@ -17,8 +17,9 @@ namespace Devdiscourse.Controllers.ViewComponents
             this.db = db;
             this.userManager = userManager;
         }
-        public async Task<IViewComponentResult> InvokeAsync(long id)
+        public async Task<IViewComponentResult> InvokeAsync(long id)       
         {
+            await Task.Yield();
             if (User.Identity.IsAuthenticated)
             {
                 string user = userManager.GetUserId(User as ClaimsPrincipal);

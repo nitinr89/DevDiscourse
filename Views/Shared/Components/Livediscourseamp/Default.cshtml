@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LiveblogViewModel>
+@inject Microsoft.AspNetCore.Mvc.IUrlHelper Url
 @using System.Text.RegularExpressions;
 @using AngleSharp.Network.Default
 @using Html2Amp;
@@ -27,9 +28,11 @@
             new AmpIFrameSanitizer()
                 });
 }
-@foreach (var item in Model)
+@foreach (var item in Model.ToList())
 {
-    var match = regex.Match(@item.Description ?? "");
+    //@item.Description;
+
+     var match = regex.Match(@item.Description ?? "");
     string data = match.Groups[1].Value;
     int count = 1;
     var datadescription = Regex.Replace(@item.Description ?? "", "<blockquote(.|\n)*?</blockquote>", m => "<amp-twitter width=\"375\" height=\"472\" layout=\"responsive\" data-tweetid=\"" + match.Groups[count++].Value + "\"></amp-twitter>").Trim();
@@ -61,15 +64,26 @@
             }
             <div class="description">@Html.Raw(@ampHtml)</div>
             @{
-                var itemUrl = $"{Context.Request.Scheme}://{Context.Request.Host}/Livediscourse/Article/post#{item.Id}";
+                var request = Context.Request;
+                // Scheme (http or https)
+                var scheme = request.Scheme;
+                // Host (including port if any)
+                var host = request.Host;
+                // PathBase can be useful if the app is hosted under a sub-path of the domain
+                var pathBase = request.PathBase;
+                // Path
+                var path = request.Path;
+                // QueryString
+                var queryString = request.QueryString;
+                var itemUrl = $"{scheme}://{host}{pathBase}{path}{queryString}";
             }
             <div class="">
-                <amp-social-share type="twitter" class="share-btn" width="32" height="32" data-param-url="@itemUrl" data-param-text="@item.Title" aria-label="Share on twitter"></amp-social-share>
+                <amp-social-share type="twitter" class="share-btn" width="32" height="32" data-param-url="@itemUrl#post_@item.Id" data-param-text="@item.Title" aria-label="Share on twitter"></amp-social-share>
                 <amp-social-share type="facebook" width="32" height="32" data-param-app_id="1962446954071172" data-param-href="@itemUrl" data-attribution="1962446954071172" aria-label="Share on facebook"></amp-social-share>
                 <amp-social-share type="linkedin" width="32" height="32" aria-label="Share on linkedin" data-param-url="@itemUrl"></amp-social-share>
                 <amp-social-share type="whatsapp" width="32" height="32" aria-label="Share on whatsapp" data-param-text="@itemUrl"></amp-social-share>
             </div>
         </div>
-    </div>
+    </div> 
 }
 

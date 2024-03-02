@@ -18,9 +18,10 @@ namespace DevDiscourse.Controllers
     {
         private ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> userManager;
-        public HomeController(ApplicationDbContext _db)
+        public HomeController(ApplicationDbContext _db, UserManager<ApplicationUser> userManager)
         {
             this._db = _db;
+            this.userManager = userManager;
         }
         public string GetMACAddress()
         {
@@ -746,101 +747,28 @@ namespace DevDiscourse.Controllers
         //    var resultList = _db.DevNews.Where(a => a.Id != id && a.AdminCheck == true && a.IsSponsored == true).OrderByDescending(a => a.CreatedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, Sector = a.Tags, NewId = a.NewsId, Label = a.NewsLabels }).AsNoTracking().Take(take).ToList();
         //    return PartialView("_getSponsoredNews", resultList);
         //}
-        //public PartialViewResult GetNewsItems(string sector, string region, string country, string tag, string cat, string label, int? page)
-        //{
-        //    DateTime oneMonth = DateTime.Today.AddDays(-10);
-        //    cat = cat ?? "";
-        //    int pageSize = 20;
-        //    int pageNumber = (page ?? 1);
-        //    //if (region == "Global Edition")
-        //    //{
-        //    //    var resultList = _db.DevNews.Where(a => a.AdminCheck == true && a.NewsLabels == label && a.IsSponsored == false).OrderByDescending(a => a.CreatedOn).Select(a => new NewsViewModel
-        //    //    {
-        //    //        Title = a.Title,
-        //    //        NewsId = a.NewsId,
-        //    //        ImageUrl = a.ImageUrl,
-        //    //        Subtitle = a.SubTitle,
-        //    //        Country = a.Country,
-        //    //        CreatedOn = a.ModifiedOn,
-        //    //        Sector = a.Type,
-        //    //        SubType = a.SubType,
-        //    //        Label = a.NewsLabels,
-        //    //        Ranking = 0
-        //    //    }).AsNoTracking().ToPagedList(pageNumber, pageSize);
+        public PartialViewResult GetNewsItems(string sector, string region, string country, string tag, string cat, string label, int? page)
+        {
+            DateTime oneMonth = DateTime.Today.AddDays(-10);
+            cat = cat ?? "";
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            var resultList = _db.RegionNewsRankings.AsNoTracking().Where(a => a.DevNews.AdminCheck == true && a.DevNews.NewsLabels == label && a.Region.Title == region && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).Select(a => new NewsViewModel
+            {
+                Title = a.DevNews.Title,
+                NewsId = a.DevNews.NewsId,
+                ImageUrl = a.DevNews.ImageUrl,
+                Subtitle = a.DevNews.SubTitle,
+                Country = a.DevNews.Country,
+                CreatedOn = a.DevNews.ModifiedOn,
+                Sector = a.DevNews.Type,
+                SubType = a.DevNews.SubType,
+                Label = a.DevNews.NewsLabels,
+                Ranking = a.Ranking
+            }).ToPagedList(pageNumber, pageSize);
 
-        //    //    return PartialView("getNewsItems", resultList);
-        //    //}
-        //    //else
-        //    //{
-
-        //    var resultList = _db.RegionNewsRankings.AsNoTracking().Where(a => a.DevNews.AdminCheck == true && a.DevNews.NewsLabels == label && a.Region.Title == region && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).Select(a => new NewsViewModel
-        //    {
-        //        Title = a.DevNews.Title,
-        //        NewsId = a.DevNews.NewsId,
-        //        ImageUrl = a.DevNews.ImageUrl,
-        //        Subtitle = a.DevNews.SubTitle,
-        //        Country = a.DevNews.Country,
-        //        CreatedOn = a.DevNews.ModifiedOn,
-        //        Sector = a.DevNews.Type,
-        //        SubType = a.DevNews.SubType,
-        //        Label = a.DevNews.NewsLabels,
-        //        Ranking = a.Ranking
-        //    }).ToPagedList(pageNumber, pageSize);
-
-        //    return PartialView("getNewsItems", resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
-        //    //return PartialView("_getSectorNews", resultList);
-        //    //}
-        //    //IQueryable<SearchView> search;
-        //    //if (region != "Global Edition")
-        //    //{
-        //    //    search = _db.DevNews.Where(a => a.AdminCheck == true && a.Region.Contains(region) && a.CreatedOn > oneMonth).Select(a => new SearchView { Id = a.Id, NewsId = a.NewsId, Title = a.Title, ImageUrl = a.ImageUrl, Country = a.Country, CreatedOn = a.CreatedOn, Region = a.Region, Sector = a.Sector, IsGlobal = a.IsGlobal, IsVideo = a.IsVideo, IsSponsored = a.IsSponsored, EditorPick = a.EditorPick, Tags = a.Tags, Type = a.Type, SubType = a.SubType, Category = a.Category, Label = a.NewsLabels, Source = a.Source }).AsNoTracking();
-        //    //}
-        //    //else
-        //    //{
-        //    //    search = _db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > oneMonth).Select(a => new SearchView { Id = a.Id, NewsId = a.NewsId, Title = a.Title, ImageUrl = a.ImageUrl, Country = a.Country, CreatedOn = a.CreatedOn, Region = a.Region, Sector = a.Sector, IsGlobal = a.IsGlobal, IsVideo = a.IsVideo, IsSponsored = a.IsSponsored, EditorPick = a.EditorPick, Tags = a.Tags, Type = a.Type, SubType = a.SubType, Category = a.Category, Label = a.NewsLabels, Source = a.Source }).AsNoTracking();
-        //    //}
-        //    //if (sector == "1")
-        //    //{
-        //    //    search = search.Where(s => (s.Sector.Contains(",1,") || s.Sector.StartsWith("1,") || s.Sector.EndsWith(",1") || s.Sector == "1") || (s.Sector.Contains(",5,") || s.Sector.StartsWith("5,") || s.Sector.EndsWith(",5") || s.Sector == "5"));
-        //    //}
-        //    //else if (!string.IsNullOrEmpty(sector) && sector != "0" && sector != "Videos" && sector != "EditorPic" && sector != "Sponsored")
-        //    //{
-        //    //    search = search.Where(s => s.Sector.Contains("," + sector + ",") || s.Sector.StartsWith(sector + ",") || s.Sector.EndsWith("," + sector) || s.Sector == sector);
-        //    //}
-        //    //else if (sector == "Videos")
-        //    //{
-        //    //    search = search.Where(a => a.IsVideo == true);
-        //    //}
-        //    //else if (sector == "EditorPic")
-        //    //{
-        //    //    search = search.Where(a => a.EditorPick == true);
-        //    //}
-        //    //else if (sector == "Sponsored")
-        //    //{
-        //    //    search = search.Where(a => a.IsSponsored == true);
-        //    //}
-        //    //if (!string.IsNullOrEmpty(tag))
-        //    //{
-        //    //    search = search.Where(s => s.Tags.Contains(tag));
-        //    //}
-        //    //if (!string.IsNullOrEmpty(cat))
-        //    //{
-        //    //    search = search.Where(s => s.Category.Contains(cat));
-        //    //}
-        //    //if (!string.IsNullOrEmpty(label))
-        //    //{
-        //    //    search = search.Where(s => s.Label == label);
-        //    //}else if (sector == "0" && string.IsNullOrEmpty(cat))
-        //    //{
-        //    //    search = search.Where(s => s.Label == null && (s.Source =="PTI" || s.Source == "IANS" || s.Source == "Reuters"));
-        //    //}
-        //    //if (!string.IsNullOrEmpty(country))
-        //    //{
-        //    //    search = search.Where(s => s.Country.Contains(country));
-        //    //}
-        //    //var result = search.OrderByDescending(m => m.CreatedOn);
-
-        //}
+            return PartialView("getNewsItems", resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));          
+        }
         public JsonResult GetAmpNewsItems(string __amp_source_origin, string sector, string region, string tag, string label, int? moreItemsPageIndex)
         {
             DateTime oneMonth = DateTime.Today.AddDays(-30);
@@ -2494,8 +2422,6 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "East and South East Asia";
             return View("HomeNews");
         }
-
-
         public ActionResult Pacific()
         {
             CookieOptions options = new CookieOptions();

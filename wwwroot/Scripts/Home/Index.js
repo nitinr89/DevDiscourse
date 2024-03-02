@@ -40,7 +40,6 @@
     $("#opinion1 .owl-prev").html('<span class="fa fa-angle-left"></span>');
     $("#opinion1 .owl-next").html('<span class="fa fa-angle-right"></span>');
 
-    debugger;
     GetVideoNews();
 
    

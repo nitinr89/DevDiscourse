@@ -218,7 +218,7 @@ else
             DateTime updateCreatedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.CreatedOn, INDIAN_ZONE);
             if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg")
             {
-                newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + item.ImageUrl : string.Concat(domainUrl, item.ImageUrl);
+                newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl;
             }
             else
             {
@@ -235,7 +235,7 @@ else
                         {
                             <text> PM</text>
                         }
-                    </strong>@GetDescriptionText(item.Description)
+                    </strong>@{ await GetDescriptionText(item.Description);}
                 </div>
                 <time itemprop="datePublished" datetime="@updatePublishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")"></time>
                 <span itemscope="itemscope" itemprop="author" itemtype="https://schema.org/Person">
@@ -282,7 +282,7 @@ else
     @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
     {
         var newsImageUrl = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? Model.ImageUrl : Model.ImageUrl;
-        <amp-img class="full-bottom" src="@domainUrl@newsImageUrl?width=1280" alt="@Model.Title" layout="responsive" width="1280" height="720"></amp-img>
+        <amp-img class="full-bottom" src="@newsImageUrl?width=1280" alt="@Model.Title" layout="responsive" width="1280" height="720"></amp-img>
         <p class="img-caption">
             <small>@Model.ImageCopyright</small>
         </p>
@@ -295,11 +295,7 @@ else
     <amp-live-list layout="container" data-poll-interval="15000" data-max-items-per-page="10" id="amp-live-list-insert-blog">
         <button update on="tap:amp-live-list-insert-blog.update" class="ampstart-btn ml1 caps"> You have updates </button>
         <div items>
-            @{
-
-                await Component.InvokeAsync("Livediscourseamp", new { id = Model.Id });
-
-            }
+            @await Component.InvokeAsync("Livediscourseamp", new { id = Model.Id }); 
         </div>
     </amp-live-list>
 
@@ -332,61 +328,3 @@ else
     <amp-pixel src="https://c.statcounter.com/11890858/0/f7953c93/1/?nocache=RANDOM">
     </amp-pixel>
 </div>
-@{
-    string updateTitle = "";
-    string updateBody = "";
-    foreach (var firstupdate in ViewBag.FirstBlogUpdates)
-    {
-        updateTitle = firstupdate.Title;
-        publishedDate = TimeZoneInfo.ConvertTimeFromUtc(firstupdate.CreatedOn, INDIAN_ZONE);
-        updateBody = GetDescriptionText(firstupdate.Description).ToString();
-    }
-}
-<script type="application/ld+json">
-        {
-        "@@context":"http://schema.org",
-        "@@type":"NewsArticle",
-        "mainEntityOfPage": {
-        "@@type": "WebPage",
-        "@@id": "@domainUrl@pageUrl"
-        },
-        "headline":"@Model.Title",   @if (ViewBag.hasUpdates == true)
-    {
-        <text>"alternativeHeadline":"@updateTitle","articleBody":"@updateBody",</text>
-    }
-    else
-    {
-        <text>"articleBody":"@{
-                await GetDescriptionText(Model.Description);
-            }",</text>
-    }
-        "keywords":["@keywords"],
-        "url":"@domainUrl@pageUrl",
-        "description":"@{
-        await GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
-    }",
-        "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
-        "dateModified":"@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
-        "author":{
-        "@@type":"Person",
-        "name":"@authorName"
-        },
-        "publisher":{
-        "@@type":"Organization",
-        "name":"Devdiscourse",
-        "url": "https://www.Devdiscourse.com",
-        "logo":{
-        "@@type":"ImageObject",
-        "url":"https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png",
-        "width":600,
-        "height":60
-        }
-        },
-        "image":{
-        "@@type":"ImageObject",
-        "url":"@newsImage?width=1280",
-        "height":900,
-        "width":1200
-        }
-        }
-</script>

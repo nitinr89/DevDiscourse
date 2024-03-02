@@ -28,9 +28,9 @@
             new AmpIFrameSanitizer()
                 });
 }
-@foreach (var item in Model)
+@foreach (var item in Model.ToList())
 {
-    @item.Description;
+    //@item.Description;
 
      var match = regex.Match(@item.Description ?? "");
     string data = match.Groups[1].Value;

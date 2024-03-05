@@ -160,16 +160,7 @@
                         {
                             var workstage = item.WorkStage.Split(',');
                             <span id="@item.NewsId">
-                                @if (item.CreatedOn != item.ModifiedOn)
-                                {
-
-                                    var workstageStep = workstage[0].Split('-');
-                                    <span class="pull-right bg-green badge text-capitalize">@workstageStep[0] - Edited</span>
-                                }
-                                else
-                                {
-                                    <span class="text-capitalize pull-right badge @workstage[1]">@workstage[0]</span>
-                                }
+                                <span class="pull-right badge @workstage[1]">@workstage[0]</span>
                             </span>
                         }
                         else

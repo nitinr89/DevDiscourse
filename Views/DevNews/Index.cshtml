@@ -257,11 +257,14 @@
                     <td>
                         @if (!String.IsNullOrEmpty(item.WorkStage))
                         {
+                            DateTime createdOn = item.CreatedOn;
+                            DateTime modifiedOn = item.ModifiedOn;
+                            TimeSpan difference = modifiedOn - createdOn;
+                            bool hasMoreThanOneSecondDifference = Math.Abs(difference.TotalSeconds) > 1;
                             var workstage = item.WorkStage.Split(',');
                             <span id="@item.NewsId">
-                                @if (item.CreatedOn != item.ModifiedOn)
+                                @if (hasMoreThanOneSecondDifference)
                                 {
-
                                     var workstageStep = workstage[0].Split('-');
                                     <span class="pull-right bg-green badge text-capitalize">@workstageStep[0] - Edited</span>
                                 }

@@ -121,25 +121,25 @@
         <div class="advertisement-title">Advertisement</div>
         @if (!isCrawler)
         {
-        @if (isMobile)
-        {
-            <div class="text-center" style="min-height:50px"> <a href="https://www.visionri.com/insight/24-tracking-fintech-during-covid-19-harnessing-power-of-technology" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/fintech_320x50.jpg" class="lazy" /> </a> </div>
-        }
-        else
-        {
-            <div class="text-center" style="min-height:100px"> <a href="https://www.visionri.com/insight/24-tracking-fintech-during-covid-19-harnessing-power-of-technology" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/fintech_728x90.jpg" class="lazy" /> </a> </div>
-        }
+            @if (isMobile)
+            {
+                <div class="text-center" style="min-height:50px"> <a href="https://www.visionri.com/insight/24-tracking-fintech-during-covid-19-harnessing-power-of-technology" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/fintech_320x50.jpg" class="lazy" /> </a> </div>
+            }
+            else
+            {
+                <div class="text-center" style="min-height:100px"> <a href="https://www.visionri.com/insight/24-tracking-fintech-during-covid-19-harnessing-power-of-technology" target="_blank" rel="noopener"> <img src="~/Content/transparent.png" data-src="/AdminFiles/COE/fintech_728x90.jpg" class="lazy" /> </a> </div>
+            }
         }
     </div><ul class="breadcrumb breadcrumb_new m-t-10" itemscope itemtype="http://schema.org/BreadcrumbList"> <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.Action("Index", "Home")" target="_top" itemprop="item"><span itemprop="name">Home</span></a> <meta itemprop="position" content="1" /> </li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"> <a href="@Url.RouteUrl("NewsSector", new{sector=""})" target="_top" itemprop="item"><span itemprop="name">News</span></a> <meta itemprop="position" content="2" /> </li></ul> <div class="row">
         <div class="col-xs-12 col-md-8"> <h1 class="section-title"><span>@ViewBag.tag</span></h1> <div class="row" id="newsContainer" style="min-height:400px;"> </div><div id="loading" style="display:none;"> <p class="text-center"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div></div><div class="col-xs-12 col-md-4">
             <div class="clearfix" id="opinion"></div><div class="clearfix m-t-30">
-                <h2 class="section-title2"> <span>TRENDING</span> </h2> 
-                @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.edition });              
+                <h2 class="section-title2"> <span>TRENDING</span> </h2>
+                @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.edition })
             </div><div class="m-t-20 clearfix" id="latestNews"></div><div id="AfricaEditionNews"></div><div id="EditionNews"></div><div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div><div class="clearfix m-t-30" id="videoNews"></div>
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script>
         $(document).ready(function () {
             var region = '@(ViewBag.region)';
@@ -160,7 +160,20 @@
                 document.cookie = "Edition=" + $(this).val() + ";expires=" + date.toGMTString() + "; path=/";
                 window.location.href = $(this).find('option:selected').attr('data-to');
             });
-            GetOpinion(); function GetOpinion() { var ApiDataUrl = "/api/SearchApi/GetAnalysis/" + region + "/0"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.NewsId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var Image = item.Image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.Image : item.Image; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.Title + '</h3></div><div class="media-right"><img src="https://www.devdiscourse.com' + Image + '?width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right"/></div></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) }
+            GetOpinion();
+            function GetOpinion() {
+                var ApiDataUrl = "/api/SearchApi/GetAnalysis/" + region + "/0";
+                $.getJSON(ApiDataUrl, function (data) {
+                    var alertHtml = '';
+                    $.each(data, function (i, item) {
+                        var slugUrl = convertToSlug(item.newsId, item.title);
+                        var label = item.label != null ? item.label : "agency-wire";
+                        var Image = item.image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.image : item.image;
+                        alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="https://www.devdiscourse.com' + Image + '?width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right"/></div></div></a>'
+                    });
+                    $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml)
+                })
+            }
             $.ajax("/Home/GetVideoNews?reg=" + '@(ViewBag.region)').done(function (data) {
                 $("#videoNews").html(data);
                 $('.lazy').lazy();

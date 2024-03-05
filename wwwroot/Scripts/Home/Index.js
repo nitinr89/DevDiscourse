@@ -122,6 +122,7 @@
         items: 3,
         nav: true,
         margin: 45,
+        dots: false,
         startPosition: '0',
         autoplay: true,
         autoplayTimeout: 3000,

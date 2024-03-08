@@ -96,7 +96,11 @@
             pattern: "south-asia",
             defaults: new { controller = "Home", action = "SouthAsia" }
             );
-
+            routes.MapControllerRoute(
+             name: "top-stories",
+             pattern: "top-stories",
+             defaults: new { controller = "Home", action = "AmpStories" }
+           );
             routes.MapControllerRoute(
             name: "EastAndSouthEastAsiaEdition",
             pattern: "south-east-asia",

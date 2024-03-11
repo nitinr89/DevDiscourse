@@ -2541,43 +2541,25 @@ namespace DevDiscourse.Controllers
         //    }
         //    return "OK";
         //}
-        //public ActionResult AmpStories()
-        //{
-        //    var halfDay = DateTime.UtcNow.AddHours(-12);
-        //    var infocus = _db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true && a.Region.Title == "Global Edition" && a.DevNews.CreatedOn > halfDay && !a.DevNews.Title.Contains("News Summary") && a.DevNews.NewsLabels != "Newsalert" && a.DevNews.Sector != "14" && a.DevNews.Sector != "18" && a.DevNews.Sector != "19" && a.DevNews.Sector != "9").Select(s => new LatestNewsView
-        //    {
-        //        Id = s.DevNews.Id,
-        //        NewId = s.DevNews.NewsId,
-        //        Title = s.DevNews.Title,
-        //        ImageUrl = s.DevNews.ImageUrl,
-        //        CreatedOn = s.DevNews.ModifiedOn,
-        //        Type = s.DevNews.Type,
-        //        SubType = s.DevNews.SubType,
-        //        Country = s.DevNews.Country,
-        //        Label = s.DevNews.NewsLabels,
-        //        Ranking = s.Ranking
-        //    }).OrderByDescending(a => a.CreatedOn).AsNoTracking().Take(65).ToList();
-        //    return View(infocus.OrderByDescending(o => o.Ranking).Take(10).ToList());
-        //    //var search = (from m in _db.Infocus
-        //    //              where m.Edition == "Universal Edition" && m.ItemType=="News"
-        //    //              join s in _db.DevNews on m.NewsId equals s.NewsId
-        //    //              where s.AdminCheck == true
-        //    //              orderby m.SrNo
-        //    //              select new LatestNewsView
-        //    //              {
-        //    //                  Id = s.Id,
-        //    //                  NewId = s.NewsId,
-        //    //                  Title = s.Title,
-        //    //                  ImageUrl = s.ImageUrl,
-        //    //                  CreatedOn = s.ModifiedOn,
-        //    //                  Type = s.Type,
-        //    //                  SubType = s.SubType,
-        //    //                  Country = s.Country,
-        //    //                  Label = s.NewsLabels,
-        //    //                  SrNo = m.SrNo
-        //    //              }).AsNoTracking().Take(10);
-        //    //return View(search.ToList());
-        //}
+        public ActionResult AmpStories()
+        {
+            var halfDay = DateTime.UtcNow.AddHours(-12);
+            var infocus = _db.RegionNewsRankings.Where(a => a.DevNews.AdminCheck == true && a.Region.Title == "Global Edition" && a.DevNews.CreatedOn > halfDay && !a.DevNews.Title.Contains("News Summary") && a.DevNews.NewsLabels != "Newsalert" && a.DevNews.Sector != "14" && a.DevNews.Sector != "18" && a.DevNews.Sector != "19" && a.DevNews.Sector != "9").Select(s => new LatestNewsView
+            {
+                Id = s.DevNews.Id,
+                NewId = s.DevNews.NewsId,
+                Title = s.DevNews.Title,
+                ImageUrl = s.DevNews.ImageUrl,
+                CreatedOn = s.DevNews.ModifiedOn,
+                Type = s.DevNews.Type,
+                SubType = s.DevNews.SubType,
+                Country = s.DevNews.Country,
+                Label = s.DevNews.NewsLabels,
+                Ranking = s.Ranking
+            }).OrderByDescending(a => a.CreatedOn).AsNoTracking().Take(65).ToList();
+            return View(infocus.OrderByDescending(o => o.Ranking).Take(10).ToList());
+        
+        }
         ////public JsonResult ReadExcel()
         ////{
         ////    string fileName = Server.MapPath("/AdminFiles/Jan_Visitor_updated.xlsx");

@@ -152,18 +152,7 @@
     </amp-state>
     <amp-list src="@Url.Action("GetAmpSDGNews","Research",new { moreItemsPageIndex = 1 })" [src]="newsState.items" width="auto" height="1000" [height]="newsState.items.length * 95" class="blogList">
         <template type="amp-mustache">
-     
-            @{
-                var url = "";
-
-               // var prefix = "politics";
-                var id = 231991;
-                url = "/article/"  + id + "?amp";
-              //  url = "/article/" +prefix+"/"+ id + "?amp";
-                // id = { { Url} };
-            }
             <a href="{{url}}?amp" title="{{title}}" class="no-text-decoration">
-              @*     <a href="@url" title="{{title}}" class="no-text-decoration"> *@
                 <div class="single-news-post">
                     <div class="post-thumbnail">
                         <amp-img src="{{imageUrl}}?w=140&h=85&mode=crop" layout="responsive" width="140" alt="{{title}}" height="85"></amp-img>

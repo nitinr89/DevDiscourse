@@ -16,30 +16,30 @@ namespace DevDiscourse.Controllers
 {
     public class AccountController : Controller
     {
-         private readonly SignInManager<ApplicationUser> signInManager;
- private readonly UserManager<ApplicationUser> userManager;
- private readonly RoleManager<IdentityRole> roleManager;
- private readonly ApplicationDbContext _db;
- private readonly IDNTCaptchaValidatorService validatorService;
- private readonly IWebHostEnvironment hostingEnvironment;
- private readonly IConfiguration _configuration;
- 
- public AccountController(SignInManager<ApplicationUser> signInManager,
-     UserManager<ApplicationUser> userManager,
-     RoleManager<IdentityRole> roleManager,
-     ApplicationDbContext _db,
-     IDNTCaptchaValidatorService validatorService,
-     IWebHostEnvironment hostingEnvironment,
-     IConfiguration configuration)
- {
-     this.signInManager = signInManager;
-     this.userManager = userManager;
-     this.roleManager = roleManager;
-     this._db = _db;
-     this.validatorService = validatorService;
-     this.hostingEnvironment = hostingEnvironment;
-     _configuration = configuration;
- }
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly ApplicationDbContext _db;
+        private readonly IDNTCaptchaValidatorService validatorService;
+        private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly IConfiguration _configuration;
+
+        public AccountController(SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            ApplicationDbContext _db,
+            IDNTCaptchaValidatorService validatorService,
+            IWebHostEnvironment hostingEnvironment,
+            IConfiguration configuration)
+        {
+            this.signInManager = signInManager;
+            this.userManager = userManager;
+            this.roleManager = roleManager;
+            this._db = _db;
+            this.validatorService = validatorService;
+            this.hostingEnvironment = hostingEnvironment;
+            _configuration = configuration;
+        }
 
         //
         // GET: /Account/Login
@@ -301,62 +301,62 @@ namespace DevDiscourse.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> InternshipRegister(InternshipRegisterViewModel model)
         {
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
+            {
+                if (!validatorService.HasRequestValidCaptchaEntry())
                 {
-                    if (!validatorService.HasRequestValidCaptchaEntry())
+                    var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.Name, LastName = "", DateOfBirth = DateTime.UtcNow.AddYears(-20), PhoneNumber = "", Country = model.Nationality, ProfilePic = "/AdminFiles/Logo/img_avatar.png", EmailConfirmed = true };
+                    var result = await userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.Name, LastName = "", DateOfBirth = DateTime.UtcNow.AddYears(-20), PhoneNumber = "", Country = model.Nationality, ProfilePic = "/AdminFiles/Logo/img_avatar.png", EmailConfirmed = true };
-                        var result = await userManager.CreateAsync(user, model.Password);
-                        if (result.Succeeded)
+
+                        if (Request.Form.Files.Count > 0)
                         {
-
-                            if (Request.Form.Files.Count > 0)
+                            for (var i = 0; i < Request.Form.Files.Count; i++)
                             {
-                                for (var i = 0; i < Request.Form.Files.Count; i++)
+
+                                var file = Request.Form.Files[i];
+                                if (file == null || file.Length <= 0) continue;
+                                var fileName = RandomName();
+                                var fileExtension = Path.GetExtension(file.FileName);
+                                var fileKey = Request.Form.Files[i].Name;
+                                if (fileKey == "CVUrl")
                                 {
-
-                                    var file = Request.Form.Files[i];
-                                    if (file == null || file.Length <= 0) continue;
-                                    var fileName = RandomName();
-                                    var fileExtension = Path.GetExtension(file.FileName);
-                                    var fileKey = Request.Form.Files[i].Name;
-                                    if (fileKey == "CVUrl")
+                                    CloudBlobContainer blobContainer = GetCloudBlobContainer();
+                                    CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                                    using (var stream = file.OpenReadStream())
                                     {
-                                        CloudBlobContainer blobContainer = GetCloudBlobContainer();
-                                        CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-                                        using (var stream = file.OpenReadStream())
-                                        {
-                                            await blob.UploadFromStreamAsync(stream);
-                                            model.CVUrl = blob.Uri.ToString();
-                                        }
-
+                                        await blob.UploadFromStreamAsync(stream);
+                                        model.CVUrl = blob.Uri.ToString();
                                     }
+
                                 }
                             }
-                            MediaInternship mediaInternship = new MediaInternship()
-                            {
-                                UserId = user.Id,
-                                Editions = model.Editions,
-                                Sectors = model.Sectors,
-                                CVUrl = model.CVUrl
-                            };
-                            _db.MediaInternships.Add(mediaInternship);
-                            await _db.SaveChangesAsync();
-                            var userId = await userManager.FindByIdAsync(user.Id);
-                            if (userId != null) { await this.userManager.AddToRoleAsync(userId, "Subscriber"); }
-                            // await this.userManager.AddToRoleAsync(user.Id, "Subscriber");
-                            // await signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                            await signInManager.SignInAsync(user, isPersistent: false);
-                            return RedirectToAction("Index", "Home");
                         }
-                        AddErrors(result);
+                        MediaInternship mediaInternship = new MediaInternship()
+                        {
+                            UserId = user.Id,
+                            Editions = model.Editions,
+                            Sectors = model.Sectors,
+                            CVUrl = model.CVUrl
+                        };
+                        _db.MediaInternships.Add(mediaInternship);
+                        await _db.SaveChangesAsync();
+                        var userId = await userManager.FindByIdAsync(user.Id);
+                        if (userId != null) { await this.userManager.AddToRoleAsync(userId, "Subscriber"); }
+                        // await this.userManager.AddToRoleAsync(user.Id, "Subscriber");
+                        // await signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        await signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToAction("Index", "Home");
                     }
+                    AddErrors(result);
                 }
-                ViewBag.Sectors = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
-                ViewBag.Editions = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
-                // If we got this far, something failed, redisplay form
-                return View(model);
-         
+            }
+            ViewBag.Sectors = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title");
+            ViewBag.Editions = new SelectList(_db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title");
+            // If we got this far, something failed, redisplay form
+            return View(model);
+
         }
         //[AllowAnonymous]
         //public JsonResult RegisterUser(MobileUserViewModel obj)
@@ -658,45 +658,40 @@ namespace DevDiscourse.Controllers
             return View();
         }
 
-        //// POST: /Account/Registration
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Registration(RegistrationViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (this.IsCaptchaValid("Captcha is not valid"))
-        //        {
-        //            string address = model.Street + "," + model.City + "," + model.State + "," + model.ZipCode;
-        //            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email,EmailConfirmed = true, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = DateTime.UtcNow.AddYears(-20), PhoneNumber = model.PhoneNumber, Country = model.Country, ProfilePic = "/AdminFiles/Logo/img_avatar.png", CompanyName = model.CompanyName, Position = model.Position, Address = address,OrganizationType = model.OrganizationType };
-        //            var result = await UserManager.CreateAsync(user, model.Password);
-        //            if (result.Succeeded)
-        //            {
-        //                //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-        //                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-        //                // Send an email with this link
-        //                //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-        //                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-        //                //EmailController email = new EmailController();
+        // POST: /Account/Registration
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Registration(RegistrationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //if (this.IsCaptchaValid("Captcha is not valid"))
+                if (!validatorService.HasRequestValidCaptchaEntry())
+                {
+                    TempData["captchaError"] = "Invalid Captcha";
+                    return View(model);
+                }
+                string address = model.Street + "," + model.City + "," + model.State + "," + model.ZipCode;
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, EmailConfirmed = true, FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = DateTime.UtcNow.AddYears(-20), PhoneNumber = model.PhoneNumber, Country = model.Country, ProfilePic = "/AdminFiles/Logo/img_avatar.png", CompanyName = model.CompanyName, Position = model.Position, Address = address, OrganizationType = model.OrganizationType };
+                var result = await userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
 
-        //                //string emailData = string.Format("<div style='padding:30px;background-color:#ececec'><div style='margin-left:32%'><img src='http://www.devdiscourse.com/AdminFiles/Logo/Dev-Logo-New.png'/></div>" +
-        //                //         "<div style='font-size:20px; padding-top:30px;padding-bottom:20px'><span>Please confirm " + model.Email + " account by clicking </span><a href =\"" + callbackUrl + "\">here</a><p>if above link does not work then open this url in browser :</p><p style='font-size:14px'>" + callbackUrl + "</p>" +
-        //                //         "</div><div style='background-color:#4d4d4d; text-align:center; margin-top:10px; margin-bottom:10px; padding:10px; cursor:pointer;'><span style ='color:white;'> " +
-        //                //         "© Copyright 2019 <a href ='http://www.visionri.com' style='color:white;text-decoration:unset;'> VisionRI</a></span><span style='margin-left:10px;margin-right:10px;height:30px;border-left:2px solid white;'></span><span><a href='http://devdiscourse.com/Home/Disclaimer' style='color:white;text-decoration:unset;'>Disclaimer</a></span><span style='margin-left:10px;margin-right:10px;height:30px;border-left:2px solid white;'></span>" +
-        //                //        "<span><a href='http://devdiscourse.com/Home/TermsConditions' style='color:white;text-decoration:unset;'>Terms & Conditions</a></span></div></div>");
-
-        //                //email.SendMail(model.Email, emailData, "Confirm Devdiscourse account");
-        //                await this.UserManager.AddToRoleAsync(user.Id, "PressRelease");
-        //                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-        //                return RedirectToAction("Index", "NewsWire");
-        //            }
-        //            AddErrors(result);
-        //        }
-        //    }
-        //    // If we got this far, something failed, redisplay form
-        //    return View(model);
-        //}
+                    //email.SendMail(model.Email, emailData, "Confirm Devdiscourse account");
+                    //await this.userManager.AddToRoleAsync(user.Id, "PressRelease");
+                    var userId = await userManager.FindByIdAsync(user.Id);
+                    if (userId != null) { await this.userManager.AddToRoleAsync(userId, "Subscriber"); }
+                    //await signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "NewsWire");
+                }
+                AddErrors(result);
+                //}
+            }
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
         //// Id : AdoptSDGTool Id
         //public ActionResult Permission(Guid id)
         //{

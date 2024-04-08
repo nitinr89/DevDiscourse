@@ -122,13 +122,21 @@ namespace DevDiscourse.Controllers.Main
             }
             if (bfd != null)
             {
-                DateTime filterDate = DateTime.Parse(bfd.ToString());
-                devNews = devNews.Where(a => a.CreatedOn < filterDate);
+                try
+                {
+                    DateTime filterDate = DateTime.Parse(bfd.ToString());
+                    devNews = devNews.Where(a => a.CreatedOn < filterDate);
+                }
+                catch (Exception ex) { }
             }
             if (afd != null)
             {
-                DateTime filterDate2 = DateTime.Parse(afd.ToString());
-                devNews = devNews.Where(a => a.CreatedOn > filterDate2);
+                try
+                {
+                    DateTime filterDate2 = DateTime.Parse(afd.ToString());
+                    devNews = devNews.Where(a => a.CreatedOn > filterDate2);
+                }
+                catch (Exception ex) { }
             }
             if (!String.IsNullOrEmpty(uid) && uid != "null")
             {
@@ -215,13 +223,21 @@ namespace DevDiscourse.Controllers.Main
             }
             if (bfd != null)
             {
-                DateTime filterDate = DateTime.Parse(bfd.ToString());
-                devNews = devNews.Where(a => a.CreatedOn < filterDate);
+                try
+                {
+                    DateTime filterDate = DateTime.Parse(bfd.ToString());
+                    devNews = devNews.Where(a => a.CreatedOn < filterDate);
+                }
+                catch (Exception ex) { }
             }
             if (afd != null)
             {
-                DateTime filterDate2 = DateTime.Parse(afd.ToString());
-                devNews = devNews.Where(a => a.CreatedOn > filterDate2);
+                try
+                {
+                    DateTime filterDate2 = DateTime.Parse(afd.ToString());
+                    devNews = devNews.Where(a => a.CreatedOn > filterDate2);
+                }
+                catch (Exception ex) { }
             }
             if (!String.IsNullOrEmpty(uid) && uid != "null")
             {

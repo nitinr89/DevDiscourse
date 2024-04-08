@@ -1,7 +1,9 @@
-﻿@{
+﻿@model Devdiscourse.Models.BasicModels.DevNews
+@{
     Layout = "~/Views/Shared/_ampLayout.cshtml";
     ViewBag.Title = "Research | Blogs | News";
-    string domainUrl = "https://www.devdiscourse.com";
+    // string domainUrl = "https://www.devdiscourse.com";
+    string domainUrl = Url.Content("~/");
     string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
     ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
     ViewBag.webEdition = ViewBag.edition;
@@ -160,6 +162,7 @@
                     </div>
                 </div>
             </a>
+
         </template>
     </amp-list>
     <form method="GET"

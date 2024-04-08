@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using ServiceStack.Host;
+using ServiceStack.Html;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
@@ -74,15 +75,17 @@ namespace Devdiscourse.Controllers.Main
             ViewBag.id = id;
             return View();
         }
-        public async Task<ActionResult> Index(string prefix, long? id, string reg = "")
+        public async Task<ActionResult> Index(string? prefix, long id, string reg = "")
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            bool isAmpMode = HttpContext.Items.ContainsKey("IsAmpMode") && (bool)HttpContext.Items["IsAmpMode"];
             string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             string absoluteUri = HttpContext.Request.GetDisplayUrl();
             if (id == null || id == 0)
             {
-                throw new HttpException(404, "Error 404");
+                if (int.TryParse(prefix, out int result))
+                    id = result;
+                else
+                    throw new HttpException(404, "Error 404");
             }
             var search = await db.DevNews.Where(dn => dn.NewsId == id && dn.AdminCheck).FirstOrDefaultAsync();
             if (search == null)
@@ -100,8 +103,6 @@ namespace Devdiscourse.Controllers.Main
             }
             ViewBag.label = search.NewsLabels ?? "";
             var converter = new HtmlToAmpConverter();
-            //if (isAmpMode)
-            //{
             converter.WithSanitizers(
                 new HashSet<ISanitizer>
                 {
@@ -120,7 +121,6 @@ namespace Devdiscourse.Controllers.Main
                 });
             string ampHtml = converter.ConvertFromHtml(search.Description).AmpHtml;
             ViewBag.ampHtml = ampHtml;
-            //}
             var geolocation = GetGeoLocation();
             var MACAddress = GetMACAddress();
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();

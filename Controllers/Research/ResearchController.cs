@@ -220,10 +220,19 @@ namespace Devdiscourse.Controllers.Research
         public JsonResult GetAmpSDGNews(string __amp_source_origin, int? moreItemsPageIndex)
         {
             ViewBag.reg = "Global Edition";
-            var search = _db.DevNews.Where(a => a.AdminCheck == true && a.Category.Contains("13")).Select(a => new { a.Region, a.IsGlobal, a.Sector, a.ModifiedOn, a.Title, Url = "/article/" + a.NewsId.ToString(), a.ImageUrl });
+            var search = _db.DevNews.Where(a => a.AdminCheck == true && a.Category.Contains("13")).Select(a => new
+            {
+                a.Region,
+                a.IsGlobal,
+                a.Sector,
+                a.ModifiedOn,
+                a.Title,
+                Url = "/article/" + a.NewsId.ToString(),
+                a.ImageUrl
+            });
             if (!string.IsNullOrEmpty(__amp_source_origin))
             {
-                 //HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);// do later
+                //HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);// do later
                 HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", __amp_source_origin);
 
             }
@@ -233,7 +242,7 @@ namespace Devdiscourse.Controllers.Research
             var resultData = result.ToPagedList(pageNumber, pageSize);
             return Json(new { items = resultData, hasMorePages = resultData.Any() });
         }
-        public Microsoft.AspNetCore.Mvc.PartialViewResult GoalDetails(int? id)
+        public PartialViewResult GoalDetails(int? id)
         {
             if (id == null || id == 0)
             {
@@ -284,7 +293,7 @@ namespace Devdiscourse.Controllers.Research
             var time = DateTime.UtcNow.ToLocalTime();
             return time.ToString("dd_MM_yyyy_HH_mm_ss_FFFFFFF");
         }
-        public Microsoft.AspNetCore.Mvc.JsonResult SDGsJoin(string profession, string description, string nationality, string gender)
+        public JsonResult SDGsJoin(string profession, string description, string nationality, string gender)
         {
             string userId = userManager.GetUserId(User);
             var search = _db.SDGSamurais.FirstOrDefault(a => a.Creator == userId);

@@ -10,6 +10,7 @@
     var domainUrl = "https://www.devdiscourse.com";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
     var td = "td";
+    string postedOn = "";
 }
 @functions {
     async Task Truncate(string input, int length)
@@ -299,7 +300,15 @@
                             <button class="btn btn-xs asignToSpecific" data-newsid="@item.NewsId"> Assign to specific</button>
                         }
                     </td>
-                    <td>@item.CreatedOn.ToClientTime()</td>
+                    @try
+                    {
+                        postedOn = item.CreatedOn.ToClientTime().ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        postedOn = item.CreatedOn.ToString();
+                    }
+                    <td>@postedOn</td>
                     <td>
                         @if ((User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Author") || User.IsInRole("Upfront")) && item.AdminCheck == true)
                         {

@@ -1062,13 +1062,14 @@ namespace DevDiscourse.Controllers
 
         //
         // POST: /Account/LogOff
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult LogOff()
-        //{
-        //    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-        //    return RedirectToAction("Index", "Home");
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         ////
         //// GET: /Account/ExternalLoginFailure

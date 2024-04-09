@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "UserProfile";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Daily News, International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com";
+    ViewBag.webEdition = @ViewBag.edition;
+    ViewBag.pageKeywords = "User Profile";
+}
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<div class="container">
+    <ul class="breadcrumb breadcrumb_new">
+        <li><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li class="active">User Profile</li>
+    </ul>
+    <div class="row m-t-20">
+        <div class="col-md-8" id="showProfile">
+            <div class="section-title">
+                <span>Profile</span>
+            </div>
+            <div class="p-10" style="background-color:#f3f3f3">
+                @* @{ Html.RenderAction("GetProfile", "Home");} *@
+                @await Component.InvokeAsync("Profile")
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="clearfix hidden-xs hidden-sm">
+                @{
+                    Html.RenderPartial("_socialPartial");
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery.multiselect.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var _fName = "";
+            var _lName = "";
+            var _about = "";
+            var _address = "";
+            var _phone = "";
+            var _country = "";
+            var _email = "";
+            var _profile = '@(ViewBag.profile)';
+            var _interestSector = "";
+
+            // Region Search
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+
+            $(document).on('click', '#editBtn', function () {
+                $(document).find('.detailsView').hide();
+                $(document).find('#editView').show();
+            });
+            $(document).on('click', '#closeBtn', function () {
+                $(document).find('#editView').hide();
+            });
+
+            $('#fileUpload').change(function () {
+                // Checking whether FormData is available in browser
+                if (window.FormData !== undefined) {
+
+                    var fileUpload = $("#fileUpload").get(0);
+                    var files = fileUpload.files;
+                    // Create FormData object
+                    var fileData = new FormData();
+                    if (files[0].size > parseInt(1048576)) {
+                        //show an alert to the user
+                        showAlert("File size must be less than 1MB", "danger");
+                    }
+                    else {
+                        // Looping over all files and add it to FormData object
+                        for (var i = 0; i < files.length; i++) {
+                            fileData.append(files[i].name, files[i]);
+                        }
+                        $.ajax({
+                            url: '/Home/UpdateProfilePic',
+                            type: "POST",
+                            contentType: false, // Not to set any content header
+                            processData: false, // Not to process data
+                            data: fileData,
+                            success: function (result) {
+                                if (result == "Error") {
+                                    showAlert('Something went wrong!', "danger")
+                                } else {
+                                    _profile = result;
+                                    $("#ProfileImage").html('<img class="img-responsive img-circle center-block" style="width:160px;height:160px;" src="' + result + '">');
+                                    $(".userDetail").load('/User/_getUserDetails');
+                                }
+                            },
+                            error: function (err) {
+                                showAlert('Something went wrong!', "danger")
+                            }
+                        });
+                    }
+                }
+                else {
+                    alert("FormData is not supported.");
+                }
+            });
+            $('#saveProfile').click(function () {
+                _fName = $('#fname').val();
+                _lName = $('#lname').val();
+                _about = $('#aboutme').val();
+                _address = $('#address').val();
+                _phone = $('#contact').val();
+                _country = $('#country').val();
+                _email = $('#email').val();
+                editProfile();
+            });
+            function editProfile() {
+                $.ajax({
+                    url: '/Home/UpdateProfile',
+                    type: 'Post',
+                    data: { fname: _fName, lname: _lName, aboutme: _about, address: _address, contact: _phone, country: _country, email: _email, profile: _profile },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $('#showProfile').load("GetProfile", "Home");
+                        $(document).find('#editView').hide();
+                        showAlert("Profile Successfully Update", "success");
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $(document).on('click', '#addInterest', function () {
+                $(document).find('.detailsView').hide();
+                $(document).find('#interestView').show();
+            });
+            $(document).on('click', '#closeView', function () {
+                $(document).find('#interestView').hide();
+            });
+            // For Multiple Select
+            $('#UserSector_multi').multiselect();
+            $('#UserThemes_multi').multiselect();
+            $('.actionButtons').hide();
+            // For Sector
+            $('input[name="UserSector_multi[]"]').on("change", function () {
+                var valueArray = [];
+                $("input[name='UserSector_multi[]']:checked").each(function () {
+                    valueArray.push($(this).val().toString());
+                });
+                $(document).find("#UserSector").val(valueArray);
+            });
+            $(document).on('click', '#createInterest', function () {
+                _interestSector = $(document).find('#UserSector').val();
+                addInterest();
+            });
+            function addInterest() {
+                $.ajax({
+                    url: '/Home/AddInterest',
+                    type: 'Post',
+                    data: { sector: _interestSector, type: "UserDefined" },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $(document).find('#showInterest').load("GetInterest", "Home");
+                        $(document).find('#interestView').hide();
+                        showAlert("Your Interest Successfully Create", "success");
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        });
+    </script>
+}

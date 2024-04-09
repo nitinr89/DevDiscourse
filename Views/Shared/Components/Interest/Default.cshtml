@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Devdiscourse.Models.BasicModels.UserInterest>
+@if (Model.Any())
+{
+    <h4 class="m-t-20">Sectors</h4>
+    <div>
+        @foreach (var item in Model)
+        {
+            if (!String.IsNullOrEmpty(item.Sector))
+            {
+                @await Component.InvokeAsync("Sector", new { sector = item.Sector, filter = "All" })
+                ;
+            }
+        }
+    </div>
+}
+

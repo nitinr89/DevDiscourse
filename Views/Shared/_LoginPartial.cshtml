@@ -1,35 +1,52 @@
 ﻿@using Microsoft.AspNetCore.Identity;
-@* @if (Request.IsAuthenticated == true)
+@if (User.Identity.IsAuthenticated == true)
 {
-	<li class="dropdown font-sans-serif"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/images/icons/menu_dot.png?width=10&height=20&mode=crop" class="visible-xs-inline" alt="Menu" /> @{
-				Html.RenderAction("GetUserPic", "Home");
-			}</a> <ul class="dropdown-menu dropdown-menu-right"> <li class="item visible-xs-inline"> <a href="/" title="Home">HOME</a> </li><li class="item visible-xs-inline"> <a href="/news-analysis" title="News">NEWS</a> </li><li class="item visible-xs-inline"> <a href="/research" title="Research">RESEARCH</a> </li><li class="item visible-xs-inline"> <a href="/live-discourse" title="Livediscourse">LIVE DISCOURSE</a> </li><li class="item visible-xs-inline"> <a href="/blogs" title="Devdiscourse Blogs">BLOG / OPINION</a> </li><li><a href="/blogs/interview" title="Interviews">INTERVIEW</a> </li><li class="item visible-xs-inline"> <a href="/press-release" title="Press Release">SUBMIT PRESS RELEASE</a> </li><li> <a href="@Url.Action("UserProfile", "Home")" title="Profile" rel="nofollow">PROFILE</a> </li>@if (User.IsInRole("InstitutionalPartner") || User.IsInRole("SuperAdmin"))
-			{
-				<li> <a href="@Url.Action("Dashboard", "Research")" title="Dashboard" rel="nofollow">DASHBOARD</a> </li>
-			}<li> <a href="@Url.Action("Index", "Manage")" title="Settings" rel="nofollow">SETTINGS</a> </li><li> @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right1" }))
-				{
-					@Html.AntiForgeryToken()
-				}<a href="javascript:document.getElementById('logoutForm').submit()" title="Logout" rel="nofollow">LOGOUT</a> </li></ul> </li>
+    <li class="dropdown font-sans-serif">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="/images/icons/menu_dot.png?width=10&height=20&mode=crop" class="visible-xs-inline" alt="Menu" />
+            @await Component.InvokeAsync("UserPic")
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li class="item visible-xs-inline"> <a href="/" title="Home">HOME</a> </li>
+            <li class="item visible-xs-inline"> <a href="/news-analysis" title="News">NEWS</a> </li>
+            <li class="item visible-xs-inline"> <a href="/research" title="Research">RESEARCH</a> </li>
+            <li class="item visible-xs-inline"> <a href="/live-discourse" title="Livediscourse">LIVE DISCOURSE</a> </li>
+            <li class="item visible-xs-inline"> <a href="/blogs" title="Devdiscourse Blogs">BLOG / OPINION</a> </li>
+            <li><a href="/blogs/interview" title="Interviews">INTERVIEW</a> </li>
+            <li class="item visible-xs-inline"> <a href="/press-release" title="Press Release">SUBMIT PRESS RELEASE</a> </li>
+            <li> <a href="@Url.Action("UserProfile", "Home")" title="Profile" rel="nofollow">PROFILE</a> </li>@if (User.IsInRole("InstitutionalPartner") || User.IsInRole("SuperAdmin"))
+            {
+                <li> <a href="@Url.Action("Dashboard", "Research")" title="Dashboard" rel="nofollow">DASHBOARD</a> </li>
+            }
+            <li> <a href="@Url.Action("Index", "Manage")" title="Settings" rel="nofollow">SETTINGS</a> </li>
+            <li>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right1" }))
+                {
+                    @Html.AntiForgeryToken()
+                }<a href="javascript:document.getElementById('logoutForm').submit()" title="Logout" rel="nofollow">LOGOUT</a>
+            </li>
+        </ul>
+    </li>
 }
 else
-@{ *@
-<li class="hidden-xs">
-    <a href="/Account/Login">
-        <img src="~/AdminFiles/Logo/loginUser.png?width=24&height=24" width="24" height="24" title="Devdiscourse Login" alt="User" />
-    </a>
-</li>
+{
+    <li class="hidden-xs">
+        <a href="/Account/Login">
+            <img src="~/AdminFiles/Logo/loginUser.png?width=24&height=24" width="24" height="24" title="Devdiscourse Login" alt="User" />
+        </a>
+    </li>
 
-<li class="dropdown visible-xs-inline font-sans-serif">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <img src="~/images/icons/menu_dot.png?width=10&height=20&mode=crop" width="10" height="20" style="object-fit:cover;" alt="Menu" />
-    </a>
-    <ul class="dropdown-menu dropdown-menu-right">
-        <li class="item"> <a href="/" title="Home">HOME</a> </li>
-        <li class="item"> <a href="/news-analysis" title="News">NEWS</a> </li>
-        <li class="item"> <a href="/research" title="Research">RESEARCH</a> </li>
-        <li class="item"> <a href="/live-discourse" title="Livediscourse">LIVE DISCOURSE</a> </li>
-        <li class="item"> <a href="/blogs" title="Write for us">BLOG / OPINION</a> </li>
-        <li class="item"> <a href="/press-release" title="Press Release">SUBMIT PRESS RELEASE</a> </li>
-    </ul>
-</li>
-@* } *@
+    <li class="dropdown visible-xs-inline font-sans-serif">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="~/images/icons/menu_dot.png?width=10&height=20&mode=crop" width="10" height="20" style="object-fit:cover;" alt="Menu" />
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li class="item"> <a href="/" title="Home">HOME</a> </li>
+            <li class="item"> <a href="/news-analysis" title="News">NEWS</a> </li>
+            <li class="item"> <a href="/research" title="Research">RESEARCH</a> </li>
+            <li class="item"> <a href="/live-discourse" title="Livediscourse">LIVE DISCOURSE</a> </li>
+            <li class="item"> <a href="/blogs" title="Write for us">BLOG / OPINION</a> </li>
+            <li class="item"> <a href="/press-release" title="Press Release">SUBMIT PRESS RELEASE</a> </li>
+        </ul>
+    </li>
+}

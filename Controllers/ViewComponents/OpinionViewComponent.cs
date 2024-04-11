@@ -18,7 +18,7 @@ namespace DevDiscourse.Controllers.ViewComponents
             try
             {
                 reg = reg == "Global Edition" ? "" : reg;
-                DateTime thirtyDays = DateTime.Today.AddDays(-15);
+                DateTime thirtyDays = DateTime.Today.AddDays(-30);
                 if (reg == "")
                 {
                     //new 

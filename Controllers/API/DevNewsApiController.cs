@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
@@ -16,6 +16,8 @@ using Devdiscourse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.OutputCaching;
+using System.Net.Http.Headers;
+using System.Text.Json.Nodes;
 
 namespace DevDiscourse.Controllers.API
 {
@@ -25,13 +27,14 @@ namespace DevDiscourse.Controllers.API
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IHubContext<ChatHub> context;
-        public DevNewsApiController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> context)
+        private string? _apiKey;
+        public DevNewsApiController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> context, IConfiguration conf)
         {
-
             this.db = db;
             this.userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
             this.context = context;
+            _apiKey = conf.GetSection("Open_API_KEY").Value;
         }
 
         //GET: api/InfocusApi
@@ -185,7 +188,7 @@ namespace DevDiscourse.Controllers.API
                 NewsType = a.DevNews.Type,
                 Ranking = a.Ranking
             }).OrderByDescending(m => m.Ranking).Skip(skipCount).Take(10).ToList();
-            return Json(result);          
+            return Json(result);
         }
 
         [Route("api/DevNews/GetSectorArticle/{reg}/{sector}")]
@@ -599,6 +602,97 @@ namespace DevDiscourse.Controllers.API
                 db.SaveChanges();
             }
             return obj.Id.ToString();
+        }
+        [Route("api/GenImg")]
+        [HttpPost]
+        public async Task<string> GenImg(string title, string sector, string prompt)
+        {
+            try
+            {
+                string endpoint = "https://api.openai.com/v1/images/generations";
+                var requestData = new
+                {
+                    model = "dall-e-2",
+                    prompt = prompt,
+                    n = 1,
+                    size = "1024x1024"
+                };
+
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+                var jsonPayload = JsonConvert.SerializeObject(requestData);
+                var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
+
+                var response1 = await client.PostAsync(endpoint, content);
+                response1.EnsureSuccessStatusCode();
+                var responseBody = await response1.Content.ReadAsStringAsync();
+                var jsonresponse = JsonObject.Parse(responseBody);
+                string imageUrl = jsonresponse["data"][0]["url"].ToString();
+
+                if (string.IsNullOrWhiteSpace(imageUrl)) return $"NotOk200 - imageUrl is null or empty.";
+                else
+                {
+                    HttpClient httpClient = new();
+                    HttpResponseMessage response = await httpClient.GetAsync(imageUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        using (Stream contentStream = await response.Content.ReadAsStreamAsync())
+                        {
+                            var fileName = RandomName();
+                            var fileExtension = ".png";
+                            string mimeType;
+                            string fileSize;
+                            try
+                            {
+
+                                mimeType = response.Content.Headers.ContentType.MediaType;
+                                fileSize = response.Content.Headers.ContentLength.ToString();
+                            }
+                            catch (Exception ex)
+                            {
+                                mimeType = "";
+                                fileSize = "";
+                            }
+
+                            CloudBlobContainer blobContainer;
+                            CloudBlockBlob blob;
+                            using (MemoryStream ms = new())
+                            {
+                                await contentStream.CopyToAsync(ms);
+                                ms.Position = 0;
+
+                                blobContainer = await GetCloudBlobimagegalleryContainer();
+                                blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                                await blob.UploadFromStreamAsync(ms);
+                                string finalImageUrl = blob.Uri.ToString();
+
+                                ImageGallery fileobj = new()
+                                {
+                                    Title = title,
+                                    ImageUrl = finalImageUrl,
+                                    ImageCopyright = "",
+                                    Caption = title,
+                                    FileMimeType = mimeType,
+                                    FileSize = fileSize,
+                                    Sector = sector,
+                                    Tags = "",
+                                    UseCount = 1,
+                                };
+                                db.ImageGalleries.Add(fileobj);
+                                db.SaveChanges();
+
+                                return finalImageUrl;
+                            }
+                        }
+                    }
+                    else return $"NotOk200 - can't download image from imageUrl.";
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"NotOk200 {ex.Message}";
+            }
         }
         [Route("api/PTINews")]
         [HttpPost]
@@ -1848,12 +1942,12 @@ namespace DevDiscourse.Controllers.API
         {
 
             var regs = (from c in db.Countries
-                       join r in db.Regions on c.RegionId equals r.Id
-                       where c.Title == reg
+                        join r in db.Regions on c.RegionId equals r.Id
+                        where c.Title == reg
                         select new
-                       {
-                           r.Title
-                       }).FirstOrDefault();
+                        {
+                            r.Title
+                        }).FirstOrDefault();
             string regionTitle = "Global Edition";
 
             var region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
@@ -1864,7 +1958,7 @@ namespace DevDiscourse.Controllers.API
             var newsList = db.DevNews.Where(a => a.NewsId < id && a.CreatedOn > tenDays && (a.Sector == sector) && a.AdminCheck == true);
             //var sectorIds = sector.Split(',').Select(int.Parse).ToList();
             //var newsList = db.DevNews.Where(a => a.SectorMapping.Any(ns => sectorIds.Contains(ns.SectorId)));
-            
+
             if (region != "Global Edition")
             {
                 newsList = newsList.Where(a => a.Region.Contains(region));
@@ -1885,14 +1979,14 @@ namespace DevDiscourse.Controllers.API
                 {
                     Title = news.Title,
                     Description = DataDesc,
-                    Subtitle = (news.SubTitle!=null) ? news.SubTitle : "Default",
+                    Subtitle = (news.SubTitle != null) ? news.SubTitle : "Default",
                     ImageUrl = news.ImageUrl,
-                    Country = (news.Country!=null)? news.Country : "Default",
-                    Type = (news.Type!=null)? news.Type : "Default",
-                    SubType = (news.SubType!=null)? news.SubType : "Default",
-                    Source = (news.Source!=null)? news.Source : "Default",
+                    Country = (news.Country != null) ? news.Country : "Default",
+                    Type = (news.Type != null) ? news.Type : "Default",
+                    SubType = (news.SubType != null) ? news.SubType : "Default",
+                    Source = (news.Source != null) ? news.Source : "Default",
                     Themes = (news.Themes != null) ? news.Themes : "Default",
-                    Avatar = news.ApplicationUsers?.ProfilePic??"",
+                    Avatar = news.ApplicationUsers?.ProfilePic ?? "",
                     SourceUrl = (news.SourceUrl != null) ? news.SourceUrl : "Default",
                     Tags = (news.Tags != null) ? news.Tags : "Default",
                     Label = (news.NewsLabels != null) ? news.NewsLabels : "Default",
@@ -2044,6 +2138,24 @@ namespace DevDiscourse.Controllers.API
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
             CloudBlobContainer container = blobClient.GetContainerReference("devnews");
+            if (await container.CreateIfNotExistsAsync())
+            {
+                await container.SetPermissionsAsync(new BlobContainerPermissions
+                {
+                    PublicAccess = BlobContainerPublicAccessType.Blob
+                });
+            }
+            return container;
+        }
+        private async Task<CloudBlobContainer> GetCloudBlobimagegalleryContainer()
+        {
+            var config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .Build();
+            string connectionString = config.GetConnectionString("devdiscourse_AzureStorageConnectionString");
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference("imagegallery");
             if (await container.CreateIfNotExistsAsync())
             {
                 await container.SetPermissionsAsync(new BlobContainerPermissions

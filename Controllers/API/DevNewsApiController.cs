@@ -27,14 +27,12 @@ namespace DevDiscourse.Controllers.API
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IHubContext<ChatHub> context;
-        private string? _apiKey;
-        public DevNewsApiController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> context, IConfiguration conf)
+        public DevNewsApiController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> context)
         {
             this.db = db;
             this.userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
             this.context = context;
-            _apiKey = conf.GetSection("Open_API_KEY").Value;
         }
 
         //GET: api/InfocusApi
@@ -619,7 +617,7 @@ namespace DevDiscourse.Controllers.API
                 };
 
                 using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "api-key");
                 var jsonPayload = JsonConvert.SerializeObject(requestData);
                 var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
 

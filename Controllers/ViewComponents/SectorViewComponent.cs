@@ -23,7 +23,13 @@ namespace Devdiscourse.Controllers.ViewComponents
                 ViewBag.filter = filter;
                 if (!string.IsNullOrEmpty(sector))
                 {
-                    var idList = sector.Split(',').Select(int.Parse).ToList();
+                    List<int> idList = new();
+                    var stringidList = sector.Split(',');
+                    foreach (var id in stringidList)
+                    {
+                        bool result = int.TryParse(id, out int number);
+                        if (result) idList.Add(number);
+                    }
                     var filteredItems = _db.DevSectors
                                         .Where(m => m.Id != 8 && m.Id != 16)
                                         .ToList() // Retrieve data from the database
@@ -40,8 +46,8 @@ namespace Devdiscourse.Controllers.ViewComponents
                     }
 
                     return View(filteredItems.OrderBy(a => a.Title));
-               }
-              return View();
+                }
+                return View();
             }
             catch (Exception ex)
             {

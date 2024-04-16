@@ -859,6 +859,7 @@
             // For Sector
             $('#Sector').val(_selSector);
             var sectorArray = _selSector.split(",");
+            sectorArray = sectorArray.filter(f => f.length < 3);
             $.each(sectorArray, function (i, item) {
                 var sectorValue = item.split(" ").join("_");
                 var _itemList = [];

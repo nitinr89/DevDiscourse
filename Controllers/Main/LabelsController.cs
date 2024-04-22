@@ -171,21 +171,29 @@ namespace DevDiscourse.Controllers.Main
         }
         public string ChangeLabel(int skip = 0, int take = 0)
         {
-            var getNews = db.DevNews.Where(a => a.NewsLabels != null).OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take).ToList();
-            foreach (var news in getNews)
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                var labelarr = news.NewsLabels.Split(',');
-                var label1 = labelarr[0];
-                if (label1.Length <= 2)
+                try
                 {
-                    int id = int.Parse(label1);
-                    var search = db.Labels.Find(id).Slug;
-                    news.NewsLabels = search;
+                    var getNews = db.DevNews.Where(a => a.NewsLabels != null).OrderByDescending(a => a.CreatedOn).Skip(skip).Take(take).ToList();
+                    foreach (var news in getNews)
+                    {
+                        var labelarr = news.NewsLabels.Split(',');
+                        var label1 = labelarr[0];
+                        if (label1.Length <= 2)
+                        {
+                            int id = int.Parse(label1);
+                            var search = db.Labels.Find(id).Slug;
+                            news.NewsLabels = search;
+                        }
+                        db.DevNews.Update(news);
+                    }
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                    return "OK";
                 }
-                db.DevNews.Update(news);
+                catch (Exception ex) { dbContextTransaction.Rollback(); return "Not OK"; }
             }
-            db.SaveChanges();
-            return "OK";
         }
         public async Task<JsonResult> GetNewsLabels()
         {

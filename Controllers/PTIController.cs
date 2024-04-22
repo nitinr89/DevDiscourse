@@ -631,45 +631,53 @@ namespace DevDiscourse.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                using (var dbContextTransaction = _db.Database.BeginTransaction())
                 {
-                    var fileName = RandomName();
-                    var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
-                    var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
-                    var mimeType = GetMimeType(ImageUrlUpdate.FileName);
-                    var fileSize = ImageUrlUpdate.Length.ToString();
-
-                    CloudBlobContainer blobContainer;
-                    CloudBlockBlob blob;
-                    using (MemoryStream ms = new MemoryStream())
+                    try
                     {
-                        await ImageUrlUpdate.CopyToAsync(ms);
-                        ms.Position = 0;
+                        if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                        {
+                            var fileName = RandomName();
+                            var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
+                            var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
+                            var mimeType = GetMimeType(ImageUrlUpdate.FileName);
+                            var fileSize = ImageUrlUpdate.Length.ToString();
 
-                        blobContainer = await GetCloudBlobContainer();
-                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-                        await blob.UploadFromStreamAsync(ms);
+                            CloudBlobContainer blobContainer;
+                            CloudBlockBlob blob;
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                await ImageUrlUpdate.CopyToAsync(ms);
+                                ms.Position = 0;
 
-                        devNews.ImageUrl = blob.Uri.ToString();
-                        devNews.FileMimeType = mimeType;
-                        devNews.FileSize = fileSize;
+                                blobContainer = await GetCloudBlobContainer();
+                                blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                                await blob.UploadFromStreamAsync(ms);
+
+                                devNews.ImageUrl = blob.Uri.ToString();
+                                devNews.FileMimeType = mimeType;
+                                devNews.FileSize = fileSize;
+                            }
+                        }
+                        devNews.ModifiedOn = DateTime.UtcNow;
+                        _db.DevNews.Update(devNews);
+                        _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
+                        _db.SaveChanges();
+                        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                        {
+                            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                            if (description.Length > 1000)
+                            {
+                                description = description.Substring(0, 1000) + "...";
+                            }
+                            SaveNews(devNews.Id, devNews.Title, description);
+                            CreateLog(devNews.Title + " News ", devNews.Title + " has been Updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
+                        }
+                        dbContextTransaction.Commit();
+                        return RedirectToAction("Index");
                     }
+                    catch (Exception ex) { dbContextTransaction.Rollback(); }
                 }
-                devNews.ModifiedOn = DateTime.UtcNow;
-                _db.DevNews.Update(devNews);
-                _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
-                _db.SaveChanges();
-                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-                {
-                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-                    if (description.Length > 1000)
-                    {
-                        description = description.Substring(0, 1000) + "...";
-                    }
-                    SaveNews(devNews.Id, devNews.Title, description);
-                    CreateLog(devNews.Title + " News ", devNews.Title + " has been Updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
-                }
-                return RedirectToAction("Index");
             }
             ViewBag.Creator = new SelectList(_db.Users, "Id", "Email", devNews.Creator);
             ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);
@@ -704,11 +712,19 @@ namespace DevDiscourse.Controllers
             //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
             if (userWork != null && userWork.WorkStage != "Image Change")
             {
-                devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
-                _db.DevNews.Update(devNews);
-                _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
-                _db.SaveChanges();
-                await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+                using (var dbContextTransaction = _db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
+                        _db.DevNews.Update(devNews);
+                        _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
+                        _db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+                    }
+                    catch (Exception ex) { dbContextTransaction.Rollback(); }
+                }
             }
             return View(devNews);
         }
@@ -722,45 +738,53 @@ namespace DevDiscourse.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                using (var dbContextTransaction = _db.Database.BeginTransaction())
                 {
-                    var fileName = RandomName();
-                    var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
-                    var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
-                    var mimeType = GetMimeType(ImageUrlUpdate.FileName);
-                    var fileSize = ImageUrlUpdate.Length.ToString();
-
-                    CloudBlobContainer blobContainer;
-                    CloudBlockBlob blob;
-                    using (MemoryStream ms = new MemoryStream())
+                    try
                     {
-                        await ImageUrlUpdate.CopyToAsync(ms);
-                        ms.Position = 0;
+                        if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                        {
+                            var fileName = RandomName();
+                            var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
+                            var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
+                            var mimeType = GetMimeType(ImageUrlUpdate.FileName);
+                            var fileSize = ImageUrlUpdate.Length.ToString();
 
-                        blobContainer = await GetCloudBlobContainer();
-                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-                        await blob.UploadFromStreamAsync(ms);
+                            CloudBlobContainer blobContainer;
+                            CloudBlockBlob blob;
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                await ImageUrlUpdate.CopyToAsync(ms);
+                                ms.Position = 0;
 
-                        devNews.ImageUrl = blob.Uri.ToString();
-                        devNews.FileMimeType = mimeType;
-                        devNews.FileSize = fileSize;
+                                blobContainer = await GetCloudBlobContainer();
+                                blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                                await blob.UploadFromStreamAsync(ms);
+
+                                devNews.ImageUrl = blob.Uri.ToString();
+                                devNews.FileMimeType = mimeType;
+                                devNews.FileSize = fileSize;
+                            }
+                        }
+                        devNews.ModifiedOn = DateTime.UtcNow;
+                        _db.DevNews.Update(devNews);
+                        _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
+                        _db.SaveChanges();
+                        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                        {
+                            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                            if (description.Length > 1000)
+                            {
+                                description = description.Substring(0, 1000) + "...";
+                            }
+                            SaveNews(devNews.Id, devNews.Title, description);
+                            CreateLog(devNews.Title + " News ", devNews.Title + " has been Updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
+                        }
+                        dbContextTransaction.Commit();
+                        return RedirectToAction("AssignedNews");
                     }
+                    catch (Exception ex) { dbContextTransaction.Rollback(); }
                 }
-                devNews.ModifiedOn = DateTime.UtcNow;
-                _db.DevNews.Update(devNews);
-                _db.Entry(devNews).Property(n => n.NewsId).IsModified = false;
-                _db.SaveChanges();
-                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-                {
-                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-                    if (description.Length > 1000)
-                    {
-                        description = description.Substring(0, 1000) + "...";
-                    }
-                    SaveNews(devNews.Id, devNews.Title, description);
-                    CreateLog(devNews.Title + " News ", devNews.Title + " has been Updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
-                }
-                return RedirectToAction("AssignedNews");
             }
             ViewBag.Creator = new SelectList(_db.Users, "Id", "Email", devNews.Creator);
             ViewBag.Sector = new SelectList(_db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);

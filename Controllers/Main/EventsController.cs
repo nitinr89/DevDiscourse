@@ -449,10 +449,18 @@ namespace DevDiscourse.Controllers.Main
             //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
             if (userWork != null && userWork.WorkStage != "Image Change")
             {
-                devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
-                db.DevNews.Update(devNews);
-                db.SaveChanges();
-              await  context.Clients.All.SendAsync("NewsOpenNotification",devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        devNews.WorkStage = userWork.UserName + " - " + userWork.WorkStage + "," + userWork.ColorCode;
+                        db.DevNews.Update(devNews);
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        await context.Clients.All.SendAsync("NewsOpenNotification", devNews.NewsId, userWork.UserName + " - " + userWork.WorkStage, userWork.ColorCode);
+                    }
+                    catch (Exception ex) { dbContextTransaction.Rollback(); }
+                }
             }
             return View(devNews);
         }
@@ -466,76 +474,84 @@ namespace DevDiscourse.Controllers.Main
         {
             if (ModelState.IsValid)
             {
-                if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
-                    var fileName = RandomName(); // method to generate a random name.
-                    var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
-                    string mimeType = GetMimeType(ImageUrlUpdate.FileName);
-                    string fileSize = ImageUrlUpdate.Length.ToString();
-                    var filePath = Path.Combine(_environment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    try
                     {
-                        await ImageUrlUpdate.CopyToAsync(fileStream);
-                    }
-                    devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
-                    devNews.FileMimeType = mimeType;
-                    devNews.FileSize = fileSize;
-                }
-                if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
-                {
-                    var sec = devNews.Sector.Split(',')[0];
-                    devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
-                    devNews.FileMimeType = "image/jpg";
-                    devNews.FileSize = "88,651";
-                }
-
-                if (!String.IsNullOrEmpty(ChooseImage))
-                {
-                    devNews.ImageUrl = ChooseImage;
-                    // Find Image in Old Image Gallery
-                    var findimage = db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
-                    if (findimage != null)
-                    {
-                        // Saved Image in New Image Gallery
-                        string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
                         {
-                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                            var fileName = RandomName(); // method to generate a random name.
+                            var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
+                            string mimeType = GetMimeType(ImageUrlUpdate.FileName);
+                            string fileSize = ImageUrlUpdate.Length.ToString();
+                            var filePath = Path.Combine(_environment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
+
+                            using (var fileStream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await ImageUrlUpdate.CopyToAsync(fileStream);
+                            }
+                            devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                            devNews.FileMimeType = mimeType;
+                            devNews.FileSize = fileSize;
                         }
-                        ImageGallery fileobj = new ImageGallery()
+                        if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
                         {
-                            Title = findimage.Title,
-                            ImageUrl = findimage.FileUrl,
-                            ImageCopyright = imgcopyright,
-                            Caption = "",
-                            FileMimeType = findimage.FileMimeType,
-                            FileSize = findimage.FileSize,
-                            Sector = findimage.FileFor,
-                            Tags = "",
-                            UseCount = 1,
-                        };
-                        db.ImageGalleries.Add(fileobj);
+                            var sec = devNews.Sector.Split(',')[0];
+                            devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
+                            devNews.FileMimeType = "image/jpg";
+                            devNews.FileSize = "88,651";
+                        }
+
+                        if (!String.IsNullOrEmpty(ChooseImage))
+                        {
+                            devNews.ImageUrl = ChooseImage;
+                            // Find Image in Old Image Gallery
+                            var findimage = db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
+                            if (findimage != null)
+                            {
+                                // Saved Image in New Image Gallery
+                                string imgcopyright = "";
+                                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                                {
+                                    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                                }
+                                ImageGallery fileobj = new ImageGallery()
+                                {
+                                    Title = findimage.Title,
+                                    ImageUrl = findimage.FileUrl,
+                                    ImageCopyright = imgcopyright,
+                                    Caption = "",
+                                    FileMimeType = findimage.FileMimeType,
+                                    FileSize = findimage.FileSize,
+                                    Sector = findimage.FileFor,
+                                    Tags = "",
+                                    UseCount = 1,
+                                };
+                                db.ImageGalleries.Add(fileobj);
+                                db.SaveChanges();
+                                // Remove from old gallery
+                                db.UserFiles.Remove(findimage);
+                                db.SaveChanges();
+                            }
+                        }
+                        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                        {
+                            devNews.PublishedOn = DateTime.UtcNow;
+                        }
+                        devNews.ModifiedOn = DateTime.UtcNow;
+                        db.DevNews.Update(devNews);
                         db.SaveChanges();
-                        // Remove from old gallery
-                        db.UserFiles.Remove(findimage);
-                        db.SaveChanges();
+                        if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
+                        {
+                            string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                            SaveNews(devNews.Id, devNews.Title, description);
+                            CreateLog(devNews.Title + " Event ", devNews.Title + " has been updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
+                        }
+                        dbContextTransaction.Commit();
+                        return RedirectToAction("EventList");
                     }
+                    catch (Exception ex) { dbContextTransaction.Rollback(); }
                 }
-                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-                {
-                    devNews.PublishedOn = DateTime.UtcNow;
-                }
-                devNews.ModifiedOn = DateTime.UtcNow;
-                db.DevNews.Update(devNews);
-                db.SaveChanges();
-                if (TempData["AdminCheck"].ToString() == "False" && devNews.AdminCheck == true)
-                {
-                    string description = Regex.Replace(devNews.Description, @"<[^>]+>|&nbsp;", "").Trim();
-                    SaveNews(devNews.Id, devNews.Title, description);
-                    CreateLog(devNews.Title + " Event ", devNews.Title + " has been updated", devNews.Creator, userManager.GetUserId(User), "/Article/Index/" + devNews.NewsId);
-                }
-                return RedirectToAction("EventList");
             }
             ViewBag.Creator = new SelectList(db.Users, "Id", "Email", devNews.Creator);
             ViewBag.Sector = new SelectList(db.DevSectors.Where(a => a.Id != 8 && a.Id != 16).OrderBy(a => a.SrNo), "Id", "Title", devNews.Sector);

@@ -271,7 +271,7 @@ namespace DevDiscourse.Controllers
             {
                 ViewBag.region = "Global Edition";
             }
-           // return View();
+            // return View();
             if (scheme.EndsWith("?amp")) return View("Search.amp");
             else return View();
         }
@@ -767,7 +767,7 @@ namespace DevDiscourse.Controllers
                 Ranking = a.Ranking
             }).ToPagedList(pageNumber, pageSize);
 
-            return PartialView("getNewsItems", resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));          
+            return PartialView("getNewsItems", resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
         }
         public JsonResult GetAmpNewsItems(string __amp_source_origin, string sector, string region, string tag, string label, int? moreItemsPageIndex)
         {
@@ -1178,19 +1178,44 @@ namespace DevDiscourse.Controllers
         //                 };
         //    return PartialView("_getThemes", search);
         //}
-        public PartialViewResult GetSavedImages(int skip = 0, string sector = "", string title = "")
+        public async Task<PartialViewResult> GetSavedImages(int skip = 0, string sector = "", string title = "")
         {
             ViewBag.skipCount = skip;
-            var resultList = _db.ImageGalleries.ToList().Select(m => new SavedImagesView { Title = m.Title, Sector = m.Sector, ImageUrl = m.ImageUrl, CreatedOn = m.CreatedOn, FileMimeType = m.FileMimeType, FileSize = m.FileSize, Caption = m.Caption, ImageCopyright = m.ImageCopyright, Tags = m.Tags });
-            if (sector != "")
+            var query = (from m in _db.ImageGalleries
+                         select new SavedImagesView
+                         {
+                             Title = m.Title,
+                             Sector = m.Sector ?? "",
+                             ImageUrl = m.ImageUrl,
+                             CreatedOn = m.CreatedOn,
+                             FileMimeType = m.FileMimeType ?? "",
+                             FileSize = m.FileSize ?? "",
+                             Caption = m.Caption ?? "",
+                             ImageCopyright = m.ImageCopyright ?? "",
+                             Tags = m.Tags ?? ""
+                         });
+
+            // Apply sector filter if provided
+            if (!string.IsNullOrWhiteSpace(sector))
             {
-                resultList = resultList.Where(m => m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector) || m.Sector == sector).ToList();
+                query = query.Where(m => m.Sector == sector || m.Sector.StartsWith(sector + ",") || m.Sector.Contains("," + sector + ",") || m.Sector.EndsWith("," + sector));
             }
-            if (title != "")
+
+            // Apply title filter if provided
+            if (!string.IsNullOrWhiteSpace(title))
             {
-                resultList = resultList.Where(a => a.Title.ToUpper().Contains(title.ToUpper())).ToList();
+                title = title.ToUpper();  // Only convert to upper once
+                query = query.Where(m => m.Title.ToUpper().Contains(title));
             }
-            return PartialView("_getSavedImages", resultList.OrderByDescending(a => a.CreatedOn).Skip(skip).Take(20));
+
+            // Order by creation date, skip, and take
+            var resultList = await query
+                .OrderByDescending(m => m.CreatedOn)
+                .Skip(skip)
+                .Take(20)
+                .ToListAsync();
+
+            return PartialView("_getSavedImages", resultList);
         }
         public PartialViewResult GetOldSavedImages(int skip = 0, string sector = "", string title = "")
         {
@@ -2558,7 +2583,7 @@ namespace DevDiscourse.Controllers
                 Ranking = s.Ranking
             }).OrderByDescending(a => a.CreatedOn).AsNoTracking().Take(65).ToList();
             return View(infocus.OrderByDescending(o => o.Ranking).Take(10).ToList());
-        
+
         }
         ////public JsonResult ReadExcel()
         ////{

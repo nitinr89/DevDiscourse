@@ -19,7 +19,6 @@ using Nancy.Json;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DevDiscourse.Controllers.Main
 {
@@ -58,8 +57,8 @@ namespace DevDiscourse.Controllers.Main
             ViewBag.source = source;
             ViewBag.editorPick = editorPick;
             ViewBag.loginId = userManager.GetUserId(User);
-            DateTime fifteenDay = DateTime.Today.AddDays(-5);
-            DateTime threeMonth = DateTime.Today.AddDays(-28);
+            DateTime fifteenDay = DateTime.Today.AddDays(-15);
+            DateTime threeMonth = DateTime.Today.AddDays(-90);
             IQueryable<NewsListView> devNews = (from a in _db.DevNews
                                                 where a.Type == "News"
                                                 select new NewsListView
@@ -89,13 +88,13 @@ namespace DevDiscourse.Controllers.Main
                                                     ViewCount = a.ViewCount,
                                                     ModifiedOn = a.ModifiedOn
                                                 });
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
-                devNews = devNews.Where(a => a.CreatedOn > threeMonth);
+                devNews = devNews.Where(a => a.CreatedOn > fifteenDay);
             }
             else
             {
-                devNews = devNews.Where(a => a.Title.Contains(text) && a.CreatedOn > fifteenDay);
+                devNews = devNews.Where(a => a.CreatedOn > threeMonth && a.Title.ToUpper().Contains(text.ToUpper()));
             }
             if (label != "0")
             {
@@ -113,11 +112,11 @@ namespace DevDiscourse.Controllers.Main
             {
                 devNews = devNews.Where(a => a.Region.Contains(region));
             }
-            if (!String.IsNullOrEmpty(country))
+            if (!String.IsNullOrWhiteSpace(country))
             {
                 devNews = devNews.Where(a => a.Country.Contains(country));
             }
-            if (!String.IsNullOrEmpty(source))
+            if (!String.IsNullOrWhiteSpace(source))
             {
                 devNews = devNews.Where(a => a.Source.Contains(source));
             }
@@ -139,7 +138,7 @@ namespace DevDiscourse.Controllers.Main
                 }
                 catch (Exception ex) { }
             }
-            if (!String.IsNullOrEmpty(uid) && uid != "null")
+            if (!String.IsNullOrWhiteSpace(uid) && uid != "null")
             {
                 devNews = devNews.Where(a => a.Creator == uid);
             }
@@ -190,7 +189,7 @@ namespace DevDiscourse.Controllers.Main
             {
                 devNews = devNews.Where(a => a.EditorPick == true);
             }
-            if (!string.IsNullOrEmpty(type))
+            if (!string.IsNullOrWhiteSpace(type))
             {
                 devNews = devNews.Where(a => a.SubTitle == type);
             }
@@ -210,15 +209,15 @@ namespace DevDiscourse.Controllers.Main
             {
                 devNews = devNews.Where(a => a.Region.Contains(region));
             }
-            if (!String.IsNullOrEmpty(country))
+            if (!String.IsNullOrWhiteSpace(country))
             {
                 devNews = devNews.Where(a => a.Country.Contains(country));
             }
-            if (!String.IsNullOrEmpty(source))
+            if (!String.IsNullOrWhiteSpace(source))
             {
                 devNews = devNews.Where(a => a.Source.Contains(source));
             }
-            if (!String.IsNullOrEmpty(text))
+            if (!String.IsNullOrWhiteSpace(text))
             {
                 devNews = devNews.Where(a => a.Title.ToUpper().Contains(text.ToUpper()));
             }
@@ -240,7 +239,7 @@ namespace DevDiscourse.Controllers.Main
                 }
                 catch (Exception ex) { }
             }
-            if (!String.IsNullOrEmpty(uid) && uid != "null")
+            if (!String.IsNullOrWhiteSpace(uid) && uid != "null")
             {
                 devNews = devNews.Where(a => a.Creator == uid);
             }
@@ -314,7 +313,7 @@ namespace DevDiscourse.Controllers.Main
                         devNews.FileSize = fileSize;
                         // Saved Image in Image Gallery
                         string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         {
                             imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         }
@@ -334,7 +333,7 @@ namespace DevDiscourse.Controllers.Main
                         _db.SaveChanges();
                     }
                 }
-                if (!String.IsNullOrEmpty(ChooseImage))
+                if (!String.IsNullOrWhiteSpace(ChooseImage))
                 {
                     devNews.ImageUrl = ChooseImage;
                     // Find Image in Old Image Gallery
@@ -343,7 +342,7 @@ namespace DevDiscourse.Controllers.Main
                     {
                         // Saved Image in New Image Gallery
                         string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         {
                             imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         }
@@ -366,7 +365,7 @@ namespace DevDiscourse.Controllers.Main
                         _db.SaveChanges();
                     }
                 }
-                else if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
+                else if (String.IsNullOrWhiteSpace(devNews.ImageUrl) && !String.IsNullOrWhiteSpace(devNews.Sector))
                 {
                     devNews.ImageUrl = "/images/sector/all_sectors.jpg";
                     devNews.FileMimeType = "image/jpg";
@@ -540,7 +539,7 @@ namespace DevDiscourse.Controllers.Main
                         devNews.FileSize = fileSize;
                         // Saved Image in Image Gallery
                         string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         {
                             imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         }
@@ -561,7 +560,7 @@ namespace DevDiscourse.Controllers.Main
                     }
                 }
 
-                if (!String.IsNullOrEmpty(ChooseImage))
+                if (!String.IsNullOrWhiteSpace(ChooseImage))
                 {
                     devNews.ImageUrl = ChooseImage;
                     // Find Image in Old Image Gallery
@@ -570,7 +569,7 @@ namespace DevDiscourse.Controllers.Main
                     {
                         // Saved Image in New Image Gallery
                         string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         {
                             imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         }
@@ -593,7 +592,7 @@ namespace DevDiscourse.Controllers.Main
                         _db.SaveChanges();
                     }
                 }
-                else if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
+                else if (String.IsNullOrWhiteSpace(devNews.ImageUrl) && !String.IsNullOrWhiteSpace(devNews.Sector))
                 {
                     var sec = devNews.Sector.Split(',')[0];
                     devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
@@ -779,7 +778,7 @@ namespace DevDiscourse.Controllers.Main
                                 devNews.FileSize = fileSize;
                                 // Saved Image in Image Gallery
                                 string imgcopyright = "";
-                                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                                if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
@@ -799,7 +798,7 @@ namespace DevDiscourse.Controllers.Main
                                 _db.SaveChanges();
                             }
                         }
-                        if (!String.IsNullOrEmpty(ChooseImage))
+                        if (!String.IsNullOrWhiteSpace(ChooseImage))
                         {
                             devNews.ImageUrl = ChooseImage;
                             // Find Image in Old Image Gallery
@@ -808,7 +807,7 @@ namespace DevDiscourse.Controllers.Main
                             {
                                 // Saved Image in New Image Gallery
                                 string imgcopyright = "";
-                                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                                if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
@@ -832,7 +831,7 @@ namespace DevDiscourse.Controllers.Main
 
                             }
                         }
-                        else if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
+                        else if ((String.IsNullOrWhiteSpace(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrWhiteSpace(devNews.Sector))
                         {
                             var sec = devNews.Sector.Split(',')[0];
                             devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);                    
@@ -1105,7 +1104,7 @@ namespace DevDiscourse.Controllers.Main
                                 devNews.FileSize = fileSize;
                                 // Saved Image in Image Gallery
                                 string imgcopyright = "";
-                                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                                if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
@@ -1125,7 +1124,7 @@ namespace DevDiscourse.Controllers.Main
                                 _db.SaveChanges();
                             }
                         }
-                        if (!String.IsNullOrEmpty(ChooseImage))
+                        if (!String.IsNullOrWhiteSpace(ChooseImage))
                         {
                             devNews.ImageUrl = ChooseImage;
                             // Find Image in Old Image Gallery
@@ -1134,7 +1133,7 @@ namespace DevDiscourse.Controllers.Main
                             {
                                 // Saved Image in New Image Gallery
                                 string imgcopyright = "";
-                                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                                if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
@@ -1157,7 +1156,7 @@ namespace DevDiscourse.Controllers.Main
                                 _db.SaveChanges();
                             }
                         }
-                        else if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
+                        else if ((String.IsNullOrWhiteSpace(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrWhiteSpace(devNews.Sector))
                         {
                             var sec = devNews.Sector.Split(',')[0];
                             devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
@@ -1303,7 +1302,7 @@ namespace DevDiscourse.Controllers.Main
                         devNews.FileSize = fileSize;
                         // Saved Image in Image Gallery
                         //string imgcopyright = "";
-                        //if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        //if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         //{
                         //    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         //}
@@ -1323,7 +1322,7 @@ namespace DevDiscourse.Controllers.Main
                         //_db.SaveChanges();
                     }
                 }
-                if (!String.IsNullOrEmpty(ChooseImage))
+                if (!String.IsNullOrWhiteSpace(ChooseImage))
                 {
                     devNews.ImageUrl = ChooseImage;
                     // Find Image in Old Image Gallery
@@ -1332,7 +1331,7 @@ namespace DevDiscourse.Controllers.Main
                     {
                         // Saved Image in New Image Gallery
                         string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         {
                             imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         }
@@ -1355,7 +1354,7 @@ namespace DevDiscourse.Controllers.Main
                         _db.SaveChanges();
                     }
                 }
-                if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
+                if ((String.IsNullOrWhiteSpace(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrWhiteSpace(devNews.Sector))
                 {
                     devNews.ImageUrl = "/images/sector/all_sectors.jpg";
                     devNews.FileMimeType = "image/jpg";
@@ -1461,7 +1460,7 @@ namespace DevDiscourse.Controllers.Main
                         devNews.FileSize = fileSize;
                         // Saved Image in Image Gallery
                         //string imgcopyright = "";
-                        //if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        //if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         //{
                         //    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         //}
@@ -1481,7 +1480,7 @@ namespace DevDiscourse.Controllers.Main
                         //_db.SaveChanges();
                     }
                 }
-                if (!String.IsNullOrEmpty(ChooseImage))
+                if (!String.IsNullOrWhiteSpace(ChooseImage))
                 {
                     devNews.ImageUrl = ChooseImage;
                     // Find Image in Old Image Gallery
@@ -1490,7 +1489,7 @@ namespace DevDiscourse.Controllers.Main
                     {
                         // Saved Image in New Image Gallery
                         string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         {
                             imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         }
@@ -1513,7 +1512,7 @@ namespace DevDiscourse.Controllers.Main
                         _db.SaveChanges();
                     }
                 }
-                if ((String.IsNullOrEmpty(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrEmpty(devNews.Sector))
+                if ((String.IsNullOrWhiteSpace(devNews.ImageUrl) || devNews.ImageUrl == "/images/defaultImage.jpg") && !String.IsNullOrWhiteSpace(devNews.Sector))
                 {
                     devNews.ImageUrl = "/images/sector/all_sectors.jpg";
                     devNews.FileMimeType = "image/jpg";
@@ -1606,7 +1605,7 @@ namespace DevDiscourse.Controllers.Main
                         devNews.FileSize = fileSize;
                         // Saved Image in Image Gallery
                         string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         {
                             imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         }
@@ -1626,7 +1625,7 @@ namespace DevDiscourse.Controllers.Main
                         _db.SaveChanges();
                     }
                 }
-                if (!String.IsNullOrEmpty(ChooseImage))
+                if (!String.IsNullOrWhiteSpace(ChooseImage))
                 {
                     devNews.ImageUrl = ChooseImage;
                     // Find Image in Old Image Gallery
@@ -1635,7 +1634,7 @@ namespace DevDiscourse.Controllers.Main
                     {
                         // Saved Image in New Image Gallery
                         string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                        if (!string.IsNullOrWhiteSpace(devNews.ImageCopyright))
                         {
                             imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                         }
@@ -1658,7 +1657,7 @@ namespace DevDiscourse.Controllers.Main
                         _db.SaveChanges();
                     }
                 }
-                else if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
+                else if (String.IsNullOrWhiteSpace(devNews.ImageUrl) && !String.IsNullOrWhiteSpace(devNews.Sector))
                 {
                     devNews.ImageUrl = "/images/sector/all_sectors.jpg";
                     devNews.FileMimeType = "image/jpg";
@@ -1834,11 +1833,11 @@ namespace DevDiscourse.Controllers.Main
             {
                 search = search.Where(a => a.Region.Contains(reg));
             }
-            if (!String.IsNullOrEmpty(country))
+            if (!String.IsNullOrWhiteSpace(country))
             {
                 search = search.Where(a => a.Country.Contains(country));
             }
-            if (!String.IsNullOrEmpty(text))
+            if (!String.IsNullOrWhiteSpace(text))
             {
                 search = search.Where(a => a.Title.ToUpper().Contains(text.ToUpper()));
             }
@@ -1952,7 +1951,7 @@ namespace DevDiscourse.Controllers.Main
             //    {
             //        foreach (var item in subscriber)
             //        {
-            //            if (!String.IsNullOrEmpty(item) && newsData.Count() > 0)
+            //            if (!String.IsNullOrWhiteSpace(item) && newsData.Count() > 0)
             //            {
             //                string combindedString = string.Join("", listofNews.ToArray());
             //                string emailData = string.Format("<img src=\"http://www.devdiscourse.com/AdminFiles/Logo/Mail_Banner.jpg\" style=\"width:100%;max-width:800px;\"/>" +
@@ -2210,7 +2209,7 @@ namespace DevDiscourse.Controllers.Main
             ViewBag.loginId = userId;
             DateTime fifteenDay = DateTime.Today.AddDays(-115);
             IQueryable<NewsListView> devNews;
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
                 devNews = _db.DevNews.Where(a => a.Type == "News" && a.Creator == userId && a.CreatedOn > fifteenDay).Select(a => new NewsListView { Id = a.Id, NewsId = a.NewsId, Label = a.NewsLabels, Sector = a.Sector, Category = a.Category, Title = a.Title, SubTitle = a.SubTitle, Creator = a.Creator, CreatorName = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName, Region = a.Region, Country = a.Country, ImageUrl = a.ImageUrl, Source = a.Source, SourceUrl = a.SourceUrl, AdminCheck = a.AdminCheck, IsInfocus = a.IsInfocus, EditorPick = a.EditorPick, IsGlobal = a.IsGlobal, IsFifa = a.IsStandout, IsIndex = a.IsIndexed, CreatedOn = a.CreatedOn, WorkStage = a.WorkStage });
             }
@@ -2234,15 +2233,15 @@ namespace DevDiscourse.Controllers.Main
             {
                 devNews = devNews.Where(a => a.Region.Contains(region));
             }
-            if (!String.IsNullOrEmpty(country))
+            if (!String.IsNullOrWhiteSpace(country))
             {
                 devNews = devNews.Where(a => a.Country.Contains(country));
             }
-            if (!String.IsNullOrEmpty(source))
+            if (!String.IsNullOrWhiteSpace(source))
             {
                 devNews = devNews.Where(a => a.Source.Contains(source));
             }
-            if (!String.IsNullOrEmpty(text))
+            if (!String.IsNullOrWhiteSpace(text))
             {
                 devNews = devNews.Where(a => a.Title.ToUpper().Contains(text.ToUpper()));
             }
@@ -2256,7 +2255,7 @@ namespace DevDiscourse.Controllers.Main
                 DateTime filterDate2 = DateTime.Parse(afd.ToString());
                 devNews = devNews.Where(a => a.CreatedOn > filterDate2);
             }
-            if (!String.IsNullOrEmpty(uid) && uid != "null")
+            if (!String.IsNullOrWhiteSpace(uid) && uid != "null")
             {
                 devNews = devNews.Where(a => a.Creator == uid);
             }

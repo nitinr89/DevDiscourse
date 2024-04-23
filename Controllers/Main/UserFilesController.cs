@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Devdiscourse.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.AspNetCore.Hosting;
 
 namespace DevDiscourse.Controllers.Main
 {
@@ -365,16 +364,17 @@ namespace DevDiscourse.Controllers.Main
             return Json("Ok");
         }
         [Authorize]
-        public ActionResult Images(int? page = 1, string text = "")
+        public ActionResult Images(int page = 1, string text = "")
         {
             ViewBag.text = text;
             ViewBag.page = page;
-            var search = db.ImageGalleries.ToList();
-            if (!String.IsNullOrEmpty(text))
+            var search = from ig in db.ImageGalleries select ig;
+            if (!String.IsNullOrWhiteSpace(text))
             {
-                search = search.Where(a => a.Title.ToUpper().Contains(text.ToUpper())).ToList();
+                search = search.Where(a => a.Title.ToUpper().Contains(text.ToUpper()));
             }
-            return View(search.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 20));
+            var result = search.OrderByDescending(a => a.CreatedOn).ToPagedList(page, 20);
+            return View(result);
         }
         [Authorize]
         public ActionResult UploadImages()

@@ -446,103 +446,111 @@ namespace DevDiscourse.Controllers.Others
         {
             if (ModelState.IsValid)
             {
-                if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
-                    var fileName = RandomName();
-                    var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
-                    var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
-                    string mimeType = GetMimeType(ImageUrlUpdate.FileName);
-                    string fileSize = ImageUrlUpdate.Length.ToString();
+                    try
+                    {
+                        if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                        {
+                            var fileName = RandomName();
+                            var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
+                            var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
+                            string mimeType = GetMimeType(ImageUrlUpdate.FileName);
+                            string fileSize = ImageUrlUpdate.Length.ToString();
 
-                    CloudBlobContainer blobContainer;
-                    CloudBlockBlob blob;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        await ImageUrlUpdate.CopyToAsync(ms);
-                        ms.Position = 0;
+                            CloudBlobContainer blobContainer;
+                            CloudBlockBlob blob;
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                await ImageUrlUpdate.CopyToAsync(ms);
+                                ms.Position = 0;
 
-                        blobContainer = await GetCloudBlobContainer();
-                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-                        await blob.UploadFromStreamAsync(ms);
-                        content.ImageUrl = blob.Uri.ToString();
-                        content.FileMimeType = mimeType;
+                                blobContainer = await GetCloudBlobContainer();
+                                blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                                await blob.UploadFromStreamAsync(ms);
+                                content.ImageUrl = blob.Uri.ToString();
+                                content.FileMimeType = mimeType;
+                            }
+                        }
+                        if (!String.IsNullOrEmpty(ChooseImage))
+                        {
+                            content.ImageUrl = ChooseImage;
+                        }
+                        if (string.IsNullOrEmpty(Request.Form["publishbtn"]))
+                        {
+                            string type = "";
+                            string subtype = "";
+                            string newssector = "0";
+                            if (content.Type == "News")
+                            {
+                                type = content.Type;
+                            }
+                            else
+                            {
+                                type = "Blog";
+                                subtype = content.Type;
+                            }
+                            if (!String.IsNullOrEmpty(content.Sector))
+                            {
+                                newssector = content.Sector;
+                            }
+                            content.ContentStatus = ContentStage.Publish;
+                            DevNews obj = new DevNews()
+                            {
+                                Id = Guid.NewGuid(),
+                                Title = content.Title,
+                                SubTitle = content.SubTitle,
+                                Sector = newssector,
+                                Description = content.Description,
+                                NewsLabels = content.NewsLabels,
+                                Region = content.Region,
+                                Country = content.Country,
+                                ImageUrl = content.ImageUrl,
+                                ImageCopyright = content.ImageCopyright,
+                                FileMimeType = content.FileMimeType,
+                                Tags = content.Tags,
+                                Source = content.Source,
+                                CreatedOn = content.CreatedOn,
+                                PublishedOn = DateTime.UtcNow,
+                                AdminCheck = true,
+                                IsGlobal = false,
+                                IsSponsored = false,
+                                EditorPick = false,
+                                IsInfocus = false,
+                                IsVideo = false,
+                                IsStandout = false,
+                                Type = type,
+                                SubType = subtype,
+                                ViewCount = 0,
+                                LikeCount = 0,
+                                WorkStage = "",
+                                Creator = content.Creator,
+                            };
+                            db.DevNews.Add(obj);
+                            db.SaveChanges();
+                            // Create Earning
+                            Earnings earn = new Earnings()
+                            {
+                                NewsId = content.Id,
+                                ViewCount = 0,
+                                Amount = 0,
+                                Creator = content.Creator,
+                            };
+                            db.Earnings.Add(earn);
+                            db.SaveChanges();
+                        }
+                        else if (!string.IsNullOrEmpty(Request.Form["rejectbtn"]))
+                        {
+                            content.ContentStatus = ContentStage.Reject;
+                        }
+                        content.ModifiedOn = DateTime.UtcNow;
+                        db.Entry(content).State = EntityState.Modified;
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        return RedirectToAction("Contents");
                     }
+                    catch (Exception ex) { dbContextTransaction.Rollback(); }
                 }
-                if (!String.IsNullOrEmpty(ChooseImage))
-                {
-                    content.ImageUrl = ChooseImage;
-                }
-                if (string.IsNullOrEmpty(Request.Form["publishbtn"]))
-                {
-                    string type = "";
-                    string subtype = "";
-                    string newssector = "0";
-                    if (content.Type == "News")
-                    {
-                        type = content.Type;
-                    }
-                    else
-                    {
-                        type = "Blog";
-                        subtype = content.Type;
-                    }
-                    if (!String.IsNullOrEmpty(content.Sector))
-                    {
-                        newssector = content.Sector;
-                    }
-                    content.ContentStatus = ContentStage.Publish;
-                    DevNews obj = new DevNews()
-                    {
-                        Id = Guid.NewGuid(),
-                        Title = content.Title,
-                        SubTitle = content.SubTitle,
-                        Sector = newssector,
-                        Description = content.Description,
-                        NewsLabels = content.NewsLabels,
-                        Region = content.Region,
-                        Country = content.Country,
-                        ImageUrl = content.ImageUrl,
-                        ImageCopyright = content.ImageCopyright,
-                        FileMimeType = content.FileMimeType,
-                        Tags = content.Tags,
-                        Source = content.Source,
-                        CreatedOn = content.CreatedOn,
-                        PublishedOn = DateTime.UtcNow,
-                        AdminCheck = true,
-                        IsGlobal = false,
-                        IsSponsored = false,
-                        EditorPick = false,
-                        IsInfocus = false,
-                        IsVideo = false,
-                        IsStandout = false,
-                        Type = type,
-                        SubType = subtype,
-                        ViewCount = 0,
-                        LikeCount = 0,
-                        WorkStage = "",
-                        Creator = content.Creator,
-                    };
-                    db.DevNews.Add(obj);
-                    db.SaveChanges();
-                    // Create Earning
-                    Earnings earn = new Earnings()
-                    {
-                        NewsId = content.Id,
-                        ViewCount = 0,
-                        Amount = 0,
-                        Creator = content.Creator,
-                    };
-                    db.Earnings.Add(earn);
-                    db.SaveChanges();
-                }
-                else if (!string.IsNullOrEmpty(Request.Form["rejectbtn"]))
-                {
-                    content.ContentStatus = ContentStage.Reject;
-                }
-                content.ModifiedOn = DateTime.UtcNow;
-                db.Entry(content).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Contents");
             }
             ViewBag.NewsLabels = new SelectList(db.Labels, "Slug", "Title", content.NewsLabels);
             ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", content.Region);

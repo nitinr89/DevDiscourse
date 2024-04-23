@@ -338,81 +338,89 @@ namespace DevDiscourse.Controllers.Main
         {
             if (ModelState.IsValid)
             {
-                if (ImageUrl != null && ImageUrl.Length > 0)
+                using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
-                    var fileName = RandomName(); // method to generate a random name.
-                    var fileExtension = Path.GetExtension(ImageUrl.FileName);
-                    string mimeType = GetMimeType(ImageUrl.FileName);
-                    string fileSize = ImageUrl.Length.ToString();
-                    var filePath = Path.Combine(_environment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
+                    try
+                    {
+                        if (ImageUrl != null && ImageUrl.Length > 0)
+                        {
+                            var fileName = RandomName(); // method to generate a random name.
+                            var fileExtension = Path.GetExtension(ImageUrl.FileName);
+                            string mimeType = GetMimeType(ImageUrl.FileName);
+                            string fileSize = ImageUrl.Length.ToString();
+                            var filePath = Path.Combine(_environment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
 
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await ImageUrl.CopyToAsync(fileStream);
-                    }
-                    devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
-                    devNews.FileMimeType = mimeType;
-                    devNews.FileSize = fileSize;
-                }
-                if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
-                {
-                    var sec = devNews.Sector.Split(',')[0];
-                    devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
-                    devNews.FileMimeType = "image/jpg";
-                    devNews.FileSize = "88,651";
-                }
-                if (!String.IsNullOrEmpty(ChooseImage))
-                {
-                    devNews.ImageUrl = ChooseImage;
-                    // Find Image in Old Image Gallery
-                    var findimage = db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
-                    if (findimage != null)
-                    {
-                        // Saved Image in New Image Gallery
-                        string imgcopyright = "";
-                        if (!string.IsNullOrEmpty(devNews.ImageCopyright))
-                        {
-                            imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                            using (var fileStream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await ImageUrl.CopyToAsync(fileStream);
+                            }
+                            devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                            devNews.FileMimeType = mimeType;
+                            devNews.FileSize = fileSize;
                         }
-                        ImageGallery fileobj = new ImageGallery()
+                        if (String.IsNullOrEmpty(devNews.ImageUrl) && !String.IsNullOrEmpty(devNews.Sector))
                         {
-                            Title = findimage.Title,
-                            ImageUrl = findimage.FileUrl,
-                            ImageCopyright = imgcopyright,
-                            Caption = "",
-                            FileMimeType = findimage.FileMimeType,
-                            FileSize = findimage.FileSize,
-                            Sector = findimage.FileFor,
-                            Tags = "",
-                            UseCount = 1,
-                        };
-                        db.ImageGalleries.Add(fileobj);
+                            var sec = devNews.Sector.Split(',')[0];
+                            devNews.ImageUrl = "/images/sector/all_sectors.jpg"; // SelectDefaultImage(sec);
+                            devNews.FileMimeType = "image/jpg";
+                            devNews.FileSize = "88,651";
+                        }
+                        if (!String.IsNullOrEmpty(ChooseImage))
+                        {
+                            devNews.ImageUrl = ChooseImage;
+                            // Find Image in Old Image Gallery
+                            var findimage = db.UserFiles.FirstOrDefault(a => a.FileUrl == ChooseImage);
+                            if (findimage != null)
+                            {
+                                // Saved Image in New Image Gallery
+                                string imgcopyright = "";
+                                if (!string.IsNullOrEmpty(devNews.ImageCopyright))
+                                {
+                                    imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
+                                }
+                                ImageGallery fileobj = new ImageGallery()
+                                {
+                                    Title = findimage.Title,
+                                    ImageUrl = findimage.FileUrl,
+                                    ImageCopyright = imgcopyright,
+                                    Caption = "",
+                                    FileMimeType = findimage.FileMimeType,
+                                    FileSize = findimage.FileSize,
+                                    Sector = findimage.FileFor,
+                                    Tags = "",
+                                    UseCount = 1,
+                                };
+                                db.ImageGalleries.Add(fileobj);
+                                db.SaveChanges();
+                                // Remove from old gallery
+                                db.UserFiles.Remove(findimage);
+                                db.SaveChanges();
+                            }
+                        }
+                        devNews.Id = Guid.NewGuid();
+                        devNews.AdminCheck = false;
+                        devNews.IsSponsored = false;
+                        devNews.EditorPick = false;
+                        devNews.IsInfocus = false;
+                        devNews.IsVideo = false;
+                        devNews.IsStandout = false;
+                        devNews.IsGlobal = true;
+                        devNews.IsIndexed = false;
+                        devNews.Author = "";
+                        devNews.Type = "Event";
+                        devNews.SubType = "";
+                        devNews.ViewCount = 0;
+                        devNews.LikeCount = 0;
+                        devNews.WorkStage = "";
+                        devNews.OriginalSource = devNews.Source;
+                        devNews.Creator = userManager.GetUserId(User);
+                        db.DevNews.Add(devNews);
                         db.SaveChanges();
-                        // Remove from old gallery
-                        db.UserFiles.Remove(findimage);
-                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        return RedirectToAction("EventList");
                     }
+                    catch (Exception ex) { dbContextTransaction.Rollback(); }
                 }
-                devNews.Id = Guid.NewGuid();
-                devNews.AdminCheck = false;
-                devNews.IsSponsored = false;
-                devNews.EditorPick = false;
-                devNews.IsInfocus = false;
-                devNews.IsVideo = false;
-                devNews.IsStandout = false;
-                devNews.IsGlobal = true;
-                devNews.IsIndexed = false;
-                devNews.Author = "";
-                devNews.Type = "Event";
-                devNews.SubType = "";
-                devNews.ViewCount = 0;
-                devNews.LikeCount = 0;
-                devNews.WorkStage = "";
-                devNews.OriginalSource = devNews.Source;
-                devNews.Creator = userManager.GetUserId(User);
-                db.DevNews.Add(devNews);
-                db.SaveChanges();
-                return RedirectToAction("EventList");
             }
 
             ViewBag.Creator = new SelectList(db.Users, "Id", "Email", devNews.Creator);

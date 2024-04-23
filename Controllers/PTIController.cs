@@ -79,47 +79,55 @@ namespace DevDiscourse.Controllers
         {
             string description = obj.Description;
             bool AutoAssign = GetAutoAssignStatus();
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = _db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = "",
-                Description = description,
-                Sector = "0",
-                Region = "Global Edition",
-                Source = "Reuters",
-                OriginalSource = "Reuters",
-                Tags = obj.Tags,
-                AdminCheck = bool.Parse(obj.AdminCheck),
-                IsGlobal = true,
-                ImageUrl = "/images/newstheme.jpg",
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "Reuters",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            _db.DevNews.Add(newsObj);
-            _db.SaveChanges();
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser();
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
+                try
+                {
+                    DevNews newsObj = new DevNews
+                    {
+                        Title = obj.Title,
+                        SubTitle = "",
+                        Description = description,
+                        Sector = "0",
+                        Region = "Global Edition",
+                        Source = "Reuters",
+                        OriginalSource = "Reuters",
+                        Tags = obj.Tags,
+                        AdminCheck = bool.Parse(obj.AdminCheck),
+                        IsGlobal = true,
+                        ImageUrl = "/images/newstheme.jpg",
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "Reuters",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
+                    };
+                    _db.DevNews.Add(newsObj);
+                    _db.SaveChanges();
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser();
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return "success";
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return ex.Message; }
             }
-            return "success";
         }
 
         [HttpPost]
@@ -163,50 +171,57 @@ namespace DevDiscourse.Controllers
                 region = "South Asia";
                 country = "India";
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = _db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = "",
-                Description = description,
-                Sector = "0",
-                Region = region,
-                Country = country,
-                Source = "IANS",
-                OriginalSource = "IANS",
-                Tags = obj.Tags,
-                AdminCheck = bool.Parse(obj.AdminCheck),
-                IsGlobal = false,
-                ImageUrl = "/images/newstheme.jpg",
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "Press Trust of India",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            _db.DevNews.Add(newsObj);
-            _db.SaveChanges();
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser();
+                try
+                {
+                    DevNews newsObj = new DevNews
+                    {
+                        Title = obj.Title,
+                        SubTitle = "",
+                        Description = description,
+                        Sector = "0",
+                        Region = region,
+                        Country = country,
+                        Source = "IANS",
+                        OriginalSource = "IANS",
+                        Tags = obj.Tags,
+                        AdminCheck = bool.Parse(obj.AdminCheck),
+                        IsGlobal = false,
+                        ImageUrl = "/images/newstheme.jpg",
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "Press Trust of India",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
+                    };
+                    _db.DevNews.Add(newsObj);
+                    _db.SaveChanges();
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser();
 
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return "success";
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return ex.Message; }
             }
-
-            return "success";
         }
         [HttpPost]
         public async Task<JsonResult> PTINews(SourceNewsView obj)
@@ -224,48 +239,56 @@ namespace DevDiscourse.Controllers
                 region = "South Asia";
                 country = "India";
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = _db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = "",
-                Description = description,
-                Sector = "0",
-                Region = region,
-                Country = country,
-                Source = "PTI",
-                OriginalSource = "PTI",
-                Tags = obj.Tags,
-                AdminCheck = bool.Parse(obj.AdminCheck),
-                IsGlobal = false,
-                ImageUrl = "/images/newstheme.jpg",
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "Press Trust of India",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            _db.DevNews.Add(newsObj);
-            _db.SaveChanges();
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser();
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
+                try
+                {
+                    DevNews newsObj = new DevNews
+                    {
+                        Title = obj.Title,
+                        SubTitle = "",
+                        Description = description,
+                        Sector = "0",
+                        Region = region,
+                        Country = country,
+                        Source = "PTI",
+                        OriginalSource = "PTI",
+                        Tags = obj.Tags,
+                        AdminCheck = bool.Parse(obj.AdminCheck),
+                        IsGlobal = false,
+                        ImageUrl = "/images/newstheme.jpg",
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "Press Trust of India",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
+                    };
+                    _db.DevNews.Add(newsObj);
+                    _db.SaveChanges();
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser();
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return Json("Success");
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return Json(ex.Message); }
             }
-            return Json("Success");
         }
         public void AssignedNews(string userId, long NewsId)
         {
@@ -547,35 +570,48 @@ namespace DevDiscourse.Controllers
                             sb.Append("<p>" + line.Trim() + "</p>");
                         }
                         var newDesc = sb.ToString();
-                        DevNews obj = new DevNews
+                        using (var dbContextTransaction = _db.Database.BeginTransaction())
                         {
-                            Title = title,
-                            SubTitle = title,
-                            Description = newDesc,
-                            Sector = "1",
-                            Region = "South Asia",
-                            Country = "India",
-                            Source = "PTI",
-                            AdminCheck = true,
-                            IsGlobal = false,
-                            ImageUrl = "/images/defaultImage.jpg",
-                            FileMimeType = "image/jpg",
-                            FileSize = "88,651",
-                            IsSponsored = false,
-                            EditorPick = false,
-                            IsInfocus = false,
-                            IsVideo = false,
-                            IsStandout = false,
-                            IsIndexed = false,
-                            Author = "Devdiscourse News Desk",
-                            Type = "News",
-                            ViewCount = 0,
-                            LikeCount = 0,
-                            WorkStage = "",
-                            Creator = userManager.GetUserId(User),
-                        };
-                        _db.DevNews.Add(obj);
-                        _db.SaveChanges();
+                            try
+                            {
+                                DevNews obj = new DevNews
+                                {
+                                    Title = title,
+                                    SubTitle = title,
+                                    Description = newDesc,
+                                    Sector = "1",
+                                    Region = "South Asia",
+                                    Country = "India",
+                                    Source = "PTI",
+                                    AdminCheck = true,
+                                    IsGlobal = false,
+                                    ImageUrl = "/images/defaultImage.jpg",
+                                    FileMimeType = "image/jpg",
+                                    FileSize = "88,651",
+                                    IsSponsored = false,
+                                    EditorPick = false,
+                                    IsInfocus = false,
+                                    IsVideo = false,
+                                    IsStandout = false,
+                                    IsIndexed = false,
+                                    Author = "Devdiscourse News Desk",
+                                    Type = "News",
+                                    ViewCount = 0,
+                                    LikeCount = 0,
+                                    WorkStage = "",
+                                    Creator = userManager.GetUserId(User),
+                                };
+                                _db.DevNews.Add(obj);
+                                _db.SaveChanges();
+                                dbContextTransaction.Commit();
+                            }
+                            catch (Exception ex)
+                            {
+                                dbContextTransaction.Rollback();
+                                ViewBag.Message = "File upload failed!!";
+                                return View();
+                            }
+                        }
                     }
                 }
                 ViewBag.Message = "File Uploaded Successfully!!";

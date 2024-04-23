@@ -338,119 +338,127 @@ namespace DevDiscourse.Controllers.Others
         {
             if (ModelState.IsValid)
             {
-                if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
-                    var fileName = RandomName();
-                    var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
-                    var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
-                    string mimeType = GetMimeType(ImageUrlUpdate.FileName);
-                    string fileSize = ImageUrlUpdate.Length.ToString();
+                    try
+                    {
+                        if (ImageUrlUpdate != null && ImageUrlUpdate.Length > 0)
+                        {
+                            var fileName = RandomName();
+                            var fileExtension = Path.GetExtension(ImageUrlUpdate.FileName);
+                            var actName = Path.GetFileNameWithoutExtension(ImageUrlUpdate.FileName);
+                            string mimeType = GetMimeType(ImageUrlUpdate.FileName);
+                            string fileSize = ImageUrlUpdate.Length.ToString();
 
-                    CloudBlobContainer blobContainer;
-                    CloudBlockBlob blob;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        await ImageUrlUpdate.CopyToAsync(ms);
-                        ms.Position = 0;
+                            CloudBlobContainer blobContainer;
+                            CloudBlockBlob blob;
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                await ImageUrlUpdate.CopyToAsync(ms);
+                                ms.Position = 0;
 
-                        blobContainer = await GetCloudBlobContainer();
-                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-                        await blob.UploadFromStreamAsync(ms);
-                        newswire.ImageUrl = blob.Uri.ToString();
-                        newswire.FileMimeType = mimeType;
-                    }
-                }
-                if (VideoUrlUpdate != null && VideoUrlUpdate.Length > 0)
-                {
-                    var fileName = RandomName();
-                    var fileExtension = Path.GetExtension(VideoUrlUpdate.FileName);
-                    var actName = Path.GetFileNameWithoutExtension(VideoUrlUpdate.FileName);
-                    string mimeType = GetMimeType(VideoUrlUpdate.FileName);
-                    string fileSize = VideoUrlUpdate.Length.ToString();
+                                blobContainer = await GetCloudBlobContainer();
+                                blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                                await blob.UploadFromStreamAsync(ms);
+                                newswire.ImageUrl = blob.Uri.ToString();
+                                newswire.FileMimeType = mimeType;
+                            }
+                        }
+                        if (VideoUrlUpdate != null && VideoUrlUpdate.Length > 0)
+                        {
+                            var fileName = RandomName();
+                            var fileExtension = Path.GetExtension(VideoUrlUpdate.FileName);
+                            var actName = Path.GetFileNameWithoutExtension(VideoUrlUpdate.FileName);
+                            string mimeType = GetMimeType(VideoUrlUpdate.FileName);
+                            string fileSize = VideoUrlUpdate.Length.ToString();
 
-                    CloudBlobContainer blobContainer;
-                    CloudBlockBlob blob;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        await VideoUrlUpdate.CopyToAsync(ms);
-                        ms.Position = 0;
+                            CloudBlobContainer blobContainer;
+                            CloudBlockBlob blob;
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                await VideoUrlUpdate.CopyToAsync(ms);
+                                ms.Position = 0;
 
-                        blobContainer = await GetCloudBlobVideoContainer();
-                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-                        await blob.UploadFromStreamAsync(ms);
-                        newswire.VideoUrl = blob.Uri.ToString();
-                        newswire.IsVideo = true;
+                                blobContainer = await GetCloudBlobVideoContainer();
+                                blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                                await blob.UploadFromStreamAsync(ms);
+                                newswire.VideoUrl = blob.Uri.ToString();
+                                newswire.IsVideo = true;
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(ChooseImage))
+                        {
+                            newswire.ImageUrl = ChooseImage;
+                        }
+                        if (!string.IsNullOrEmpty(Request.Form["publishbtn"]))
+                        {
+                            string type = "";
+                            string subtype = "";
+                            string newssector = "0";
+                            if (newswire.Type == "News")
+                            {
+                                type = newswire.Type;
+                            }
+                            else
+                            {
+                                type = "Blog";
+                                subtype = newswire.Type;
+                            }
+                            if (!string.IsNullOrEmpty(newswire.Sector))
+                            {
+                                newssector = newswire.Sector;
+                            }
+                            newswire.Status = ContentStage.Publish;
+                            DevNews obj = new DevNews()
+                            {
+                                Id = Guid.NewGuid(),
+                                Title = newswire.Title,
+                                SubTitle = newswire.SubTitle,
+                                Sector = newssector,
+                                Description = newswire.Description,
+                                NewsLabels = newswire.NewsLabels,
+                                Region = newswire.Region,
+                                Country = newswire.Country,
+                                SourceUrl = newswire.City,
+                                ImageUrl = newswire.ImageUrl,
+                                ImageCopyright = newswire.ImageCopyright,
+                                FileMimeType = newswire.FileMimeType,
+                                Tags = newswire.Tags,
+                                Author = newswire.Source,
+                                Source = newswire.Source,
+                                CreatedOn = newswire.CreatedOn,
+                                PublishedOn = DateTime.UtcNow,
+                                ReferenceId = newswire.Id,
+                                AdminCheck = true,
+                                IsGlobal = false,
+                                IsSponsored = false,
+                                EditorPick = false,
+                                IsInfocus = false,
+                                IsVideo = false,
+                                IsStandout = false,
+                                Type = type,
+                                SubType = subtype,
+                                ViewCount = 0,
+                                LikeCount = 0,
+                                WorkStage = "",
+                                Creator = newswire.Creator,
+                                Themes = newswire.AuthorImage
+                            };
+                            db.DevNews.Add(obj);
+                            db.SaveChanges();
+                        }
+                        else if (!string.IsNullOrEmpty(Request.Form["rejectbtn"]))
+                        {
+                            newswire.Status = ContentStage.Reject;
+                        }
+                        newswire.ModifiedOn = DateTime.UtcNow;
+                        db.Entry(newswire).State = EntityState.Modified;
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        return RedirectToAction("ContentList");
                     }
+                    catch (Exception ex) { dbContextTransaction.Rollback(); }
                 }
-                if (!string.IsNullOrEmpty(ChooseImage))
-                {
-                    newswire.ImageUrl = ChooseImage;
-                }
-                if (!string.IsNullOrEmpty(Request.Form["publishbtn"]))
-                {
-                    string type = "";
-                    string subtype = "";
-                    string newssector = "0";
-                    if (newswire.Type == "News")
-                    {
-                        type = newswire.Type;
-                    }
-                    else
-                    {
-                        type = "Blog";
-                        subtype = newswire.Type;
-                    }
-                    if (!string.IsNullOrEmpty(newswire.Sector))
-                    {
-                        newssector = newswire.Sector;
-                    }
-                    newswire.Status = ContentStage.Publish;
-                    DevNews obj = new DevNews()
-                    {
-                        Id = Guid.NewGuid(),
-                        Title = newswire.Title,
-                        SubTitle = newswire.SubTitle,
-                        Sector = newssector,
-                        Description = newswire.Description,
-                        NewsLabels = newswire.NewsLabels,
-                        Region = newswire.Region,
-                        Country = newswire.Country,
-                        SourceUrl = newswire.City,
-                        ImageUrl = newswire.ImageUrl,
-                        ImageCopyright = newswire.ImageCopyright,
-                        FileMimeType = newswire.FileMimeType,
-                        Tags = newswire.Tags,
-                        Author = newswire.Source,
-                        Source = newswire.Source,
-                        CreatedOn = newswire.CreatedOn,
-                        PublishedOn = DateTime.UtcNow,
-                        ReferenceId = newswire.Id,
-                        AdminCheck = true,
-                        IsGlobal = false,
-                        IsSponsored = false,
-                        EditorPick = false,
-                        IsInfocus = false,
-                        IsVideo = false,
-                        IsStandout = false,
-                        Type = type,
-                        SubType = subtype,
-                        ViewCount = 0,
-                        LikeCount = 0,
-                        WorkStage = "",
-                        Creator = newswire.Creator,
-                        Themes = newswire.AuthorImage
-                    };
-                    db.DevNews.Add(obj);
-                    db.SaveChanges();
-                }
-                else if (!string.IsNullOrEmpty(Request.Form["rejectbtn"]))
-                {
-                    newswire.Status = ContentStage.Reject;
-                }
-                newswire.ModifiedOn = DateTime.UtcNow;
-                db.Entry(newswire).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("ContentList");
             }
             ViewBag.NewsLabels = new SelectList(db.Labels, "Slug", "Title", newswire.NewsLabels);
             ViewBag.Region = new SelectList(db.Regions.Where(a => a.Title.ToUpper() != "AFRICA".Trim() && a.Title.ToUpper() != "GLOBAL EDITION").OrderBy(a => a.SrNo), "Title", "Title", newswire.Region);

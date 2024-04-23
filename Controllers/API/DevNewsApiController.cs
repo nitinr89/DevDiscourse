@@ -617,7 +617,7 @@ namespace DevDiscourse.Controllers.API
                 };
 
                 using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "api-key");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "api_key");
                 var jsonPayload = JsonConvert.SerializeObject(requestData);
                 var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
 
@@ -727,69 +727,81 @@ namespace DevDiscourse.Controllers.API
             {
                 obj.ImageUrl = "/images/newstheme.jpg";
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = obj.SubTitle,
-                Description = description,
-                Sector = sector,
-                Region = region,
-                Country = country,
-                NewsLabels = obj.NewsLabel,
-                Source = "PTI",
-                OriginalSource = "PTI",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl,
-                ImageCopyright = obj.ImageCopyright,
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "Press Trust of India",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-
-            var edition_ml = ML_Edition(description);
-            List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-            if (edition_ml.Any())
-            {
-                foreach (var item in edition_ml)
+                try
                 {
-                    var regObj = new RegionNewsRanking()
+                    DevNews newsObj = new DevNews
                     {
-                        RegionId = item.RegionId,
-                        NewsId = newsObj.Id,
-                        Ranking = item.Ranking
+                        Title = obj.Title,
+                        SubTitle = obj.SubTitle,
+                        Description = description,
+                        Sector = sector,
+                        Region = region,
+                        Country = country,
+                        NewsLabels = obj.NewsLabel,
+                        Source = "PTI",
+                        OriginalSource = "PTI",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl,
+                        ImageCopyright = obj.ImageCopyright,
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "Press Trust of India",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
                     };
-                    newsRankingList.Add(regObj);
-                };
-                db.RegionNewsRankings.AddRange(newsRankingList);
-                db.SaveChanges();
-            }
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
 
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser(obj.Edition);
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
+                    var edition_ml = ML_Edition(description);
+                    List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                    if (edition_ml.Any())
+                    {
+                        foreach (var item in edition_ml)
+                        {
+                            var regObj = new RegionNewsRanking()
+                            {
+                                RegionId = item.RegionId,
+                                NewsId = newsObj.Id,
+                                Ranking = item.Ranking
+                            };
+                            newsRankingList.Add(regObj);
+                        };
+                        db.RegionNewsRankings.AddRange(newsRankingList);
+                        db.SaveChanges();
+                    }
+
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser(obj.Edition);
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                    return null;
+                }
             }
-            return newsObj.NewsId.ToString();
         }
         public List<NewsRankingViewModel> ML_Edition(string content)
         {
@@ -848,68 +860,76 @@ namespace DevDiscourse.Controllers.API
             {
                 obj.ImageUrl = "/images/newstheme.jpg";
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = obj.SubTitle,
-                Description = description,
-                Sector = sector,
-                Region = region,
-                Country = country,
-                NewsLabels = obj.NewsLabel,
-                Source = "PTI",
-                OriginalSource = "PTI",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl,
-                ImageCopyright = obj.ImageCopyright,
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "Press Trust of India",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-
-            List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-            if (obj.NewsRanking != null)
-            {
-                foreach (var item in obj.NewsRanking)
+                try
                 {
-                    var regObj = new RegionNewsRanking()
+                    DevNews newsObj = new DevNews
                     {
-                        RegionId = item.RegionId,
-                        NewsId = newsObj.Id,
-                        Ranking = item.Ranking
+                        Title = obj.Title,
+                        SubTitle = obj.SubTitle,
+                        Description = description,
+                        Sector = sector,
+                        Region = region,
+                        Country = country,
+                        NewsLabels = obj.NewsLabel,
+                        Source = "PTI",
+                        OriginalSource = "PTI",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl,
+                        ImageCopyright = obj.ImageCopyright,
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "Press Trust of India",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
                     };
-                    newsRankingList.Add(regObj);
-                };
-                db.RegionNewsRankings.AddRange(newsRankingList);
-                db.SaveChanges();
-            }
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
 
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser(obj.Edition);
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
+                    List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                    if (obj.NewsRanking != null)
+                    {
+                        foreach (var item in obj.NewsRanking)
+                        {
+                            var regObj = new RegionNewsRanking()
+                            {
+                                RegionId = item.RegionId,
+                                NewsId = newsObj.Id,
+                                Ranking = item.Ranking
+                            };
+                            newsRankingList.Add(regObj);
+                        };
+                        db.RegionNewsRankings.AddRange(newsRankingList);
+                        db.SaveChanges();
+                    }
+
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser(obj.Edition);
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
             }
-            return newsObj.NewsId.ToString();
         }
 
         [Route("api/PRNews")]
@@ -947,50 +967,58 @@ namespace DevDiscourse.Controllers.API
             {
                 obj.ImageUrl = "/images/newstheme.jpg";
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = "",
-                Description = description,
-                Sector = sector,
-                Region = region,
-                Country = country,
-                NewsLabels = obj.NewsLabel,
-                Source = "PR Newswire",
-                OriginalSource = "PR Newswire",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl,
-                ImageCopyright = obj.ImageCopyright,
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            //var newsId = newsObj.NewsId;
-            //var userId = GetShiftUser(obj.Edition);
-            //if (userId != "No User" && AutoAssign == true)
-            //{
-            //    AssignedNews(userId, newsId);
-            //}
-            return newsObj.NewsId.ToString();
+                try
+                {
+                    DevNews newsObj = new DevNews
+                    {
+                        Title = obj.Title,
+                        SubTitle = "",
+                        Description = description,
+                        Sector = sector,
+                        Region = region,
+                        Country = country,
+                        NewsLabels = obj.NewsLabel,
+                        Source = "PR Newswire",
+                        OriginalSource = "PR Newswire",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl,
+                        ImageCopyright = obj.ImageCopyright,
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
+                    };
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    //var newsId = newsObj.NewsId;
+                    //var userId = GetShiftUser(obj.Edition);
+                    //if (userId != "No User" && AutoAssign == true)
+                    //{
+                    //    AssignedNews(userId, newsId);
+                    //}
+                    dbContextTransaction.Commit();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
+            }
         }
         [Route("api/ANINews")]
         [HttpPost]
@@ -1027,70 +1055,78 @@ namespace DevDiscourse.Controllers.API
             {
                 obj.ImageUrl = "/images/newstheme.jpg";
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = obj.SubTitle,
-                Description = description,
-                Sector = sector,
-                Region = region,
-                Country = country,
-                NewsLabels = obj.NewsLabel,
-                Source = "ANI",
-                OriginalSource = "ANI",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl,
-                ImageCopyright = obj.ImageCopyright,
-                ImageCaption = obj.ImageCaption,
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "ANI",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-
-            var edition_ml = ML_Edition(description);
-            List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-            if (edition_ml.Any())
-            {
-                foreach (var item in edition_ml)
+                try
                 {
-                    var regObj = new RegionNewsRanking()
+                    DevNews newsObj = new DevNews
                     {
-                        RegionId = item.RegionId,
-                        NewsId = newsObj.Id,
-                        Ranking = item.Ranking
+                        Title = obj.Title,
+                        SubTitle = obj.SubTitle,
+                        Description = description,
+                        Sector = sector,
+                        Region = region,
+                        Country = country,
+                        NewsLabels = obj.NewsLabel,
+                        Source = "ANI",
+                        OriginalSource = "ANI",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl,
+                        ImageCopyright = obj.ImageCopyright,
+                        ImageCaption = obj.ImageCaption,
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "ANI",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
                     };
-                    newsRankingList.Add(regObj);
-                };
-                db.RegionNewsRankings.AddRange(newsRankingList);
-                db.SaveChanges();
-            }
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
 
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser(obj.Edition);
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
+                    var edition_ml = ML_Edition(description);
+                    List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                    if (edition_ml.Any())
+                    {
+                        foreach (var item in edition_ml)
+                        {
+                            var regObj = new RegionNewsRanking()
+                            {
+                                RegionId = item.RegionId,
+                                NewsId = newsObj.Id,
+                                Ranking = item.Ranking
+                            };
+                            newsRankingList.Add(regObj);
+                        };
+                        db.RegionNewsRankings.AddRange(newsRankingList);
+                        db.SaveChanges();
+                    }
+
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser(obj.Edition);
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
             }
-            return newsObj.NewsId.ToString();
         }
         [Route("api/ANIAutoNews")]
         [HttpPost]
@@ -1127,66 +1163,74 @@ namespace DevDiscourse.Controllers.API
             {
                 obj.ImageUrl = "/images/newstheme.jpg";
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = obj.SubTitle,
-                Description = description,
-                Sector = sector,
-                Region = region,
-                Country = country,
-                NewsLabels = obj.NewsLabel,
-                Source = "ANI",
-                OriginalSource = "ANI",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl,
-                ImageCopyright = obj.ImageCopyright,
-                ImageCaption = obj.ImageCaption,
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "ANI",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-            List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-            if (obj.NewsRanking != null)
-            {
-                foreach (var item in obj.NewsRanking)
+                try
                 {
-                    newsRankingList.Add(new RegionNewsRanking()
+                    DevNews newsObj = new DevNews
                     {
-                        RegionId = item.RegionId,
-                        NewsId = newsObj.Id,
-                        Ranking = item.Ranking
-                    });
-                };
-                db.RegionNewsRankings.AddRange(newsRankingList);
-                db.SaveChanges();
+                        Title = obj.Title,
+                        SubTitle = obj.SubTitle,
+                        Description = description,
+                        Sector = sector,
+                        Region = region,
+                        Country = country,
+                        NewsLabels = obj.NewsLabel,
+                        Source = "ANI",
+                        OriginalSource = "ANI",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl,
+                        ImageCopyright = obj.ImageCopyright,
+                        ImageCaption = obj.ImageCaption,
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "ANI",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
+                    };
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
+                    List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                    if (obj.NewsRanking != null)
+                    {
+                        foreach (var item in obj.NewsRanking)
+                        {
+                            newsRankingList.Add(new RegionNewsRanking()
+                            {
+                                RegionId = item.RegionId,
+                                NewsId = newsObj.Id,
+                                Ranking = item.Ranking
+                            });
+                        };
+                        db.RegionNewsRankings.AddRange(newsRankingList);
+                        db.SaveChanges();
+                    }
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser(obj.Edition);
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
             }
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser(obj.Edition);
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
-            }
-            return newsObj.NewsId.ToString();
         }
         [Route("api/UNNews")]
         [HttpPost]
@@ -1197,45 +1241,52 @@ namespace DevDiscourse.Controllers.API
             bool isRepeatNews = Boolean.Parse(isRepeat);
             bool admCheck = Boolean.Parse(isadminCheck);
 
-
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = obj.SubTitle,
-                Description = obj.Description,
-                Sector = obj.Sector,
-                Region = obj.Edition,
-                Country = obj.Country,
-                NewsLabels = obj.NewsLabel,
-                Source = "UN News",
-                OriginalSource = "UN News",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl,
-                ImageCopyright = obj.ImageCopyright,
-                ImageCaption = obj.ImageCaption,
-                FileMimeType = "image/jpg",
-                FileSize = "2,41,664",
-                Category = obj.Category,
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = false,
-                Author = "UN News",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
+                try
+                {
+                    DevNews newsObj = new DevNews
+                    {
+                        Title = obj.Title,
+                        SubTitle = obj.SubTitle,
+                        Description = obj.Description,
+                        Sector = obj.Sector,
+                        Region = obj.Edition,
+                        Country = obj.Country,
+                        NewsLabels = obj.NewsLabel,
+                        Source = "UN News",
+                        OriginalSource = "UN News",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl,
+                        ImageCopyright = obj.ImageCopyright,
+                        ImageCaption = obj.ImageCaption,
+                        FileMimeType = "image/jpg",
+                        FileSize = "2,41,664",
+                        Category = obj.Category,
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = false,
+                        Author = "UN News",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
+                    };
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
 
-            return newsObj.NewsId.ToString();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
+            }
         }
 
         [Route("api/UNAutoNews")]
@@ -1247,62 +1298,69 @@ namespace DevDiscourse.Controllers.API
             bool isRepeatNews = Boolean.Parse(isRepeat);
             bool admCheck = Boolean.Parse(isadminCheck);
 
-
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = obj.SubTitle,
-                Description = obj.Description,
-                Sector = obj.Sector,
-                Region = obj.Edition,
-                Country = obj.Country,
-                NewsLabels = obj.NewsLabel,
-                Source = "UN News",
-                OriginalSource = "UN News",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl,
-                ImageCopyright = obj.ImageCopyright,
-                ImageCaption = obj.ImageCaption,
-                FileMimeType = "image/jpg",
-                FileSize = "2,41,664",
-                Category = obj.Category,
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = false,
-                Author = "UN News",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-
-            List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-            if (obj.NewsRanking != null)
-            {
-                foreach (var item in obj.NewsRanking)
+                try
                 {
-                    var regObj = new RegionNewsRanking()
+                    DevNews newsObj = new DevNews
                     {
-                        RegionId = item.RegionId,
-                        NewsId = newsObj.Id,
-                        Ranking = item.Ranking
+                        Title = obj.Title,
+                        SubTitle = obj.SubTitle,
+                        Description = obj.Description,
+                        Sector = obj.Sector,
+                        Region = obj.Edition,
+                        Country = obj.Country,
+                        NewsLabels = obj.NewsLabel,
+                        Source = "UN News",
+                        OriginalSource = "UN News",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl,
+                        ImageCopyright = obj.ImageCopyright,
+                        ImageCaption = obj.ImageCaption,
+                        FileMimeType = "image/jpg",
+                        FileSize = "2,41,664",
+                        Category = obj.Category,
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = false,
+                        Author = "UN News",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
                     };
-                    newsRankingList.Add(regObj);
-                };
-                db.RegionNewsRankings.AddRange(newsRankingList);
-                db.SaveChanges();
-            }
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
 
-            return newsObj.NewsId.ToString();
+                    List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                    if (obj.NewsRanking != null)
+                    {
+                        foreach (var item in obj.NewsRanking)
+                        {
+                            var regObj = new RegionNewsRanking()
+                            {
+                                RegionId = item.RegionId,
+                                NewsId = newsObj.Id,
+                                Ranking = item.Ranking
+                            };
+                            newsRankingList.Add(regObj);
+                        };
+                        db.RegionNewsRankings.AddRange(newsRankingList);
+                        db.SaveChanges();
+                    }
+                    dbContextTransaction.Commit();
+
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
+            }
         }
 
         [Route("api/UpdateNews/{NewsId}/{Keywords}")]
@@ -1359,69 +1417,77 @@ namespace DevDiscourse.Controllers.API
             {
                 AutoAssign = false;
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = obj.SubTitle,
-                Description = description,
-                Sector = obj.Sector,
-                Region = obj.Edition,
-                NewsLabels = obj.NewsLabel,
-                Country = obj.Country,
-                Source = "Reuters",
-                OriginalSource = "Reuters",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl,
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "Reuters",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-
-            var edition_ml = ML_Edition(description);
-            List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-            if (edition_ml.Any())
-            {
-                foreach (var item in edition_ml)
+                try
                 {
-                    var regObj = new RegionNewsRanking()
+                    DevNews newsObj = new DevNews
                     {
-                        RegionId = item.RegionId,
-                        NewsId = newsObj.Id,
-                        Ranking = item.Ranking
+                        Title = obj.Title,
+                        SubTitle = obj.SubTitle,
+                        Description = description,
+                        Sector = obj.Sector,
+                        Region = obj.Edition,
+                        NewsLabels = obj.NewsLabel,
+                        Country = obj.Country,
+                        Source = "Reuters",
+                        OriginalSource = "Reuters",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl,
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "Reuters",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
                     };
-                    newsRankingList.Add(regObj);
-                };
-                db.RegionNewsRankings.AddRange(newsRankingList);
-                db.SaveChanges();
-            }
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
 
-            PostMessageToTwitter(newsObj.Title + " " + "https://www.devdiscourse.com/article/" + (newsObj.NewsLabels ?? "agency-wire") + "/" + newsObj.GenerateSecondSlug().ToString());
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser(obj.NewsLabel);
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
+                    var edition_ml = ML_Edition(description);
+                    List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                    if (edition_ml.Any())
+                    {
+                        foreach (var item in edition_ml)
+                        {
+                            var regObj = new RegionNewsRanking()
+                            {
+                                RegionId = item.RegionId,
+                                NewsId = newsObj.Id,
+                                Ranking = item.Ranking
+                            };
+                            newsRankingList.Add(regObj);
+                        };
+                        db.RegionNewsRankings.AddRange(newsRankingList);
+                        db.SaveChanges();
+                    }
+
+                    PostMessageToTwitter(newsObj.Title + " " + "https://www.devdiscourse.com/article/" + (newsObj.NewsLabels ?? "agency-wire") + "/" + newsObj.GenerateSecondSlug().ToString());
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser(obj.NewsLabel);
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
             }
-            return newsObj.NewsId.ToString();
         }
 
         [Route("api/ReutersAutoNews")]
@@ -1442,67 +1508,75 @@ namespace DevDiscourse.Controllers.API
             {
                 AutoAssign = false;
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = obj.SubTitle,
-                Description = description,
-                Sector = obj.Sector,
-                Region = obj.Edition,
-                NewsLabels = obj.NewsLabel,
-                Country = obj.Country,
-                Source = "Reuters",
-                OriginalSource = "Reuters",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl,
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                Author = "Reuters",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-
-            List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
-            if (obj.NewsRanking != null)
-            {
-                foreach (var item in obj.NewsRanking)
+                try
                 {
-                    newsRankingList.Add(new RegionNewsRanking()
+                    DevNews newsObj = new DevNews
                     {
-                        RegionId = item.RegionId,
-                        NewsId = newsObj.Id,
-                        Ranking = item.Ranking
-                    });
-                };
-                db.RegionNewsRankings.AddRange(newsRankingList);
-                db.SaveChanges();
-            }
+                        Title = obj.Title,
+                        SubTitle = obj.SubTitle,
+                        Description = description,
+                        Sector = obj.Sector,
+                        Region = obj.Edition,
+                        NewsLabels = obj.NewsLabel,
+                        Country = obj.Country,
+                        Source = "Reuters",
+                        OriginalSource = "Reuters",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl,
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        Author = "Reuters",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
+                    };
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
 
-            PostMessageToTwitter(newsObj.Title + " " + "https://www.devdiscourse.com/article/" + (newsObj.NewsLabels ?? "agency-wire") + "/" + newsObj.GenerateSecondSlug().ToString());
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser(obj.NewsLabel);
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
+                    List<RegionNewsRanking> newsRankingList = new List<RegionNewsRanking>();
+                    if (obj.NewsRanking != null)
+                    {
+                        foreach (var item in obj.NewsRanking)
+                        {
+                            newsRankingList.Add(new RegionNewsRanking()
+                            {
+                                RegionId = item.RegionId,
+                                NewsId = newsObj.Id,
+                                Ranking = item.Ranking
+                            });
+                        };
+                        db.RegionNewsRankings.AddRange(newsRankingList);
+                        db.SaveChanges();
+                    }
+
+                    PostMessageToTwitter(newsObj.Title + " " + "https://www.devdiscourse.com/article/" + (newsObj.NewsLabels ?? "agency-wire") + "/" + newsObj.GenerateSecondSlug().ToString());
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser(obj.NewsLabel);
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
             }
-            return newsObj.NewsId.ToString();
         }
         public IActionResult PostMessageToTwitter(string message)
         {
@@ -1609,50 +1683,58 @@ namespace DevDiscourse.Controllers.API
             {
                 obj.ImageUrl = "/images/newstheme.jpg";
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = "",
-                Description = description,
-                Sector = sector,
-                Region = region,
-                Country = "",
-                NewsLabels = obj.NewsLabel,
-                Source = "IANS",
-                OriginalSource = "IANS",
-                Tags = obj.Tags,
-                AdminCheck = admCheck,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl, //"/images/newstheme.jpg",
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = !isRepeatNews,
-                Author = "IANS",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                WorkStage = "",
-                SourceUrl = obj.Origin,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser(obj.NewsLabel);
+                try
+                {
+                    DevNews newsObj = new DevNews
+                    {
+                        Title = obj.Title,
+                        SubTitle = "",
+                        Description = description,
+                        Sector = sector,
+                        Region = region,
+                        Country = "",
+                        NewsLabels = obj.NewsLabel,
+                        Source = "IANS",
+                        OriginalSource = "IANS",
+                        Tags = obj.Tags,
+                        AdminCheck = admCheck,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl, //"/images/newstheme.jpg",
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = !isRepeatNews,
+                        Author = "IANS",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        WorkStage = "",
+                        SourceUrl = obj.Origin,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
+                    };
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser(obj.NewsLabel);
 
-            if (userId != "No User" && isRepeatNews != true)
-            {
-                AssignedNews(userId, newsId);
+                    if (userId != "No User" && isRepeatNews != true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
             }
-            return newsObj.NewsId.ToString();
         }
         [Route("api/AFPNews")]
         [HttpPost]
@@ -1675,49 +1757,57 @@ namespace DevDiscourse.Controllers.API
             {
                 obj.ImageUrl = "/images/newstheme.jpg";
             }
-            DevNews newsObj = new DevNews
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Title = obj.Title,
-                SubTitle = "",
-                Description = description,
-                Sector = "0",
-                Region = region,
-                Country = country,
-                NewsLabels = obj.NewsLabel,
-                Source = "AFP",
-                OriginalSource = "AFP",
-                Tags = obj.Tags,
-                AdminCheck = true,
-                IsGlobal = false,
-                ImageUrl = obj.ImageUrl, //"/images/newstheme.jpg",
-                FileMimeType = "image/jpg",
-                FileSize = "88,651",
-                IsSponsored = false,
-                EditorPick = false,
-                IsInfocus = false,
-                IsVideo = false,
-                IsStandout = false,
-                IsIndexed = AutoAssign,
-                WorkStage = "",
-                Author = "Press Trust of India",
-                Type = "News",
-                ViewCount = 0,
-                LikeCount = 0,
-                Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
-            };
-            db.DevNews.Add(newsObj);
-            db.SaveChanges();
-            //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
-            await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
-            // Assign To User
-            var newsId = newsObj.NewsId;
-            var userId = GetShiftUser(obj.NewsLabel);
+                try
+                {
+                    DevNews newsObj = new DevNews
+                    {
+                        Title = obj.Title,
+                        SubTitle = "",
+                        Description = description,
+                        Sector = "0",
+                        Region = region,
+                        Country = country,
+                        NewsLabels = obj.NewsLabel,
+                        Source = "AFP",
+                        OriginalSource = "AFP",
+                        Tags = obj.Tags,
+                        AdminCheck = true,
+                        IsGlobal = false,
+                        ImageUrl = obj.ImageUrl, //"/images/newstheme.jpg",
+                        FileMimeType = "image/jpg",
+                        FileSize = "88,651",
+                        IsSponsored = false,
+                        EditorPick = false,
+                        IsInfocus = false,
+                        IsVideo = false,
+                        IsStandout = false,
+                        IsIndexed = AutoAssign,
+                        WorkStage = "",
+                        Author = "Press Trust of India",
+                        Type = "News",
+                        ViewCount = 0,
+                        LikeCount = 0,
+                        Creator = "3df123f7-0a8f-43c1-967d-bc26c4463b56",
+                    };
+                    db.DevNews.Add(newsObj);
+                    db.SaveChanges();
+                    //var context = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                    await context.Clients.All.SendAsync("SendNewsNotification", "New News Added on Admin Panel");
+                    // Assign To User
+                    var newsId = newsObj.NewsId;
+                    var userId = GetShiftUser(obj.NewsLabel);
 
-            if (userId != "No User" && AutoAssign == true)
-            {
-                AssignedNews(userId, newsId);
+                    if (userId != "No User" && AutoAssign == true)
+                    {
+                        AssignedNews(userId, newsId);
+                    }
+                    dbContextTransaction.Commit();
+                    return newsObj.NewsId.ToString();
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return null; }
             }
-            return newsObj.NewsId.ToString();
         }
         public bool GetAutoAssignStatus()
         {
@@ -1848,11 +1938,17 @@ namespace DevDiscourse.Controllers.API
             {
                 return BadRequest(ModelState);
             }
-
-            db.DevNews.Add(devNews);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = devNews.Id }, devNews);
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.DevNews.Add(devNews);
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                    return CreatedAtRoute("DefaultApi", new { id = devNews.Id }, devNews);
+                }
+                catch (Exception ex) { dbContextTransaction.Rollback(); return BadRequest(ex.Message); }
+            }
         }
         // DELETE: api/DevNewsApi/5
         //[ResponseType(typeof(DevNews))]
@@ -2005,7 +2101,7 @@ namespace DevDiscourse.Controllers.API
         public IActionResult GetSearchedNews(string text)
         {
             DateTime daydiff = DateTime.Today.AddDays(-15);
-            var search = db.DevNews.Where(a => a.Title.Contains(text) && a.CreatedOn > daydiff && a.AdminCheck == true).Select(a => new { Label = a.NewsLabels, a.NewsId, a.Title, a.CreatedOn }).OrderByDescending(a => a.CreatedOn).Distinct().Take(10).ToList();
+            var search = db.DevNews.Where(a => a.CreatedOn > daydiff && a.AdminCheck == true && a.Title.ToUpper().Contains(text.ToUpper())).Select(a => new { Label = a.NewsLabels, a.NewsId, a.Title, a.CreatedOn }).OrderByDescending(a => a.CreatedOn).Distinct().Take(10).ToList();
             return Ok(search);
         }
         [Route("api/GetuserbyRole/{role}")]

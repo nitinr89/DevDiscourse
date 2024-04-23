@@ -371,7 +371,7 @@ namespace DevDiscourse.Controllers.Main
             var search = from ig in db.ImageGalleries select ig;
             if (!String.IsNullOrWhiteSpace(text))
             {
-                search = search.Where(a => a.Title.ToUpper().Contains(text.ToUpper()));
+                search = search.Where(a => a.Title.ToUpper().Contains(text.ToUpper()) || a.Caption.ToUpper().Contains(text.ToUpper()));
             }
             var result = search.OrderByDescending(a => a.CreatedOn).ToPagedList(page, 20);
             return View(result);

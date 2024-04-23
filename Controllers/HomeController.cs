@@ -1205,7 +1205,7 @@ namespace DevDiscourse.Controllers
             if (!string.IsNullOrWhiteSpace(title))
             {
                 title = title.ToUpper();  // Only convert to upper once
-                query = query.Where(m => m.Title.ToUpper().Contains(title));
+                query = query.Where(m => m.Title.ToUpper().Contains(title) || m.Caption.ToUpper().Contains(title));
             }
 
             // Order by creation date, skip, and take

@@ -125,7 +125,7 @@ namespace Devdiscourse.Controllers.API
 
             var result = db.DevNews
                 .Where(a => a.CreatedOn > oneMonth && a.AdminCheck == true && a.Tags.Contains(tag))
-                .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
+                .Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).Distinct().OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
             return result;
 
         }

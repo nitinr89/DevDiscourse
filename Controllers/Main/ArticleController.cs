@@ -9,6 +9,7 @@ using Html2Amp.Sanitization.Implementation;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using ServiceStack.Host;
@@ -200,11 +201,13 @@ namespace Devdiscourse.Controllers.Main
             }
             // Find News in DevNews
             var search = await db.DevNews.FirstOrDefaultAsync(a => a.NewsId == id);
-            search.ViewCount = search.ViewCount + 1;
-            db.Entry(search).State = EntityState.Modified;
-            db.Entry(search).Property(n => n.NewsId).IsModified = false;
-            await db.SaveChangesAsync();
-            return "OK";
+            if (search != null)
+            {
+                string sql = "UPDATE DevNews SET ViewCount = ViewCount + 1 WHERE NewsId = @id";
+                int affectedRows = await db.Database.ExecuteSqlRawAsync(sql, new SqlParameter("id", id));
+                return affectedRows > 0 ? "OK" : "Error";
+            }
+            else return "Error";
         }
         public async Task<ActionResult> Mobile(string prefix, long? id)
         {

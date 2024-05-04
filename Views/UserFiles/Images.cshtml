@@ -72,6 +72,14 @@
             column-width: 100%;
         }
     }
+
+    .check {
+        height: 30px;
+        width: 30px;
+        position: relative;
+        top: 40px;
+        left: 10px;
+    }
 </style>
 <link href="~/Content/admin.css" rel="stylesheet" />
 
@@ -93,6 +101,9 @@
                     <button class="btn btn-default" aria-label="Search" id="textBtn" style="border-left:none !important;color:#aeaeae;" type="button">
                         <i class="fa fa-search"></i>
                     </button>
+                    <button class="btn btn-default" aria-label="Delete" id="deleteBtn" style="color:#ee0000;" type="button">
+                        <i class="fa fa-trash"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -104,22 +115,25 @@
             var newsImage = item.ImageUrl;
             <div class="pics animation all 2">
                 <div style="display:inline-block">
-                    <img class="img-fluid img-responsive" src="@newsImage?width=480" onload="imageLoaded(this)" data-id="@item.Id" alt="Image Gallery">
-                    <div class="image-card-title">
-                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Upfront") || User.IsInRole("Author"))
-                        {
-                            <a href="@item.ImageUrl" download="@item.Title">Download | </a>
-                        }
-                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                        {
-                            <a href="@Url.Action("EditImage", "UserFiles", new { id = item.Id, page = ViewBag.page })">Edit | </a>
-                            <a href="@Url.Action("DeleteFile", "UserFiles", new { id = item.Id, page = ViewBag.page })">Delete</a>
-                        }
-                        <div style="display:inline-block;float:right;" id="dim-@item.Id">Dimension</div>
-                    </div>
-                    <div class="image-caption">
-                        Image Copyright: @item.ImageCopyright
-                    </div>
+                    <label for="@item.Id">
+                        <input id="@item.Id" type="checkbox" class="check" />
+                        <img class="img-fluid img-responsive" src="@newsImage" width="480" onload="imageLoaded(this)" data-id="@item.Id" alt="Image Gallery">
+                        <div class="image-card-title">
+                            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Upfront") || User.IsInRole("Author"))
+                            {
+                                <a href="@item.ImageUrl" download="@item.Title">Download | </a>
+                            }
+                            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("EditImage", "UserFiles", new { id = item.Id, page = ViewBag.page })">Edit | </a>
+                                <a href="@Url.Action("DeleteFile", "UserFiles", new { id = item.Id, page = ViewBag.page })">Delete</a>
+                            }
+                            <div style="display:inline-block;float:right;" id="dim-@item.Id">Dimension</div>
+                        </div>
+                        <div class="image-caption">
+                            Image Copyright: @item.ImageCopyright
+                        </div>
+                    </label>
                 </div>
             </div>
         }
@@ -132,18 +146,33 @@
 @section scripts {
     <script>
         var _inputSearchText = '@(ViewBag.text)';
+        var page = '@(ViewBag.page)';
 
         $('.lazy').lazy();
         $('#inputText').val(_inputSearchText);
 
         $('#textBtn').click(function () {
             _inputSearchText = $('#inputText').val();
-            window.location.href = "/UserFiles/Images?text=" + _inputSearchText;
+            window.location.href = `/UserFiles/Images?text=${_inputSearchText}`;
         });
+
+        $('#deleteBtn').click(function () {
+            _inputSearchText = $('#inputText').val();
+            let imgs = "";
+            const checkboxes = document.querySelectorAll('.check');
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    if (imgs === "") imgs = checkbox.id;
+                    else imgs = imgs + "," + checkbox.id;
+                }
+            });
+            window.location.href = `/UserFiles/Images?page=${page}&imgs=${imgs}&text=${_inputSearchText}`;
+        });
+
         $("#inputText").keydown(function (e) {
             if (e.keyCode == 13) {
                 _inputSearchText = $('#inputText').val();
-                window.location.href = "/UserFiles/Images?text=" + _inputSearchText;
+                window.location.href = `/UserFiles/Images?text=${_inputSearchText}`;
             }
         });
     </script>

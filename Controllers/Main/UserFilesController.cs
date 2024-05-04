@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Devdiscourse.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevDiscourse.Controllers.Main
 {
@@ -364,10 +365,25 @@ namespace DevDiscourse.Controllers.Main
             return Json("Ok");
         }
         [Authorize]
-        public ActionResult Images(int page = 1, string text = "")
+        public ActionResult Images(int page = 1, string imgs = "", string text = "")
         {
             ViewBag.text = text;
             ViewBag.page = page;
+
+            if (!string.IsNullOrWhiteSpace(imgs))
+            {
+                string[] imgIds = imgs.Split(',');
+                string ids = "";
+                foreach (string imgId in imgIds)
+                {
+                    Guid id = Guid.Parse(imgId);
+                    if (ids == "") ids = $"'{id}'";
+                    else ids = ids + "," + $"'{id}'";
+                }
+                string sqlQuery = $"DELETE FROM ImageGalleries WHERE Id IN ({ids})";
+                db.Database.ExecuteSqlRaw(sqlQuery);
+            }
+
             var search = from ig in db.ImageGalleries select ig;
             if (!String.IsNullOrWhiteSpace(text))
             {

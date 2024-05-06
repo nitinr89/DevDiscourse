@@ -22,12 +22,17 @@ namespace Devdiscourse.Controllers.Research
                         orderby d.ViewCount descending
                         select new TopNewsItem
                         {
+                            Id = d.Id,
+                            NewsId = d.NewsId,
                             Title = d.Title ?? "",
                             SubTitle = d.SubTitle ?? "",
                             ImageUrl = d.ImageUrl ?? "",
                             Author = u.FirstName + " " + u.LastName,
                             ProfilePic = u.ProfilePic,
                             Views = d.ViewCount,
+                            NewsLabel = d.NewsLabels ?? "agency-wire",
+                            Country = d.Country ?? "Global",
+                            Source = d.Source ?? "",
                             CreatedOn = d.CreatedOn
                         };
 
@@ -50,12 +55,17 @@ namespace Devdiscourse.Controllers.Research
                         orderby d.ViewCount descending
                         select new TopNewsItem
                         {
+                            Id = d.Id,
+                            NewsId = d.NewsId,
                             Title = d.Title ?? "",
                             SubTitle = d.SubTitle ?? "",
                             ImageUrl = d.ImageUrl ?? "",
                             Author = u.FirstName + " " + u.LastName,
                             ProfilePic = u.ProfilePic,
                             Views = d.ViewCount,
+                            NewsLabel = d.NewsLabels ?? "agency-wire",
+                            Country = d.Country ?? "Global",
+                            Source = d.Source ?? "",
                             CreatedOn = d.CreatedOn
                         };
 
@@ -77,12 +87,17 @@ namespace Devdiscourse.Controllers.Research
                         orderby d.ViewCount descending
                         select new TopNewsItem
                         {
+                            Id = d.Id,
+                            NewsId = d.NewsId,
                             Title = d.Title ?? "",
                             SubTitle = d.SubTitle ?? "",
                             ImageUrl = d.ImageUrl ?? "",
                             Author = u.FirstName + " " + u.LastName,
                             ProfilePic = u.ProfilePic,
                             Views = d.ViewCount,
+                            NewsLabel = d.NewsLabels ?? "agency-wire",
+                            Country = d.Country ?? "Global",
+                            Source = d.Source ?? "",
                             CreatedOn = d.CreatedOn
                         };
 
@@ -105,12 +120,17 @@ namespace Devdiscourse.Controllers.Research
                         orderby d.ViewCount descending
                         select new TopNewsItem
                         {
+                            Id = d.Id,
+                            NewsId = d.NewsId,
                             Title = d.Title ?? "",
                             SubTitle = d.SubTitle ?? "",
                             ImageUrl = d.ImageUrl ?? "",
                             Author = u.FirstName + " " + u.LastName,
                             ProfilePic = u.ProfilePic,
                             Views = d.ViewCount,
+                            NewsLabel = d.NewsLabels ?? "agency-wire",
+                            Country = d.Country ?? "Global",
+                            Source = d.Source ?? "",
                             CreatedOn = d.CreatedOn
                         };
 
@@ -121,12 +141,17 @@ namespace Devdiscourse.Controllers.Research
     }
     public class TopNewsItem
     {
+        public required Guid Id { get; set; }
+        public required long NewsId { get; set; }
         public required string Title { get; set; }
         public required string SubTitle { get; set; }
         public required string ImageUrl { get; set; }
         public required string Author { get; set; }
         public required string ProfilePic { get; set; }
         public int Views { get; set; }
+        public required string NewsLabel { get; set; }
+        public required string Country { get; set; }
+        public required string Source { get; set; }
         public DateTime CreatedOn { get; set; }
     }
 }

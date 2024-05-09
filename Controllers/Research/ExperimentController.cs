@@ -1,7 +1,11 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models;
+using Devdiscourse.Models.BasicModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System.Text;
 using X.PagedList;
 
 namespace Devdiscourse.Controllers.Research
@@ -215,7 +219,8 @@ namespace Devdiscourse.Controllers.Research
                                                    Source = a.Source ?? "",
                                                    AdminCheck = a.AdminCheck,
                                                    CreatedOn = a.CreatedOn,
-                                                   Views = a.ViewCount
+                                                   Views = a.ViewCount,
+                                                   ProfilePic = a.Creator
                                                });
 
             if (!String.IsNullOrWhiteSpace(label))
@@ -232,7 +237,7 @@ namespace Devdiscourse.Controllers.Research
             }
             if (!String.IsNullOrWhiteSpace(author))
             {
-                devNews = devNews.Where(a => a.Author == author);
+                devNews = devNews.Where(a => a.ProfilePic == author);
             }
             if (!String.IsNullOrWhiteSpace(text))
             {
@@ -241,11 +246,130 @@ namespace Devdiscourse.Controllers.Research
             return Ok(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page), 10));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Images(string jaadu, string title, string? nouns)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(nouns))
+                {
+                    HttpClient client = new();
+                    string api_key = "AIzaSyDXP7SItNqnSqAQgv7Y-vcgdoEdVJjqz7I";
+                    string url = $"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={api_key}";
+
+                    var requestData = new
+                    {
+                        contents = new[]
+                        {
+                                    new{
+                            role = "user",
+                            parts = new[]{
+                                new{text = $"Give me at least 2 or at most 5 important nouns as a string separated by commas or if you don't find any then create at least 2 nouns from your understanding, here is the phrase - {title}"}
+                            }
+                        }
+                    }
+                    };
+
+                    var jsonContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(url, jsonContent);
+                    response.EnsureSuccessStatusCode();
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    var jsonResponse = JObject.Parse(responseContent);
+                    string nounsString = jsonResponse["candidates"][0]["content"]["parts"][0]["text"].Value<string>();
+
+
+                    if (nounsString == null || nounsString.ToLower().Contains(" no "))
+                    {
+                        return BadRequest(nounsString ?? "");
+                    }
+                    nouns = nounsString;
+                }
+
+                string[] properNouns = nouns.Split(',');
+                string qSelect = "";
+                string qWhere = "";
+
+                for (int i = 0; i < properNouns.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        qSelect += $" CASE WHEN Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' THEN 1 ELSE 0 END ";
+                        qWhere += $" Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' ";
+                    }
+                    else
+                    {
+                        qSelect += $" + CASE WHEN Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' THEN 1 ELSE 0 END ";
+                        qWhere += $" OR Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' ";
+                    }
+                }
+                string query = $"SELECT Top 10 *, ({qSelect}) AS MatchScore FROM ImageGalleries WHERE ({qWhere}) AND ImageUrl LIKE 'https%' ORDER BY MatchScore DESC, Len(Caption)";
+
+                var result = db.ImageGalleries
+                    .FromSqlRaw(query)
+                    .ToList();
+
+                List<Image> images = new();
+                foreach (var item in result)
+                {
+                    images.Add(new Image
+                    {
+                        Id = item.Id,
+                        Title = item.Title,
+                        Caption = item.Caption ?? "",
+                        ImageUrl = item.ImageUrl,
+                        UseCount = item.UseCount ?? 0
+                    });
+                }
+                return Ok(images);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UpdateNews(string jaadu, Guid id, string imageUrl, string? imageCaption)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+
+            using var dbContextTransaction = db.Database.BeginTransaction();
+            try
+            {
+                var entity = new DevNews { Id = id };
+                db.DevNews.Attach(entity);
+                entity.ImageUrl = imageUrl;
+                entity.ImageCaption = imageCaption;
+
+                db.Entry(entity).Property(e => e.ImageUrl).IsModified = true;
+                db.Entry(entity).Property(e => e.ImageCaption).IsModified = true;
+
+                db.SaveChanges();
+                dbContextTransaction.Commit();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                return BadRequest(ex.Message);
+            }
+        }
     }
+
     public class IdTitle
     {
         public required int Id { get; set; }
         public required string Title { get; set; }
+    }
+    public class Image
+    {
+        public required Guid Id { get; set; }
+        public required string Title { get; set; }
+        public required string Caption { get; set; }
+        public required int UseCount { get; set; }
+        public required string ImageUrl { get; set; }
     }
     public class Author
     {

@@ -1,6 +1,5 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models;
-using Devdiscourse.Models.BasicModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -334,25 +333,15 @@ namespace Devdiscourse.Controllers.Research
         public IActionResult UpdateNews(string jaadu, Guid id, string imageUrl, string? imageCaption)
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
-
-            using var dbContextTransaction = db.Database.BeginTransaction();
             try
             {
-                var entity = new DevNews { Id = id };
-                db.DevNews.Attach(entity);
-                entity.ImageUrl = imageUrl;
-                entity.ImageCaption = imageCaption;
-
-                db.Entry(entity).Property(e => e.ImageUrl).IsModified = true;
-                db.Entry(entity).Property(e => e.ImageCaption).IsModified = true;
-
-                db.SaveChanges();
-                dbContextTransaction.Commit();
-                return Ok();
+                int affectedRows = db.Database.ExecuteSqlRaw(
+    "UPDATE DevNews SET ImageUrl = {0}, ImageCaption = {1} WHERE Id = {2}",
+    imageUrl, imageCaption ?? "", id);
+                return Ok(affectedRows);
             }
             catch (Exception ex)
             {
-                dbContextTransaction.Rollback();
                 return BadRequest(ex.Message);
             }
         }

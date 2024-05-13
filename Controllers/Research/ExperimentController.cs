@@ -20,7 +20,7 @@ namespace Devdiscourse.Controllers.Research
         }
 
         [HttpGet]
-        public IActionResult TopNews(string jaadu, string userName = "")
+        public IActionResult TopNews(string jaadu, int page = 1, string userName = "")
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
 
@@ -47,11 +47,11 @@ namespace Devdiscourse.Controllers.Research
                             CreatedOn = d.CreatedOn
                         };
 
-            var result = query.Take(10).ToList();
+            var result = query.ToPagedList(page, 10);
             return Ok(result);
         }
         [HttpGet]
-        public IActionResult TopNewsMonth(string jaadu, string userName = "")
+        public IActionResult TopNewsMonth(string jaadu, int page = 1, string userName = "")
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
 
@@ -83,11 +83,11 @@ namespace Devdiscourse.Controllers.Research
                             CreatedOn = d.CreatedOn
                         };
 
-            var result = query.Take(10).ToList();
+            var result = query.ToPagedList(page, 10);
             return Ok(result);
         }
         [HttpGet]
-        public IActionResult TopNewsToday(string jaadu, string userName = "")
+        public IActionResult TopNewsToday(string jaadu, int page = 1, string userName = "")
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
 
@@ -118,11 +118,11 @@ namespace Devdiscourse.Controllers.Research
                             CreatedOn = d.CreatedOn
                         };
 
-            var result = query.Take(10).ToList();
+            var result = query.ToPagedList(page, 10);
             return Ok(result);
         }
         [HttpGet]
-        public IActionResult TopNewsYear(string jaadu, string userName = "")
+        public IActionResult TopNewsYear(string jaadu, int page = 1, string userName = "")
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
 
@@ -154,7 +154,7 @@ namespace Devdiscourse.Controllers.Research
                             CreatedOn = d.CreatedOn
                         };
 
-            var result = query.Take(10).ToList();
+            var result = query.ToPagedList(page, 10);
             return Ok(result);
         }
 
@@ -200,9 +200,9 @@ namespace Devdiscourse.Controllers.Research
             string text = "", string author = "")
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
-            DateTime fiveDay = DateTime.Today.AddDays(-5);
+            DateTime sevenDays = DateTime.Today.AddDays(-7);
             IQueryable<TopNewsItem> devNews = (from a in db.DevNews
-                                               where a.Type == "News" && a.CreatedOn > fiveDay
+                                               where a.Type == "News" && a.CreatedOn > sevenDays
                                                select new TopNewsItem
                                                {
                                                    Id = a.Id,
@@ -242,20 +242,21 @@ namespace Devdiscourse.Controllers.Research
             {
                 devNews = devNews.Where(a => a.Title.ToUpper().Contains(text.ToUpper()));
             }
-            return Ok(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page), 10));
+            return Ok(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList(page, 10));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Images(string jaadu, string title, string? nouns)
+        public async Task<IActionResult> Images(string jaadu, int page = 1, string title = "", string nouns = "")
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            if (string.IsNullOrWhiteSpace(title) && string.IsNullOrWhiteSpace(nouns)) return BadRequest();
 
             try
             {
-                if (string.IsNullOrWhiteSpace(nouns))
+                if (!string.IsNullOrWhiteSpace(title))
                 {
                     HttpClient client = new();
-                    string api_key = "AIzaSyDXP7SItNqnSqAQgv7Y-vcgdoEdVJjqz7I";
+                    string api_key = "AIzaSyCi2jYECAVn52-C_6bKcvzdU89ds3j93Pg";
                     string url = $"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={api_key}";
 
                     var requestData = new
@@ -283,45 +284,59 @@ namespace Devdiscourse.Controllers.Research
                     {
                         return BadRequest(nounsString ?? "");
                     }
-                    nouns = nounsString;
-                }
 
-                string[] properNouns = nouns.Split(',');
-                string qSelect = "";
-                string qWhere = "";
+                    string[] properNouns = nounsString.Split(',');
+                    string qSelect = "";
+                    string qWhere = "";
 
-                for (int i = 0; i < properNouns.Length; i++)
-                {
-                    if (i == 0)
+                    for (int i = 0; i < properNouns.Length; i++)
                     {
-                        qSelect += $" CASE WHEN Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' THEN 1 ELSE 0 END ";
-                        qWhere += $" Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' ";
+                        if (i == 0)
+                        {
+                            qSelect += $" CASE WHEN Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' THEN 1 ELSE 0 END ";
+                            qWhere += $" Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' ";
+                        }
+                        else
+                        {
+                            qSelect += $" + CASE WHEN Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' THEN 1 ELSE 0 END ";
+                            qWhere += $" OR Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' ";
+                        }
                     }
-                    else
+                    string query = $"SELECT Top 10 *, ({qSelect}) AS MatchScore FROM ImageGalleries WHERE ({qWhere}) AND ImageUrl LIKE 'https%' ORDER BY MatchScore DESC, Len(Caption)";
+
+                    var result = db.ImageGalleries
+                        .FromSqlRaw(query)
+                        .ToList();
+
+                    List<Image> images = new();
+                    foreach (var item in result)
                     {
-                        qSelect += $" + CASE WHEN Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' THEN 1 ELSE 0 END ";
-                        qWhere += $" OR Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' ";
+                        images.Add(new Image
+                        {
+                            Id = item.Id,
+                            Title = item.Title,
+                            Caption = item.Caption ?? "",
+                            ImageUrl = item.ImageUrl,
+                            UseCount = item.UseCount ?? 0
+                        });
                     }
+                    return Ok(images);
                 }
-                string query = $"SELECT Top 10 *, ({qSelect}) AS MatchScore FROM ImageGalleries WHERE ({qWhere}) AND ImageUrl LIKE 'https%' ORDER BY MatchScore DESC, Len(Caption)";
-
-                var result = db.ImageGalleries
-                    .FromSqlRaw(query)
-                    .ToList();
-
-                List<Image> images = new();
-                foreach (var item in result)
+                else
                 {
-                    images.Add(new Image
-                    {
-                        Id = item.Id,
-                        Title = item.Title,
-                        Caption = item.Caption ?? "",
-                        ImageUrl = item.ImageUrl,
-                        UseCount = item.UseCount ?? 0
-                    });
+                    var result = (from g in db.ImageGalleries
+                                  where g.Title.ToLower().Contains(nouns.ToLower()) || g.Caption.ToLower().Contains(nouns.ToLower())
+                                  orderby g.CreatedOn descending
+                                  select new Image
+                                  {
+                                      Id = g.Id,
+                                      Title = g.Title,
+                                      Caption = g.Caption ?? "",
+                                      ImageUrl = g.ImageUrl,
+                                      UseCount = g.UseCount ?? 0
+                                  }).ToPagedList(page, 10);
+                    return Ok(result);
                 }
-                return Ok(images);
             }
             catch (Exception ex)
             {

@@ -647,20 +647,20 @@ namespace Devdiscourse.Controllers.Research
     public class TopNewsItem
     {
         public required Guid Id { get; set; }
-        public required long NewsId { get; set; }
-        public required string Title { get; set; }
-        public required string SubTitle { get; set; }
-        public required string ImageUrl { get; set; }
-        public required string Author { get; set; }
+        public long? NewsId { get; set; }
+        public string? Title { get; set; }
+        public string? SubTitle { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? Author { get; set; }
         public string? ProfilePic { get; set; }
-        public int Views { get; set; }
-        public int TodayViews { get; set; }
-        public required string NewsLabel { get; set; }
-        public required string Region { get; set; }
-        public required string Country { get; set; }
-        public required string Source { get; set; }
-        public required string Sector { get; set; }
-        public required bool AdminCheck { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public int? Views { get; set; }
+        public int? TodayViews { get; set; }
+        public string? NewsLabel { get; set; }
+        public string? Region { get; set; }
+        public string? Country { get; set; }
+        public string? Source { get; set; }
+        public string? Sector { get; set; }
+        public bool? AdminCheck { get; set; }
+        public DateTime? CreatedOn { get; set; }
     }
 }

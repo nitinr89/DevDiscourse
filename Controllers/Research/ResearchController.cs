@@ -336,7 +336,7 @@ namespace Devdiscourse.Controllers.Research
                 ActivityUserId = activityToUser,
                 Activity = logFor,
                 ActivityUrl = activityUrl,
-                ActivityDate = DateTime.Now,
+                ActivityDate = DateTime.UtcNow,
                 IsRead = false
             };
             _db.ActivityLogs.Add(logs);

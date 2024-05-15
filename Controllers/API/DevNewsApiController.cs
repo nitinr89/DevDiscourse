@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.OutputCaching;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
+using Newtonsoft.Json.Linq;
 
 namespace DevDiscourse.Controllers.API
 {
@@ -595,16 +596,45 @@ namespace DevDiscourse.Controllers.API
             if (newsObj != null)
             {
                 newsObj.Description = obj.Description;
-                newsObj.ModifiedOn = DateTime.Now;
+                newsObj.ModifiedOn = DateTime.UtcNow;
                 db.Entry(newsObj).State = EntityState.Modified;
                 db.SaveChanges();
             }
             return obj.Id.ToString();
         }
+        private async Task<string> GeneratePrompt(string headline)
+        {
+            try
+            {
+                string endpoint = "https://api.openai.com/v1/chat/completions";
+                var messages = new[] { new { role = "user",
+                    content = $"Write Image Prompt for the headline(return only prompt string as result) - {headline}"
+                    } };
+                var data = new
+                {
+                    model = "gpt-3.5-turbo",
+                    messages
+                };
+                string jsonString = JsonConvert.SerializeObject(data);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                HttpClient client = new();
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer api_key");
+                var response = await client.PostAsync(endpoint, content);
+                response.EnsureSuccessStatusCode();
+                string responseContent = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JObject.Parse(responseContent);
+                string prompt = jsonResponse["choices"][0]["message"]["content"].Value<string>();
+                return prompt;
+            }
+            catch (Exception ex) { return $"NotOk200 {ex.Message}"; }
+        }
+
         [Route("api/GenImg")]
         [HttpPost]
-        public async Task<string> GenImg(string title, string sector, string prompt)
+        public async Task<string> GenImg(string title, string sector)
         {
+            string prompt = GeneratePrompt(title).Result;
+            if (prompt.StartsWith("NotOk200")) return prompt;
             try
             {
                 string endpoint = "https://api.openai.com/v1/images/generations";
@@ -612,8 +642,8 @@ namespace DevDiscourse.Controllers.API
                 {
                     model = "dall-e-2",
                     prompt = prompt,
-                    n = 1,
-                    size = "1024x1024"
+                    size = "1024x1024",
+                    n = 1
                 };
 
                 using var client = new HttpClient();
@@ -626,6 +656,7 @@ namespace DevDiscourse.Controllers.API
                 var responseBody = await response1.Content.ReadAsStringAsync();
                 var jsonresponse = JsonObject.Parse(responseBody);
                 string imageUrl = jsonresponse["data"][0]["url"].ToString();
+                return imageUrl;
 
                 if (string.IsNullOrWhiteSpace(imageUrl)) return $"NotOk200 - imageUrl is null or empty.";
                 else
@@ -1597,7 +1628,7 @@ namespace DevDiscourse.Controllers.API
             string oauth_signature_method = "HMAC-SHA1";
 
             // create unique request details
-            string oauth_nonce = Convert.ToBase64String(new ASCIIEncoding().GetBytes(DateTime.Now.Ticks.ToString()));
+            string oauth_nonce = Convert.ToBase64String(new ASCIIEncoding().GetBytes(DateTime.UtcNow.Ticks.ToString()));
             System.TimeSpan timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc));
             string oauth_timestamp = Convert.ToInt64(timeSpan.TotalSeconds).ToString();
 

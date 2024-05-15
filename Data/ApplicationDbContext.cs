@@ -1,4 +1,5 @@
-﻿using Devdiscourse.Models;
+﻿using Devdiscourse.Controllers.Research;
+using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ContributorModels;
 using Devdiscourse.Models.Others;
@@ -29,10 +30,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         builder.Entity<SectorMapping>()
             .HasOne(ns => ns.DevSector)
-            .WithMany(ns=> ns.SectorMapping)
+            .WithMany(ns => ns.SectorMapping)
             .HasForeignKey(ns => ns.SectorId);
     }
+
+    public DbSet<TopNewsItem> TopNewsItems { get; set; }
     public DbSet<DevNews> DevNews { get; set; }
+    public DbSet<TrendingNews> TrendingNews { get; set; }
+    public DbSet<SponsoredNews> SponsoredNews { get; set; }
     public DbSet<Event> Events { get; set; }
     public DbSet<Article> Articles { get; set; }
     public DbSet<DevResearch> DevResearches { get; set; }

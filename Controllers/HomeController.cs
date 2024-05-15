@@ -1300,7 +1300,7 @@ namespace DevDiscourse.Controllers
         //        Email = email,
         //        ItemType = logFor,
         //        ActivityUrl = activityUrl,
-        //        ActivityDate = DateTime.Now,
+        //        ActivityDate = DateTime.UtcNow,
         //        IsRead = false
         //    };
         //    _db.CommentLogs.Add(logs);

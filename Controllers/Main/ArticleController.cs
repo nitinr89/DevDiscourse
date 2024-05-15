@@ -13,7 +13,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using ServiceStack.Host;
-using ServiceStack.Html;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
@@ -81,7 +80,7 @@ namespace Devdiscourse.Controllers.Main
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             string absoluteUri = HttpContext.Request.GetDisplayUrl();
-            if (id == null || id == 0)
+            if (id == 0)
             {
                 if (int.TryParse(prefix, out int result))
                     id = result;
@@ -128,7 +127,7 @@ namespace Devdiscourse.Controllers.Main
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
             if (!isCrawler)
             {
-                await UpdateViewCount(search.NewsId, search.Title, search.Creator, geolocation, MACAddress);
+                await UpdateViewCount(search, geolocation);
             }
             string? cookie = Request.Cookies["Edition"];
             if (reg != "")
@@ -145,7 +144,7 @@ namespace Devdiscourse.Controllers.Main
             }
             if ((search.Type == "LiveBlog") && suffix == -1)
             {
-                var blogUpdate = db.LiveBlogs.AsNoTracking().Where(a => a.ParentId == search.NewsId).OrderByDescending(c => c.CreatedOn).Take(1); ;
+                var blogUpdate = db.LiveBlogs.AsNoTracking().Where(a => a.ParentId == search.NewsId).OrderByDescending(c => c.CreatedOn).Take(1);
                 ViewBag.blogUpdate = await blogUpdate.FirstOrDefaultAsync();
                 return View("Mobile", search);
             }
@@ -165,7 +164,7 @@ namespace Devdiscourse.Controllers.Main
             GeoLocationViewModel location = new GeoLocationViewModel();
 
             string Url = "https://geolocation-db.com/json/1a811210-241d-11eb-b7a9-293dae7a95e1";
-            using (WebClient wc = new WebClient())
+            using (WebClient wc = new())
             {
                 try
                 {
@@ -182,30 +181,23 @@ namespace Devdiscourse.Controllers.Main
 
                 }
             }
-
             return location;
         }
-        public async Task<string> UpdateViewCount(long id, string title, string user, GeoLocationViewModel location, string MACAddress)
+        public async Task<string> UpdateViewCount(DevNews devNews, GeoLocationViewModel location)
         {
-            string deviceinfo = GetDeviceInfo();
-            string ipaddress = GetPublicIP();
-            if (ipaddress == "")
+            string sql = "UPDATE DevNews SET ViewCount = ViewCount + 1 WHERE NewsId = @id";
+            int affectedRows = await db.Database.ExecuteSqlRawAsync(sql, new SqlParameter("id", devNews.NewsId));
+            if (affectedRows > 0)
             {
-                ipaddress = location.IPv4;
-            }
-            var region = "";
-            var country = db.Countries.FirstOrDefault(a => a.Title == location.country_name);
-            if (country != null)
-            {
-                region = country.Title;
-            }
-            // Find News in DevNews
-            var search = await db.DevNews.FirstOrDefaultAsync(a => a.NewsId == id);
-            if (search != null)
-            {
-                string sql = "UPDATE DevNews SET ViewCount = ViewCount + 1 WHERE NewsId = @id";
-                int affectedRows = await db.Database.ExecuteSqlRawAsync(sql, new SqlParameter("id", id));
-                return affectedRows > 0 ? "OK" : "Error";
+                db.TrendingNews.Add(new TrendingNews
+                {
+                    NewsId = devNews.Id,
+                    Ipv4 = location.IPv4,
+                    Country = location.country_name,
+                    ViewedOn = DateTime.UtcNow
+                });
+                db.SaveChanges();
+                return "Ok";
             }
             else return "Error";
         }

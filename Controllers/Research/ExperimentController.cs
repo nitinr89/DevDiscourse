@@ -1,7 +1,10 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models;
+using Devdiscourse.Models.BasicModels;
+using DocumentFormat.OpenXml.InkML;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Text;
@@ -345,21 +348,281 @@ namespace Devdiscourse.Controllers.Research
         }
 
         [HttpPost]
-        public IActionResult UpdateNews(string jaadu, Guid id, string imageUrl, string? imageCaption)
+        public IActionResult UpdateNews(string jaadu, Guid id, string? imageUrl, string? imageCaption, string? sector, string? adminCheck)
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            DevNews? news = db.DevNews.Find(id);
+            if (news == null) return BadRequest();
             try
             {
-                int affectedRows = db.Database.ExecuteSqlRaw(
-    "UPDATE DevNews SET ImageUrl = {0}, ImageCaption = {1} WHERE Id = {2}",
-    imageUrl, imageCaption ?? "", id);
-                return Ok(affectedRows);
+                if (!string.IsNullOrWhiteSpace(imageUrl))
+                {
+                    int affectedRows = db.Database.ExecuteSqlRaw(
+        "UPDATE DevNews SET ImageUrl = {0}, ImageCaption = {1} WHERE Id = {2}",
+        imageUrl, imageCaption ?? "", id);
+                    return Ok(affectedRows);
+                }
+                else if (!string.IsNullOrWhiteSpace(sector))
+                {
+                    int affectedRows = db.Database.ExecuteSqlRaw(
+        "UPDATE DevNews SET Sector = {0} WHERE Id = {1}", sector, id);
+                    return Ok(affectedRows);
+                }
+                else if (adminCheck is "true" or "false")
+                {
+                    bool isAdminCheck = adminCheck == "true";
+                    int affectedRows = db.Database.ExecuteSqlRaw(
+        "UPDATE DevNews SET AdminCheck = {0} WHERE Id = {1}", isAdminCheck, id);
+                    return Ok(affectedRows);
+                }
+                else return BadRequest();
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        public IActionResult SponsoredNews(string jaadu)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            var sponsoredNews = (from sn in db.SponsoredNews
+                                 join d in db.DevNews on sn.NewsId equals d.Id
+                                 where sn.IsActive == true && sn.EndTime > DateTime.UtcNow
+                                 select new TopNewsItem
+                                 {
+                                     Id = d.Id,
+                                     NewsId = d.NewsId,
+                                     Title = d.Title ?? "",
+                                     SubTitle = d.SubTitle ?? "",
+                                     ImageUrl = d.ImageUrl ?? "",
+                                     Author = "",
+                                     ProfilePic = "",
+                                     Sector = d.Sector ?? "",
+                                     AdminCheck = d.AdminCheck,
+                                     Region = d.Region ?? "",
+                                     Views = d.ViewCount,
+                                     NewsLabel = d.NewsLabels ?? "agency-wire",
+                                     Country = d.Country ?? "Global",
+                                     Source = d.Source ?? "",
+                                     CreatedOn = d.CreatedOn
+                                 }).ToList();
+            return Ok(sponsoredNews);
+        }
+
+        [HttpPost]
+        public IActionResult AddSponsoredNews(string jaadu, Guid id, int position = 0, int days = 1)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            if (days > 7 || position < 0 || position > 5) return BadRequest();
+            try
+            {
+                SponsoredNews? dbSponsoredNews = db.SponsoredNews.FirstOrDefault(f => f.NewsId == id);
+                if (dbSponsoredNews == null)
+                {
+                    DevNews? devNews = db.DevNews.Find(id);
+                    if (devNews == null) return BadRequest();
+                    bool success = int.TryParse(devNews.Sector, out int sector);
+                    if (success)
+                    {
+                        SponsoredNews sponsoredNews = new()
+                        {
+                            NewsId = id,
+                            Position = position,
+                            EndTime = DateTime.Today.AddDays(days).AddTicks(-1),
+                            IsActive = true,
+                            Sector = sector
+                        };
+                        db.SponsoredNews.Add(sponsoredNews);
+                        db.SaveChanges();
+                        return Ok("Ok");
+                    }
+                    else return BadRequest();
+                }
+                else return Ok("Already Ok");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UpdateSponsoredNews(string jaadu, Guid id, int position = 0, int days = 1)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            if (days > 7 || position < 0 || position > 5) return BadRequest();
+            try
+            {
+                SponsoredNews? sponsoredNews = db.SponsoredNews.FirstOrDefault(f => f.NewsId == id);
+                if (sponsoredNews == null) return BadRequest();
+                DevNews? devNews = db.DevNews.Find(id);
+                if (devNews == null) return BadRequest();
+                bool success = int.TryParse(devNews.Sector, out int sector);
+                if (success)
+                {
+                    sponsoredNews.IsActive = true;
+                    sponsoredNews.Position = position;
+                    sponsoredNews.EndTime = DateTime.Today.AddDays(days).AddTicks(-1);
+                    sponsoredNews.Sector = sector;
+                    db.SponsoredNews.Update(sponsoredNews);
+                    db.SaveChanges();
+                    return Ok("Ok");
+                }
+                else return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult DeleteSponsoredNews(string jaadu, Guid id)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            try
+            {
+                SponsoredNews? sponsoredNews = db.SponsoredNews.FirstOrDefault(f => f.NewsId == id);
+                if (sponsoredNews == null) return BadRequest();
+                sponsoredNews.IsActive = false;
+                db.SponsoredNews.Update(sponsoredNews);
+                db.SaveChanges();
+                return Ok("Ok");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult TrendingToday(string jaadu, int page = 1)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            var todayStart = DateTime.Today;
+            var todayEnd = todayStart.AddDays(1).AddTicks(-1);
+
+            string sql = @"
+        SELECT 
+            d.Id,
+            d.NewsId,
+            d.Title,
+            d.SubTitle,
+            d.ImageUrl,
+            (u.FirstName + ' ' + u.LastName) AS Author,
+            u.ProfilePic,
+            d.Sector,
+            d.AdminCheck,
+            d.Region,
+            d.ViewCount AS Views,
+            ISNULL(d.NewsLabels, 'agency-wire') AS NewsLabel,
+            ISNULL(d.Country, 'Global') AS Country,
+            d.Source,
+            d.CreatedOn,
+            COUNT(*) AS TodayViews
+        FROM TrendingNews tn
+        INNER JOIN DevNews d ON tn.NewsId = d.Id
+        INNER JOIN AspNetUsers u ON d.Creator = u.Id
+        WHERE tn.ViewedOn >= @todayStart AND tn.ViewedOn <= @todayEnd
+        GROUP BY 
+            d.Id,
+            d.NewsId,
+            d.Title,
+            d.SubTitle,
+            d.ImageUrl,
+            u.FirstName,
+            u.LastName,
+            u.ProfilePic,
+            d.Sector,
+            d.AdminCheck,
+            d.Region,
+            d.ViewCount,
+            d.NewsLabels,
+            d.Country,
+            d.Source,
+            d.CreatedOn
+        ORDER BY TodayViews DESC
+        OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY;";
+
+            var parameters = new[]
+            {
+        new SqlParameter("@todayStart", todayStart),
+        new SqlParameter("@todayEnd", todayEnd),
+        new SqlParameter("@offset", (page - 1) * 10),
+        new SqlParameter("@pageSize", 10)
+    };
+
+            var topNewsItems = db.TopNewsItems
+                .FromSqlRaw(sql, parameters)
+                .ToList();
+            return Ok(topNewsItems);
+        }
+        [HttpGet]
+        public IActionResult TrendingWeek(string jaadu, int page = 1)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            DateTime today = DateTime.Today;
+            DateTime weekStart = today.AddDays(-(int)today.DayOfWeek);
+            DateTime weekEnd = weekStart.AddDays(7).AddTicks(-1);
+
+            string sql = @"
+        SELECT 
+            d.Id,
+            d.NewsId,
+            d.Title,
+            d.SubTitle,
+            d.ImageUrl,
+            (u.FirstName + ' ' + u.LastName) AS Author,
+            u.ProfilePic,
+            d.Sector,
+            d.AdminCheck,
+            d.Region,
+            d.ViewCount AS Views,
+            ISNULL(d.NewsLabels, 'agency-wire') AS NewsLabel,
+            ISNULL(d.Country, 'Global') AS Country,
+            d.Source,
+            d.CreatedOn,
+            COUNT(*) AS TodayViews
+        FROM TrendingNews tn
+        INNER JOIN DevNews d ON tn.NewsId = d.Id
+        INNER JOIN AspNetUsers u ON d.Creator = u.Id
+        WHERE tn.ViewedOn >= @todayStart AND tn.ViewedOn <= @todayEnd
+        GROUP BY 
+            d.Id,
+            d.NewsId,
+            d.Title,
+            d.SubTitle,
+            d.ImageUrl,
+            u.FirstName,
+            u.LastName,
+            u.ProfilePic,
+            d.Sector,
+            d.AdminCheck,
+            d.Region,
+            d.ViewCount,
+            d.NewsLabels,
+            d.Country,
+            d.Source,
+            d.CreatedOn
+        ORDER BY TodayViews DESC
+        OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY;";
+
+            var parameters = new[]
+            {
+        new SqlParameter("@todayStart", weekStart),
+        new SqlParameter("@todayEnd", weekEnd),
+        new SqlParameter("@offset", (page - 1) * 10),
+        new SqlParameter("@pageSize", 10)
+    };
+
+            var topNewsItems = db.TopNewsItems
+                .FromSqlRaw(sql, parameters)
+                .ToList();
+            return Ok(topNewsItems);
+        }
+
     }
 
     public class IdTitle
@@ -391,6 +654,7 @@ namespace Devdiscourse.Controllers.Research
         public required string Author { get; set; }
         public string? ProfilePic { get; set; }
         public int Views { get; set; }
+        public int TodayViews { get; set; }
         public required string NewsLabel { get; set; }
         public required string Region { get; set; }
         public required string Country { get; set; }

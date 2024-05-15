@@ -367,7 +367,7 @@ namespace DevDiscourse.Controllers
             string userId = userManager.GetUserId(User);
             ViewBag.loginId = userId;
             DateTime fiveDay = DateTime.Today.AddDays(-5);
-            DateTime oneday = DateTime.Now.AddDays(-1);
+            DateTime oneday = DateTime.UtcNow.AddDays(-1);
             var assignNews = _db.AssignNews.Where(a => a.UserId == userId && a.CreatedOn > oneday).Select(a => a.NewsId).ToList();
             if (!assignNews.Any())
             {
@@ -946,7 +946,7 @@ namespace DevDiscourse.Controllers
                 ActivityUserId = activityToUser,
                 Activity = logFor,
                 ActivityUrl = activityUrl,
-                ActivityDate = DateTime.Now,
+                ActivityDate = DateTime.UtcNow,
                 IsRead = false
             };
             _db.ActivityLogs.Add(logs);

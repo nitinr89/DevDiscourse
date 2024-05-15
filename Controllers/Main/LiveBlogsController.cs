@@ -281,7 +281,7 @@ namespace Devdiscourse.Controllers.Main
         //    }
         //    return View(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
         //}
-       
+
         // GET: LiveBlogs/BlogDetails/5
         //[Authorize(Roles = "SuperAdmin,Admin,Author,Upfront")]
         //public ActionResult BlogDetails(Guid? id)
@@ -654,7 +654,7 @@ namespace Devdiscourse.Controllers.Main
         //        ActivityUserId = activityToUser,
         //        Activity = logFor,
         //        ActivityUrl = activityUrl,
-        //        ActivityDate = DateTime.Now,
+        //        ActivityDate = DateTime.UtcNow,
         //        IsRead = false
         //    };
         //    db.ActivityLogs.Add(logs);

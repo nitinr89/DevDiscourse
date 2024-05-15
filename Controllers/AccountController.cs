@@ -205,7 +205,7 @@ namespace DevDiscourse.Controllers
                     EmailConfirmed = true,
                     isActive = true,
                     isPRManager = true,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = DateTime.UtcNow
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -767,7 +767,7 @@ namespace DevDiscourse.Controllers
         //        ActivityUserId = activityToUser,
         //        Activity = logFor,
         //        ActivityUrl = activityUrl,
-        //        ActivityDate = DateTime.Now,
+        //        ActivityDate = DateTime.UtcNow,
         //        IsRead = false
         //    };
         //    _db.ActivityLogs.Add(logs);

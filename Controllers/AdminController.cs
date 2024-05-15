@@ -93,7 +93,7 @@ namespace DevDiscourse.Controllers
                 ActivityUserId = activityToUser,
                 Activity = logFor,
                 ActivityUrl = activityUrl,
-                ActivityDate = DateTime.Now,
+                ActivityDate = DateTime.UtcNow,
                 IsRead = false
             };
             _db.ActivityLogs.Add(logs);

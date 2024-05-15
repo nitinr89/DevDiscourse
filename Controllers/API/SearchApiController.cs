@@ -525,14 +525,14 @@ namespace Devdiscourse.Controllers.API
             }
             if (beforeDate != "null")
             {
-                // DateTime filterDate = DateTime.Parse(beforeDate.AsDateTime(DateTime.Now.AddDays(-60)).ToString());
+                // DateTime filterDate = DateTime.Parse(beforeDate.AsDateTime(DateTime.UtcNow.AddDays(-60)).ToString());
                 DateTime filterDate = DateTime.Parse(beforeDate);
                 newsSearch = newsSearch.Where(s => s.CreatedOn < filterDate);
                 //newsSearch = newsSearch.Take(50);
             }
             if (afterDate != "null")
             {
-                //  DateTime filterDate2 = DateTime.Parse(afterDate.AsDateTime(DateTime.Now.AddDays(-80)).ToString());
+                //  DateTime filterDate2 = DateTime.Parse(afterDate.AsDateTime(DateTime.UtcNow.AddDays(-80)).ToString());
                 DateTime filterDate2 = DateTime.Parse(afterDate);
                 newsSearch = newsSearch.Where(s => s.CreatedOn > filterDate2);
                 // newsSearch = newsSearch.Take(50);

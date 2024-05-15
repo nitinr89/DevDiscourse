@@ -60,8 +60,33 @@ namespace Devdiscourse.Controllers.ViewComponents
                     .Take(30)
                     .ToList();
 
-                return View(groupedResult);
+                var sponsoredNews = (from sn in _db.SponsoredNews
+                                     join n in _db.DevNews on sn.NewsId equals n.Id
+                                     where sn.IsActive == true && sn.Sector == 10 && sn.EndTime > DateTime.UtcNow
+                                     select new NewsViewModelIndex
+                                     {
+                                         Index = sn.Position,
+                                         News = new NewsViewModel
+                                         {
+                                             NewsId = n.NewsId,
+                                             Title = n.Title,
+                                             ImageUrl = n.ImageUrl,
+                                             CreatedOn = n.ModifiedOn,
+                                             Subtitle = n.SubTitle,
+                                             SubType = n.SubType,
+                                             Country = n.Country,
+                                             Sector = n.Sector,
+                                             Label = n.NewsLabels,
+                                             Ranking = 0
+                                         }
 
+                                     }).ToList();
+
+                foreach (var item in sponsoredNews)
+                {
+                    groupedResult.Insert(item.Index, item.News);
+                }
+                return View(groupedResult);
             }
             catch (Exception ex)
             {

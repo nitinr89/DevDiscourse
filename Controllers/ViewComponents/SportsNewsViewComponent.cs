@@ -58,7 +58,7 @@ namespace Devdiscourse.Controllers.ViewComponents
 
                 var sponsoredNews = (from sn in _db.SponsoredNews
                                      join n in _db.DevNews on sn.NewsId equals n.Id
-                                     where sn.IsActive == true && sn.Sector == 18 && sn.EndTime > DateTime.UtcNow
+                                     where sn.IsActive == true && n.AdminCheck == true && sn.Sector == 18 && sn.EndTime > DateTime.UtcNow
                                      select new NewsViewModelIndex
                                      {
                                          Index = sn.Position,

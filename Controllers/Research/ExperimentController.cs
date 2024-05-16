@@ -418,59 +418,36 @@ namespace Devdiscourse.Controllers.Research
             if (days > 7 || position < 0 || position > 5) return BadRequest();
             try
             {
+                DevNews? devNews = db.DevNews.Find(id);
+                if (devNews == null) return BadRequest();
+                bool success = int.TryParse(devNews.Sector?.Split(",")[0], out int sector);
+                if (!success) return BadRequest();
+
                 SponsoredNews? dbSponsoredNews = db.SponsoredNews.FirstOrDefault(f => f.NewsId == id);
                 if (dbSponsoredNews == null)
                 {
-                    DevNews? devNews = db.DevNews.Find(id);
-                    if (devNews == null) return BadRequest();
-                    bool success = int.TryParse(devNews.Sector, out int sector);
-                    if (success)
+                    SponsoredNews sponsoredNews = new()
                     {
-                        SponsoredNews sponsoredNews = new()
-                        {
-                            NewsId = id,
-                            Position = position,
-                            EndTime = DateTime.Today.AddDays(days).AddTicks(-1),
-                            IsActive = true,
-                            Sector = sector
-                        };
-                        db.SponsoredNews.Add(sponsoredNews);
-                        db.SaveChanges();
-                        return Ok("Ok");
-                    }
-                    else return BadRequest();
-                }
-                else return Ok("Already Ok");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        public IActionResult UpdateSponsoredNews(string jaadu, Guid id, int position = 0, int days = 1)
-        {
-            if (jaadu != "pleaseletmeaccess") return Unauthorized();
-            if (days > 7 || position < 0 || position > 5) return BadRequest();
-            try
-            {
-                SponsoredNews? sponsoredNews = db.SponsoredNews.FirstOrDefault(f => f.NewsId == id);
-                if (sponsoredNews == null) return BadRequest();
-                DevNews? devNews = db.DevNews.Find(id);
-                if (devNews == null) return BadRequest();
-                bool success = int.TryParse(devNews.Sector, out int sector);
-                if (success)
-                {
-                    sponsoredNews.IsActive = true;
-                    sponsoredNews.Position = position;
-                    sponsoredNews.EndTime = DateTime.Today.AddDays(days).AddTicks(-1);
-                    sponsoredNews.Sector = sector;
-                    db.SponsoredNews.Update(sponsoredNews);
+                        NewsId = id,
+                        Position = position,
+                        EndTime = DateTime.Today.AddDays(days).AddTicks(-1),
+                        IsActive = true,
+                        Sector = sector
+                    };
+                    db.SponsoredNews.Add(sponsoredNews);
                     db.SaveChanges();
-                    return Ok("Ok");
+                    return Ok(1);
                 }
-                else return BadRequest();
+                else
+                {
+                    dbSponsoredNews.IsActive = true;
+                    dbSponsoredNews.Position = position;
+                    dbSponsoredNews.EndTime = DateTime.Today.AddDays(days).AddTicks(-1);
+                    dbSponsoredNews.Sector = sector;
+                    db.SponsoredNews.Update(dbSponsoredNews);
+                    db.SaveChanges();
+                    return Ok(1);
+                }
             }
             catch (Exception ex)
             {
@@ -489,7 +466,7 @@ namespace Devdiscourse.Controllers.Research
                 sponsoredNews.IsActive = false;
                 db.SponsoredNews.Update(sponsoredNews);
                 db.SaveChanges();
-                return Ok("Ok");
+                return Ok(1);
             }
             catch (Exception ex)
             {

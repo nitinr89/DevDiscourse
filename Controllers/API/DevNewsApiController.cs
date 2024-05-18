@@ -605,7 +605,7 @@ namespace DevDiscourse.Controllers.API
 
         [Route("api/GenImg")]
         [HttpPost]
-        public async Task<string> GenImg(string title, string sector)
+        public async Task<string> GenImg(string title, string sector, string prompt)
         {
             try
             {
@@ -613,7 +613,7 @@ namespace DevDiscourse.Controllers.API
                 var requestData = new
                 {
                     model = "dall-e-3",
-                    prompt = $"Draw suitable image for the given title - {title}",
+                    prompt = prompt,
                     size = "1024x1024",
                     quality = "standard",
                     n = 1

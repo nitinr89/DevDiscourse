@@ -60,12 +60,11 @@ namespace Devdiscourse.Controllers.Research
 
             var today = DateTime.Today;
             var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
             var query = from d in db.DevNews
                         join u in db.Users on d.Creator equals u.Id
                         where (string.IsNullOrWhiteSpace(userName) || u.UserName == userName)
-                    && d.CreatedOn >= firstDayOfMonth && d.CreatedOn <= lastDayOfMonth
+                    && d.CreatedOn >= firstDayOfMonth
                         orderby d.ViewCount descending
                         select new TopNewsItem
                         {
@@ -95,12 +94,11 @@ namespace Devdiscourse.Controllers.Research
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
 
             var todayStart = DateTime.Today;
-            var todayEnd = todayStart.AddDays(1).AddTicks(-1);
 
             var query = from d in db.DevNews
                         join u in db.Users on d.Creator equals u.Id
                         where (string.IsNullOrWhiteSpace(userName) || u.UserName == userName)
-                    && d.CreatedOn >= todayStart && d.CreatedOn <= todayEnd
+                    && d.CreatedOn >= todayStart
                         orderby d.ViewCount descending
                         select new TopNewsItem
                         {
@@ -131,12 +129,11 @@ namespace Devdiscourse.Controllers.Research
 
             var currentYear = DateTime.Today.Year;
             var firstDayOfYear = new DateTime(currentYear, 1, 1);
-            var lastDayOfYear = new DateTime(currentYear, 12, 31, 23, 59, 59, 999);
 
             var query = from d in db.DevNews
                         join u in db.Users on d.Creator equals u.Id
                         where (string.IsNullOrWhiteSpace(userName) || u.UserName == userName)
-                     && d.CreatedOn >= firstDayOfYear && d.CreatedOn <= lastDayOfYear
+                     && d.CreatedOn >= firstDayOfYear
                         orderby d.ViewCount descending
                         select new TopNewsItem
                         {
@@ -205,7 +202,7 @@ namespace Devdiscourse.Controllers.Research
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
             DateTime sevenDays = DateTime.Today.AddDays(-7);
             IQueryable<TopNewsItem> devNews = (from a in db.DevNews
-                                               where a.Type == "News" && a.CreatedOn > sevenDays
+                                               where a.CreatedOn > sevenDays
                                                select new TopNewsItem
                                                {
                                                    Id = a.Id,
@@ -479,7 +476,6 @@ namespace Devdiscourse.Controllers.Research
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
             var todayStart = DateTime.Today;
-            var todayEnd = todayStart.AddDays(1).AddTicks(-1);
 
             string sql = @"
         SELECT 
@@ -502,7 +498,7 @@ namespace Devdiscourse.Controllers.Research
         FROM TrendingNews tn
         INNER JOIN DevNews d ON tn.NewsId = d.Id
         INNER JOIN AspNetUsers u ON d.Creator = u.Id
-        WHERE tn.ViewedOn >= @todayStart AND tn.ViewedOn <= @todayEnd
+        WHERE tn.ViewedOn >= @todayStart
         GROUP BY 
             d.Id,
             d.NewsId,
@@ -526,7 +522,6 @@ namespace Devdiscourse.Controllers.Research
             var parameters = new[]
             {
         new SqlParameter("@todayStart", todayStart),
-        new SqlParameter("@todayEnd", todayEnd),
         new SqlParameter("@offset", (page - 1) * 10),
         new SqlParameter("@pageSize", 10)
     };
@@ -542,7 +537,6 @@ namespace Devdiscourse.Controllers.Research
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
             DateTime today = DateTime.Today;
             DateTime weekStart = today.AddDays(-(int)today.DayOfWeek);
-            DateTime weekEnd = weekStart.AddDays(7).AddTicks(-1);
 
             string sql = @"
         SELECT 
@@ -565,7 +559,7 @@ namespace Devdiscourse.Controllers.Research
         FROM TrendingNews tn
         INNER JOIN DevNews d ON tn.NewsId = d.Id
         INNER JOIN AspNetUsers u ON d.Creator = u.Id
-        WHERE tn.ViewedOn >= @todayStart AND tn.ViewedOn <= @todayEnd
+        WHERE tn.ViewedOn >= @todayStart
         GROUP BY 
             d.Id,
             d.NewsId,
@@ -589,7 +583,6 @@ namespace Devdiscourse.Controllers.Research
             var parameters = new[]
             {
         new SqlParameter("@todayStart", weekStart),
-        new SqlParameter("@todayEnd", weekEnd),
         new SqlParameter("@offset", (page - 1) * 10),
         new SqlParameter("@pageSize", 10)
     };
@@ -600,12 +593,46 @@ namespace Devdiscourse.Controllers.Research
             return Ok(topNewsItems);
         }
 
+        [HttpGet]
+        public IActionResult ReportToday(string jaadu)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            var todayStart = DateTime.Today;
+
+            var query = db.TrendingNews
+                .Where(f => f.ViewedOn >= todayStart)
+                .GroupBy(o => o.Country)
+                .Select(g => new IdTitle
+                {
+                    Id = g.Count(),
+                    Title = g.Key == null ? "Others" : g.Key
+                }).OrderByDescending(o => o.Id).ToList();
+            return Ok(query);
+        }
+        [HttpGet]
+        public IActionResult ReportWeek(string jaadu)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            DateTime today = DateTime.Today;
+            DateTime weekStart = today.AddDays(-(int)today.DayOfWeek);
+
+            var query = db.TrendingNews
+                .Where(f => f.ViewedOn >= weekStart)
+                .GroupBy(o => o.Country)
+                .Select(g => new IdTitle
+                {
+                    Id = g.Count(),
+                    Title = g.Key == null ? "Others" : g.Key
+                }).OrderByDescending(o => o.Id).ToList();
+            return Ok(query);
+        }
+
     }
 
     public class IdTitle
     {
-        public required int Id { get; set; }
-        public required string Title { get; set; }
+        public int Id { get; set; }
+        public string? Title { get; set; }
     }
     public class Image
     {

@@ -29,5 +29,6 @@ namespace Devdiscourse.Models.BasicModels
         public string? Caption { get; set; }
         public int? UseCount { get; set; }
         public string? Tags { get; set; }
+        public bool? AI { get; set; }
     }
 }

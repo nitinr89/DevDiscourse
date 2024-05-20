@@ -605,7 +605,7 @@ namespace DevDiscourse.Controllers.API
 
         [Route("api/GenImg")]
         [HttpPost]
-        public async Task<string> GenImg(string title, string sector, string prompt)
+        public async Task<string> GenImg(string title, string sector, string prompt, string tags)
         {
             try
             {
@@ -675,7 +675,8 @@ namespace DevDiscourse.Controllers.API
                             FileMimeType = mimeType,
                             FileSize = fileSize,
                             Sector = sector,
-                            Tags = "",
+                            Tags = tags,
+                            AI = true,
                             UseCount = 1,
                         };
                         db.ImageGalleries.Add(fileobj);
@@ -2248,7 +2249,7 @@ namespace DevDiscourse.Controllers.API
             string connectionString = config.GetConnectionString("devdiscourse_AzureStorageConnectionString");
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            CloudBlobContainer container = blobClient.GetContainerReference("imagegallery");
+            CloudBlobContainer container = blobClient.GetContainerReference("aiimagegallery");
             if (await container.CreateIfNotExistsAsync())
             {
                 await container.SetPermissionsAsync(new BlobContainerPermissions

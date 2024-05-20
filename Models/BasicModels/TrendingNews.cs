@@ -9,6 +9,7 @@ namespace Devdiscourse.Models.BasicModels
         public Guid NewsId { get; set; }
         public DateTime ViewedOn { get; set; }
         public string? Ipv4 { get; set; }
+        public string? MacAddress { get; set; }
         public string? Country { get; set; }
     }
 }

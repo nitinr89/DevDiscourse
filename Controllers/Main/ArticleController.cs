@@ -127,7 +127,7 @@ namespace Devdiscourse.Controllers.Main
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
             if (!isCrawler)
             {
-                await UpdateViewCount(search, geolocation);
+                await UpdateViewCount(search, geolocation, MACAddress);
             }
             string? cookie = Request.Cookies["Edition"];
             if (reg != "")
@@ -183,7 +183,7 @@ namespace Devdiscourse.Controllers.Main
             }
             return location;
         }
-        public async Task<string> UpdateViewCount(DevNews devNews, GeoLocationViewModel location)
+        public async Task<string> UpdateViewCount(DevNews devNews, GeoLocationViewModel location, string? MACAddress)
         {
             string sql = "UPDATE DevNews SET ViewCount = ViewCount + 1 WHERE NewsId = @id";
             int affectedRows = await db.Database.ExecuteSqlRawAsync(sql, new SqlParameter("id", devNews.NewsId));
@@ -194,7 +194,8 @@ namespace Devdiscourse.Controllers.Main
                     NewsId = devNews.Id,
                     Ipv4 = location.IPv4,
                     Country = location.country_name,
-                    ViewedOn = DateTime.UtcNow
+                    ViewedOn = DateTime.UtcNow,
+                    MacAddress = MACAddress
                 });
                 db.SaveChanges();
                 return "Ok";

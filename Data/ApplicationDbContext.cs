@@ -35,6 +35,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<TopNewsItem> TopNewsItems { get; set; }
+    public DbSet<Controlls> Controlls { get; set; }
     public DbSet<DevNews> DevNews { get; set; }
     public DbSet<TrendingNews> TrendingNews { get; set; }
     public DbSet<SponsoredNews> SponsoredNews { get; set; }

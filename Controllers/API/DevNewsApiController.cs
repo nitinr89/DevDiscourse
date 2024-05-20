@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.OutputCaching;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
-using Newtonsoft.Json.Linq;
 
 namespace DevDiscourse.Controllers.API
 {
@@ -747,6 +746,7 @@ namespace DevDiscourse.Controllers.API
                         IsGlobal = false,
                         ImageUrl = obj.ImageUrl,
                         ImageCopyright = obj.ImageCopyright,
+                        ImageCaption = obj.ImageCaption,
                         FileMimeType = "image/jpg",
                         FileSize = "88,651",
                         IsSponsored = false,
@@ -880,6 +880,7 @@ namespace DevDiscourse.Controllers.API
                         IsGlobal = false,
                         ImageUrl = obj.ImageUrl,
                         ImageCopyright = obj.ImageCopyright,
+                        ImageCaption = obj.ImageCaption,
                         FileMimeType = "image/jpg",
                         FileSize = "88,651",
                         IsSponsored = false,
@@ -987,6 +988,7 @@ namespace DevDiscourse.Controllers.API
                         IsGlobal = false,
                         ImageUrl = obj.ImageUrl,
                         ImageCopyright = obj.ImageCopyright,
+                        ImageCaption = obj.ImageCaption,
                         FileMimeType = "image/jpg",
                         FileSize = "88,651",
                         IsSponsored = false,

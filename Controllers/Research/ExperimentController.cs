@@ -1,9 +1,10 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
-using DocumentFormat.OpenXml.InkML;
+using Devdiscourse.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -16,6 +17,7 @@ namespace Devdiscourse.Controllers.Research
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ImageResizer imageResizer = new();
         public ExperimentController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             this.db = db;
@@ -23,6 +25,15 @@ namespace Devdiscourse.Controllers.Research
         }
 
         [HttpGet]
+        [OutputCache(Duration = 86400, PolicyName = "MyOutputCachePolicy")]
+        public async Task<IActionResult> Img(string imageUrl, int width, int height)
+        {
+            var resizedImageStream = await imageResizer.ResizeImageFromUrlAsync(imageUrl, width, height);
+            return File(resizedImageStream, "image/jpeg");
+        }
+
+        [HttpGet]
+        [OutputCache(Duration = 86400, PolicyName = "MyOutputCachePolicy")]
         public IActionResult TopNews(string jaadu, int page = 1, string userName = "")
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
@@ -123,6 +134,7 @@ namespace Devdiscourse.Controllers.Research
             return Ok(result);
         }
         [HttpGet]
+        [OutputCache(Duration = 86400, PolicyName = "MyOutputCachePolicy")]
         public IActionResult TopNewsYear(string jaadu, int page = 1, string userName = "")
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();

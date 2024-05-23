@@ -26,10 +26,12 @@ namespace Devdiscourse.Controllers.Research
 
         [HttpGet]
         [OutputCache(Duration = 86400, PolicyName = "MyOutputCachePolicy")]
-        public async Task<IActionResult> Img(string imageUrl, int width, int height)
+        public async Task<IActionResult> Img(string imageUrl, int width = 0, int height = 0, string mode = "resize", string format = "jpeg")
         {
-            var resizedImageStream = await imageResizer.ResizeImageFromUrlAsync(imageUrl, width, height);
-            return File(resizedImageStream, "image/jpeg");
+            if (string.IsNullOrWhiteSpace(imageUrl)) return BadRequest();
+            if (imageUrl.StartsWith("/")) imageUrl = "https://www.devdiscourse.com" + imageUrl;
+            var resizedImageStream = await imageResizer.ResizeImageFromUrlAsync(imageUrl, width, height, mode, format);
+            return File(resizedImageStream, $"image/{format}");
         }
 
         [HttpGet]

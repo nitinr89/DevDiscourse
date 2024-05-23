@@ -14,10 +14,10 @@
     ViewBag.pageType = "article";
     ViewBag.pageAuthor = Model.Source;
     string imageUrl = @Model.ImageUrl ?? "";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=920" : string.Concat(domainUrl, imageUrl) + "?width=920";
+    var newsImage =  imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={imageUrl}&width=920" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, imageUrl) + "&width=920";
     ViewBag.PageImage = newsImage;
     string NewsLabel = Model.NewsLabels ?? "agency-wire";
-    string newsTitle = Model.Title.Trim() + " | " + @textInfo.ToTitleCase(NewsLabel);
+    string newsTitle = Model.Title?.Trim() + " | " + @textInfo.ToTitleCase(NewsLabel);
     ViewBag.Title = @newsTitle;
     ViewBag.alternateHeadline = @newsTitle;
     string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();

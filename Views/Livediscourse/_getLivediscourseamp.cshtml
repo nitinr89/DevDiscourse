@@ -12,7 +12,7 @@
     var converter = new HtmlToAmpConverter();
     converter.WithSanitizers(
         new HashSet<ISanitizer>
-                        {
+                                {
             new InstagramSanitizer(),
             new TwitterSanitizer(),
             new AudioSanitizer(),
@@ -25,7 +25,7 @@
             new XmlAttributeSanitizer(),
             new YouTubeVideoSanitizer(),
             new AmpIFrameSanitizer()
-                        });
+                                });
 }
 @foreach (var item in Model)
 {
@@ -44,8 +44,8 @@
             <h4>@item.Title</h4>
             @if (!String.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg")
             {
-                var newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                <amp-img src="@domainUrl@newsImageUrl?width=640"
+                var newsImageUrl = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                <amp-img src="@domainUrl@newsImageUrl&width=640"
                          layout="responsive"
                          width="640"
                          height="400">

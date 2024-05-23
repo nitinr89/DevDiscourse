@@ -12,7 +12,7 @@
     string domainUrl = "https://www.devdiscourse.com";
     string imageUrl = @Model.ImageUrl;
     ViewBag.PageDescription = text.Length > 140 ? text.Substring(0, 140) : text;
-   // ViewBag.PostUrl = string.Concat(domainUrl, @Request.Url.PathAndQuery);
+    // ViewBag.PostUrl = string.Concat(domainUrl, @Request.Url.PathAndQuery);
     ViewBag.PostUrl = string.Concat(domainUrl, Context.Request.Path + Context.Request.QueryString);
     ViewBag.webEdition = ViewBag.region;
     string NewsLabel = Model.NewsLabels ?? "agency-wire";
@@ -21,7 +21,7 @@
     ViewBag.pageUrl = pageUrl;
     string metadatadescription = text.Length > 140 ? text.Substring(0, 140) : text;
     var _newsId = Model.NewsId;
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    var newsImage = imageUrl?.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
     ViewBag.PageImage = newsImage;
 }
 @{
@@ -31,7 +31,7 @@
     var converter = new HtmlToAmpConverter();
     converter.WithSanitizers(
         new HashSet<ISanitizer>
-        {
+                        {
 new InstagramSanitizer(),
 new TwitterSanitizer(),
 new AudioSanitizer(),
@@ -44,27 +44,28 @@ new TargetAttributeSanitizer(),
 new XmlAttributeSanitizer(),
 new YouTubeVideoSanitizer(),
 new AmpIFrameSanitizer()
-        });
+                        });
     string ampHtml = converter.ConvertFromHtml(datadescription).AmpHtml;
 }
-@functions{ 
+@functions {
     async Task GetDescriptionText(string htmltext)
-{
-const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
-const string stripFormatting = @"<[^>]*(>|$)";
-const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
-var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
-var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
-var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
-var text = htmltext.Replace("&nbsp;", " ");
-text = System.Net.WebUtility.HtmlDecode(text);
-text = tagWhiteSpaceRegex.Replace(text, "><");
-text = lineBreakRegex.Replace(text, Environment.NewLine);
-text = stripFormattingRegex.Replace(text, string.Empty);
-    @text;
+    {
+        const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
+        const string stripFormatting = @"<[^>]*(>|$)";
+        const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
+        var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
+        var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
+        var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
+        var text = htmltext.Replace("&nbsp;", " ");
+        text = System.Net.WebUtility.HtmlDecode(text);
+        text = tagWhiteSpaceRegex.Replace(text, "><");
+        text = lineBreakRegex.Replace(text, Environment.NewLine);
+        text = stripFormattingRegex.Replace(text, string.Empty);
+        @text
+        ;
+    }
 }
-}
-@section headerScripts{
+@section headerScripts {
     <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>
     @*<script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>*@
     <script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>
@@ -73,31 +74,36 @@ text = stripFormattingRegex.Replace(text, string.Empty);
     <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
     <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
 }
-@section customCss{.bg-white,body{background-color:#fff}}
-@functions{ 
-   async Task Truncate(string input, int length)
-{
-if (string.IsNullOrEmpty(input))
-{
-        <text> </text>
+@section customCss {
+.bg-white,body{background-color:#fff}
 }
-else if (input.Length <= length)
-{
-        @input
-}
-else
-{
-        @input.Substring(0, length)<text>..</text>
-}
-}
+@functions {
+    async Task Truncate(string input, int length)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            <text> </text>
+        }
+        else if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)
+
+            <text>..</text>
+        }
+    }
 }
 @*<a href="@Url.Action("Edit", "DevNews", new{id=Model.Id})" target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a>*@
-@if (Model.UserNewsFiles.Count == 0)
+@if (Model.UserNewsFiles?.Count == 0)
 {
-    var newsImageUrl = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.ImageUrl : Model.ImageUrl;
+    var newsImageUrl = $"/Experiment/Img?imageUrl={Model.ImageUrl}";
     <div class="parallax-image-window bg-white">
-        <amp-img amp-fx="parallax" data-parallax-factor="1.15" src="@newsImageUrl?width=600&height=400&mode=crop&bgcolor=fff" alt="@Model.Title" layout="responsive" width="600" height="400"></amp-img>
-    </div>}
+        <amp-img amp-fx="parallax" data-parallax-factor="1.15" src="@newsImageUrl&width=600&height=400&mode=crop&bgcolor=fff" alt="@Model.Title" layout="responsive" width="600" height="400"></amp-img>
+    </div>
+}
 else
 {
     foreach (var item in Model.UserNewsFiles.Take(1))
@@ -110,85 +116,91 @@ else
             <div fallback>
                 <p>This browser does not support the video element.</p>
             </div>
-        </amp-video>}
+        </amp-video>
+    }
 }
 <div class="content-padding">
     <h1 class="title fcolor">@Model.Title</h1>
-    <p class="fg-gray">@Model.SubTitle</p>@{string country = ""; if (!string.IsNullOrEmpty(@Model.Country)) { country = Model.Country.Replace(",", ", "); }}
+    <p class="fg-gray">@Model.SubTitle</p>@{
+        string country = ""; if (!string.IsNullOrEmpty(@Model.Country)) { country = Model.Country.Replace(",", ", "); }
+    }
     <div>
         <small class="fg-orange">@Model.Source </small> @if (Model.Type == "Blog" && !string.IsNullOrEmpty(Model.Author))
         {
             <span class="meta-divider">|</span>
-            <span><a>@Model.Author</a></span>}| @if (!string.IsNullOrEmpty(@Model.Country))
-            {
-                <small>@country </small>
-                <span>|</span>}
-            <small> @Model.CreatedOn.ToClientTime().ToString("dd MMM yyyy, hh:mm tt")</small>
-        </div>
-        <div class="main-cont"> @Html.Raw(@ampHtml) </div>
-        <div class="ad">
-            @{
-                // Html.RenderAction("GetPreviousAppNews", "Home", new { Id = Model.NewsId, label = Model.NewsLabels ?? "agency-wire", reg = ViewBag.region });
-            }</div>
+            <span><a>@Model.Author</a></span>
+        }| @if (!string.IsNullOrEmpty(@Model.Country))
+        {
+            <small>@country </small>
+            <span>|</span>
+        }
+        <small> @Model.CreatedOn.ToClientTime().ToString("dd MMM yyyy, hh:mm tt")</small>
+    </div>
+    <div class="main-cont"> @Html.Raw(@ampHtml) </div>
+    <div class="ad">
+        @{
+            // Html.RenderAction("GetPreviousAppNews", "Home", new { Id = Model.NewsId, label = Model.NewsLabels ?? "agency-wire", reg = ViewBag.region });
+        }
+    </div>
 
-        <div class="also-container">
-            <h3 class="ar-title font-medium fg-orange">READ MORE</h3>
-            <amp-list src="@domainUrl/api/Search/AppRelatedNews/@Model.NewsId/@ViewBag.region/@Model.Sector" width="auto" height="280" class="blogList">
-                <template type="amp-mustache">
-                    <div class="also-title">
-                        <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration f-14">{{Title}}</a>
-                    </div>
-                </template>
-            </amp-list>
-        </div>
-        <h3 class="page-title">
-            <span class="fg-orange">LATEST NEWS</span>
-        </h3>
-        <amp-list src="@domainUrl/api/Search/AppLatestNews" width="auto" height="430" class="blogList">
+    <div class="also-container">
+        <h3 class="ar-title font-medium fg-orange">READ MORE</h3>
+        <amp-list src="@domainUrl/api/Search/AppRelatedNews/@Model.NewsId/@ViewBag.region/@Model.Sector" width="auto" height="280" class="blogList">
             <template type="amp-mustache">
-                <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
-                    <div class="news-card">
-                        <h4 class="title">{{Title}}</h4>{{#Country}}
-                        <p class="country">{{Country}}</p>{{/Country}}{{^Country}}
-                        <p class="country">GLOBAL</p>{{/Country}}
-                    </div>
-                </a>
-            </template>
-        </amp-list>
-        <h3 class="page-title">
-            <span class="fg-orange">TRENDING</span>
-        </h3>
-        <amp-list src="/api/Search/GetampTrends/@ViewBag.region/" width="auto" height="430" class="blogList">
-            <template type="amp-mustache">
-                <a href="@domainUrl{{Url}}" title="{{Title}}" class="no-text-decoration">
-                    <div class="single-news-post">
-                        <div class="post-content">
-                            <h4 class="title">{{Title}}</h4>
-                            <span class="circle">{{SrNo}}</span>{{#Country}}
-                            <span class="country">{{Country}}</span>{{/Country}}{{^Country}}
-                            <span class="country">GLOBAL</span>{{/Country}}
-                        </div>
-                    </div>
-                </a>
+                <div class="also-title">
+                    <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration f-14">{{Title}}</a>
+                </div>
             </template>
         </amp-list>
     </div>
-    <amp-analytics type="googleanalytics">
-        <script type="application/json">
-            {
-            "vars": {
-            "account": "UA-123167123-1"
-            },
-            "triggers": {
-            "default pageview": {
-            "on": "visible",
-            "request": "pageview",
-            "vars": {
-            "ampdocUrl": "@domainUrl@pageUrl",
-            "title": "@ViewBag.Title"
-            }
-            }
-            }
-            }
-        </script>
-    </amp-analytics>
+    <h3 class="page-title">
+        <span class="fg-orange">LATEST NEWS</span>
+    </h3>
+    <amp-list src="@domainUrl/api/Search/AppLatestNews" width="auto" height="430" class="blogList">
+        <template type="amp-mustache">
+            <a href="@domainUrl{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+                <div class="news-card">
+                    <h4 class="title">{{Title}}</h4>{{#Country}}
+                    <p class="country">{{Country}}</p>{{/Country}}{{^Country}}
+                    <p class="country">GLOBAL</p>{{/Country}}
+                </div>
+            </a>
+        </template>
+    </amp-list>
+    <h3 class="page-title">
+        <span class="fg-orange">TRENDING</span>
+    </h3>
+    <amp-list src="/api/Search/GetampTrends/@ViewBag.region/" width="auto" height="430" class="blogList">
+        <template type="amp-mustache">
+            <a href="@domainUrl{{Url}}" title="{{Title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    <div class="post-content">
+                        <h4 class="title">{{Title}}</h4>
+                        <span class="circle">{{SrNo}}</span>{{#Country}}
+                        <span class="country">{{Country}}</span>{{/Country}}{{^Country}}
+                        <span class="country">GLOBAL</span>{{/Country}}
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+</div>
+<amp-analytics type="googleanalytics">
+    <script type="application/json">
+        {
+        "vars": {
+        "account": "UA-123167123-1"
+        },
+        "triggers": {
+        "default pageview": {
+        "on": "visible",
+        "request": "pageview",
+        "vars": {
+        "ampdocUrl": "@domainUrl@pageUrl",
+        "title": "@ViewBag.Title"
+        }
+        }
+        }
+        }
+    </script>
+</amp-analytics>

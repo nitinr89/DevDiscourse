@@ -112,7 +112,7 @@
     <div class="bolg-content" id="bolgcontent">
         @foreach (var item in Model)
         {
-            var newsImageUrl = ""; if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + item.ImageUrl : string.Concat(domainUrl, item.ImageUrl); } else { newsImageUrl = newsImage; }
+            var newsImageUrl = ""; if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImageUrl = $"/Experiment/Img?imageUrl={item.ImageUrl}"; } else { newsImageUrl = newsImage; }
             DateTime subBlogCreatedDate = TimeZoneInfo.ConvertTimeFromUtc(item.CreatedOn, INDIAN_ZONE); DateTime subBlogModifiedDate = TimeZoneInfo.ConvertTimeFromUtc(item.ModifiedOn, INDIAN_ZONE); DateTime subBlogPublishedDate = TimeZoneInfo.ConvertTimeFromUtc(item.PublishedOn, INDIAN_ZONE);
             <div itemtype="http://schema.org/BlogPosting" itemprop="liveBlogUpdate" itemscope="itemscope" data-type="text">
                 <h2 itemprop="headline" content="@item.Title"></h2>
@@ -138,7 +138,7 @@
                 <time itemprop="datePublished" datetime="@subBlogPublishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")"></time>
                 <span itemscope="itemscope" itemprop="author" itemtype="https://schema.org/Person"> <meta content="https://www.devdiscourse.com/" itemprop="sameAs"> <meta content="Devdiscourse" itemprop="name"> </span>
                 <meta itemprop="dateModified" content="@subBlogModifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")">
-                <span itemprop="image" itemscope="itemscope" itemtype="https://schema.org/ImageObject"> <meta itemprop="url" content="@newsImageUrl?width=1280"> <meta itemprop="width" content="1280"> <meta itemprop="height" content="720"> </span>
+                <span itemprop="image" itemscope="itemscope" itemtype="https://schema.org/ImageObject"> <meta itemprop="url" content="@newsImageUrl&width=1280"> <meta itemprop="width" content="1280"> <meta itemprop="height" content="720"> </span>
                 <span itemprop="publisher" itemscope="itemscope" itemtype="https://schema.org/Organization"> <span itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject"> <meta itemprop="url" content="https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"> </span> <meta itemprop="name" content="Devdiscourse"> </span>
                 <meta itemprop="mainEntityOfPage" content="@domainUrl@pageUrl">
                 <time itemprop="url" content="@domainUrl@pageUrl#post_@item.Id"></time>
@@ -173,9 +173,9 @@
                 }
                 @if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg")
                 {
-                    var newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                    <meta itemprop="image" content="@domainUrl@newsImageUrl?width=640" />
-                    <img data-src="@domainUrl@newsImageUrl?width=640&height=420" src="/Content/transparent.png" class="lazy" alt="@item.Title" />
+                    var newsImageUrl = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                    <meta itemprop="image" content="@domainUrl@newsImageUrl&width=640" />
+                    <img data-src="@domainUrl@newsImageUrl&width=640&height=420" src="/Content/transparent.png" class="lazy" alt="@item.Title" />
                 }
                 else
                 {
@@ -207,19 +207,19 @@
             <div class="comment-header clearfix">
                 <ul class="list-inline pull-left no-margin">
                     <li data-topic="@item.Id" data-it="1" id="like_1_@item.Id" data-rt="1" class="react-btn @likeClass">
-                        <span class="fa fa-thumbs-o-up"></span> 
+                        <span class="fa fa-thumbs-o-up"></span>
                         @{
                             await Pluralise(item.LikeCount, "Like");
                         }
                     </li>
                     <li data-topic="@item.Id" data-it="1" id="dislike_1_@item.Id" data-rt="2" class="react-btn @dislikeClass">
-                        <span class="fa fa-thumbs-o-down"></span> 
+                        <span class="fa fa-thumbs-o-down"></span>
                         @{
                             await Pluralise(item.DislikeCount, "Dislike");
                         }
                     </li>
                     <li>
-                        <span class="fa fa-comment-o"></span> 
+                        <span class="fa fa-comment-o"></span>
                         @{
                             await Pluralise(item.CommentCount, "Comment");
                         }
@@ -266,12 +266,18 @@
                             <div class="name">Nitin Rawat</div>
 
                             <div class="content">@comment.CommentText</div>
-                            <span data-topic="@comment.CommentId" data-it="3" id="like_3_@comment.CommentId" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> @{ await Pluralise(comment.LikeCount, "Like");}</span>
-                            <span data-topic="@comment.CommentId" data-it="3" id="endorse_3_@comment.CommentId" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> @{ await Pluralise(comment.EndorseCount, "Endorse");}</span>
-                            <span data-topic="@comment.CommentId" data-it="3" id="reject_3_@comment.CommentId" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> @{ await Pluralise(comment.RejectCount, "Reject");}</span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="like_3_@comment.CommentId" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> @{
+                                    await Pluralise(comment.LikeCount, "Like");
+                                }</span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="endorse_3_@comment.CommentId" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> @{
+                                    await Pluralise(comment.EndorseCount, "Endorse");
+                                }</span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="reject_3_@comment.CommentId" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> @{
+                                    await Pluralise(comment.RejectCount, "Reject");
+                                }</span>
                             <span class="btn-reply btn btn-sm" data-parent="@comment.CommentId" data-root="@comment.CommentId">Reply</span>
 
-                            @if (loginUserId== creator) 
+                            @if (loginUserId == creator)
                             {
                                 <span class="btn btn-sm btn-delete" id="delete_@comment.CommentId">Delete</span>
                             }

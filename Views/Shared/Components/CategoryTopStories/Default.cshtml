@@ -8,11 +8,10 @@
         <div class="col-md-6">
             @foreach (var item in Model.Take(1))
             {
-                var newsImage = item.ImageUrl;
-                ///var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                 <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
                     <div class="m-b-30">
-                        <div class="bg-gray cover-img" style="background-image:url(@domainUrl@newsImage?width=640&height=344&mode=crop&anchor=top&format=jpeg)">
+                        <div class="bg-gray cover-img" style="background-image:url(@domainUrl@newsImage&width=640&height=344&mode=crop&anchor=top&format=jpeg)">
                             <div class="cover-img-overlay">
                                 <div class="text-cont">
                                     <h3 class="fg-white no-margin">@item.Title</h3>
@@ -39,13 +38,12 @@
         <div class="col-md-6 p-l-0">
             @foreach (var item in Model.Skip(1).Take(3))
             {
-                var newsImage = item.ImageUrl;
-               // var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                 <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
                     <div class="m-b-20 col-md-12">
                         <div class="row">
                             <div class="col-md-4 col-sm-3">
-                                <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&anchor=top&format=jpeg"></div>
+                                <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage&width=295&height=160&mode=crop&anchor=top&format=jpeg"></div>
                             </div>
                             <div class="col-md-8 col-sm-9 p-l-0">
                                 @if (!String.IsNullOrEmpty(item.Country))

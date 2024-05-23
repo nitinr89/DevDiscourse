@@ -22,14 +22,16 @@
         border-radius: 3px;
         height: auto;
     }
+
     .image-card-title {
         height: 40px;
-        width:480px;
+        width: 480px;
         color: #888;
         font-stretch: condensed;
         font-size: 14px;
         padding-top: 5px;
     }
+
     .gallery {
         -webkit-column-count: 3;
         -moz-column-count: 3;
@@ -85,12 +87,12 @@
     <div class="gallery m-t-20" id="gallery">
         @foreach (var item in Model)
         {
-            var newsImage = item.FileUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.FileUrl : item.FileUrl;
+            var newsImage = $"/Experiment/Img?imageUrl={item.FileUrl}";
             <div class="pics animation all 2">
                 <div style="display:inline-block">
-                    <img class="img-fluid img-responsive" src="@newsImage?width=480" onload="imageLoaded(this)" data-id="@item.Id" alt="Image Gallery">
+                    <img class="img-fluid img-responsive" src="@newsImage&width=480" onload="imageLoaded(this)" data-id="@item.Id" alt="Image Gallery">
                     <div class="image-card-title">
-                        <a href="@newsImage?width=480" download="@item.Title">Download</a> |
+                        <a href="@newsImage&width=480" download="@item.Title">Download</a> |
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                         @if (User.IsInRole("SuperAdmin"))
                         {
@@ -107,7 +109,7 @@
         @Html.PagedListPager(Model, page => Url.Action("Index", "UserFiles", new { page, text = ViewBag.text }))
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script>
         var _inputSearchText = '@(ViewBag.text)';
 

@@ -1,12 +1,8 @@
-﻿@* @inject IUrlHelper Url *@
-@* @using SixLabors.ImageSharp.Web
-@using SixLabors.ImageSharp.Web.DependencyInjection *@
-@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
 @{
     var domainUrl = "https://www.devdiscourse.com";
     var index = 1;
 }
-
 
 <div class="row">
     <div class="col-md-6 col-lg-6 p-b-10">
@@ -14,24 +10,14 @@
         {
             string controller = "/article";
             string action = item.Label ?? "agency-wire";
-              string id = item.GenerateSecondSlug(); 
-            //long id = item.NewId;
+            string id = item.GenerateSecondSlug();
 
-            // string prefix = item.Label ?? "agency-wire";
-
-               <a href="@controller/@action/@id" class="infocus-item">
-
-      @*       <a asp-controller="@controller" asp-route-id="@id" asp-route-prefix="@action" class="infocus-item"> *@
+            <a href="@controller/@action/@id" class="infocus-item">
 
                 @{
-                    //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
-                    var newsImage = item.ImageUrl;
-                    // var newsImage = item.ImageUrl.Contains("devdiscourse.blob.core.windows.net")
-                    // ? Url.ImageSharp(item.ImageUrl, 100, 200, "crop")
-                    // : item.ImageUrl;
-                    //var newsImage = item.ImageUrl;
+                    var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                 }
-                <div class="bg-highlight infocus-bg" style="background-image:url(@newsImage);">
+                <div class="bg-highlight infocus-bg" style="background-image:url(@newsImage&width=360&height=240&format=jpg&mode=crop);">
                     <div class="infocus-bg-overlay">
                         @if (!String.IsNullOrEmpty(item.Country))
                         {
@@ -58,23 +44,15 @@
 
             string controller = "/article";
             string action = item.Label ?? "agency-wire";
-                 string id = item.GenerateSecondSlug();
-            @* long id = item.NewId; *@
+            string id = item.GenerateSecondSlug();
 
-                <a href="@controller/@action/@id" class="text-decoration p-b-10">
-       @*      <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10"> *@
-
-
+            <a href="@controller/@action/@id" class="text-decoration p-b-10">
 
                 <div class="media p-b-20">
                     @{
-                        var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
-
-                        //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
+                        var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                     }<div class="media-left">
-                        <img src="@newsImage" class="imgOne" alt="@item.Title" />
-                        @*  <img src="@newsImage"imagesharp-height="100" imagesharp-width="200" alt="@item.Title" /> *@
-
+                        <img src="@newsImage&width=120&height=87&mode=crop" class="imgOne" alt="@item.Title" />
                     </div>
                     <div class="media-body">
                         @if (item.Type == "Event")
@@ -109,29 +87,17 @@
     {
         string controller = "/article";
         string action = item.Label ?? "agency-wire";
-        string id =item.GenerateSecondSlug();
-     @*    long id = item.NewId; *@
-
-
-        //string prefix = item.Label ?? "agency-wire";
+        string id = item.GenerateSecondSlug();
 
         <div class="col-md-6">
 
-               <a href="@controller/@action/@id" class="text-decoration p-b-10">
-
-       @*      <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration p-b-10"> *@
-
-
+            <a href="@controller/@action/@id" class="text-decoration p-b-10">
 
                 <div class="media p-b-20">
                     @{
-                       // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "" + item.ImageUrl : item.ImageUrl;
-                        var newsImage = item.ImageUrl;
-                        //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/01_07_2019_19_48_56_6242024.jpg";
+                        var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                     }<div class="media-left">
-                        <img src="@newsImage?w=10&h=20&mode=crop" class="imgOne" alt="@item.Title" />
-
-                        @*  <img src="@Url.ImageSharp(@newsImage, 100, 200, "crop")" alt="@item.Title" /> *@
+                        <img src="@newsImage&width=120&height=87&mode=crop" class="imgOne" alt="@item.Title" />
                     </div>
                     <div class="media-body">
                         @if (item.Type == "Event")

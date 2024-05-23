@@ -165,8 +165,7 @@
                         <div class="row">
                             <div class="col-md-4 p-b-10">
                                 @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label" })
-                                @* <img src="~/Content/transparent.png" data-src="/remote.axd?@Model.ImageUrl?width=240&height=180&mode=crop" style="max-width:240px;" class="img-responsive lazy" /> *@
-                                <img src="@Model.ImageUrl?width=240&height=180&mode=crop" style="max-width:240px;" class="img-responsive lazy" />
+                                <img src="/Experiment/Img?imageUrl=@Model.ImageUrl&width=240&height=180&mode=crop" style="max-width:240px;" class="img-responsive lazy" />
                             </div>
                         </div>
                         <div class="row">
@@ -199,16 +198,16 @@
                             @if (!String.IsNullOrEmpty(Model.VideoUrl))
                             {
                                 <div class="col-md-4 p-b-10">
-                                  @*   <video src="/remote.axd?@Model.VideoUrl" controls>
-                                        Your browser does not support the video tag.
-                                    </video>  *@
+                                    @*   <video src="/remote.axd?@Model.VideoUrl" controls>
+                            Your browser does not support the video tag.
+                            </video>  *@
                                     <video src="@Model.VideoUrl" controls>
                                         Your browser does not support the video tag.
                                     </video>
                                 </div>
                             }
                         </div>
-                        <div class="row">                            
+                        <div class="row">
                             <div class="col-md-12">
                                 @Html.HiddenFor(model => model.VideoUrl, new { htmlAttributes = new { @class = "form-control" } })
                                 <input type="file" class="form-control" id="VideoUrlUpdate" name="ImageUrlUpdate" />
@@ -227,7 +226,7 @@
                     @Html.HiddenFor(model => model.Creator)
                     @Html.HiddenFor(model => model.IsVideo)
                     @Html.HiddenFor(model => model.CreatedOn)
-                    @Html.HiddenFor(model=>model.CreatedOn)
+                    @Html.HiddenFor(model => model.CreatedOn)
                     <div class="form-group">
                         <input type="submit" value="Submit" class="btn btn-blue" />
                     </div>
@@ -356,7 +355,7 @@
             $('#Title').keydown(function () {
                 $("#title_character").html('Character  Count: ' + $(this).val().length);
             });
-            
+
             tinymce.init({
                 selector: '#Description',
                 height: 300,

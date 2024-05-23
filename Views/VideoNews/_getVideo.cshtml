@@ -2,7 +2,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @using System.Text.Encodings.Web
 @{
-    var newsImage = (Model.VideoThumbUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.VideoThumbUrl : Model.VideoThumbUrl;
+    var newsImage = $"/Experiment/Img?imageUrl={Model.VideoThumbUrl}";
     string domainUrl = "https://www.devdiscourse.com";
     string pageUrl = "/videos/" + Model.GenerateSecondSlug();
 }
@@ -13,7 +13,7 @@
            preload="auto"
            width="640"
            height="360"
-           poster="@domainUrl@newsImage?width=1280&height=720&mode=crop"
+           poster="@domainUrl@newsImage&width=1280&height=720&mode=crop"
            data-setup='{"fluid": true}'>
         <source id="videosource" src="/api/MediaStream/GetVideoStream/@Model.Id" type="video/mp4" />
         <p class="vjs-no-js">

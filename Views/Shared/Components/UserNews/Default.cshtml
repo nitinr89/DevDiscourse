@@ -17,10 +17,10 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title">
                         @{
-                            var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                            var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
 
                         }
-                        <div class="news-card bg-gray" style="background-image:url(@domainUrl@newsImage?width=350&height=240&mode=crop),url(/AdminFiles/Logo/ic_notFound.png)"></div>
+                        <div class="news-card bg-gray" style="background-image:url(@domainUrl@newsImage&width=350&height=240&mode=crop),url(/AdminFiles/Logo/ic_notFound.png)"></div>
                     </a>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -50,5 +50,5 @@
 }
 <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
     <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
-    @Html.PagedListPager(Model, page => Url.Action("Index", "Author", new { name = ViewBag.name,page = page}))
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Author", new { name = ViewBag.name, page = page }))
 </div>

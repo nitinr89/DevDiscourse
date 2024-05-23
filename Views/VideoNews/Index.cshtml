@@ -1,4 +1,3 @@
-
 @using Devdiscourse.Models;
 @using X.PagedList
 @model IPagedList<Devdiscourse.Models.VideoNewsModels.VideoNews>
@@ -14,23 +13,25 @@
 }
 
 
-@functions 
+@functions
 {
-async Task Truncate(string input, int length)
-{
-if (string.IsNullOrEmpty(input))
-{
-        <text> </text>
-}
-else if (input.Length <= length)
-{
-        @input
-}
-else
-{
-        @input.Substring(0, length)<text>..</text>
-}
-}
+    async Task Truncate(string input, int length)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            <text> </text>
+        }
+        else if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)
+
+            <text>..</text>
+        }
+    }
 }
 
 <link href="~/Content/PagedList.css" rel="stylesheet" />
@@ -225,10 +226,8 @@ else
                     <td>
                         @if (!String.IsNullOrEmpty(item.VideoThumbUrl))
                         {
-                            @* var newsImage = item.VideoThumbUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.VideoThumbUrl : item.VideoThumbUrl; *@
-                            var newsImage = item.VideoThumbUrl;
-
-                            <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                            var newsImage = $"/Experiment/Img?imageUrl={item.VideoThumbUrl}";
+                            <img alt="news thumbnail" src="@newsImage&width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
                         }
                     </td>
                     <td>
@@ -252,10 +251,10 @@ else
                             <a href="@Url.Action("Delete", "VideoNews", new { id = item.Id })" class="btn btn-xs btn-danger" target="_blank" title="Delete"><span class="fa fa-trash"></span></a>
                         }
                         @{
-                            string pageUrl = Url.RouteUrl("NewsVideo", new {id = item.GenerateSecondSlug()});
+                            string pageUrl = Url.RouteUrl("NewsVideo", new { id = item.GenerateSecondSlug() });
                         }
                         <a onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" class="btn btn-xs btn-info" target="_blank" title="Share on facebook"><span class="fa fa-facebook"></span></a>
-                        <button class="btn btn-xs btn-success twitterShare" target="_blank" title="Share on twitter" data-title="@item.Title" data-url="@domainUrl@Url.RouteUrl("NewsVideo", new{id=item.GenerateSecondSlug()})"><span class="fa fa-twitter"></span></button>
+                        <button class="btn btn-xs btn-success twitterShare" target="_blank" title="Share on twitter" data-title="@item.Title" data-url="@domainUrl@Url.RouteUrl("NewsVideo", new { id = item.GenerateSecondSlug() })"><span class="fa fa-twitter"></span></button>
                     </td>
                 </tr>
             }
@@ -284,7 +283,7 @@ else
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script type="text/javascript">
         $(document).ready(function () {
             var _selLabel = '@(ViewBag.label)';
@@ -306,7 +305,7 @@ else
                 //getTwitterTrends();
             });
 
-            $("#ShareOnTwitter").click(function () {                
+            $("#ShareOnTwitter").click(function () {
                 var message = $("#twitterConetent").val();
                 $.ajax({
                     url: '/Social/PostMessageToTwitter',
@@ -379,7 +378,7 @@ else
                     $('#searchForm').submit();
                 }
             });
-    });
+        });
 
     </script>
 }

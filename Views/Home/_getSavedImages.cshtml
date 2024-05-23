@@ -38,10 +38,9 @@
 <div class="row no-margin p-t-10">
     @foreach (var item in Model)
     {
-        @* var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; *@
-        var newsImage = item.ImageUrl;
+        var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
         <div class="col-md-3 col-xs-12 col-sm-12 col-lg-3 no-padding m-b-20 galleryImage selectedImage" id="@item.ImageUrl" tabindex="@item.Title" value="@item.ImageCopyright" caption="@item.Caption">
-            <div class="gallery-card bg-gray lazy" data-src="@newsImage?width=190&height=140&mode=crop" style="background-image:url(/AdminFiles/Logo/ic_notFound.png)"></div>
+            <div class="gallery-card bg-gray lazy" data-src="@newsImage&width=190&height=140&mode=crop" style="background-image:url(/AdminFiles/Logo/ic_notFound.png)"></div>
             <div class="header-title one-line-text" title="@item.Title">@item.Title</div>
         </div>
     }

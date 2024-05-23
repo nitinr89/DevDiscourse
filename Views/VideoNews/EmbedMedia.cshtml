@@ -4,7 +4,7 @@
     string dev_discourse = "@dev_discourse";
     string videojs = "videojs";
     string domainUrl = "https://www.devdiscourse.com";
-    var posterImage = (Model.VideoThumbUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.VideoThumbUrl : Model.VideoThumbUrl;
+    var posterImage = $"/Experiment/Img?imageUrl={Model.VideoThumbUrl}";
 }
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -33,7 +33,7 @@
     <meta name="news_keywords" content="" />
     <meta itemprop="name" content="@Model.Title" />
     <meta itemprop="description" content="@Model.Title" />
-    <meta itemprop="image" content="@domainUrl@posterImage?width=1280&height=720&mode=crop&format=jpeg" />
+    <meta itemprop="image" content="@domainUrl@posterImage&width=1280&height=720&mode=crop&format=jpeg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@dev_discourse" />
     <meta name="twitter:creator" content="@dev_discourse" />
@@ -43,7 +43,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:title" content="@Model.Title" />
     <meta property="og:description" content="@Model.Title" />
-    <meta property="og:image" content="@domainUrl@posterImage?width=1280&height=720&mode=crop&format=jpeg" />
+    <meta property="og:image" content="@domainUrl@posterImage&width=1280&height=720&mode=crop&format=jpeg" />
     <meta property="og:site_name" content="Devdiscourse" />
     <meta content="1280" property="og:image:width">
     <meta content="720" property="og:image:height">

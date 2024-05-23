@@ -12,7 +12,7 @@
     ViewBag.PageImage = newsImage;
     var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
 }
-@section lastModified{
+@section lastModified {
     <meta http-equiv="last-modified" content="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz")" />
 }
 <style>
@@ -286,25 +286,28 @@
                 <span>IN FOCUS</span>
             </h1> @{
                 // Html.RenderAction("GetInfocus", "Home", new { reg = ViewBag.edition });
-                    @await Component.InvokeAsync("Infocus",new {reg=ViewBag.edition});
+                @await Component.InvokeAsync("Infocus", new { reg = ViewBag.edition })
+                ;
             }
         </div>
         <div class="col-sm-12 col-md-4">
             <h3 class="section-title">
                 <span>LIVE DISCOURSE</span>
             </h3>
-            <div class="clearfix m-b-20" id="live-left">@{
+            <div class="clearfix m-b-20" id="live-left">
+                @{
                     // Html.RenderAction("GetInfocusLiveDiscourse", "Livediscourse", new { reg = ViewBag.edition });
-                    @await Component.InvokeAsync("InfocusLiveDiscourse",new {reg=ViewBag.edition})
+                    @await Component.InvokeAsync("InfocusLiveDiscourse", new { reg = ViewBag.edition })
                     ;
-                }</div>
+                }
+            </div>
         </div>
         <div class="clearfix col-sm-12 col-md-4">
             <h2 class="section-title">
                 <span>TRENDING</span>
             </h2>@{
                 // Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.edition });
-                @await Component.InvokeAsync("Trends",new {filter="Trends",reg=ViewBag.edition})
+                @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.edition })
             }
             <div class="p-t-20">
                 <a href="@Url.Action("Index", "Research")"> <img data-src="/images/SDGs/participatory-sdgs.jpg?width=445&quality=80" src="~/Content/transparent.png" alt="Participatory monitoring of SDGs" class="img-responsive center-block lazy" style="border:1px solid #eee" /> </a>
@@ -323,10 +326,13 @@
         <a href="/blogs" class="pull-right read-more-btn">View All</a>
     </div>
 </div>
-<div class="container m-t-20 m-b-20"> @{
+<div class="container m-t-20 m-b-20">
+    @{
         // Html.RenderAction("GetNews", "Home", new { reg = ViewBag.edition, skip = 0, take = 12 });
-        @await Component.InvokeAsync("News",new {reg=ViewBag.edition,skip=0,take=12});
-    }</div>
+        @await Component.InvokeAsync("News", new { reg = ViewBag.edition, skip = 0, take = 12 })
+        ;
+    }
+</div>
 <div class="container m-t-10 m-b-20">
     <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" title="Download App from Playstore" target="_blank"><img data-src="/images/SDGs/app-banner.jpg?quality=80" src="~/Content/transparent.png" alt="Download the Devdiscourse App" class="img-responsive lazy center-block" /></a>
 </div>
@@ -338,7 +344,7 @@
                 <div class="col-md-6" id="news1"><h2 class="section-title" title="AGRO-FORESTRY NEWS"><span>AGRO-FORESTRY</span></h2></div>
                 <div class="col-md-6" id="news2"><h2 class="section-title" title="TECHNOLOGY NEWS"><span>TECHNOLOGY</span></h2></div>
             </div>
-         @*    @if (Request.Browser.IsMobileDevice) *@
+            @*    @if (Request.Browser.IsMobileDevice) *@
             @if (isMobile)
             {
                 <div class="clearfix m-t-20 m-b-30">
@@ -361,7 +367,7 @@
                     <div id="news8"><h2 class="section-title" title="SCIENCE &amp; ENVIRONMENT NEWS"><span>SCIENCE &amp; ENVIRONMENT</span></h2></div>
                 </div>
             </div>
-         @*    @if (Request.Browser.IsMobileDevice) *@
+            @*    @if (Request.Browser.IsMobileDevice) *@
             @if (isMobile)
             {
                 <div class="clearfix m-t-20 m-b-30">
@@ -385,7 +391,7 @@
                 </div>
             </div>
             <div class="clearfix" id="news14"></div>
-          @*   @if (Request.Browser.IsMobileDevice) *@
+            @*   @if (Request.Browser.IsMobileDevice) *@
             @if (isMobile)
             {
                 <div class="clearfix m-t-20 m-b-30">
@@ -416,7 +422,7 @@
     <div id="videoNews" class="video-container"></div>
     <div class="clearfix m-t-20" id="showYourInterest"></div>
 </div>
-@section scripts{
+@section scripts {
     <script src="~/Scripts/breaking-news-ticker.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -453,11 +459,11 @@
                     $.each(data, function (i, item) {
                         var text = $('<div>').html(item.Description).children('p')[0].innerText;
                         text = text.length > 150 ? text.substring(0, 150) + '...' : text;
-                        var slugUrl = convertToSlug(item.NewsId, item.Title);
-                        var label = item.Label != null ? item.Label : "agency-wire";
+                        var slugUrl = convertToSlug(item.newsId, item.title);
+                        var label = item.label != null ? item.label : "agency-wire";
                         var ImageUrl = "/AdminFiles/Logo/img_avatar.png";
-                        if (item.ImageUrl != null) {
-                            ImageUrl = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                        if (item.imageUrl != null) {
+                            ImageUrl = "/Experiment/Img?imageUrl=" + item.imageUrl;
                         }
                         //if (item.Name != "Siddheshwar  Shukla" && item.Name != "Parag Narang" && item.Name != "Subhro Prakash Ghosh" && item.Name != "Mrunmayi Sapatnekar" && item.Name != "Renu Mehta") {
                         //    ImageUrl = "/AdminFiles/Logo/img_avatar.png";
@@ -465,13 +471,13 @@
                         alertHtml += '<div class="col-md-4 p-t-20 p-b-20 opinion-card">' +
                             '<div class="media">' +
                             '<div class="media-left">' +
-                            '<img src="' + ImageUrl + '?width=60&height=60&mode=crop" onerror="this.src=' + "'/AdminFiles/Logo/img_avatar.png?width=60&height=60&mode=crop'" + '" width="60" height="60" alt="' + (item.Name != null ? item.name : "") + '" class="img-circle" />' +
+                            '<img src="' + ImageUrl + '&width=60&height=60&mode=crop" onerror="this.src=' + "'/AdminFiles/Logo/img_avatar.png?width=60&height=60&mode=crop'" + '" width="60" height="60" alt="' + (item.name != null ? item.name : "") + '" class="img-circle" />' +
                             '</div>' +
                             '<div class="media-body">' +
-                            '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><h3 class="media-heading f-20 font-normal">' + item.Title + '</h3></a>' +
+                            '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><h3 class="media-heading f-20 font-normal">' + item.title + '</h3></a>' +
                             '<p class="f-16 text-muted">' + text + '</p>' +
                             '<div class="clearfix m-t-5">' +
-                            '<span class="pull-left">' + item.Name + '</span>' +
+                            '<span class="pull-left">' + item.name + '</span>' +
                             '<span class="pull-right"><a href="/article/' + label + '/' + slugUrl + '" class="primary-link">Read More</a></span>' +
                             '</div>' +
                             '</div>' +
@@ -501,20 +507,20 @@
                 $.getJSON(dataUrl, function (data) {
                     // $('#' + appendTo).html('<h2 class="section-title" title="' + newsTitle + ' NEWS"><span>' + newsTitle + '</span></h2>');
                     $.each(data.slice(0, 5), function (i, item) {
-                        var slugUrl = convertToSlug(item.NewsId, item.Title);
+                        var slugUrl = convertToSlug(item.newsId, item.title);
                         var newsType = "";
                         var imageUrl = "";
-                        if (item.Sector == "Event") {
-                            newsType = item.Sector;
+                        if (item.sector == "Event") {
+                            newsType = item.sector;
                         } else if (item.sector == "Blog") {
-                            if (item.SubType != "") {
-                                newsType = item.SubType;
+                            if (item.subType != "") {
+                                newsType = item.subType;
                             } else {
                                 newsType = "Blog";
                             }
                         }
                         var country = "";
-                        if (item.Country != null && item.Country != "") {
+                        if (item.country != null && item.country != "") {
                             var countryArr = item.Country.split(',');
                             country = countryArr[0];
                         } else {
@@ -522,10 +528,10 @@
                         }
                         var imageContent = "";
                         var badge = "";
-                        var label = item.Label != null ? item.Label : "agency-wire";
-                        if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") {
-                            var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                            imageContent = '<div class="media-left"><a href="/Article/' + label + '/' + slugUrl + '" aria-label="' + item.Title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '?width=90&height=90&mode=crop"></div></a></div>';
+                        var label = item.label != null ? item.label : "agency-wire";
+                        if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
+                            var newsImage = "/Experiment/Img?imageUrl=" + item.imageUrl;
+                            imageContent = '<div class="media-left"><a href="/Article/' + label + '/' + slugUrl + '" aria-label="' + item.Title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '&width=90&height=90&mode=crop"></div></a></div>';
                         }
                         if (newsType != "") {
                             badge = '<span class="pull-right infocus-badge">' + newsType + '</span>';
@@ -541,10 +547,10 @@
                 $.getJSON(ApiDataUrl, function (data) {
                     $('#videoNews').html('<h2 class="section-title"><span style="background-color:#efefef">Videos</span>' + '</h2><div id="videoCarousel" class="owl-carousel"></div>');
                     $.each(data, function (i, item) {
-                        var slugUrl = convertToSlug(item.NewId, item.Title);
-                        var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                        var label = item.Label != null ? item.Label : "agency-wire";
-                        $('#videoCarousel').append('<div class="item"><a href="/article/' + label + '/' + slugUrl + '" title="' + item.Title.split('"').join('') + '"><div class="news-card bg-gray lazy" data-src="' + newsImage + '?width=435&height=245&mode=crop&quality=60"><div style="width:100%;height:100%;background-color:rgba(0,0,0,.5);padding-top:20%;"><div class="center-block text-center p-10" style="background-color:#ff6a00;color:#fff;width:60px;top:15%;"><span class="fa fa-play fa-2x"></span></div></div></div></a><div class="card2-title"><a href="/article/' + label + '/' + slugUrl + '" title="' + item.Title.split('"').join('') + '" class="text-decoration"><h4 class="header-line-height no-margin f-16" style="font-weight:400">' + item.Title + '</h4></a></div></div>');
+                        var slugUrl = convertToSlug(item.newId, item.title);
+                        var newsImage = "/Experiment/Img?imageUrl=" + item.imageUrl;
+                        var label = item.label != null ? item.label : "agency-wire";
+                        $('#videoCarousel').append('<div class="item"><a href="/article/' + label + '/' + slugUrl + '" title="' + item.title.split('"').join('') + '"><div class="news-card bg-gray lazy" data-src="' + newsImage + '&width=435&height=245&mode=crop&quality=60"><div style="width:100%;height:100%;background-color:rgba(0,0,0,.5);padding-top:20%;"><div class="center-block text-center p-10" style="background-color:#ff6a00;color:#fff;width:60px;top:15%;"><span class="fa fa-play fa-2x"></span></div></div></div></a><div class="card2-title"><a href="/article/' + label + '/' + slugUrl + '" title="' + item.title.split('"').join('') + '" class="text-decoration"><h4 class="header-line-height no-margin f-16" style="font-weight:400">' + item.title + '</h4></a></div></div>');
                     });
                     $('.lazy').lazy();
                     $(document).find('#videoCarousel').owlCarousel({

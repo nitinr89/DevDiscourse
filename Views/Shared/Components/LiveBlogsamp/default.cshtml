@@ -22,8 +22,8 @@
             <h4>@item.Title</h4>
             @if (!String.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg")
             {
-                var newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                <amp-img src="@domainUrl@newsImageUrl?width=640"
+                var newsImageUrl = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                <amp-img src="@domainUrl@newsImageUrl&width=640"
                          layout="responsive"
                          width="640"
                          height="480">

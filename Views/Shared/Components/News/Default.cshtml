@@ -24,12 +24,12 @@
     {
         string controller = "/article";
         string action = item.Label ?? "agency-wire";
-         string id = item.GenerateSecondSlug();
+        string id = item.GenerateSecondSlug();
         //long id = item.NewId;
         @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">*@
         <a href="@controller/@action/@id" class="text-decoration">
 
-       @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
+            @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
 
             <div class="p-t-10 p-b-10 m-b-10" style="@border">
                 <h3 class="trend-title no-margin">@item.Title</h3>
@@ -54,11 +54,11 @@
                 <span class="pull-right infocus-badge">@item.SubType</span>
             }<div class="row">
                 @{
-                    var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                   //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/13_02_2019_15_50_27_8830586.jpg?width=360&height=240&mode=crop&format=jpeg&quot";
+                    var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                    //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/13_02_2019_15_50_27_8830586.jpg?width=360&height=240&mode=crop&format=jpeg&quot";
                 }
                 <div class="col-md-12 col-sm-6">
-                    <img src="~/Content/transparent.png?width=36&height=20&mode=crop" data-src="@domainUrl@newsImage?width=360&height=200&mode=crop" class="img-responsive lazy" alt="@item.Title" />
+                    <img src="~/Content/transparent.png?width=36&height=20&mode=crop" data-src="@domainUrl@newsImage&width=360&height=200&mode=crop" class="img-responsive lazy" alt="@item.Title" />
                 </div>
                 <div class="col-md-12 col-sm-6">
                     @{

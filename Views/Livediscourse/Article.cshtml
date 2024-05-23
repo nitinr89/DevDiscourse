@@ -10,7 +10,7 @@
 }
 
 @{
-    string newsTitle = Model.Title.Trim();
+    string newsTitle = Model.Title?.Trim() ?? "";
     string domainUrl = "https://www.devdiscourse.com";
     string imageUrl = "";
     imageUrl = Model.ImageUrl ?? "";
@@ -25,8 +25,8 @@
     pageImageUrl = pageImageUrl == "/images/sector/all_sectors.jpg" ? @Model.ImageUrl : pageImageUrl;
     pageImageUrl = pageImageUrl == "" ? Model.ImageUrl : pageImageUrl;
     pageImageUrl = pageImageUrl ?? "";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl : string.Concat(domainUrl, imageUrl);
-    var pageImage = pageImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + pageImageUrl : string.Concat(domainUrl, pageImageUrl);
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={imageUrl}" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, imageUrl);
+    var pageImage = pageImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={pageImageUrl}" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, pageImageUrl);
     var dataTags = (@Model.Tags ?? "").Split(',').Where(s => s != "").Select(b => b.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).Take(15);
     var keywords = String.Join(", ", dataTags);
     string pageUrl = "/live-discourse/" + Model.GenerateSecondSlug();
@@ -844,7 +844,7 @@ else
                         @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
                         {
                             <figure>
-                                <img src="@newsImage?width=800" class="img-responsive center-block" title="@Model.Title" alt="@Model.Title" />
+                                <img src="@newsImage&width=800" class="img-responsive center-block" title="@Model.Title" alt="@Model.Title" />
                                 <figcaption class="fig-caption">@Model.ImageCaption @Model.ImageCopyright </figcaption>
                             </figure>
                         }
@@ -1008,7 +1008,7 @@ else
         else
         {
             <text>
-                             "articleBody":"@{
+                                     "articleBody":"@{
                     /* await GetDescriptionText(Model.Description); */
                 }",</text>
         }"keywords":["@keywords"], "url":"@domainUrl@schemaUrl", "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "dateModified":"@modifiedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "@authorName"}, "publisher":{"@@type":"Organization", "name":"Devdiscourse", "url": "https://www.Devdiscourse.com", "logo":{"@@type": "ImageObject", "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png", "width": 600, "height": 60}}, "image":{"@@type": "ImageObject", "url": "@pageImage?width=1280", "height": 900, "width": 1280}}
@@ -1069,7 +1069,7 @@ else
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                                                        var Id = $(this).data('topic');
+                                                                                var Id = $(this).data('topic');
                     var IT = $(this).data('it');
                     var RT = $(this).data('rt');
                     $.post('/api/ReactLivediscourse/' + Id + '/' + IT + '/' + RT,
@@ -1103,7 +1103,7 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                                                    });
+                                                                    });
             GetRecommendedDiscourse();
             function GetRecommendedDiscourse() {
                 $.ajax('/api/DiscourseApi/GetRecommendedDiscourse/2').done(function (data) {
@@ -1114,8 +1114,8 @@ else
                         if (imgUrl == null || imgUrl == '/images/sector/all_sectors.jpg') {
                             imgUrl = item.parentImageUrl;
                         }
-                        var newsImage = imgUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + imgUrl : "https://www.devdiscourse.com" + imgUrl;
-                        var imghtml = '<div class="media-left"><img src="' + newsImage + '?width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
+                        var newsImage = imgUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + imgUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + imgUrl;
+                        var imghtml = '<div class="media-left"><img src="' + newsImage + '&width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
                         recommendedHtml += '<a href="/live-discourse/' + newsUrl + '#post_' + item.id + '" class="text-decoration">' +
                             '<div class="media tab-card">' + imghtml +
                             '<div class="media-body">' +
@@ -1134,9 +1134,8 @@ else
                         var newsUrl = convertToSlug(item.id, item.title);
                         var imghtml = '';
                         if (item.imageUrl != null) {
-                            // var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : "https://www.devdiscourse.com" + item.imageUrl;
-                            var newsImage = item.imageUrl;
-                            imghtml = '<div class="media-left"><img src="' + newsImage + '?width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
+                            var newsImage = imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + imageUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + imageUrl;
+                            imghtml = '<div class="media-left"><img src="' + newsImage + '&width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
                         }
                         trendingHtml += '<a href="/live-discourse/' + newsUrl + '" class="text-decoration">' +
                             '<div class="media tab-card">' + imghtml +
@@ -1157,9 +1156,8 @@ else
                         var newsUrl = convertToSlug(item.id, item.title);
                         var imghtml = '';
                         if (item.imageUrl != null) {
-                            // var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : "https://www.devdiscourse.com" + item.imageUrl;
-                            var newsImage = item.imageUrl;
-                            imghtml = '<div class="media-left"><img src="' + newsImage + '?width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
+                            var newsImage = imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + imageUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + imageUrl;
+                            imghtml = '<div class="media-left"><img src="' + newsImage + '&width=120&height=90&mode=crop" width="120" height="90" alt="' + item.title + '"/></div>';
                         }
                         latestHtml += '<a href="/live-discourse/' + newsUrl + '" class="text-decoration">' +
                             '<div class="media tab-card">' + imghtml +
@@ -1190,12 +1188,12 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                                                    });
+                                                                    });
             $(document).on('click', '.badge-custom', function () {
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                                                    var tagId = $(this).data('id');
+                                                                            var tagId = $(this).data('id');
                     $.post("/api/FollowDiscourseTag/" + tagId,
                         function (data) {
                             if (data == "Follow") {
@@ -1210,7 +1208,7 @@ else
         {
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
-                                                    });
+                                                                    });
             GetDiscourseIndex();
             function GetDiscourseIndex() {
                 if (blogIndexPage > -1 && !inCallbackIndex) {
@@ -1381,7 +1379,7 @@ else
                                         hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[i].commentId + '">Delete</span>';
             </text>
         }
-                                                    if (data[i].parentId == 0) {
+                                                                    if (data[i].parentId == 0) {
                                     $('#itemComment_' + data[i].itemId).append('<div class="comment" id="single_' + data[i].commentId + '">' +
                                         '<div class="name">' + data[i].name + '</div>' +
                                         '<div class="content">' + data[i].commentText + '</div>' +
@@ -1445,7 +1443,7 @@ else
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                                                    var id = $(this).data('btn');
+                                                                            var id = $(this).data('btn');
                     var parentId = $(this).data('parent');
                     var rootParentId = $(this).data('root');
                     var reply = $(this).data('reply');
@@ -1463,12 +1461,12 @@ else
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
 
-                                                });
+                                                                });
             $(document).on('click', '.main-comment-btn', function () {
         @if (User.Identity.IsAuthenticated)
         {
             <text>
-                                                    var id = $(this).data('btn');
+                                                                            var id = $(this).data('btn');
                     var parentId = $(this).data('parent');
                     var rootParentId = $(this).data('root');
                     var commentText = $(document).find('#maincomment' + id).val();
@@ -1483,7 +1481,7 @@ else
             <text>window.location = "/Account/Login?returnUrl=" + returnUrl; </text>
         }
 
-                                                });
+                                                                });
             function SendData(id, commentText, parentId, rootParentId, reply, ariaId) {
                 $.ajax({
                     url: '/Livediscourse/saveDiscourseComment',

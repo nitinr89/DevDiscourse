@@ -97,8 +97,7 @@
             <div class="p-10 m-t-10 bg-white shadow">
                 <div class="media">
                     <div class="media-left">
-                        @* <div class="news-image-card lazy bg-gray" data-src="/remote.axd?@item.ImageUrl?width=120&height=100&mode=crop"></div> *@
-                        <img class="news-image-card lazy bg-gray" src="@item.ImageUrl?width=120&height=100&mode=crop" />
+                        <img class="news-image-card lazy bg-gray" src="/Experiment/Img?imageUrl=@item.ImageUrl&width=120&height=100&mode=crop" />
                     </div>
                     <div class="media-body p-l-10">
                         <p class="pull-right">Submitted: @item.CreatedOn.ToString("dd-MM-yyyy")</p>

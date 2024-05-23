@@ -230,10 +230,9 @@
                     </td>
                     <td>
                         @{
-                            // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                            var newsImage = item.ImageUrl;
+                            var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                         }
-                        <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                        <img alt="news thumbnail" src="@newsImage&width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
                     </td>
                     <td>
                         @if (!String.IsNullOrEmpty(item.WorkStage))
@@ -472,7 +471,7 @@
         });
 
         $(function () {
-             var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+            var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
             connection.on("NewsOpenNotification", function (id, user, colorcode) {
                 $('#' + id).html('<span class="pull-right badge ' + colorcode + '">' + user + '</span>');

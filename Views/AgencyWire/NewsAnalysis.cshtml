@@ -173,13 +173,13 @@
 
                     @await Component.InvokeAsync("NewsAnalysisItems", new { region = ViewBag.region, type = ViewBag.type, page = 1 })
                     ;
-                } 
+                }
             </div><div id="loading" style="display:none;"> <p class="text-center"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div>
         </div><div class="col-xs-12 col-md-5 col-lg-4">
             <div class="clearfix" id="opinion"></div><div class="clearfix m-t-20">
                 <h2 class="section-title"><span>TRENDING</span></h2> @{
-                    @await Component.InvokeAsync("Trends",new { filter = "Trends", reg = ViewBag.edition })
-                    
+                    @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.edition })
+
                 }
             </div>
             <div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div><div id="videoNews" class="m-t-20"></div>
@@ -189,7 +189,7 @@
 
 
 
-@section scripts{
+@section scripts {
 
     <script src="~/scripts/jquery.lazy.min.js"></script>
     <script>
@@ -214,13 +214,12 @@
                         var alertHtml = '';
                         $.each(data, function (i, item) {
                             var slugUrl = convertToSlug(item.newsId, item.title);
-                          
+
                             var label = item.label != null ? item.label : "agency-wire";
-                          //  var Image = item.image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.image : item.image;
-                            var Image = item.image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? item.image : item.image;
-                            alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="opinion-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="/content/transparent.png" data-src="' + Image + '?width=60&height=60&mode=crop&format=jpeg" width="60" height="60" alt="' + item.title + '" class="img-rounded pull-right lazy"/></div></div></a>'
+                            var Image = "/Experiment/Img?imageUrl=" + item.image;
+                            alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="opinion-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="' + Image + '&width=60&height=60&mode=crop&format=jpeg" width="60" height="60" alt="' + item.title + '" class="img-rounded pull-right lazy"/></div></div></a>'
                         });
-                      
+
                         $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml)
                     })
             }
@@ -246,8 +245,7 @@
             $(document).find('#newsLink').addClass('active');
 
             $(window).scroll(function () {
-                if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height()) && showMoreCounter < 5) 
-                {
+                if (isReachedScrollEnd == false && ($(document).scrollTop() <= $(document).height() - $(window).height()) && showMoreCounter < 5) {
                     loadNewsData();
                 }
             });

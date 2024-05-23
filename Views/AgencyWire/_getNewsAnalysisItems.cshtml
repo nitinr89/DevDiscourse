@@ -7,9 +7,9 @@
 {
     foreach (var item in Model.Take(1))
     {
-        var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+        var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
         <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
-            <div class="bg-gray cover-img m-b-40" style="background-image:url(@domainUrl@newsImage?width=640&height=344&mode=crop&format=jpeg)">
+            <div class="bg-gray cover-img m-b-40" style="background-image:url(@newsImage&width=640&height=344&mode=crop&format=jpeg)">
                 <div class="cover-img-overlay">
                     <div class="text-cont">
                         <!--@item.Title-->
@@ -36,14 +36,14 @@
     }
     foreach (var item in Model.Skip(1))
     {
-        var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+        var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
         <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
             <div class="row m-b-40">
                 <div class="col-md-5 col-sm-4">
                     <picture>
-                        <source srcset="@domainUrl@newsImage?width=295&height=160&mode=crop&format=webp" type="image/webp">
-                        <source srcset="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg" type="image/jpeg">
-                        <img data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg" class="img-responsive lazy" />
+                        <source srcset="@newsImage&width=295&height=160&mode=crop&format=webp" type="image/webp">
+                        <source srcset="@newsImage&width=295&height=160&mode=crop&format=jpeg" type="image/jpeg">
+                        <img data-src="@newsImage&width=295&height=160&mode=crop&format=jpeg" class="img-responsive lazy" />
                     </picture>
                     @*<div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg"></div>*@
                 </div>
@@ -73,11 +73,11 @@ else
     {
         foreach (var item in Model)
         {
-            var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
             <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
                 <div class="row m-b-40">
                     <div class="col-md-5 col-sm-4">
-                        <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg"></div>
+                        <div class="bg-gray cover-img lazy" data-src="@newsImage&width=295&height=160&mode=crop&format=jpeg"></div>
                     </div>
                     <div class="col-md-7 col-sm-8 p-l-0">
                         @if (!String.IsNullOrEmpty(item.Country))

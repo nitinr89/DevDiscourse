@@ -261,9 +261,8 @@
                                 <div class="col-xs-12 col-sm-12 col-md-6 m-b-20" id="viewImage">
                                     @if (!String.IsNullOrEmpty(Model.ImageUrl))
                                     {
-                                        @* var newsImage = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.ImageUrl : Model.ImageUrl; *@
-                                        var newsImage = Model.ImageUrl;
-                                        <img src="@newsImage?width=240&height=180&mode=crop" style="max-width:240px;" class="img-responsive lazy" />
+                                        var newsImage = $"/Experiment/Img?imageUrl={Model.ImageUrl}";
+                                        <img src="@newsImage&width=240&height=180&mode=crop" style="max-width:240px;" class="img-responsive lazy" />
                                     }
                                     else
                                     {

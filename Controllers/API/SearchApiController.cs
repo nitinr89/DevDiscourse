@@ -188,9 +188,9 @@ namespace Devdiscourse.Controllers.API
 
         [Route("GetPreviousSectorAmpNews/{id}/{sector}/{reg}/{__amp_source_origin?}")]
         [HttpGet]
-        public IActionResult GetPreviousSectorAmpNews(long id, string sector, string reg = "Global Edition", string  __amp_source_origin="")
+        public IActionResult GetPreviousSectorAmpNews(long id, string sector, string reg = "Global Edition", string __amp_source_origin = "")
         {
-            
+
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
             DateTime tenDays = search.CreatedOn.AddDays(-2);
             List<ApiNewsView> resultNewsList = new List<ApiNewsView>();
@@ -348,7 +348,7 @@ namespace Devdiscourse.Controllers.API
         }
         [HttpGet]
         [Route("AmpRelatedNews/{id}/{reg}/{sector}/{__amp_source_origin?}")]
-        public IActionResult AmpRelatedNews(long id, string reg, string sector, string __amp_source_origin ="")
+        public IActionResult AmpRelatedNews(long id, string reg, string sector, string __amp_source_origin = "")
         {
             DateTime threeDays = DateTime.Today.AddDays(-3);
             var secFirst = sector.Split(',')[0];
@@ -358,7 +358,7 @@ namespace Devdiscourse.Controllers.API
                     .OrderByDescending(o => o.CreatedOn)
                     .Select(s => new LatestNewsView
                     {
-                        Title = s.Title, 
+                        Title = s.Title,
                         NewId = s.NewsId,
                         Label = s.NewsLabels,
                         ImageUrl = s.ImageUrl,
@@ -417,7 +417,7 @@ namespace Devdiscourse.Controllers.API
                     a.Country,
                     Url = "/mobilearticle/" + a.GenerateSecondSlug().ToString(),
                     defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-                    ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+                    ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
                     SrNo = sr + 1
                 });
                 return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
@@ -432,7 +432,7 @@ namespace Devdiscourse.Controllers.API
                     a.Country,
                     Url = "/mobilearticle/" + a.GenerateSecondSlug().ToString(),
                     defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-                    ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+                    ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
                     SrNo = sr + 1
                 });
                 return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
@@ -450,7 +450,7 @@ namespace Devdiscourse.Controllers.API
                 a.Title,
                 a.Country,
                 Url = "/mobilevideo/" + a.GenerateSecondSlug().ToString(),
-                ImageUrl = a.FileThumbUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.FileThumbUrl : "/remote.axd?" + a.FileThumbUrl,
+                ImageUrl = $"/Experiment/Img?imageUrl={a.FileThumbUrl}",
                 CreatedOn = a.CreatedOn.ToString("dd MMMM yyyy"),
                 Duration = a.Duration
             });
@@ -458,7 +458,7 @@ namespace Devdiscourse.Controllers.API
         }
         [HttpGet]
         [Route("GetAmpVideoNews/{reg}/{__amp_source_origin?}")]
-        public IActionResult GetAmpVideoNews(string reg, string __amp_source_origin="")
+        public IActionResult GetAmpVideoNews(string reg, string __amp_source_origin = "")
         {
             if (reg == "Global Edition")
             {
@@ -470,7 +470,7 @@ namespace Devdiscourse.Controllers.API
                     a.Country,
                     Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString(),
                     defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-                    ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl
+                    ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}"
                 });
                 return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
@@ -484,7 +484,7 @@ namespace Devdiscourse.Controllers.API
                     a.Country,
                     Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString(),
                     defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-                    ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl
+                    ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}"
                 });
                 return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
             }
@@ -500,7 +500,7 @@ namespace Devdiscourse.Controllers.API
             var typeSearch = type == "all" ? "" : type;
             var countrySearch = country == "all" ? "" : country;
             var searchRegion = region == "Global Edition" ? "" : region;
-           // var sectorId = Convert.ToInt32(sector);
+            // var sectorId = Convert.ToInt32(sector);
 
             var newsSearch = db.DevNews
                 .Where(a => a.AdminCheck == true && a.Country.Contains(countrySearch) && a.Type.Contains(typeSearch)
@@ -593,7 +593,7 @@ namespace Devdiscourse.Controllers.API
             DateTime threeDays = DateTime.Today.AddDays(-3);
             var secFirst = sector.Split(',')[0];
             var search = db.DevNews.Where(m => m.AdminCheck == true && m.CreatedOn > threeDays && m.NewsId != id && (m.Sector.StartsWith(secFirst + ",") || m.Sector.Contains("," + secFirst + ",") || m.Sector.EndsWith("," + secFirst) || m.Sector == secFirst)).OrderByDescending(o => o.CreatedOn).Select(s => new LatestNewsView { Title = s.Title, NewId = s.NewsId, Label = s.NewsLabels, ImageUrl = s.ImageUrl, Country = s.Country }).Distinct().Take(5);
-            var returnData = search.AsEnumerable().Select(a => new { a.Title, a.Label, ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl, a.Country, Url = "/mobilearticle/" + a.GenerateSecondSlug().ToString() });
+            var returnData = search.AsEnumerable().Select(a => new { a.Title, a.Label, ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}", a.Country, Url = "/mobilearticle/" + a.GenerateSecondSlug().ToString() });
             return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
         }
         [HttpGet]
@@ -621,7 +621,7 @@ namespace Devdiscourse.Controllers.API
                 a.Country,
                 Url = "/mobilearticle/" + a.GenerateSecondSlug().ToString(),
                 defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-                ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl
+                ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}"
             });
             return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
         }
@@ -843,7 +843,7 @@ namespace Devdiscourse.Controllers.API
             DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
             DateTime weekend = todayDate.AddDays(-3).AddTicks(1);
             var result = db.DevNews.Where(a => a.AdminCheck == true && a.CreatedOn > weekend && a.Region.Contains(reg)).OrderByDescending(m => m.CreatedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).Take(5);
-            var returnData = result.AsEnumerable().Select(a => new { a.Title, a.Label, ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl, a.Country, Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString() });
+            var returnData = result.AsEnumerable().Select(a => new { a.Title, a.Label, ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}", a.Country, Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString() });
             return (IActionResult)Ok(new { items = returnData, hasMorePages = result.Any() });
         }
         [HttpGet]
@@ -874,8 +874,8 @@ namespace Devdiscourse.Controllers.API
                     a.Title,
                     a.Label,
                     Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString(),
-                    AuthorImage = (a.Sector ?? "").IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.Sector : "/remote.axd?" + a.Sector,
-                    ImageUrl = (a.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+                    AuthorImage = $"/Experiment/Img?imageUrl={a.Sector}",
+                    ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
                     Author = a.Country
                 });
                 return Ok(new { items = returnData, hasMorePages = search.Any() });
@@ -910,8 +910,8 @@ namespace Devdiscourse.Controllers.API
                     a.Title,
                     a.Label,
                     Url = "/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString(),
-                    AuthorImage = (a.Sector ?? "").IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.Sector : "/remote.axd?" + a.Sector,
-                    ImageUrl = (a.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+                    AuthorImage = $"/Experiment/Img?imageUrl={a.Sector}",
+                    ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
                     Author = a.Country
                 });
                 return (IActionResult)Ok(new { items = returnData, hasMorePages = search.Any() });
@@ -942,9 +942,9 @@ namespace Devdiscourse.Controllers.API
                 type = "small",
                 title = a.Title,
                 url = "https://www.devdiscourse.com/article/" + (a.Label ?? "agency-wire") + "/" + a.GenerateSecondSlug().ToString() + "?amp",
-                image = (a.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") == -1 ? "https://www.devdiscourse.com/" + a.ImageUrl + "?width=240&height=240&mode=crop" : "https://www.devdiscourse.com/remote.axd?" + a.ImageUrl + "?width=240&height=240&mode=crop",
+                image = $"/Experiment/Img?imageUrl={a.ImageUrl}&width=240&height=240&mode=crop",
             });
-            return (IActionResult)Ok(new
+            return Ok(new
             {
                 bookendVersion = "v1.0",
                 shareProviders = new string[] { "facebook", "twitter", "email" },
@@ -1123,7 +1123,7 @@ namespace Devdiscourse.Controllers.API
             return text;
 
         }
-          protected override void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing && db != null)
             {

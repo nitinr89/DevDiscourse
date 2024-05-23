@@ -478,7 +478,7 @@ namespace DevDiscourse.Controllers.API
             //    HttpContext.Response.AddHeader("AMP-Access-Control-Allow-Source-Origin", __amp_source_origin);
             //}
 
-            var resultData = search.Select(b => new { Id = b.Id, Title = b.Title, ImageUrl = (b.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + b.ImageUrl : b.ImageUrl, Description = GetAmpHtml(b.Description), CreatedOn = b.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss"), hasImage = b.ImageUrl == null ? false : true });
+            var resultData = search.Select(b => new { Id = b.Id, Title = b.Title, ImageUrl = $"/Experiment/Img?imageUrl={b.ImageUrl}", Description = GetAmpHtml(b.Description), CreatedOn = b.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss"), hasImage = b.ImageUrl == null ? false : true });
             return Ok(new { items = resultData, hasMorePages = search.Any() });
         }
         public string GetAmpHtml(string Description)

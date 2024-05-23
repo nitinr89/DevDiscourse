@@ -608,6 +608,8 @@ namespace DevDiscourse.Controllers.API
         {
             try
             {
+                Controlls controll = db.Controlls.First(f => f.Name == "AiImage");
+                if (controll.Value != "true") return $"NotOk200 - permission not granted.";
                 string endpoint = "https://api.openai.com/v1/images/generations";
                 var requestData = new
                 {

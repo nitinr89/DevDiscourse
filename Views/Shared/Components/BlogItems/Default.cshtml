@@ -23,11 +23,9 @@
                     <a href="@controller/@action/@id" title="=@item.Title">
 
                         @{
-                            var imageUrl = !string.IsNullOrEmpty(item.ImageUrl) ? item.ImageUrl : "";
-                            //var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + imageUrl : imageUrl;
-                            var newsImage = item.ImageUrl;
+                            var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                         }
-                        <div class="news-card bg-gray" style="background-image:url(@newsImage?width=350&height=240&mode=crop),url(/AdminFiles/Logo/ic_notFound.png)"></div>
+                        <div class="news-card bg-gray" style="background-image:url(@newsImage&width=350&height=240&mode=crop),url(/AdminFiles/Logo/ic_notFound.png)"></div>
                     </a>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">

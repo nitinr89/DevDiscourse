@@ -13,7 +13,7 @@
     var converter = new HtmlToAmpConverter();
     converter.WithSanitizers(
         new HashSet<ISanitizer>
-                {
+                        {
             new InstagramSanitizer(),
             new TwitterSanitizer(),
             new AudioSanitizer(),
@@ -26,13 +26,13 @@
             new XmlAttributeSanitizer(),
             new YouTubeVideoSanitizer(),
             new AmpIFrameSanitizer()
-                });
+                        });
 }
 @foreach (var item in Model.ToList())
 {
     //@item.Description;
 
-     var match = regex.Match(@item.Description ?? "");
+    var match = regex.Match(@item.Description ?? "");
     string data = match.Groups[1].Value;
     int count = 1;
     var datadescription = Regex.Replace(@item.Description ?? "", "<blockquote(.|\n)*?</blockquote>", m => "<amp-twitter width=\"375\" height=\"472\" layout=\"responsive\" data-tweetid=\"" + match.Groups[count++].Value + "\"></amp-twitter>").Trim();
@@ -47,8 +47,8 @@
             <h4>@item.Title</h4>
             @if (!String.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg")
             {
-                var newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                <amp-img src="@domainUrl@newsImageUrl?width=640"
+                var newsImageUrl = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                <amp-img src="@domainUrl@newsImageUrl&width=640"
                          layout="responsive"
                          width="640"
                          height="400">
@@ -84,6 +84,6 @@
                 <amp-social-share type="whatsapp" width="32" height="32" aria-label="Share on whatsapp" data-param-text="@itemUrl"></amp-social-share>
             </div>
         </div>
-    </div> 
+    </div>
 }
 

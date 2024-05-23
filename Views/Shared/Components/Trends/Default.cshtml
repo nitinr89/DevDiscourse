@@ -51,7 +51,7 @@
     foreach (var item in Model)
     {
         string baseUrl = Url.Content("~/");
-      //  string baseUrl = "https://devdiscourse-devdiscoursenetcore.azurewebsites.net/";
+        //  string baseUrl = "https://devdiscourse-devdiscoursenetcore.azurewebsites.net/";
         string controller = "article";
         string action = item.Label ?? "agency-wire";
         string id = item.GenerateSecondSlug();
@@ -60,15 +60,13 @@
         <div class="media p-b-10">
             <span class="trend-number">@index</span> @if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
             {
-               var newsImage = item.ImageUrl;
-                //var newsImage = "https://devdiscourse.blob.core.windows.net/devnews/13_02_2019_15_50_27_8830586.jpg?width=360&height=240&mode=crop&format=jpeg&quot";
-                //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                 <div class="media-left">
                     @*	<a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">*@
 
                     <a href="@baseUrl@controller/@action/@id">
                         @* <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" > *@
-                        <img class="img-rounded lazy" data-src="@newsImage?width=80&height=80&format=jpg&mode=crop" src="~/Content/transparent.png?width=80&height=80&format=jpg&mode=crop" alt="@item.Title" />
+                        <img class="img-rounded lazy" data-src="@newsImage&width=80&height=80&format=jpg&mode=crop" src="~/Content/transparent.png?width=80&height=80&format=jpg&mode=crop" alt="@item.Title" />
                     </a>
                 </div>
             }<div class="media-body">
@@ -127,7 +125,7 @@ else
             @foreach (var item in Model)
             {
                 string baseUrl = "https://localhost:7266/";
-              //  string baseUrl = "https://devdiscourse-devdiscoursenetcore.azurewebsites.net/";
+                //  string baseUrl = "https://devdiscourse-devdiscoursenetcore.azurewebsites.net/";
                 string controller = "article";
                 string action = item.Label ?? "agency-wire";
                 string id = item.GenerateSecondSlug();

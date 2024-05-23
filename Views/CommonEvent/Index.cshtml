@@ -3,8 +3,8 @@
 @{
     ViewBag.Title = Model.Name;
     string domainUrl = "https://www.devdiscourse.com";
-    string imageUrl = @Model.BackgroundBannerUrl;
-    var eventImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=1280" : string.Concat(domainUrl, imageUrl) + "?width=1280";
+    string imageUrl = @Model.BackgroundBannerUrl ?? "";
+    var eventImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={imageUrl}&width=1280" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, imageUrl) + "&width=1280";
     ViewBag.PageDescription = @Model.ShortDescription;
     ViewBag.PageImage = string.Concat(domainUrl, eventImage);
     ViewBag.webEdition = ViewBag.region;
@@ -352,7 +352,7 @@
     <div class="row m-t-20 m-b-20">
         <div class="col-xs-12 col-sm-12 col-md-6">
             @{
-                var LogoImageUrl = LogoImage.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + LogoImage + "?width=400&height=240&bgcolor=white" : string.Concat(domainUrl, LogoImage) + "?width=400&height=240&bgcolor=white";
+                var LogoImageUrl = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={imageUrl}&width=400&height=240&bgcolor=white" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, imageUrl) + "&width=400&height=240&bgcolor=white";
             }
             <img src="@LogoImageUrl" class="img-responsive" width="400" height="240" />
         </div>
@@ -381,7 +381,7 @@
             </div>
         </div>
     </div>*@
-@section scripts{
+@section scripts {
     <script>
         $(document).ready(function () {
             var _skip = 0;

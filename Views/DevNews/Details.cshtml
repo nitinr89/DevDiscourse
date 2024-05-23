@@ -10,8 +10,7 @@
     ViewBag.webEdition = ViewBag.region;
     ViewBag.HasAmpPage = true;
     string imageUrl = @Model.ImageUrl ?? "";
-    // var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=920" : string.Concat(domainUrl, imageUrl) + "?width=920";
-    var newsImage = imageUrl + "?width=920";
+    var newsImage = $"/Experiment/Img?imageUrl={imageUrl}&width=920";
     ViewBag.PageImage = newsImage;
     string NewsLabel = Model.NewsLabels ?? "agency-wire";
     string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();
@@ -575,8 +574,8 @@
                     <a href="/Home/AuthorArticles?fl=@Model.Author?.Trim()">
                         @if (!string.IsNullOrEmpty(Model.Themes))
                         {
-                            var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + Model.Themes : string.Concat(domainUrl, Model.Themes);
-                            <img class="img-circle author-avatar" src="@authorImage?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author?.Trim()" />
+                            var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={Model.Themes}" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, Model.Themes);
+                            <img class="img-circle author-avatar" src="@authorImage&width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author?.Trim()" />
                         }
                         else
                         {

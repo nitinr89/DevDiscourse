@@ -146,9 +146,8 @@
                     <td>
                         @if (!String.IsNullOrEmpty(item.ImageUrl))
                         {
-                            @* var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; *@
-                            var newsImage = item.ImageUrl;
-                            <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                            var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                            <img alt="news thumbnail" src="@newsImage&width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
                         }
                         else
                         {

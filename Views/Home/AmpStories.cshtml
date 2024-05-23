@@ -168,11 +168,11 @@
                poster-landscape-src="https://www.devdiscourse.com/AdminFiles/Logo/devediscourse_banner.png?width=928&height=696&bgcolor=f6f6f6&anchor=bottom">
         @foreach (var item in Model)
         {
-            var storyNewsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            var storyNewsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
             <amp-story-page id="page-@storyIndex" auto-advance-after="5s">
                 <amp-story-grid-layer template="vertical" position="landscape-half-left">
                     <div>
-                        <amp-img class="story_img" src="@domainUrl@storyNewsImage?width=360&height=380&mode=crop"
+                        <amp-img class="story_img" src="@domainUrl@storyNewsImage&width=360&height=380&mode=crop"
                                  width="360"
                                  height="380"
                                  layout="responsive">

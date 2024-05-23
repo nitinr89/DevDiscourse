@@ -420,17 +420,16 @@
                         var followedHtml = '';
                         $.each(data, function (i, item) {
                             var newsUrl = convertToSlug(item.id, item.title);
-                            var country = item.Country;
+                            var country = item.country;
                             var countryHtml = country.split(',').join(', ');
                             var imghtml = '';
                             var newsImage = "";
-                            if (item.ImageUrl != null) {
-                                // newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl;
-                                newsImage = item.imageUrl;
+                            if (item.imageUrl != null) {
+                                newsImage = "/Experiment/Img?imageUrl=" + item.imageUrl;
                             }
                             followedHtml += '<a href="/live-discourse/' + newsUrl + '" class="text-decoration"><div class="col-md-6"><div class="media followedTopic">' +
                                 '<div class="media-left">' +
-                                '<div class="followed-img bg-highlight" style="background-image:url(' + newsImage + '?width=180&height=100&mode=crop);"></div>' +
+                                '<div class="followed-img bg-highlight" style="background-image:url(' + newsImage + '&width=180&height=100&mode=crop);"></div>' +
                                 '</div><div class="media-body">' +
                                 '<h3 class="media-heading">' + item.title + '</h3>' +
                                 '<div class="text-muted">' + countryHtml + '</div>' +

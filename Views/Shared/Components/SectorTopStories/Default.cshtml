@@ -10,20 +10,17 @@
             {
                 string controller = "article";
                 string action = item.Label ?? "agency-wire";
-                 string id = item.GenerateSecondSlug();
+                string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
+                var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                @*      <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration"> *@
 
-               // var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
-
-          @*      <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration"> *@
-
-            @*    <a href="@controller/@action/@id"  class="text-decoration"> *@
+                @*    <a href="@controller/@action/@id"  class="text-decoration"> *@
                 <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
 
 
                     <div class="m-b-30">
-                        <div class="bg-gray cover-img" style="background-image:url(@domainUrl@newsImage?width=555&height=300&mode=crop&format=jpeg)">
+                        <div class="bg-gray cover-img" style="background-image:url(@domainUrl@newsImage&width=555&height=300&mode=crop&format=jpeg)">
                             <div class="cover-img-overlay">
                                 <div class="text-cont">
                                     <h3 class="fg-white no-margin">@item.Title</h3>
@@ -52,21 +49,19 @@
             {
                 string controller = "article";
                 string action = item.Label ?? "agency-wire";
-                 string id = item.GenerateSecondSlug();
+                string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
-
-               // var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl;
-             @*   <a href="@controller/@action/@id" class="text-decoration"> *@
+                var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                @*   <a href="@controller/@action/@id" class="text-decoration"> *@
                 @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration"> *@
-                
+
                 <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
 
 
                     <div class="m-b-20 col-md-12">
                         <div class="row">
                             <div class="col-md-4 col-sm-3 col-xs-5">
-                                <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=160&height=85&mode=crop&format=jpeg"></div>
+                                <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage&width=160&height=85&mode=crop&format=jpeg"></div>
                             </div>
                             <div class="col-md-8 col-sm-9 p-l-0 col-xs-7">
                                 @if (!String.IsNullOrEmpty(item.Country))
@@ -97,21 +92,19 @@
             {
                 string controller = "article";
                 string action = item.Label ?? "agency-wire";
-                 string id = item.GenerateSecondSlug();
+                string id = item.GenerateSecondSlug();
                 //long id = item.NewsId;
-
-               // var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
+                var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                 <div class="col-md-6 p-l-0">
-               @*     <a href="@controller/@action/@id" class="text-decoration"> *@
-                      @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration"> *@
-                    
+                    @*     <a href="@controller/@action/@id" class="text-decoration"> *@
+                    @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration"> *@
+
                     <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
 
                         <div class="m-b-20 col-md-12">
                             <div class="row">
                                 <div class="col-md-4 col-sm-3 col-xs-5">
-                                    <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=160&height=85&mode=crop&format=jpeg"></div>
+                                    <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage&width=160&height=85&mode=crop&format=jpeg"></div>
                                 </div>
                                 <div class="col-md-8 col-sm-9 p-l-0 col-xs-7">
                                     @if (!String.IsNullOrEmpty(item.Country))

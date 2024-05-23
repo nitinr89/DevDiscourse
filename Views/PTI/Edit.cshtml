@@ -109,10 +109,9 @@
                     <div class="col-md-4 p-b-10">
                         @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label" })
                         @{
-                            // var newsImage = Model.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.ImageUrl : Model.ImageUrl;
-                            var newsImage = Model.ImageUrl;
+                            var newsImage = $"/Experiment/Img?imageUrl={Model.ImageUrl}";
                         }
-                        <img src="@newsImage?width=240&height=180&mode=crop" style="max-width:240px;" class="img-responsive lazy" />
+                        <img src="@newsImage&width=240&height=180&mode=crop" style="max-width:240px;" class="img-responsive lazy" />
                     </div>
                     <div class="col-md-4 col-md-offset-2 p-b-10" id="showImage">
                     </div>

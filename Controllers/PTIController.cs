@@ -886,7 +886,7 @@ namespace DevDiscourse.Controllers
                 a.Title,
                 Url = "/article/" + a.NewsId.ToString(),
                 defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-                ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+                ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
                 a.Country
             }).OrderByDescending(a => a.CreatedOn);
             if (!string.IsNullOrEmpty(__amp_source_origin))
@@ -924,7 +924,7 @@ namespace DevDiscourse.Controllers
                 Url = "/Article/" + a.NewsId.ToString(),
                 a.Country,
                 defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-                ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl
+                ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}"
             }).OrderByDescending(a => a.ModifiedOn);
             if (!string.IsNullOrEmpty(__amp_source_origin))
             {

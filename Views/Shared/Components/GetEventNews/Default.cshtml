@@ -23,20 +23,23 @@
         {
             <div class="col-xs-12 col-sm-6">
                 @{
-                    //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                    var newsImage = item.ImageUrl;
+                    var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                 }
                 <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{ prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">
-                    <div class="event-news bg-gray" style="background-image:url(@newsImage?width=360&height=240&mode=crop&format=webp);"></div>
+                    <div class="event-news bg-gray" style="background-image:url(@newsImage&width=360&height=240&mode=crop&format=webp);"></div>
                 </a>
                 <div class="eventcard-title card-bottom">
                     <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
                         <h4 title="@item.Title" style="font-stretch:extra-condensed;line-height:1.2;font-weight:400" class="no-margin">
                             @item.Title
                         </h4>
-                        <p class="text-gray"> <small>@{
+                        <p class="text-gray">
+                            <small>
+                                @{
                                     await CountryHelper(item.Country);
-                                }</small> | <span><small>@item.TimeAgo()</small></span> </p>
+                                }
+                            </small> | <span><small>@item.TimeAgo()</small></span>
+                        </p>
                     </a>
                 </div>
             </div>
@@ -47,10 +50,9 @@
         {
             <div class="p-b-20 col-xs-12 col-sm-4">
                 @{
-                    var newsImage = item.ImageUrl;
-                   // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                    var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                     <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{ prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">
-                        <div class="trend-card bg-gray lazy" style="background-image:url(@newsImage?width=326&height=180&mode=crop&format=webp);"></div>
+                        <div class="trend-card bg-gray lazy" style="background-image:url(@newsImage&width=326&height=180&mode=crop&format=webp);"></div>
                     </a>
                 }
                 <div class="eventcard-title card-bottom">
@@ -78,11 +80,10 @@ else if (Model.Count() > 5)
         {
             <div class="p-b-20 col-xs-12 col-sm-4">
                 @{
-                    var newsImage = item.ImageUrl;
-                    //var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                    var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                 }
                 <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{ prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">
-                    <div class="trend-card bg-gray lazy" style="background-image:url(@newsImage?width=326&height=180&mode=crop&format=webp);"></div>
+                    <div class="trend-card bg-gray lazy" style="background-image:url(@newsImage&width=326&height=180&mode=crop&format=webp);"></div>
                 </a>
                 <div class="eventcard-title card-bottom">
                     <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">

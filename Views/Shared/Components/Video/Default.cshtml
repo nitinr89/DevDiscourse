@@ -1,7 +1,7 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @model Devdiscourse.Models.VideoNewsModels.VideoNews
 @{
-    var newsImage = (Model.VideoThumbUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.VideoThumbUrl : Model.VideoThumbUrl;
+    var newsImage = $"/Experiment/Img?imageUrl={Model.VideoThumbUrl}";
     string domainUrl = "https://www.devdiscourse.com";
     string pageUrl = "/videos/" + Model.GenerateSecondSlug();
     var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
@@ -14,7 +14,7 @@
            preload="auto"
            width="640"
            height="360"
-           poster="@domainUrl@newsImage?width=1280&height=720&mode=crop"
+           poster="@domainUrl@newsImage&width=1280&height=720&mode=crop"
            data-setup='{"fluid": true}'>
         <source id="videosource" src="/api/MediaStream/GetVideoStream/@Model.Id" type="video/mp4" />
         <p class="vjs-no-js">
@@ -45,10 +45,10 @@
     </div>
     <ul class="list-inline no-margin">
         <li><a class="social-btn fb" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@domainUrl@pageUrl', 'facebook_share','height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="Share on Facebook"> <span class="fa fa-facebook fb"></span> </a> </li>
-      @*   <li><a class="social-btn tw" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@Server.UrlEncode(@Model.Title)', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li>
+        @*   <li><a class="social-btn tw" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@Server.UrlEncode(@Model.Title)', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li>
         <li><a class="social-btn ln" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&title=@Server.UrlEncode(@Model.Title)&summary=@Server.UrlEncode(@Model.Title)&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span></a> </li>
         <li><a class="social-btn yt" aria-label="Subscribe on Youtube" rel="noopener" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span></a> </li> *@
-       @*  @if (Request.Browser.IsMobileDevice) *@
+        @*  @if (Request.Browser.IsMobileDevice) *@
 
         <li><a class="social-btn tw" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@encodedTitle', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li>
         <li><a class="social-btn tw" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;text=@encodedTitle', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li>

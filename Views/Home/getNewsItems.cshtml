@@ -4,13 +4,12 @@
 }
 @foreach (var item in Model)
 {
-   // var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-    var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ?  item.ImageUrl : item.ImageUrl;
+    var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
     <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
         <div class="m-b-30 col-md-12">
             <div class="row">
                 <div class="col-md-5 col-sm-4">
-                    <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg"></div>
+                    <div class="bg-gray cover-img lazy" data-src="@domainUrl@newsImage&width=295&height=160&mode=crop&format=jpeg"></div>
                 </div>
                 <div class="col-md-7 col-sm-8 p-l-0">
                     @if (!String.IsNullOrEmpty(item.Country))
@@ -31,6 +30,6 @@
             </div>
         </div>
     </a>
-  
+
 }
 

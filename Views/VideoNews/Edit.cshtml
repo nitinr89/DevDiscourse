@@ -322,8 +322,8 @@
                                     <div id="show-image-div">
                                         @if (!string.IsNullOrEmpty(Model.VideoThumbUrl))
                                         {
-                                            var newsImage = Model.VideoThumbUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.VideoThumbUrl : Model.VideoThumbUrl;
-                                            <img src="~/Content/transparent.png" data-src="@domainUrl@newsImage?width=240&height=140&mode=crop" class="img-responsive lazy" />
+                                            var newsImage = $"/Experiment/Img?imageUrl={Model.VideoThumbUrl}";
+                                            <img src="@newsImage&width=240&height=140&mode=crop" class="img-responsive lazy" />
                                         }
                                         else
                                         {

@@ -111,13 +111,12 @@
     <div class="gallery m-t-20" id="gallery">
         @foreach (var item in Model)
         {
-            @* var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; *@
-            var newsImage = item.ImageUrl;
+            var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
             <div class="pics animation all 2">
                 <div style="display:inline-block">
                     <label for="@item.Id">
                         <input id="@item.Id" type="checkbox" class="check" />
-                        <img class="img-fluid img-responsive" src="@newsImage" width="480" onload="imageLoaded(this)" data-id="@item.Id" alt="Image Gallery">
+                        <img class="img-fluid img-responsive" src="@newsImage&width=480" width="480" onload="imageLoaded(this)" data-id="@item.Id" alt="Image Gallery">
                         <div class="image-card-title">
                             @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Upfront") || User.IsInRole("Author"))
                             {

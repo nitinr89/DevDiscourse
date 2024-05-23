@@ -12,7 +12,7 @@
     string domainUrl = "https://www.devdiscourse.com";
     ViewBag.webEdition = ViewBag.region;
     string imageUrl = @Model.ImageUrl ?? "";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=1280" : string.Concat(domainUrl, imageUrl) + "?width=1280";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={imageUrl}&width=1280" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, imageUrl) + "&width=1280";
     ViewBag.PageImage = newsImage;
     string pageUrl = "/live-discourse/" + Model.GenerateSecondSlug();
     ViewBag.pageUrl = pageUrl;

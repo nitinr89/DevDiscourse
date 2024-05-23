@@ -16,8 +16,8 @@
     ViewBag.pageType = "article";
     ViewBag.pageAuthor = Model.Source;
     string imageUrl = @Model.ImageUrl ?? "";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl : string.Concat(domainUrl, imageUrl);
-    ViewBag.PageImage = newsImage + "?width=1280";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={imageUrl}" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "&width=1280";
     string NewsLabel = Model.NewsLabels ?? "agency-wire";
     string pageUrl = "/article/" + NewsLabel + "/" + Model.GenerateSecondSlug();
     ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
@@ -394,7 +394,7 @@
                     @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/newstheme.jpg" && Model.ImageUrl != "/images/defaultImage.jpg" && Model.ImageUrl != "/images/sector/all_sectors.jpg")
                     {
                         <div class="article-image-container">
-                            <img src="@newsImage?width=920" class="img-responsive m-b-10 center-block" title="@Model.Title" alt="@Model.Title" />
+                            <img src="@newsImage&width=920" class="img-responsive m-b-10 center-block" title="@Model.Title" alt="@Model.Title" />
                             <p class="meta" style="margin-bottom:5px;">
                                 @Model.ImageCaption @Model.ImageCopyright
                                 @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
@@ -560,7 +560,7 @@
                                     hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[i].commentId + '">Delete</span>';
             </text>
         }
-                                if (data[i].parentId == 0) {
+                                                                                if (data[i].parentId == 0) {
                                 $('#itemComment_' + data[i].itemId).append('<div class="comment" id="single_' + data[i].commentId + '">' +
                                     '<div class="name">' + data[i].name + '</div>' +
                                     '<div class="content">' + data[i].commentText + '</div>' +
@@ -645,7 +645,7 @@
                             hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[0].commentId + '">Delete</span>';
             </text>
         }
-                            if (data[0].parentId == 0) {
+                                                                            if (data[0].parentId == 0) {
                         $('#itemComment_' + data[0].itemId).append('<div class="comment" id="single_' + data[0].commentId + '">' +
                             '<div class="name">' + data[0].name + '</div>' +
                             '<div class="content">' + data[0].commentText + '</div>' +
@@ -739,22 +739,22 @@
         {
             <text>GetEditionNews("Latin America and Caribbean", "LATIN AMERICA AND CARIBBEAN EDITION", "latin-america"); </text>
         }
-            function GetEditionNews(region, title, editionSlug) {
-                $.ajax({
-                    url: '/api/Search/GetEditionNews/' + region + '/' + title, type: "GET", success: function (result) {
-                        var latestItems = ''; if (result.news.length > 0) {
-                            var content = ''; $.each(result.news, function (i, item) {
-                                var slugUrl = convertToSlug(item.NewId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var newsType = ''; if (item.Type == "Event") { newsType = '<span class="pull-right infocus-badge">' + item.Type + '</span>' }
-                                else if (item.Type == "Blog") { if (item.SubType != "" || item.SubType != null) { newsType = '<span class="pull-right infocus-badge">' + item.SubType + '</span>' } else { newsType = '<span class="pull-right infocus-badge">Blog</span>' } }
-                                var imageContent = ""; if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.Title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '?width=90&height=90&mode=crop"></div></a></div>' }
-                                content += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="media news-media-card">' + newsType + imageContent + '<div class="media-body"><h3 class="media-title"><a href="/article/' + label + '/' + slugUrl + '" class="text-decoration">' + item.Title + '</a></h3></div></div></a>'
-                            }); var urlhtml = ''; if (result.edition == "AFRICA EDITION") { urlhtml = result.edition } else { urlhtml = '<a href="' + editionSlug + '" class="text-decoration">' + result.edition + '</a>' }
-                            latestItems = '<div class="clearfix m-t-40"><h2 class="section-title"><span>' + urlhtml + '</span></h2>' + content + '</div>'; if (result.edition == "AFRICAN EDITIONS") { $('#AfricaEditionNews').append(latestItems) } else { $('#EditionNews').append(latestItems) }
-                            $('.lazy').lazy();
-                        }
-                    }, error: function (req, status, err) { console.log(req.responseText) }
-                })
-            }
+                function GetEditionNews(region, title, editionSlug) {
+                    $.ajax({
+                        url: '/api/Search/GetEditionNews/' + region + '/' + title, type: "GET", success: function (result) {
+                            var latestItems = ''; if (result.news.length > 0) {
+                                var content = ''; $.each(result.news, function (i, item) {
+                                    var slugUrl = convertToSlug(item.NewId, item.Title); var label = item.Label != null ? item.Label : "agency-wire"; var newsType = ''; if (item.Type == "Event") { newsType = '<span class="pull-right infocus-badge">' + item.Type + '</span>' }
+                                    else if (item.Type == "Blog") { if (item.SubType != "" || item.SubType != null) { newsType = '<span class="pull-right infocus-badge">' + item.SubType + '</span>' } else { newsType = '<span class="pull-right infocus-badge">Blog</span>' } }
+                                    var imageContent = ""; if (item.ImageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { var newsImage = "/Experiment/Img?imageUrl=" + item.ImageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.Title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '&width=90&height=90&mode=crop"></div></a></div>' }
+                                    content += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="media news-media-card">' + newsType + imageContent + '<div class="media-body"><h3 class="media-title"><a href="/article/' + label + '/' + slugUrl + '" class="text-decoration">' + item.Title + '</a></h3></div></div></a>'
+                                }); var urlhtml = ''; if (result.edition == "AFRICA EDITION") { urlhtml = result.edition } else { urlhtml = '<a href="' + editionSlug + '" class="text-decoration">' + result.edition + '</a>' }
+                                latestItems = '<div class="clearfix m-t-40"><h2 class="section-title"><span>' + urlhtml + '</span></h2>' + content + '</div>'; if (result.edition == "AFRICAN EDITIONS") { $('#AfricaEditionNews').append(latestItems) } else { $('#EditionNews').append(latestItems) }
+                                $('.lazy').lazy();
+                            }
+                        }, error: function (req, status, err) { console.log(req.responseText) }
+                    })
+                }
             $(document).on('click', '.full-read-btn', function () {
                 var alsoTag = $(this).attr('data-tag');
                 var alsoId = $(this).attr('data-id');
@@ -846,8 +846,8 @@
                                 var encodedTitle = encodeURI(item.Title);
                                 function formating(input) { return input < 10 ? '0' + input : input };
                                 if (item.ImageUrl != null) {
-                                    var iurl = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "https://www.devdiscourse.com/remote.axd?" + item.ImageUrl : "https://www.devdiscourse.com" + item.ImageUrl;
-                                    imageHtml = '<img src="' + iurl + '?width=640" />'
+                                    var iurl = "/Experiment/Img?imageUrl=" + item.ImageUrl;
+                                    imageHtml = '<img src="' + iurl + '&width=640" />'
                                 }
                                 var lefthtml = '<div class="left" style="min-width:100px;">' +
                                     '<small class="text-muted">' + formating(cdate.getHours()) + ':' + formating(cdate.getMinutes()) + ':' + formating(cdate.getSeconds()) + '</small>' +
@@ -914,8 +914,8 @@
                 function formating(input) { return input < 10 ? '0' + input : input };
                 if (newsId == parentId) {
                     if (imageurl != null) {
-                        var iurl = imageurl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "https://www.devdiscourse.com/remote.axd?" + imageurl : "https://www.devdiscourse.com" + imageurl;
-                        imageHtml = '<img src="' + iurl + '?width=640" />'
+                        var iurl = "/Experiment/Img?imageUrl=" + imageurl";
+                        imageHtml = '<img src="' + iurl + '&width=640" />'
                     }
                     var lefthtml = '<div class="left" style="min-width:100px;">' +
                         '<small class="text-muted">' + formating(cdate.getHours()) + ':' + formating(cdate.getMinutes()) + ':' + formating(cdate.getSeconds()) + '</small>' +

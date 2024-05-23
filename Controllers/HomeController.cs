@@ -802,8 +802,7 @@ namespace DevDiscourse.Controllers
                 b.NewsId,
                 b.Country,
                 defaultImage = b.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-                // ImageUrl = b.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? b.ImageUrl : "/remote.axd?" + b.ImageUrl
-                ImageUrl = b.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? b.ImageUrl : b.ImageUrl
+                ImageUrl = $"/Experiment/Img?imageUrl={b.ImageUrl}"
             });
             int pageSize = 10;
             int pageNumber = (moreItemsPageIndex ?? 1);
@@ -1938,7 +1937,7 @@ namespace DevDiscourse.Controllers
         //        {
         //            a.Title,
         //            defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-        //            ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+        //            ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
         //            Url = "/article/" + (a.NewsLabels ?? "agency-wire") + "/" + a.NewsId,
         //            a.Country
         //        }).AsNoTracking().Take(10);
@@ -1950,7 +1949,7 @@ namespace DevDiscourse.Controllers
         //        {
         //            a.Title,
         //            defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-        //            ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+        //            ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
         //            Url = "/article/" + (a.NewsLabels ?? "agency-wire") + "/" + a.NewsId,
         //            a.Country
         //        }).AsNoTracking().Take(10);
@@ -1971,7 +1970,7 @@ namespace DevDiscourse.Controllers
         //        {
         //            a.Title,
         //            defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-        //            ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+        //            ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
         //            Url = "/article/" + (a.NewsLabels ?? "agency-wire") + "/" + a.NewsId,
         //            a.Country
         //        }).AsNoTracking().Take(10);
@@ -1983,7 +1982,7 @@ namespace DevDiscourse.Controllers
         //        {
         //            a.Title,
         //            defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-        //            ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+        //            ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
         //            Url = "/article/" + (a.NewsLabels ?? "agency-wire") + "/" + a.NewsId,
         //            a.Country
         //        }).AsNoTracking().Take(10);
@@ -1998,7 +1997,7 @@ namespace DevDiscourse.Controllers
         //        {
         //            a.Title,
         //            defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-        //            ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+        //            ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
         //            Url = "/article/" + (a.NewsLabels ?? "agency-wire") + "/" + a.NewsId,
         //            a.Country
         //        }).AsNoTracking().Take(5);
@@ -2010,7 +2009,7 @@ namespace DevDiscourse.Controllers
         //        {
         //            a.Title,
         //            defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-        //            ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl,
+        //            ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}",
         //            Url = "/article/" + (a.NewsLabels ?? "agency-wire") + "/" + a.NewsId,
         //            a.Country
         //        }).AsNoTracking().Take(5);
@@ -2125,7 +2124,7 @@ namespace DevDiscourse.Controllers
         //                      select new
         //                      {
         //                          title = m.Title,
-        //                          image = m.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? m.ImageUrl : "/remote.axd?" + m.ImageUrl,
+        //                          image = $"/Experiment/Img?imageUrl={m.ImageUrl}",
         //                          url = "/article/" + (m.NewsLabels ?? "agency-wire") + "/" + m.NewsId,
         //                          defaultImage = m.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false
         //                      }).Take(5);
@@ -2141,7 +2140,7 @@ namespace DevDiscourse.Controllers
         //                      select new
         //                      {
         //                          title = m.Title,
-        //                          image = m.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? m.ImageUrl : "/remote.axd?" + m.ImageUrl,
+        //                          image = $"/Experiment/Img?imageUrl={m.ImageUrl}",
         //                          url = "/article/" + (m.NewsLabels ?? "agency-wire") + "/" + m.NewsId,
         //                          defaultImage = m.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false
         //                      }).Take(5);
@@ -2157,7 +2156,7 @@ namespace DevDiscourse.Controllers
         //                  select new
         //                  {
         //                      title = m.Title,
-        //                      image = m.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? m.ImageUrl : "/remote.axd?" + m.ImageUrl,
+        //                      image = $"/Experiment/Img?imageUrl={m.ImageUrl}",
         //                      url = "/article/" + (m.NewsLabels ?? "agency-wire") + "/" + m.NewsId,
         //                      defaultImage = m.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false
         //                  }).Take(5);
@@ -2540,7 +2539,7 @@ namespace DevDiscourse.Controllers
         //        a.Country,
         //        Url = "/mobilearticle/" + a.GenerateSecondSlug().ToString(),
         //        defaultImage = a.ImageUrl == "/images/sector/all_sectors.jpg" ? true : false,
-        //        ImageUrl = a.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") == -1 ? a.ImageUrl : "/remote.axd?" + a.ImageUrl
+        //        ImageUrl = $"/Experiment/Img?imageUrl={a.ImageUrl}"
         //    });
         //    return PartialView("GetTrendNews", returnData);
         //}
@@ -2740,7 +2739,7 @@ namespace DevDiscourse.Controllers
         //        };
         //    var news = _db.DevNews.Where(s => s.Sector == id && !s.ImageUrl.Contains("AdminFiles") && !s.ImageUrl.Contains("/images/sector/") && !s.ImageUrl.Contains("UN_News_cover") && !s.ImageUrl.Contains("newstheme") && !images.Contains(s.ImageUrl)).OrderByDescending(s => s.CreatedOn).Select(a => new { a.Title, a.ImageUrl }).Take(1000);
         //    //news = news.Where(i => !images.Contains(i.ImageUrl));
-        //    news = news.Select(o => new { o.Title, ImageUrl = o.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + o.ImageUrl + "?width=224" : domainUrl + "" + o.ImageUrl + "?width=224" });
+        //    news = news.Select(o => new { o.Title, ImageUrl = $"/Experiment/Img?imageUrl={item.ImageUrl}&width=224" });
         //    return Json(news.ToList(), JsonRequestBehavior.AllowGet);
         //}
         protected override void Dispose(bool disposing)

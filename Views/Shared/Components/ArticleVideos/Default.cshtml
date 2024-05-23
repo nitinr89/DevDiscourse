@@ -3,9 +3,9 @@
     <div class="col-md-6">
         @foreach (var item in Model.Take(1))
         {
-            var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
             <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">
-                <div class="video-cover m-b-20 lazy" title="@item.Title" data-src="@newsImage?width=555&height=300&mode=crop">
+                <div class="video-cover m-b-20 lazy" title="@item.Title" data-src="@newsImage&width=555&height=300&mode=crop">
                     <div class="cover-overlay">
                         <h3 class="video-title">@item.Title</h3>
                         <small class="fg-white no-margin">
@@ -30,11 +30,11 @@
     <div class="col-md-6">
         @foreach (var item in Model.Skip(1))
         {
-            var newsImage = (item.ImageUrl ?? "").IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+            var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
             <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})">
                 <div class="media m-b-10" title="@item.Title">
                     <div class="media-left">
-                        <div class="video-cover small lazy" data-src="@newsImage?width=100&height=90&mode=crop">
+                        <div class="video-cover small lazy" data-src="@newsImage&width=100&height=90&mode=crop">
                             <div class="video-btn small"><span class="fa fa-play"></span></div>
                         </div>
                     </div>

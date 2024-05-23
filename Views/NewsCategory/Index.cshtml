@@ -345,7 +345,7 @@
                                 var country = item.country != null ? item.country : '';
                                 var newsImage = '/images/sector/all_sectors.jpg';
                                 if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
-                                    newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.imageUrl : item.imageUrl;
+                                    newsImage = "/Experiment/Img?imageUrl="+item.ImageUrl;
                                 }
                                 var createdOn = new Date(item.createdOn);
                                 createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
@@ -357,7 +357,7 @@
                                     '<div class="m-b-30 col-md-12">' +
                                     '<div class="row">' +
                                     '<div class="col-md-5 col-sm-4">' +
-                                    '<div class="bg-gray cover-img lazy" data-src="https://www.devdiscourse.com' + newsImage + '?width=295&height=160&mode=crop&anchor=top&format=jpeg"></div>' +
+                                    '<div class="bg-gray cover-img lazy" data-src="https://www.devdiscourse.com' + newsImage + '&width=295&height=160&mode=crop&anchor=top&format=jpeg"></div>' +
                                     '</div>' +
                                     '<div class="col-md-7 col-sm-8 p-l-0">' +
                                     '<div class="text-uppercase country-sub">' + countryHtml + '</div>' +

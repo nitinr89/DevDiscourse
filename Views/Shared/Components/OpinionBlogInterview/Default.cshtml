@@ -45,13 +45,12 @@
     var newsImage = "";
     if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
     {
-       // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-        newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? item.ImageUrl : item.ImageUrl;
+        newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
     }
     <a href="@Url.RouteUrl("ArticleDetailswithprefix",new { prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration">
         @*<div class="row m-b-20">
     <div class="col-md-3 col-sm-5">
-    <div class="trend-img lazy lazyload" data-src="@newsImage?width=640&height=480&mode=crop"></div>
+    <div class="trend-img lazy lazyload" data-src="@newsImage&width=640&height=480&mode=crop"></div>
     </div>
     <div class="col-md-9 col-sm-7 list-padding">
     <h3 class="fg-black no-margin l-h">@item.Title</h3>
@@ -60,7 +59,7 @@
     </div>*@
         <div class="row m-b-20">
             <div class="col-md-12 col-sm-5">
-                <div class="trend-img lazy lazyload" data-src="@newsImage?width=320&height=240&mode=crop"></div>
+                <div class="trend-img lazy lazyload" data-src="@newsImage&width=320&height=240&mode=crop"></div>
             </div>
             <div class="col-md-12 col-sm-7">
                 <h4 class="fg-black no-margin f-18 l-h">@item.Title</h4>

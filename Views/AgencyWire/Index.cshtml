@@ -42,8 +42,8 @@
                 <div class="media" title="@item.Title">
                     @if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg")
                     {
-                        var newsthumbImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                        <div class="media-left"> <div class="image-card bg-gray" style="background-image:url(@newsthumbImage?width=100&height=80&quality=80&mode=crop)"></div></div>
+                        var newsthumbImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                        <div class="media-left"> <div class="image-card bg-gray" style="background-image:url(@newsthumbImage&width=100&height=80&quality=80&mode=crop)"></div></div>
                     }<div class="media-body">
                         <div class="title fg-black hover-color" style="font-stretch:extra-condensed;line-height:1.1">@item.Title</div><p class="one-line-text text-muted p-t-10">
                             @if (!String.IsNullOrEmpty(item.Country))

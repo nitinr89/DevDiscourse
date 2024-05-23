@@ -79,9 +79,9 @@
 
             <dd>
                 @{
-                    var newsImage = Model?.VideoThumbUrl?.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + Model.VideoThumbUrl : Model.VideoThumbUrl;
+                    var newsImage = $"/Experiment/Img?imageUrl={Model.VideoThumbUrl}";
                 }
-                <img src="@domainUrl@newsImage?width=640" class="img-responsive" />
+                <img src="@newsImage&width=640" class="img-responsive" />
             </dd>
 
             <dt>

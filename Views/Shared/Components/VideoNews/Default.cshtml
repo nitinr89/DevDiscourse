@@ -3,12 +3,12 @@
     string domainUrl = "https://www.devdiscourse.com";
 }@foreach (var item in Model)
 {
-    var newsImage = item.FileThumbUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.FileThumbUrl : item.FileThumbUrl;
+    var newsImage = $"/Experiment/Img?imageUrl={item.FileThumbUrl}";
     <a href="@Url.RouteUrl("NewsVideo", new{id=item.GenerateSecondSlug()})" class="text-decoration">
         <div class="m-b-30 col-md-12">
             <div class="row">
                 <div class="col-md-5 col-sm-4">
-                    <div class="bg-gray cover-img lazy lazyload" data-src="@domainUrl@newsImage?width=295&height=160&mode=crop&format=jpeg">
+                    <div class="bg-gray cover-img lazy lazyload" data-src="@domainUrl@newsImage&width=295&height=160&mode=crop&format=jpeg">
                         <div class="cover-img-overlay"><div class="play-icon"> <span class="fa fa-play"></span></div></div>
                     </div>
                 </div>

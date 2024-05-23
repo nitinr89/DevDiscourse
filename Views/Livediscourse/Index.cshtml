@@ -1,4 +1,3 @@
-
 ﻿@using Devdiscourse.Models;
 @using X.PagedList
 @model IPagedList<Devdiscourse.Models.BasicModels.Livediscourse>
@@ -90,7 +89,7 @@
                 Html.RenderAction("GetRegion", "Home");
                 } *@
 
-                @await Component.InvokeAsync("Region" ,new { filter = ""});
+                @await Component.InvokeAsync("Region", new { filter = "" });
 
             </select>
         </div>
@@ -106,7 +105,7 @@
                 Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });
                 } *@
 
-                @await Component.InvokeAsync("SectorMenu" ,new { filter = "AdminPage"});
+                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
 
             </select>
         </div>
@@ -177,16 +176,15 @@
 
 
 
-                        @await Component.InvokeAsync("Sector" ,new {sector = item.Sector, filter = "Plane"});
+                        @await Component.InvokeAsync("Sector", new { sector = item.Sector, filter = "Plane" });
 
 
                     </td>
                     <td>
                         @if (!String.IsNullOrEmpty(item.ImageUrl))
                         {
-                            @* var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl; *@
-                            var newsImage = item.ImageUrl;
-                            <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                            var newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
+                            <img alt="news thumbnail" src="@newsImage&width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
                         }
                         else
                         {
@@ -223,7 +221,7 @@
     </div>
     <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
         <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
-               @Html.PagedListPager(Model, page => Url.Action("Index", "Livediscourse", new { bfd = ViewBag.bfDate, afd = ViewBag.afDate, page, region = ViewBag.region, sector = ViewBag.sector, country = ViewBag.country, source = ViewBag.source, text = ViewBag.text })) 
+        @Html.PagedListPager(Model, page => Url.Action("Index", "Livediscourse", new { bfd = ViewBag.bfDate, afd = ViewBag.afDate, page, region = ViewBag.region, sector = ViewBag.sector, country = ViewBag.country, source = ViewBag.source, text = ViewBag.text }))
     </div>
 </div>
 
@@ -249,7 +247,7 @@
 </div>
 
 
-@section scripts{
+@section scripts {
     <script src="~/Scripts/jquery.multiselect.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {

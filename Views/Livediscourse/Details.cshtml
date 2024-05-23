@@ -230,25 +230,25 @@
                         }
                         $.each(data, function (i, item) {
                             var imghtml = '';
-                            var createdOn = new Date(item.CreatedOn); createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
-                            if (item.ImageUrl != null) {
-                                var newsImage = item.ImageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-                                imghtml = '<img class="img-responsive" src="' + newsImage + '?width=90"/>';
+                            var createdOn = new Date(item.createdOn); createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
+                            if (item.imageUrl != null) {
+                                var newsImage = "/Experiment/Img?imageUrl=" + item.imageUrl;
+                                imghtml = '<img class="img-responsive" src="' + newsImage + '&width=90"/>';
                             }
                             var buttons = '';
                             @if(Model.Creator == loginUserId||User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || User.IsInRole("Upfront"))
                             {
                                 <text>
-                            buttons = `<a href="/Livediscourse/Edit?id=${item.Id}" class="btn btn-xs btn-success" target="_blank" title="Edit"><span class="fa fa-pencil"></span></a>
-                                    <a href="/Livediscourse/Details?id=${item.Id}" class="btn btn-xs btn-info" target="_blank" title="Details"><span class="fa fa-eye"></span></a>
-                                    <a href="/Livediscourse/Delete?id=${item.Id}" class="btn btn-xs btn-danger" target="_blank" title="Delete"><span class="fa fa-trash"></span></a>`;
+                            buttons = `<a href="/Livediscourse/Edit?id=${item.id}" class="btn btn-xs btn-success" target="_blank" title="Edit"><span class="fa fa-pencil"></span></a>
+                                    <a href="/Livediscourse/Details?id=${item.id}" class="btn btn-xs btn-info" target="_blank" title="Details"><span class="fa fa-eye"></span></a>
+                                    <a href="/Livediscourse/Delete?id=${item.id}" class="btn btn-xs btn-danger" target="_blank" title="Delete"><span class="fa fa-trash"></span></a>`;
                                 </text>
                             }
                             $('#tbody').append(`
                                         <tr>
-                                        <td>${item.Region}</td>
-                                        <td>${item.Country}</td>
-                                        <td>${item.Title}</td>
+                                        <td>${item.region}</td>
+                                        <td>${item.country}</td>
+                                        <td>${item.title}</td>
                                         <td>${imghtml}</td>
                                         <td>${formating(createdOn.getDate())}-${formating(createdOn.getMonth() + 1)}-${createdOn.getFullYear()} ${formating(createdOn.getHours())}:${formating(createdOn.getMinutes())}</td>
                                         <td>${buttons}</td>

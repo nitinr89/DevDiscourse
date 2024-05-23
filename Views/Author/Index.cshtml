@@ -4,7 +4,7 @@
     ViewBag.webEdition = ViewBag.region;
     ViewBag.alternateHeadline = ViewBag.Author.FirstName + " " + ViewBag.Author.LastName;
     string imageUrl = @ViewBag.Author.ProfilePic ?? "";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + imageUrl + "?width=920" : string.Concat(domainUrl, imageUrl) + "?width=920";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={imageUrl}&width=920" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, imageUrl) + "&width=920";
     ViewBag.PageImage = newsImage;
     ViewBag.PostUrl = domainUrl + "/Author/" + ViewBag.Author.UserName;
     ViewBag.pageKeywords = ViewBag.Author.FirstName + ", " + ViewBag.Author.LastName;
@@ -52,7 +52,7 @@
             </div>
             <div id="article-container" class="clearfix row m-t-20">
                 @* @{Html.RenderAction("GetUserNews", "Author", new { name = @ViewBag.Author.UserName });} *@
-                @await Component.InvokeAsync("UserNews",new { name = @ViewBag.Author.UserName });
+                @await Component.InvokeAsync("UserNews", new { name = @ViewBag.Author.UserName });
             </div>
         </div>
         <div class="col-md-4 col-xs-12">

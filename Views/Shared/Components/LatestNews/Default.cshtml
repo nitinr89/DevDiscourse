@@ -45,24 +45,20 @@
         string baseUrl = Url.Content("~/");
         string controller = "article";
         string action = item.Label ?? "agency-wire";
-         string id = item.GenerateSecondSlug();
+        string id = item.GenerateSecondSlug();
         //long id = item.NewsId;
 
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         {
-          
-           // newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
-
-
-            newsImage = item.ImageUrl;
+            newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
         }
         <li class="also-title">
             <h3 class="f-18 no-margin font-normal l-h">
 
-@*                 <a href="@Url.RouteUrl("ArticleDetailswithprefix",new { prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
-               <a href="@baseUrl@controller/@action/@id" class="text-decoration">
-             @*     <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">  *@
+                @*                 <a href="@Url.RouteUrl("ArticleDetailswithprefix",new { prefix = item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" class="text-decoration"> *@
+                <a href="@baseUrl@controller/@action/@id" class="text-decoration">
+                    @*     <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">  *@
 
                     @item.Title
                 </a>

@@ -14,8 +14,8 @@
     ViewBag.webEdition = ViewBag.region;
     ViewBag.PostUrl = "https://www.devdiscourse.com/pti-stories";
     ViewBag.pageKeywords = "Development News, Latest News, Breaking News, energy news, urban development news,transport news,economy news,finance news,sports news,art and culture news,education news,latest news,Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
-    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
-    ViewBag.PageImage = newsImage + "?width=920";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? $"/Experiment/Img?imageUrl={imageUrl}" : "/Experiment/Img?imageUrl=" + string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "&width=920";
 }
 @functions {
     async Task Truncate(string input, int length)
@@ -41,9 +41,11 @@
     input, textarea, select {
         max-width: 100% !important;
     }
+
     .badge {
         border-radius: unset;
     }
+
     .indexedView {
         padding: 10px;
         background-color: #0cb422;
@@ -208,9 +210,9 @@
                 </td>
                 <td>
                     @{
-                        // var newsImage = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.ImageUrl : item.ImageUrl;
+                        var image = $"/Experiment/Img?imageUrl={item.ImageUrl}";
                     }
-                    <img alt="news thumbnail" src="@newsImage?width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
+                    <img alt="news thumbnail" src="@image&width=80&height=80&mode=crop" class="img-responsive lazy" style="max-width:80px;" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Source)
@@ -262,8 +264,8 @@
         @Html.PagedListPager(Model, page => Url.Action("Index", "PTI", new { bfd = ViewBag.bfDate, afd = ViewBag.afDate, page, region = ViewBag.region, sector = ViewBag.sector, category = ViewBag.category, country = ViewBag.country, text = ViewBag.text, uid = ViewBag.uid }))
     </div>
 </div>
-@section scripts{
-@* <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+@section scripts {
+    @* <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
 <script src="~/signalr/hubs"></script> *@
     <script type="text/javascript">
         $(document).ready(function () {
@@ -342,7 +344,7 @@
             });
         });
         $(function () {
-             var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+            var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
             connection.on("NewsOpenNotification", function (id, user, colorcode) {
                 $('#' + id).html('<span class="pull-right badge ' + colorcode + '">' + user + '</span>');

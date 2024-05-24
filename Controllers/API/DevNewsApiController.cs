@@ -611,10 +611,17 @@ namespace DevDiscourse.Controllers.API
             {
                 noun = noun.ToLower();
                 ImageGallery? image = await db.ImageGalleries
-                    .Where(f => f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun))
+                    .Where(f => f.Sector == sector && (f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun)))
                     .OrderByDescending(o => o.CreatedOn).FirstOrDefaultAsync();
-                if (image == null) return "NotOk200 - Not Found";
-                return image.ImageUrl;
+                if (image == null)
+                {
+                    image = await db.ImageGalleries
+                     .Where(f => f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun))
+                     .OrderByDescending(o => o.CreatedOn).FirstOrDefaultAsync();
+                    if (image == null) return "NotOk200 - Not Found";
+                    else return image.ImageUrl;
+                }
+                else return image.ImageUrl;
             }
             catch (Exception ex)
             {
@@ -623,14 +630,11 @@ namespace DevDiscourse.Controllers.API
         }
         [Route("api/GenImg")]
         [HttpPost]
-        public async Task<string> GenImg(string jaadu, string title, string sector, string noun, string prompt, string tags)
+        public async Task<string> GenImg(string jaadu, string title, string caption, string sector, string noun, string prompt, string tags)
         {
             if (jaadu != "pleaseletmeaccess") return "NotOk200 - Unauthorized";
             Controlls controll = db.Controlls.First(f => f.Name == "AiImage");
-            if (controll.Value != "true")
-            {
-                return await ChooseImg(jaadu, noun, sector);
-            }
+            if (controll.Value != "true") return "NotOk200 - Permission not Granted";
             else
             {
                 try
@@ -698,7 +702,7 @@ namespace DevDiscourse.Controllers.API
                                 Title = title,
                                 ImageUrl = finalImageUrl,
                                 ImageCopyright = "",
-                                Caption = title,
+                                Caption = caption,
                                 FileMimeType = mimeType,
                                 FileSize = fileSize,
                                 Sector = sector,

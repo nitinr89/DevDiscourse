@@ -297,7 +297,7 @@ namespace DevDiscourse.Controllers.Main
 
                             CloudBlobContainer blobContainer;
                             CloudBlockBlob blob;
-                            using (MemoryStream ms = new MemoryStream())
+                            using (MemoryStream ms = new())
                             {
                                 await ImageUrl.CopyToAsync(ms);
                                 ms.Position = 0;
@@ -306,13 +306,14 @@ namespace DevDiscourse.Controllers.Main
                                 blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
                                 await blob.UploadFromStreamAsync(ms);
 
-                                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
+                                //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
 
-                                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                                {
-                                    await ImageUrl.CopyToAsync(fileStream);
-                                }
-                                devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                                //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                                //{
+                                //    await ImageUrl.CopyToAsync(fileStream);
+                                //}
+                                //devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                                devNews.ImageUrl = blob.Uri.ToString();
                                 devNews.FileMimeType = mimeType;
                                 devNews.FileSize = fileSize;
                                 // Saved Image in Image Gallery
@@ -321,7 +322,7 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
                                     Title = actName,
                                     ImageUrl = devNews.ImageUrl,
@@ -350,9 +351,9 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
-                                    Title = findimage.Title,
+                                    Title = findimage.Title ?? "",
                                     ImageUrl = findimage.FileUrl,
                                     ImageCopyright = imgcopyright,
                                     Caption = "",
@@ -533,7 +534,7 @@ namespace DevDiscourse.Controllers.Main
 
                             CloudBlobContainer blobContainer;
                             CloudBlockBlob blob;
-                            using (MemoryStream ms = new MemoryStream())
+                            using (MemoryStream ms = new())
                             {
                                 await ImageUrl.CopyToAsync(ms);
                                 ms.Position = 0;
@@ -558,7 +559,7 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
                                     Title = actName,
                                     ImageUrl = devNews.ImageUrl,
@@ -588,9 +589,9 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
-                                    Title = findimage.Title,
+                                    Title = findimage.Title ?? "",
                                     ImageUrl = findimage.FileUrl,
                                     ImageCopyright = imgcopyright,
                                     Caption = "",
@@ -777,7 +778,7 @@ namespace DevDiscourse.Controllers.Main
 
                             CloudBlobContainer blobContainer;
                             CloudBlockBlob blob;
-                            using (MemoryStream ms = new MemoryStream())
+                            using (MemoryStream ms = new())
                             {
                                 await ImageUrlUpdate.CopyToAsync(ms);
                                 ms.Position = 0;
@@ -786,13 +787,14 @@ namespace DevDiscourse.Controllers.Main
                                 blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
                                 await blob.UploadFromStreamAsync(ms);
 
-                                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
+                                //var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "AdminFiles", "NewsImages", fileName + fileExtension);
 
-                                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                                {
-                                    await ImageUrlUpdate.CopyToAsync(fileStream);
-                                }
-                                devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                                //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                                //{
+                                //    await ImageUrlUpdate.CopyToAsync(fileStream);
+                                //}
+                                //devNews.ImageUrl = "/AdminFiles/NewsImages/" + fileName + fileExtension;
+                                devNews.ImageUrl = blob.Uri.ToString();
                                 devNews.FileMimeType = mimeType;
                                 devNews.FileSize = fileSize;
                                 // Saved Image in Image Gallery
@@ -801,7 +803,7 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
                                     Title = actName,
                                     ImageUrl = devNews.ImageUrl,
@@ -830,9 +832,9 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
-                                    Title = findimage.Title,
+                                    Title = findimage.Title ?? "",
                                     ImageUrl = findimage.FileUrl,
                                     ImageCopyright = imgcopyright,
                                     Caption = "",
@@ -1102,7 +1104,7 @@ namespace DevDiscourse.Controllers.Main
 
                             CloudBlobContainer blobContainer;
                             CloudBlockBlob blob;
-                            using (MemoryStream ms = new MemoryStream())
+                            using (MemoryStream ms = new())
                             {
                                 await ImageUrlUpdate.CopyToAsync(ms);
                                 ms.Position = 0;
@@ -1127,7 +1129,7 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
                                     Title = actName,
                                     ImageUrl = devNews.ImageUrl,
@@ -1156,9 +1158,9 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
-                                    Title = findimage.Title,
+                                    Title = findimage.Title ?? "",
                                     ImageUrl = findimage.FileUrl,
                                     ImageCopyright = imgcopyright,
                                     Caption = "",
@@ -1304,7 +1306,7 @@ namespace DevDiscourse.Controllers.Main
 
                             CloudBlobContainer blobContainer;
                             CloudBlockBlob blob;
-                            using (MemoryStream ms = new MemoryStream())
+                            using (MemoryStream ms = new())
                             {
                                 await ImageUrlUpdate.CopyToAsync(ms);
                                 ms.Position = 0;
@@ -1358,9 +1360,9 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
-                                    Title = findimage.Title,
+                                    Title = findimage.Title ?? "",
                                     ImageUrl = findimage.FileUrl,
                                     ImageCopyright = imgcopyright,
                                     Caption = "",
@@ -1470,7 +1472,7 @@ namespace DevDiscourse.Controllers.Main
 
                             CloudBlobContainer blobContainer;
                             CloudBlockBlob blob;
-                            using (MemoryStream ms = new MemoryStream())
+                            using (MemoryStream ms = new())
                             {
                                 await ImageUrlUpdate.CopyToAsync(ms);
                                 ms.Position = 0;
@@ -1524,9 +1526,9 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
-                                    Title = findimage.Title,
+                                    Title = findimage.Title ?? "",
                                     ImageUrl = findimage.FileUrl,
                                     ImageCopyright = imgcopyright,
                                     Caption = "",
@@ -1623,7 +1625,7 @@ namespace DevDiscourse.Controllers.Main
 
                             CloudBlobContainer blobContainer;
                             CloudBlockBlob blob;
-                            using (MemoryStream ms = new MemoryStream())
+                            using (MemoryStream ms = new())
                             {
                                 await ImageUrl.CopyToAsync(ms);
                                 ms.Position = 0;
@@ -1648,7 +1650,7 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
                                     Title = actName,
                                     ImageUrl = devNews.ImageUrl,
@@ -1677,9 +1679,9 @@ namespace DevDiscourse.Controllers.Main
                                 {
                                     imgcopyright = devNews.ImageCopyright.Replace("Image Credit: ", "") ?? "";
                                 }
-                                ImageGallery fileobj = new ImageGallery()
+                                ImageGallery fileobj = new()
                                 {
-                                    Title = findimage.Title,
+                                    Title = findimage.Title ?? "",
                                     ImageUrl = findimage.FileUrl,
                                     ImageCopyright = imgcopyright,
                                     Caption = "",

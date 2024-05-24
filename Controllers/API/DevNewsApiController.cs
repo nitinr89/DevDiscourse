@@ -602,97 +602,126 @@ namespace DevDiscourse.Controllers.API
             return obj.Id.ToString();
         }
 
-        [Route("api/GenImg")]
+        [Route("api/ChooseImg")]
         [HttpPost]
-        public async Task<string> GenImg(string title, string sector, string prompt, string tags)
+        public async Task<string> ChooseImg(string jaadu, string noun, string sector)
         {
+            if (jaadu != "pleaseletmeaccess") return "NotOk200 - Unauthorized";
             try
             {
-                Controlls controll = db.Controlls.First(f => f.Name == "AiImage");
-                if (controll.Value != "true") return $"NotOk200 - permission not granted.";
-                string endpoint = "https://api.openai.com/v1/images/generations";
-                var requestData = new
-                {
-                    model = "dall-e-3",
-                    prompt = prompt,
-                    size = "1024x1024",
-                    quality = "standard",
-                    n = 1
-                };
-
-                using var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "api_key");
-                var jsonPayload = JsonConvert.SerializeObject(requestData);
-                var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
-
-                var response1 = await client.PostAsync(endpoint, content);
-                response1.EnsureSuccessStatusCode();
-                var responseBody = await response1.Content.ReadAsStringAsync();
-                var jsonresponse = JsonObject.Parse(responseBody);
-                string imageUrl = jsonresponse["data"][0]["url"].ToString();
-
-                if (string.IsNullOrWhiteSpace(imageUrl)) return $"NotOk200 - imageUrl is null or empty.";
-                else
-                {
-                    HttpClient httpClient = new();
-                    HttpResponseMessage response = await httpClient.GetAsync(imageUrl);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        using Stream contentStream = await response.Content.ReadAsStreamAsync();
-                        var fileName = RandomName();
-                        var fileExtension = ".png";
-                        string mimeType;
-                        string fileSize;
-                        try
-                        {
-
-                            mimeType = response.Content.Headers.ContentType.MediaType;
-                            fileSize = response.Content.Headers.ContentLength.ToString();
-                        }
-                        catch (Exception ex)
-                        {
-                            mimeType = "";
-                            fileSize = "";
-                        }
-
-                        CloudBlobContainer blobContainer;
-                        CloudBlockBlob blob;
-                        using MemoryStream ms = new();
-                        await contentStream.CopyToAsync(ms);
-                        ms.Position = 0;
-
-                        blobContainer = await GetCloudBlobimagegalleryContainer();
-                        blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
-                        await blob.UploadFromStreamAsync(ms);
-                        string finalImageUrl = blob.Uri.ToString();
-
-                        ImageGallery fileobj = new()
-                        {
-                            Title = title,
-                            ImageUrl = finalImageUrl,
-                            ImageCopyright = "",
-                            Caption = title,
-                            FileMimeType = mimeType,
-                            FileSize = fileSize,
-                            Sector = sector,
-                            Tags = tags,
-                            AI = true,
-                            UseCount = 1,
-                        };
-                        db.ImageGalleries.Add(fileobj);
-                        db.SaveChanges();
-
-                        return finalImageUrl;
-                    }
-                    else return $"NotOk200 - can't download image from imageUrl.";
-                }
+                noun = noun.ToLower();
+                ImageGallery? image = await db.ImageGalleries
+                    .Where(f => f.Sector == sector &&
+                    (f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun)))
+                    .OrderByDescending(o => o.CreatedOn).FirstOrDefaultAsync();
+                if (image == null) return "NotOk200 - Not Found";
+                return image.ImageUrl;
             }
             catch (Exception ex)
             {
                 return $"NotOk200 {ex.Message}";
             }
         }
+        [Route("api/GenImg")]
+        [HttpPost]
+        public async Task<string> GenImg(string jaadu, string title, string sector, string noun, string prompt, string tags)
+        {
+            if (jaadu != "pleaseletmeaccess") return "NotOk200 - Unauthorized";
+            Controlls controll = db.Controlls.First(f => f.Name == "AiImage");
+            if (controll.Value != "true")
+            {
+                return await ChooseImg(jaadu, noun, sector);
+            }
+            else
+            {
+                try
+                {
+                    string endpoint = "https://api.openai.com/v1/images/generations";
+                    var requestData = new
+                    {
+                        model = "dall-e-3",
+                        prompt = prompt,
+                        size = "1024x1024",
+                        quality = "standard",
+                        n = 1
+                    };
+
+                    using var client = new HttpClient();
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "api_key");
+                    var jsonPayload = JsonConvert.SerializeObject(requestData);
+                    var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
+
+                    var response1 = await client.PostAsync(endpoint, content);
+                    response1.EnsureSuccessStatusCode();
+                    var responseBody = await response1.Content.ReadAsStringAsync();
+                    var jsonresponse = JsonObject.Parse(responseBody);
+                    string imageUrl = jsonresponse["data"][0]["url"].ToString();
+                    //string revised_prompt = jsonresponse["data"][0]["revised_prompt"].ToString();
+
+                    if (string.IsNullOrWhiteSpace(imageUrl)) return $"NotOk200 - ImageUrl is Null or Empty";
+                    else
+                    {
+                        HttpClient httpClient = new();
+                        HttpResponseMessage response = await httpClient.GetAsync(imageUrl);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using Stream contentStream = await response.Content.ReadAsStreamAsync();
+                            var fileName = RandomName();
+                            var fileExtension = ".png";
+                            string mimeType;
+                            string fileSize;
+                            try
+                            {
+
+                                mimeType = response.Content.Headers.ContentType.MediaType;
+                                fileSize = response.Content.Headers.ContentLength.ToString();
+                            }
+                            catch (Exception ex)
+                            {
+                                mimeType = "";
+                                fileSize = "";
+                            }
+
+                            CloudBlobContainer blobContainer;
+                            CloudBlockBlob blob;
+                            using MemoryStream ms = new();
+                            await contentStream.CopyToAsync(ms);
+                            ms.Position = 0;
+
+                            blobContainer = await GetCloudBlobimagegalleryContainer();
+                            blob = blobContainer.GetBlockBlobReference(fileName + fileExtension);
+                            await blob.UploadFromStreamAsync(ms);
+                            string finalImageUrl = blob.Uri.ToString();
+
+                            ImageGallery fileobj = new()
+                            {
+                                Title = title,
+                                ImageUrl = finalImageUrl,
+                                ImageCopyright = "",
+                                Caption = title,
+                                FileMimeType = mimeType,
+                                FileSize = fileSize,
+                                Sector = sector,
+                                Tags = tags,
+                                AI = true,
+                                UseCount = 1,
+                            };
+                            db.ImageGalleries.Add(fileobj);
+                            db.SaveChanges();
+
+                            return finalImageUrl;
+                        }
+                        else return $"NotOk200 - Can't Download Image from ImageUrl";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return $"NotOk200 {ex.Message}";
+                }
+            }
+        }
+
         [Route("api/PTINews")]
         [HttpPost]
         public async Task<string> PTINews(SourceNewsView obj)

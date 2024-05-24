@@ -611,8 +611,7 @@ namespace DevDiscourse.Controllers.API
             {
                 noun = noun.ToLower();
                 ImageGallery? image = await db.ImageGalleries
-                    .Where(f => f.Sector == sector &&
-                    (f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun)))
+                    .Where(f => f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun))
                     .OrderByDescending(o => o.CreatedOn).FirstOrDefaultAsync();
                 if (image == null) return "NotOk200 - Not Found";
                 return image.ImageUrl;

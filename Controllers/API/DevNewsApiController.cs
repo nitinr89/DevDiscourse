@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.OutputCaching;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
+using Microsoft.Data.SqlClient;
 
 namespace DevDiscourse.Controllers.API
 {
@@ -604,24 +605,35 @@ namespace DevDiscourse.Controllers.API
 
         [Route("api/ChooseImg")]
         [HttpPost]
-        public async Task<string> ChooseImg(string jaadu, string noun, string sector)
+        public async Task<string> ChooseImg(string jaadu, string noun, string sector, string isPerson)
         {
             if (jaadu != "pleaseletmeaccess") return "NotOk200 - Unauthorized";
             try
             {
                 noun = noun.ToLower();
-                ImageGallery? image = await db.ImageGalleries
-                    .Where(f => f.Sector == sector && (f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun)))
-                    .OrderByDescending(o => o.CreatedOn).FirstOrDefaultAsync();
-                if (image == null)
+                if (isPerson == "true")
                 {
-                    image = await db.ImageGalleries
-                     .Where(f => f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun))
-                     .OrderByDescending(o => o.CreatedOn).FirstOrDefaultAsync();
+                    DateTime threeYears = DateTime.Today.AddYears(-3);
+                    ImageGallery? image = await db.ImageGalleries
+                         .Where(f => f.CreatedOn > threeYears && f.AI != true && (f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun)))
+                         .OrderByDescending(o => o.CreatedOn).FirstOrDefaultAsync();
                     if (image == null) return "NotOk200 - Not Found";
-                    else return image.ImageUrl;
+                    string sql = "UPDATE ImageGalleries SET UseCount = UseCount + 1 WHERE Id = @id";
+                    int affectedRows = await db.Database.ExecuteSqlRawAsync(sql, new SqlParameter("id", image.Id));
+                    if (affectedRows == 1) return image.ImageUrl;
+                    else return "NotOk200 - Not Found";
                 }
-                else return image.ImageUrl;
+                else
+                {
+                    ImageGallery? image = await db.ImageGalleries
+                        .Where(f => f.AI == true && (f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun)))
+                        .OrderBy(o => o.UseCount).FirstOrDefaultAsync();
+                    if (image == null) return "NotOk200 - Not Found";
+                    string sql = "UPDATE ImageGalleries SET UseCount = UseCount + 1 WHERE Id = @id";
+                    int affectedRows = await db.Database.ExecuteSqlRawAsync(sql, new SqlParameter("id", image.Id));
+                    if (affectedRows == 1) return image.ImageUrl;
+                    else return "NotOk200 - Not Found";
+                }
             }
             catch (Exception ex)
             {

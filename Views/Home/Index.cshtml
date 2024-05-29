@@ -1,15 +1,18 @@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     ViewBag.Title = "International Development News, Breaking News, Opinion and Analysis - Devdiscourse";
     ViewBag.alternateHeadline = "International Development News, Breaking News, Opinion and Analysis - Devdiscourse";
     string domainUrl = "https://www.devdiscourse.com";
     string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
     ViewBag.PageDescription = "World's leading Website for International Development News. Breaking News, Opinions, Technology, Social development, Urban Development, Entertainment, Sports news.";
-    ViewBag.webEdition = ViewBag.edition;
+    string edition = ViewBag.Edition;
+    ViewBag.webEdition = edition;
     ViewBag.PostUrl = "https://www.devdiscourse.com";
     ViewBag.pageKeywords = "International Development News, Breaking News, Politics, Health development, Social development, Urban development, Education, Entertainment, Transport, Energy and Extractives news";
     var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
-    ViewBag.PageImage = newsImage + "?width=920";
+    ViewBag.PageImage = newsImage + "&width=920";
     TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+    var isMobile = HttpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
 }
 @section lastModified {
     <meta http-equiv="last-modified" content="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz")" />
@@ -417,7 +420,7 @@
         <span title="International Development News">Top Stories</span>
     </h2>
 
-    @await Component.InvokeAsync("Infocus",new { reg = "Global Edition" })
+    @await Component.InvokeAsync("Infocus", new { reg = "Global Edition" })
 
 </div>
 <div class="video-container m-t-20 m-t-20">
@@ -432,17 +435,15 @@
                 <span class="pull-right"><a class="text-decoration" href="/live-discourse">VIEW ALL</a></span>
             </h3>
             <div class="clearfix m-b-20" id="live-left">
-                @* @{Html.RenderAction("GetInfocusLiveDiscourse", "Livediscourse", new { reg = "Global Edition" });} *@
-
                 @await Component.InvokeAsync("InfocusLiveDiscourse", new { reg = "Global Edition" })
 
             </div>
             <div class="m-t-20 m-b-20">
                 @{
                     var motherNotPatientAd =
-                    // Request.Browser.IsMobileDevice == true
-                    // ? "/images/Campaign/corona/COVID19_awareness.jpg"
-                    // :
+                    isMobile == true
+                    ? "/images/Campaign/corona/COVID19_awareness.jpg"
+                    :
                     "/images/Campaign/corona/COVID19_awareness_728x90.jpg";
                 }
                 <a href="/coronavirus-awareness-campaign"><img src="~/Content/transparent.png" data-src="@motherNotPatientAd" class="img-responsive lazy m-b-20 center-block" alt="COVID-19 Awareness Campaign" /></a>
@@ -452,9 +453,7 @@
             <h3 class="section-title">
                 <span>TRENDING</span>
             </h3>
-
-            @await Component.InvokeAsync("Trends",new { filter = "Trends", reg = @ViewBag.edition })
-
+            @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = edition })
             <div class="p-t-10 p-b-20">
                 <a href="/research"> <img data-src="/images/SDGs/participatory-sdgs.jpg?width=445&quality=80" src="~/Content/transparent.png" alt="Participatory monitoring of SDGs" class="img-responsive center-block lazy" style="border:1px solid #eee" /> </a>
             </div>
@@ -467,9 +466,7 @@
             <span><a href="/blogs" class="text-decoration" title="News Analysis">OPINION / BLOG</a></span>
         </div>
         <div class="m-t-20" id="opinion12">
-
-            @await Component.InvokeAsync("Opinion",new { reg = @ViewBag.edition })
-
+            @await Component.InvokeAsync("Opinion", new { reg = edition })
         </div>
         <a href="/blogs" class="pull-right read-more-btn m-t-20">View All</a>
     </div>
@@ -483,22 +480,16 @@
             <h2 class="section-title" title="AGRO-FORESTRY NEWS">
                 <span>AGRO-FORESTRY</span>
             </h2>
-
-            @await Component.InvokeAsync("AgroForestoryNews",new { reg=@ViewBag.edition })
-
-
+            @await Component.InvokeAsync("AgroForestoryNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/agro-forestry" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Agro-Forestory News">Read More</a>
-                @*      <a href="/search/index" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Agro-Forestory News">Read More</a> *@
             </div>
         </div>
         <div class="col-md-6" id="news2">
             <h2 class="section-title" title="TECHNOLOGY NEWS">
                 <span>TECHNOLOGY</span>
             </h2>
-
-            @await Component.InvokeAsync("TechnologyNews",new { reg=@ViewBag.edition })
-
+            @await Component.InvokeAsync("TechnologyNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/technology" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Technology News">Read More</a>
             </div>
@@ -509,37 +500,33 @@
             <h2 class="section-title" title="ECONOMY &amp; BUSINESS NEWS">
                 <span>ECONOMY &amp; BUSINESS</span>
             </h2>
-
-            @await Component.InvokeAsync("EconomyNews", new{ reg = @ViewBag.edition })
-
+            @await Component.InvokeAsync("EconomyNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/economy-business" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Economy and Business News">Read More</a>
             </div>
-            @* @if (Request.Browser.IsMobileDevice)
+            @if (isMobile == true)
             {
-            <div class="clearfix m-b-20">
-            <div class="advertisement-area">
-            <div class="advertisement-title">Advertisement</div>@Html.Partial("_coeSlides")
-            </div>
-            </div>
+                <div class="clearfix m-b-20">
+                    <div class="advertisement-area">
+                        <div class="advertisement-title">Advertisement</div>@Html.Partial("_coeSlides")
+                    </div>
+                </div>
             }
             else
-            { *@
-            <div class="clearfix m-t-30 m-b-30">
-                <div class="advertisement-area padding-l-r-5">
-                    <div class="advertisement-title">Advertisement</div>
-                    <a href="https://visionri.com/insight/22-refugee-compassion-and-response-ideas-to-mitigate-disasters-now-and-in-their-future" target="_blank" rel="noopener"><img src="~/AdminFiles/COE/refugee_728x90.jpg" class="img-responsive center-block m-t-10 m-b-10" alt="add-banner"></a>
+            {
+                <div class="clearfix m-t-30 m-b-30">
+                    <div class="advertisement-area padding-l-r-5">
+                        <div class="advertisement-title">Advertisement</div>
+                        <a href="https://visionri.com/insight/22-refugee-compassion-and-response-ideas-to-mitigate-disasters-now-and-in-their-future" target="_blank" rel="noopener"><img src="~/AdminFiles/COE/refugee_728x90.jpg" class="img-responsive center-block m-t-10 m-b-10" alt="add-banner"></a>
+                    </div>
                 </div>
-            </div>
-            @* } *@
+            }
         </div>
         <div class="col-md-5 p-t-10">
             <h2 class="section-title" title="EDUCATION NEWS">
                 <span>EDUCATION</span>
             </h2>
-
-            @await Component.InvokeAsync("EducationNews", new{ reg = @ViewBag.edition })
-
+            @await Component.InvokeAsync("EducationNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/education" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Education News">Read More</a>
             </div>
@@ -555,9 +542,7 @@
             <h2 class="section-title" title="ENERGY &amp; EXTRACTIVES NEWS">
                 <span>ENERGY &amp; EXTRACTIVES</span>
             </h2>
-
-            @await Component.InvokeAsync("EnergyNews", new{ reg = @ViewBag.edition })
-
+            @await Component.InvokeAsync("EnergyNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/energy-extractives" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Energy and Extractives News">Read More</a>
             </div>
@@ -566,9 +551,7 @@
             <h2 class="section-title" title="HEALTH NEWS">
                 <span>HEALTH</span>
             </h2>
-
-            @await Component.InvokeAsync("HealthNews", new{ reg = @ViewBag.edition })
-
+            @await Component.InvokeAsync("HealthNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/health" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Health News">Read More</a>
             </div>
@@ -579,9 +562,7 @@
             <h2 class="section-title" title="LAW &amp; GOVERNANCE NEWS">
                 <span>LAW &amp; GOVERNANCE</span>
             </h2>
-
-            @await Component.InvokeAsync("LawGovernanceNews", new{ reg = @ViewBag.edition})
-
+            @await Component.InvokeAsync("LawGovernanceNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/law-governance" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Law and Governance News">Read More</a>
             </div>
@@ -590,9 +571,7 @@
             <h2 class="section-title" title="SCIENCE &amp; ENVIRONMENT NEWS">
                 <span>SCIENCE &amp; ENVIRONMENT</span>
             </h2>
-
-            @await Component.InvokeAsync("ScienceNews", new{ reg = @ViewBag.edition})
-
+            @await Component.InvokeAsync("ScienceNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/science-environment" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Science and Enviroment News">Read More</a>
             </div>
@@ -601,17 +580,16 @@
 </div>
 
 
-<div class="video-container"> 
-    <div class="container p-b-20"> 
+<div class="video-container">
+    <div class="container p-b-20">
         <h2 class="section-title2">
-            <span style="background-color:#f4f4f4">Interviews</span> </h2>
-            <div id="interviewCarousel" class="owl-carousel">
-
-            @{
-                @await Component.InvokeAsync("Interview", new { reg = @ViewBag.edition })
-            }
-                
-    </div></div></div>
+            <span style="background-color:#f4f4f4">Interviews</span>
+        </h2>
+        <div id="interviewCarousel" class="owl-carousel">
+            @await Component.InvokeAsync("Interview", new { reg = edition })
+        </div>
+    </div>
+</div>
 
 
 
@@ -622,9 +600,7 @@
             <h2 class="section-title" title="URBAN DEVELOPMENT NEWS">
                 <span>URBAN DEVELOPMENT</span>
             </h2>
-
-            @await Component.InvokeAsync("UrbanDevelopmentNews", new { reg = @ViewBag.edition})
-
+            @await Component.InvokeAsync("UrbanDevelopmentNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/urban-development" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Urban Development News">Read More</a>
             </div>
@@ -633,9 +609,7 @@
             <h2 class="section-title" title="TRANSPORT NEWS">
                 <span>TRANSPORT</span>
             </h2>
-
-            @await Component.InvokeAsync("TransportNews", new { reg = @ViewBag.edition})
-
+            @await Component.InvokeAsync("TransportNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/transport" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Transport News">Read More</a>
             </div>
@@ -646,37 +620,33 @@
             <h2 class="section-title" title="SPORTS NEWS">
                 <span>SPORTS</span>
             </h2>
-
-            @await Component.InvokeAsync("SportsNews", new { reg = @ViewBag.edition})
-
+            @await Component.InvokeAsync("SportsNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/sports" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Sports News">Read More</a>
             </div>
-            @* @if (Request.Browser.IsMobileDevice)
+            @if (isMobile == true)
             {
-            <div class="clearfix m-b-20">
-            <div class="advertisement-area">
-            <div class="advertisement-title">Advertisement</div>@Html.Partial("_coeSlides")
-            </div>
-            </div>
+                <div class="clearfix m-b-20">
+                    <div class="advertisement-area">
+                        <div class="advertisement-title">Advertisement</div>@Html.Partial("_coeSlides")
+                    </div>
+                </div>
             }
             else
-            { *@
-            <div class="clearfix m-t-30 m-b-30">
-                <div class="advertisement-area padding-l-r-5">
-                    <div class="advertisement-title">Advertisement</div>
-                    <a href="https://visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"><img src="~/AdminFiles/COE/tracking_telehealth_728x90.jpg" class="img-responsive center-block m-t-10 m-b-10" alt="add-banner"></a>
+            {
+                <div class="clearfix m-t-30 m-b-30">
+                    <div class="advertisement-area padding-l-r-5">
+                        <div class="advertisement-title">Advertisement</div>
+                        <a href="https://visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"><img src="~/AdminFiles/COE/tracking_telehealth_728x90.jpg" class="img-responsive center-block m-t-10 m-b-10" alt="add-banner"></a>
+                    </div>
                 </div>
-            </div>
-            @* } *@
+            }
         </div>
         <div class="col-md-5">
             <h2 class="section-title" title="WASH NEWS">
                 <span>WASH</span>
             </h2>
-
-            @await Component.InvokeAsync("WashNews", new { reg = @ViewBag.edition})
-
+            @await Component.InvokeAsync("WashNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/wash" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Water and Sanitation News">Read More</a>
             </div>
@@ -688,9 +658,7 @@
             <h2 class="section-title" title="ART &amp; CULTURE NEWS">
                 <span>ART &amp; CULTURE</span>
             </h2>
-
-            @await Component.InvokeAsync("ArtCultureNews", new { reg = @ViewBag.edition})
-
+            @await Component.InvokeAsync("ArtCultureNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/art-culture" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Art and Culture News">Read More</a>
             </div>
@@ -699,9 +667,7 @@
             <h2 class="section-title" title="POLITICS NEWS">
                 <span>POLITICS</span>
             </h2>
-
-            @await Component.InvokeAsync("PoliticsNews", new { reg = @ViewBag.edition})
-
+            @await Component.InvokeAsync("PoliticsNews", new { reg = edition })
             <div class="clearfix">
                 <a href="/news/politics" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Politics News">Read More</a>
             </div>
@@ -716,33 +682,24 @@
                 <span>SOCIAL &amp; GENDER</span>
             </h2>
         </div>
-
-        @await Component.InvokeAsync("SocialNews", new { reg = @ViewBag.edition})
-
+        @await Component.InvokeAsync("SocialNews", new { reg = edition })
         <div class="col-md-12">
             <a href="/news/socialgender" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Social and Gender News">Read More</a>
         </div>
     </div>
 </div>
 <div class="container m-t-20 m-b-20">
-
-    @await Component.InvokeAsync("News",new { reg = ViewBag.edition, skip = 0, take = 12 })
-
+    @await Component.InvokeAsync("News", new { reg = edition, skip = 0, take = 12 })
 </div>
 <link href="~/Content/breaking-news-ticker.min.css" rel="stylesheet" async />
 <link rel="stylesheet" type="text/css" href="~/Content/SiteNew.min.css" />
 @section scripts {
-
+    <script>
+        var _edition = '@(edition)'; var _saveSector = [];
+    </script>
     <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
     <script src="~/scripts/jquery.lazy.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="~/scripts/home/index.min.js"></script>
-    <script src="~/scripts/home/index.js"></script>
     <script src="~/Scripts/breaking-news-ticker.min.js" async></script>
-    <script>
-        var _edition = '@(ViewBag.edition)'; var _saveSector = [];
-    </script>
-    <script src="~/Scripts/Home/Index.min.js" async></script>
+    <script src="~/scripts/home/index.js"></script>
 }
-
-

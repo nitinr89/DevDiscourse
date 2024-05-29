@@ -1,5 +1,4 @@
-﻿
-using Devdiscourse.Data;
+﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +35,7 @@ namespace Devdiscourse.Controllers.ViewComponents
             catch (Exception ex)
             {
                 return Content("Error: " + ex.Message);
-            }      
+            }
         }
     }
 }

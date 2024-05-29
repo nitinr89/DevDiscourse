@@ -66,7 +66,7 @@ namespace DevDiscourse.Controllers
             }
             return View();
         }
-        public ActionResult Index(string reg = "")
+        public ActionResult Index(string? reg)
         {
             ViewBag.edition = "Global Edition";
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
@@ -87,9 +87,6 @@ namespace DevDiscourse.Controllers
                     }
                     else
                     {
-
-                        var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id where c.Title == reg select new { r.Title }).FirstOrDefault();
-                        string regionTitle = string.Empty;
                         var region = string.Empty;
                         if (reg == "")
                         {
@@ -97,12 +94,15 @@ namespace DevDiscourse.Controllers
                         }
                         else
                         {
-                            region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
+                            var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id where c.Title == reg select new { r.Title }).FirstOrDefault();
+                            region = regs != null && regs.Title != null ? regs.Title : reg;
                         }
 
                         string cookieName = "Edition";
-                        CookieOptions options = new CookieOptions();
-                        options.Expires = DateTime.UtcNow.AddDays(1);
+                        CookieOptions options = new()
+                        {
+                            Expires = DateTime.UtcNow.AddDays(1)
+                        };
                         string cookieValue = region ?? "Global Edition";
                         ViewBag.edition = region ?? "Global Edition";
                         Response.Cookies.Append(cookieName, cookieValue, options);

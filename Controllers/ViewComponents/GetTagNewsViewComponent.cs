@@ -1,7 +1,8 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace Devdiscourse.Controllers.ViewComponents
 {
@@ -14,51 +15,72 @@ namespace Devdiscourse.Controllers.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(long id, string tag, string sector)
         {
-            await Task.Yield();
             try
             {
-                var tagList = tag.Split(',').Reverse().Skip(3).Take(3).ToList();
-                DateTime threemonths = DateTime.Today.AddDays(-15);
+                if (string.IsNullOrWhiteSpace(tag)) return View(new List<LatestNewsView>());
+                var tagList = tag.Split(',').Take(3).ToList();
+                DateTime onemonth = DateTime.Today.AddDays(-30);
+                string tag1 = tagList[0] ?? "&&&&&&&&&&&&";
+                string tag2 = tagList[1] ?? "&&&&&&&&&&&&";
+                string tag3 = tagList[2] ?? "&&&&&&&&&&&&";
                 if (!string.IsNullOrEmpty(sector))
                 {
-                    var result = (from a in _db.DevNews
-                                  from s in tagList
-                                  where a.CreatedOn > threemonths && a.NewsId != id && a.AdminCheck == true
-                                  && (a.Title.Contains(s)) && a.Sector == sector
-                                  select new LatestNewsView
-                                  {
-                                      Title = a.Title,
-                                      NewId = a.NewsId,
-                                      Label = a.NewsLabels
-                                  }).OrderByDescending(a => a.CreatedOn).Distinct().Take(5);
-                    return View(result);
+                    string sqlQuery = @"SELECT TOP (5) *
+                                            FROM DevNews
+                                            WHERE CreatedOn > @onemonth 
+                                            AND NewsId != @id 
+                                            AND AdminCheck = 1 
+                                            AND Sector = @sec
+                                            AND Title IS NOT NULL 
+                                            AND (Title LIKE '%' + @tag1 + '%' 
+                                                OR Title LIKE '%' + @tag2 + '%' 
+                                                OR Title LIKE '%' + @tag3 + '%')
+                                            ORDER BY CreatedOn DESC";
+                    var result = await _db.DevNews
+                                            .FromSqlRaw(sqlQuery, new SqlParameter("@onemonth", onemonth),
+                                                                  new SqlParameter("@id", id),
+                                                                  new SqlParameter("@sec", sector),
+                                                                  new SqlParameter("@tag1", tag1),
+                                                                  new SqlParameter("@tag2", tag2),
+                                                                  new SqlParameter("@tag3", tag3)).ToListAsync();
+                    var finalResult = result.Select(n => new LatestNewsView
+                    {
+                        Title = n.Title,
+                        NewId = n.NewsId,
+                        Label = n.NewsLabels
+                    }).ToList();
+                    return View(finalResult);
                 }
                 else
                 {
-                    var result = _db.DevNews
-                        .Where(a =>
-                            a.CreatedOn > threemonths
-                            && a.NewsId != id
-                            && a.AdminCheck)
-                        .AsEnumerable() // Bring data into memory
-                        .Where(a => tagList.Any(s => a.Title != null && a.Title.Contains(s)))
-                        .OrderByDescending(a => a.CreatedOn)
-                        .Select(a => new LatestNewsView
-                        {
-                            Title = a.Title,
-                            NewId = a.NewsId,
-                            Label = a.NewsLabels
-                        })
-                        .Distinct()
-                        .Take(5)
-                        .ToList();
-
-                    return View(result);
+                    string sqlQuery = @"SELECT TOP (5) *
+                                            FROM DevNews
+                                            WHERE CreatedOn > @onemonth 
+                                            AND NewsId != @id 
+                                            AND AdminCheck = 1 
+                                            AND Title IS NOT NULL 
+                                            AND (Title LIKE '%' + @tag1 + '%' 
+                                                OR Title LIKE '%' + @tag2 + '%' 
+                                                OR Title LIKE '%' + @tag3 + '%')
+                                            ORDER BY CreatedOn DESC";
+                    var result = await _db.DevNews
+                                             .FromSqlRaw(sqlQuery, new SqlParameter("@onemonth", onemonth),
+                                                                   new SqlParameter("@id", id),
+                                                                   new SqlParameter("@tag1", tag1),
+                                                                   new SqlParameter("@tag2", tag2),
+                                                                   new SqlParameter("@tag3", tag3)).ToListAsync();
+                    var finalResult = result.Select(n => new LatestNewsView
+                    {
+                        Title = n.Title,
+                        NewId = n.NewsId,
+                        Label = n.NewsLabels
+                    }).ToList();
+                    return View(finalResult);
                 }
             }
-            catch (Exception ex)
+            catch (Exception _)
             {
-                return Content("Error: " + ex.Message);
+                return View(new List<LatestNewsView>());
             }
         }
     }

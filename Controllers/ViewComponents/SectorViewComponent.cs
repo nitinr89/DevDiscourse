@@ -1,8 +1,7 @@
-﻿
-
-using Devdiscourse.Data;
+﻿using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Devdiscourse.Controllers.ViewComponents
 {
@@ -16,7 +15,6 @@ namespace Devdiscourse.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string sector, string reg = "", string filter = "")
         {
-            await Task.Yield();
             try
             {
                 ViewBag.reg = reg;
@@ -30,28 +28,27 @@ namespace Devdiscourse.Controllers.ViewComponents
                         bool result = int.TryParse(id, out int number);
                         if (result) idList.Add(number);
                     }
-                    var filteredItems = _db.DevSectors
+                    var devSectors = await _db.DevSectors
                                         .Where(m => m.Id != 8 && m.Id != 16)
-                                        .ToList() // Retrieve data from the database
-                                        .Where(m => idList.Contains(m.Id)) // Perform in-memory join
-                                        .Select(m => new ItemView
-                                        {
-                                            Id = m.Id,
-                                            Title = m.Title,
-                                        });
+                                        .ToListAsync();
 
+                    var finteredSector = devSectors.Where(m => idList.Contains(m.Id))
+                         .Select(m => new ItemView
+                         {
+                             Id = m.Id,
+                             Title = m.Title ?? "",
+                         }).ToList();
                     if (filter == "Single")
                     {
-                        filteredItems = filteredItems.Take(1);
+                        finteredSector = finteredSector.Take(1).ToList();
                     }
-
-                    return View(filteredItems.OrderBy(a => a.Title));
+                    return View(finteredSector.OrderBy(a => a.Title));
                 }
                 return View();
             }
-            catch (Exception ex)
+            catch (Exception _)
             {
-                return Content("Error: " + ex.Message);
+                return View(new List<ItemView> { new() { Id = 0, Title = "" } });
             }
         }
     }

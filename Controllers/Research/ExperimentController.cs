@@ -17,7 +17,7 @@ namespace Devdiscourse.Controllers.Research
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly ImageResizer imageResizer = new();
+        private readonly ImageResizer imageResizer = new(new HttpClient());
         public ExperimentController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             this.db = db;
@@ -26,11 +26,11 @@ namespace Devdiscourse.Controllers.Research
 
         [HttpGet]
         [OutputCache(Duration = 86400, PolicyName = "MyOutputCachePolicy")]
-        public async Task<IActionResult> Img(string imageUrl, int width = 0, int height = 0, string mode = "resize", string format = "jpeg")
+        public async Task<IActionResult> Img(string imageUrl, int width = 0, int height = 0, string mode = "crop", string format = "jpeg", int quality = 80)
         {
             if (string.IsNullOrWhiteSpace(imageUrl)) return BadRequest();
             if (imageUrl.StartsWith("/")) imageUrl = "https://www.devdiscourse.com" + imageUrl;
-            var resizedImageStream = await imageResizer.ResizeImageFromUrlAsync(imageUrl, width, height, mode, format);
+            var resizedImageStream = await imageResizer.ResizeImageFromUrlAsync(imageUrl, width, height, mode, format, quality);
             return File(resizedImageStream, $"image/{format}");
         }
 

@@ -716,6 +716,14 @@
     <script src="~/Scripts/breaking-news-ticker.min.js" async></script>
     <script>
         var _edition = '@(edition)'; var _saveSector = [];
+        document.addEventListener('DOMContentLoaded', () => {
+            // Select all img tags
+            const images = document.querySelectorAll('img');
+            // Iterate through each img tag and remove the style attribute
+            images.forEach(img => {
+                img.removeAttribute('style');
+            });
+        });
     </script>
     <script src="~/Scripts/Home/Index.min.js" async></script>
 }

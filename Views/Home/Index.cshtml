@@ -696,6 +696,14 @@
 @section scripts {
     <script>
         var _edition = '@(edition)'; var _saveSector = [];
+        document.addEventListener('DOMContentLoaded', () => {
+            // Select all img tags
+            const images = document.querySelectorAll('img');
+            // Iterate through each img tag and remove the style attribute
+            images.forEach(img => {
+                img.removeAttribute('style');
+            });
+        });
     </script>
     <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
     <script src="~/scripts/jquery.lazy.min.js"></script>

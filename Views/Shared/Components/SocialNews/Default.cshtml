@@ -1,5 +1,4 @@
-﻿@* @model IEnumerable<DevDiscourse.Models.ViewModel.NewsViewModel> *@
-@model IEnumerable<Devdiscourse.Models.ViewModel.NewsViewModel>
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.NewsViewModel>
 
 @functions {
     async Task MediaTempate(Devdiscourse.Models.ViewModel.NewsViewModel item)
@@ -7,17 +6,12 @@
         string controller = "/article";
         string action = item.Label ?? "agency-wire";
         string id = item.GenerateSecondSlug();
-        //long id = item.NewsId;
         var newsImage = "";
         if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
         { newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}"; }
         <div class="media p-b - 20 m - t - 20">
             <div class="media-left">
-                @*   <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" aria-label="@item.Title"> *@
                 <a href="@controller/@action/@id" aria-label="@item.Title">
-
-                    @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" aria-label="@item.Title">*@
-
                     <img class="lazy width-100" src="/Content/transparent.png?width=178&height=135&mode=crop" data-src="@newsImage&width=178&height=135&mode=crop&format=jpeg" alt="@item.Title" />
                 </a>
             </div>
@@ -35,245 +29,25 @@
                         <small class="ls-1">Global</small>
                     }
                 </p>
-                @*   <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration"> *@
                 <a href="@controller/@action/@id" title="@item.Title" class="text-decoration">
-
-                    @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
-
                     <h3 class="no-margin trend-title">@item.Title</h3>
                 </a> <small class="font-oswald m-t-10">@item.TimeAgo()</small>
             </div>
         </div>
     }
 }
-
-@functions
-{
-    async Task MediaTempate_two(Devdiscourse.Models.ViewModel.NewsViewModel item)
-    {
-        string controller = "/article";
-        string action = item.Label ?? "agency-wire";
-        string id = item.GenerateSecondSlug();
-        // long id = item.NewsId;
-        var newsImage = "";
-        if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
-        {
-            newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}";
-        }
-        <div class="media p-b-20 m-t-20">
-            <div class="media-left">
-                @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" aria-label="@item.Title">*@
-                <a href="@controller/@action/@id" aria-label="@item.Title">
-
-                    @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" aria-label="@item.Title">*@
-
-                    <img class="lazy width-100" src="~/Content/transparent.png?width=110&height=85&mode=crop" data-src="@newsImage&width=110&height=85&mode=crop&format=jpeg" alt="@item.Title" />
-                </a>
-            </div>
-            <div class="media-body">
-                @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix",new{prefix=item.Label??"agency-wire" ,id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration">*@
-                <a href="@controller/@action/@id" title="@item.Title" class="text-decoration">
-
-                    @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
-
-                    <h3 class="no-margin trend-title">@item.Title</h3>
-                </a> <p class="font-sans-serif text-uppercase text-muted ls-1">
-                    @if (!String.IsNullOrEmpty(item.Country))
-                    {
-                        var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
-                        {
-                            <small class="ls-1">@t</small>
-                        }
-                    }
-                    else
-                    {
-                        <small class="ls-1">Global</small>
-                    }
-                </p>
-            </div>
-        </div>
-    }
-}
-@if (ViewBag.Sector == "1" || ViewBag.Sector == "2" || ViewBag.Sector == "18" || ViewBag.Sector == "19")
-{
-    <div class="row">
-        <div class="col-md-7">
-            @foreach (var item in Model.Take(2))
-            {
-                string controller = "/article";
-                string action = item.Label ?? "agency-wire";
-                string id = item.GenerateSecondSlug();
-                // long id = item.NewsId;
-                var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}"; }
-                @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">*@
-
-
-                <a href="@controller/@action/@id" class="text-decoration">
-
-                    @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
-
-
-                    <div style="padding-bottom:57%;background-size:cover;background-repeat:no-repeat;" class="lazy" data-src="@newsImage&width=360&height=240&mode=crop&format=jpeg">
-                        <p class="font-sans-serif text-uppercase badge-tag ls-1">
-                            @if (!String.IsNullOrEmpty(item.Country))
-                            {
-                                var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
-                                {
-                                    <small class="ls-1">@t</small>
-                                }
-                            }
-                            else
-                            {
-                                <small class="ls-1">Global</small>
-                            }
-                        </p>
-                    </div><h3 class="trend-title no-margin p-b-20 m-b-30 p-t-5">@item.Title</h3>
-                </a>
-            }
-        </div> <div class="col-md-5">
-            @foreach (var item in Model.Skip(2).Take(3))
-            {
-                string controller = "/article";
-                string action = item.Label ?? "agency-wire";
-                string id = item.GenerateSecondSlug();
-                // long id = item.NewsId;
-                var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}"; }
-                @*   <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">*@
-                <a href="@controller/@action/@id" class="text-decoration">
-
-                    @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
-
-                    <div style="padding-bottom:45%;background-size:cover;background-repeat:no-repeat;" class="lazy bg-highlight" data-src="@newsImage&width=250&height=120&mode=crop&format=jpeg">
-                        <small class="font-sans-serif text-uppercase badge-tag ls-1">
-                            @if (!String.IsNullOrEmpty(item.Country))
-                            {
-                                var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
-                                {
-                                    <text>@t</text>
-                                }
-                            }
-                            else
-                            {
-                                <text>Global</text>
-                            }
-                        </small>
-                    </div><h3 class="trend-title no-margin p-b-20 m-b-20 p-t-5">@item.Title</h3>
-                </a>
-            }
-        </div>
-    </div>
-}
-else if (ViewBag.Sector == "4" || ViewBag.Sector == "7" || ViewBag.Sector == "12" || ViewBag.Sector == "14")
-{
-    foreach (var item in Model.Take(5))
-    {
-        //@MediaTempate_two(item)
-        await MediaTempate_two(item)
-        ;
-    }
-}
-else if (ViewBag.Sector == "11")
-{
-    foreach (var item in Model.Take(5))
-    {
-        string controller = "/article";
-        string action = item.Label ?? "agency-wire";
-        string id = item.GenerateSecondSlug();
-        // long id = item.NewsId;
-
-        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}"; }
-        @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" class="text-decoration">*@
-        <a href="@controller/@action/@id" class="text-decoration">
-
-            @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
-
-            <div style="padding-bottom:45%;background-size:cover;background-repeat:no-repeat;" class="lazy bg-highlight" data-src="@newsImage&width=360&height=240&mode=crop&format=jpeg">
-                <p class="font-sans-serif text-uppercase badge-tag hidden-xs ls-1">
-                    @if (!String.IsNullOrEmpty(item.Country))
-                    {
-                        var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
-                        {
-                            <small class="ls-1">@t</small>
-                        }
-                    }
-                    else
-                    {
-                        <small class="ls-1">Global</small>
-                    }
-                </p>
-            </div><h3 class="trend-title no-margin p-b-20 m-b-20 p-t-5">@item.Title</h3>
-        </a>
-    }
-}
-else if (ViewBag.Sector == "15")
-{
-    foreach (var item in Model.Take(6))
-    {
-        string controller = "/article";
-        string action = item.Label ?? "agency-wire";
-        string id = item.GenerateSecondSlug();
-        // long id = item.NewsId;
-        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImage = $"/Experiment/Img?imageUrl={item.ImageUrl}"; }
-        <div class="media p-b-20 m-t-20">
-            <div class="media-left">
-                @*  <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" aria-label="@item.Title">*@
-                <a href="@controller/@action/@id" aria-label="@item.Title">
-
-                    @*  <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" aria-label="@item.Title">*@
-
-                    <img class="lazy width-100" src="/Content/transparent.png?width=330&height=185&mode=crop" data-src="@newsImage&width=330&height=185&mode=crop&format=jpeg" alt="@item.Title" />
-                </a>
-            </div><div class="media-body">
-                <p class="font-sans-serif text-uppercase text-muted ls-1 hidden-xs">
-                    @if (!string.IsNullOrEmpty(item.Country))
-                    {
-                        var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
-                        {
-                            <small class="ls-1">@t</small>
-                        }
-                    }
-                    else
-                    {
-                        <small class="ls-1">Global</small>
-                    }
-                </p>
-                @*    <a href="@Url.RouteUrl("ArticleDetailswithprefix", new{prefix=item.Label ?? "agency-wire", id=item.GenerateSecondSlug()})" title="@item.Title" class="text-decoration">*@
-                <a href="@controller/@action/@id" title="@item.Title" class="text-decoration">
-
-
-                    @*   <a asp-controller="@controller" asp-route-prefix="@action" asp-route-id="@id" class="text-decoration">*@
-
-                    <h3 class="no-margin trend-title">@item.Title</h3>
-                </a> <p class="font-oswald p-t-10">@item.TimeAgo()</p>
-            </div>
-        </div>
-    }
-}
-else if (ViewBag.Sector == "9")
+@if (ViewBag.Sector == "9")
 {
     <div class="col-md-6">
         @foreach (var item in Model.Take(3))
         {
-            // @MediaTempate(item)
-            await MediaTempate(item)
-            ;
+            await MediaTempate(item);
         }
     </div>
     <div class="col-md-6">
         @foreach (var item in Model.Skip(3).Take(3))
         {
-            // @MediaTempate(item)
-            await MediaTempate(item)
-            ;
+            await MediaTempate(item);
         }
     </div>
-}
-else
-{
-    foreach (var item in Model.Take(5))
-    {
-        // @MediaTempate(item)
-        await MediaTempate(item)
-        ;
-    }
 }

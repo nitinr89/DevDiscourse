@@ -779,9 +779,9 @@ default: <span><a href="/news-source/@Model.Source.Trim()">@Model.Source.Trim()<
                 {<a href="/Home/AuthorArticles?fl=@Model.Author?.Trim()">
                         @if (!string.IsNullOrEmpty(Model.Themes))
                         {
-                            var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + Model.Themes : string.Concat(domainUrl, Model.Themes);<img class="img-circle author-avatar" src="@authorImage?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />}
+                            var authorImage = Model.Themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl="+ domainUrl + Model.Themes : "/Experiment/Img?imageUrl="+Model.Themes;<img class="img-circle author-avatar" src="@authorImage&width=30&height=30&mode=crop" onerror="this.src='/Experiment/Img?imageUrl=@domainUrl/AdminFiles/Logo/img_avatar.png&width=30&height=30&mode=crop'" alt="@Model.Author?.Trim()" />}
                         else
-                        {<img class="img-circle author-avatar" src="@domainUrl/?width=30&height=30&mode=crop" onerror="this.src='/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop'" alt="@Model.Author.Trim()" />}@Model.Author.Trim()
+                        {<img class="img-circle author-avatar" src="/Experiment/Img?imageUrl=@domainUrl/AdminFiles/Logo/img_avatar.png&width=30&height=30&mode=crop" onerror="this.src='/Experiment/Img?imageUrl=@domainUrl/AdminFiles/Logo/img_avatar.png&width=30&height=30&mode=crop'" alt="@Model.Author?.Trim()" />}@Model.Author?.Trim()
                     </a> <span class="list-divider"> | </span>}@if (!string.IsNullOrEmpty(Model.SourceUrl))
 {
     if (Model.SourceUrl.ToLower().Contains("washington"))
@@ -926,9 +926,6 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     <img data-src="/images/icons/disqus_loader.svg" class="center-block lazy" /> 
     </div>
     </section>
-
-
-
 
 </article> <div id="NewsNews"></div>
 </div><div class="col-md-4">

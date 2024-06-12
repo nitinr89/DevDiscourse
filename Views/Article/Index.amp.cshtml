@@ -6,7 +6,6 @@
 @using Html2Amp;
 @using Html2Amp.Sanitization;
 @using Html2Amp.Sanitization.Implementation;
-@using Devdiscourse.Hubs;
 @using System.Xml
 @using Microsoft.AspNetCore.Html
 @using Microsoft.AspNetCore.WebUtilities
@@ -105,7 +104,7 @@
     var converter = new HtmlToAmpConverter();
     converter.WithSanitizers(
         new HashSet<ISanitizer>
-                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                {
 new InstagramSanitizer(),
 new TwitterSanitizer(),
 new AudioSanitizer(),
@@ -118,7 +117,7 @@ new TargetAttributeSanitizer(),
 new XmlAttributeSanitizer(),
 new YouTubeVideoSanitizer(),
 new AmpIFrameSanitizer()
-                                                                                                                                                                                                                        }); string ampHtml = converter.ConvertFromHtml(datadescription).AmpHtml;
+                                                                                                                                                                                                                                }); string ampHtml = converter.ConvertFromHtml(datadescription).AmpHtml;
 
 
 }
@@ -301,39 +300,39 @@ new AmpIFrameSanitizer()
         {
             postCount++;
             <text>
-                                                                                                                         {
-                                                 "@@type":"LiveBlogPosting",
-                                                 "headline":"@item.ModifiedOn.ToLocalTime().ToString("hh:mm") @ist @Truncate(@item.Title, 65)",
-                                                 "url":"@domainUrl@pageUrl#post_@item.Id",
-                                                 "datePublished":"@item.CreatedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
-                                                 "image": {
-                                                 "@@context": "http://schema.org",
-                                                 "@@type": "ImageObject",
-                                                 "width": "400px",
-                                                  "height": "60px",
-                                                 "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"
-                                                  },
-                                                  "publisher": {
-                                                  "@@type":"Organization",
-                                                  "name":"Devdiscourse",
-                                                   "logo": {
-                                                   "@@type": "ImageObject",
-                                                     "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png",
-                                                 "width": "400px",
-                                                  "height": "60px"
-                                                  }
-                                                     },
-                                                   "author": {
-                                                     "@@type": "Organization",
-                                                     "sameAs": "https://www.devdiscourse.com",
-                                                  "name": "Devdiscourse"
-                                                  },
-                                                 "mainEntityOfPage":"@domainUrl@pageUrl",
-                                             "dateModified":"@item.ModifiedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
-                                              "articleBody":"@{
+                                                                                                                             {
+                                                     "@@type":"LiveBlogPosting",
+                                                     "headline":"@item.ModifiedOn.ToLocalTime().ToString("hh:mm") @ist @Truncate(@item.Title, 65)",
+                                                     "url":"@domainUrl@pageUrl#post_@item.Id",
+                                                     "datePublished":"@item.CreatedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
+                                                     "image": {
+                                                     "@@context": "http://schema.org",
+                                                     "@@type": "ImageObject",
+                                                     "width": "400px",
+                                                      "height": "60px",
+                                                     "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"
+                                                      },
+                                                      "publisher": {
+                                                      "@@type":"Organization",
+                                                      "name":"Devdiscourse",
+                                                       "logo": {
+                                                       "@@type": "ImageObject",
+                                                         "url": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png",
+                                                     "width": "400px",
+                                                      "height": "60px"
+                                                      }
+                                                         },
+                                                       "author": {
+                                                         "@@type": "Organization",
+                                                         "sameAs": "https://www.devdiscourse.com",
+                                                      "name": "Devdiscourse"
+                                                      },
+                                                     "mainEntityOfPage":"@domainUrl@pageUrl",
+                                                 "dateModified":"@item.ModifiedOn.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssK")",
+                                                  "articleBody":"@{
                     await GetDescriptionText(item.Description);
                 }"
-                                          }</text>
+                                              }</text>
             if (postCount < ViewBag.BlogUpdatesCount)
             {
                 <text>,</text>
@@ -402,99 +401,99 @@ else
     <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
 }
 @section customCss {
-                                                             body
-                                                             {
-                                                                 padding-bottom:43px;
-                                                                 padding-top:54px}.fg-orange{color:#ff6a00}.bg-white{background-color:#fff} .description .fg-blue a,.description a.fg-blue,.fg-blue{color: #0000ff} .bg-yellow{background-color: #ffff00}.title-cont{height:100px}.font-title{font-weight:400;
-                                                                     line-height:22px;
-                                                                     font-size:15px;margin:0
-                                                                 }
-                                                                 .square-card
+                                                                 body
                                                                  {
-                                                                     width:44%;
-                                                                     display:inline-block;
-                                                                     vertical-align:top;
-                                                                     margin:5px 2%;
-                                                                 }
-                                                                         .author
-                                                                         {
-                                                                             font-size:12px
-                                                                         }
-                                                                         .gray-bg
-                                                                         {
-                                                                             border-radius:5px;
-                                                                         padding:3px 10px 6px 10px;
-                                                                         background-color:#f2f2f2
-                                                                         }
-                                                                         .sector
-                                                                         {
-                                                                             margin:0;padding:0;
-                                                                         }
-                                                                         .sector li
-                                                                         {
-                                                                             list-style:none;background-color:#474747;
-                                                                             padding:2px 6px;
-                                                                             display:inline-block;
-                                                                             border-radius:3px;
-                                                                             font-size:12px;
-                                                                         }
-                                                                         .sector li a
-                                                                         {
-                                                                             color:#fff;
-                                                                             text-decoration:none
-                                                                         }
-                                                                         .upper-country{
-                                                                             text-transform:uppercase;font-size:12px;
-                                                                             font-weight:500;
-                                                                             color:#666}.news-slide { width: 75%;
-                                                                                 height: 100px;
-                                                                                 border: 1px solid rgba(0, 0, 0, 0.04);
-                                                                                 border-radius: 5px;
-                                                                                 box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-                                                                             }
-                                                                             .description strong,.description b
+                                                                     padding-bottom:43px;
+                                                                     padding-top:54px}.fg-orange{color:#ff6a00}.bg-white{background-color:#fff} .description .fg-blue a,.description a.fg-blue,.fg-blue{color: #0000ff} .bg-yellow{background-color: #ffff00}.title-cont{height:100px}.font-title{font-weight:400;
+                                                                         line-height:22px;
+                                                                         font-size:15px;margin:0
+                                                                     }
+                                                                     .square-card
+                                                                     {
+                                                                         width:44%;
+                                                                         display:inline-block;
+                                                                         vertical-align:top;
+                                                                         margin:5px 2%;
+                                                                     }
+                                                                             .author
                                                                              {
-                                                                                 font-weight:600}.img-avt {border-radius:50%;margin-right:5px;vertical-align: middle;
+                                                                                 font-size:12px
+                                                                             }
+                                                                             .gray-bg
+                                                                             {
+                                                                                 border-radius:5px;
+                                                                             padding:3px 10px 6px 10px;
+                                                                             background-color:#f2f2f2
+                                                                             }
+                                                                             .sector
+                                                                             {
+                                                                                 margin:0;padding:0;
+                                                                             }
+                                                                             .sector li
+                                                                             {
+                                                                                 list-style:none;background-color:#474747;
+                                                                                 padding:2px 6px;
+                                                                                 display:inline-block;
+                                                                                 border-radius:3px;
+                                                                                 font-size:12px;
+                                                                             }
+                                                                             .sector li a
+                                                                             {
+                                                                                 color:#fff;
+                                                                                 text-decoration:none
+                                                                             }
+                                                                             .upper-country{
+                                                                                 text-transform:uppercase;font-size:12px;
+                                                                                 font-weight:500;
+                                                                                 color:#666}.news-slide { width: 75%;
+                                                                                     height: 100px;
+                                                                                     border: 1px solid rgba(0, 0, 0, 0.04);
+                                                                                     border-radius: 5px;
+                                                                                     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
                                                                                  }
-                                                                                 .breadcrumb
+                                                                                 .description strong,.description b
                                                                                  {
-                                                                                     padding: 0;
-                                                                                     background-color: transparent;
-                                                                                     margin-bottom: 20px;
-                                                                                     list-style: none;
-                                                                                     border-radius: 4px; color:#808080;
-                                                                                 }
-                                                                                 .breadcrumb > li
-                                                                                 {
-                                                                                     display: inline-block;
-                                                                                 }
-                                                                                 .breadcrumb > li a
-                                                                                 {
-                                                                                     color: #337ab7;
-                                                                                     text-decoration:none;
-                                                                                 }
-                                                                                 .breadcrumb > li + li:before
-                                                                                 {
-                                                                                     content: "›";
-                                                                                     padding: 0 5px;
-                                                                                     font-size: 16px;
-                                                                                     color: #4d4d4d;
-                                                                                 }
-                                                                                 #statcounter
-                                                                                 {
-                                                                                     width: 1px;height:1px;
-                                                                                 }
-                                                                                 .blog img{
-                                                                                     object-fit:cover
-                                                                                 }
-                                                                                 .full-bottom
-                                                                                 {
-                                                                                     background-image:url(@newsFrameImage);
-                                                                                     background-size:cover
-                                                                                 }
-                                                                                 .full-bottom img
-                                                                                 {
-                                                                                     object-fit:@objectfit
+                                                                                     font-weight:600}.img-avt {border-radius:50%;margin-right:5px;vertical-align: middle;
+                                                                                     }
+                                                                                     .breadcrumb
+                                                                                     {
+                                                                                         padding: 0;
+                                                                                         background-color: transparent;
+                                                                                         margin-bottom: 20px;
+                                                                                         list-style: none;
+                                                                                         border-radius: 4px; color:#808080;
+                                                                                     }
+                                                                                     .breadcrumb > li
+                                                                                     {
+                                                                                         display: inline-block;
+                                                                                     }
+                                                                                     .breadcrumb > li a
+                                                                                     {
+                                                                                         color: #337ab7;
+                                                                                         text-decoration:none;
+                                                                                     }
+                                                                                     .breadcrumb > li + li:before
+                                                                                     {
+                                                                                         content: "›";
+                                                                                         padding: 0 5px;
+                                                                                         font-size: 16px;
+                                                                                         color: #4d4d4d;
+                                                                                     }
+                                                                                     #statcounter
+                                                                                     {
+                                                                                         width: 1px;height:1px;
+                                                                                     }
+                                                                                     .blog img{
+                                                                                         object-fit:cover
+                                                                                     }
+                                                                                     .full-bottom
+                                                                                     {
+                                                                                         background-image:url(@newsFrameImage);
+                                                                                         background-size:cover
+                                                                                     }
+                                                                                     .full-bottom img
+                                                                                     {
+                                                                                         object-fit:@objectfit
                          }
                          .description a
                          {

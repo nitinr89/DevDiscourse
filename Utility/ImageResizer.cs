@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.Formats;
+    using SixLabors.ImageSharp.Formats.Webp;
     using SixLabors.ImageSharp.Processing;
 
     public class ImageResizer
@@ -52,7 +53,12 @@
 
                     IImageEncoder encoder = format.ToLower() switch
                     {
-                        "webp" => new SixLabors.ImageSharp.Formats.Webp.WebpEncoder { Quality = quality },
+                        "webp" => new SixLabors.ImageSharp.Formats.Webp.WebpEncoder
+                        {
+                            Quality = quality,
+                            Method = WebpEncodingMethod.Fastest,
+                            FileFormat = WebpFileFormatType.Lossy
+                        },
                         "jpeg" => new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder { Quality = quality },
                         "png" => new SixLabors.ImageSharp.Formats.Png.PngEncoder(), // PNG does not have quality settings
                         _ => new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder { Quality = quality }

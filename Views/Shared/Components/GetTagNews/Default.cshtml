@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<Devdiscourse.Models.ViewModel.LatestNewsView>
 
 @{
-    string domainUrl = "https://www.devdiscourse.com";
     Layout = null;
 }
 
@@ -21,15 +20,9 @@
 
                     <li class="also-title">
                         <h3 class="f-18 no-margin font-normal l-h">
-
-
                             <a href="@baseurl@controller/@action/@id" class="text-decoration">
-                              
                                 @item.Title
-
-
                             </a>
-
                         </h3>
                     </li>
                 }

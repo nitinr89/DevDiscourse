@@ -3,14 +3,12 @@ using Devdiscourse.Models;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ServiceStack.Host;
 using System.Net;
 using System.Net.NetworkInformation;
 using X.PagedList;
-
 
 namespace DevDiscourse.Controllers
 {
@@ -37,7 +35,6 @@ namespace DevDiscourse.Controllers
             }
             return sMacAddress;
         }
-        [OutputCache(Duration = 60)]
         public ActionResult Disclaimer()
         {
             string? cookie = Request.Cookies["Edition"];
@@ -52,7 +49,6 @@ namespace DevDiscourse.Controllers
             return View();
         }
 
-        [OutputCache(Duration = 60)]
         public ActionResult PrivacyPolicy()
         {
             string? cookie = Request.Cookies["Edition"];
@@ -66,9 +62,9 @@ namespace DevDiscourse.Controllers
             }
             return View();
         }
+
         public ActionResult Index(string? reg)
         {
-            ViewBag.edition = "Global Edition";
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
             if (isCrawler)
@@ -87,24 +83,17 @@ namespace DevDiscourse.Controllers
                     }
                     else
                     {
-                        var region = string.Empty;
-                        if (reg == "")
-                        {
-                            region = "Global Edition";
-                        }
-                        else
-                        {
-                            var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id where c.Title == reg select new { r.Title }).FirstOrDefault();
-                            region = regs != null && regs.Title != null ? regs.Title : reg;
-                        }
-
+                        string? userRegion = (from c in _db.Countries
+                                              join r in _db.Regions on c.RegionId equals r.Id
+                                              where c.Title.Contains(UserCountry)
+                                              select new { r.Title }).FirstOrDefault()?.Title;
                         string cookieName = "Edition";
+                        string cookieValue = userRegion ?? "Global Edition";
+                        ViewBag.edition = userRegion ?? "Global Edition";
                         CookieOptions options = new()
                         {
                             Expires = DateTime.UtcNow.AddDays(1)
                         };
-                        string cookieValue = region ?? "Global Edition";
-                        ViewBag.edition = region ?? "Global Edition";
                         Response.Cookies.Append(cookieName, cookieValue, options);
                     }
                 }
@@ -220,7 +209,6 @@ namespace DevDiscourse.Controllers
             }
             return View();
         }
-        [OutputCache(Duration = 60)]
         public async Task<ActionResult> Search(string region = "", string sector = "All", string tag = "", string cat = "", string label = "")
         {
             region = region.Replace("+", " ");
@@ -1084,7 +1072,6 @@ namespace DevDiscourse.Controllers
         //        return PartialView("_getLatestNews", result);
         //    }
         //}
-        [OutputCache(Duration = 60)]
         public PartialViewResult GetTags(string reg = "Global Edition")
         {
             List<string> result = new List<string>();
@@ -2428,7 +2415,6 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "West Africa";
             return View("HomeNews");
         }
-
         public ActionResult SouthAsia()
         {
             CookieOptions options = new CookieOptions();
@@ -2437,7 +2423,6 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "South Asia";
             return View("HomeNews");
         }
-
         public ActionResult EastAndSouthEastAsia()
         {
             CookieOptions options = new CookieOptions();
@@ -2453,9 +2438,7 @@ namespace DevDiscourse.Controllers
             Response.Cookies.Append("Edition", "Pacific", options);
             ViewBag.Edition = "Pacific";
             return View("HomeNews");
-
         }
-
         public ActionResult EuropeAndCentralAsia()
         {
             CookieOptions options = new CookieOptions();
@@ -2479,7 +2462,6 @@ namespace DevDiscourse.Controllers
             Response.Cookies.Append("Edition", "Middle East and North Africa", options);
             ViewBag.Edition = "Middle East and North Africa";
             return View("HomeNews");
-
         }
         public ActionResult SouthernAfrica()
         {

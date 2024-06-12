@@ -419,8 +419,9 @@
     <h2 class="section-title">
         <span title="International Development News">Top Stories</span>
     </h2>
-
-    @await Component.InvokeAsync("Infocus", new { reg = "Global Edition" })
+    <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+        @await Component.InvokeAsync("Infocus", new { reg = edition })
+    </cache>
 
 </div>
 <div class="video-container m-t-20 m-t-20">
@@ -435,7 +436,9 @@
                 <span class="pull-right"><a class="text-decoration" href="/live-discourse">VIEW ALL</a></span>
             </h3>
             <div class="clearfix m-b-20" id="live-left">
-                @await Component.InvokeAsync("InfocusLiveDiscourse", new { reg = "Global Edition" })
+                <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                    @await Component.InvokeAsync("InfocusLiveDiscourse", new { reg = edition })
+                </cache>
 
             </div>
             <div class="m-t-20 m-b-20">
@@ -453,7 +456,9 @@
             <h3 class="section-title">
                 <span>TRENDING</span>
             </h3>
-            @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = edition })
+            </cache>
             <div class="p-t-10 p-b-20">
                 <a href="/research"> <img data-src="/images/SDGs/participatory-sdgs.jpg?width=445&quality=80" src="~/Content/transparent.png" alt="Participatory monitoring of SDGs" class="img-responsive center-block lazy" style="border:1px solid #eee" /> </a>
             </div>
@@ -466,7 +471,9 @@
             <span><a href="/blogs" class="text-decoration" title="News Analysis">OPINION / BLOG</a></span>
         </div>
         <div class="m-t-20" id="opinion12">
-            @await Component.InvokeAsync("Opinion", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("Opinion", new { reg = edition })
+            </cache>
         </div>
         <a href="/blogs" class="pull-right read-more-btn m-t-20">View All</a>
     </div>
@@ -480,7 +487,9 @@
             <h2 class="section-title" title="AGRO-FORESTRY NEWS">
                 <span>AGRO-FORESTRY</span>
             </h2>
-            @await Component.InvokeAsync("AgroForestoryNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("AgroForestoryNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/agro-forestry" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Agro-Forestory News">Read More</a>
             </div>
@@ -489,7 +498,9 @@
             <h2 class="section-title" title="TECHNOLOGY NEWS">
                 <span>TECHNOLOGY</span>
             </h2>
-            @await Component.InvokeAsync("TechnologyNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("TechnologyNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/technology" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Technology News">Read More</a>
             </div>
@@ -500,7 +511,9 @@
             <h2 class="section-title" title="ECONOMY &amp; BUSINESS NEWS">
                 <span>ECONOMY &amp; BUSINESS</span>
             </h2>
-            @await Component.InvokeAsync("EconomyNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("EconomyNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/economy-business" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Economy and Business News">Read More</a>
             </div>
@@ -526,7 +539,9 @@
             <h2 class="section-title" title="EDUCATION NEWS">
                 <span>EDUCATION</span>
             </h2>
-            @await Component.InvokeAsync("EducationNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("EducationNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/education" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Education News">Read More</a>
             </div>
@@ -542,7 +557,9 @@
             <h2 class="section-title" title="ENERGY &amp; EXTRACTIVES NEWS">
                 <span>ENERGY &amp; EXTRACTIVES</span>
             </h2>
-            @await Component.InvokeAsync("EnergyNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("EnergyNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/energy-extractives" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Energy and Extractives News">Read More</a>
             </div>
@@ -551,7 +568,9 @@
             <h2 class="section-title" title="HEALTH NEWS">
                 <span>HEALTH</span>
             </h2>
-            @await Component.InvokeAsync("HealthNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("HealthNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/health" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Health News">Read More</a>
             </div>
@@ -562,7 +581,9 @@
             <h2 class="section-title" title="LAW &amp; GOVERNANCE NEWS">
                 <span>LAW &amp; GOVERNANCE</span>
             </h2>
-            @await Component.InvokeAsync("LawGovernanceNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("LawGovernanceNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/law-governance" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Law and Governance News">Read More</a>
             </div>
@@ -571,7 +592,9 @@
             <h2 class="section-title" title="SCIENCE &amp; ENVIRONMENT NEWS">
                 <span>SCIENCE &amp; ENVIRONMENT</span>
             </h2>
-            @await Component.InvokeAsync("ScienceNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("ScienceNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/science-environment" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Science and Enviroment News">Read More</a>
             </div>
@@ -586,7 +609,9 @@
             <span style="background-color:#f4f4f4">Interviews</span>
         </h2>
         <div id="interviewCarousel" class="owl-carousel">
-            @await Component.InvokeAsync("Interview", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("Interview", new { reg = edition })
+            </cache>
         </div>
     </div>
 </div>
@@ -600,7 +625,9 @@
             <h2 class="section-title" title="URBAN DEVELOPMENT NEWS">
                 <span>URBAN DEVELOPMENT</span>
             </h2>
-            @await Component.InvokeAsync("UrbanDevelopmentNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("UrbanDevelopmentNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/urban-development" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Urban Development News">Read More</a>
             </div>
@@ -609,7 +636,9 @@
             <h2 class="section-title" title="TRANSPORT NEWS">
                 <span>TRANSPORT</span>
             </h2>
-            @await Component.InvokeAsync("TransportNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("TransportNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/transport" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Transport News">Read More</a>
             </div>
@@ -620,7 +649,9 @@
             <h2 class="section-title" title="SPORTS NEWS">
                 <span>SPORTS</span>
             </h2>
-            @await Component.InvokeAsync("SportsNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("SportsNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/sports" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Sports News">Read More</a>
             </div>
@@ -646,7 +677,9 @@
             <h2 class="section-title" title="WASH NEWS">
                 <span>WASH</span>
             </h2>
-            @await Component.InvokeAsync("WashNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("WashNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/wash" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Water and Sanitation News">Read More</a>
             </div>
@@ -658,7 +691,9 @@
             <h2 class="section-title" title="ART &amp; CULTURE NEWS">
                 <span>ART &amp; CULTURE</span>
             </h2>
-            @await Component.InvokeAsync("ArtCultureNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("ArtCultureNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/art-culture" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Art and Culture News">Read More</a>
             </div>
@@ -667,7 +702,9 @@
             <h2 class="section-title" title="POLITICS NEWS">
                 <span>POLITICS</span>
             </h2>
-            @await Component.InvokeAsync("PoliticsNews", new { reg = edition })
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("PoliticsNews", new { reg = edition })
+            </cache>
             <div class="clearfix">
                 <a href="/news/politics" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Politics News">Read More</a>
             </div>
@@ -682,14 +719,18 @@
                 <span>SOCIAL &amp; GENDER</span>
             </h2>
         </div>
-        @await Component.InvokeAsync("SocialNews", new { reg = edition })
+        <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+            @await Component.InvokeAsync("SocialNews", new { reg = edition })
+        </cache>
         <div class="col-md-12">
             <a href="/news/socialgender" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Social and Gender News">Read More</a>
         </div>
     </div>
 </div>
 <div class="container m-t-20 m-b-20">
-    @await Component.InvokeAsync("News", new { reg = edition, skip = 0, take = 12 })
+    <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+        @await Component.InvokeAsync("News", new { reg = edition, skip = 0, take = 12 })
+    </cache>
 </div>
 <link href="~/Content/breaking-news-ticker.min.css" rel="stylesheet" async />
 <link rel="stylesheet" type="text/css" href="~/Content/SiteNew.min.css" />

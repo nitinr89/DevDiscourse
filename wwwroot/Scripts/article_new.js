@@ -86,10 +86,10 @@
                         //if (i > 0) {
                         //    adOnMobile = '';
                         //}
-                        
-                        var imageUrl = data.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "https://www.devdiscourse.com/remote.axd?" + data.imageUrl : "https://www.devdiscourse.com" + data.imageUrl;
+
+                        var imageUrl = data.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + data.imageUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + data.imageUrl;
                         if (data.imageUrl != null && data.imageUrl != "/images/defaultImage.jpg" && data.imageUrl != "/images/newstheme.jpg" && data.imageUrl != "/images/sector/all_sectors.jpg") {
-                            imageHtml = '<figure class="figure"><picture> <source srcset="' + imageUrl + '?width=920&format=webp" type="image/webp"> <source srcset="' + imageUrl + '?width=920&format=jpeg" type="image/jpeg"><img src="' + imageUrl + '?width=920&format=jpeg" class="img-responsive" alt="' + data.title + '"></picture><figcaption class="fig-caption">' + imageCopyright + '</figcaption></figure>';
+                            imageHtml = '<figure class="figure"><picture> <source srcset="' + imageUrl + '&width=920&format=webp" type="image/webp"> <source srcset="' + imageUrl + '&width=920&format=jpeg" type="image/jpeg"><img src="' + imageUrl + '&width=920&format=jpeg" class="img-responsive" alt="' + data.title + '"></picture><figcaption class="fig-caption">' + imageCopyright + '</figcaption></figure>';
                         }
                         var source = "";
                         if (data.Type == 'News') {
@@ -105,11 +105,11 @@
                         } else if (data.type == "Blog" && data.author != null && data.author != "") {
                             var authorImage = '';
                             if (data.themes != null) {
-                                authorImage = data.themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? domainUrl + "/remote.axd?" + data.themes : 'https://www.devdiscourse.com' + data.themes;
+                                authorImage = data.themes.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + data.themes : "/Experiment/Img?imageUrl=" + 'https://www.devdiscourse.com' + data.themes;
                             } else {
                                 authorImage = data.avatar;
                             }
-                            source = '<li><a href = "/Home/AuthorArticles?fl=' + data.Author.Trim() + '"> <img class="img-circle author-avatar" src="' + authorImage + '?width=30&height=30&mode=crop" onerror="this.src=&#39;/AdminFiles/Logo/img_avatar.png?width=30&height=30&mode=crop&#39;" alt="' + data.author + '" />' + data.author.Trim() + '</a></li>';
+                            source = '<li><a href = "/Home/AuthorArticles?fl=' + data.Author.Trim() + '"> <img class="img-circle author-avatar" src="' + authorImage + '&width=30&height=30&mode=crop" onerror="this.src=&#39;/Experiment/Img?imageUrl=https://www.devdiscourse.com/AdminFiles/Logo/img_avatar.png&width=30&height=30&mode=crop&#39;" alt="' + data.author + '" />' + data.author.Trim() + '</a></li>';
                         }
                         var shareHtml = '<ul class="list-inline no-margin share-button-list"><li class="l-h-28">SHARE</li><li><a onclick="window.open(&#39;https://www.facebook.com/sharer/sharer.php?u=https://www.devdiscourse.com/article/' + label + '/' + slug + '&#39;, &#39;facebook_share&#39;, &#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="Share on Facebook" class="social-btn"><span class="fa fa-facebook fb"></span></a></li>' +
                             '<li><a onclick="window.open(&#39;http://twitter.com/share?url=https://www.devdiscourse.com/article/' + label + '/' + slug + '&amp;text=' + encodedTitle + '&#39;, &#39;facebook_share&#39;, &#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="share on Twitter" class="social-btn"><span class="fa fa-twitter tw"></span></a> </li>' +
@@ -195,14 +195,14 @@
                 // var label = item.Label != null ? item.Label : "agency-wire";
                 var newsImage = '';
                 if (item.fileThumbUrl != null && item.fileThumbUrl != "/images/defaultImage.jpg" && item.fileThumbUrl != "/images/newstheme.jpg" && item.fileThumbUrl != "/images/sector/all_sectors.jpg") {
-                    newsImage = item.fileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/remote.axd?" + item.fileThumbUrl : item.fileThumbUrl;
+                    newsImage = item.fileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.fileThumbUrl : item.fileThumbUrl;
                 }
                 var country = item.country != null ? item.country.split(',') : [];
                 var countryText = country.length > 0 ? country[0] : "Global";
-           
+
                 videoHtml += '<div class="col-md-12 col-sm-12">' +
                     '<a href="/news/videos/' + slugUrl + '">' +
-                    '<div class="video-cover m-b-20 lazy lazyloaded" title="' + item.title + '" style="background-image: url(&quot;https://www.devdiscourse.com' + newsImage + '?width=555&amp;height=300&amp;mode=crop&quot;);">' +
+                    '<div class="video-cover m-b-20 lazy lazyloaded" title="' + item.title + '" style="background-image: url(&quot;https://www.devdiscourse.com' + newsImage + '&width=555&amp;height=300&amp;mode=crop&quot;);">' +
                     '<div class="cover-overlay">' +
                     '<div class="video-btn"><span class="fa fa-play"></span></div>' +
                     '<h3 class="video-title">' + item.title + '</h3>' +

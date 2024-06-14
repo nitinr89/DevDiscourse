@@ -22,6 +22,11 @@
             pattern: "{controller=Home}/{action=Index}/{id?}");
 
             routes.MapControllerRoute(
+            name: "sitemap",
+            pattern: "sitemap.xml",
+            defaults: new { controller = "Sitemap", action = "Sitemap" });
+
+            routes.MapControllerRoute(
             name: "DefaulApi",
             pattern: "api/controller/{id?}");
 

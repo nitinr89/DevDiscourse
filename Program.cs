@@ -20,6 +20,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
 builder.Services.AddSignalR();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<SitemapService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>

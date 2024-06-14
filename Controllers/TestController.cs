@@ -17,7 +17,7 @@ namespace DevDiscourse.Controllers
         }
         public JsonResult dev()
         {
-            List<DevNews> news = _db.DevNews.Take(1).ToList();
+            List<DevNews> news = _db.DevNews.OrderByDescending(o => o.CreatedOn).Take(1).ToList();
             return Json(news);
         }
     }

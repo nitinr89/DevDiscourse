@@ -19,6 +19,9 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OutputCaching;
 using NuGet.Protocol.Core.Types;
+using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Vml.Office;
+using Microsoft.Data.SqlClient;
 
 namespace DevDiscourse.Controllers
 {
@@ -596,7 +599,7 @@ namespace DevDiscourse.Controllers
         }
         public ActionResult Home()
         {
-      
+
             string? cookie = Request.Cookies["Edition"];
             switch (cookie)
             {
@@ -608,7 +611,7 @@ namespace DevDiscourse.Controllers
                     break;
             }
             return View();
-         
+
         }
         public async Task<ActionResult> Article(long? id)
         {
@@ -619,7 +622,7 @@ namespace DevDiscourse.Controllers
                 {
                     return BadRequest();
                 }
-                Livediscourse livediscourse = await db.Livediscourses.FindAsync(id);
+                Livediscourse? livediscourse = await db.Livediscourses.FindAsync(id);
                 if (livediscourse == null)
                 {
                     return NotFound();
@@ -628,9 +631,11 @@ namespace DevDiscourse.Controllers
                 bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
                 if (!isCrawler)
                 {
-                    livediscourse.ViewCount = livediscourse.ViewCount + 1;
-                    db.Entry(livediscourse).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
+                    //livediscourse.ViewCount++;
+                    //db.Entry(livediscourse).Property(e => e.ViewCount).IsModified = true;
+                    //await db.SaveChangesAsync();
+                    string sql = "UPDATE Livediscourses SET ViewCount = ViewCount + 1 WHERE Id = @id";
+                    int affectedRows = await db.Database.ExecuteSqlRawAsync(sql, new SqlParameter("id", livediscourse.Id));
                 }
                 if (User.Identity.IsAuthenticated)
                 {
@@ -650,19 +655,18 @@ namespace DevDiscourse.Controllers
                         break;
                 }
 
-                var blogUpdates =await db.Livediscourses.Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Take(10).ToListAsync();
+                var blogUpdates = await db.Livediscourses.Where(a => a.ParentId == id && a.AdminCheck == true).OrderByDescending(m => m.CreatedOn).Take(10).ToListAsync();
                 ViewBag.BlogUpdates = blogUpdates;
                 ViewBag.FirstBlogUpdates = blogUpdates.Take(1);
                 ViewBag.HasUpdates = blogUpdates.Any();
                 //return View(livediscourse);
-                if (scheme.EndsWith("?amp")) return View("Article.amp",livediscourse);
+                if (scheme.EndsWith("?amp")) return View("Article.amp", livediscourse);
                 else return View(livediscourse);
             }
             catch (Exception ex)
             {
                 return Content("Internel Server Error 500: " + ex.Message);
             }
-
         }
         public async Task<ActionResult> MobileArticle(long? id, string user)
         {
@@ -681,7 +685,7 @@ namespace DevDiscourse.Controllers
                 ViewBag.AmpDescriptoion = description;
                 var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
                 bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
-                if(isCrawler)
+                if (isCrawler)
                 {
                     livediscourse.ViewCount = livediscourse.ViewCount + 1;
                     db.Entry(livediscourse).State = EntityState.Modified;

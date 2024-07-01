@@ -81,12 +81,6 @@
 
             routes.MapControllerRoute(
             name: "LivediscourseArticle",
-            pattern: "live-discourse",
-            defaults: new { controller = "Livediscourse", action = "Home" }
-            );
-
-            routes.MapControllerRoute(
-            name: "LivediscourseArticle",
             pattern: "live-discourse/{id?}",
             defaults: new { controller = "Livediscourse", action = "Article" }
             );

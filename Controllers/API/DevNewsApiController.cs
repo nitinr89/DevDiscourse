@@ -614,9 +614,24 @@ namespace DevDiscourse.Controllers.API
                 if (isPerson == "true")
                 {
                     DateTime threeYears = DateTime.Today.AddYears(-3);
-                    ImageGallery? image = await db.ImageGalleries
-                         .Where(f => f.CreatedOn > threeYears && f.AI != true && (f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun)))
-                         .OrderByDescending(o => o.CreatedOn).FirstOrDefaultAsync();
+                    ImageGallery? image;
+
+                    if (sector == "19" || sector == "11") // politics, low-governance
+                    {
+                        image = db.ImageGalleries
+                                .Where(f => f.CreatedOn > threeYears && f.AI != true
+                                && (f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun)) &&
+                                !(f.Title.Contains(",") || f.Title.ToLower().Contains(" and ") || f.Title.Contains("&") || f.Title.Contains(" to ") || f.Title.Contains(" by ") || f.Title.Contains(" with ")
+                                || f.Caption.Contains(",") || f.Caption.ToLower().Contains(" and ") || f.Caption.Contains("&") || f.Caption.Contains(" to ") || f.Caption.Contains(" by ") || f.Caption.Contains(" with ")))
+                                .OrderByDescending(o => o.CreatedOn).FirstOrDefault();
+                    }
+                    else
+                    {
+                        image = await db.ImageGalleries
+                           .Where(f => f.CreatedOn > threeYears && f.AI != true
+                           && (f.Title.ToLower().Contains(noun) || f.Caption.ToLower().Contains(noun)))
+                           .OrderByDescending(o => o.CreatedOn).FirstOrDefaultAsync();
+                    }
                     if (image == null) return "NotOk200 - Not Found";
                     string sql = "UPDATE ImageGalleries SET UseCount = UseCount + 1 WHERE Id = @id";
                     int affectedRows = await db.Database.ExecuteSqlRawAsync(sql, new SqlParameter("id", image.Id));

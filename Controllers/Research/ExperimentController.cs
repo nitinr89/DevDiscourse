@@ -492,10 +492,15 @@ namespace Devdiscourse.Controllers.Research
         }
 
         [HttpGet]
-        public IActionResult TrendingToday(string jaadu, int page = 1)
+        public IActionResult Trending(string jaadu, string time, int page = 1)
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
-            var todayStart = DateTime.Today;
+            DateTime today = DateTime.Today;
+            DateTime weekStart = today.AddDays(-(int)today.DayOfWeek);
+            DateTime dateTime;
+            if (time == "day") dateTime = today;
+            else if (time == "week") dateTime = weekStart;
+            else dateTime = today;
 
             string sql = @"
         SELECT 
@@ -543,74 +548,10 @@ namespace Devdiscourse.Controllers.Research
 
             var parameters = new[]
             {
-        new SqlParameter("@todayStart", todayStart),
-        new SqlParameter("@offset", (page - 1) * 10),
-        new SqlParameter("@pageSize", 10)
-    };
-
-            var topNewsItems = db.TopNewsItems
-                .FromSqlRaw(sql, parameters)
-                .ToList();
-            return Ok(topNewsItems);
-        }
-        [HttpGet]
-        public IActionResult TrendingWeek(string jaadu, int page = 1)
-        {
-            if (jaadu != "pleaseletmeaccess") return Unauthorized();
-            DateTime today = DateTime.Today;
-            DateTime weekStart = today.AddDays(-(int)today.DayOfWeek);
-
-            string sql = @"
-        SELECT 
-            d.Id,
-            d.NewsId,
-            d.Title,
-            d.SubTitle,
-            d.ImageUrl,
-            (u.FirstName + ' ' + u.LastName) AS Author,
-            u.ProfilePic,
-            d.Sector,
-            d.AdminCheck,
-            d.Region,
-            d.ViewCount AS Views,
-            ISNULL(d.NewsLabels, 'agency-wire') AS NewsLabel,
-            ISNULL(d.Country, 'Global') AS Country,
-            d.Source,
-            d.OriginalSource,
-            d.CreatedOn,
-            COUNT(*) AS TodayViews
-        FROM TrendingNews tn
-        INNER JOIN DevNews d ON tn.NewsId = d.Id
-        INNER JOIN AspNetUsers u ON d.Creator = u.Id
-        WHERE tn.ViewedOn >= @todayStart
-        GROUP BY 
-            d.Id,
-            d.NewsId,
-            d.Title,
-            d.SubTitle,
-            d.ImageUrl,
-            u.FirstName,
-            u.LastName,
-            u.ProfilePic,
-            d.Sector,
-            d.AdminCheck,
-            d.Region,
-            d.ViewCount,
-            d.NewsLabels,
-            d.Country,
-            d.Source,
-            d.OriginalSource,
-            d.CreatedOn
-        ORDER BY TodayViews DESC
-        OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY;";
-
-            var parameters = new[]
-            {
-        new SqlParameter("@todayStart", weekStart),
-        new SqlParameter("@offset", (page - 1) * 10),
-        new SqlParameter("@pageSize", 10)
-    };
-
+                new SqlParameter("@todayStart", dateTime),
+                new SqlParameter("@offset", (page - 1) * 10),
+                new SqlParameter("@pageSize", 10)
+            };
             var topNewsItems = db.TopNewsItems
                 .FromSqlRaw(sql, parameters)
                 .ToList();
@@ -618,35 +559,23 @@ namespace Devdiscourse.Controllers.Research
         }
 
         [HttpGet]
-        public IActionResult ReportToday(string jaadu)
-        {
-            if (jaadu != "pleaseletmeaccess") return Unauthorized();
-            var todayStart = DateTime.Today;
-
-            var query = db.TrendingNews
-                .Where(f => f.ViewedOn >= todayStart)
-                .GroupBy(o => o.Country)
-                .Select(g => new IdTitle
-                {
-                    Id = g.Count(),
-                    Title = g.Key == null ? "Others" : g.Key
-                }).OrderByDescending(o => o.Id).ToList();
-            return Ok(query);
-        }
-        [HttpGet]
-        public IActionResult ReportWeek(string jaadu)
+        public IActionResult Views(string jaadu, string time, string? newsId)
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
             DateTime today = DateTime.Today;
             DateTime weekStart = today.AddDays(-(int)today.DayOfWeek);
+            DateTime dateTime;
+            if (time == "day") dateTime = today;
+            else if (time == "week") dateTime = weekStart;
+            else dateTime = today;
 
             var query = db.TrendingNews
-                .Where(f => f.ViewedOn >= weekStart)
+                .Where(f => f.ViewedOn >= dateTime && (string.IsNullOrWhiteSpace(newsId) || f.NewsId == new Guid(newsId)))
                 .GroupBy(o => o.Country)
                 .Select(g => new IdTitle
                 {
                     Id = g.Count(),
-                    Title = g.Key == null ? "Others" : g.Key
+                    Title = g.Key == null ? "Others" : g.Key == "Not found" ? "Others" : g.Key
                 }).OrderByDescending(o => o.Id).ToList();
             return Ok(query);
         }

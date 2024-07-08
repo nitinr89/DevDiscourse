@@ -22,6 +22,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<SitemapService>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IpAddressHelper>();
 
 builder.Services.AddCors(options =>
 {

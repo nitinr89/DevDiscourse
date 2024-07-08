@@ -28,7 +28,7 @@
     ViewBag.pageKeywords = keywords;
     var DataDesc = Model.Description;
     // var modifiedDescription = GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString());
-    string modifiedDescription = @newsTitle + " " + GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
+    string modifiedDescription = @newsTitle + " " + GetFirstParagraph(new HtmlString(GetCleanDescription(@Model.Description)).ToString());
     var isCrawler = Context.Request.Headers["User-Agent"].ToString().Contains("bot");
     var IsMobile = Context.Request.Headers["User-Agent"].ToString().Contains("Mobile", StringComparison.OrdinalIgnoreCase);
     ViewBag.PageDescription = @modifiedDescription;
@@ -38,7 +38,7 @@
     DateTime publishedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.PublishedOn, INDIAN_ZONE);
     DateTime modifiedDate = TimeZoneInfo.ConvertTimeFromUtc(Model.ModifiedOn, INDIAN_ZONE);
     // TempData["firstPara"] = GetFirstParagraph(GetCleanDescription(Model.Description).ToHtmlString()).ToString();
-    TempData["firstPara"] = GetFirstParagraph(new HtmlString(await GetCleanDescription(@Model.Description)).ToString());
+    TempData["firstPara"] = GetFirstParagraph(new HtmlString(GetCleanDescription(@Model.Description)).ToString());
     TempData["title"] = Model.Title;
     TempData["tags"] = keywords;
     TempData["type"] = Model.Type;
@@ -65,41 +65,21 @@
     }
 }
 @functions {
-    async Task Truncate(string text)
-    {
-        if (text.Length == 0)
-        {
-            @text
-        }
-        else if (text.Length > 300)
-        {
-            string output = string.Concat(text.Substring(0, 295).ToString(), "...");
-            @output
-        }
-        else
-        {
-            @text
-        }
-    }
-}
-@functions {
-    async Task GetFirstParagraph(string htmltext)
+    public string GetFirstParagraph(string htmltext)
     {
         Match m = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
         if (m.Success)
         {
-            @m.Groups[1].Value
-            ;
+            return m.Groups[1].Value;
         }
         else
         {
-            @htmltext
-            ;
+            return htmltext;
         }
     }
 }
 @functions {
-    async Task FirstCharToUpper(string s)
+    public string FirstCharToUpper(string s)
     {
         if (string.IsNullOrEmpty(s))
         {
@@ -107,11 +87,11 @@
             @outData
         }
         var output = char.ToUpper(s[0]) + s.Substring(1);
-        @output
+        return output;
     }
 }
 @functions {
-    async Task GetslugLabel(string text)
+    public string GetslugLabel(string text)
     {
         byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
         string str = System.Text.Encoding.ASCII.GetString(bytes).ToLower();
@@ -119,30 +99,11 @@
         str = Regex.Replace(str, @"\s+", " ").Trim();
         str = str.Substring(0, str.Length <= 150 ? str.Length : 150).Trim();
         str = Regex.Replace(str, @"\s", "-"); // hyphens
-        @str
-        ;
+        return str;
     }
 }
 @functions {
-    async Task GetDescriptionText(string htmltext)
-    {
-        const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
-        const string stripFormatting = @"<[^>]*(>|$)";
-        const string lineBreak = @"<(br|BR)\s{0,1}\/{0,1}>";
-        var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
-        var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
-        var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
-        var text = htmltext.Replace("&nbsp;", " ");
-        text = System.Net.WebUtility.HtmlDecode(text);
-        text = tagWhiteSpaceRegex.Replace(text, "><");
-        text = lineBreakRegex.Replace(text, Environment.NewLine);
-        text = stripFormattingRegex.Replace(text, string.Empty);
-        @text
-        ;
-    }
-}
-@functions {
-    async Task<string> GetCleanDescription(string htmltext)
+    public string GetCleanDescription(string htmltext)
     {
         htmltext = htmltext.Replace("&nbsp;", " ");
         htmltext = htmltext.Replace("&rsquo;", "'");
@@ -150,8 +111,7 @@
         htmltext = htmltext.Replace("&#39;", "'");
         htmltext = htmltext.Replace("&rdquo;", "\"");
         htmltext = htmltext.Replace("&ldquo;", "\"");
-        var result = @Html.Raw(htmltext);
-        return result.ToString();
+        return htmltext;
     }
 }
 @if (ViewBag.blogUpdate != null)
@@ -411,16 +371,15 @@
                         </p>
                     }
                     <div class="newsDescArticle clearfix" id="newsDesc">
-                        @GetCleanDescription(DataDesc)
-                        @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS") && !DataDesc.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && String.IsNullOrEmpty(Model.NewsLabels))
+                        @Html.Raw(GetCleanDescription(DataDesc))
+                        @if ((Model.Source == "Reuters" || Model.Source == "PTI" || Model.Source == "IANS" || Model.Source == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && !isCrawler)
                         {
                             <p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>
                         }
-                        else if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS") && !DataDesc.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && Model.Source == "Devdiscourse News Desk" && !String.IsNullOrEmpty(Model.NewsLabels))
+                        else if (Model.Source == "Devdiscourse News Desk" && (Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !isCrawler)
                         {
-                            <p>(With inputs from agencies.)</p>
+                            <p>(Disclaimer: With inputs from agencies.)</p>
                         }
-
                         @if (!string.IsNullOrEmpty(Model.Tags))
                         {
                             <div>
@@ -560,7 +519,7 @@
                                     hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[i].commentId + '">Delete</span>';
             </text>
         }
-                                                                                if (data[i].parentId == 0) {
+                                                                                                                        if (data[i].parentId == 0) {
                                 $('#itemComment_' + data[i].itemId).append('<div class="comment" id="single_' + data[i].commentId + '">' +
                                     '<div class="name">' + data[i].name + '</div>' +
                                     '<div class="content">' + data[i].commentText + '</div>' +
@@ -645,7 +604,7 @@
                             hideHtml = '<span class="btn btn-sm btn-delete" id="delete_' + data[0].commentId + '">Delete</span>';
             </text>
         }
-                                                                            if (data[0].parentId == 0) {
+                                                                                                                    if (data[0].parentId == 0) {
                         $('#itemComment_' + data[0].itemId).append('<div class="comment" id="single_' + data[0].commentId + '">' +
                             '<div class="name">' + data[0].name + '</div>' +
                             '<div class="content">' + data[0].commentText + '</div>' +

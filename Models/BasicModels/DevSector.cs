@@ -1,5 +1,4 @@
 ﻿using Devdiscourse.Models.VideoNewsModels;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,6 +14,5 @@ namespace Devdiscourse.Models.BasicModels
         public string? Slug { get; set; }
         public virtual ICollection<DiscourseTag>? DiscourseTag { get; set; }
         public virtual ICollection<VideoNewsSector>? VideoNewsSectors { get; set; }
-        public virtual ICollection<SectorMapping>? SectorMapping { get; set; }
     }
 }

@@ -65,6 +65,7 @@ namespace Devdiscourse.Controllers.ViewComponents
 
                 foreach (var item in sponsoredNews)
                 {
+                    resultList.RemoveAll(n => n.NewsId == item.News.NewsId);
                     resultList.Insert(item.Index, item.News);
                 }
                 return View(resultList);

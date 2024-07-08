@@ -20,10 +20,8 @@
     var dataTags = (@Model.Tags ?? "").Split(',').Where(item => item != "").Select(s => s.Trim()).Distinct(StringComparer.OrdinalIgnoreCase);
     var keywords = String.Join(", ", dataTags.Take(15)).Trim();
     ViewBag.pageKeywords = keywords;
-    var DataDesc = Model.Description;
+    string DataDesc = Model.Description;
     ViewBag.PageDescription = "Read more about " + Model.Title + " on Devdiscourse";
-    string sourceCategory = "International";
-    // string imgwidth = Request.Browser.IsMobileDevice ? "?width=480" : "?width=920";
     var schemaSource = string.IsNullOrEmpty(Model.NewsLabels) ? Model.Source : "Devdiscourse News Desk";
     TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
     DateTime createdDate = TimeZoneInfo.ConvertTimeFromUtc(Model.CreatedOn, INDIAN_ZONE);
@@ -33,7 +31,7 @@
     var schemaAuthor = Model.Source;
     CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
     TextInfo textInfo = cultureInfo.TextInfo;
-    var isMobile = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+    var isMobile = HttpContextAccessor?.HttpContext?.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
 }
 @if (!string.IsNullOrEmpty(bodykeywords))
 {
@@ -48,49 +46,7 @@
     }
 }
 @functions {
-    async Task GetFirstParagraph(string htmltext)
-    {
-        Match m = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
-        if (m.Success)
-        {
-            @m.Groups[1].Value
-            ;
-        }
-        else
-        {
-            @htmltext
-            ;
-        }
-    }
-}
-@functions {
-    async Task FirstCharToUpper(string s)
-    {
-        if (string.IsNullOrEmpty(s))
-        {
-            var outData = "";
-            @outData
-        }
-        var output = char.ToUpper(s[0]) + s.Substring(1);
-        @output
-    }
-}
-@functions {
-    async Task GetslugLabel(string text)
-    {
-        // byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(text);
-        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
-        string str = System.Text.Encoding.ASCII.GetString(bytes).ToLower();
-        str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
-        str = Regex.Replace(str, @"\s+", " ").Trim();
-        str = str.Substring(0, str.Length <= 150 ? str.Length : 150).Trim();
-        str = Regex.Replace(str, @"\s", "-"); // hyphens
-        @str
-        ;
-    }
-}
-@functions {
-    async Task GetDescriptionText(string htmltext)
+    public string GetDescriptionText(string htmltext)
     {
         const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
         const string stripFormatting = @"<[^>]*(>|$)";
@@ -98,25 +54,23 @@
         var lineBreakRegex = new Regex(lineBreak, RegexOptions.Multiline);
         var stripFormattingRegex = new Regex(stripFormatting, RegexOptions.Multiline);
         var tagWhiteSpaceRegex = new Regex(tagWhiteSpace, RegexOptions.Multiline);
-        var text = htmltext.Replace("&nbsp;", " ");
+        string text = htmltext.Replace("&nbsp;", " ");
         text = System.Net.WebUtility.HtmlDecode(text);
         text = tagWhiteSpaceRegex.Replace(text, "><");
         text = lineBreakRegex.Replace(text, Environment.NewLine);
         text = stripFormattingRegex.Replace(text, string.Empty);
-        @text
-        ;
+        return text;
     }
 }
 @functions {
-    async Task GetCleanDescription(string htmltext)
+    public string GetCleanDescription(string htmltext)
     {
         htmltext = htmltext.Replace("&nbsp;", " ");
         htmltext = htmltext.Replace("&rsquo;", "'");
         htmltext = htmltext.Replace("&lsquo;", "'");
         htmltext = htmltext.Replace("&rdquo;", "\"");
         htmltext = htmltext.Replace("&ldquo;", "\"");
-        @Html.Raw(htmltext)
-        ;
+        return htmltext;
     }
 }
 <style>
@@ -530,8 +484,7 @@
                 <meta itemprop="position" content="2" />
             </li>
         }
-        @* @{Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "NewsSector" });} *@
-        @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "NewsSector" });
+        @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "NewsSector" })
         <li class="active">Article</li>
     </ul>
     <div class="article-divider clearfix" style="display:none;" data-articleurl="@Model.GenerateSecondSlug()" data-articletitle="@Model.Title"></div>
@@ -691,14 +644,14 @@
                     </figure>
                 }
                 <section class="article-cont">
-                    @GetCleanDescription(@DataDesc)
-                    @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk")
+                    @Html.Raw(GetCleanDescription(DataDesc))
+                    @if ((Model.Source == "Reuters" || Model.Source == "PTI" || Model.Source == "IANS" || Model.Source == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)"))
                     {
                         <p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>
                     }
-                    else if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() == "Devdiscourse News Desk")
+                    else if (Model.Source == "Devdiscourse News Desk" && (Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI"))
                     {
-                        <p>(With inputs from agencies.)</p>
+                        <p>(Disclaimer: With inputs from agencies.)</p>
                     }
                 </section>
                 <hr />
@@ -709,7 +662,7 @@
                         <li><a class="social-btn" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp; 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> </a> </li>
                         <li><a class="social-btn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span></a> </li>
                         <li><a class="social-btn" aria-label="Subscribe on Youtube" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span></a> </li>
-                        @if (isMobile)
+                        @if (isMobile == true)
                         {
                             <li><a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp://send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> </a> </li>
                         }
@@ -743,9 +696,7 @@
                 }
                 @if (!string.IsNullOrEmpty(Model.Tags))
                 {
-                    @* Html.RenderAction("GetTagNews", "Agencywire", new { id = Model.NewsId, tag = Model.Tags });  *@
                     @await Component.InvokeAsync("TagNews", new { id = Model.NewsId, tag = Model.Tags })
-                    ;
                 }
                 @if (!string.IsNullOrEmpty(Model.Country))
                 {
@@ -768,11 +719,7 @@
                     <span class="fg-black f-18">
                         SECTOR :
                     </span>
-                    @{
-                        /*  Html.RenderAction("GetSector", "Home", new { sector = Model.Sector, filter = "Plane" }); */
-                        @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "Plane" })
-                        ;
-                    }
+                    @await Component.InvokeAsync("Sector", new { sector = Model.Sector, filter = "Plane" })
                 </div>
                 <div>
                     <span class="fg-black f-18">
@@ -832,7 +779,7 @@
                             <li><a class="social-btn" aria-label="Share on Twitter" onclick="window.open('http://twitter.com/share?url=@domainUrl@pageUrl&amp;, 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" title="share on Twitter"> <span class="fa fa-twitter tw"></span> Twitter</a> </li>
                             <li><a class="social-btn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=@domainUrl@pageUrl&source=devdiscourse.com', 'linkedIn_share', 'height=620, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');" href="javascript:void(0);" target="_blank" title="Share on LinkedIn"> <span class="fa fa-linkedin ln"></span> LinkedIn</a> </li>
                             <li><a class="social-btn" aria-label="Subscribe on Youtube" href="https://www.youtube.com/channel/UC28dlbVXA88OyB83dM8BEYg?sub_confirmation=1" target="_blank" title="Subscribe on Youtube"> <span class="fa fa-youtube yt"></span> Youtube</a> </li>
-                            @if (isMobile)
+                            @if (isMobile == true)
                             {
                                 <li><a class="social-btn" aria-label="Share on Whatsapp" href="whatsapp:send?text=@domainUrl@pageUrl" data-action="share/whatsapp/share" aria-label="Share on whatsapp"><span class="fa fa-whatsapp wa"></span> Whatsapp</a> </li>
                             }

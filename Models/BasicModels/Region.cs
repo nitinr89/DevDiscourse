@@ -11,7 +11,7 @@ namespace Devdiscourse.Models.BasicModels
         public Guid Id { get; set; }
         public int SrNo { get; set; } = 0;
         [Display(Name = "Region")]
-        public string? Title { get; set; }
+        public required string Title { get; set; }
         public virtual ICollection<Country>? Countries { get; set; }
         public virtual ICollection<Website>? Websites { get; set; }
         public virtual ICollection<VideoNewsSector>? VideoNewsSectors { get; set; }

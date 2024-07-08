@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 
@@ -24,7 +21,7 @@ namespace Devdiscourse.Models.BasicModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long NewsId { get; set; }
         [Required]
-        public string? Title { get; set; }
+        public required string Title { get; set; }
 
         [Display(Name = "Alternate Headline")]
         public string? AlternateHeadline { get; set; }
@@ -33,8 +30,7 @@ namespace Devdiscourse.Models.BasicModels
         public string? SubTitle { get; set; }
         [Required]
         [Display(Name = "Summary")]
-        //[AllowHtml]
-        public string? Description { get; set; }
+        public required string Description { get; set; }
         public string? Type { get; set; }
         public string? SubType { get; set; }
         [Display(Name = "Labels")]
@@ -42,11 +38,11 @@ namespace Devdiscourse.Models.BasicModels
 
         public string? Category { get; set; }
         [Required]
-        public string? Sector { get; set; }
+        public required string Sector { get; set; }
         public string? Themes { get; set; }
         [Display(Name = "Image")]
         public string? ImageUrl { get; set; }
-        public string? FileMimeType { get; set; }        // File Mime Type
+        public string? FileMimeType { get; set; }
         [Display(Name = "Image Copyright")]
         public string? ImageCopyright { get; set; }
         [Display(Name = "Image Caption")]
@@ -77,7 +73,6 @@ namespace Devdiscourse.Models.BasicModels
         public string? WorkStage { get; set; }
         public string? Creator { get; set; }
         public DateTime PublishedOn { get; set; }
-        //public virtual IList<Tag> NewsTags { get; set; }
         public long ReferenceId { get; set; }
         [ForeignKey("Creator")]
         public virtual ApplicationUser? ApplicationUsers { get; set; }
@@ -85,7 +80,6 @@ namespace Devdiscourse.Models.BasicModels
         public virtual ICollection<NewsTagstb>? NewsTagstb { get; set; }
         public virtual ICollection<RegionNewsRanking>? RegionNewsRankings { get; set; }
 
-        public virtual ICollection<SectorMapping>? SectorMapping { get; set; }
         public string GenerateSlug()
         {
             string phrase = string.Format("{0}-{1}", Id, Title);

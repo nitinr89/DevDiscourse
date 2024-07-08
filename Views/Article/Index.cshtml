@@ -46,59 +46,29 @@
    string encodeValue =  System.Net.WebUtility.UrlEncode(Model.Title);
 }
 @functions {
-async Task GetFirstParagraph(string htmltext)
+ public string GetFirstParagraph(string htmltext)
 {
-    await Task.Yield();
     htmltext = htmltext.Replace("&nbsp;", " ");
     var match = Regex.Match(htmltext, @"<p>\s*(.+?)\s*</p>");
     var output = match.Success ? match.Groups[1].Value : htmltext;
     output = Regex.Replace(output, @"[^A-Za-z0-9\s-]", "");
-    @output;
-}
-}
-
-
-@functions {
-async Task Truncate(string input, int length)
-{
-     await Task.Yield();
-    if (string.IsNullOrEmpty(input))
-    {
-        <text> </text>
-    }
-    else if (input.Length <= length)
-    {
-        @input
-    }
-    else
-    {
-        @input.Substring(0, length)
-    }
-}
-}
-
-@functions {
-async Task GetCleanDescription(string htmltext)
-{
-    await Task.Yield();
-    if (!string.IsNullOrEmpty(htmltext))
-    {
-    var sb = new StringBuilder(htmltext);
-    sb.Replace(" ", " ");
-    sb.Replace("’", "'");
-    sb.Replace("‘", "'");
-    sb.Replace("'", "'");
-    sb.Replace("”", "\"");
-    sb.Replace("“", "\"");
-    htmltext = sb.ToString();
-    }
-    @Html.Raw(htmltext);
+    return output;
 }
 }
 @functions {
-    async Task GetDescriptionText(string htmltext = "")
+    public string GetCleanDescription(string htmltext)
     {
-        await Task.Yield();
+        htmltext = htmltext.Replace("&nbsp;", " ");
+        htmltext = htmltext.Replace("&rsquo;", "'");
+        htmltext = htmltext.Replace("&lsquo;", "'");
+        htmltext = htmltext.Replace("&rdquo;", "\"");
+        htmltext = htmltext.Replace("&ldquo;", "\"");
+        return htmltext;
+    }
+}
+@functions {
+    public string GetDescriptionText(string htmltext = "")
+    {
         var sb = new StringBuilder();
     var regex = new Regex(@"[^,.A-Za-z0-9\s-]", RegexOptions.Compiled);
     var text = (htmltext ?? "").Replace("&nbsp;", " ");
@@ -107,10 +77,9 @@ async Task GetCleanDescription(string htmltext)
     text = System.Net.WebUtility.HtmlDecode(text);
     text = regex.Replace(text, "");
     sb.Append(text);
-    @sb.ToString();
+    return sb.ToString();
+    }
 }
-}
-
 
 <style>
     .renderBody {
@@ -720,7 +689,7 @@ async Task GetCleanDescription(string htmltext)
     "url": "https://www.devdiscourse.com/AdminFiles/Logo/devdiscourse_news.png"
     }
     },
-    "description": "@{ await GetFirstParagraph(Model.Description); }"
+    "description": @GetFirstParagraph(Model.Description)
     }
 </script> 
 
@@ -819,9 +788,7 @@ foreach (var item in Model.UserNewsFiles.Take(1))
     {"@@context":"https://schema.org/","@@type":"VideoObject",
     "name":"@newsTitle","@@id":"@domainUrl@pageUrl",
     "datePublished":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
-                            "description":" @{
-                                await GetDescriptionText(@Model.Description); 
-                            }", 
+                            "description":@GetDescriptionText(@Model.Description),
                             "thumbnailURL":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg",
     "thumbnail":"@newsImage&height=518&mode=crop&anchor=center&format=jpeg",
     "uploadDate":"@publishedDate.ToString("yyyy-MM-ddTHH:mm:sszzzzz")",
@@ -859,17 +826,14 @@ foreach (var item in Model.UserNewsFiles.Take(1))
 }
     </ul>
 </section> <hr class="seperator m-b-20" /> <section class="article-cont">
-   
-                    @{
-                        await GetCleanDescription(@DataDesc.ToString());}
-
-    @if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() != "Devdiscourse News Desk" && !isCrawler)
+     @Html.Raw(GetCleanDescription(DataDesc.ToString()))
+    @if ((Model.Source == "Reuters" || Model.Source == "PTI" || Model.Source == "IANS" || Model.Source == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && !isCrawler)
     {
-        if (!isCrawler)
-        {<p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>}
+        <p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>
     }
-    else if ((Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !DataDesc.ToString().Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)") && (Model.Source ?? "").Trim() == "Devdiscourse News Desk" && !isCrawler)
-    {<p>(With inputs from agencies.)</p>}@*@if (!Request.Browser.Crawler){<p> Download The Devdiscourse <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" target="_blank">News App</a> for Latest News.</p>}*@
+    else if (Model.Source == "Devdiscourse News Desk" && (Model.OriginalSource == "Reuters" || Model.OriginalSource == "PTI" || Model.OriginalSource == "IANS" || Model.OriginalSource == "ANI") && !isCrawler)
+    {<p>(Disclaimer: With inputs from agencies.)</p>}
+    @*@if (!Request.Browser.Crawler){<p> Download The Devdiscourse <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" target="_blank">News App</a> for Latest News.</p>}*@
 </section>
 
 

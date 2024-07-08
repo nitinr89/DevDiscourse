@@ -7,33 +7,20 @@ using Devdiscourse.Models.ResearchModels;
 using Devdiscourse.Models.VideoNewsModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Devdiscourse.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+        : base(options) { }
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-
+        configurationBuilder.Conventions.Add(_ => new BlankTriggerAddingConvention());
     }
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-        builder.Entity<SectorMapping>()
-            .HasKey(x => new { x.SectorId, x.NewsId });
-
-        // Configure relationships if not done through navigation properties
-        builder.Entity<SectorMapping>()
-            .HasOne(ns => ns.DevNews).WithMany(ns => ns.SectorMapping)
-            .HasForeignKey(ns => ns.NewsId);
-
-        builder.Entity<SectorMapping>()
-            .HasOne(ns => ns.DevSector)
-            .WithMany(ns => ns.SectorMapping)
-            .HasForeignKey(ns => ns.SectorId);
-    }
-
     public DbSet<TopNewsItem> TopNewsItems { get; set; }
     public DbSet<Controlls> Controlls { get; set; }
     public DbSet<DevNews> DevNews { get; set; }
@@ -74,7 +61,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<LiveBlog> LiveBlogs { get; set; }
     public DbSet<Meme> Memes { get; set; }
     public DbSet<UserWork> UserWorks { get; set; }
-    //public DbSet<NewsTag> NewsTags { get; set; }
     public DbSet<AssignNews> AssignNews { get; set; }
     public DbSet<Job> Jobs { get; set; }
     public DbSet<Content> Contents { get; set; }
@@ -103,12 +89,37 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<VideoNews> VideoNews { get; set; }
     public DbSet<VideoNewsRegion> VideoNewsRegions { get; set; }
     public DbSet<VideoNewsSector> VideoNewsSectors { get; set; }
-
-    //public DbSet<FollowNewsTags> FollowNewsTags { get; set; }
     public DbSet<VideoNewsTag> VideoNewsTags { get; set; }
     public DbSet<LivediscourseVideo> LivediscourseVideos { get; set; }
     public DbSet<MediaInternship> MediaInternships { get; set; }
     public DbSet<RegionNewsRanking> RegionNewsRankings { get; set; }
-    public DbSet<SectorMapping> SectorMappings { get; set; }
 }
 
+
+public class BlankTriggerAddingConvention : IModelFinalizingConvention
+{
+    public virtual void ProcessModelFinalizing(
+        IConventionModelBuilder modelBuilder,
+        IConventionContext<IConventionModelBuilder> context)
+    {
+        foreach (var entityType in modelBuilder.Metadata.GetEntityTypes())
+        {
+            var table = StoreObjectIdentifier.Create(entityType, StoreObjectType.Table);
+            if (table != null
+                && entityType.GetDeclaredTriggers().All(t => t.GetDatabaseName(table.Value) == null)
+                && (entityType.BaseType == null
+                    || entityType.GetMappingStrategy() != RelationalAnnotationNames.TphMappingStrategy))
+            {
+                entityType.Builder.HasTrigger(table.Value.Name + "_Trigger");
+            }
+
+            foreach (var fragment in entityType.GetMappingFragments(StoreObjectType.Table))
+            {
+                if (entityType.GetDeclaredTriggers().All(t => t.GetDatabaseName(fragment.StoreObject) == null))
+                {
+                    entityType.Builder.HasTrigger(fragment.StoreObject.Name + "_Trigger");
+                }
+            }
+        }
+    }
+}

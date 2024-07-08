@@ -12,24 +12,7 @@
     var td = "td";
     string postedOn = "";
 }
-@functions {
-    async Task Truncate(string input, int length)
-    {
-        if (string.IsNullOrEmpty(input))
-        {
-            <text> </text>
-        }
-        else if (input.Length <= length)
-        {
-            @input
-        }
-        else
-        {
-            @input.Substring(0, length)
-            <text>..</text>
-        }
-    }
-}
+
 <link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 <link href="~/Content/admin.css" rel="stylesheet" />
@@ -281,7 +264,14 @@
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Source)
+                        @if (item.Source == "Devdiscourse News Desk")
+                        {
+                            <div><span style="color:orange;">●</span>@Html.DisplayFor(modelItem => item.OriginalSource)</div>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Source)
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ViewCount)

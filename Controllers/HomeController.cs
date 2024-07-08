@@ -1,6 +1,7 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models;
 using Devdiscourse.Models.ViewModel;
+using Devdiscourse.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,12 @@ namespace DevDiscourse.Controllers
     {
         private ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> userManager;
-        public HomeController(ApplicationDbContext _db, UserManager<ApplicationUser> userManager)
+        private readonly IpAddressHelper _ipAddressHelper;
+        public HomeController(ApplicationDbContext _db, UserManager<ApplicationUser> userManager, IpAddressHelper ipAddressHelper)
         {
             this._db = _db;
             this.userManager = userManager;
+            this._ipAddressHelper = ipAddressHelper;
         }
         public string GetMACAddress()
         {
@@ -146,13 +149,12 @@ namespace DevDiscourse.Controllers
 
         public string getUserLocation()
         {
-            string VisitorIp = Response.HttpContext.Connection.RemoteIpAddress.ToString();
-            if (VisitorIp == "::1") VisitorIp = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString();
+            string visitorIp = _ipAddressHelper.GetVisitorIp();
             var jsonString = "";
             var countryName = "";
             try
             {
-                string Url = "https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572/" + VisitorIp;
+                string Url = "https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572/" + visitorIp;
                 using (WebClient wc = new WebClient())
                 {
                     jsonString = wc.DownloadString(Url);

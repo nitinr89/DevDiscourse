@@ -9,25 +9,6 @@
     ViewBag.Title = "Blog";
     Layout = "~/Views/Shared/_Layout _plain.cshtml";
 }
-@functions {
-    async Task Truncate(string input, int length)
-    {
-        if (string.IsNullOrEmpty(input))
-        {
-            <text> </text>
-        }
-        else if (input.Length <= length)
-        {
-            @input
-        }
-        else
-        {
-            @input.Substring(0, length)
-
-            <text>..</text>
-        }
-    }
-}
 
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 <link href="~/Content/admin.css" rel="stylesheet" />

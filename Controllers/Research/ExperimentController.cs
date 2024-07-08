@@ -60,6 +60,7 @@ namespace Devdiscourse.Controllers.Research
                             NewsLabel = d.NewsLabels ?? "agency-wire",
                             Country = d.Country ?? "Global",
                             Source = d.Source ?? "",
+                            OriginalSource = d.OriginalSource ?? "",
                             CreatedOn = d.CreatedOn
                         };
 
@@ -95,6 +96,7 @@ namespace Devdiscourse.Controllers.Research
                             NewsLabel = d.NewsLabels ?? "agency-wire",
                             Country = d.Country ?? "Global",
                             Source = d.Source ?? "",
+                            OriginalSource = d.OriginalSource ?? "",
                             CreatedOn = d.CreatedOn
                         };
 
@@ -129,6 +131,7 @@ namespace Devdiscourse.Controllers.Research
                             NewsLabel = d.NewsLabels ?? "agency-wire",
                             Country = d.Country ?? "Global",
                             Source = d.Source ?? "",
+                            OriginalSource = d.OriginalSource ?? "",
                             CreatedOn = d.CreatedOn
                         };
 
@@ -165,6 +168,7 @@ namespace Devdiscourse.Controllers.Research
                             NewsLabel = d.NewsLabels ?? "agency-wire",
                             Country = d.Country ?? "Global",
                             Source = d.Source ?? "",
+                            OriginalSource = d.OriginalSource ?? "",
                             CreatedOn = d.CreatedOn
                         };
 
@@ -230,6 +234,7 @@ namespace Devdiscourse.Controllers.Research
                                                    Country = a.Country ?? "",
                                                    ImageUrl = a.ImageUrl ?? "",
                                                    Source = a.Source ?? "",
+                                                   OriginalSource = a.OriginalSource ?? "",
                                                    AdminCheck = a.AdminCheck,
                                                    CreatedOn = a.CreatedOn,
                                                    Views = a.ViewCount,
@@ -246,7 +251,7 @@ namespace Devdiscourse.Controllers.Research
             }
             if (!String.IsNullOrWhiteSpace(source))
             {
-                devNews = devNews.Where(a => a.Source.Contains(source));
+                devNews = devNews.Where(a => a.OriginalSource.Contains(source));
             }
             if (!String.IsNullOrWhiteSpace(author))
             {
@@ -417,6 +422,7 @@ namespace Devdiscourse.Controllers.Research
                                      NewsLabel = d.NewsLabels ?? "agency-wire",
                                      Country = d.Country ?? "Global",
                                      Source = d.Source ?? "",
+                                     OriginalSource = d.OriginalSource ?? "",
                                      CreatedOn = d.CreatedOn
                                  }).ToList();
             return Ok(sponsoredNews);
@@ -507,6 +513,7 @@ namespace Devdiscourse.Controllers.Research
             ISNULL(d.NewsLabels, 'agency-wire') AS NewsLabel,
             ISNULL(d.Country, 'Global') AS Country,
             d.Source,
+            d.OriginalSource,
             d.CreatedOn,
             COUNT(*) AS TodayViews
         FROM TrendingNews tn
@@ -529,6 +536,7 @@ namespace Devdiscourse.Controllers.Research
             d.NewsLabels,
             d.Country,
             d.Source,
+            d.OriginalSource,
             d.CreatedOn
         ORDER BY TodayViews DESC
         OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY;";
@@ -568,6 +576,7 @@ namespace Devdiscourse.Controllers.Research
             ISNULL(d.NewsLabels, 'agency-wire') AS NewsLabel,
             ISNULL(d.Country, 'Global') AS Country,
             d.Source,
+            d.OriginalSource,
             d.CreatedOn,
             COUNT(*) AS TodayViews
         FROM TrendingNews tn
@@ -590,6 +599,7 @@ namespace Devdiscourse.Controllers.Research
             d.NewsLabels,
             d.Country,
             d.Source,
+            d.OriginalSource,
             d.CreatedOn
         ORDER BY TodayViews DESC
         OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY;";
@@ -695,6 +705,7 @@ namespace Devdiscourse.Controllers.Research
         public string? Region { get; set; }
         public string? Country { get; set; }
         public string? Source { get; set; }
+        public string? OriginalSource { get; set; }
         public string? Sector { get; set; }
         public bool? AdminCheck { get; set; }
         public DateTime? CreatedOn { get; set; }

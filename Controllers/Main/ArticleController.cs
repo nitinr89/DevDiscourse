@@ -3,6 +3,7 @@ using Devdiscourse.Hubs;
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
+using Devdiscourse.Utility;
 using Html2Amp;
 using Html2Amp.Sanitization;
 using Html2Amp.Sanitization.Implementation;
@@ -23,11 +24,13 @@ namespace Devdiscourse.Controllers.Main
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
-        public ArticleController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        private readonly IpAddressHelper _ipAddressHelper;
+        public ArticleController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IpAddressHelper ipAddressHelper)
         {
 
             this.db = db;
             this.userManager = userManager;
+            _ipAddressHelper = ipAddressHelper;
         }
         public string GetMACAddress()
         {
@@ -162,24 +165,25 @@ namespace Devdiscourse.Controllers.Main
         public GeoLocationViewModel GetGeoLocation()
         {
             GeoLocationViewModel location = new GeoLocationViewModel();
-
-            string Url = "https://geolocation-db.com/json/1a811210-241d-11eb-b7a9-293dae7a95e1";
-            using (WebClient wc = new())
+            string visitorIp = _ipAddressHelper.GetVisitorIp();
+            var json = "";
+            try
             {
-                try
+                string Url = "https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572/" + visitorIp;
+                using (WebClient wc = new WebClient())
                 {
-                    var json = wc.DownloadString(Url);
-                    var obj = JObject.Parse(json);
-                    if (obj["country_name"] != null)
-                    {
-                        location.country_name = (string)obj["country_name"];
-                        location.IPv4 = (string)obj["IPv4"];
-                    }
+                    json = wc.DownloadString(Url);
                 }
-                catch
+                var obj = JObject.Parse(json);
+                if (obj["country_name"] != null)
                 {
+                    location.country_name = (string)obj["country_name"];
+                    location.IPv4 = (string)obj["IPv4"];
+                }
+            }
+            catch
+            {
 
-                }
             }
             return location;
         }

@@ -31,7 +31,7 @@
     var converter = new HtmlToAmpConverter();
     converter.WithSanitizers(
         new HashSet<ISanitizer>
-                        {
+                                                {
 new InstagramSanitizer(),
 new TwitterSanitizer(),
 new AudioSanitizer(),
@@ -44,11 +44,11 @@ new TargetAttributeSanitizer(),
 new XmlAttributeSanitizer(),
 new YouTubeVideoSanitizer(),
 new AmpIFrameSanitizer()
-                        });
+                                                });
     string ampHtml = converter.ConvertFromHtml(datadescription).AmpHtml;
 }
 @functions {
-    async Task GetDescriptionText(string htmltext)
+    public string GetDescriptionText(string htmltext)
     {
         const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";
         const string stripFormatting = @"<[^>]*(>|$)";
@@ -61,8 +61,7 @@ new AmpIFrameSanitizer()
         text = tagWhiteSpaceRegex.Replace(text, "><");
         text = lineBreakRegex.Replace(text, Environment.NewLine);
         text = stripFormattingRegex.Replace(text, string.Empty);
-        @text
-        ;
+        return text;
     }
 }
 @section headerScripts {
@@ -77,39 +76,21 @@ new AmpIFrameSanitizer()
 @section customCss {
 .bg-white,body{background-color:#fff}
 }
-@functions {
-    async Task Truncate(string input, int length)
-    {
-        if (string.IsNullOrEmpty(input))
-        {
-            <text> </text>
-        }
-        else if (input.Length <= length)
-        {
-            @input
-        }
-        else
-        {
-            @input.Substring(0, length)
 
-            <text>..</text>
-        }
-    }
-}
 @*<a href="@Url.Action("Edit", "DevNews", new{id=Model.Id})" target="_blank" rel="nofollow" class="btn btn-default btn-sm"><span class="fa fa-edit"></span> Edit</a>*@
-@if (Model.UserNewsFiles?.Count == 0)
+@if (Model.UserNewsFiles == null || Model.UserNewsFiles?.Count == 0)
 {
     var newsImageUrl = $"/Experiment/Img?imageUrl={Model.ImageUrl}";
     <div class="parallax-image-window bg-white">
         <amp-img amp-fx="parallax" data-parallax-factor="1.15" src="@newsImageUrl&width=600&height=400&mode=crop&bgcolor=fff" alt="@Model.Title" layout="responsive" width="600" height="400"></amp-img>
     </div>
 }
-else
+else if (Model.UserNewsFiles != null)
 {
     foreach (var item in Model.UserNewsFiles.Take(1))
     {
         <script type="application/ld+json">
-            {"@@context": "https://schema.org/", "@@type": "VideoObject", "name": "@Model.Title", "@@id": "@domainUrl@pageUrl", "datePublished": "@Model.PublishedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "description" : "@GetDescriptionText(@Model.Description)", "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "contentUrl": "@item.FilePath", "uploadDate":"@Model.PublishedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}
+            {"@@context": "https://schema.org/", "@@type": "VideoObject", "name": "@Model.Title", "@@id": "@domainUrl@pageUrl", "datePublished": "@Model.PublishedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "description" : @GetDescriptionText(@Model.Description), "thumbnailURL" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "thumbnail" : "@newsImage&height=518&mode=crop&anchor=center&format=jpeg", "contentUrl": "@item.FilePath", "uploadDate":"@Model.PublishedOn.ToString("yyyy-MM-ddTHH:mm:sszzzzz")", "author":{"@@type": "Person", "name": "Devdiscourse News Desk"}}
         </script>
         <amp-video id="my-video" class="video-js center-block" controls width="640" height="360" layout="responsive" poster="@newsImage&height=518&mode=crop&anchor=center&format=jpeg">
             <source src="/api/MediaStream/GetVideoContent/@item.Id" type="video/mp4" />

@@ -436,25 +436,14 @@
         padding-right: 5px;
     }
 </style>
+
 <div class="container">
     <h1 class="hidden">International Development News</h1>
-    <div class="m-t-5 m-b-20" style="min-height:100px">
-        @{
-            // var motherNotPatientAd = Request.Browser.IsMobileDevice == true ? "/images/Campaign/mother_not_patient_banner_small_mobile.jpg" : "/images/Campaign/mother_not_patient_banner_small.jpg";
-            var motherNotPatientAd = isMobile == true ? "/images/Campaign/mother_not_patient_banner_small_mobile.jpg" : "/images/Campaign/mother_not_patient_banner_small.jpg";
-        }
-        <a href="/mother-not-patient">
-            @*             <img src="~/Content/transparent.png" data-src="@motherNotPatientAd" class="img-responsive lazy m-b-20 center-block" alt="Mother, Not Patient" /> *@
-        </a>
-    </div>
+    @* <div class="m-t-5 m-b-20"> @{var motherNotPatientAd=Request.Browser.IsMobileDevice==true ? "/images/Campaign/mother_not_patient_banner_small_mobile.jpg" : "/images/Campaign/mother_not_patient_banner_small.jpg";}<a href="/mother-not-patient"><img src="~/Content/transparent.png" data-src="@motherNotPatientAd" class="img-responsive lazy m-b-20 center-block" alt="Mother, Not Patient"/></a> </div>*@
     <link href="~/Content/breaking-news-ticker.min.css" rel="stylesheet" />
     <div class="breaking-news-ticker font-sans-serif m-b-20" id="example">
-        <h2 class="bn-label no-margin f-16" title="Breaking News">
-            <a class="fg-white no-text-decoration" href="/news-analysis">Breaking News</a>
-        </h2>
-        <div class="bn-news">
-            <ul id="news-alert"></ul>
-        </div>
+        <h2 class="bn-label no-margin f-16" title="Breaking News"> <a class="fg-white no-text-decoration" href="/news-analysis">Breaking News</a> </h2>
+        <div class="bn-news"> <ul id="news-alert"></ul> </div>
         <div class="bn-controls">
             <button aria-label="Prevoius News"><span class="bn-arrow bn-prev"></span></button>
             <button aria-label="Pause/Play"><span class="bn-action"></span></button>
@@ -468,9 +457,7 @@
         @await Component.InvokeAsync("Infocus", new { reg = edition })
     </cache>
 </div>
-<div class="video-container m-t-20 m-b-20">
-    <div id="videoNews" class="container"></div>
-</div>
+<div class="video-container m-t-20 m-b-20"> <div id="videoNews" class="container"></div></div>
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-8">
@@ -484,18 +471,21 @@
                 </cache>
             </div>
             <div class="m-t-10 m-b-20">
-                <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" title="Download App from Playstore" target="_blank"><img data-src="/images/SDGs/app-banner.jpg?format=jpeg" src="/Content/transparent.png" alt="Download the Devdiscourse App" class="img-responsive lazy center-block" /></a>
+                <div class="advertisement-area">
+                    <div class="advertisement-title">ADVERTISEMENT</div>
+                    <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" title="Download App from Playstore" target="_blank"><img data-src="/images/SDGs/app-banner.jpg?format=jpeg" src="/Content/transparent.png" alt="Download the Devdiscourse App" class="img-responsive lazy center-block" /></a>
+                </div>
             </div>
-        </div>
-        <div class="clearfix col-sm-12 col-md-4">
-            <h3 class="section-title">
-                <span>TRENDING</span>
-            </h3>
+        </div><div class="clearfix col-sm-12 col-md-4">
+            <h3 class="section-title"> <span>TRENDING</span> </h3>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = edition })
             </cache>
             <div class="p-t-10 p-b-20">
-                <a href="/research"> <img data-src="/images/SDGs/participatory-sdgs.jpg?width=445&quality=80" src="~/Content/transparent.png" alt="Participatory monitoring of SDGs" class="img-responsive center-block lazy" style="border:1px solid #eee" /> </a>
+                <div class="advertisement-area padding-l-r-5">
+                    <div class="advertisement-title">ADVERTISEMENT</div>
+                    <div class="adsbyir 320x100"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -503,7 +493,9 @@
 <div class="video-container m-t-20 m-b-20">
     <div class="container p-b-20">
         <div class="text-center center-title font-oswald m-t-20">
-            <span><a href="/blogs" class="text-decoration" title="News Analysis">OPINION / BLOG</a></span>
+            <span>
+                <a href="/blogs" class="text-decoration" title="News Analysis">OPINION / BLOG</a>
+            </span>
         </div>
         <div class="m-t-20" id="opinion12">
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
@@ -514,256 +506,202 @@
     </div>
 </div>
 <div class="container m-t-10 m-b-20">
-    <a href="https://www.devdiscourse.com/un-news" rel="noopener" title="UN News" target="_blank"><img data-src="/AdminFiles/Ads/Devdiscourse_UN_News_logo_728.jpg" src="/Content/transparent.png" alt="United Nations News" class="img-responsive lazy center-block" /></a>
+    <a href="https://www.devdiscourse.com/un-news" rel="noopener" title="UN News" target="_blank">
+        <img data-src="/AdminFiles/Ads/Devdiscourse_UN_News_logo_728.jpg" src="/Content/transparent.png" alt="United Nations News" class="img-responsive lazy center-block" />
+    </a>
 </div>
 <div class="container m-t-20 m-b-20">
     <div class="row">
         <div class="col-md-6" id="news1">
-            <h2 class="section-title" title="AGRO-FORESTRY NEWS">
-                <span>AGRO-FORESTRY</span>
-            </h2>
+            <h2 class="section-title" title="AGRO-FORESTRY NEWS"> <span>AGRO-FORESTRY</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("AgroForestoryNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/agro-forestry" class="read-more-btn m-t-10 m-b-30" aria-label="Agro-Forestory News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/agro-forestry" class="read-more-btn m-t-10 m-b-30" aria-label="Agro-Forestory News">Read More</a> </div>
         </div>
         <div class="col-md-6" id="news2">
-            <h2 class="section-title" title="TECHNOLOGY NEWS">
-                <span>TECHNOLOGY</span>
-            </h2>
+            <h2 class="section-title" title="TECHNOLOGY NEWS"> <span>TECHNOLOGY</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("TechnologyNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/technology" class="read-more-btn m-t-10 m-b-30" aria-label="Technology News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/technology" class="read-more-btn m-t-10 m-b-30" aria-label="Technology News">Read More</a> </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-7 p-t-10">
-            <h2 class="section-title" title="ECONOMY &amp; BUSINESS NEWS">
-                <span>ECONOMY &amp; BUSINESS</span>
-            </h2>
+            <h2 class="section-title" title="ECONOMY &amp; BUSINESS NEWS"> <span>ECONOMY &amp; BUSINESS</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("EconomyNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/economy-business" class="read-more-btn m-t-10 m-b-30" aria-label="Economy and Business News">Read More</a>
+            <div class="clearfix"> <a href="/news/economy-business" class="read-more-btn m-t-10 m-b-30" aria-label="Economy and Business News">Read More</a> </div>
+            <div class="advertisement-area m-t-20">
+                <div class="advertisement-title">ADVERTISEMENT</div>
+                @if (isMobile == true)
+                {
+                    <div class="clearfix">
+                        <a href="https://tracking.vcommission.com/aff_c?offer_id=9834&aff_id=106900&file_id=199448" target="_blank"><img src="https://media.vcommission.com/brand/files/vcm/9834/Norton_CPS_Get_upto_dollar_47_off_on_all_in_one_protection_for_devices_SG_300x250.jpg" alt="Norton" width="300" height="250" border="0" class="img-responsive center-block" /></a>
+                        <img src="https://tracking.vcommission.com/aff_i?offer_id=9834&file_id=199448&aff_id=106900" width="0" height="0" style="position:absolute;visibility:hidden;" border="0" />
+                    </div>
+                }
+                else
+                {
+                    <div class="clearfix">
+                        <a href="https://tracking.vcommission.com/aff_c?offer_id=9834&aff_id=106900&file_id=199449" target="_blank"><img src="https://media.vcommission.com/brand/files/vcm/9834/Norton_CPS_Get_upto_dollar_47_off_on_all_in_one_protection_for_devices_SG_728x90.jpg" alt="Norton" width="728" height="90" border="0" class="img-responsive center-block" /></a>
+                        <img src="https://tracking.vcommission.com/aff_i?offer_id=9834&file_id=199449&aff_id=106900" width="0" height="0" style="position:absolute;visibility:hidden;" border="0" />
+                    </div>
+                }
             </div>
-            @if (isMobile == true)
-            {
-                <div class="clearfix m-b-20">
-                    <div class="advertisement-area">
-                        <div class="advertisement-title">Advertisement</div>@Html.Partial("_coeSlides")
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="clearfix m-t-30 m-b-30">
-                    <div class="advertisement-area padding-l-r-5">
-                        <div class="advertisement-title">Advertisement</div>
-                        <a href="https://visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"><img src="~/AdminFiles/COE/tracking_telehealth_728x90.jpg" class="img-responsive center-block m-t-10 m-b-10" alt="add-banner"></a>
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="col-md-5 p-t-10">
-            <h2 class="section-title" title="EDUCATION NEWS">
-                <span>EDUCATION</span>
-            </h2>
+        </div><div class="col-md-5 p-t-10">
+            <h2 class="section-title" title="EDUCATION NEWS"> <span>EDUCATION</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("EducationNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/education" class="read-more-btn m-t-10 m-b-30" aria-label="Education News">Read More</a>
+            <div class="clearfix"> <a href="/news/education" class="read-more-btn m-t-10 m-b-30" aria-label="Education News">Read More</a> </div>
+            <div class="clearfix m-t-20 m-b-20">
+                <div class="advertisement-area">
+                    <div class="advertisement-title">ADVERTISEMENT</div>
+                    <a href="http://www.visionri.com/Home/Vyapad" rel="noreferrer" target="_blank">
+                        <img data-src="/AdminFiles/Ads/Banner/vyapad_banner.jpg?format=jpeg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="Vyapad" />
+                    </a>
+                </div>
             </div>
-            <div class="clearfix m-t-20 m-b-20"> @Html.Partial("_socialPartial")</div>
         </div>
-    </div>
-    <div class="row">
+    </div><div class="row">
         <div class="col-md-5 p-t-10">
-            <h2 class="section-title" title="ENERGY &amp; EXTRACTIVES NEWS">
-                <span>ENERGY &amp; EXTRACTIVES</span>
-            </h2>
+            <h2 class="section-title" title="ENERGY &amp; EXTRACTIVES NEWS"> <span>ENERGY &amp; EXTRACTIVES</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("EnergyNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/energy-extractives" class="read-more-btn m-t-10 m-b-30" aria-label="Energy and Extractive News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/energy-extractives" class="read-more-btn m-t-10 m-b-30" aria-label="Energy and Extractive News">Read More</a> </div>
         </div>
         <div class="col-md-7 p-t-10">
-            <h2 class="section-title" title="HEALTH NEWS">
-                <span>HEALTH</span>
-            </h2>
+            <h2 class="section-title" title="HEALTH NEWS"> <span>HEALTH</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("HealthNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/health" class="read-more-btn m-t-10 m-b-30" aria-label="Health News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/health" class="read-more-btn m-t-10 m-b-30" aria-label="Health News">Read More</a> </div>
         </div>
-    </div>
-    <div class="row">
+    </div><div class="row">
         <div class="col-md-4 p-t-10">
-            <h2 class="section-title" title="LAW &amp; GOVERNANCE NEWS">
-                <span>LAW &amp; GOVERNANCE</span>
-            </h2>
+            <h2 class="section-title" title="LAW &amp; GOVERNANCE NEWS"> <span>LAW &amp; GOVERNANCE</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("LawGovernanceNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/law-governance" class="read-more-btn m-t-10 m-b-30" aria-label="Law and Governance News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/law-governance" class="read-more-btn m-t-10 m-b-30" aria-label="Law and Governance News">Read More</a> </div>
         </div>
         <div class="col-md-8 p-t-10">
-            <h2 class="section-title" title="SCIENCE &amp; ENVIRONMENT NEWS">
-                <span>SCIENCE &amp; ENVIRONMENT</span>
-            </h2>
+            <h2 class="section-title" title="SCIENCE &amp; ENVIRONMENT NEWS"> <span>SCIENCE &amp; ENVIRONMENT</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("ScienceNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/science-environment" class="read-more-btn m-t-10 m-b-30" aria-label="Science and Environment News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/science-environment" class="read-more-btn m-t-10 m-b-30" aria-label="Science and Environment News">Read More</a> </div>
             @if (isMobile == true)
             {
                 <div class="clearfix m-b-20">
-                    <a href="https://www.visionri.com/insight/16-telehealth-post-covid-19-breaking-stereotypes-and-embracing-the-potential-of-technology" title="TELEHEALTH POST-COVID 19: Breaking stereotypes and embracing the potential of technology" rel="noreferrer" target="_blank"> <img data-src="/AdminFiles/COE/telehealth_320x50.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="" /> </a>
+                    <a href="https://www.visionri.com/insight/16-telehealth-post-covid-19-breaking-stereotypes-and-embracing-the-potential-of-technology" title="TELEHEALTH POST-COVID 19: Breaking stereotypes and embracing the potential of technology" rel="noreferrer" target="_blank">
+                        <img data-src="/AdminFiles/COE/telehealth_320x50.jpg" src="~/Content/transparent.png" class="img-responsive center-block lazy" alt="" />
+                    </a>
                 </div>
             }
         </div>
     </div>
 </div>
-
-
-
-
 <div class="video-container">
     <div class="container p-b-20">
-        <h2 class="section-title2">
-            <span style="background-color:#f4f4f4">Interviews</span>
-        </h2>
-        <div id="interviewCarousel" class="owl-carousel">
+        <h2 class="section-title2"> <span style="background-color:#f4f4f4">Interviews</span> </h2> <div id="interviewCarousel" class="owl-carousel">
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("Interview", new { reg = edition })
             </cache>
         </div>
     </div>
 </div>
-
-
-
-
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <h2 class="section-title" title="URBAN DEVELOPMENT NEWS">
-                <span>URBAN DEVELOPMENT</span>
-            </h2>
+            <h2 class="section-title" title="URBAN DEVELOPMENT NEWS"> <span>URBAN DEVELOPMENT</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("UrbanDevelopmentNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/urban-development" class="read-more-btn m-t-10 m-b-30" aria-label="Urban Development News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/urban-development" class="read-more-btn m-t-10 m-b-30" aria-label="Urban Development News">Read More</a> </div>
         </div>
         <div class="col-md-6">
-            <h2 class="section-title" title="TRANSPORT NEWS">
-                <span>TRANSPORT</span>
-            </h2>
+            <h2 class="section-title" title="TRANSPORT NEWS"> <span>TRANSPORT</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("TransportNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/transport" class="read-more-btn m-t-10 m-b-30" aria-label="Transport News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/transport" class="read-more-btn m-t-10 m-b-30" aria-label="Transport News">Read More</a> </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-7">
-            <h2 class="section-title" title="SPORTS NEWS">
-                <span>SPORTS</span>
-            </h2>
+            <h2 class="section-title" title="SPORTS NEWS"> <span>SPORTS</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("SportsNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/sports" class="read-more-btn m-t-10 m-b-30" aria-label="Sports News">Read More</a>
+            <div class="clearfix"> <a href="/news/sports" class="read-more-btn m-t-10 m-b-30" aria-label="Sports News">Read More</a> </div>
+            <div class="advertisement-area m-t-20">
+                <div class="advertisement-title">ADVERTISEMENT</div>
+                @if (isMobile == true)
+                {
+                    <div class="clearfix">
+                        <a href="https://tracking.vcommission.com/aff_c?offer_id=9782&aff_id=106900&file_id=196475" target="_blank">
+                            <img src="https://media.vcommission.com/brand/files/vcm/9782/MyProtein_CPS_Lowest_Prices_Guaranted_300x250.jpg" alt="My Protein" width="300" height="250" border="0" class="img-responsive center-block" />
+                        </a>
+                        <img src="https://tracking.vcommission.com/aff_i?offer_id=9782&file_id=196475&aff_id=106900" width="0" height="0" style="position:absolute;visibility:hidden;" border="0" class="img-responsive center-block" />
+                    </div>
+                }
+                else
+                {
+                    <div class="clearfix">
+                        <a href="https://tracking.vcommission.com/aff_c?offer_id=9782&aff_id=106900&file_id=196479" target="_blank">
+                            <img src="https://media.vcommission.com/brand/files/vcm/9782/MyProtein_CPS_Lowest_Prices_Guaranted_728x90.jpg" alt="My Protein" width="728" height="90" border="0" class="img-responsive center-block" />
+                        </a>
+                        <img src="https://tracking.vcommission.com/aff_i?offer_id=9782&file_id=196479&aff_id=106900" width="0" height="0" style="position:absolute;visibility:hidden;" border="0" class="img-responsive center-block" />
+                    </div>
+                }
             </div>
-            @if (isMobile == true)
-            {
-                <div class="clearfix m-b-20">
-                    <div class="advertisement-area">
-                        <div class="advertisement-title">Advertisement</div>@Html.Partial("_coeSlides")
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="clearfix m-t-30 m-b-30">
-                    <div class="advertisement-area padding-l-r-5">
-                        <div class="advertisement-title">Advertisement</div>
-                        <a href="https://visionri.com/insight/22-refugee-compassion-and-response-ideas-to-mitigate-disasters-now-and-in-their-future" target="_blank" rel="noopener"><img src="~/AdminFiles/COE/refugee_728x90.jpg" class="img-responsive center-block m-t-10 m-b-10" alt="add-banner"></a>
-                    </div>
-                </div>
-            }
         </div>
         <div class="col-md-5">
-            <h2 class="section-title" title="WASH NEWS">
-                <span>WASH</span>
-            </h2>
+            <h2 class="section-title" title="WASH NEWS"> <span>WASH</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("WashNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/wash" class="read-more-btn m-t-10 m-b-30" aria-label="Water and Sanitation News">Read More</a>
+            <div class="clearfix"> <a href="/news/wash" class="read-more-btn m-t-10 m-b-30" aria-label="Water and Sanitation News">Read More</a> </div>
+            <div class="clearfix m-t-20 m-b-30">
+                @Html.Partial("_socialPartial")
             </div>
-            <div class="clearfix m-t-20 m-b-30"> @Html.Partial("_socialPartial")</div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-5">
-            <h2 class="section-title" title="ART &amp; CULTURE NEWS">
-                <span>ART &amp; CULTURE</span>
-            </h2>
+            <h2 class="section-title" title="ART &amp; CULTURE NEWS"> <span>ART &amp; CULTURE</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("ArtCultureNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/art-culture" class="read-more-btn m-t-10 m-b-30" aria-label="Art and Culture News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/art-culture" class="read-more-btn m-t-10 m-b-30" aria-label="Art and Culture News">Read More</a> </div>
         </div>
         <div class="col-md-7">
-            <h2 class="section-title" title="POLITICS NEWS">
-                <span>POLITICS</span>
-            </h2>
+            <h2 class="section-title" title="POLITICS NEWS"> <span>POLITICS</span> </h2>
             <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                 @await Component.InvokeAsync("PoliticsNews", new { reg = edition })
             </cache>
-            <div class="clearfix">
-                <a href="/news/politics" class="read-more-btn m-t-10 m-b-30" aria-label="Politics News">Read More</a>
-            </div>
+            <div class="clearfix"> <a href="/news/politics" class="read-more-btn m-t-10 m-b-30" aria-label="Politics News">Read More</a> </div>
         </div>
     </div>
     <div class="clearfix m-t-20 m-b-20">
-        <a href="https://www.devdiscourse.com/article/technology/1404619-top-10-best-web-hosting-for-small-businesses-in-2021" target="_blank"><img src="/images/Best_Web_Hosting.jpg" alt="Top 10 best web hosting for small businesses in 2021" class="img-responsive center-block" /></a>
+        <div class="advertisement-area">
+            <div class="advertisement-title">ADVERTISEMENT</div>
+            <a href="https://www.devdiscourse.com/article/technology/1404619-top-10-best-web-hosting-for-small-businesses-in-2021" target="_blank">
+                <img src="/images/Best_Web_Hosting.jpg" alt="Top 10 best web hosting for small businesses in 2021" class="img-responsive center-block" />
+            </a>
+        </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <h2 class="section-title" title="SOCIAL &amp; GENDER NEWS">
-                <span>SOCIAL &amp; GENDER</span>
-            </h2>
-        </div>
+        <div class="col-md-12"> <h2 class="section-title" title="SOCIAL &amp; GENDER NEWS"> <span>SOCIAL &amp; GENDER</span> </h2> </div>
         <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
             @await Component.InvokeAsync("SocialNews", new { reg = edition, sector = 9 })
         </cache>
-        <div class="col-md-12">
-            <a href="/news/socialgender" class="read-more-btn m-t-10 m-b-30" aria-label="Social and Gender News">Read More</a>
-        </div>
+        <div class="col-md-12"> <a href="/news/socialgender" class="read-more-btn m-t-10 m-b-30" aria-label="Social and Gender News">Read More</a> </div>
     </div>
 </div>
 <div class="container m-t-20 m-b-20">
@@ -771,14 +709,14 @@
         @await Component.InvokeAsync("News", new { reg = edition, skip = 0, take = 12 })
     </cache>
 </div>
+
 @section scripts {
     <script src="~/Scripts/breaking-news-ticker.min.js" async></script>
     <script>
         var _edition = '@(edition)'; var _saveSector = [];
+        // remove style from all img tags
         document.addEventListener('DOMContentLoaded', () => {
-            // Select all img tags
             const images = document.querySelectorAll('img');
-            // Iterate through each img tag and remove the style attribute
             images.forEach(img => {
                 img.removeAttribute('style');
             });

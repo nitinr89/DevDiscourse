@@ -11,5 +11,6 @@ namespace Devdiscourse.Models.BasicModels
         public int Sector { get; set; }
         public bool IsActive { get; set; }
         public DateTime EndTime { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

@@ -406,6 +406,7 @@ namespace Devdiscourse.Controllers.Research
             var sponsoredNews = (from sn in db.SponsoredNews
                                  join d in db.DevNews on sn.NewsId equals d.Id
                                  where sn.IsActive == true && sn.EndTime > DateTime.UtcNow
+                                 orderby sn.CreatedOn descending
                                  select new TopNewsItem
                                  {
                                      Id = d.Id,
@@ -429,7 +430,7 @@ namespace Devdiscourse.Controllers.Research
         }
 
         [HttpPost]
-        public IActionResult AddSponsoredNews(string jaadu, Guid id, int position = 0, int days = 1)
+        public IActionResult AddSponsoredNews(string jaadu, Guid id, int position = 0, int days = 0, int hours = 0, int minutes = 0)
         {
             if (jaadu != "pleaseletmeaccess") return Unauthorized();
             if (days > 7 || position < 0 || position > 5) return BadRequest();
@@ -439,6 +440,10 @@ namespace Devdiscourse.Controllers.Research
                 if (devNews == null) return BadRequest();
                 bool success = int.TryParse(devNews.Sector?.Split(",")[0], out int sector);
                 if (!success) return BadRequest();
+                if (days == 0 && hours == 0 && minutes == 0) return BadRequest();
+                DateTime endDate;
+                if (days > 0) endDate = DateTime.Today.AddDays(days).AddTicks(-1);
+                else endDate = DateTime.UtcNow.AddHours(hours).AddMinutes(minutes).AddTicks(-1);
 
                 SponsoredNews? dbSponsoredNews = db.SponsoredNews.FirstOrDefault(f => f.NewsId == id);
                 if (dbSponsoredNews == null)
@@ -447,9 +452,10 @@ namespace Devdiscourse.Controllers.Research
                     {
                         NewsId = id,
                         Position = position,
-                        EndTime = DateTime.Today.AddDays(days).AddTicks(-1),
+                        EndTime = endDate,
                         IsActive = true,
-                        Sector = sector
+                        Sector = sector,
+                        CreatedOn = DateTime.UtcNow
                     };
                     db.SponsoredNews.Add(sponsoredNews);
                     db.SaveChanges();
@@ -459,7 +465,7 @@ namespace Devdiscourse.Controllers.Research
                 {
                     dbSponsoredNews.IsActive = true;
                     dbSponsoredNews.Position = position;
-                    dbSponsoredNews.EndTime = DateTime.Today.AddDays(days).AddTicks(-1);
+                    dbSponsoredNews.EndTime = endDate;
                     dbSponsoredNews.Sector = sector;
                     db.SponsoredNews.Update(dbSponsoredNews);
                     db.SaveChanges();

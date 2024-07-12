@@ -66,7 +66,8 @@ namespace DevDiscourse.Controllers
             return View();
         }
 
-        public ActionResult Index(string? reg)
+        [Route("/")]
+        public ActionResult Index()
         {
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
@@ -2385,6 +2386,7 @@ namespace DevDiscourse.Controllers
         //    };
         //    return obj;
         //}
+        [Route("/central-africa")]
         public ActionResult CentralAfrica()
         {
             CookieOptions options = new CookieOptions();
@@ -2393,6 +2395,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "Central Africa";
             return View("HomeNews");
         }
+        [Route("/east-africa")]
         public ActionResult EastAfrica()
         {
             CookieOptions options = new CookieOptions();
@@ -2401,6 +2404,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "East Africa";
             return View("HomeNews");
         }
+        [Route("/north-america")]
         public ActionResult NorthAmerica()
         {
             CookieOptions options = new CookieOptions();
@@ -2409,6 +2413,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "North America";
             return View("HomeNews");
         }
+        [Route("/west-africa")]
         public ActionResult WestAfrica()
         {
             CookieOptions options = new CookieOptions();
@@ -2417,6 +2422,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "West Africa";
             return View("HomeNews");
         }
+        [Route("/south-asia")]
         public ActionResult SouthAsia()
         {
             CookieOptions options = new CookieOptions();
@@ -2425,6 +2431,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "South Asia";
             return View("HomeNews");
         }
+        [Route("/south-east-asia")]
         public ActionResult EastAndSouthEastAsia()
         {
             CookieOptions options = new CookieOptions();
@@ -2433,6 +2440,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "East and South East Asia";
             return View("HomeNews");
         }
+        [Route("/pacific")]
         public ActionResult Pacific()
         {
             CookieOptions options = new CookieOptions();
@@ -2441,6 +2449,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "Pacific";
             return View("HomeNews");
         }
+        [Route("/europe-central-asia")]
         public ActionResult EuropeAndCentralAsia()
         {
             CookieOptions options = new CookieOptions();
@@ -2449,6 +2458,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "Europe and Central Asia";
             return View("HomeNews");
         }
+        [Route("/latin-america")]
         public ActionResult LatinAmericaAndCaribbean()
         {
             CookieOptions options = new CookieOptions();
@@ -2457,6 +2467,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "Latin America and Caribbean";
             return View("HomeNews");
         }
+        [Route("/middle-east-north-africa")]
         public ActionResult MiddleEastAndNorthAfrica()
         {
             CookieOptions options = new CookieOptions();
@@ -2465,6 +2476,7 @@ namespace DevDiscourse.Controllers
             ViewBag.Edition = "Middle East and North Africa";
             return View("HomeNews");
         }
+        [Route("/southern-africa")]
         public ActionResult SouthernAfrica()
         {
             CookieOptions options = new CookieOptions();

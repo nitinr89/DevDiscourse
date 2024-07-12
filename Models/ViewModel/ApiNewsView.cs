@@ -16,6 +16,7 @@
         public string? Label { get; set; }
         public string? ImageCopyright { get; set; }
         public string? Source { get; set; }
+        public string? OriginalSource { get; set; }
         public string? SourceUrl { get; set; }
         public Guid Id { get; set; }
         public DateTime CreatedOn { get; set; }
@@ -25,9 +26,9 @@
         public string? Themes { get; set; }
         public string? Avatar { get; set; }
         public string? Sector { get; set; }
-        public string? SectorSlug {get; set; }
-        public string? TagArray {get; set; }
-        public string? Disclaimer {get; set; }
-        public Boolean IsBlog {get; set; }
+        public string? SectorSlug { get; set; }
+        public string? TagArray { get; set; }
+        public string? Disclaimer { get; set; }
+        public Boolean IsBlog { get; set; }
     }
-    }
+}

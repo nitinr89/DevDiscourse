@@ -6,12 +6,6 @@
         {
 
             routes.MapControllerRoute(
-            name: "custom",
-            pattern: "{action=Index}/{id?}",
-            defaults: new { controller = "Home" });
-
-
-            routes.MapControllerRoute(
             name: "CommonEvent",
             pattern: "media-partner-event/{id?}",
             defaults: new { controller = "CommonEvent", action = "Index" });
@@ -19,7 +13,7 @@
 
             routes.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+            pattern: "{controller=Home}/{action=Index}");
 
             routes.MapControllerRoute(
             name: "sitemap",

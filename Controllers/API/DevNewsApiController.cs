@@ -2033,6 +2033,7 @@ namespace DevDiscourse.Controllers.API
         public IActionResult GetPreviousNews(long id, string label, string reg = "Global Edition", int skip = 0)
         {
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) return NotFound();
             DateTime tenDays = search.CreatedOn.AddHours(-8);
             List<DevNews> newsList = new List<DevNews>();
             List<ApiNewsView> resultNewsList = new List<ApiNewsView>();
@@ -2072,22 +2073,25 @@ namespace DevDiscourse.Controllers.API
                 {
                     Title = news.Title,
                     Description = DataDesc,
-                    Subtitle = news.SubTitle,
+                    Subtitle = news.SubTitle ?? "",
                     ImageUrl = news.ImageUrl,
                     Country = news.Country,
-                    Type = news.Type,
-                    SubType = news.SubType,
-                    Source = news.Source,
-                    SourceUrl = news.SourceUrl,
-                    Tags = news.Tags,
-                    Label = news.NewsLabels,
+                    Type = news.Type ?? "",
+                    SubType = news.SubType ?? "",
+                    Source = news.Source ?? "",
+                    Themes = news.Themes ?? "",
+                    Avatar = news.ApplicationUsers?.ProfilePic ?? "",
+                    SourceUrl = news.SourceUrl ?? "",
+                    OriginalSource = news.OriginalSource ?? "",
+                    Tags = news.Tags ?? "",
+                    Label = news.NewsLabels ?? "",
                     Slug = news.GenerateSecondSlug(),
                     ModifiedOn = news.ModifiedOn,
                     CreatedOn = news.CreatedOn,
                     PublishedOn = news.PublishedOn,
                     NewsId = news.NewsId,
                     Id = news.Id,
-                    ImageCopyright = news.ImageCopyright
+                    ImageCopyright = news.ImageCaption ?? "" + news.ImageCopyright ?? ""
                 });
             }
             return Ok(resultNewsList);
@@ -2110,6 +2114,7 @@ namespace DevDiscourse.Controllers.API
             var region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
 
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
+            if (search == null) return NotFound();
             DateTime tenDays = search.CreatedOn.AddHours(-8);
 
             var newsList = db.DevNews.Where(a => a.NewsId < id && a.CreatedOn > tenDays && (a.Sector == sector) && a.AdminCheck == true);
@@ -2136,24 +2141,25 @@ namespace DevDiscourse.Controllers.API
                 {
                     Title = news.Title,
                     Description = DataDesc,
-                    Subtitle = (news.SubTitle != null) ? news.SubTitle : "Default",
+                    Subtitle = news.SubTitle ?? "",
                     ImageUrl = news.ImageUrl,
-                    Country = (news.Country != null) ? news.Country : "Default",
-                    Type = (news.Type != null) ? news.Type : "Default",
-                    SubType = (news.SubType != null) ? news.SubType : "Default",
-                    Source = (news.Source != null) ? news.Source : "Default",
-                    Themes = (news.Themes != null) ? news.Themes : "Default",
+                    Country = news.Country,
+                    Type = news.Type ?? "",
+                    SubType = news.SubType ?? "",
+                    Source = news.Source ?? "",
+                    Themes = news.Themes ?? "",
                     Avatar = news.ApplicationUsers?.ProfilePic ?? "",
-                    SourceUrl = (news.SourceUrl != null) ? news.SourceUrl : "Default",
-                    Tags = (news.Tags != null) ? news.Tags : "Default",
-                    Label = (news.NewsLabels != null) ? news.NewsLabels : "Default",
+                    SourceUrl = news.SourceUrl ?? "",
+                    OriginalSource = news.OriginalSource ?? "",
+                    Tags = news.Tags ?? "",
+                    Label = news.NewsLabels ?? "",
                     Slug = news.GenerateSecondSlug(),
                     ModifiedOn = news.ModifiedOn,
                     CreatedOn = news.CreatedOn,
                     PublishedOn = news.PublishedOn,
                     NewsId = news.NewsId,
                     Id = news.Id,
-                    ImageCopyright = (news.ImageCopyright != null) ? news.ImageCopyright : "Default"
+                    ImageCopyright = news.ImageCaption ?? "" + news.ImageCopyright ?? ""
                 });
             }
             return Ok(resultNewsList);

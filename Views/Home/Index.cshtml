@@ -17,23 +17,9 @@
 @section lastModified {
     <meta http-equiv="last-modified" content="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz")" />
 }
-
-
 <script type="application/ld+json">
-    {"@@context":"https://schema.org",
-    "@@type":"NewsMediaOrganization",
-    "name":"Devdiscourse",
-    "alternateName":"Devdiscourse",
-    "url":"https://www.devdiscourse.com",
-    "logo":"https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png",
-    "contactPoint":{"@@type":"ContactPoint",
-    "telephone":"+91-130-6444012",
-    "contactType":"customer service",
-    "areaServed":"IN",
-    "availableLanguage":"en"},
-    "sameAs":["https://www.facebook.com/devdiscourse","https://twitter.com/dev_discourse","https://www.instagram.com/devdiscourse","https://www.youtube.com/c/Devdiscourse","https://www.linkedin.com/showcase/dev_discourse","https://in.pinterest.com/devdiscourse"]}
+    {"@@context":"https://schema.org","@@type":"NewsMediaOrganization","name":"Devdiscourse","alternateName":"Devdiscourse","url":"https://www.devdiscourse.com","logo":"https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png","contactPoint":{"@@type":"ContactPoint","telephone":"+91-130-6444012","contactType":"customer service","areaServed":"IN","availableLanguage":"en"},"sameAs":["https://www.facebook.com/devdiscourse","https://twitter.com/dev_discourse","https://www.instagram.com/devdiscourse","https://www.youtube.com/c/Devdiscourse","https://www.linkedin.com/showcase/dev_discourse","https://in.pinterest.com/devdiscourse"]}
 </script>
-
 <script type="application/ld+json">
     {"@@context": "http://schema.org","@@type": "WebPage","name": "Devdiscourse","description": "World's leading Website for International Development News. Breaking News, Opinions, Technology, Social development, Urban Development, Entertainment, Sports news.", "speakable":
     {
@@ -42,7 +28,6 @@
     },"url" : "https://www.devdiscourse.com","publisher": {"@@type": "Organization","name": "Devdiscourse","url" : "https://www.devdiscourse.com","logo" : {"@@type": "ImageObject","contentUrl": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"
     }}}
 </script>
-
 <style>
     .frame-ad {
         height: 90px;
@@ -145,7 +130,7 @@
     }
 
     .blog-card {
-        box-shadow: 0 2px 2px 0 rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08);
+        box-shadow: 0 2px 2px 0 rgb(0 0 0 / .16),0 0 0 1px rgb(0 0 0 / .08);
         border-radius: 3px;
         padding: 8px;
         min-height: 120px
@@ -171,7 +156,7 @@
     }
 
     .news-item-overlay {
-        background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0),rgba(0,0,0,.9),rgba(0,0,0,1));
+        background: linear-gradient(#fff0,#fff0,rgb(0 0 0 / .9),rgb(0 0 0));
         padding: 8px
     }
 
@@ -181,7 +166,7 @@
 
     .content-overlay {
         height: 50%;
-        background: linear-gradient(rgba(0,0,0,0),rgba(255,255,255,.4),rgba(255,255,255,1))
+        background: linear-gradient(#fff0,rgb(255 255 255 / .4),rgb(255 255 255))
     }
 
     .text-design {
@@ -214,7 +199,7 @@
         }
 
     .col-lg-12 .sectorNewsCard:last-child, .col-lg-6 .sectorNewsCard:last-child {
-        border-bottom: 1px solid transparent
+        border-bottom: 1px solid #fff0
     }
 
     .sectorNewsCard .image-card {
@@ -234,7 +219,7 @@
     }
 
     .col-lg-3 .interest-card:last-child {
-        border-bottom: 1px solid transparent
+        border-bottom: 1px solid #fff0
     }
 
     .borderpadded {
@@ -267,7 +252,7 @@
     }
 
     .svg-bg {
-        fill: rgba(255,255,255,0)
+        fill: #fff0
     }
 
     .active .svg-icon, .active .svg-text {
@@ -379,23 +364,22 @@
 
         .container.full-width {
             padding-left: 0;
-            padding-right: 0;
+            padding-right: 0
         }
 
         .container.mt-minus-20 {
-            margin-top: -20px;
+            margin-top: -20px
         }
 
         .container.mb-mobile-0 {
-            margin-bottom: 0;
+            margin-bottom: 0
         }
     }
 
     .padding-l-r-5 {
         padding-left: 5px;
-        padding-right: 5px;
-    }
-</style>
+        padding-right: 5px
+    }</style>
 <div class="container full-width mt-minus-20">
     <h1 class="hidden">International Development News</h1>
     <div class="advertisement-area m-b-10">
@@ -422,10 +406,8 @@
     <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
         @await Component.InvokeAsync("Infocus", new { reg = edition })
     </cache>
-
 </div>
 <div class="video-container m-t-20 m-t-20">
-
     <div id="videoNews" class="container"></div>
 </div>
 <div class="container">
@@ -439,15 +421,10 @@
                 <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
                     @await Component.InvokeAsync("InfocusLiveDiscourse", new { reg = edition })
                 </cache>
-
             </div>
             <div class="m-t-20 m-b-20">
                 @{
-                    var motherNotPatientAd =
-                    isMobile == true
-                    ? "/images/Campaign/corona/COVID19_awareness.jpg"
-                    :
-                    "/images/Campaign/corona/COVID19_awareness_728x90.jpg";
+                    var motherNotPatientAd = isMobile == true ? "/images/Campaign/corona/COVID19_awareness.jpg" : "/images/Campaign/corona/COVID19_awareness_728x90.jpg";
                 }
                 <a href="/coronavirus-awareness-campaign"><img src="~/Content/transparent.png" data-src="@motherNotPatientAd" class="img-responsive lazy m-b-20 center-block" alt="COVID-19 Awareness Campaign" /></a>
             </div>
@@ -516,12 +493,12 @@
             </cache>
             <div class="clearfix">
                 <a href="/news/economy-business" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Economy and Business News">Read More</a>
-            </div>
-            @if (isMobile == true)
+            </div>@if (isMobile == true)
             {
                 <div class="clearfix m-b-20">
                     <div class="advertisement-area">
-                        <div class="advertisement-title">Advertisement</div>@Html.Partial("_coeSlides")
+                        <div class="advertisement-title">Advertisement</div>
+                        @Html.Partial("_coeSlides")
                     </div>
                 </div>
             }
@@ -547,7 +524,8 @@
             </div>
             <div class="clearfix text-center m-t-0 m-b-20">
                 <div class="advertisement-area">
-                    <div class="advertisement-title">Advertisement</div>@Html.Partial("_socialPartial")
+                    <div class="advertisement-title">Advertisement</div>
+                    @Html.Partial("_socialPartial")
                 </div>
             </div>
         </div>
@@ -600,25 +578,7 @@
             </div>
         </div>
     </div>
-</div>
-
-
-<div class="video-container">
-    <div class="container p-b-20">
-        <h2 class="section-title2">
-            <span style="background-color:#f4f4f4">Interviews</span>
-        </h2>
-        <div id="interviewCarousel" class="owl-carousel">
-            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
-                @await Component.InvokeAsync("Interview", new { reg = edition })
-            </cache>
-        </div>
-    </div>
-</div>
-
-
-
-
+</div>@*<div class="video-container"> <div class="container p-b-20"> <h2 class="section-title2"> <span style="background-color:#f4f4f4">Interviews</span> </h2> <div id="interviewCarousel" class="owl-carousel"> @{Html.RenderAction("GetInterview", "Home", new{reg=@ViewBag.edition});}</div></div></div>*@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -654,12 +614,12 @@
             </cache>
             <div class="clearfix">
                 <a href="/news/sports" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Sports News">Read More</a>
-            </div>
-            @if (isMobile == true)
+            </div>@if (isMobile == true)
             {
                 <div class="clearfix m-b-20">
                     <div class="advertisement-area">
-                        <div class="advertisement-title">Advertisement</div>@Html.Partial("_coeSlides")
+                        <div class="advertisement-title">Advertisement</div>
+                        @Html.Partial("_coeSlides")
                     </div>
                 </div>
             }
@@ -683,7 +643,9 @@
             <div class="clearfix">
                 <a href="/news/wash" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Water and Sanitation News">Read More</a>
             </div>
-            <div class="clearfix m-t-20 m-b-30"> @Html.Partial("_socialPartial")</div>
+            <div class="clearfix m-t-20 m-b-30">
+                @Html.Partial("_socialPartial")
+            </div>
         </div>
     </div>
     <div class="row">
@@ -732,23 +694,19 @@
         @await Component.InvokeAsync("News", new { reg = edition, skip = 0, take = 12 })
     </cache>
 </div>
-<link href="~/Content/breaking-news-ticker.min.css" rel="stylesheet" async />
-<link rel="stylesheet" type="text/css" href="~/Content/SiteNew.min.css" />
+
+<link href="~/Content/breaking-news-ticker.min.css" rel="stylesheet" />
 @section scripts {
     <script>
         var _edition = '@(edition)'; var _saveSector = [];
+        // remove style from all img tags
         document.addEventListener('DOMContentLoaded', () => {
-            // Select all img tags
             const images = document.querySelectorAll('img');
-            // Iterate through each img tag and remove the style attribute
             images.forEach(img => {
                 img.removeAttribute('style');
             });
         });
     </script>
-    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
-    <script src="~/scripts/jquery.lazy.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="~/Scripts/breaking-news-ticker.min.js" async></script>
-    <script src="~/scripts/home/index.js"></script>
+    <script src="~/Scripts/Home/Index.min.js" async></script>
 }

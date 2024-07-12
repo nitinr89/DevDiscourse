@@ -92,7 +92,7 @@
                             imageHtml = '<figure class="figure"><picture> <source srcset="' + imageUrl + '&width=920&format=webp" type="image/webp"> <source srcset="' + imageUrl + '&width=920&format=jpeg" type="image/jpeg"><img src="' + imageUrl + '&width=920&format=jpeg" class="img-responsive" alt="' + data.title + '"></picture><figcaption class="fig-caption">' + imageCopyright + '</figcaption></figure>';
                         }
                         var source = "";
-                        if (data.Type == 'News') {
+                        if (data.type == 'News') {
                             switch (data.source) {
                                 case "PTI": source = '<li><a href="/pti-stories/">' + data.source + '</a></li><li class="list-divider">|</li>'; break;
                                 case "Reuters": source = '<li><a href="/reuters-stories/">' + data.source + '</a></li><li class="list-divider">|</li>'; break;
@@ -109,7 +109,7 @@
                             } else {
                                 authorImage = data.avatar;
                             }
-                            source = '<li><a href = "/Home/AuthorArticles?fl=' + data.Author.Trim() + '"> <img class="img-circle author-avatar" src="' + authorImage + '&width=30&height=30&mode=crop" onerror="this.src=&#39;/Experiment/Img?imageUrl=https://www.devdiscourse.com/AdminFiles/Logo/img_avatar.png&width=30&height=30&mode=crop&#39;" alt="' + data.author + '" />' + data.author.Trim() + '</a></li>';
+                            source = '<li><a href = "/Home/AuthorArticles?fl=' + data.author.Trim() + '"> <img class="img-circle author-avatar" src="' + authorImage + '&width=30&height=30&mode=crop" onerror="this.src=&#39;/Experiment/Img?imageUrl=https://www.devdiscourse.com/AdminFiles/Logo/img_avatar.png&width=30&height=30&mode=crop&#39;" alt="' + data.author + '" />' + data.author.Trim() + '</a></li>';
                         }
                         var shareHtml = '<ul class="list-inline no-margin share-button-list"><li class="l-h-28">SHARE</li><li><a onclick="window.open(&#39;https://www.facebook.com/sharer/sharer.php?u=https://www.devdiscourse.com/article/' + label + '/' + slug + '&#39;, &#39;facebook_share&#39;, &#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="Share on Facebook" class="social-btn"><span class="fa fa-facebook fb"></span></a></li>' +
                             '<li><a onclick="window.open(&#39;http://twitter.com/share?url=https://www.devdiscourse.com/article/' + label + '/' + slug + '&amp;text=' + encodedTitle + '&#39;, &#39;facebook_share&#39;, &#39;height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no&#39;);" href="javascript:void(0);" title="share on Twitter" class="social-btn"><span class="fa fa-twitter tw"></span></a> </li>' +
@@ -145,6 +145,13 @@
                         } else {
                             addBannerUrlHtml = '<div class="advertisement-area m-b-10"> <div class="advertisement-title">Advertisement</div>' + adBanners + '</div>';
                         }
+                        var disclaimer = "";
+                        if ((data.source == "Reuters" || data.source == "PTI" || data.source == "IANS" || data.source == "ANI") && !data.description.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)")) {
+                            disclaimer = "<p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>";
+                        }
+                        else if (data.source == "Devdiscourse News Desk" && (data.originalSource == "Reuters" || data.originalSource == "PTI" || data.originalSource == "IANS" || data.originalSource == "ANI")) {
+                            disclaimer = "<p>(Disclaimer: With inputs from agencies.)</p>";
+                        }
                         function formating(input) { return input < 10 ? '0' + input : input; }
                         var html = addBannerUrlHtml + '<div class="article-divider clearfix" data-articleurl="' + data.slug + '" data-articletitle="' + data.title + '"><span>Next Article</span></div><article>' +
                             '<h2 class="title">' + data.title + '</h2>' + subtitle + '<hr class="seperator" />' +
@@ -153,7 +160,7 @@
                             '</div>' + adminSection + imageHtml +
                             '<section class="left-section clearfix">' + countryHtml + shareHtml + '</section>' +
                             '<hr class="seperator m-b-20" />' +
-                            '<section class="article-cont">' + data.description + '</section>' + tagHtml + firstPublishedIn +
+                            '<section class="article-cont">' + data.description + disclaimer + '</section>' + tagHtml + firstPublishedIn +
                             '<button onclick="reset(\'https://www.devdiscourse.com/Article/' + data.slug + '\',' + data.newsId + ');" class="btn btn-default btn-lg m-b-20 m-t-20 btn-block"><img src="/images/icons/comment_bubble.svg" alt="comments" /> POST / READ COMMENTS</button> <section id="art_' + data.newsId + '" class="commentbox"> <div id="disqus_thread" style="display:none;"><img src="/images/icons/disqus_loader.svg" class="center-block" /></div> </section>' +
                             '</article>';
 
@@ -195,14 +202,14 @@
                 // var label = item.Label != null ? item.Label : "agency-wire";
                 var newsImage = '';
                 if (item.fileThumbUrl != null && item.fileThumbUrl != "/images/defaultImage.jpg" && item.fileThumbUrl != "/images/newstheme.jpg" && item.fileThumbUrl != "/images/sector/all_sectors.jpg") {
-                    newsImage = item.fileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.fileThumbUrl : item.fileThumbUrl;
+                    newsImage = item.fileThumbUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.fileThumbUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + item.fileThumbUrl;
                 }
                 var country = item.country != null ? item.country.split(',') : [];
                 var countryText = country.length > 0 ? country[0] : "Global";
 
                 videoHtml += '<div class="col-md-12 col-sm-12">' +
                     '<a href="/news/videos/' + slugUrl + '">' +
-                    '<div class="video-cover m-b-20 lazy lazyloaded" title="' + item.title + '" style="background-image: url(&quot;https://www.devdiscourse.com' + newsImage + '&width=555&amp;height=300&amp;mode=crop&quot;);">' +
+                    '<div class="video-cover m-b-20 lazy lazyloaded" title="' + item.title + '" style="background-image: url(&quot;' + newsImage + '&width=555&amp;height=300&amp;mode=crop&quot;);">' +
                     '<div class="cover-overlay">' +
                     '<div class="video-btn"><span class="fa fa-play"></span></div>' +
                     '<h3 class="video-title">' + item.title + '</h3>' +

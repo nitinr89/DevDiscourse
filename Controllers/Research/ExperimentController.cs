@@ -563,6 +563,67 @@ namespace Devdiscourse.Controllers.Research
                 .ToList();
             return Ok(topNewsItems);
         }
+        [HttpGet]
+        public IActionResult TrendingNow(string jaadu)
+        {
+            if (jaadu != "pleaseletmeaccess") return Unauthorized();
+            DateTime dateTime = DateTime.UtcNow.AddHours(-1);
+
+            string sql = @"
+        SELECT 
+            d.Id,
+            d.NewsId,
+            d.Title,
+            d.SubTitle,
+            d.ImageUrl,
+            (u.FirstName + ' ' + u.LastName) AS Author,
+            u.ProfilePic,
+            d.Sector,
+            d.AdminCheck,
+            d.Region,
+            d.ViewCount AS Views,
+            ISNULL(d.NewsLabels, 'agency-wire') AS NewsLabel,
+            ISNULL(d.Country, 'Global') AS Country,
+            d.Source,
+            d.OriginalSource,
+            d.CreatedOn,
+            COUNT(*) AS TodayViews
+        FROM TrendingNews tn
+        INNER JOIN DevNews d ON tn.NewsId = d.Id
+        INNER JOIN AspNetUsers u ON d.Creator = u.Id
+        WHERE tn.ViewedOn >= @todayStart
+        GROUP BY 
+            d.Id,
+            d.NewsId,
+            d.Title,
+            d.SubTitle,
+            d.ImageUrl,
+            u.FirstName,
+            u.LastName,
+            u.ProfilePic,
+            d.Sector,
+            d.AdminCheck,
+            d.Region,
+            d.ViewCount,
+            d.NewsLabels,
+            d.Country,
+            d.Source,
+            d.OriginalSource,
+            d.CreatedOn
+        ORDER BY TodayViews DESC
+        OFFSET @offset ROWS FETCH NEXT @pageSize ROWS ONLY;";
+
+            var parameters = new[]
+            {
+                new SqlParameter("@todayStart", dateTime),
+                new SqlParameter("@offset", 0),
+                new SqlParameter("@pageSize", 1)
+            };
+            var topNewsItems = db.TopNewsItems
+                .FromSqlRaw(sql, parameters)
+                .ToList();
+            return Ok(topNewsItems);
+        }
 
         [HttpGet]
         public IActionResult Views(string jaadu, string time, string? newsId)

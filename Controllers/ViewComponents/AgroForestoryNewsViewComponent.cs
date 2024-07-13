@@ -3,7 +3,6 @@ using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack;
-using static SkiaSharp.HarfBuzz.SKShaper;
 
 namespace Devdiscourse.Controllers.ViewComponents
 {

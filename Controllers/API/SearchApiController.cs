@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 namespace Devdiscourse.Controllers.API
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Search")]
     public class SearchApiController : Controller
     {
         public ApplicationDbContext db;
@@ -728,7 +728,7 @@ namespace Devdiscourse.Controllers.API
             return Ok(new { news = result, edition });
         }
 
-        [Route("/api/Search/GetAnalysis/{reg}/{id?}")]
+        [Route("GetAnalysis/{reg}/{id?}")]
         public IActionResult GetAnalysis(long? id, string reg)
         {
             DateTime thirtyDays = DateTime.Today.AddDays(-90);

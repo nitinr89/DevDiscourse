@@ -140,10 +140,7 @@
                 <h2 class="section-title2">
                     <span>TRENDING</span>
                 </h2>
-                 @{
-                    //     Html.RenderAction("GetTrends", "Home", new { filter = "Trends", reg = ViewBag.region });
-                        @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.region });
-                }
+                @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.region })
             </div>
             <div class="m-t-20 clearfix" id="latestNews"></div>
             <div id="AfricaEditionNews"></div><div id="EditionNews"></div>
@@ -154,7 +151,7 @@
         </div>
     </div>
 </div>
-@section scripts{
+@section scripts {
     <script>
         $(document).ready(function () {
             var region = '@(ViewBag.region)';
@@ -175,7 +172,7 @@
                 document.cookie = "Edition=" + $(this).val() + ";expires=" + date.toGMTString() + "; path=/";
                 window.location.href = $(this).find('option:selected').attr('data-to');
             });
-            GetOpinion(); function GetOpinion() { var ApiDataUrl = "/api/Search/GetAnalysis/" + region + "/0"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.newsId, item.title); var label = item.label != null ? item.label : "agency-wire"; var Image = "/Experiment/Img?imageUrl=" + item.image; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="https://www.devdiscourse.com' + Image + '&width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right"/></div></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) }
+            GetOpinion(); function GetOpinion() { var ApiDataUrl = "/api/Search/GetAnalysis/" + region + "/0"; $.getJSON(ApiDataUrl, function (data) { var alertHtml = ''; $.each(data, function (i, item) { var slugUrl = convertToSlug(item.newsId, item.title); var label = item.label != null ? item.label : "agency-wire"; var Image = item.image.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.image : "/Experiment/Img?imageUrl=" + "@domainUrl" + item.image; alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="' + Image + '&width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right"/></div></div></a>' }); $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml) }) }
         @*GetEditionNews("Africa","AFRICAN EDITIONS","/");@if(ViewBag.region!="South Asia")
             {<text>GetEditionNews("South Asia","SOUTH ASIA EDITION","/south-asia");</text>}
             @if(ViewBag.region!="Pacific")
@@ -194,12 +191,12 @@
                 });
             function GetEditionNews(region, title, editionSlug) {
                 $.ajax({
-                    url: '/api/SearchApi/GetEditionNews/' + region + '/' + title, type: "GET", success: function (result) {
+                    url: '/api/Search/GetEditionNews/' + region + '/' + title, type: "GET", success: function (result) {
                         var latestItems = ''; if (result.news.length > 0) {
                             var content = ''; $.each(result.news, function (i, item) {
                                 var slugUrl = convertToSlug(item.newId, item.title); var label = item.label != null ? item.label : "agency-wire"; var newsType = ''; if (item.type == "Event") { newsType = '<span class="pull-right infocus-badge">' + item.type + '</span>' }
-                                else if (item.Type == "Blog") { if (item.subType != "" || item.subType != null) { newsType = '<span class="pull-right infocus-badge">' + item.subType + '</span>' } else { newsType = '<span class="pull-right infocus-badge">Blog</span>' } }
-                                var imageContent = ""; if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") { var newsImage = "/Experiment/Img?imageUrl=" + item.imageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '&width=90&height=90&mode=crop"></div></a></div>' }
+                                else if (item.type == "Blog") { if (item.subType != "" || item.subType != null) { newsType = '<span class="pull-right infocus-badge">' + item.subType + '</span>' } else { newsType = '<span class="pull-right infocus-badge">Blog</span>' } }
+                                var imageContent = ""; if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") { var newsImage = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.imageUrl : "/Experiment/Img?imageUrl=" + "@domainUrl" + item.imageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '&width=90&height=90&mode=crop"></div></a></div>' }
                                 content += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="media news-media-card">' + newsType + imageContent + '<div class="media-body"><h3 class="media-title"><a href="/article/' + label + '/' + slugUrl + '" class="text-decoration">' + item.title + '</a></h3></div></div></a>'
                             }); var urlhtml = ''; if (result.edition == "AFRICA EDITION") { urlhtml = result.edition } else { urlhtml = '<a href="' + editionSlug + '" class="text-decoration">' + result.edition + '</a>' }
                             latestItems = '<div class="clearfix m-t-40"><h2 class="section-title"><span>' + urlhtml + '</span></h2>' + content + '</div>'; if (result.edition == "AFRICAN EDITIONS") { $('#AfricaEditionNews').append(latestItems) } else { $('#EditionNews').append(latestItems) }
@@ -227,7 +224,7 @@
             GetLatestNews();
             function GetLatestNews() {
                 $.ajax({
-                    url: '/api/SearchApi/GetLatestNews/' + region,
+                    url: '/api/Search/GetLatestNews/' + region,
                     type: "GET",
                     success: function (result) {
                         var latestItems = '';
@@ -265,7 +262,7 @@
                     $("#loading").show();
                     $.ajax({
                         type: 'GET',
-                        url: '/api/SearchApi/GetSdgNews/' + page,
+                        url: '/api/Search/GetSdgNews/' + page,
                         dataType: "json",
                         success: function (data) {
                             showMoreCounter = showMoreCounter + 1;
@@ -281,8 +278,8 @@
                                 var label = item.label != null ? item.label : "agency-wire";
                                 var country = item.country != null ? item.country : '';
                                 if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
-                                    var newsImage = "/Experiment/Img?imageUrl=" + item.imageUrl;
-                                    imageContent = '<div class="media-left"><a href="/article/' + label + '/' + urlSlug + '" aria-label="' + item.title + '"><img src="' + newsImage + '&width=90&height=90&mode=crop"></a></div>';
+                                    var Image = item.imageUrl.indexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.imageUrl : "/Experiment/Img?imageUrl=" + "@domainUrl" + item.imageUrl;
+                                    imageContent = '<div class="media-left"><a href="/article/' + label + '/' + urlSlug + '" aria-label="' + item.title + '"><img src="' + Image + '&width=90&height=90&mode=crop"></a></div>';
                                 }
                                 var createdOn = new Date(item.createdOn);
                                 createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());
@@ -292,7 +289,7 @@
                                 }
                                 html += '<a href="/article/' + label + '/' + urlSlug + '" class="text-decoration">' +
                                     '<div class="m-b-30 col-md-12"><div class="row">' +
-                                    '<div class="col-md-5 col-sm-4"><div class="bg-gray cover-img lazy" data-src="https://www.devdiscourse.com' + newsImage + '?width=295&height=160&mode=crop&format=jpeg"></div>' +
+                                    '<div class="col-md-5 col-sm-4"><div class="bg-gray cover-img lazy" data-src="' + Image + '&width=295&height=160&mode=crop&format=jpeg"></div>' +
                                     '</div><div class="col-md-7 col-sm-8 p-l-0">' +
                                     '<div class="text-uppercase country-sub">' + countryHtml + '</div>' +
                                     '<h3 class="title-sub">' + item.title + '</h3>' +

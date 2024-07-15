@@ -49,27 +49,6 @@
     }
 }
 @functions {
-    async Task Truncate(string input, int length)
-    {
-        await Task.Yield();
-
-        if (string.IsNullOrEmpty(input))
-        {
-            <text> </text>
-        }
-        else if (input.Length <= length)
-        {
-            @input
-        }
-        else
-        {
-            @input.Substring(0, length)
-
-            <text>..</text>
-        }
-    }
-}
-@functions {
     async Task GetDescriptionText(string htmltext)
     {
         await Task.Yield();
@@ -112,7 +91,7 @@
     <div class="bolg-content" id="bolgcontent">
         @foreach (var item in Model)
         {
-            var newsImageUrl = ""; if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImageUrl = $"/Experiment/Img?imageUrl={item.ImageUrl}"; } else { newsImageUrl = newsImage; }
+            var newsImageUrl = ""; if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg") { newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.ImageUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + item.ImageUrl; } else { newsImageUrl = newsImage; }
             DateTime subBlogCreatedDate = TimeZoneInfo.ConvertTimeFromUtc(item.CreatedOn, INDIAN_ZONE); DateTime subBlogModifiedDate = TimeZoneInfo.ConvertTimeFromUtc(item.ModifiedOn, INDIAN_ZONE); DateTime subBlogPublishedDate = TimeZoneInfo.ConvertTimeFromUtc(item.PublishedOn, INDIAN_ZONE);
             <div itemtype="http://schema.org/BlogPosting" itemprop="liveBlogUpdate" itemscope="itemscope" data-type="text">
                 <h2 itemprop="headline" content="@item.Title"></h2>
@@ -173,9 +152,9 @@
                 }
                 @if (!string.IsNullOrEmpty(@item.ImageUrl) && item.ImageUrl != "/images/sector/all_sectors.jpg")
                 {
-                    var newsImageUrl = $"/Experiment/Img?imageUrl={item.ImageUrl}";
-                    <meta itemprop="image" content="@domainUrl@newsImageUrl&width=640" />
-                    <img data-src="@domainUrl@newsImageUrl&width=640&height=420" src="/Content/transparent.png" class="lazy" alt="@item.Title" />
+                    var newsImageUrl = item.ImageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.ImageUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + item.ImageUrl;
+                    <meta itemprop="image" content="@newsImageUrl&width=640" />
+                    <img data-src="@newsImageUrl&width=640&height=420" src="/Content/transparent.png" class="lazy" alt="@item.Title" />
                 }
                 else
                 {
@@ -266,15 +245,21 @@
                             <div class="name">Nitin Rawat</div>
 
                             <div class="content">@comment.CommentText</div>
-                            <span data-topic="@comment.CommentId" data-it="3" id="like_3_@comment.CommentId" data-rt="1" class="btn btn-sm react-btn"><span class="fa fa-thumbs-o-up"></span> @{
+                            <span data-topic="@comment.CommentId" data-it="3" id="like_3_@comment.CommentId" data-rt="1" class="btn btn-sm react-btn">
+                                <span class="fa fa-thumbs-o-up"></span> @{
                                     await Pluralise(comment.LikeCount, "Like");
-                                }</span>
-                            <span data-topic="@comment.CommentId" data-it="3" id="endorse_3_@comment.CommentId" data-rt="3" class="btn btn-sm react-btn"><span class="fa fa-check"></span> @{
+                                }
+                            </span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="endorse_3_@comment.CommentId" data-rt="3" class="btn btn-sm react-btn">
+                                <span class="fa fa-check"></span> @{
                                     await Pluralise(comment.EndorseCount, "Endorse");
-                                }</span>
-                            <span data-topic="@comment.CommentId" data-it="3" id="reject_3_@comment.CommentId" data-rt="4" class="btn btn-sm react-btn"><span class="fa fa-times"></span> @{
+                                }
+                            </span>
+                            <span data-topic="@comment.CommentId" data-it="3" id="reject_3_@comment.CommentId" data-rt="4" class="btn btn-sm react-btn">
+                                <span class="fa fa-times"></span> @{
                                     await Pluralise(comment.RejectCount, "Reject");
-                                }</span>
+                                }
+                            </span>
                             <span class="btn-reply btn btn-sm" data-parent="@comment.CommentId" data-root="@comment.CommentId">Reply</span>
 
                             @if (loginUserId == creator)

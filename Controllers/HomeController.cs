@@ -2341,27 +2341,27 @@ namespace DevDiscourse.Controllers
         //    await _db.SaveChangesAsync();
         //    return Json("Success", JsonRequestBehavior.AllowGet);
         //}
-        //public ActionResult AuthorArticles(string fl)
-        //{
-        //    HttpCookie cookie = Request.Cookies["Edition"];
-        //    if (cookie == null)
-        //    {
-        //        ViewBag.region = "Global Edition";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.region = cookie.Value ?? "Global Edition";
-        //    }
-        //    ViewBag.id = fl;
-        //    return View();
-        //}
-        //public PartialViewResult GetAuthorArticles(string id, string region, int? page)
-        //{
-        //    var result = _db.DevNews.Where(a => a.AdminCheck == true && a.Author == id).OrderByDescending(m => m.CreatedOn).AsNoTracking();
-        //    int pageSize = 20;
-        //    int pageNumber = (page ?? 1);
-        //    return PartialView("_getAuthorArticles", result.ToPagedList(pageNumber, pageSize));
-        //}
+        public ActionResult AuthorArticles(string fl)
+        {
+            string? cookie = Request.Cookies["Edition"];
+            if (cookie == null)
+            {
+                ViewBag.region = "Global Edition";
+            }
+            else
+            {
+                ViewBag.region = cookie ?? "Global Edition";
+            }
+            ViewBag.id = fl;
+            return View();
+        }
+        public PartialViewResult GetAuthorArticles(string id, string region, int? page)
+        {
+            var result = _db.DevNews.Where(a => a.AdminCheck == true && a.Author == id).OrderByDescending(m => m.CreatedOn).AsNoTracking();
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return PartialView("_getAuthorArticles", result.ToPagedList(pageNumber, pageSize));
+        }
         //public PartialViewResult GetAuthorList()
         //{
         //    List<AssignedRoleView> result = new List<AssignedRoleView>();

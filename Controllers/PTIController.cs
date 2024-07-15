@@ -861,6 +861,8 @@ namespace DevDiscourse.Controllers
             CreateLog(devNews.Title + "" + devNews.Type, devNews.Title + " has been deleted", devNews.Creator, userManager.GetUserId(User), "/Home/NewsDetail/" + devNews.NewsId);
             return RedirectToAction("Index");
         }
+
+        [Route("/pti-stories")]
         [OutputCache(Duration = 60)]
         public ActionResult News(int? page)
         {

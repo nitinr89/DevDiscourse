@@ -728,50 +728,19 @@ namespace Devdiscourse.Controllers.API
             return Ok(new { news = result, edition });
         }
 
-        [HttpGet]
-        [Route("GetAnalysis/{reg}/{id?}")]
+        [Route("/api/Search/GetAnalysis/{reg}/{id?}")]
         public IActionResult GetAnalysis(long? id, string reg)
         {
             DateTime thirtyDays = DateTime.Today.AddDays(-90);
             if (reg == "Global Edition")
             {
-                var result = db.DevNews
-                    .Where(a => a.Type == "Blog" && a.CreatedOn > thirtyDays
-                    && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
-                    .Select(a => new
-                    {
-                        a.Id,
-                        a.Title,
-                        a.CreatedOn,
-                        ImageUrl = a.ApplicationUsers.ProfilePic,
-                        Image = a.ImageUrl,
-                        a.Description,
-                        Name = a.Author,
-                        a.NewsId,
-                        Label = a.NewsLabels
-                    }).Take(5);
-                return Ok(result.Take(5).ToList());
+                var result = db.DevNews.Where(a => a.Type == "Blog" && a.CreatedOn > thirtyDays && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn).Select(a => new { a.Id, a.Title, a.CreatedOn, ImageUrl = a.ApplicationUsers.ProfilePic, Image = a.ImageUrl, a.Description, Name = a.Author, a.NewsId, Label = a.NewsLabels }).AsNoTracking().Take(5);
+                return Ok(result);
             }
             else
             {
-                var result = db.DevNews
-
-                    .Where(a => a.Type == "Blog" && a.Region.Contains(reg))
-                    .Where(a => a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays
-                    && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn)
-                    .Select(a => new
-                    {
-                        a.Id,
-                        a.Title,
-                        a.CreatedOn,
-                        ImageUrl = a.ApplicationUsers.ProfilePic,
-                        Image = a.ImageUrl,
-                        a.Description,
-                        Name = a.Author,
-                        a.NewsId,
-                        Label = a.NewsLabels
-                    }).Take(5);
-                return Ok(result.Take(5).ToList());
+                var result = db.DevNews.Where(a => a.Type == "Blog" && a.Region.Contains(reg) && a.CreatedOn > thirtyDays && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn).Select(a => new { a.Id, a.Title, a.CreatedOn, ImageUrl = a.ApplicationUsers.ProfilePic, Image = a.ImageUrl, a.Description, Name = a.Author, a.NewsId, Label = a.NewsLabels }).AsNoTracking().Take(5);
+                return Ok(result);
             }
         }
         [Route("GetInterview/{reg}")]

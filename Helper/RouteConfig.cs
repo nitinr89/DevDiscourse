@@ -44,6 +44,11 @@
                 controller = "Search",
                 action = "Videos"
             });
+            routes.MapControllerRoute(
+           name: "Devdiscourse_Story",
+           pattern: "devdiscourse-stories",
+           defaults: new { controller = "PTI", action = "DevdiscourseNews" }
+         );
 
             routes.MapControllerRoute(
             name: "NewsSector",
@@ -172,7 +177,6 @@
             name: "Article",
             pattern: "{prefix}/article/{id?}",
             defaults: new { controller = "Article", action = "Index" }
-            //constraints: new { customeroute = new SeoFriendlyRouteConstraint()  }
             );
 
             routes.MapControllerRoute(
@@ -236,7 +240,6 @@
             defaults: new { controller = "Home", action = "Pacific" }
             );
 
-            //Events Pages Routes
             routes.MapControllerRoute(
             name: "PlasticFreeWorldConference",
             pattern: "events/plastic-free-world-conference-and-expo",

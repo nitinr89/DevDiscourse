@@ -1,7 +1,6 @@
 ﻿@using System.Globalization;
 @{
     string sectorSlug = ViewBag.sectorSlug.ToString();
-    //string domainUrl = "";
     string domainUrl = "https://www.devdiscourse.com";
     string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png?w=920";
     string region = ViewBag.region;
@@ -467,7 +466,7 @@
 
                         var label = item.label != null ? item.label : "agency-wire";
 
-                        var Image = "/Experiment/Img?imageUrl=" + item.imageUrl;
+                        var Image = item.imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.imageUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + item.imageUrl;
 
                         alertHtml += '<a href="/article/' + label + '/' + slugUrl + '"class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="/content/transparent.png?width=60&height=60" data-src="' + Image + '&width=60&height=60&mode=crop&format=jpeg" width="60" height="60" alt="News" class="img-rounded pull-right lazy"/></div></div></a>'
                     });
@@ -487,7 +486,7 @@
                             var content = ''; $.each(result.news, function (i, item) {
                                 var slugUrl = convertToSlug(item.newId, item.title); var label = item.Label != null ? item.Label : "agency-wire"; var newsType = ''; if (item.Type == "Event") { newsType = '<span class="pull-right infocus-badge">' + item.type + '</span>' }
                                 else if (item.Type == "Blog") { if (item.SubType != "" || item.SubType != null) { newsType = '<span class="pull-right infocus-badge">' + item.SubType + '</span>' } else { newsType = '<span class="pull-right infocus-badge">Blog</span>' } }
-                                var imageContent = ""; if (item.imageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") { var newsImage = "/Experiment/Img?imageUrl=" + item.imageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '&width=90&height=90&mode=crop&format=jpeg"></div></a></div>' }
+                                var imageContent = ""; if (item.imageUrl != null && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") { var newsImage = item.imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.imageUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + item.imageUrl; imageContent = '<div class="media-left"><a href="/article/' + label + '/' + slugUrl + '" aria-label="' + item.title + '"><div class="image-card bg-gray lazy" data-src="' + newsImage + '&width=90&height=90&mode=crop&format=jpeg"></div></a></div>' }
                                 content += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="media news-media-card">' + newsType + imageContent + '<div class="media-body"><h3 class="media-title"><a href="/article/' + label + '/' + slugUrl + '" class="text-decoration">' + item.title + '</a></h3></div></div></a>'
                             }); var urlhtml = ''; if (result.edition == "AFRICA EDITION") { urlhtml = result.edition } else { urlhtml = '<a href="' + editionSlug + '" class="text-decoration">' + result.edition + '</a>' }
                             latestItems = '<div class="clearfix m-t-40"><h2 class="section-title"><span>' + urlhtml + '</span></h2>' + content + '</div>'; if (result.edition == "AFRICAN EDITIONS") { $('#AfricaEditionNews').append(latestItems) } else { $('#EditionNews').append(latestItems) }
@@ -535,8 +534,7 @@
                                 var country = item.country != null ? item.country : '';
                                 var newsImage = '/images/sector/all_sectors.jpg';
                                 if (item.imageUrl != null && item.imageUrl != "/images/defaultImage.jpg" && item.imageUrl != "/images/newstheme.jpg" && item.imageUrl != "/images/sector/all_sectors.jpg") {
-                                    newsImage = "/Experiment/Img?imageUrl=" + item.imageUrl;
-                                    //newsImage = "https://devdiscourse.blob.core.windows.net/imagegallery/27_06_2019_15_04_53_4794057.jpg?width=178&height=135&mode=crop&format=";
+                                    newsImage = item.imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? "/Experiment/Img?imageUrl=" + item.imageUrl : "/Experiment/Img?imageUrl=" + "https://www.devdiscourse.com" + item.imageUrl;
                                 }
                                 var createdOn = new Date(item.createdOn);
                                 createdOn.setMinutes(createdOn.getMinutes() - (new Date).getTimezoneOffset());

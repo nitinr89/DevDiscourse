@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System.Text;
 using X.PagedList;
 
@@ -274,77 +274,74 @@ namespace Devdiscourse.Controllers.Research
             {
                 if (!string.IsNullOrWhiteSpace(title))
                 {
-                    HttpClient client = new();
-                    string api_key = "AIzaSyCi2jYECAVn52-C_6bKcvzdU89ds3j93Pg";
-                    string url = $"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={api_key}";
-
-                    var requestData = new
+                    const string ApiKey = "Bearer api_key";
+                    try
                     {
-                        contents = new[]
+                        var messages = new[] { new { role = "user", content = "What noun is this material about?, Is it a name of person?, your response should be json string like '{noun:'virat kohli',isNameOfPerson:'true'}'. Content: " + title } };
+                        var data = new { model = "gpt-4o", messages };
+                        string jsonString = JsonConvert.SerializeObject(data);
+                        var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+                        HttpClient client = new HttpClient();
+                        client.DefaultRequestHeaders.Add("Authorization", ApiKey);
+
+                        var response = await client.PostAsync("https://api.openai.com/v1/chat/completions", content);
+                        response.EnsureSuccessStatusCode();
+
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        dynamic? responseData = JsonConvert.DeserializeObject(responseContent);
+                        string? newsStirng = responseData?.choices[0].message.content;
+                        if (newsStirng == null) return BadRequest();
+                        if (newsStirng.StartsWith("```json"))
                         {
-                                    new{
-                            role = "user",
-                            parts = new[]{
-                                new{text = $"Give me at least 2 or at most 5 important nouns as a string separated by commas or if you don't find any then create at least 2 nouns from your understanding, here is the phrase - {title}"}
-                            }
+                            newsStirng = newsStirng.Replace("```json", "");
+                            newsStirng = newsStirng.Replace("```", "");
                         }
-                    }
-                    };
+                        newsStirng = newsStirng.Replace("\r", "");
+                        newsStirng = newsStirng.Replace("\n", "");
+                        newsStirng = newsStirng.Replace("\t", "");
 
-                    var jsonContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync(url, jsonContent);
-                    response.EnsureSuccessStatusCode();
-                    string responseContent = await response.Content.ReadAsStringAsync();
-                    var jsonResponse = JObject.Parse(responseContent);
-                    string nounsString = jsonResponse["candidates"][0]["content"]["parts"][0]["text"].Value<string>();
-
-
-                    if (nounsString == null || nounsString.ToLower().Contains(" no "))
-                    {
-                        return BadRequest(nounsString ?? "");
-                    }
-
-                    string[] properNouns = nounsString.Split(',');
-                    string qSelect = "";
-                    string qWhere = "";
-
-                    for (int i = 0; i < properNouns.Length; i++)
-                    {
-                        if (i == 0)
+                        AiResponce? aiResponce = JsonConvert.DeserializeObject<AiResponce>(newsStirng);
+                        if (aiResponce == null) return BadRequest();
+                        nouns = aiResponce.Noun.ToLower();
+                        if (aiResponce.IsNameOfPerson)
                         {
-                            qSelect += $" CASE WHEN Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' THEN 1 ELSE 0 END ";
-                            qWhere += $" Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' ";
+                            var result = (from g in db.ImageGalleries
+                                          where g.AI != true && (g.Title.ToLower().Contains(nouns) || g.Caption.ToLower().Contains(nouns))
+                                          orderby g.CreatedOn descending
+                                          select new Image
+                                          {
+                                              Id = g.Id,
+                                              Title = g.Title,
+                                              Caption = g.Caption ?? "",
+                                              ImageUrl = g.ImageUrl,
+                                              UseCount = g.UseCount ?? 0
+                                          }).ToPagedList(page, 10);
+                            return Ok(result);
                         }
                         else
                         {
-                            qSelect += $" + CASE WHEN Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' THEN 1 ELSE 0 END ";
-                            qWhere += $" OR Caption LIKE '%{properNouns[i]}%' Or Title LIKE '%{properNouns[i]}%' ";
+                            var result = (from g in db.ImageGalleries
+                                          where g.AI == true && (g.Title.ToLower().Contains(nouns) || g.Caption.ToLower().Contains(nouns))
+                                          orderby g.CreatedOn descending
+                                          select new Image
+                                          {
+                                              Id = g.Id,
+                                              Title = g.Title,
+                                              Caption = g.Caption ?? "",
+                                              ImageUrl = g.ImageUrl,
+                                              UseCount = g.UseCount ?? 0
+                                          }).ToPagedList(page, 10);
+                            return Ok(result);
                         }
                     }
-                    string query = $"SELECT Top 10 *, ({qSelect}) AS MatchScore FROM ImageGalleries WHERE ({qWhere}) AND ImageUrl LIKE 'https%' ORDER BY MatchScore DESC, Len(Caption)";
-
-                    var result = db.ImageGalleries
-                        .FromSqlRaw(query)
-                        .ToList();
-
-                    List<Image> images = new();
-                    foreach (var item in result)
-                    {
-                        images.Add(new Image
-                        {
-                            Id = item.Id,
-                            Title = item.Title,
-                            Caption = item.Caption ?? "",
-                            ImageUrl = item.ImageUrl,
-                            UseCount = item.UseCount ?? 0
-                        });
-                    }
-                    return Ok(images);
+                    catch (Exception _) { return BadRequest(); }
                 }
                 else
                 {
+                    nouns = nouns.ToLower();
                     var result = (from g in db.ImageGalleries
-                                  where g.Title.ToLower().Contains(nouns.ToLower()) || g.Caption.ToLower().Contains(nouns.ToLower())
+                                  where g.Title.ToLower().Contains(nouns) || g.Caption.ToLower().Contains(nouns)
                                   orderby g.CreatedOn descending
                                   select new Image
                                   {
@@ -664,6 +661,11 @@ namespace Devdiscourse.Controllers.Research
 
     }
 
+    public class AiResponce
+    {
+        public required string Noun { get; set; }
+        public bool IsNameOfPerson { get; set; }
+    }
     public class IdTitle
     {
         public int Id { get; set; }

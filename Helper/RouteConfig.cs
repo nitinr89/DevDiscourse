@@ -146,12 +146,6 @@
             pattern: "north-america",
             defaults: new { controller = "Home", action = "NorthAmerica" }
             );
-
-            routes.MapControllerRoute(
-            name: "NewsSector",
-            pattern: "news/{sector?}",
-            defaults: new { controller = "Search", action = "Index" }
-            );
             routes.MapControllerRoute(
             name: "Contribute",
             pattern: "Writeforus",

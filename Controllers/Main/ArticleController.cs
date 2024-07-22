@@ -128,11 +128,12 @@ namespace Devdiscourse.Controllers.Main
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
             if (!isCrawler)
             {
-                var geolocation = GetGeoLocation();
+                //var geolocation = GetGeoLocation();
+                var geolocation = new GeoLocationViewModel();
                 var MACAddress = GetMACAddress();
                 ViewBag.publicIP = geolocation.IPv4;
                 ViewBag.MACAddress = MACAddress;
-                await UpdateViewCount(search, geolocation, MACAddress);
+                //await UpdateViewCount(search, geolocation, MACAddress);
             }
             string? cookie = Request.Cookies["Edition"];
             if (reg != "")

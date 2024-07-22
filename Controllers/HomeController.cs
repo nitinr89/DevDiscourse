@@ -80,7 +80,8 @@ namespace DevDiscourse.Controllers
                 string? cookie = Request.Cookies["Edition"];
                 if (cookie == null)
                 {
-                    string UserCountry = getUserLocation();
+                    //string UserCountry = getUserLocation();
+                    string UserCountry = "";
                     if (string.IsNullOrEmpty(UserCountry))
                     {
                         ViewBag.edition = "Global Edition";

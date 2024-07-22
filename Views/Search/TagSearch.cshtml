@@ -162,7 +162,7 @@
             });
             GetOpinion();
             function GetOpinion() {
-                var ApiDataUrl = "/api/SearchApi/GetAnalysis/" + region + "/0";
+                var ApiDataUrl = "/api/Search/GetAnalysis/" + region + "/0";
                 $.getJSON(ApiDataUrl, function (data) {
                     var alertHtml = '';
                     $.each(data, function (i, item) {
@@ -198,7 +198,7 @@
             GetLatestNews();
             function GetLatestNews() {
                 $.ajax({
-                    url: '/api/SearchApi/GetLatestNews/' + region,
+                    url: '/api/Search/GetLatestNews/' + region,
                     type: "GET",
                     success: function (result) {
                         var latestItems = '';
@@ -236,7 +236,7 @@
                     $("#loading").show();
                     $.ajax({
                         type: 'GET',
-                        url: '/api/SearchApi/GetTagsNews/' + encodeURI(tag.trim()) + '/Global%20Edition/' + page,
+                        url: '/api/Search/GetTagsNews/' + encodeURI(tag.trim()) + '/Global%20Edition/' + page,
                         dataType: "json",
                         success: function (data) {
                             showMoreCounter = showMoreCounter + 1;

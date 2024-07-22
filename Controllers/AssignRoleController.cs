@@ -24,6 +24,20 @@ namespace DevDiscourse.Controllers
             this.roleManager = roleManager;
         }
 
+        //public async Task<IActionResult> DeleteRol(string roleName)
+        //{
+        //    try
+        //    {
+        //        var role = await roleManager.FindByNameAsync(roleName);
+        //        if (role != null) await roleManager.DeleteAsync(role);
+        //        return Ok();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
         [Authorize(Roles = "SuperAdmin")]
         // GET: AssignRole
         public ActionResult Index(string text = "", string role = "", int? page = 1)

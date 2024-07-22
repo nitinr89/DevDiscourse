@@ -124,12 +124,14 @@ namespace Devdiscourse.Controllers.Main
                 });
             string ampHtml = converter.ConvertFromHtml(search.Description).AmpHtml;
             ViewBag.ampHtml = ampHtml;
-            var geolocation = GetGeoLocation();
-            var MACAddress = GetMACAddress();
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
             if (!isCrawler)
             {
+                var geolocation = GetGeoLocation();
+                var MACAddress = GetMACAddress();
+                ViewBag.publicIP = geolocation.IPv4;
+                ViewBag.MACAddress = MACAddress;
                 await UpdateViewCount(search, geolocation, MACAddress);
             }
             string? cookie = Request.Cookies["Edition"];
@@ -157,8 +159,6 @@ namespace Devdiscourse.Controllers.Main
                 ViewBag.BlogUpdates = blogUpdate;
                 ViewBag.BlogUpdatesCount = blogUpdate.Count();
             }
-            ViewBag.publicIP = geolocation.IPv4;
-            ViewBag.MACAddress = MACAddress;
             if (scheme.EndsWith("?amp")) return View("Index.amp", search);
             else return View(search);
         }

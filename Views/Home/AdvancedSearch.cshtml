@@ -256,7 +256,7 @@
                     $("#loading").show();
                     $.ajax({
                         type: 'Get',
-                        url: '/api/SearchApi/GetAdvancedSearch/' + search.text + '/' + search.type + '/' + search.sector + '/' + search.country + '/Global%20Edition/' + search.beforeDate + '/' + search.afterDate + '/' + page,
+                        url: '/api/Search/GetAdvancedSearch/' + search.text + '/' + search.type + '/' + search.sector + '/' + search.country + '/Global%20Edition/' + search.beforeDate + '/' + search.afterDate + '/' + page,
                         dataType: 'json',
                         success: function (data) {
                             showMoreCounter = showMoreCounter + 1;

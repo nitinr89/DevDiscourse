@@ -1363,7 +1363,7 @@ else
         }
                 function getComments(itemId, parentId, page) {
                     $.ajax({
-                        url: '/api/SearchApi/liveblogComments/' + itemId + '/' + parentId + '/' + page,
+                        url: '/api/Search/liveblogComments/' + itemId + '/' + parentId + '/' + page,
                         type: "GET",
                         success: function (data) {
                             $.each(data, function (i, item) {

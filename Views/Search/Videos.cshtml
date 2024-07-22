@@ -377,7 +377,7 @@
             });
             GetOpinion();
             function GetOpinion() {
-                var ApiDataUrl = "/api/SearchApi/GetAnalysis/" + region + "/0";
+                var ApiDataUrl = "/api/Search/GetAnalysis/" + region + "/0";
                 $.getJSON(ApiDataUrl, function (data) {
                     var alertHtml = '';
                     $.each(data, function (i, item) {
@@ -414,7 +414,7 @@
                     $("#loading").show();
                     $.ajax({
                         type: 'GET',
-                        url: '/api/SearchApi/GetVideoNews/' + region + '/' + page,
+                        url: '/api/Search/GetVideoNews/' + region + '/' + page,
                         dataType: "json",
                         success: function (data) {
                             showMoreCounter = showMoreCounter + 1;

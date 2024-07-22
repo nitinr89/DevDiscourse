@@ -150,7 +150,7 @@
                             disclaimer = "<p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>";
                         }
                         else if (data.source == "Devdiscourse News Desk" && (data.originalSource == "Reuters" || data.originalSource == "PTI" || data.originalSource == "IANS" || data.originalSource == "ANI")) {
-                            disclaimer = "<p>(Disclaimer: With inputs from agencies.)</p>";
+                            disclaimer = "<p>(With inputs from agencies.)</p>";
                         }
                         function formating(input) { return input < 10 ? '0' + input : input; }
                         var html = addBannerUrlHtml + '<div class="article-divider clearfix" data-articleurl="' + data.slug + '" data-articletitle="' + data.title + '"><span>Next Article</span></div><article>' +
@@ -193,7 +193,7 @@
 
     GetVideos();
     function GetVideos() {
-        $.get('/api/SearchApi/GetHomeVideoNews/' + _region, function (data) {
+        $.get('/api/Search/GetHomeVideoNews/' + _region, function (data) {
             var videoHtml = '';
             var videoFirstHtml = '';
             //console.log(data);

@@ -453,7 +453,7 @@
             GetVideoNews();
             GetNewsAlert();
             function GetOpinion() {
-                var ApiDataUrl = "/api/SearchApi/GetOpinion/" + _edition;
+                var ApiDataUrl = "/api/Search/GetOpinion/" + _edition;
                 $.getJSON(ApiDataUrl, function (data) {
                     var alertHtml = '';
                     $.each(data, function (i, item) {
@@ -488,7 +488,7 @@
                 });
             }
             function GetNewsAlert() {
-                var ApiDataUrl = "/api/SearchApi/GetNewsAlert";
+                var ApiDataUrl = "/api/Search/GetNewsAlert";
                 $.getJSON(ApiDataUrl, function (data) {
                     var alertHtml = '';
                     $.each(data, function (i, item) {

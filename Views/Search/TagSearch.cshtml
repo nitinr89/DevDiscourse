@@ -134,7 +134,9 @@
         <div class="col-xs-12 col-md-8"> <h1 class="section-title"><span>@ViewBag.tag</span></h1> <div class="row" id="newsContainer" style="min-height:400px;"> </div><div id="loading" style="display:none;"> <p class="text-center"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span> Loading... </p></div></div><div class="col-xs-12 col-md-4">
             <div class="clearfix" id="opinion"></div><div class="clearfix m-t-30">
                 <h2 class="section-title2"> <span>TRENDING</span> </h2>
-                @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.edition })
+                <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@ViewBag.edition">
+                    @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = ViewBag.edition })
+                </cache>
             </div><div class="m-t-20 clearfix" id="latestNews"></div><div id="AfricaEditionNews"></div><div id="EditionNews"></div><div class="clearfix m-t-30 hidden-xs hidden-sm"> @Html.Partial("_socialPartial") </div><div class="clearfix m-t-30" id="videoNews"></div>
         </div>
     </div>
@@ -169,7 +171,7 @@
                         var slugUrl = convertToSlug(item.newsId, item.title);
                         var label = item.label != null ? item.label : "agency-wire";
                         var Image = "/Experiment/Img?imageUrl=" + item.image;
-                        alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="https://www.devdiscourse.com' + Image + '&width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right"/></div></div></a>'
+                        alertHtml += '<a href="/article/' + label + '/' + slugUrl + '" class="text-decoration"><div class="news-media-card p-t-10 media"><div class="media-body"><h3 class="media-title no-margin">' + item.title + '</h3></div><div class="media-right"><img src="' + Image + '&width=60&height=60&mode=crop" width="60" height="60" class="img-rounded pull-right"/></div></div></a>'
                     });
                     $('#opinion').html('<h2 class="section-title"><span><a href="/blogs" class="text-decoration">OPINION / BLOG / ANALYSIS</a></span></h2>' + alertHtml)
                 })
@@ -263,7 +265,7 @@
                                 }
                                 html += '<a href="/article/' + label + '/' + urlSlug + '" class="text-decoration">' +
                                     '<div class="m-b-30 col-md-12"><div class="row">' +
-                                    '<div class="col-md-5 col-sm-4"><div class="bg-gray cover-img lazy" data-src="https://www.devdiscourse.com' + newsImage + '?width=295&height=160&mode=crop&format=jpeg"></div>' +
+                                    '<div class="col-md-5 col-sm-4"><div class="bg-gray cover-img lazy" data-src="' + newsImage + '?width=295&height=160&mode=crop&format=jpeg"></div>' +
                                     '</div><div class="col-md-7 col-sm-8 p-l-0">' +
                                     '<div class="text-uppercase country-sub">' + countryHtml + '</div>' +
                                     '<h3 class="title-sub">' + item.title + '</h3>' +

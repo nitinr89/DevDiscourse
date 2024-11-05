@@ -5,7 +5,7 @@ using Devdiscourse.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ServiceStack.Host;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -71,7 +71,10 @@ namespace DevDiscourse.Controllers
         {
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
-            if (isCrawler)
+            var MACAddress = GetMACAddress();
+            var geolocation = GetGeoLocation();
+            if (isCrawler || geolocation.IPv4 == "34.76.160.84"
+                || MACAddress == "000D3AC9E8D7" || MACAddress == "000D3A0AB624")
             {
                 ViewBag.edition = "Global Edition";
             }
@@ -80,8 +83,7 @@ namespace DevDiscourse.Controllers
                 string? cookie = Request.Cookies["Edition"];
                 if (cookie == null)
                 {
-                    //string UserCountry = getUserLocation();
-                    string UserCountry = "";
+                    string? UserCountry = geolocation.country_name;
                     if (string.IsNullOrEmpty(UserCountry))
                     {
                         ViewBag.edition = "Global Edition";
@@ -90,7 +92,7 @@ namespace DevDiscourse.Controllers
                     {
                         string? userRegion = (from c in _db.Countries
                                               join r in _db.Regions on c.RegionId equals r.Id
-                                              where c.Title.Contains(UserCountry)
+                                              where c.Title != null && c.Title.Contains(UserCountry)
                                               select new { r.Title }).FirstOrDefault()?.Title;
                         string cookieName = "Edition";
                         string cookieValue = userRegion ?? "Global Edition";
@@ -149,29 +151,31 @@ namespace DevDiscourse.Controllers
             return View();
         }
 
-        public string getUserLocation()
+        public GeoLocationViewModel GetGeoLocation()
         {
+            GeoLocationViewModel location = new GeoLocationViewModel();
             string visitorIp = _ipAddressHelper.GetVisitorIp();
-            var jsonString = "";
-            var countryName = "";
             try
             {
-                string Url = "https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572/" + visitorIp;
+                var json = "";
+                string Url = $"https://pro.ip-api.com/json/{visitorIp}?fields=query,country,city&key=DUmVyqfXtgPOLyL";
                 using (WebClient wc = new WebClient())
                 {
-                    jsonString = wc.DownloadString(Url);
+                    json = wc.DownloadString(Url);
                 }
-                dynamic jsonObj = JsonConvert.DeserializeObject(jsonString);
-                if (jsonObj.country_name != null)
+                var obj = JObject.Parse(json);
+                if (obj["country"] != null)
                 {
-                    countryName = (string)jsonObj.country_name;
+                    location.country_name = (string)obj["country"];
+                    location.city_name = (string)obj["city"];
+                    location.IPv4 = (string)obj["query"];
                 }
             }
             catch
             {
 
             }
-            return countryName;
+            return location;
         }
 
         public async Task<ActionResult> Detail(Guid? id, string reg = "Global Edition", string fl = "")
@@ -200,8 +204,8 @@ namespace DevDiscourse.Controllers
         }
         public ActionResult UserProfile()
         {
-            string userId = userManager.GetUserId(User);
-            ViewBag.profile = _db.Users.Find(userId).ProfilePic;
+            string? userId = userManager.GetUserId(User);
+            ViewBag.profile = _db.Users.Find(userId)?.ProfilePic;
             string? cookie = Request.Cookies["Edition"];
             if (cookie == null)
             {
@@ -263,7 +267,6 @@ namespace DevDiscourse.Controllers
             {
                 ViewBag.region = "Global Edition";
             }
-            // return View();
             if (scheme.EndsWith("?amp")) return View("Search.amp");
             else return View();
         }
@@ -295,7 +298,6 @@ namespace DevDiscourse.Controllers
             {
                 ViewBag.reg = cookie ?? "Global Edition";
             }
-            //return View();
             if (scheme.EndsWith("?amp")) return View("DevBlogs.amp");
             else return View();
         }

@@ -38,7 +38,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                       Sector = dn.DevNews.Sector,
                       Label = dn.DevNews.NewsLabels,
                       Ranking = dn.Ranking
-                  }).ToListAsync();
+                  }).AsNoTracking().ToListAsync();
                 resultList = resultList.GroupBy(s => s.Title).Select(a => a.First()).OrderByDescending(a => a.Ranking).Take(6).ToList();
 
                 var sponsoredNews = (from sn in _db.SponsoredNews
@@ -61,7 +61,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                                              Label = n.NewsLabels,
                                              Ranking = 0
                                          }
-                                     }).ToList();
+                                     }).AsNoTracking().ToList();
 
                 foreach (var item in sponsoredNews)
                 {

@@ -457,7 +457,21 @@
         @await Component.InvokeAsync("Infocus", new { reg = edition })
     </cache>
 </div>
-<div class="video-container m-t-20 m-b-20"> <div id="videoNews" class="container"></div></div>
+<div class="video-container m-t-20 m-b-20">
+    <div class="container p-b-20">
+        <div class="text-center center-title font-oswald m-t-20">
+            <span>
+                <a href="/blogs" class="text-decoration" title="News Analysis">OPINION / BLOG</a>
+            </span>
+        </div>
+        <div class="m-t-20" id="opinion12">
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("Opinion", new { reg = edition })
+            </cache>
+        </div>
+        <a href="/blogs" class="pull-right read-more-btn m-t-20">View All</a>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-8">
@@ -473,7 +487,7 @@
             <div class="m-t-10 m-b-20">
                 <div class="advertisement-area">
                     <div class="advertisement-title">ADVERTISEMENT</div>
-                    <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" title="Download App from Playstore" target="_blank"><img data-src="/images/SDGs/app-banner.jpg?format=jpeg" src="/Content/transparent.png" alt="Download the Devdiscourse App" class="img-responsive lazy center-block" /></a>
+                    @* <a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse" rel="noopener" title="Download App from Playstore" target="_blank"><img data-src="/images/SDGs/app-banner.jpg?format=jpeg" src="/Content/transparent.png" alt="Download the Devdiscourse App" class="img-responsive lazy center-block" /></a> *@
                 </div>
             </div>
         </div><div class="clearfix col-sm-12 col-md-4">
@@ -490,21 +504,7 @@
         </div>
     </div>
 </div>
-<div class="video-container m-t-20 m-b-20">
-    <div class="container p-b-20">
-        <div class="text-center center-title font-oswald m-t-20">
-            <span>
-                <a href="/blogs" class="text-decoration" title="News Analysis">OPINION / BLOG</a>
-            </span>
-        </div>
-        <div class="m-t-20" id="opinion12">
-            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
-                @await Component.InvokeAsync("Opinion", new { reg = edition })
-            </cache>
-        </div>
-        <a href="/blogs" class="pull-right read-more-btn m-t-20">View All</a>
-    </div>
-</div>
+<div class="video-container m-t-20 m-b-20"> <div id="videoNews" class="container"></div></div>
 <div class="container m-t-10 m-b-20">
     <a href="https://www.devdiscourse.com/un-news" rel="noopener" title="UN News" target="_blank">
         <img data-src="/AdminFiles/Ads/Devdiscourse_UN_News_logo_728.jpg" src="/Content/transparent.png" alt="United Nations News" class="img-responsive lazy center-block" />
@@ -722,5 +722,5 @@
             });
         });
     </script>
-    <script src="~/Scripts/Home/Index.min.js" async></script>
+    <script src="~/Scripts/Home/Index.js" async></script>
 }

@@ -950,7 +950,7 @@ namespace DevDiscourse.Controllers
                                             Title = s.Title,
                                             ImageUrl = s.ImageUrl,
                                             SrNo = m.SrNo,
-                                            children = db.Livediscourses.Where(a => a.ParentId == s.Id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new DiscourseChildViewModel { Id = s.Id, Title = s.Title, ImageUrl = s.ImageUrl }).Take(2).ToList()
+                                            children = db.Livediscourses.AsNoTracking().Where(a => a.ParentId == s.Id && a.AdminCheck == true).OrderByDescending(o => o.CreatedOn).Select(s => new DiscourseChildViewModel { Id = s.Id, Title = s.Title, ImageUrl = s.ImageUrl }).Take(2).ToList()
                                         }).AsNoTracking().Take(3);
             return PartialView("_getInfocusLiveDiscourse", InfocusLiveDiscourse);
         }

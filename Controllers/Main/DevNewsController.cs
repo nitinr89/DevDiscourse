@@ -58,45 +58,79 @@ namespace DevDiscourse.Controllers.Main
             ViewBag.source = source;
             ViewBag.editorPick = editorPick;
             ViewBag.loginId = userManager.GetUserId(User);
-            DateTime fifteenDay = DateTime.Today.AddDays(-15);
-            DateTime threeMonth = DateTime.Today.AddDays(-90);
-            IQueryable<NewsListView> devNews = (from a in _db.DevNews
-                                                where a.Type == "News"
-                                                select new NewsListView
-                                                {
-                                                    Id = a.Id,
-                                                    NewsId = a.NewsId,
-                                                    Label = a.NewsLabels,
-                                                    Sector = a.Sector,
-                                                    Category = a.Category,
-                                                    Title = a.Title,
-                                                    SubTitle = a.SubTitle,
-                                                    Creator = a.Creator,
-                                                    CreatorName = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName,
-                                                    Region = a.Region,
-                                                    Country = a.Country,
-                                                    ImageUrl = a.ImageUrl,
-                                                    Source = a.Source,
-                                                    OriginalSource = a.OriginalSource,
-                                                    SourceUrl = a.SourceUrl,
-                                                    AdminCheck = a.AdminCheck,
-                                                    IsInfocus = a.IsInfocus,
-                                                    EditorPick = a.EditorPick,
-                                                    IsGlobal = a.IsGlobal,
-                                                    IsFifa = a.IsStandout,
-                                                    IsIndex = a.IsIndexed,
-                                                    CreatedOn = a.CreatedOn,
-                                                    WorkStage = a.WorkStage,
-                                                    ViewCount = a.ViewCount,
-                                                    ModifiedOn = a.ModifiedOn
-                                                });
-            if (string.IsNullOrWhiteSpace(text))
+            DateTime fifteenDay = DateTime.Today.AddDays(-5);
+            DateTime threeMonth = DateTime.Today.AddDays(-45);
+            IQueryable<NewsListView> devNews;
+            if (string.IsNullOrEmpty(text))
             {
-                devNews = devNews.Where(a => a.CreatedOn > fifteenDay);
+                devNews = (from a in _db.DevNews
+                           join dm in _db.DevNewsMetaDatas on a.Id equals dm.DevNewsId into devNewsMetaData
+                           from metadata in devNewsMetaData.DefaultIfEmpty()
+                           where a.Type == "News" && a.CreatedOn > threeMonth
+                           select new NewsListView
+                           {
+                               Id = a.Id,
+                               NewsId = a.NewsId,
+                               Label = a.NewsLabels,
+                               Sector = a.Sector,
+                               Category = a.Category,
+                               Title = a.Title,
+                               SubTitle = a.SubTitle,
+                               Creator = a.Creator,
+                               CreatorName = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName,
+                               Region = a.Region,
+                               Country = a.Country,
+                               ImageUrl = a.ImageUrl,
+                               Source = a.Source,
+                               SourceUrl = a.SourceUrl,
+                               AdminCheck = a.AdminCheck,
+                               IsInfocus = a.IsInfocus,
+                               EditorPick = a.EditorPick,
+                               IsGlobal = a.IsGlobal,
+                               IsFifa = a.IsStandout,
+                               IsIndex = a.IsIndexed,
+                               CreatedOn = a.CreatedOn,
+                               WorkStage = a.WorkStage,
+                               ViewCount = metadata == null ? 0 : metadata.Views,
+                               ModifiedOn = a.ModifiedOn,
+                               OriginalSource = a.OriginalSource
+                           });
             }
             else
             {
-                devNews = devNews.Where(a => a.CreatedOn > threeMonth && a.Title.ToUpper().Contains(text.ToUpper()));
+                devNews = (from a in _db.DevNews
+                           join dm in _db.DevNewsMetaDatas on a.Id equals dm.DevNewsId into devNewsMetaData
+                           from metadata in devNewsMetaData.DefaultIfEmpty()
+                           where a.Type == "News" && a.CreatedOn > fifteenDay
+                           && (a.Title.ToLower().Contains(text.ToLower()) || (a.AlternateHeadline != null && a.AlternateHeadline.ToLower().Contains(text.ToLower())))
+                           select new NewsListView
+                           {
+                               Id = a.Id,
+                               NewsId = a.NewsId,
+                               Label = a.NewsLabels,
+                               Sector = a.Sector,
+                               Category = a.Category,
+                               Title = a.Title,
+                               SubTitle = a.SubTitle,
+                               Creator = a.Creator,
+                               CreatorName = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName,
+                               Region = a.Region,
+                               Country = a.Country,
+                               ImageUrl = a.ImageUrl,
+                               Source = a.Source,
+                               SourceUrl = a.SourceUrl,
+                               AdminCheck = a.AdminCheck,
+                               IsInfocus = a.IsInfocus,
+                               EditorPick = a.EditorPick,
+                               IsGlobal = a.IsGlobal,
+                               IsFifa = a.IsStandout,
+                               IsIndex = a.IsIndexed,
+                               CreatedOn = a.CreatedOn,
+                               WorkStage = a.WorkStage,
+                               ViewCount = metadata == null ? 0 : metadata.Views,
+                               ModifiedOn = a.ModifiedOn,
+                               OriginalSource = a.OriginalSource
+                           });
             }
             if (label != "0")
             {
@@ -144,7 +178,7 @@ namespace DevDiscourse.Controllers.Main
             {
                 devNews = devNews.Where(a => a.Creator == uid);
             }
-            return View(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
+            return View(devNews.AsNoTracking().OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
         }
         public bool GetAutoAssignStatus()
         {
@@ -186,7 +220,38 @@ namespace DevDiscourse.Controllers.Main
             ViewBag.type = type;
             ViewBag.editorPick = editorPick;
             ViewBag.loginId = userManager.GetUserId(User);
-            var devNews = _db.DevNews.Where(a => a.Type == "Blog").Select(a => new NewsListView { Id = a.Id, NewsId = a.NewsId, Label = a.NewsLabels, Sector = a.Sector, Title = a.Title, SubTitle = a.SubType, Creator = a.Creator, CreatorName = a.Author, Region = a.Region, Country = a.Country, ImageUrl = a.ImageUrl, Source = a.Source, SourceUrl = a.SourceUrl, AdminCheck = a.AdminCheck, IsInfocus = a.IsInfocus, EditorPick = a.EditorPick, IsGlobal = a.IsGlobal, IsFifa = a.IsStandout, IsIndex = a.IsIndexed, CreatedOn = a.CreatedOn, WorkStage = a.WorkStage, ViewCount = a.ViewCount });
+            var devNews = (from a in _db.DevNews
+                           join dm in _db.DevNewsMetaDatas on a.Id equals dm.DevNewsId into devNewsMetaData
+                           from metadata in devNewsMetaData.DefaultIfEmpty()
+                           where a.Type == "Blog"
+                           select new NewsListView
+                           {
+                               Id = a.Id,
+                               NewsId = a.NewsId,
+                               Label = a.NewsLabels,
+                               Sector = a.Sector,
+                               Category = a.Category,
+                               Title = a.Title,
+                               SubTitle = a.SubTitle,
+                               Creator = a.Creator,
+                               CreatorName = a.ApplicationUsers.FirstName + " " + a.ApplicationUsers.LastName,
+                               Region = a.Region,
+                               Country = a.Country,
+                               ImageUrl = a.ImageUrl,
+                               Source = a.Source,
+                               SourceUrl = a.SourceUrl,
+                               AdminCheck = a.AdminCheck,
+                               IsInfocus = a.IsInfocus,
+                               EditorPick = a.EditorPick,
+                               IsGlobal = a.IsGlobal,
+                               IsFifa = a.IsStandout,
+                               IsIndex = a.IsIndexed,
+                               CreatedOn = a.CreatedOn,
+                               WorkStage = a.WorkStage,
+                               ViewCount = metadata == null ? 0 : metadata.Views,
+                               ModifiedOn = a.ModifiedOn,
+                               OriginalSource = a.OriginalSource
+                           });
             if (editorPick == true)
             {
                 devNews = devNews.Where(a => a.EditorPick == true);
@@ -246,7 +311,7 @@ namespace DevDiscourse.Controllers.Main
                 devNews = devNews.Where(a => a.Creator == uid);
             }
             devNews = devNews.Where(a => a.CreatedOn > DateTime.Today.AddDays(-28));
-            return View(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
+            return View(devNews.AsNoTracking().OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
         }
 
         // GET: DevNews/Details/5
@@ -2236,7 +2301,7 @@ namespace DevDiscourse.Controllers.Main
             {
                 devNews = devNews.Where(a => a.Creator == uid);
             }
-            return View(devNews.OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
+            return View(devNews.AsNoTracking().OrderByDescending(a => a.CreatedOn).ToPagedList((page ?? 1), 10));
         }
         static string GetMimeType(string fileName)
         {

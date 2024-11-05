@@ -1,6 +1,7 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
+using Devdiscourse.Models.ViewModel;
 using Devdiscourse.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -659,6 +660,32 @@ namespace Devdiscourse.Controllers.Research
             return Ok(1);
         }
 
+        [HttpGet("/news/{sector}")]
+        [OutputCache(Duration = 60, PolicyName = "MyOutputCachePolicy")]
+        public async Task<List<NewsViewModel>> News([FromRoute] string sector)
+        {
+            DateTime twoDays = DateTime.UtcNow.AddDays(-2);
+            var resultList = await db.RegionNewsRankings
+                .Where(dn => dn.DevNews.CreatedOn > twoDays &&
+                   dn.DevNews.AdminCheck == true &&
+                   dn.DevNews.Sector == sector &&
+                   dn.Region.Title == "Global Edition" &&
+                   dn.DevNews.IsSponsored != true
+              ).OrderByDescending(dn => dn.DevNews.CreatedOn).Take(30).Select(dn => new NewsViewModel
+              {
+                  NewsId = dn.DevNews.NewsId,
+                  Title = dn.DevNews.Title,
+                  ImageUrl = dn.DevNews.ImageUrl,
+                  CreatedOn = dn.DevNews.ModifiedOn,
+                  Subtitle = dn.DevNews.SubTitle,
+                  SubType = dn.DevNews.SubType,
+                  Country = dn.DevNews.Country,
+                  Sector = dn.DevNews.Sector,
+                  Label = dn.DevNews.NewsLabels,
+                  Ranking = dn.Ranking
+              }).AsNoTracking().ToListAsync();
+            return resultList.GroupBy(s => s.Title).Select(a => a.First()).OrderByDescending(a => a.Ranking).Take(6).ToList();
+        }
     }
 
     public class AiResponce

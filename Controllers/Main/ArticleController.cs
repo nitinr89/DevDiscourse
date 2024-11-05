@@ -90,7 +90,7 @@ namespace Devdiscourse.Controllers.Main
                 else
                     throw new HttpException(404, "Error 404");
             }
-            var search = await db.DevNews.Where(dn => dn.NewsId == id && dn.AdminCheck).FirstOrDefaultAsync();
+            var search = await db.DevNews.AsNoTracking().Where(dn => dn.NewsId == id && dn.AdminCheck).FirstOrDefaultAsync();
             if (search == null)
             {
                 throw new HttpException(404, "Error 404");
@@ -128,12 +128,11 @@ namespace Devdiscourse.Controllers.Main
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
             if (!isCrawler)
             {
-                //var geolocation = GetGeoLocation();
-                var geolocation = new GeoLocationViewModel();
+                var geolocation = GetGeoLocation();
                 var MACAddress = GetMACAddress();
                 ViewBag.publicIP = geolocation.IPv4;
                 ViewBag.MACAddress = MACAddress;
-                //await UpdateViewCount(search, geolocation, MACAddress);
+                await UpdateViewCount(search, geolocation, MACAddress);
             }
             string? cookie = Request.Cookies["Edition"];
             if (reg != "")
@@ -167,19 +166,20 @@ namespace Devdiscourse.Controllers.Main
         {
             GeoLocationViewModel location = new GeoLocationViewModel();
             string visitorIp = _ipAddressHelper.GetVisitorIp();
-            var json = "";
             try
             {
-                string Url = "https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572/" + visitorIp;
+                var json = "";
+                string Url = $"https://pro.ip-api.com/json/{visitorIp}?fields=query,country,city&key=DUmVyqfXtgPOLyL";
                 using (WebClient wc = new WebClient())
                 {
                     json = wc.DownloadString(Url);
                 }
                 var obj = JObject.Parse(json);
-                if (obj["country_name"] != null)
+                if (obj["country"] != null)
                 {
-                    location.country_name = (string)obj["country_name"];
-                    location.IPv4 = (string)obj["IPv4"];
+                    location.country_name = (string)obj["country"];
+                    location.city_name = (string)obj["city"];
+                    location.IPv4 = (string)obj["query"];
                 }
             }
             catch
@@ -190,22 +190,31 @@ namespace Devdiscourse.Controllers.Main
         }
         public async Task<string> UpdateViewCount(DevNews devNews, GeoLocationViewModel location, string? MACAddress)
         {
-            string sql = "UPDATE DevNews SET ViewCount = ViewCount + 1 WHERE NewsId = @id";
-            int affectedRows = await db.Database.ExecuteSqlRawAsync(sql, new SqlParameter("id", devNews.NewsId));
-            if (affectedRows > 0)
+            try
             {
+                int affectedRows = await db.Database.ExecuteSqlRawAsync(
+                               "UPDATE DevNewsMetaDatas SET Views = Views + 1 WHERE DevNewsId = @id", new SqlParameter("id", devNews.Id));
+                if (affectedRows != 1)
+                {
+                    await db.Database.ExecuteSqlRawAsync(
+                        "INSERT INTO DevNewsMetaDatas (DevNewsId, Views) VALUES (@id, 1)", new SqlParameter("id", devNews.Id));
+                }
                 db.TrendingNews.Add(new TrendingNews
                 {
                     NewsId = devNews.Id,
                     Ipv4 = location.IPv4,
                     Country = location.country_name,
+                    City = location.city_name,
                     ViewedOn = DateTime.UtcNow,
                     MacAddress = MACAddress
                 });
                 db.SaveChanges();
                 return "Ok";
             }
-            else return "Error";
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
         public async Task<ActionResult> Mobile(string prefix, long? id)
         {

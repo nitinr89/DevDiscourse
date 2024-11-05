@@ -83,19 +83,19 @@ namespace Devdiscourse.Controllers.API
         public IQueryable<NewsViewModel> GetSectorNews(string sector, string reg = "Global Edition", int page = 1)
         {
             var skipCount = (page - 1) * 20;
-            var region = (from c in db.Countries
-                          join r in db.Regions on c.RegionId equals r.Id
-                          where c.Title == reg
-                          select new
-                          {
-                              r.Title
-                          }).FirstOrDefault();
-            string regionTitle = "Global Edition";
-            var useRegion = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
+            //var region = (from c in db.Countries
+            //              join r in db.Regions on c.RegionId equals r.Id
+            //              where c.Title == reg
+            //              select new
+            //              {
+            //                  r.Title
+            //              }).FirstOrDefault();
+            //string regionTitle = "Global Edition";
+            //var useRegion = region != null && region.Title != null ? regionTitle = region.Title : regionTitle = reg;
 
             var result = db.RegionNewsRankings
                 .Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector
-                && a.Region.Title == useRegion
+                && a.Region.Title == reg
                 && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn)
                 .ThenByDescending(s => s.Ranking).Skip(skipCount)
                 .Select(a => new NewsViewModel
@@ -113,8 +113,8 @@ namespace Devdiscourse.Controllers.API
                 }).AsNoTracking().Take(10).ToList();
             //var result = db.DevNews.Where(a => a.AdminCheck == true && (a.Sector.Contains("," + sector + ",") || a.Sector.StartsWith("," + sector) || a.Sector.EndsWith(sector + ",") || a.Sector.Equals(sector)) && a.Region.Contains(reg)).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.CreatedOn, ImageUrl = a.ImageUrl, NewId = a.NewsId, Label = a.NewsLabels, Country = a.Country }).OrderByDescending(m => m.CreatedOn).Skip(skipCount).Take(20);
             return result.OrderByDescending(a => a.CreatedOn.Date).ThenByDescending(d => d.Ranking).AsQueryable();
-
         }
+
         [HttpGet]
         [Route("GetTagsNews/{tag}/{reg}/{page}")]
         [OutputCache(Duration = 60)]

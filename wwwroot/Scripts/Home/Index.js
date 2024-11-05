@@ -5,7 +5,7 @@
         document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
         window.location.href = $(this).find('option:selected').attr('data-to');
     });
-  
+
     GetNewsAlert();
     $('#opinion1').owlCarousel({
         items: 2,
@@ -42,9 +42,9 @@
 
     GetVideoNews();
 
-   
+
     function GetNewsAlert() {
-        var ApiDataUrl = "/api/Searchapi/GetNewsAlert";
+        var ApiDataUrl = "/api/Search/GetNewsAlert";
         $.getJSON(ApiDataUrl, function (data) {
             var alertHtml = '';
             $.each(data, function (i, item) {
@@ -58,7 +58,7 @@
     }
 
     function GetVideoNews() {
-        var ApiDataUrl = "/api/SearchApi/GetHomeVideoNews/" + encodeURI(_edition);
+        var ApiDataUrl = "/api/Search/GetHomeVideoNews/" + encodeURI(_edition);
         $.getJSON(ApiDataUrl, function (data) {
             var videohtml = '';
             $.each(data, function (i, item) {
@@ -67,17 +67,17 @@
                 var label = item.label != null ? item.label : "agency-wire";
                 videohtml += '<div class="item"><a href="/news/videos/' + slugUrl + '" title="' + item.title.split('"').join('') + '" class="text-decoration"><div class="news-card bg-gray lazy" data-src="' + newsImage + '?width=435&height=245&format=jpeg&mode=crop&quality=60"><div style="width:100%;height:100%;background-color:rgba(0,0,0,.3);padding:15px"><div class="media" style="bottom:15px;position:absolute"><div class="media-left"><div class="text-center" style="color: #fff; width: 40px; font-size: 17px; border: 2px solid #fff; border-radius: 50%; height: 40px; line-height: 40px; padding-left: 3px;"><span class="fa fa-play"></span></div></div><div class="media-body"><h3 class="no-margin" style="color:#fff;font-size:18px;line-height:1.26">' + item.title + '</h3></div></div></div></div></a></div>';
             });
-            
+
             $('#videoNews').html('<h2 class="section-title2"><span style="background-color:#f4f4f4">DevShots</span>' + '</h2><div id="videoCarousel" class="owl-carousel">' + videohtml + '</div>');
 
 
             $('.lazy').lazy();
 
-            
+
             $(document).find('#videoCarousel').owlCarousel({
                 items: 3,
                 nav: true,
-                dots:false,
+                dots: false,
                 margin: 45,
                 startPosition: '0',
                 autoplay: true,
@@ -105,7 +105,7 @@
                     }
                 }
             });
-            
+
             $("#videoCarousel .owl-prev").html('<span class="fa fa-angle-left"></span>');
             $("#videoCarousel .owl-next").html('<span class="fa fa-angle-right"></span>');
             $("#videoCarousel .owl-next").click(function () {
@@ -149,7 +149,7 @@
             }
         }
     });
-    
+
     $("#interviewCarousel .owl-prev").html('<span class="fa fa-angle-left"></span>');
     $("#interviewCarousel .owl-next").html('<span class="fa fa-angle-right"></span>');
     $("#interviewCarousel .owl-next").click(function () {

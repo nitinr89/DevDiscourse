@@ -794,13 +794,14 @@ namespace DevDiscourse.Controllers.API
                     DevNews newsObj = new DevNews
                     {
                         Title = obj.Title,
+                        AlternateHeadline = obj.AlternateHeadline,
                         SubTitle = obj.SubTitle,
                         Description = description,
                         Sector = sector,
                         Region = region,
                         Country = country,
                         NewsLabels = obj.NewsLabel,
-                        Source = "PTI",
+                        Source = obj.Source,
                         OriginalSource = "PTI",
                         Tags = obj.Tags,
                         AdminCheck = admCheck,
@@ -1125,13 +1126,14 @@ namespace DevDiscourse.Controllers.API
                     DevNews newsObj = new DevNews
                     {
                         Title = obj.Title,
+                        AlternateHeadline = obj.AlternateHeadline,
                         SubTitle = obj.SubTitle,
                         Description = description,
                         Sector = sector,
                         Region = region,
                         Country = country,
                         NewsLabels = obj.NewsLabel,
-                        Source = "ANI",
+                        Source = obj.Source,
                         OriginalSource = "ANI",
                         Tags = obj.Tags,
                         AdminCheck = admCheck,
@@ -1487,18 +1489,20 @@ namespace DevDiscourse.Controllers.API
                     DevNews newsObj = new DevNews
                     {
                         Title = obj.Title,
+                        AlternateHeadline = obj.AlternateHeadline,
                         SubTitle = obj.SubTitle,
                         Description = description,
                         Sector = obj.Sector,
                         Region = obj.Edition,
                         NewsLabels = obj.NewsLabel,
                         Country = obj.Country,
-                        Source = "Reuters",
+                        Source = obj.Source,
                         OriginalSource = "Reuters",
                         Tags = obj.Tags,
                         AdminCheck = admCheck,
                         IsGlobal = false,
                         ImageUrl = obj.ImageUrl,
+                        ImageCaption = obj.ImageCaption,
                         FileMimeType = "image/jpg",
                         FileSize = "88,651",
                         IsSponsored = false,
@@ -2102,16 +2106,16 @@ namespace DevDiscourse.Controllers.API
         public IActionResult GetPreviousSectorNews(long id, string sector, string reg = "Global Edition", int skip = 0)
         {
 
-            var regs = (from c in db.Countries
-                        join r in db.Regions on c.RegionId equals r.Id
-                        where c.Title == reg
-                        select new
-                        {
-                            r.Title
-                        }).FirstOrDefault();
-            string regionTitle = "Global Edition";
+            //var regs = (from c in db.Countries
+            //            join r in db.Regions on c.RegionId equals r.Id
+            //            where c.Title == reg
+            //            select new
+            //            {
+            //                r.Title
+            //            }).FirstOrDefault();
+            //string regionTitle = "Global Edition";
 
-            var region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
+            //var region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
 
             var search = db.DevNews.FirstOrDefault(a => a.NewsId == id);
             if (search == null) return NotFound();
@@ -2121,9 +2125,9 @@ namespace DevDiscourse.Controllers.API
             //var sectorIds = sector.Split(',').Select(int.Parse).ToList();
             //var newsList = db.DevNews.Where(a => a.SectorMapping.Any(ns => sectorIds.Contains(ns.SectorId)));
 
-            if (region != "Global Edition")
+            if (reg != "Global Edition")
             {
-                newsList = newsList.Where(a => a.Region.Contains(region));
+                newsList = newsList.Where(a => a.Region == reg);
             }
             newsList = newsList.OrderByDescending(o => o.CreatedOn).Skip(skip).Take(9);
             List<ApiNewsView> resultNewsList = new List<ApiNewsView>();

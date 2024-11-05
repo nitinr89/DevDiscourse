@@ -1,11 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using Devdiscourse.Data;
-using Devdiscourse.Models;
+﻿using Devdiscourse.Data;
 using Devdiscourse.Models.BasicModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

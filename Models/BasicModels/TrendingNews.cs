@@ -11,5 +11,6 @@ namespace Devdiscourse.Models.BasicModels
         public string? Ipv4 { get; set; }
         public string? MacAddress { get; set; }
         public string? Country { get; set; }
+        public string? City { get; set; }
     }
 }

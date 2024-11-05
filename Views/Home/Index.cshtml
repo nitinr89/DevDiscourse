@@ -407,8 +407,18 @@
         @await Component.InvokeAsync("Infocus", new { reg = edition })
     </cache>
 </div>
-<div class="video-container m-t-20 m-t-20">
-    <div id="videoNews" class="container"></div>
+<div class="video-container m-t-20 m-b-20">
+    <div class="container p-b-20">
+        <div class="text-center center-title font-oswald m-t-20">
+            <span><a href="/blogs" class="text-decoration" title="News Analysis">OPINION / BLOG</a></span>
+        </div>
+        <div class="m-t-20" id="opinion12">
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("Opinion", new { reg = edition })
+            </cache>
+        </div>
+        <a href="/blogs" class="pull-right read-more-btn m-t-20">View All</a>
+    </div>
 </div>
 <div class="container">
     <div class="row">
@@ -423,10 +433,10 @@
                 </cache>
             </div>
             <div class="m-t-20 m-b-20">
-                @{
-                    var motherNotPatientAd = isMobile == true ? "/images/Campaign/corona/COVID19_awareness.jpg" : "/images/Campaign/corona/COVID19_awareness_728x90.jpg";
+                @*  @{
+                var motherNotPatientAd = isMobile == true ? "/images/Campaign/corona/COVID19_awareness.jpg" : "/images/Campaign/corona/COVID19_awareness_728x90.jpg";
                 }
-                <a href="/coronavirus-awareness-campaign"><img src="~/Content/transparent.png" data-src="@motherNotPatientAd" class="img-responsive lazy m-b-20 center-block" alt="COVID-19 Awareness Campaign" /></a>
+                <a href="/coronavirus-awareness-campaign"><img src="~/Content/transparent.png" data-src="@motherNotPatientAd" class="img-responsive lazy m-b-20 center-block" alt="COVID-19 Awareness Campaign" /></a> *@
             </div>
         </div>
         <div class="clearfix col-sm-12 col-md-4">
@@ -442,18 +452,8 @@
         </div>
     </div>
 </div>
-<div class="video-container m-t-20 m-b-20">
-    <div class="container p-b-20">
-        <div class="text-center center-title font-oswald m-t-20">
-            <span><a href="/blogs" class="text-decoration" title="News Analysis">OPINION / BLOG</a></span>
-        </div>
-        <div class="m-t-20" id="opinion12">
-            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
-                @await Component.InvokeAsync("Opinion", new { reg = edition })
-            </cache>
-        </div>
-        <a href="/blogs" class="pull-right read-more-btn m-t-20">View All</a>
-    </div>
+<div class="video-container m-t-20 m-t-20">
+    <div id="videoNews" class="container"></div>
 </div>
 <div class="container m-t-10 m-b-20">
     <a href="https://www.devdiscourse.com/un-news" rel="noopener" title="UN News" target="_blank"><img data-src="/AdminFiles/Ads/Devdiscourse_UN_News_logo_728.jpg" src="/Content/transparent.png" alt="United Nations News" class="img-responsive lazy center-block" /></a>
@@ -708,5 +708,5 @@
         });
     </script>
     <script src="~/Scripts/breaking-news-ticker.min.js" async></script>
-    <script src="~/Scripts/Home/Index.min.js" async></script>
+    <script src="~/Scripts/Home/Index.js" async></script>
 }

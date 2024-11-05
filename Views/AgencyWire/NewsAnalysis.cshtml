@@ -209,7 +209,7 @@
                 window.location.href = $(this).find('option:selected').attr('data-to');
             });
             GetOpinion(); function GetOpinion() {
-                var ApiDataUrl = "/api/searchapi/GetAnalysis/" + _region + "/0"; $.getJSON(ApiDataUrl,
+                var ApiDataUrl = "/api/search/GetAnalysis/" + _region + "/0"; $.getJSON(ApiDataUrl,
                     function (data) {
                         var alertHtml = '';
                         $.each(data, function (i, item) {

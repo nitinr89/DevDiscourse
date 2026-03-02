@@ -1,0 +1,48 @@
+﻿@model Devdiscourse.Models.ExternalLoginListViewModel
+@using Microsoft.Owin.Security
+<style>
+    #Google {
+        background-color: #9b1d1d;
+        color:#fff;
+    }
+    #Facebook {
+        margin-left:10px;
+        background-color: #04326b;
+        color: #fff;
+    }
+        #Facebook:hover {
+            background-color: #031c3c;
+            color: #fff;
+        }
+        .socialicon.tw:hover{
+            background-color: #055286;
+        }
+
+        #Google:hover {
+            background-color: #6d0808;
+            color: #fff;
+        }
+</style>
+@{
+    // var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+    // if (loginProviders.Count() == 0) {
+    //     <div>
+    //         <p>
+    //             There are no external authentication services configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+    //             for details on setting up this ASP.NET application to support logging in via external services.
+    //         </p>
+    //     </div>
+    // }
+    // else {
+    //     using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
+    //         @Html.AntiForgeryToken()
+    //         <div id="socialLoginList">
+    //             <p class="text-center">
+    //                 @foreach (AuthenticationDescription p in loginProviders) {
+    //                     <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+    //                 }
+    //             </p>
+    //         </div>
+    //     }
+    // }
+}

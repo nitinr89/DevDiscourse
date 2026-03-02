@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "~/Views/Shared/_ampLayout.cshtml";
+    ViewBag.Title = "Devdiscourse News Desk";
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.PageDescription = "Daily News, International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/devdiscourse-stories";
+    ViewBag.pageKeywords = "News | Search";
+
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+@section headerScripts{
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+    <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+}
+    <div class="content">
+        <h2 class="page-title">
+            <span>Devdiscourse Stories</span>
+        </h2>
+        <amp-state id="newsState" src="@Url.Action("DevdiscourseAmpNews","PTI",new { moreItemsPageIndex = 1 })"></amp-state>
+        <amp-state id="news">
+            <script type="application/json">
+                {
+                "moreItemsPageIndex": 2,
+                "hasMorePages": true
+                }
+            </script>
+        </amp-state>
+        <amp-list src="@Url.Action("DevdiscourseAmpNews","PTI",new { moreItemsPageIndex = 1 })" [src]="newsState.items" width="auto" height="1000" [height]="newsState.items.length * 95" class="blogList">
+            <template type="amp-mustache">
+                <a href="{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+                    <div class="single-news-post">
+                        {{^defaultImage}}
+                        <div class="post-thumbnail">
+                            <amp-img src="{{ImageUrl}}?width=140&height=85&mode=crop" layout="responsive" width="140" alt="{{Title}}" height="85"></amp-img>
+                        </div>
+                        {{/defaultImage}}
+                        <div class="post-content">
+                            <h4 class="title">{{Title}}</h4>
+                            <p class="country">{{Country}}</p>
+                        </div>
+                    </div>
+                </a>
+            </template>
+        </amp-list>
+        <form method="GET"
+              action="@Url.Action("DevdiscourseAmpNews","PTI")"
+              action-xhr="@Url.Action("DevdiscourseAmpNews","PTI")"
+              target="_top"
+              on="submit-success: AMP.setState({
+              newsState: {
+                items: newsState.items.concat(event.response.items)
+              },
+              news: {
+                moreItemsPageIndex: news.moreItemsPageIndex + 1,
+                hasMorePages: event.response.hasMorePages
+              }
+            });">
+            <input type="hidden" name="moreItemsPageIndex" value="2" [value]="news.moreItemsPageIndex">
+            <button type="submit" title="Load More" class="load-btn show" [class]="(news.hasMorePages == false ? 'hide' : 'load-btn show')">Show more <span class="fa fa-chevron-circle-down"></span></button>
+        </form>
+    </div>

@@ -1,0 +1,414 @@
+	@{
+    ViewBag.Title = "Canada Gas & LNG Exhibition & Conference  | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/mediapartners/CGLNG22-CONTRA-BYS-300x100.png?width=1250&height=417";
+    ViewBag.PageDescription = "An event for the entire canadian & global lng value chain";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/CanadaGas";
+    ViewBag.pageKeywords = "The Canada Gas & LNG technologies, equipment, products and services.";
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+    }
+
+    .gard {
+        background-color: #2e2e2e;
+        background: linear-gradient(to bottom, #008ccf, #00adeb 30%, #5BDB94 69%, #5BDB94);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center top;
+        padding-top: 140px;
+        padding-bottom: 60px;
+        color: #67BC01;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .ev-date {
+        background-color: #fff;
+        color: #222;
+        padding: 3px 10px;
+        display: inline-block;
+    }
+
+    .why-abu {
+        color: #1A3965;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .fg-theme {
+        color: #e45914;
+    }
+
+    .btncss {
+        color: #fff;
+        background-color: #009EDF;
+        font-size: 24px;
+        font-weight: 500;
+        border: 0;
+        border-radius: 25px;
+        padding: 10px 45px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+
+    .btncss2 {
+        color: #1A3965;
+        background-color: #5BDB94;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 0px;
+        padding: 10px 20px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+
+    .btncss:hover {
+        color: #fff;
+        background-color: #41CEAC;
+    }
+
+    .news-container {
+        background-color: #e45914;
+        margin-top: 30px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+    .mid-container {
+        background-color: #1A3965;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .bg-white.p-t-20 {
+        padding: 0;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .f-40 {
+        font-size: 42px;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .text-five {
+            font-size: 200px;
+        }
+
+        .text-go-green {
+            font-size: 43px;
+        }
+
+        .remedies {
+            font-size: 18px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+
+
+        .media-partner {
+            text-align: center;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+
+        .f-40 {
+            font-size: 36px;
+        }
+
+        .f-20 {
+            font-size: 18px;
+        }
+
+        .gard {
+            padding: 0;
+            background-position: right;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .text-five {
+            font-size: 160px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-go-green {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .text-slogan {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .remedies {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+
+        .gard .media-left, .gard .media-body {
+            display: block;
+            width: 100%;
+        }
+
+        .gard .media-left {
+            padding-bottom: 20px;
+        }
+
+        .f-40 {
+            font-size: 30px;
+        }
+
+        .f-20 {
+            font-size: 16px;
+        }
+    }
+</style>
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Event",
+    "name": "Canada Gas & Lng Exhibition & Conference",
+    "startDate": "2022-05-10T09:00",
+    "endDate": "2022-05-12T14:00",
+    "location": {
+    "@@type": "Place",
+    "name": "Canada Gas & Lng Exhibition & Conference",
+    "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "Vancouver Convention Centre",
+    "addressLocality": "Vancouver Convention Centre, Vancouver",
+    "postalCode": "",
+    "addressRegion": "Vancouver",
+    "addressCountry": "Canada"
+    }
+    },
+    "image": [
+    "https://www.devdiscourse.com/images/mediapartners/canadagaslogo.png"
+    ],
+    "description": "The Canada Gas & LNG Exhibition provides a unique business opportunity for Canadian Gas & LNG stakeholders to meet the local and global energy value chain.",
+    "offers": {
+    "@@type": "Offer",
+    "url": "https://www.example.com/event_offer/12345_201803180430",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://canadagaslng.com/register/conference-registration/",
+    "validFrom": "2021-05-11T18:00"
+    }
+    }
+</script>
+
+<div class="gard">
+    <div class="container font-sans-serif fg-white p-t-50 p-b-20">
+        <div class="media">
+            <div class="media-body">
+                <p class="f-20">Devdiscourse is proud media partner of </p>
+                <h1 class="f-40">
+                    CANADA GAS & LNG<br />
+                    CONFERENCE AND EXHIBITION
+                </h1>
+                <p class="f-20">
+                    10th – 12th May 2022<br />
+                    Vancouver Convention Centre, Vancouver, Canada
+                </p>
+                <div class="p-t-20 m-t-50 m-b-30">
+                    <a href="https://canadagaslng.com/register/conference-registration/" target="_blank" class="btn btn-default btn-lg btncss">REGISTER NOW</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="https://canadagaslng.com/" target="_blank" class="linkBtn" title="Home">HOME</a>
+            </div>
+            <div class="item">
+                <a href="https://canadagaslng.com/about/about-cglng/" target="_blank" class="linkBtn" title="About">ABOUT</a>
+            </div>
+            <div class="item">
+                <a href="https://canadagaslng.com/exhibition/why-exhibit/" target="_blank" class="linkBtn" title="Exhibition">EXHIBITION</a>
+            </div>
+            <div class="item">
+                <a href="https://canadagaslng.com/sponsors/become-a-sponsor/" target="_blank" class="linkBtn" title="Sponsors">SPONSORS</a>
+            </div>
+            <div class="item">
+                <a href="https://canadagaslng.com/partnerships/partnership-opportunities/" target="_blank" class="linkBtn" title="Partnerships">PARTNERSHIPS</a>
+            </div>
+            <div class="item">
+                <a href="https://canadagaslng.com/news/reports-webinars/" target="_blank" class="linkBtn" title="News">NEWS</a>
+            </div>
+            <div class="item">
+                <a href="https://canadagaslng.com/contact-us/" target="_blank" class="linkBtn" title="Contact Us">CONTACT US</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+ 
+            <iframe width="500" height="300" src="https://www.youtube.com/embed/vn1SBoRGWE8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:100%;"></iframe>
+
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="why-abu font-sans-serif text-uppercase"><b>AN EVENT FOR THE ENTIRE CANADIAN & GLOBAL LNG VALUE CHAIN</b></div>
+            <div style="color:#1A58A1" class="content text-muted font-sans-serif f-16">
+                <p class="m-t-20">
+                    The Canada Gas & LNG Exhibition provides a unique business opportunity for Canadian Gas & LNG stakeholders to meet the local and global energy value chain, who will be showcasing the latest Natural Gas and LNG innovative technologies, equipment, products and services.
+                </p>
+                <a  href="https://canadagaslng.com/exhibition/why-exhibit/" target="_blank" class="btn btn-default btn-lg btncss2 m-b-20">FIND OUT MORE</a>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container">
+        <div class="p-t-30 container content-container">
+            <h2 class="font-sans-serif">EVENT NEWS</h2>
+            <div>
+                <div id="moreEventNews">
+                    @{ Html.RenderAction("EventNews", "Events", new { id = "2", skip = 0, take = 5 });}
+                </div>
+                <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+            </div>
+        </div>
+    </div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=1&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}
+

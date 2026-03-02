@@ -1,0 +1,359 @@
+﻿@{
+    ViewBag.Title = "Impact Mobility Hilton Mission Valley, San Diego | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/mediapartners/impactMobilityurl.jpg";
+    ViewBag.PageDescription = "Devdiscourse is proud media partner of Impact Mobility - North America's Most Comprehensive Mobility, Data & Commercial Strategy Conference";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/ImpactMobility";
+    ViewBag.pageKeywords = "Impact Mobility ,North America's Most Comprehensive Mobility, NOVEMBER 4-5, 2019 | HILTON MISSION VALLEY, SAN DIEGO";
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+    }
+
+    .gard {
+        background-color: #393a3c;
+        padding-top: 40px;
+        padding-bottom: 60px;
+        background-image: url('/images/mediapartners/mobilityImpbg.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: right;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .why-abu {
+        color: #0c0809;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .btncss {
+        background-color: #fff;
+        color: #0c0809;
+        font-size: 24px;
+        font-weight: 500;
+        border: 0;
+        border-radius: 0;
+        padding: 10px 45px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+
+        .btncss:hover {
+            background-color: #fff;
+            color: #ea1379;
+        }
+
+    .news-container {
+        padding-bottom: 30px;
+        color: #0c0809;
+    }
+
+    .mid-container {
+        background-color: #ffed00;
+        color: #0c0809;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .bg-white.p-t-20 {
+        padding: 0;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #0c0809;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif;
+        font-weight: bold;
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .f-40 {
+        font-size: 40px;
+        line-height: 1.4;
+        margin-top: 0;
+        letter-spacing: 1px;
+    }
+
+    .november-4-5 {
+        font-family: SegoeUI;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 1.34;
+        padding: 0 10px;
+        color: #111111;
+        background-color: #ffed00;
+        display: inline-block;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .text-five {
+            font-size: 200px;
+        }
+
+        .text-go-green {
+            font-size: 43px;
+        }
+
+        .remedies {
+            font-size: 18px;
+        }
+
+        .ev-date {
+            font-size: 20px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        .f-40 {
+            font-size: 35px;
+        }
+
+        .media-partner {
+            text-align: center;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .text-five {
+            font-size: 160px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-go-green {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .text-slogan {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .remedies {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+    }
+</style>
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Event",
+    "name": "Impact Mobility",
+    "startDate": "2019-11-04T18:00",
+    "endDate": "2019-11-05T22:00",
+    "location": {
+    "@@type": "Place",
+    "name": "Hilton Mission Valley",
+    "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "1Hilton Mission Valley",
+    "addressLocality": "Novotel City",
+    "postalCode": "E1 6PX",
+    "addressRegion": "London",
+    "addressCountry": "United Kingdom"
+    }
+    },
+    "image": [
+    "https://www.devdiscourse.com/images/mediapartners/impactMobilityurl.jpg"
+    ],
+    "description": "Mobility as a Service is set to revolutionise the sustainability efficiency and convenience of transportation systems.However, to make this a reality it is imperative that public and private stakeholders come together.",
+    "offers": {
+    "@@type": "Offer",
+    "url": "https://www.example.com/event_offer/12345_201803180430",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://events.impactconf.com/mobility-eu/",
+    "validFrom": "2019-11-04T12:00"
+    }
+    }
+</script>
+
+<div class="gard">
+    <div class="container p-b-20">
+        <div class="p-t-20 p-b-20 row">
+            <div class="col-xs-12">
+                <p class="f-18 m-t-30 fg-white text-center font-sans-serif">Devdiscourse is proud media partner of </p>
+                <img src="~/images/mediapartners/impact_mobilitymain.png" class="img-responsive center-block" />
+                <p class="f-18 m-t-30 fg-white text-center font-sans-serif">
+                    North America's Most Comprehensive Mobility,<br />
+                    Data & Commercial Strategy Conference
+                </p>
+            </div>
+        </div>
+
+        <div class="p-t-20 p-b-20 text-center">
+            <p class="november-4-5">NOVEMBER 4-5, 2019 | HILTON MISSION VALLEY, SAN DIEGO</p>
+        </div>
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+
+            <div class="item">
+                <a href="https://events.impactconf.com/mobility-usa/" target="_blank" class="linkBtn" title="Conference Home">CONFERENCE HOME</a>
+            </div>
+            <div class="item">
+                <a href="https://events.impactconf.com/mobility-usa/conference-agenda.php" target="_blank" class="linkBtn" title="Agenda">AGENDA</a>
+            </div>
+            <div class="item">
+                <a href="https://events.impactconf.com/mobility-usa/conference-speakers.php" target="_blank" class="linkBtn" title="Speakers">SPEAKERS</a>
+            </div>
+            <div class="item">
+                <a href="https://events.impactconf.com/mobility-usa/conference-attendees.php" target="_blank" class="linkBtn" title="Attendees">ATTENDEES</a>
+            </div>
+            <div class="item">
+                <a href="https://events.impactconf.com/mobility-usa/sponsor-index.php" target="_blank" class="linkBtn" title="Sponsors and Partners">SPONSORS AND PARTNERS</a>
+            </div>
+            <div class="item">
+                <a href="https://events.impactconf.com/mobility-usa/content-hub.php" target="_blank" class="linkBtn" title="Content">CONTENT</a>
+            </div>
+            <div class="item">
+                <a href="https://eloqua.impactconf.com/LP=24387?extsource=websitebd" target="_blank" class="linkBtn" title="Get Brochure">GET BROCHURE</a>
+            </div>
+            <div class="item">
+                <a href="https://events.impactconf.com/mobility-usa/register.php" target="_blank" class="linkBtn" title="Register">REGISTER</a>
+            </div>
+        </nav>
+    </div>
+</div>
+@*<div class="news-container" style="display:normal;">
+        <div class="p-t-30 container content-container">
+            <h2 class="font-sans-serif">EVENT NEWS</h2>
+            <div>
+                <div id="moreEventNews">
+                    @{ Html.RenderAction("EventNews", "Events", new { id = "2", skip = 0, take = 5 });}
+                </div>
+                <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+            </div>
+        </div>
+    </div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=1&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

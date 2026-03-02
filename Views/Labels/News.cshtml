@@ -1,0 +1,56 @@
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.ViewModel.PublisherView>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.ViewModel.PublisherView> model = Model;
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Devdiscourse News | News Breifings";
+    ViewBag.PageDescription = "Daily News, International Development News, Sustainable Development, Energy, Economy, Finance, Transport, Education, Digital Development,Industry, Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com";
+    ViewBag.pageKeywords = "Development news, International Breaking News, energy news,urban development news,transport news,economy news,finance news,sports news,art and culture news,education news,latest news,Agro-Forestry, Social Protection,Public Administration, Water and Sanitation, Health News";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<style>
+    .no-text-decoration {
+        text-decoration: none !important
+    }
+</style>
+<div class="container m-t-30">
+    @foreach (var item in Model)
+    {
+        <a href="/article/@item.GenerateSlug()" class="no-text-decoration">
+            <div class="globalDevelopmentCard">
+                <div class="media" title="@item.Title">
+                    <div class="media-left">
+                        <div class="image-card bg-gray" style="background-image:url(@item.ImageUrl?w=100&h=85&mode=crop),url(/AdminFiles/Logo/ic_notFound.png)"></div>
+                    </div>
+                    <div class="media-body">
+                        <div class="title fg-black hover-color" style="font-stretch:extra-condensed;line-height:1.1">@item.Title</div>
+                        <p class="one-line-text text-muted p-t-10">
+                            @if (!String.IsNullOrEmpty(item.Country))
+                            {
+                                @item.Country
+                            }
+                            else
+                            {
+                                var country = "Global";
+                                @country
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    }
+    <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
+        <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
+        @Html.PagedListPager(Model, page => Url.Action("News", "Labels", new { label = @ViewBag.label ,page }))
+    </div>
+</div>

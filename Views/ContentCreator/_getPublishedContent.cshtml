@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Devdiscourse.Models.ContributorModels.PublishView>
+<div class="text-title">Content List</div>
+@foreach (var item in Model)
+{
+    <div class="shadow bg-white">
+        <div class="row" style="padding:10px;">
+            <div class="col-sm-3 col-md-2">
+                @if (item.IsVideo == true)
+                {
+                    <img src="~/images/contibutor/video.svg" style="width:18px;" />
+                }
+                else
+                {
+                    <img src="~/images/contibutor/article.svg" style="width:18px;" />
+                }
+                <span class="text-primary" style="margin-left:10px;">@item.Creator</span>
+            </div>
+            <div class="col-sm-5 col-md-7 content-title">
+                <a href="@Url.Action("Details", "ContentCreator", new { id = item.NewsId })" style="color:#222;text-decoration:unset;">@item.Title</a>
+            </div>
+            <div class="col-sm-2 col-md-1">
+                @if (item.ViewCount > 0)
+                {
+                    @item.ViewCount <text>views</text>
+                }
+                else
+                {
+                    <text>0</text>
+                }
+            </div>
+            <div class="col-sm-2 col-md-2 text-right">
+                @item.CreatedOn.ToString("dd-MM-yyyy")
+            </div>
+        </div>
+    </div>
+}

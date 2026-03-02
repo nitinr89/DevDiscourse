@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "Training";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<link href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre|Oswald" rel="stylesheet">
+<style>
+    body {
+        background-color: #efefef;
+        font-family: 'Frank Ruhl Libre', serif;
+    }
+
+    .bg-orange {
+        background-color: #ff7b00;
+    }
+    .fg-orange{
+        color:#ff7b00;
+    } .no-margin {
+        margin: 0;
+    }
+    .gray-container {
+        background-color: #f9f9f9;
+        border-top: 2px solid #ff7b00;
+        border-bottom: 2px solid #ff7b00;
+    }
+    .avoid-para {
+        background-repeat: no-repeat;
+        background-image: url(/AdminFiles/avoid.svg);
+        min-height: 70px;
+        background-size: 60px;
+        padding: 10px 25px;
+        background-position: bottom left;
+    }
+    .bd-l {
+        border-left: 2px solid #ff7b00;
+        padding-left: 15px;
+    }
+    .font-oswald {
+        font-family: 'Oswald', sans-serif;
+    }
+    .order-list {
+        margin: 0 0 30px 0;
+        padding-left: 17px;
+        font-size: 17px;
+    }
+    .order-list li{
+        margin-top:10px;
+    }
+    .training p{
+        font-size:17px;
+    }
+    .steps p, .avoid-para {
+        font-weight: 600;
+        font-size: 15px;
+        color: #555;
+    }
+    .tag-title{
+        text-align:right;
+    }
+    body div + div.p-t-20 {
+        padding-top: 0 !important;
+        border-top: 1px solid #d9d7d7;
+    }
+    @@media (max-width: 992px){
+        .tag-title {
+            text-align: left;
+        }
+
+    }
+</style>
+<div class="container training">
+    <div class="bg-white p-20">
+        <div class="bg-orange p-10">
+            <h2 class="text-center font-oswald fg-white no-margin">GUIDELINES TO DO UPFRONTING</h2>
+        </div>
+        @*<h3 class="fg-orange font-oswald m-b-20">Upfronting Gap</h3>
+        <div class="row m-t-20 m-b-30">
+            <div class="col-md-4">
+                <p>While working on upfronting you need to maintain the specified time gap between the time of auto-publishing of the article and upfronting as per instructions.</p>
+                <p>For example: If an article is published at 12:00 and the upfronting gap you are asked to maintain is 10 minutes, you should not edit the article until 12:10.</p>
+            </div>
+            <div class="col-md-8">
+                <img src="~/AdminFiles/upfronting_gap_example.jpg" class="img-responsive" />
+            </div>
+        </div>
+        <div class="row m-t-20 m-b-20">
+            <div class="col-md-5">
+                <h3 class="fg-orange font-oswald m-b-20">Sequence</h3>
+                <p>While doing the up-fronting, please follow the logical sequence of sections as given in admin panel.</p>
+                <p>The sequence of doing up-fronting runs as below –</p>
+                <ol class="order-list">
+                    <li>Tags</li>
+                    <li>Content</li>
+                    <li>Location</li>
+                    <li>Sector/Label/Category</li>
+                    <li>Image</li>
+                    <li>Other Inputs</li>
+                    <li>Save</li>
+                </ol>
+                <img src="~/AdminFiles/quick_tip.svg" class="img-responsive" />
+            </div>
+            <div class="col-md-7">
+                <img src="~/AdminFiles/steps.gif" class="img-responsive" />
+            </div>
+        </div>*@
+    </div>
+    @*<div class="gray-container p-20">
+        <div class="row">
+            <div class="col-md-7">
+                <img src="~/AdminFiles/tags.gif" class="img-responsive" />
+            </div>
+            <div class="col-md-5">
+                <h3 class="fg-orange tag-title font-oswald m-b-20">Tags</h3>
+                <p class="text-justify">The listed tags are drawn from content of the story and trending words from our own database. While doing up-fronting you need to ensure that the words are clear and without any of the erratic symbols such as given below:</p>
+                <p class="m-t-20 text-justify">!  "  #  $  %  &  '  ()  *  +  ,  -  .  /  :  ;  <  =  >  ?  @@  [  \  ]  ^  _  `  {  |  }  ~</p>
+            </div>
+        </div>
+    </div>*@
+    <div class="bg-white p-20">
+        @*<h3 class="fg-orange font-oswald m-b-20">Title</h3>
+        <p class="bd-l">Use skimming or scanning style of reading to get the essence of story quickly.</p>
+        <div class="row p-20 steps">
+            <div class="col-md-3">
+                <p>Skimming is a strategic, selective reading method in which you focus on extracting the essence of the article’s main messages rather than the finer points.</p>
+            </div>
+            <div class="col-md-3">
+                <p>Initial paragraphs contain most information about the essence of the article.</p>
+            </div>
+            <div class="col-md-3">
+                <p>Look for important pieces of information, such as names, dates, events and quotes.</p>
+            </div>
+            <div class="col-md-3">
+                <p>Read the beginning and ending of paragraphs carefully to ensure the flow of article is appropriate and meaningful.</p>
+            </div>
+        </div>
+        <p class="bd-l">Rewrite a completely new headline with appealing keywords and proper grammar.</p>
+        <p class="bd-l">Wherever possible, use unique information which is not originally present in the title but is important to the crux of article.</p>
+        <p class="bd-l">The purpose is to ensure good Google indexing (If searched with the rewritten title, our article should be among the top results).</p>
+        <p class="bd-l">Title is among the most important aspect of SEO friendliness of an article and if these guidelines are properly followed, it will ensure good indexing.</p>
+        <h3 class="fg-orange font-oswald m-t-30 m-b-20">What to avoid</h3>
+        <div class="row m-t-20 m-b-20 p-l-r-20">
+            <div class="col-md-3">
+                <p class="avoid-para">Minor changes like just using synonyms or only altering names</p>
+            </div>
+            <div class="col-md-3">
+                <p class="avoid-para">Just reshaping the original title by shuffling a couple of words</p>
+            </div>
+            <div class="col-md-3">
+                <p class="avoid-para">Prolonging the original title by adding few words </p>
+            </div>
+            <div class="col-md-3">
+                <p class="avoid-para">Grammatical mistakes</p>
+            </div>
+        </div>*@
+        <div class="row m-t-20 m-b-20">
+            <div class="col-md-12">
+                <h3 class="fg-orange font-oswald m-b-20">Title</h3>
+                <div class="bd-l">
+                    <ul class="list-unstyled">
+                        <li>Correct the mistakes, if any, in the title of the story.</li>
+                        <li>There won't be much cases of errors in the titles but there might be some cases with incomplete titles.</li>
+                    </ul>
+                </div>
+                
+                <p>
+                    If there are no mistakes in the title there is no need to make any changes.'
+                </p>
+            </div>
+            <div class="col-md-5">
+                <h3 class="fg-orange font-oswald m-b-20">Summary</h3>
+                <p class="bd-l">Quickly proofread (use skimming or scanning style of reading) the article for any errors. (Use Chrome’s ‘Grammarly’ extension to ensure articles there are no spelling mistakes or grammatical mistakes)</p>
+                <p class="bd-l">Ensure that the articles are in American English (with the help of Grammarly), set your Grammarly to American English as well.</p>
+
+            </div>
+            <div class="col-md-7 p-t-20">
+                <img src="~/AdminFiles/grammarly.gif" class="img-responsive" />
+            </div>
+        </div>
+        <h3 class="fg-orange font-oswald m-b-20">Location</h3>
+        <p class="bd-l">Mark appropriate Region, Country and write the appropriate city name according to the Country.</p>
+        <h3 class="fg-orange font-oswald m-b-20">Sector/Label/Category</h3>
+        <p class="bd-l">Mark the appropriate sector. No need to mark categories</p>
+        <h3 class="fg-orange font-oswald m-b-20">Image</h3>
+        <p class="bd-l">Pick appropriate image from our own image gallery or use copyright-free images.</p>
+        <p class="bd-l">Images can be also picked from OFFICIAL social media handles.</p>
+     
+        <p class="bd-l">You need to give proper credits if images are taken from any other source other than our gallery.</p>
+        <div class="row m-b-20 m-t-30">
+            <div class="col-md-6">
+                <p class="fg-orange">Format - Image Credit: Source</p>
+                <p class="no-margin">Example</p>
+                <img src="~/AdminFiles/image_credit_example_1.jpg" class="img-responsive" />
+            </div>
+            <div class="col-md-6">
+                <p class="fg-orange">In case of Twitter images – Image Credit: Twitter(@@handle)</p>
+                <p class="no-margin">Example</p>
+                <img src="~/AdminFiles/image_credit_example_2.jpg" class="img-responsive" />
+            </div>
+        </div>
+        
+        <p class="bd-l">Click ‘Save’.</p>
+    </div>
+    </div>
+
+

@@ -1,0 +1,228 @@
+﻿@model Devdiscourse.Models.ContributorModels.Content
+@{
+    ViewBag.Title = "Contribute - Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse is World's leading website for International Development News. Get Breaking News on Politics, Business, Technology, Science, Health, Education and Entertainment.";
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/contribute";
+    ViewBag.pageKeywords = "Development news, Current news, live news, international news in english, latest top news, India news, Africa news, daily news, world news, latest news today, online news, sports news, politics news, health news, science news, technology news, energy news, urban development news, transport news, economy news, finance news, sports news, art and culture news, education news, sports news, Agro-Forestry, social gender, Public Administration, Water and Sanitation";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+<link href="~/Content/contribute.css" rel="stylesheet" />
+<style>
+    label{
+        text-align:right;
+    }
+    .badge {
+        font-weight: 500;
+        background-color: #0073c4;
+    }
+</style>
+<div class="container p-b-20">
+    <div class="left-panel">
+        <div class="icon-cont bg-primary">
+            <a href="@Url.Action("Create", "ContentCreator")">
+                <img src="~/images/contibutor/plus_white.svg" class="icon" />
+                <div class="fg-white text-center">Create</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white m-t-10">
+            <a href="@Url.Action("Index", "ContentCreator")">
+                <img src="~/images/contibutor/dashboard_line.svg" class="icon" />
+                <div class="text-center">Dashboard</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Drafted", "ContentCreator")">
+                <img src="~/images/contibutor/draft_line.svg" class="icon" />
+                <div class="text-center">Draft</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Pending", "ContentCreator")">
+                <img src="~/images/contibutor/pending_line.svg" class="icon" />
+                <div class="text-center">Pending Review</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Published", "ContentCreator")">
+                <img src="~/images/contibutor/publish_line.svg" class="icon" />
+                <div class="text-center">Published</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Rejected", "ContentCreator")">
+                <img src="~/images/contibutor/cannot_line.svg" class="icon" />
+                <div class="text-center">Cannot Publish</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white m-t-10" id="keyInst" style="cursor:pointer">
+            <img src="~/images/contibutor/key_instr_line.svg" id="instruction" class="icon" />
+            <div class="text-center">
+                Key Instructions
+            </div>
+        </div>
+        <div class="icon-cont bg-white m-t-10">
+            <a href="@Url.Action("Earnings", "ContentCreator")">
+                <img src="~/images/contibutor/earnings.svg" class="icon" />
+                <div class="text-center">Earnings</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Settings", "ContentCreator")">
+                <img src="~/images/contibutor/setting.svg" class="icon" />
+                <div class="text-center">Payment Settings</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("History", "ContentCreator")">
+                <img src="~/images/contibutor/history.svg" class="icon" />
+                <div class="text-center">Payment History</div>
+            </a>
+        </div>
+    </div>
+    <div class="main">        
+        <div class="bg-white p-20">            
+            @if (Model.ContentStatus == Devdiscourse.Models.ContributorModels.ContentStage.Pending)
+            {
+                <a href="@Url.Action("Pending", "ContentCreator")" class="btn btn-blue" style="text-decoration:none;"><img src="~/images/contibutor/arrow-left-white.svg" style="width:18px;margin-top:-3px;" /> Back</a>
+            }
+            else if (Model.ContentStatus == Devdiscourse.Models.ContributorModels.ContentStage.Reject)
+            {
+                <a href="@Url.Action("Rejected", "ContentCreator")" class="btn btn-blue" style="text-decoration:none;"><img src="~/images/contibutor/arrow-left-white.svg" style="width:18px;margin-top:-3px;" /> Back</a>
+            }
+            else
+            {
+                <button onclick="window.history.back()" class="btn btn-blue" style="text-decoration:none;"><img src="~/images/contibutor/arrow-left-white.svg" style="width:18px;margin-top:-3px;" /> Back</button>
+            }
+            <div class="row m-t-20">
+                <label class="col-md-2 control-label">Title</label>
+                <div class="col-md-10">@Model.Title</div>
+            </div>
+            <div class="row m-t-10">
+                <label class="col-md-2 control-label">Sub-Title</label>
+                <div class="col-md-10">@Model.SubTitle</div>
+            </div>
+            <div class="row m-t-10">
+                <label class="col-md-2 control-label">Description</label>
+                <div class="col-md-10">@Html.Raw(Model.Description)</div>
+            </div>
+            <div class="row m-t-10">
+                <label class="col-md-2 control-label">Region</label>
+                <div class="col-md-10">@Model.Region</div>
+            </div>
+            <div class="row m-t-10">
+                <label class="col-md-2 control-label">Country</label>
+                <div class="col-md-10">
+                    @if (!String.IsNullOrEmpty(Model.Country))
+                    {
+                        var country = Model.Country.Split(',');
+                        foreach (var coun in country)
+                        {
+                            <span class="badge">@coun</span>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row m-t-10">
+                <label class="col-md-2 control-label">News Label</label>
+                <div class="col-md-10">@Model.NewsLabels</div>
+            </div>
+            <div class="row m-t-10">
+                <label class="col-md-2 control-label">Author Name</label>
+                <div class="col-md-10">@Model.Source</div>
+            </div>
+            <div class="row m-t-10">
+                <label class="col-md-2 control-label">Image</label>
+                <div class="col-md-10">
+                    <img src="@Model.ImageUrl" style="width:150px;height:150px;" class="img-responsive" />
+                </div>
+            </div>
+            <div class="row m-t-10">
+                <label class="col-md-2 control-label">Image Copyright</label>
+                <div class="col-md-10">@Model.ImageCopyright</div>
+            </div>
+            @if (!String.IsNullOrEmpty(Model.VideoUrl))
+            {
+                <div class="row m-t-10">
+                    <label class="col-md-2 control-label">Video</label>
+                    <div class="col-md-10">
+                        <video src="@Model.VideoUrl" controls></video>
+                    </div>
+                </div>
+            }
+            <div class="row m-t-10">
+                <label class="col-md-2 control-label">Tags</label>
+                <div class="col-md-10">
+                    @if (!String.IsNullOrEmpty(Model.Tags))
+                    {
+                        var tag = Model.Tags.Split(',');
+                        foreach (var t in tag)
+                        {
+                            <span class="badge">@t</span>
+                        }
+                    }
+                </div>
+            </div>
+            @if (Model.ContentStatus == Devdiscourse.Models.ContributorModels.ContentStage.Reject)
+            {
+                <div class="row m-t-10">
+                    <label class="col-md-2 control-label">Reason of Reject</label>
+                    <div class="col-md-10">@Model.ReasonofReject</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="instModel" tabindex="-1" role="dialog" style="z-index:700000">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="crossbtn"><img src="/images/contibutor/cross.svg" id="cancelInst" style="height:55px;cursor:pointer;" /></div>
+            <div class="modal-body">
+                <div class="media">
+                    <div class="media-left">
+                        <div style="width:110px;height:110px">
+                            <img src="/images/contibutor/key-instruction.svg" style="height:100px" />
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <div class="inst-title">KEY INSTRUCTIONS</div>
+                    </div>
+                </div>
+                <div class="p-t-20">
+                    <p style="font-size:16px;font-weight:500">Please note that Devdiscourse editorial team reserves the right to publish or reject any post. The following are automatic red flags, and will result in the post being rejected without any explanation:</p>
+                    <ol style="font-size: 16px; padding: 15px;">
+                        <li>The post is plagiarized from anywhere (this will also lead to a permanent ban).</li>
+                        <li>The post is a rehash of a piece from any other publication.</li>
+                        <li>The article is shorter than 300 words.</li>
+                        <li>The article is in a language other than English.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#writeLink').addClass('active');
+            // Instruction Dialog Code
+            $('#keyInst').click(function () {
+                $('#instModel').modal('show');
+                $("#instruction").attr("src", "/images/contibutor/key_instr_fill.svg");
+            });
+            $('#cancelInst').click(function () {
+                $('#instModel').modal('hide');
+                $("#instruction").attr("src", "/images/contibutor/key_instr_line.svg");
+            });
+        });
+    </script>
+}
+
+
+
+

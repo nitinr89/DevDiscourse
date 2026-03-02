@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.UserView>
+<style>
+    .checklistContainer {
+        width: 100% !important;
+    }
+
+    .checklist {
+        width: 100% !important;
+    }
+
+    .findInList input {
+        width: 100% !important;
+    }
+</style>
+<div class="bg-white m-t-10 detailsView p-20 m-b-20" id="editView" style="display:none;">
+    <div class="row">
+        <div class="col-xs-12">
+            <span class="f-16">Edit Profile</span>
+            <span class="pull-right fa fa-times cursor-pointer" id="closeBtn"></span>
+        </div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="row m-t-20">
+            <div class="col-xs-12 col-sm-6">
+                <label>First Name</label>
+                <input type="text" class="form-control" id="fname" value="@item.FirstName" />
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <label>Last Name</label>
+                <input type="text" class="form-control" id="lname" value="@item.LastName" />
+            </div>
+        </div>
+        <div class="row m-t-10">
+            <div class="col-xs-12">
+                <label>About Me</label>
+                <textarea class="form-control" id="aboutme" style="height:100px;">@item.AboutMe</textarea>
+            </div>
+        </div>
+        <div class="row m-t-10">
+            <div class="col-xs-12 col-sm-6">
+                <label>Address</label>
+                <input type="text" class="form-control" id="address" value="@item.Address" />
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <label>Country</label>
+                <input type="text" class="form-control" id="country" value="@item.Country" />
+            </div>
+        </div>
+        <div class="row m-t-10">
+            <div class="col-xs-12 col-sm-6">
+                <label>Contact</label>
+                <input type="text" class="form-control" id="contact" value="@item.Contact" />
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <label>Email</label>
+                <input type="text" class="form-control" id="email" value="@item.Email" />
+            </div>
+        </div>
+        <div class="row m-t-10">
+            <div class="col-xs-12">
+                <label>Profile</label>
+                <input type="file" class="form-control" id="fileUpload" />
+            </div>
+        </div>
+    }
+    <div class="row m-t-10">
+        <div class="col-xs-12">
+            <button type="button" class="btn" style="color:white;background-color:#ff9c46" id="saveProfile">Save</button>
+        </div>
+    </div>
+</div>
+<div class="bg-white p-20">
+    <button type="button" class="btn btn-sm" id="editBtn" style="position:absolute;right:30px;"><span class="fa fa-pencil"></span> Edit</button>
+    @foreach (var item in Model)
+    {
+        <div id="ProfileImage">
+            <img class="img-responsive img-circle center-block" alt="User Profile Pic" style="width:160px;height:160px;" src="@item.ProfilePic">
+        </div>
+        <h4 class="text-center">
+            @item.FirstName @item.LastName
+        </h4>
+        <h5 class="m-t-10"><span class="media-left" style="width:80px;">About me : </span><span class="media-right">@item.AboutMe</span></h5>
+        <h5 class="m-t-10">Contact : @item.Contact</h5>
+        <h5 class="m-t-10">Address : @item.Address</h5>
+        <h5 class="m-t-10">Country : @item.Country</h5>
+        <h5 class="m-t-10">Email : @item.Email</h5>
+    }
+</div>
+<div class="bg-white m-t-10 p-20">
+    <button type="button" class="btn btn-sm" id="addInterest" style="position:absolute;right:30px;"><span class="fa fa-plus-circle"></span> Add Interest</button>
+    <h4>Your Interest</h4>
+    <div class="m-t-20" id="showInterest">
+        @*  @{
+        Html.RenderAction("GetInterest", "Home");
+        } *@
+        @await Component.InvokeAsync("Interest")
+    </div>
+</div>
+<div class="bg-white m-t-10 detailsView p-20" id="interestView" style="display:none;">
+    <div class="row">
+        <div class="col-xs-12">
+            <span class="f-16">Create Your Interest</span>
+            <span class="pull-right fa fa-times cursor-pointer" id="closeView"></span>
+        </div>
+    </div>
+    <div class="row m-t-20">
+        <div class="col-xs-12">
+            <input type="text" class="form-control hidden" id="UserSector" />
+            <select class="form-control" multiple="multiple" id="UserSector_multi" style="height:330px;">
+                @foreach (var item in ViewBag.sector)
+                {
+                    <option value="@item.Id">@item.Title</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row m-t-10">
+        <div class="col-xs-12">
+            <button type="button" class="btn btn-primary" id="createInterest">Create</button>
+        </div>
+    </div>
+</div>

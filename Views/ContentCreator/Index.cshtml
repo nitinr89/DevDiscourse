@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "Contribute - Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Devdiscourse is World's leading website for International Development News. Get Breaking News on Politics, Business, Technology, Science, Health, Education and Entertainment.";
+    ViewBag.webEdition = ViewBag.edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/contribute";
+    ViewBag.pageKeywords = "Development news, Current news, live news, international news in english, latest top news, India news, Africa news, daily news, world news, latest news today, online news, sports news, politics news, health news, science news, technology news, energy news, urban development news, transport news, economy news, finance news, sports news, art and culture news, education news, sports news, Agro-Forestry, social gender, Public Administration, Water and Sanitation";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+<link href="~/Content/contribute.css" rel="stylesheet" />
+<div class="container p-b-20">
+    <div class="left-panel">
+        <div class="icon-cont bg-primary">
+            <a href="@Url.Action("Create", "ContentCreator")">
+                <img src="~/images/contibutor/plus_white.svg" class="icon" />
+                <div class="fg-white text-center">Create</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white m-t-10">
+            <a href="@Url.Action("Index", "ContentCreator")">
+                <img src="/images/contibutor/dashboard_fill.svg" class="icon" />
+                <div class="text-center">Dashboard</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Drafted", "ContentCreator")">
+                <img src="~/images/contibutor/draft_line.svg" class="icon" />
+                <div class="text-center">Draft</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Pending", "ContentCreator")">
+                <img src="~/images/contibutor/pending_line.svg" class="icon" />
+                <div class="text-center">Pending Review</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Published", "ContentCreator")">
+                <img src="~/images/contibutor/publish_line.svg" class="icon" />
+                <div class="text-center">Published</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Rejected", "ContentCreator")">
+                <img src="~/images/contibutor/cannot_line.svg" class="icon" />
+                <div class="text-center">Cannot Publish</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white m-t-10" id="keyInst" style="cursor:pointer">
+            <img src="~/images/contibutor/key_instr_line.svg" id="instruction" class="icon" />
+            <div class="text-center">
+                Key Instructions
+            </div>
+        </div>
+        @*<div class="icon-cont bg-white m-t-10">
+            <a href="@Url.Action("Earnings", "ContentCreator")">
+                <img src="~/images/contibutor/earnings.svg" class="icon" />
+                <div class="text-center">Earnings</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("Settings", "ContentCreator")">
+                <img src="~/images/contibutor/setting.svg" class="icon" />
+                <div class="text-center">Payment Settings</div>
+            </a>
+        </div>
+        <div class="icon-cont bg-white">
+            <a href="@Url.Action("History", "ContentCreator")">
+                <img src="~/images/contibutor/history.svg" class="icon" />
+                <div class="text-center">Payment History</div>
+            </a>
+        </div>*@
+    </div>
+    <div class="main">
+        <h3 class="title no-margin">Hi, @ViewBag.userName</h3>
+        <p><small>welcome to your dashboard</small></p>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboard-card" style="background-image:url(/images/contibutor/published.jpg)">
+                    <img src="/images/contibutor/check_white.svg" class="icon" height="20" />
+                    <p class="fg-white p-t-5">Stories Published</p>
+                    <div class="fg-white stat-count">@ViewBag.publish</div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboard-card" style="background-image:url(/images/contibutor/draft.jpg)">
+                    <img src="/images/contibutor/pencil_white.svg" class="icon" height="20" />
+                    <p class="fg-white p-t-5">Draft Stories</p>
+                    <div class="fg-white stat-count">@ViewBag.draft</div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboard-card" style="background-image:url(/images/contibutor/review_pending.jpg)">
+                    <img src="/images/contibutor/pending_white.svg" class="icon" height="20" />
+                    <p class="fg-white p-t-5">Pending Review</p>
+                    <div class="fg-white stat-count">@ViewBag.pending</div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboard-card" style="background-image:url(/images/contibutor/cant_publish.jpg)">
+                    <img src="/images/contibutor/cross_white.svg" class="icon" height="20" />
+                    <p class="fg-white p-t-5">Cannot Publish</p>
+                    <div class="fg-white stat-count">@ViewBag.reject</div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-20">
+            <div class="col-md-5">
+                <div class="dashboard-card" style="min-height:135px;">
+                    <p class="no-margin">Total Views</p>                    
+                    <div class="fg-black stat-count" style="margin-top:40px;"><b>@ViewBag.totalViews</b><img src="~/images/contibutor/trends.svg" class="pull-right" height="32" /></div>
+                </div>
+            </div>
+            @if (ViewBag.trending != null)
+            {
+                <div class="col-md-7">
+                    <div class="dashboard-card" style="min-height:135px;">
+                        <div class="overlay">
+                            <p class="no-margin">Trending</p>
+                            <a href="@Url.Action("ContentDetails", "ContentCreator", new { id = ViewBag.trending.Contents.GenerateSlug() })"><p>@ViewBag.trending.Contents.Title</p></a>
+                            <div class="fg-black stat-count"><b>@ViewBag.trending.ViewCount</b> <img src="~/images/contibutor/bar_chart.svg" class="pull-right" height="32" /></div>
+                        </div>
+                    </div>
+                </div>
+            } 
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="instModel" tabindex="-1" role="dialog" style="z-index:700000">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="crossbtn"><img src="/images/contibutor/cross.svg" id="cancelInst" /></div>
+            <div class="modal-body">
+                <div class="media">
+                    <div class="media-left">
+                        <div style="width:110px;height:110px">
+                            <img src="/images/contibutor/key-instruction.svg" style="height:100px" />
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <div class="inst-title">KEY INSTRUCTIONS</div>
+                    </div>
+                </div>
+                <div class="p-t-20">
+                    <p style="font-size:16px;font-weight:500">Please note that Devdiscourse editorial team reserves the right to publish or reject any post. The following are automatic red flags, and will result in the post being rejected without any explanation:</p>
+                    <ol style="font-size: 16px; padding: 15px;">
+                        <li>The post is plagiarized from anywhere (this will also lead to a permanent ban).</li>
+                        <li>The post is a rehash of a piece from any other publication.</li>
+                        <li>The article is shorter than 300 words.</li>
+                        <li>The article is in a language other than English.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // Active Menu Icon
+            $(document).find('.linkBtn').removeClass('active');
+            $(document).find('#writeLink').addClass('active');
+            // Instruction Dialog Code
+            $('#keyInst').click(function () {
+                $('#instModel').modal('show');
+                $("#instruction").attr("src", "/images/contibutor/key_instr_fill.svg");
+            });
+            $('#cancelInst').click(function () {
+                $('#instModel').modal('hide');
+                $("#instruction").attr("src", "/images/contibutor/key_instr_line.svg");
+            });
+        });
+    </script>
+}

@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "Devdiscourse Online Media Internship Program";
+}
+<style>
+    .renderBody {
+        margin-top: 20px;
+    }
+
+    .main-cont p, .main-cont ul, .main-cont ol {
+        font-size: 24px;
+        margin-bottom: 20px
+    }
+
+        .main-cont ul li, .main-cont ol li {
+            padding-left: 25px;
+            margin-top: 10px
+        }
+
+    .internship_search {
+        width: 400px;
+    }
+
+    .real_time_collaboration {
+        width: 280px
+    }
+
+    .list-ic img {
+        height: 20px;
+        vertical-align: baseline;
+        margin-right: 10px;
+    }
+
+    .list-ic li {
+        padding-right: 35px;
+    }
+
+    body, .section-title2 span {
+        background-color: #f9f9f9
+    }
+
+    .bg-white.p-t-20 {
+        padding-top: 0;
+    }
+
+    .internship-card {
+        box-shadow: 0 3px 6px 0 rgba(122, 122, 122, 0.16);
+        background-color: #fffefe;
+        padding: 5px;
+    }
+
+    .b-b-2 {
+        border-bottom: 2px solid #cfcfcf;
+    }
+
+    .fg-orange {
+        color: #ff6a00
+    }
+
+    .degree_img {
+        max-height: 200px;
+    }
+
+    .dividion {
+        width: 50%;
+        max-width: 100%;
+        margin: 10px auto 20px auto;
+        border-bottom: 2px solid #eee;
+    }
+
+    @@media(max-width:1440px) {
+        .renderBody {
+            margin-top: 10px;
+        }
+    }
+
+    @@media(max-width:768px) {
+        .renderBody {
+            margin-top: -20px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .renderBody {
+            margin-top: -10px;
+        }
+    }
+</style>
+<img src="~/AdminFiles/internship/Internship.jpg" class="img-responsive" />
+<div class="container main-cont">
+    @*<h1 class="section-title2">
+    <span>A Global Gateway for International Development News</span>
+    </h1>*@
+    <div class="row">
+        <div class="col-md-6 col-md-push-6">
+            <p class="p-5 m-t-20">
+                Devdiscourse, one of the largest global development news platform, invites applications for internships from highly motivated graduates/students of journalism/mass communication.
+            </p>
+            <p class="p-5">
+                Under the close supervision of senior editors and domain experts, the interns will be offered full freedom to explore their areas of interest from a professional perspective.
+            </p>
+        </div>
+        <div class="col-md-6 col-md-pull-6">
+            <img src="~/AdminFiles/internship/internship_search.svg" class="img-responsive internship_search center-block" />
+        </div>
+    </div>
+    <div class="text-center p-t-20">
+        <h3 class="m-b-30">If you think it’s your cup of tea, you are just a click away! </h3>
+        <a href="@Url.Action("InternshipRegister","Account")" class="btn btn-primary btn-lg p-l-r-20"> APPLY </a>
+    </div>
+    <h2 class="section-title2">
+        <span>When to apply?</span>
+    </h2>
+    <p>
+        The internship has been kept highly flexible to accommodate potential interns from various nations and continents. Here you can apply as per your convenience as interns are shortlisted on rolling stock basis. We will allocate your batch within a week from the date of your application.
+    </p>
+
+    <p class="fg-orange font-oswald">Educational Qualification:</p>
+    <p>The applicant should have any of the following qualifications.</p>
+    <ol>
+        <li>Pursuing or having completed Graduation, P.G. Diploma, or P.G. in Journalism, Communication, Digital Media or allied disciplines.</li>
+        <li>Pursuing or having completed any program with majors in Journalism, Communication, and Digital Media or allied disciplines.</li>
+        <li>Students pursuing degree or diploma in development-related interdisciplinary programs may also apply.</li>
+    </ol>
+    <p class="m-t-30 fg-orange font-oswald">Desirable Qualification:</p>
+    <ol>
+        <li>Can work on Microsoft Word with adequate typing speed.</li>
+        <li>Basic working knowledge of Photoshop, Paint, Design and Excel.</li>
+        <li>Access to internet and interest in research.</li>
+        <li>Love to interact with people of different academic, professional and social backgrounds.</li>
+        <li>Prior experience of internship in any media organization would be an added advantage.</li>
+    </ol>
+    <h2 class="section-title2">
+        <span>Duration of Internship and Credit Score</span>
+    </h2>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-0">
+            <div class="internship-card text-center m-b-10">
+                <img src="~/AdminFiles/internship/degree_1.png" class="img-responsive m-t-30 center-block degree_img" />
+                <div class="b-b-2"></div>
+                <h3>Short Term Internship</h3>
+                <p><small>35 out of 40 credit points</small></p>
+                <div class="b-b-2"></div>
+                <div class="f-18 m-t-20">8 weeks</div>
+                <div class="dividion m-b-20"></div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-sm-offset-0">
+            <div class="internship-card text-center m-b-10">
+                <img src="~/AdminFiles/internship/degree_2.png" class="img-responsive m-t-30 center-block degree_img" />
+                <div class="b-b-2"></div>
+                <h3>Long Term Internship</h3>
+                <p><small>50 out of 60 credit points</small></p>
+                <div class="b-b-2"></div>
+                <div class="f-18 m-t-20">12 weeks</div>
+                <div class="dividion m-b-20"></div>
+            </div>
+        </div>
+    </div>
+</div>
+

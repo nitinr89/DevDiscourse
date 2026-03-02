@@ -1,0 +1,418 @@
+﻿@{
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "Oman Desgn & Build Week | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "Oman Desgn & Build Week";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/OmanDesignBg";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/OmanDesignBuild";
+    ViewBag.pageKeywords = "The Oman Design & Build Week, Hall 3,4 and 5 Oman Convention & Exhibition Centre, Muscat, Oman";
+    ViewBag.PageDescription = "The Oman Design & Build Week, which incorporates The BIG Show and Oman Real Estate Exhibition (OREX), is a vibrant networking and sourcing platform for the building and real estate industry.";
+
+}
+<style>
+    .renderBody {
+        margin: 0;
+        background: #243981;
+    }
+
+    .fg-color {
+        color: #133100;
+    }
+
+    .bg-color {
+        background-color: #133100;
+    }
+
+    .bg-secondary {
+        background-color: #2e9e02;
+    }
+
+    .fg-secondary {
+        color: #2e9e02;
+    }
+
+    .why-abu {
+        color: #133100;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+
+    .banner-content-container {
+        padding: 100px 50px 100px 100px;
+    }
+
+    .gard {
+        background-color: #0c0809;
+        background-image: url('/images/mediapartners/OmanDesignBg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+    }
+
+    .gard-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.7);
+    }
+
+    .f-40 {
+        font-size: 50px;
+        font-weight: 600;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+        color: white;
+    }
+
+    .f-20 {
+        font-size: 20px;
+    }
+
+    .logo-container {
+        text-align: right;
+    }
+
+    .news-container {
+        background-color: #2e9e02;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+    .seperator {
+        margin: 30px auto;
+        width: 70%;
+        height: 7px;
+        background-color: #ffe926;
+    }
+
+    .mid-container {
+        background-color: #EDEDED;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .btn-css {
+        background-color: #D96F41;
+        color: white;
+        margin-top: 40px;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 10px 30px;
+        font-family: sans-serif;
+        border-radius: 30px;
+        box-shadow: 0 15px 30px 0 rgba(8, 31, 62, 0.25);
+    }
+
+        .btn-css:active {
+            background-color: #eeda2b;
+            color: #133100;
+        }
+
+    btn-css:visited {
+        color: #133100;
+    }
+
+    .btn-css:hover {
+        background-color: #d3be04;
+        color: #133100;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: black;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventDt {
+        font-size:40px;
+        color:#fff;
+        font-weight:bold;
+    }
+
+    .eventVenue {
+        font-size:20px;
+        color:#fff;
+    }
+
+    .eventTime {
+        font-size: 30px;
+        color: #F9B23D;
+    }
+
+    .image-css{
+        padding-left:200px;
+    } 
+    
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .event-container {
+        padding-top: 140px;
+        padding-bottom: 60px;
+    }
+
+        @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .f-40 {
+            font-size: 40px;
+        }
+
+        .btn-css {
+            font-size: 20px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        .bg-container {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top;
+        }
+
+        .image-css{
+           margin-right:200px;
+           padding-left:0;
+           padding-bottom:10px;
+        }
+
+        .f-40 {
+            font-size: 50px;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+
+        .btn-css {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px 20px;
+        }
+    }
+</style>
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Event",
+    "name": "Oman Design & Build Week",
+    "startDate": "2020-03-30T18:00",
+    "endDate": "2020-04-01T22:00",
+    "location": {
+    "@@type": "Place",
+    "name": "Oman Convention & Exhibition Centre",
+    "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "Hall 3, 4 and 5 Oman Convention & Exhibition Centre",
+    "addressLocality": "Al Irfan Airport Heights",
+    "postalCode": "1659",
+    "addressRegion": "Muscat",
+    "addressCountry": "Oman"
+    }
+    },
+    "image": [
+    "https://www.devdiscourse.com/images/mediapartners/OmanDesignBg.jpg"
+    ],
+    "description": "The Oman Design & Build Week, which incorporates The BIG Show and Oman Real Estate Exhibition (OREX), is a vibrant networking and sourcing platform for the building and real estate industry. Held annually, Oman Design & Build Week offers your company a convenient platform to promote your brands and products to 11,000 highly qualified buyers that include decision makers from architects, consultants, engineers, contractors, distributors and procurement managers from across Oman.",
+    "offers": {
+    "@@type": "Offer",
+    "url": "https://www.example.com/event_offer/12345_201803180430",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "http://omandesignandbuildweek.com/index.php",
+    "validFrom": "2020-03-30T18:00"
+    }
+    }
+</script>
+
+<div class="gard">
+    <div class="gard-overlay"></div>
+    <div class="container event-container">
+        <div class="p-t-20 p-b-20">
+            <div class="row">
+                <div class="col-sm-12 col-md-4 text-right ">
+                    <img src="~/images/mediapartners/OmanDesignBuildWeek.png" class="img-responsive m-t-10 image-css" />
+                </div>
+
+                <div class="col-sm-12 col-md-8 text-left " >
+                    <p class="eventDt" >30 MARCH - 1 APRIL 2020</p>
+                    <p class="eventVenue" >Hall 3,4 and 5 Oman Convention & Exhibition Centre, Muscat, Oman </p>
+                    <p class="eventTime" >Timing: 3:00 PM to 10:00 PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="http://omandesignandbuildweek.com/index.php" target="_blank" class="linkBtn" title="Home">HOME</a>
+            </div>
+            <div class="item">
+                <a href="http://omandesignandbuildweek.com/exhibitors-benefits.php" target="_blank" class="linkBtn" title="Exhibit">EXHIBIT</a>
+            </div>
+            <div class="item">
+                <a href="http://omandesignandbuildweek.com/visitors-benefits.php" target="_blank" class="linkBtn" title="Visit">VISIT</a>
+            </div>
+            <div class="item">
+                <a href="http://omandesignandbuildweek.com/workshops.php" target="_blank" class="linkBtn" title="Certified Workshops">CERTIFIED WORKSHOPS</a>
+            </div>
+            <div class="item">
+                <a href="http://omandesignandbuildweek.com/sponsors.php" target="_blank" class="linkBtn" title="Sponsors">SPONSORS</a>
+            </div>
+            <div class="item">
+                <a href="http://omandesignandbuildweek.com/news.php" target="_blank" class="linkBtn" title="Media">MEDIA</a>
+            </div>
+            <div class="item">
+                <a href="http://omandesignandbuildweek.com/contact-us.php" target="_blank" class="linkBtn" title="Contact Us">CONTACT US</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30 p-b-20">
+    <div class="row m-t-20 p-b-20">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <iframe width="500" height="400" src="https://www.youtube.com/embed/Wa_mXVDEX0k" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width:100%;"></iframe>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <p style="font-size:28px;color:#fff;" >WELCOME TO</p>
+            <div class="why-abu font-sans-serif text-uppercase"><b>OMAN DESIGN & BUILD <span style="color:#F49B0F" >WEEK</span></b></div>
+            <div class="content text-muted font-sans-serif f-16">
+                <p class="m-t-20" style="color:white;">The Oman Design & Build Week, which incorporates The BIG Show and Oman Real Estate Exhibition (OREX), is a vibrant networking and sourcing platform for the building and real estate industry. Held annually, Oman Design & Build Week offers your company a convenient platform to promote your brands and products to 11,000 highly qualified buyers that include decision makers from architects, consultants, engineers, contractors, distributors and procurement managers from across Oman.</p>
+
+                <p class="m-t-20" style="color:white;">Oman Design & Build Week 2020 will provide you with the opportunity to tap into an annual project market worth $ 202 billion (Source: MEED Projects) across various sectors including commercial and residential, water, energy, oil and gas, transportation and infrastructure as well as health and hospitality. Segmented into eight new industry sectors, Oman Design & Build Week 2020 presents your company with better promotion and branding opportunities with its dedicated zones plus focused workshops and features that bring you closer to your potential clients.</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=25&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

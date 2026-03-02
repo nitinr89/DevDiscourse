@@ -1,0 +1,91 @@
+﻿@model Devdiscourse.Models.BasicModels.UserFiles
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<link href="~/Content/admin.css" rel="stylesheet" />
+<link href="~/Scripts/tagsInput/css/jquery.tagsinput.min.css" rel="stylesheet" />
+
+<div class="bg-white p-20">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "UserFiles")">Image Gallery</a></li>
+        <li class="breadcrumb-item active">Edit</li>
+    </ol>
+    @using (Html.BeginForm("Edit", "UserFiles", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <img src="@Model.FileUrl" style="max-width:240px;" class="img-responsive" />
+                    @Html.HiddenFor(model => model.FileUrl, new { htmlAttributes = new { @class = "form-control" } })
+                    <input type="file" class="form-control" id="FileUrlUpdate" name="FileUrlUpdate" />
+                    @Html.ValidationMessageFor(model => model.FileUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FileFor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" class="form-control hidden" id="FileFor" name="FileFor" />
+                    <select class="form-control" id="FileFor_multi" multiple="multiple">
+                        @* @{ Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });} *@
+                        @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+                    </select>
+                    @Html.ValidationMessageFor(model => model.FileFor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.HiddenFor(model => model.ModifiedOn);
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery.multiselect.js"></script>
+    <script src="~/Scripts/tagsInput/js/jquery-tagsinput1.3.6jquery.tagsinput.min.js"></script>
+    <script>
+        var _selFileFor = '@Model.FileFor';
+        $('#FileFor').val(_selFileFor);
+        // For Multiple Select
+        $('#FileFor_multi').multiselect();
+        $('.actionButtons').hide();
+        // For Sector
+        $('#FileFor').val(_selFileFor);
+        var fileforArray = _selFileFor.split(",");
+        $.each(fileforArray, function (i, item) {
+            var fileforValue = item.split(" ").join("_");
+            $("#FileFor_multi_" + fileforValue).prop("checked", "checked");
+        });
+        $('input[name="FileFor_multi[]"]').on("change", function () {
+            var valueArray = [];
+            $("input[name='FileFor_multi[]']:checked").each(function () {
+                //valueArray.push($('label[for="'+this.id+'"]').text());
+                valueArray.push($(this).val().toString());
+            });
+            $("#FileFor").val(valueArray);
+        });
+    </script>
+}

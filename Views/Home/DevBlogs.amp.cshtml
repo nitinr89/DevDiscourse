@@ -1,0 +1,100 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    Layout = "~/Views/Shared/_ampLayout.cshtml";
+    ViewBag.Title = "Development Blogs";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "Assemblage of monitored news, blogs, events and researches to maintain and enhance our intellectual reflexes at VisionRI is DevDiscourse";
+    ViewBag.webEdition = ViewBag.reg;
+   // ViewBag.PostUrl = ViewBag.reg == "Global Edition" ? "https://www.devdiscourse.com/Blogs" : "https://www.devdiscourse.com/Blogs/" + HttpUtility.UrlEncode(ViewBag.reg);
+    string encodedValue = System.Net.WebUtility.UrlEncode(ViewBag.reg);
+    ViewBag.PostUrl = ViewBag.reg == "Global Edition" ? "https://www.devdiscourse.com/Blogs" : "https://www.devdiscourse.com/Blogs/" + encodedValue;
+   ViewBag.pageKeywords = "Blogs";
+
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+@section headerScripts {
+    <script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+    <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+}
+@section customCss {
+    .blog-card {background-color:#fff;border-bottom:1px solid #eee;;margin: 10px auto;padding: 10px;}
+    .blog-card .title{margin:20px 0;color:#222;}
+}
+<div class="content">
+    <h2 class="page-title">Blogs</h2>
+    <amp-state id="productsState" src="@Url.Action("GetAmpBlogItems","Home",new { moreItemsPageIndex = 1 })"></amp-state>
+    <amp-state id="product">
+        <script type="application/json">
+            {
+            "moreItemsPageIndex": 2,
+            "hasMorePages": true
+            }
+        </script>
+    </amp-state>
+    @{
+       // var deviceWidth = Request.Browser.ScreenPixelsWidth;
+        // var deviceWidthHeader = HttpContextAccessor.HttpContext.Request.Headers["Width"];
+        // var deviceWidth = int.Parse(deviceWidthHeader);
+        // var listHeight = 3900;
+        // var singleHeight = 390;
+        // if (deviceWidth < 425)
+        // {
+        //     singleHeight = 460;
+        //     listHeight = 4600;
+        // }
+        int deviceWidth = 0;
+        var deviceWidthHeader = HttpContextAccessor.HttpContext.Request.Headers["Width"];
+
+        var listHeight = 3900;
+        var singleHeight = 390;
+
+        if (!string.IsNullOrEmpty(deviceWidthHeader) && int.TryParse(deviceWidthHeader, out deviceWidth))
+        {
+            if (deviceWidth < 425)
+            {
+                singleHeight = 460;
+                listHeight = 4600;
+            }
+        }
+
+    }
+  
+    <amp-list src="@Url.Action("GetAmpBlogItems","Home",new { moreItemsPageIndex = 1 })" [src]="productsState.items" width="auto" height="@listHeight" [height]="productsState.items.length * @singleHeight" class="blogList">
+        <template type="amp-mustache">
+            <div class="blog-card">
+                <a href="{{url}}?amp" title="{{title}}" class="no-text-decoration">
+                    <amp-img src="{{imageUrl}}?w=400&h=240&mode=crop" layout="responsive" width="400" alt="{{title}}" height="240"></amp-img>
+                </a>
+                <a href="{{url}}?amp" title="{{title}}" class="no-text-decoration"><h3 class="title">{{title}}</h3> </a>
+                <p class="social-share">
+                    <amp-social-share type="twitter" width="45" height="33" aria-label="Share on twitter" data-param-url="@domainUrl{{url}}"></amp-social-share>
+                    <amp-social-share type="facebook" width="45" height="33" aria-label="Share on facebook" data-param-app_id="1962446954071172" data-attribution="1962446954071172" data-param-url="@domainUrl{{url}}"></amp-social-share>
+                    <amp-social-share type="gplus" width="45" height="33" aria-label="Share on google+" data-param-url="@domainUrl{{url}}"></amp-social-share>
+                    <amp-social-share type="email" width="45" height="33" aria-label="Share on email" data-param-url="@domainUrl{{url}}"></amp-social-share>
+                    <amp-social-share type="pinterest" width="45" height="33" aria-label="Share on pintrest" data-param-url="@domainUrl{{url}}"></amp-social-share>
+                </p>
+            </div>
+        </template>
+    </amp-list>
+    <form method="GET"
+          action="@Url.Action("GetAmpBlogItems","Home")"
+          action-xhr="@Url.Action("GetAmpBlogItems","Home")"
+          target="_top"
+          on="submit-success: AMP.setState({
+              productsState: {
+                items: productsState.items.concat(event.response.items)
+              },
+              product: {
+                moreItemsPageIndex: product.moreItemsPageIndex + 1,
+                hasMorePages: event.response.hasMorePages
+              }
+            });">
+        <input type="hidden" name="moreItemsPageIndex" value="2" [value]="product.moreItemsPageIndex">
+        <button type="submit" title="Load More" class="load-btn show" [class]="(product.hasMorePages == false ? 'hide' : 'load-btn show')">Show more <span class="fa fa-chevron-circle-down"></span></button>
+    </form>
+</div>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Devdiscourse.Models.BasicModels.Job>
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h3>@item.Title</h3>
+            <p class="fg-black">Job Description</p>
+            <p><span class="text-muted">@Html.Raw(item.AboutPosition)</span></p>
+            <p class="fg-black">Location of Job: <span class="text-muted">@item.Location</span></p>
+            @if (!String.IsNullOrEmpty(item.EmailId))
+            {
+                <p class="fg-black">Email Id: <span class="text-muted">@item.EmailId</span></p>
+            }
+            @if (item.MinCTC == 0)
+            {
+                <p class="fg-black">Salary: <span class="text-muted">Best in Industry</span></p>
+            }
+            else if (item.MinCTC > 0)
+            {
+                <p class="fg-black">Job CTC: <span class="text-muted">@item.MinCTC - @item.MaxCTC Lakhs/Year</span></p>
+            }
+            @if (item.MinExperience > 0)
+            {
+                <p class="fg-black">Work Experience: <span class="text-muted">@item.MinExperience - @item.MaxExperience Years</span></p>
+            }
+            @if (!String.IsNullOrEmpty(item.Keywords))
+            {
+                <p class="fg-black">Keyskills:</p>
+                <p>
+                    @{
+                        var tags = item.Keywords.Split(',');
+                        foreach (var tag in tags)
+                        {
+                            <span class="badge">@tag</span>
+                        }
+                    }
+                </p>
+            }
+            <a href="#JoinUs" class="btn btn-primary fg-white JoinUsBtn" data-job-id="@item.Id" data-job-title="@item.Title" style="margin:10px 0px 10px 0px">APPLY NOW</a>
+        </div>
+    </div>
+    <div class="bottom-border-div"></div>
+}
+

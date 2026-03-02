@@ -1,0 +1,410 @@
+﻿@{
+    ViewBag.Title = "JAPAN WIND ENERGY 2019 | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/mediapartners/windMill.jpg";
+    ViewBag.PageDescription = "JAPAN WIND ENERGY 2019 ONSHORE AND OFFSHORE CONFERENCE 28 - 29 Oct 2019 Osaka";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/JapanWindEnergy";
+    ViewBag.pageKeywords = "JAPAN WIND ENERGY 2019, JAPAN WIND ENERGY 2019 ONSHORE AND OFFSHORE CONFERENCE, 28 - 29 Oct 2019 // Osaka, Champion the Success of Japan Wind Development";
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+        color: #EDEDED;
+    }
+
+    .gard {
+        background-color: #393a3c;
+        background-image: url('/images/mediapartners/windMill.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+    }
+
+    .gard-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.5);
+    }
+
+    .event-container {
+        padding-top: 150px;
+        padding-bottom: 60px;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+        font-size: 2px;
+    }
+
+    .why-abu {
+        color: #65ACDE;
+        font-size: 26px;
+        font-weight: 500;
+    }
+
+    .btncss {
+        background-color: #fff;
+        color: #0c0809;
+        font-size: 24px;
+        font-weight: 500;
+        border: 0;
+        border-radius: 0;
+        padding: 10px 45px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+
+        .btncss:hover {
+            background-color: #fff;
+            color: #ea1379;
+        }
+
+    .news-container {
+        padding-bottom: 30px;
+        color: #0c0809;
+    }
+
+    .mid-container {
+        background-color: #232A34;
+        color: #0c0809;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+
+    .bg-white.p-t-20 {
+        padding: 0;
+    }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: white;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif;
+        font-weight: bold;
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    .f-40 {
+        font-size: 40px;
+        line-height: 1.4;
+        margin-top: 0;
+        letter-spacing: 1px;
+    }
+
+    .japanTxt {
+        font-family: SegoeUI;
+        font-size: 40px;
+        color: #FFFFFF;
+        text-align: center;
+        font-weight: bolder;
+    }
+
+    .contntTxt {
+        font-family: 'Segoe UI';
+        font-size: 30px;
+        color: #FFFFFF;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .champTxt {
+        font-family: 'Segoe UI';
+        font-size: 25px;
+        font-style:italic;
+        text-align:center;
+    }
+
+    .fieldset {
+        border: 3px solid;
+        color: #FFFFFF;
+    }
+
+    .contentTXt {
+        font-size: 18px;
+        color:black; 
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .text-five {
+            font-size: 200px;
+        }
+
+        .text-go-green {
+            font-size: 43px;
+        }
+
+        .remedies {
+            font-size: 18px;
+        }
+
+        .ev-date {
+            font-size: 20px;
+        }
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        .f-40 {
+            font-size: 35px;
+        }
+
+        .media-partner {
+            text-align: center;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .text-five {
+            font-size: 160px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-go-green {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .text-slogan {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .remedies {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+    }
+</style>
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Event",
+    "name": "JAPAN WIND ENERGY 2019",
+    "startDate": "2019-10-28T18:00",
+    "endDate": "2019-10-29T22:00",
+    "location": {
+    "@@type": "Place",
+    "name": "Hyatt Regency Osaka",
+    "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "1-13-11 Nanko-Kita",
+    "addressLocality": "Suminoe-Ku, Osaka",
+    "postalCode": "559-0034",
+    "addressRegion": "Osaka",
+    "addressCountry": "JAPAN"
+    }
+    },
+    "image": [
+    "https://www.devdiscourse.com/images/mediapartners/windMill.jpg"
+    ],
+    "description": "Japan Wind Energy 2019 is a premier information change and business networking platform between public and private stakeholders in the country’s wind value chain. The first-year, two-day show is estimated to attract 500+ industrial stakeholders, representing Japan central and prefecture governments, home and international investors, developers, network providers, financiers, EPCs, as well as key equipment and solution providers.",
+    "offers": {
+    "@@type": "Offer",
+    "url": "https://www.example.com/event_offer/12345_201803180430",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://www.leader-associates.com/jwe#comp-jwrm8pd0inlineContent",
+    "validFrom": "2019-10-28T12:00"
+    }
+    }
+</script>
+<div class="gard">
+    <div class="gard-overlay" ></div>
+    <div class="container event-container">
+        <div class="p-t-20 p-b-20 row">
+            <div class="col-xs-12">
+                <hr/>
+                <p class="japanTxt">JAPAN WIND ENERGY 2019 <br/> ONSHORE AND OFFSHORE CONFERENCE</p>
+                <hr/>
+                <p class="contntTxt">28 - 29 Oct 2019 // Osaka</p>
+
+            </div>
+        </div>  
+        <div class="p-t-20 p-b-20 row">
+            <div class="col-sm-3 col-md-3"></div>
+            <div class="col-sm-6 col-md-6">
+                <fieldset class="fieldset">
+                        <p class="champTxt">Champion the Success of Japan Wind Development</p>
+                </fieldset>
+            </div>
+            <div class="col-sm-3 col-md-3"></div>
+        </div>
+     
+
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+
+            <div class="item">
+                <a href="https://www.leader-associates.com/jwe#comp-jwrm8pd0inlineContent" target="_blank" class="linkBtn" title="About">ABOUT</a>
+            </div>
+            <div class="item">
+                <a href="https://www.leader-associates.com/jwe#comp-jwrm8qc7inlineContent" target="_blank" class="linkBtn" title="Program">PROGRAM</a>
+            </div>
+            <div class="item">
+                <a href="https://www.leader-associates.com/jwe#comp-jwrm8qyz" target="_blank" class="linkBtn" title="Speakers">SPEAKERS</a>
+            </div>
+            <div class="item">
+                <a href="https://www.leader-associates.com/jwe#comp-jwrm8ux9inlineContent" target="_blank" class="linkBtn" title="Sponsors">SPONSORS</a>
+            </div>
+            <div class="item">
+                <a href="https://www.leader-associates.com/jwe#comp-jwrm8wxyinlineContent" target="_blank" class="linkBtn" title="Contact">CONTACT</a>
+            </div>
+            <div class="item">
+                <a href="https://www.leader-associates.com/jwe#comp-jwrm8w4pinlineContent" target="_blank" class="linkBtn" title="Venue">VENUE</a>
+            </div>
+            <div class="item">
+                <a href="https://www.leader-associates.com/jwe#comp-jwrm8wxyinlineContent" target="_blank" class="linkBtn" title="Registration">REGISTRATION</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <img src="~/images/mediapartners/japanwindbottompic.jpg" style="max-height:300px" class="img-responsive center-block m-b-30" alt="About Innovation and Latest Trends of Entrepreneurship" />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <div class="why-abu font-sans-serif text-uppercase"><b>An Unmissable Opportunity for Your Japan Onshore and Offshore Wind Businesses</b></div>
+            <div>
+                <p class="m-t-20 contentTXt"><b>Japan Wind Energy 2019</b> is a premier information change and business networkingplatform between public and private stakeholders in the country’s wind value chain. The first-year, two-day show is estimated to attract 500+ industrial stakeholders, representing Japan central and prefecture governments, home and international investors, developers, network providers, financiers, EPCs, as well as key equipment and solution providers.</p>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container" style="display:normal;">
+        <div class="p-t-30 container content-container">
+            <h2 class="font-sans-serif">EVENT NEWS</h2>
+            <div>
+                <div id="moreEventNews">
+                    @{ Html.RenderAction("EventNews", "Events", new { id = "2", skip = 0, take = 5 });}
+                </div>
+                <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+            </div>
+        </div>
+    </div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=1&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

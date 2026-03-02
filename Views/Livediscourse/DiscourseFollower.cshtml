@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "DiscourseFollower";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<div class="container" style="min-height:400px;">
+    <span class="btn btn-primary m-t-10" onclick="window.history.back()">Back</span>
+    <div class="row m-t-10 m-b-20">
+        <div class="col-md-3">
+            <div class="input-group">
+                <input type="text" class="form-control"  id="searchBox" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" id="searchBtn" type="button">Search</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <ul class="list-group" id="followerList"></ul>
+</div>
+@section scripts{
+    <script>
+        var searchText = 'All';
+        var _id = '@(ViewBag.id)';
+        var page = 1;
+        $(document).ready(function () {
+            $('#searchBtn').click(function () {
+                searchText = $('#searchBox').val();
+                if (searchText.trim() == '') {
+                    searchText = 'All';
+                }
+                $('#followerList').html('');
+                GetFollower();
+            });
+            GetFollower();
+            function GetFollower() {
+                $.ajax(`/api/Discourse/livediscourseFollower/${_id}/${searchText}/${page}`).done(function (data) {
+                    console.log(data);
+                    var itemHtml = '';
+                    $.each(data, function (i, item) {
+                        var moderator = '';
+                        if (item.IsModerator == true) {
+                            moderator = `<label class="checkbox-inline pull-right"><input type="checkbox" class="mod-check" id="${item.Id}" checked></label>`
+                        } else {
+                            moderator = `<label class="checkbox-inline pull-right"><input type="checkbox" class="mod-check" id="${item.Id}"></label>`
+                        }
+                        itemHtml += `<li class="list-group-item">${item.Name} ${moderator}</li>`
+                    });
+                    if (data.length == 0) {
+                        itemHtml = '<h4 class="text-muted no-margin">No follower</h4>'
+                    }
+                    $('#followerList').append(itemHtml);
+                });                
+            }
+            $(document).on('change', '.mod-check', function () {
+                var followId = $(this).attr('id');
+                var isMod = $(this).prop('checked');
+                $.ajax({
+                    url: `/api/Discourse/FollowerToModerator/${followId}/${isMod}`,
+                    type: 'Post',
+                    dataType: 'Json',
+                    success: function (data) {
+                       
+                    },
+                    error: function (req, status, error) {
+                        console.log(req.responseText);
+                    },
+                });
+            });
+        });
+    </script>
+    }

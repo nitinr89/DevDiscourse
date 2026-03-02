@@ -1,0 +1,350 @@
+﻿@{
+    ViewBag.Title = "SOLUTIONS FOR AFRICA CONFERENCE AND EXHIBITION | Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/mediapartners/africa_energy_indaba_cover.jpg";
+    ViewBag.PageDescription = "The Africa Energy Indaba Conference will discuss, debate and seek solutions to enable adequate energy generation across the continent. Delegates, drawn from all continents, represent an unrivalled combination of industry experts, project developers, financiers, energy users, government officials and manufacturers.";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/africa-energy-indaba";
+    ViewBag.pageKeywords = "Africa Energy Indaba";
+}
+<style>
+    .renderBody {
+        margin-top: 0px;
+    }
+    .gard {
+        background-color: #2e2e2e;
+        background-image: url('/images/mediapartners/africa_energy_indaba_bg.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        padding-top:50px;
+        padding-bottom:20px;
+    }
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+    .ev-date{
+        background-color:#fff;
+        color:#222;
+        padding:3px 10px;
+        display:inline-block;
+    }
+    .why-abu {
+        color: #1c1b1c;
+        font-size: 28px;
+        font-weight: 500;
+    }
+    .fg-theme {
+        color: #e45914;
+    }
+    .btncss {
+        color: #fff;
+        background-color: #e45914;
+        font-size: 24px;
+        font-weight: 500;
+        border: 0;
+        border-radius: 0;
+        padding: 10px 45px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+
+        .btncss:hover {
+            color: #fff;
+            background-color: #ff5e00;
+        }
+    .news-container {
+        background-color: #e45914;
+        margin-top: 30px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+
+    .mid-container {
+        background-color: #242632;
+        color: #fff;
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+    }
+    .bg-white.p-t-20{
+        padding:0;
+    }
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+    .f-40 {
+        font-size: 42px;
+        font-weight:600;
+    }
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+
+        .banner-content-container {
+            padding: 70px 50px;
+        }
+
+        .text-five {
+            font-size: 200px;
+        }
+
+        .text-go-green {
+            font-size: 43px;
+        }
+
+        .remedies {
+            font-size: 18px;
+        }
+
+    }
+
+
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        
+
+        .media-partner {
+            text-align: center;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+        .f-40 {
+            font-size: 36px;
+        }
+
+        .f-20 {
+            font-size: 18px;
+        }
+        .gard{
+            padding:0;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .banner-content-container {
+            padding: 40px 20px;
+        }
+
+        .text-five {
+            font-size: 160px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-go-green {
+            font-size: 25px;
+            text-align: center;
+        }
+
+        .text-slogan {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .remedies {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .why-abu {
+            margin-top: 30px;
+        }
+        .gard .media-left,.gard .media-body {
+            display:block;
+            width:100%;
+        }
+        .gard .media-left{
+            padding-bottom:20px;
+        }
+        .f-40 {
+            font-size: 30px;
+        }
+        .f-20 {
+            font-size: 16px;
+        }
+    }
+</style>
+<div class="gard">
+    <div class="container font-sans-serif fg-white p-t-50 p-b-20">
+        <div class="media">
+            <div class="media-left">
+                <img src="~/images/mediapartners/africa_energy_indaba_logo.jpg" />
+            </div>
+            <div class="media-body">
+                <p class="f-20">Devdiscourse is proud media partner of </p>
+                <h1 class="f-40">
+                    SOLUTIONS FOR AFRICA<br />
+                    CONFERENCE AND EXHIBITION
+                </h1>
+                <p class="f-20">
+                    3rd – 4th March 2020<br />
+                    Cape Town International Convention Centre, Cape Town, South Africa
+                </p>
+                <div class="p-t-20 m-t-50 m-b-30">
+                    <a href="http://www.africaenergyindaba.com/register-conference/" target="_blank" class="btn btn-default btn-lg btncss">REGISTER NOW</a>
+                </div>
+            </div>
+        </div>
+                
+    </div>    
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+
+            <div class="item">
+                <a href="http://www.africaenergyindaba.com" target="_blank" class="linkBtn" title="Africa Energy Expo">Home</a>
+            </div>
+            <div class="item">
+                <a href="http://www.africaenergyindaba.com/event-at-a-glance/" target="_blank" class="linkBtn" title="About">EVENT AT A GLANCE</a>
+            </div>
+            <div class="item">
+                <a href="http://www.africaenergyindaba.com/partners/" target="_blank" class="linkBtn" title="Partners">PARTNERS</a>
+            </div>
+            <div class="item">
+                <a href="http://www.africaenergyindaba.com/sponsorships-1/" target="_blank" class="linkBtn" title="sponsorships">SPONSORSHIPS</a>
+            </div>
+            <div class="item">
+                <a href="http://www.africaenergyindaba.com/conference-overview/" target="_blank" class="linkBtn" title="Conference">CONFERENCE</a>
+            </div>
+            <div class="item">
+                <a href="http://www.africaenergyindaba.com/organisers/" target="_blank" class="linkBtn" title="Organisers">ORGANISERS</a>
+            </div>
+            <div class="item">
+                <a href="http://www.africaenergyindaba.com/contact-us-1/" target="_blank" class="linkBtn" title="Contact">CONTACT</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30">
+    <div class="row m-t-20">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <img src="~/images/mediapartners/about_africa_energy_indaba.jpg" style="max-height:370px" class="img-responsive center-block m-b-30" alt="Africa Energy Indaba" />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+            <img src="~/images/mediapartners/africa_energy_indaba_logo2.jpg" class="img-responsive" />
+            <div class="why-abu font-sans-serif text-uppercase m-t-30"><b>ABOUT AFRICA ENERGY INDABA</b></div>
+            <div class="content text-muted font-sans-serif f-16">
+                <p class="m-t-20">
+                    The Africa Energy Indaba Conference will discuss, debate and seek solutions to enable adequate energy generation across the continent. Delegates, drawn from all continents, represent an unrivalled combination of industry experts, project developers, financiers, energy users, government officials and manufacturers.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container">
+    <div class="p-t-30 container content-container">
+        <h2 class="font-sans-serif">EVENT NEWS</h2>
+        <div>
+            <div id="moreEventNews">
+                @{ Html.RenderAction("EventNews", "Events", new { id = "2", skip = 0, take = 5 });}
+            </div>
+            <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+        </div>
+    </div>
+</div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=1&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

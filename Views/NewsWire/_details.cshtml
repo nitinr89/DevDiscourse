@@ -1,0 +1,79 @@
+﻿@model Devdiscourse.Models.Others.NewsWireModel
+<div class="bg-white p-20">
+    <div class="row m-t-20">
+        <label class="col-md-2 control-label">Title</label>
+        <div class="col-md-10">@Model.Title</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Sub-Title</label>
+        <div class="col-md-10">@Model.SubTitle</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Description</label>
+        <div class="col-md-10">@Html.Raw(Model.Description)</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Region</label>
+        <div class="col-md-10">@Model.Region</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Country</label>
+        <div class="col-md-10">
+            @if (!String.IsNullOrEmpty(Model.Country))
+            {
+                var country = Model.Country.Split(',');
+                foreach (var coun in country)
+                {
+                    <span class="badge badge-css">@coun</span>
+                }
+            }
+        </div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">News Label</label>
+        <div class="col-md-10">@Model.NewsLabels</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Author Name</label>
+        <div class="col-md-10">@Model.Source</div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Image</label>
+        <div class="col-md-10">
+            <img src="@Model.ImageUrl" style="width:150px;height:150px;" class="img-responsive" />
+        </div>
+    </div>
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Image Copyright</label>
+        <div class="col-md-10">@Model.ImageCopyright</div>
+    </div>
+    @if (!String.IsNullOrEmpty(Model.VideoUrl))
+            {
+        <div class="row m-t-10">
+            <label class="col-md-2 control-label">Video</label>
+            <div class="col-md-10">
+                <video src="@Model.VideoUrl" controls></video>
+            </div>
+        </div>
+    }
+    <div class="row m-t-10">
+        <label class="col-md-2 control-label">Tags</label>
+        <div class="col-md-10">
+            @if (!String.IsNullOrEmpty(Model.Tags))
+            {
+                var tag = Model.Tags.Split(',');
+                foreach (var t in tag)
+                {
+                    <span class="badge badge-css">@t</span>
+                }
+            }
+        </div>
+    </div>
+    @if (Model.Status == Devdiscourse.Models.ContributorModels.ContentStage.Reject)
+    {
+        <div class="row m-t-10">
+            <label class="col-md-2 control-label">Reason of Reject</label>
+            <div class="col-md-10">@Model.ReasonofReject</div>
+        </div>
+    }
+</div>

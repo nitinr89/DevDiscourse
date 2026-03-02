@@ -1,0 +1,309 @@
+﻿@{
+    string domainUrl= "https://www.devdiscourse.com";
+    ViewBag.Title = "Plastic Free World Conference & Expo | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "Plastic Free World Conference & Expo";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/Plastic_free_world_conference.jpg?width=920";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    string pageUrl = "/events/plastic-free-world-conference";
+    ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
+    ViewBag.pageKeywords = "Plastic Free World Conference, Plastic Free, 2nd World Congress, World Conference & Expo, Frankfurt Messe";
+    ViewBag.PageDescription = "Plastic Free World Conference & Expo is a two-day conference and exhibition for businesses looking to reduce their plastic consumption, find and source highly sustainable alternative bio-based materials, and create a more circular economy throughout their supply chain. The event will bring together sustainability and environmental experts to discuss practical and innovative solutions to tackle the growing plastic pollution crisis.";
+}
+<style>
+    .renderBody{
+        margin:0;
+    }
+    .fg-color {
+        color: #0070b6;
+    }
+    .bg-color {
+        color: #0070b6;
+    }
+    .ev-loc{
+        padding-top:30px;
+    }
+    .bg-container {
+        background-image: url('/images/mediapartners/Plastic_free_world_conference.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 50px 0 100px 0;
+        background-position: center center;
+    }
+
+    .border-card {
+        background-color: #e8e7e3;
+        padding: 30px 45px;
+        font-weight: 500;
+        font-family: sans-serif;
+        -webkit-box-shadow: 0px 0px 25px -13px rgba(117,117,117,1);
+        -moz-box-shadow: 0px 0px 25px -13px rgba(117,117,117,1);
+        box-shadow: 0px 0px 25px -13px rgba(117,117,117,1);
+    }
+
+    .f-25 {
+        font-size: 32px;
+        font-weight: 600;
+        margin: 60px 0 40px 0;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .f-24 {
+        font-size: 26px;
+    }
+
+    .custom-hr {
+        margin-top: 45px;
+        margin-bottom: 45px;
+        border-top: 2px solid #00acda;
+    }
+
+    .ev-text {
+        color: #00acda;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 30px;
+    }
+    .why-abu {
+        color: #234e5e;
+        font-size: 28px;
+        font-weight: 500;
+    }
+    .news-container {
+        background-color: #00acda;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+    .mid-container {
+        background-color: #0070b6;
+        color: #fff;
+    } 
+    .btn-css {
+        background-color: #0070b6;
+        color: #fff;
+        margin-top: 40px;        
+        font-weight: 500;
+        padding: 10px 60px;
+        font-family:sans-serif;
+    }
+        .btn-css:active {
+            background-color: #0070b6;
+            color: #fff;
+        }
+        .btn-css:hover {
+            background-color: #234e5e;
+            color: #fff;
+        }
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align:center
+    }
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+    .item-right {
+        float: right
+    }
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+    }
+        /*nav.navscrollmenubar .linkBtn:hover {
+            background-color: #234e5e;
+        }*/
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+    @@media screen and (max-width:768px) {
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+    @@media screen and (max-width:425px){
+        .why-abu{
+            margin-top:30px;
+        }
+        .f-24{
+            font-size:18px;
+        }
+        .bg-container{
+            padding:10px 0;
+        }
+        .border-card {
+            padding: 10px;
+        }
+        .ev-text {
+            font-size: 16px;
+        }
+        .custom-hr {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .ev-loc{
+            padding-top:10px;
+        }
+        .btn-css{
+            margin-top:10px;
+        }
+    }
+
+</style>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="bg-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-xs-12">
+                <div class="border-card">
+                    <div class="f-24">Devdiscourse is proud media partner of </div>
+                    <img src="~/images/mediapartners/Plastic_free_world_conference.png" class="img-responsive" />
+                    <hr class="custom-hr" />
+                    <div class="ev-text text-center font-sans-serif">
+                        Technical Innovations & Bio-based Solutions to Help Businesses Tackle Plastic Waste & Lower Their Plastic Footprint.
+                    </div>
+                    <div class="f-24 ev-loc text-center">27/28 June 2019, Frankfurt Messe</div>
+                    <a href="https://secure.ukimediaevents.com/transglobal_payments/registration/3689/" target="_blank" class="btn center-block btn-css">REGISTER NOW</a>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="https://plasticfree-world.com/streams/" target="_blank" class="linkBtn" title="Streams">STREAMS</a>
+            </div>
+            <div class="item">
+                <a href="https://plasticfree-world.com/the-speakers/" target="_blank" class="linkBtn" title="Speakers">SPEAKERS</a>
+            </div>
+            <div class="item">
+                <a href="https://plasticfree-world.com/sponsors/" target="_blank" class="linkBtn" title="Exhibitor List">EXHIBITOR LIST</a>
+            </div>
+            <div class="item">
+                <a href="https://plasticfree-world.com/agenda/" target="_blank" class="linkBtn" title="Agenda">AGENDA</a>
+            </div>
+
+            <div class="item">
+                <a href="https://plasticfree-world.com/event-info/" target="_blank" class="linkBtn" title="Event Info">EVENT INFO</a>
+            </div>
+            <div class="item">
+                <a href="https://plasticfree-world.com/contact-us/" target="_blank" class="linkBtn" title="Contact Us">CONTACT US</a>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container m-t-30">
+    <div class="row m-t-20 p-b-20">
+        <div class="col-xs-12 col-sm-6  p-b-20">
+            <img src="~/images/mediapartners/About_plastic_free_world_conference.jpg" style="max-height:370px" class="img-responsive center-block" alt="About Plastic Free World Conference" />
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="why-abu font-sans-serif text-uppercase"><b>About The Event</b></div>
+            <div class="content text-muted font-sans-serif f-16">
+                <p class="m-t-20 f-16">Plastic Free World Conference & Expo is a senior executive level conference and exhibition dedicated to exploring how international businesses from a wide variety of industries can reduce their use of fossil-fuel-based plastics, eliminate single-use plastics, design and create more sustainable bio-sourced products and packaging solutions, introduce more circular business models, and ultimately help contribute to improving the global plastic pollution crisis. </p>
+                <p class="f-16">
+                    Over 80 international speakers will discuss the latest business models, strategies, materials innovations, future regulations, manufacturing technologies, bio-sourced sourced solutions and the latest and next-generation technologies to help meet future plastic waste targets and create highly sustainable products accepted by rapidly evolving consumer demands.
+                </p>
+                <a href="https://plasticfree-world.com/about/" target="_blank" style="color:#234e5e">Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container">
+    <div class="p-t-30 container content-container">
+        <h2 class="font-sans-serif">EVENT NEWS</h2>
+        <div>
+            <div id="moreEventNews">
+                @{ Html.RenderAction("EventNews", "Events", new { id = "1", skip = 0, take = 5 });}
+            </div>
+            <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+        </div>
+    </div>
+</div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

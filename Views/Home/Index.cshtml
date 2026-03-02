@@ -1,0 +1,964 @@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "International Development News, Breaking News, Opinion and Analysis - Devdiscourse";
+    ViewBag.alternateHeadline = "International Development News, Breaking News, Opinion and Analysis - Devdiscourse";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+    ViewBag.PageDescription = "World's leading Website for International Development News. Breaking News, Opinions, Technology, Social development, Urban Development, Entertainment, Sports news.";
+    string edition = ViewBag.Edition;
+    ViewBag.webEdition = edition;
+    ViewBag.PostUrl = "https://www.devdiscourse.com";
+    ViewBag.pageKeywords = "International Development News, Breaking News, Politics, Health development, Social development, Urban development, Education, Entertainment, Transport, Energy and Extractives news";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "&width=920";
+    TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+    var isMobile = HttpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString().Contains("Mobi", StringComparison.OrdinalIgnoreCase);
+}
+@section lastModified {
+    <meta http-equiv="last-modified" content="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz")" />
+}
+<script type="application/ld+json">
+    {"@@context":"https://schema.org","@@type":"NewsMediaOrganization","name":"Devdiscourse","alternateName":"Devdiscourse","url":"https://www.devdiscourse.com","logo":"https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png","contactPoint":{"@@type":"ContactPoint","telephone":"+91-130-6444012","contactType":"customer service","areaServed":"IN","availableLanguage":"en"},"sameAs":["https://www.facebook.com/devdiscourse","https://twitter.com/dev_discourse","https://www.instagram.com/devdiscourse","https://www.youtube.com/c/Devdiscourse","https://www.linkedin.com/showcase/dev_discourse","https://in.pinterest.com/devdiscourse"]}
+</script>
+<script type="application/ld+json">
+    {"@@context": "http://schema.org","@@type": "WebPage","name": "Devdiscourse","description": "World's leading Website for International Development News. Breaking News, Opinions, Technology, Social development, Urban Development, Entertainment, Sports news.", "speakable":
+    {
+    "@@type": "SpeakableSpecification",
+    "xpath": ["/htmt/head/title", "/htmt/head/meta[@@name='description']/@@content"]
+    },"url" : "https://www.devdiscourse.com","publisher": {"@@type": "Organization","name": "Devdiscourse","url" : "https://www.devdiscourse.com","logo" : {"@@type": "ImageObject","contentUrl": "https://www.devdiscourse.com/AdminFiles/Logo/ic_logo_amp.png"
+    }}}
+</script>
+<style>
+    /* ===== HOME PAGE — MODERN OVERHAUL ===== */
+    .frame-ad {
+        height: 90px;
+        max-width: 100%;
+        display: block;
+        margin: 16px auto;
+        width: 728px;
+    }
+
+    /* Opinion / Blog alternating section */
+    .video-container {
+        border-top: none;
+        border-bottom: none;
+        background-color: #f4f5f7;
+        padding: 40px 0 48px 0;
+    }
+
+    /* Country badges — pill with subtle shadow */
+    .country-sub {
+        display: inline-block;
+        font-family: 'Oswald', sans-serif;
+        z-index: 10;
+        background-color: #ff7b00;
+        color: #fff;
+        padding: 2px 10px;
+        font-size: 10px;
+        margin-top: 6px;
+        border-radius: 20px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-weight: 500;
+        box-shadow: 0 1px 4px rgba(255,123,0,.25);
+    }
+
+    .owl-carousel .owl-dots.disabled, .owl-carousel .owl-nav.disabled, .text-design span {
+        display: block
+    }
+
+    .label.label-primary {
+        background-color: #e53e3e;
+        font-weight: 600;
+        font-family: 'Oswald', sans-serif;
+        font-size: 80%;
+        border-radius: 20px;
+        padding: 3px 8px;
+    }
+
+    /* InFocus badge — prominent pill */
+    .infocus-badge {
+        padding: 3px 12px;
+        margin-top: 5px;
+        font-size: 10px;
+        background-color: #ff7b00;
+        color: #fff;
+        border-radius: 20px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-family: 'Oswald', sans-serif;
+        font-weight: 500;
+        box-shadow: 0 1px 4px rgba(255,123,0,.25);
+    }
+
+    .infocus-item {
+        display: block;
+        position: relative;
+    }
+
+    /* Interview cards — dark style */
+    .news-media-card.interview-media-card {
+        border-top: none;
+        border-bottom: 0;
+        margin: 0;
+        padding: 14px;
+        background-color: #2d2d2d;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 12px rgba(0,0,0,.15);
+    }
+
+    .news-media-card.interview-media-card:hover {
+        background-color: #3a3a3a;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,.25);
+    }
+
+        .news-media-card.interview-media-card .media-meta {
+            color: #fff
+        }
+
+    /* Caption overlays */
+    .item-caption {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+        .item-caption .title {
+            font-family: 'Oswald', sans-serif;
+            color: #fff;
+            font-weight: 500;
+            text-shadow: 0 1px 4px rgba(0,0,0,.3);
+        }
+
+            .item-caption .title:hover {
+                color: #ff7b00;
+            }
+
+    /* InFocus hero card */
+    .infocus-news {
+        padding-bottom: 56%;
+        margin-bottom: 18px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 4px 16px rgba(0,0,0,.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .infocus-news:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 28px rgba(0,0,0,.16);
+    }
+
+    .interview-news {
+        height: 300px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0,0,0,.1);
+    }
+
+    #myCarousel {
+        margin-bottom: 40px
+    }
+
+    .carousel-badge {
+        color: #fff;
+        background-color: #333;
+        border-radius: 20px;
+        margin: 5px !important;
+        padding: 3px 10px;
+        font-size: 11px;
+    }
+
+    /* Blog/Opinion cards — elevated white card */
+    .blog-card {
+        box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        border-radius: 14px;
+        padding: 20px;
+        min-height: 120px;
+        border: 1px solid #eee;
+        background: #fff;
+        transition: all 0.3s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    .blog-card:hover {
+        box-shadow: 0 8px 30px rgba(0,0,0,.1);
+        transform: translateY(-4px);
+        border-color: rgba(255,123,0,.2);
+    }
+
+    /* InFocus side cards */
+    .infocus-card {
+        display: block;
+        padding: 12px 10px;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 0;
+        transition: all 0.2s ease;
+        border-radius: 8px;
+        border-left: 3px solid transparent;
+    }
+
+    .infocus-card:hover {
+        background-color: #fafafa;
+        border-left-color: #ff7b00;
+        padding-left: 14px;
+    }
+
+        .infocus-card .title {
+            margin-bottom: 0;
+            margin-top: 5px;
+            font-weight: 400;
+            line-height: 1.35;
+            font-size: 16px;
+            transition: color 0.2s ease;
+            color: #222;
+        }
+
+    .infocus-card:hover .title {
+        color: #ff7b00;
+    }
+
+    .country {
+        color: #ff6a00;
+        font-weight: 500
+    }
+
+    /* News overlay gradient — stronger */
+    .news-item-overlay {
+        background: linear-gradient(to bottom, transparent 20%, rgba(0,0,0,.85) 100%);
+        padding: 16px;
+        border-radius: 0 0 14px 14px;
+    }
+
+    .interest-card, .sectorNewsCard .media {
+        padding-bottom: 8px;
+    }
+
+    .content-overlay {
+        height: 50%;
+        background: linear-gradient(#fff0,rgb(255 255 255 / .4),rgb(255 255 255))
+    }
+
+    .text-design {
+        text-decoration: none !important;
+        color: #fff !important
+    }
+
+    .myCard .heading {
+        color: #222;
+        transition: color 0.2s ease;
+    }
+
+    .myCard:hover .heading {
+        color: #ff7b00
+    }
+
+    /* Sector news cards — cleaner with hover accent */
+    .sectorNewsCard {
+        margin-top: 0;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 14px 8px;
+        transition: all 0.2s ease;
+        border-radius: 8px;
+        border-left: 3px solid transparent;
+    }
+
+    .sectorNewsCard:hover {
+        background-color: #fafafa;
+        border-left-color: #ff7b00;
+    }
+
+    .mini-card {
+        height: 85px;
+        margin-top: 5px
+    }
+
+        .mini-card .image-card {
+            width: 100px;
+            height: 80px;
+            background-size: cover;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        }
+
+    .col-lg-12 .sectorNewsCard:last-child, .col-lg-6 .sectorNewsCard:last-child {
+        border-bottom: 1px solid #fff0
+    }
+
+    .sectorNewsCard .image-card {
+        width: 90px;
+        height: 90px;
+        background-size: cover;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        transition: transform 0.3s ease;
+    }
+
+    .sectorNewsCard:hover .image-card {
+        transform: scale(1.04);
+    }
+
+    .owl-stage-outer {
+        padding-top: 0;
+        z-index: 1000 !important
+    }
+
+    /* Interest cards with left accent */
+    .interest-card {
+        border-bottom: 1px solid #f0f0f0;
+        margin-top: 0;
+        transition: all 0.2s ease;
+        padding: 12px 8px;
+        border-radius: 8px;
+        border-left: 3px solid transparent;
+    }
+
+    .interest-card:hover {
+        background-color: #fafafa;
+        border-left-color: #ff7b00;
+    }
+
+    .col-lg-3 .interest-card:last-child {
+        border-bottom: 1px solid #fff0
+    }
+
+    .borderpadded {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .header-line-height {
+        line-height: 1.35
+    }
+
+    .text-gray {
+        color: #666
+    }
+
+    .textShadow {
+        color: #fff;
+        margin-top: -20px;
+        padding: 0 5px;
+        text-shadow: 0 2px 8px rgba(0,0,0,.5);
+    }
+
+    .svg-text {
+        fill: #212121;
+        font-size: 12px;
+        font-family: SegoeUI,Segoe UI
+    }
+
+    .svg-icon {
+        fill: #727272
+    }
+
+    .svg-bg {
+        fill: #fff0
+    }
+
+    .active .svg-icon, .active .svg-text {
+        fill: #ff6a00
+    }
+
+    /* Social follow buttons — cleaner circles */
+    .social-btn {
+        margin-top: 10px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        background: #fff;
+        padding: 6px;
+        color: #555;
+        outline-color: transparent !important;
+        transition: all 0.3s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    .social-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 4px 14px rgba(255,123,0,.2);
+        border-color: #ff7b00;
+        color: #ff7b00;
+        background: #fff7f0;
+    }
+
+    /* Opinion cards — clean bordered */
+    .opinion-card {
+        border-right: 1px solid #e8e8e8;
+        padding: 16px 20px;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    .opinion-card:hover {
+        background-color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0,0,0,.06);
+    }
+
+        .opinion-card img {
+            width: 60px !important;
+            border-radius: 50%;
+            border: 2px solid #eee;
+            transition: border-color 0.2s ease;
+        }
+
+    .opinion-card:hover img {
+        border-color: #ff7b00;
+    }
+
+    .primary-link {
+        color: #ff6a00;
+        font-weight: 500;
+    }
+
+    /* Center divider title */
+    .center-title {
+        font-size: 24px;
+        z-index: 10;
+        letter-spacing: 2px;
+        font-weight: 500;
+    }
+
+        .center-title span {
+            background-color: #f4f5f7;
+            padding: 0 22px;
+            z-index: 10
+        }
+
+        .center-title:after {
+            border-bottom: 2px solid rgba(255,123,0,.3);
+            width: 100%;
+            margin-top: -15px;
+            content: " ";
+            display: block;
+            z-index: 1
+        }
+
+    @@media(max-width:1024px) {
+        .section-title, .section-title2 {
+            font-size: 20px;
+        }
+
+        .owl-carousel .owl-nav .owl-next, .owl-carousel .owl-nav .owl-prev {
+            font-size: 20px;
+            width: 35px
+        }
+
+        .owl-nav {
+            top: -47px
+        }
+
+        .news-media-card .image-card-2 {
+            width: 90px;
+            height: 75px
+        }
+
+        .news-media-card.interview-media-card {
+            border-top: 1px solid #646464;
+            padding: 6px
+        }
+    }
+
+    @@media(max-width:768px) {
+        .bn-controls {
+            display: none
+        }
+
+        .bn-news {
+            right: 0 !important
+        }
+
+        #live-left h4 {
+            font-size: 19px
+        }
+
+        #live-left ul > li > a {
+            font-size: 17px;
+            padding: 5px 0;
+            display: block
+        }
+
+        .blog-card {
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+
+        .infocus-news {
+            border-radius: 10px;
+        }
+    }
+
+    @@media(max-width:425px) {
+        .infocus-card {
+            height: auto;
+            border-left: none;
+        }
+
+        .frame-ad {
+            height: 50px;
+            max-width: 100%;
+            display: block;
+            margin: 20px auto;
+            width: 320px
+        }
+
+        .container.full-width {
+            padding-left: 0;
+            padding-right: 0
+        }
+
+        .container.mt-minus-20 {
+            margin-top: -20px
+        }
+
+        .container.mb-mobile-0 {
+            margin-bottom: 0
+        }
+
+        .blog-card {
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .sectorNewsCard, .interest-card {
+            border-left: none;
+        }
+
+        .infocus-news {
+            border-radius: 8px;
+        }
+
+        .social-btn {
+            width: 32px;
+            height: 32px;
+            padding: 5px;
+        }
+    }
+
+    /* Home page section spacing */
+    .home-section-alt {
+        background-color: #f4f5f7;
+        padding: 30px 0 40px 0;
+        margin-top: 20px;
+    }
+
+    .home-section-alt .section-title span,
+    .home-section-alt .section-title2 span {
+        background-color: #f4f5f7;
+    }
+
+    .home-section-alt .sectorNewsCard:hover {
+        background-color: #eef0f2;
+    }
+
+    .home-section-alt .interest-card:hover {
+        background-color: #eef0f2;
+    }
+
+    /* Trend cards — number highlight */
+    .trend-title {
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.35;
+        color: #222;
+        transition: color 0.2s ease;
+    }
+
+    .trend-title:hover {
+        color: #ff7b00;
+    }
+
+    /* Image thumbnails in media lists */
+    .imgOne {
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        transition: transform 0.3s ease;
+    }
+
+    a:hover .imgOne {
+        transform: scale(1.04);
+    }
+
+    /* InFocus hero overlay — more dramatic */
+    .infocus-bg {
+        border-radius: 14px;
+        overflow: hidden;
+        min-height: 280px;
+        box-shadow: 0 4px 20px rgba(0,0,0,.12);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .infocus-bg:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0,0,0,.18);
+    }
+
+    .infocus-bg-overlay {
+        background: linear-gradient(to bottom, rgba(0,0,0,.05) 0%, rgba(0,0,0,.7) 100%);
+        border-radius: 14px;
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 10px;
+    }
+
+    .infocus-bg-heading {
+        font-size: 22px;
+        line-height: 1.35;
+        padding: 14px 18px;
+        font-weight: 500;
+    }
+
+    .padding-l-r-5 {
+        padding-left: 5px;
+        padding-right: 5px
+    }</style>
+<div class="container full-width mt-minus-20">
+    <h1 class="hidden">International Development News</h1>
+    <div class="advertisement-area m-b-10">
+        <div class="advertisement-title">Advertisement</div>
+    </div>
+</div>
+<div class="container">
+    <div class="breaking-news-ticker font-sans-serif m-b-16" id="example">
+        <h2 class="bn-label no-margin f-16" title="Breaking News">
+            <a class="fg-white no-text-decoration" href="/news-analysis">Breaking News</a>
+        </h2>
+        <div class="bn-news">
+            <ul id="news-alert"></ul>
+        </div>
+        <div class="bn-controls">
+            <button aria-label="Prevoius News"><span class="bn-arrow bn-prev"></span></button>
+            <button aria-label="Pause/Play"><span class="bn-action"></span></button>
+            <button aria-label="Next News"><span class="bn-arrow bn-next"></span></button>
+        </div>
+    </div>
+    <h2 class="section-title">
+        <span title="International Development News">Top Stories</span>
+    </h2>
+    <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+        @await Component.InvokeAsync("Infocus", new { reg = edition })
+    </cache>
+</div>
+<div class="video-container m-t-20 m-b-20">
+    <div class="container p-b-20">
+        <div class="text-center center-title font-oswald m-t-10">
+            <span><a href="/blogs" class="text-decoration" title="News Analysis">OPINION / BLOG</a></span>
+        </div>
+        <div class="m-t-20" id="opinion12">
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("Opinion", new { reg = edition })
+            </cache>
+        </div>
+        <a href="/blogs" class="pull-right read-more-btn m-t-20">View All</a>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            <h3 class="section-title">
+                <span>LIVE DISCOURSE</span>
+                <span class="pull-right"><a class="text-decoration" href="/live-discourse">VIEW ALL</a></span>
+            </h3>
+            <div class="clearfix m-b-20" id="live-left">
+                <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                    @await Component.InvokeAsync("InfocusLiveDiscourse", new { reg = edition })
+                </cache>
+            </div>
+            <div class="m-t-20 m-b-20">
+                @*  @{
+                var motherNotPatientAd = isMobile == true ? "/images/Campaign/corona/COVID19_awareness.jpg" : "/images/Campaign/corona/COVID19_awareness_728x90.jpg";
+                }
+                <a href="/coronavirus-awareness-campaign"><img src="~/Content/transparent.png" data-src="@motherNotPatientAd" class="img-responsive lazy m-b-20 center-block" alt="COVID-19 Awareness Campaign" /></a> *@
+            </div>
+        </div>
+        <div class="clearfix col-sm-12 col-md-4">
+            <h3 class="section-title">
+                <span>TRENDING</span>
+            </h3>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("Trends", new { filter = "Trends", reg = edition })
+            </cache>
+            <div class="p-t-10 p-b-20">
+                <a href="/research"> <img data-src="/images/SDGs/participatory-sdgs.jpg?width=445&quality=80" src="~/Content/transparent.png" alt="Participatory monitoring of SDGs" class="img-responsive center-block lazy" style="border:1px solid #eee" /> </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="video-container m-t-20 m-t-20">
+    <div id="videoNews" class="container"></div>
+</div>
+<div class="container m-t-10 m-b-20">
+    <a href="https://www.devdiscourse.com/un-news" rel="noopener" title="UN News" target="_blank"><img data-src="/AdminFiles/Ads/Devdiscourse_UN_News_logo_728.jpg" src="/Content/transparent.png" alt="United Nations News" class="img-responsive lazy center-block" /></a>
+</div>
+<div class="home-section-alt">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6" id="news1">
+            <h2 class="section-title" title="AGRO-FORESTRY NEWS">
+                <span>AGRO-FORESTRY</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("AgroForestoryNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/agro-forestry" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Agro-Forestory News">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-6" id="news2">
+            <h2 class="section-title" title="TECHNOLOGY NEWS">
+                <span>TECHNOLOGY</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("TechnologyNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/technology" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Technology News">Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="container m-t-20 m-b-20">
+    <div class="row">
+        <div class="col-md-7 p-t-10">
+            <h2 class="section-title" title="ECONOMY &amp; BUSINESS NEWS">
+                <span>ECONOMY &amp; BUSINESS</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("EconomyNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/economy-business" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Economy and Business News">Read More</a>
+            </div>@if (isMobile == true)
+            {
+                <div class="clearfix m-b-20">
+                    <div class="advertisement-area">
+                        <div class="advertisement-title">Advertisement</div>
+                        @Html.Partial("_coeSlides")
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="clearfix m-t-30 m-b-30">
+                    <div class="advertisement-area padding-l-r-5">
+                        <div class="advertisement-title">Advertisement</div>
+                        <a href="https://visionri.com/insight/22-refugee-compassion-and-response-ideas-to-mitigate-disasters-now-and-in-their-future" target="_blank" rel="noopener"><img src="~/AdminFiles/COE/refugee_728x90.jpg" class="img-responsive center-block m-t-10 m-b-10" alt="add-banner"></a>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-5 p-t-10">
+            <h2 class="section-title" title="EDUCATION NEWS">
+                <span>EDUCATION</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("EducationNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/education" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Education News">Read More</a>
+            </div>
+            <div class="clearfix text-center m-t-0 m-b-20">
+                <div class="advertisement-area">
+                    <div class="advertisement-title">Advertisement</div>
+                    @Html.Partial("_socialPartial")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="home-section-alt">
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 p-t-10">
+            <h2 class="section-title" title="ENERGY &amp; EXTRACTIVES NEWS">
+                <span>ENERGY &amp; EXTRACTIVES</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("EnergyNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/energy-extractives" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Energy and Extractives News">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-7 p-t-10">
+            <h2 class="section-title" title="HEALTH NEWS">
+                <span>HEALTH</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("HealthNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/health" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Health News">Read More</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 p-t-10">
+            <h2 class="section-title" title="LAW &amp; GOVERNANCE NEWS">
+                <span>LAW &amp; GOVERNANCE</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("LawGovernanceNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/law-governance" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Law and Governance News">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-8 p-t-10">
+            <h2 class="section-title" title="SCIENCE &amp; ENVIRONMENT NEWS">
+                <span>SCIENCE &amp; ENVIRONMENT</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("ScienceNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/science-environment" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Science and Enviroment News">Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+@*<div class="video-container"> <div class="container p-b-20"> <h2 class="section-title2"> <span style="background-color:#f4f4f4">Interviews</span> </h2> <div id="interviewCarousel" class="owl-carousel"> @{Html.RenderAction("GetInterview", "Home", new{reg=@ViewBag.edition});}</div></div></div>*@
+<div class="container m-t-20">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="section-title" title="URBAN DEVELOPMENT NEWS">
+                <span>URBAN DEVELOPMENT</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("UrbanDevelopmentNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/urban-development" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Urban Development News">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2 class="section-title" title="TRANSPORT NEWS">
+                <span>TRANSPORT</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("TransportNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/transport" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Transport News">Read More</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            <h2 class="section-title" title="SPORTS NEWS">
+                <span>SPORTS</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("SportsNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/sports" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Sports News">Read More</a>
+            </div>@if (isMobile == true)
+            {
+                <div class="clearfix m-b-20">
+                    <div class="advertisement-area">
+                        <div class="advertisement-title">Advertisement</div>
+                        @Html.Partial("_coeSlides")
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="clearfix m-t-30 m-b-30">
+                    <div class="advertisement-area padding-l-r-5">
+                        <div class="advertisement-title">Advertisement</div>
+                        <a href="https://visionri.com/insight/23-tracking-telehealth-covid-19-ushers-in-a-new-era-for-the-industry" target="_blank" rel="noopener"><img src="~/AdminFiles/COE/tracking_telehealth_728x90.jpg" class="img-responsive center-block m-t-10 m-b-10" alt="add-banner"></a>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-5">
+            <h2 class="section-title" title="WASH NEWS">
+                <span>WASH</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("WashNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/wash" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Water and Sanitation News">Read More</a>
+            </div>
+            <div class="clearfix m-t-20 m-b-30">
+                @Html.Partial("_socialPartial")
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <h2 class="section-title" title="ART &amp; CULTURE NEWS">
+                <span>ART &amp; CULTURE</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("ArtCultureNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/art-culture" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Art and Culture News">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <h2 class="section-title" title="POLITICS NEWS">
+                <span>POLITICS</span>
+            </h2>
+            <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+                @await Component.InvokeAsync("PoliticsNews", new { reg = edition })
+            </cache>
+            <div class="clearfix">
+                <a href="/news/politics" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Politics News">Read More</a>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix m-t-20 m-b-20">
+        <a href="https://www.devdiscourse.com/article/technology/1404619-top-10-best-web-hosting-for-small-businesses-in-2021" target="_blank"><img src="/images/Best_Web_Hosting.jpg" alt="Top 10 best web hosting for small businesses in 2021" class="img-responsive center-block" /></a>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title" title="SOCIAL &amp; GENDER NEWS">
+                <span>SOCIAL &amp; GENDER</span>
+            </h2>
+        </div>
+        <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+            @await Component.InvokeAsync("SocialNews", new { reg = edition })
+        </cache>
+        <div class="col-md-12">
+            <a href="/news/socialgender" class="read-more-btn m-t-10 m-b-30" aria-label="Read more on Social and Gender News">Read More</a>
+        </div>
+    </div>
+</div>
+<div class="container m-t-20 m-b-20">
+    <cache expires-after="@TimeSpan.FromMinutes(1)" vary-by-query="@edition">
+        @await Component.InvokeAsync("News", new { reg = edition, skip = 0, take = 12 })
+    </cache>
+</div>
+
+<link href="~/Content/breaking-news-ticker.min.css" rel="stylesheet" />
+@section scripts {
+    <script>
+        var _edition = '@(edition)'; var _saveSector = [];
+        // remove style from all img tags
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.removeAttribute('style');
+            });
+        });
+    </script>
+    <script src="~/Scripts/breaking-news-ticker.min.js" async></script>
+    <script src="~/Scripts/Home/Index.js" async></script>
+}

@@ -1,0 +1,264 @@
+﻿@{
+    string domainUrl= "https://www.devdiscourse.com";
+    ViewBag.Title = "Testcon 2019 Banglore - Thursday & Friday, July 4-5, 2019 | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "Testcon 2019 Banglore - Thursday & Friday, July 4-5, 2019";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/testcon_banglore_banner.jpg?width=920";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    string pageUrl = "/events/testcon-2019-banglore";
+    ViewBag.PostUrl = string.Concat(domainUrl, @pageUrl);
+    ViewBag.pageKeywords = "Testcon, Banglore, testcon Banglore";
+    ViewBag.PageDescription = "TESTCON 2019 is a 2 day event designed to deliver the cutting-edge Test Automation technologies.Participants form a peer-reviewed professional network, gain unique insights through interactive discussions from our leading industry experts.";
+}
+<style>
+    .renderBody{
+        margin:0;
+    }
+    .ev-date {
+        color: #29009e;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 26px;
+        border-top: 5px solid #29009e;
+        border-bottom: 5px solid #29009e;
+        margin:40px 0;
+    }
+    .ev-text{
+        font-size:26px;
+    }
+    .bg-container {
+        background-image: url('/images/mediapartners/testcon_banglore.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 90px 0 160px 0;
+        background-position: center center;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .trend-card, .event-news {
+        filter: grayscale(100%);
+    }
+
+        .trend-card:hover, .event-news:hover {
+            filter: grayscale(0);
+        }
+
+    .fg-white {
+        color: #f0f0f0;
+    }
+
+    .main-heading {
+        color: #29009e;
+        font-size: 8.5rem;
+        font-weight: 700;
+        line-height:1.2;
+        margin:10px 0;
+    }
+    .fg-color {
+        color: #29009e;
+    }
+    .bg-color {
+        color: #29009e;
+    }
+    .main-right {
+        height: 600px;
+    }
+    .why-abu {
+        color: #234e5e;
+        font-size: 28px;
+        font-weight: 500;
+    }
+    .news-container {
+        background-color: #29009e;
+        padding-bottom: 30px;
+        color: #fff;
+    }
+    .mid-container {
+        background-color: #29009e;
+        color: #fff;
+    } 
+    .btn-css {
+        background-color: #29009e;
+        color: #fff;
+        margin-top: 40px;
+        font-size: 24px;
+        font-weight: 500;
+        padding: 10px 60px;
+        font-family:sans-serif;
+    }
+        .btn-css:active {
+            background-color: #29009e;
+            color: #fff;
+        }
+        .btn-css:hover {
+            background-color: #234e5e;
+            color: #fff;
+        }
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align:center
+    }
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+    .item-right {
+        float: right
+    }
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+    /*@@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }*/
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+    }
+        /*nav.navscrollmenubar .linkBtn:hover {
+            background-color: #234e5e;
+        }*/
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+    @@media screen and (max-width:768px) {
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+        .main-right {
+            height: 500px;
+        }
+    }
+    @@media screen and (max-width:425px){
+        .bg-container {
+            padding: 20px 0 30px 0;
+        }
+        .main-right {
+            margin-top:30px;
+            height: 400px;
+        }
+        .why-abu{
+            margin-top:30px;
+        }
+        .main-heading{
+            font-size:3.5rem;
+        }
+        .h3{
+            font-size:18px;
+            margin-top:15px;
+            line-height:1.4;
+        }
+        .btn-css {
+            background-color: #29009e;
+            color: #fff;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 20px;
+            font-family: sans-serif;
+        }
+    }
+    .bg-white.p-t-20{
+        padding:0;
+    }
+</style>
+<h1 class="hidden">Devdiscourse: International Development News</h1>
+<div class="bg-container">
+    <div class="container">
+        <img src="~/images/mediapartners/clavent_logo.png" class="img-responsive" style="max-width:110px" />
+        <div class="ev-text font-sans-serif fg-white text-center">Devdiscourse is proud media partner of</div>
+        <a href="https://www.clavent.com/testcon-2019-bangalore/" class="text-decoration" target="_blank">
+            <div class="main-heading font-sans-serif text-center">TESTCON 2019 <br /> BANGALORE</div>
+        </a>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="border-card">
+                    <div class="font-sans-serif ev-date">Thursday & Friday, July 4-5, 2019</div>
+                    <div class="ev-text font-sans-serif fg-white text-center">A Premier Conference for Test Automation Professionals.</div>
+                    <div class="text-center"><a href="https://www.townscript.com/e/testcon-2019-bangalore-244041/booking" target="_blank" class="btn btn-css">REGISTER</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="news-container">
+    <div class="p-t-30 container content-container">
+        <h2 class="font-sans-serif">EVENT NEWS</h2>
+        <div>
+            <div id="moreEventNews">
+                @{ Html.RenderAction("EventNews", "Events", new { id = "1", skip = 0, take = 5 });}
+            </div>
+        </div>
+    </div>
+</div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+        });
+    </script>
+}

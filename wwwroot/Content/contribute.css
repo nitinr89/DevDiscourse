@@ -1,0 +1,165 @@
+﻿
+body {
+    background-color: #f0f3f8;
+}
+.btn-blue {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+.btn-blue:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+.left-panel {
+    width: 100px;
+    min-height: 70vh;
+    display: inline-block;
+    color: #666;
+}
+.main {
+    width: calc(100% - 100px);
+    height: 100%;
+    display: inline-block;
+    float: right;
+    padding: 20px 35px;
+    color: #666;
+}
+.icon-cont {
+    padding: 10px 5px;
+}
+    .icon-cont .icon {
+        display: block;
+        margin: 3px auto;
+        max-height: 30px;
+    }
+    .icon-cont a {
+        text-decoration: none;
+        color: #666;
+    }
+.main .title {
+    font-weight: 400;
+}
+.dashboard-card {
+    padding: 20px;
+    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+.stat-count {
+    font-size: 25px;
+    margin-top: 20px;
+}
+.fg-black {
+    color: #222;
+}
+.crossbtn {
+    margin-top: -20px;
+    margin-right: -20px;
+    position: absolute;
+    right: 0;
+    z-index: 1000000
+}
+    .crossbtn img {
+        height: 45px;
+        cursor:pointer;
+    }
+.shadow {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
+}
+.news-image-card {
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100px;
+    width: 120px;
+}
+.profile-image-card {
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 160px;
+    width: 160px;
+}
+.inst-title {
+    margin-top: 40px;
+    font-size: 28px;
+    color: #0073c4;
+    display: inline-block;
+    font-weight: 500
+}
+@media(max-width:425px) {
+    .left-panel {
+        width: 80px;
+    }
+
+    .main {
+        width: calc(100% - 80px);
+        padding: 10px 15px;
+    }
+
+        .main h3 {
+            font-size: 18px;
+        }
+
+    .icon-cont {
+        padding: 10px 5px;
+    }
+
+        .icon-cont .icon {
+            max-height: 25px;
+        }
+
+    .dashboard-card {
+        padding: 10px;
+    }
+    .media-body, .media-left, .media-right {
+        display: unset;
+        vertical-align: unset;
+    }
+    .inst-title {
+        margin-top: -65px;
+        font-size: 24px;
+        color: #0073c4;
+        float:right;
+        font-weight: 500;
+        margin-right:40px;
+    }
+    .crossbtn {
+        margin-top: -10px;
+        margin-right: -10px;
+    }
+        .crossbtn img {
+            height:45px;
+        }
+
+    .btn-blue {
+        padding: 4px 5px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+}
+@media(max-width:375px){
+    .inst-title {
+        margin-top: -65px;
+        font-size: 24px;
+        color: #0073c4;
+        float: right;
+        font-weight: 500;
+        margin-right: 0px;
+    }
+}
+@media(max-width:325px) {
+    .inst-title {
+        margin-top: -62px;
+        font-size: 17px;
+        color: #0073c4;
+        float: right;
+        font-weight: 500;
+        margin-right: 0px;
+    }
+    .checklistContainer{
+        width:145px;
+    }
+}

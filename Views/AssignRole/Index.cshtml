@@ -1,0 +1,121 @@
+﻿@using X.PagedList
+@model IPagedList<Devdiscourse.Models.ViewModel.AssignedRoleView>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.ViewModel.AssignedRoleView> model = Model;
+}
+@{
+    ViewBag.Title = "Assign Role";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+    int i = ViewBag.Srno;
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/admin.css" rel="stylesheet" />
+<div class="bg-white p-20">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "AssignRole")">Assigned Role</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Users", "AssignRole")">Users</a></li>
+    </ol>
+
+    <form action="/AssignRole" method="post" id="SearchForm">
+        <div class="row m-b-20">
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                <label>User Search</label>
+                <div class="input-group" id="searchDiv">
+                    <label for="searchBtn"></label>
+                    <input type="text" class="form-control" value="@ViewBag.searchText" name="text" style="border-right:none !important;border-top-left-radius:4px;border-bottom-left-radius:4px;" id="inputText" placeholder="Search...">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" name="searchBtn" id="textBtn" style="border-left:none !important;color:#aeaeae;" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                <label>Roles</label>
+                <select class="form-control m-t-10" id="selRole" name="role">
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+    </form>
+    <div class="m-t-20" style="overflow:auto;font-size:14px;">
+        <table class="table">
+            <tr>
+                <th>SrNo</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>User Name</th>
+                <th>Role</th>
+                <th>CreatedOn</th>
+                <th>Action</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td>@i</td>
+                    <td>@item.User</td>
+                    <td>@item.Email</td>
+                    <td>@item.UserName</td>
+                    <td>@item.Role</td>
+                    <td>
+                        @if (item.CreatedOn == DateTime.Parse("01-01-1900 00:00:00"))
+                        {
+                            var date = DateTime.UtcNow.AddDays(-35);
+                            @date.ToString("dd-MM-yyyy hh:mm")
+                        }
+                        else
+                        {
+                            @item.CreatedOn.ToString("dd-MM-yyyy hh:mm")
+                        }
+                    </td>
+                    <td>
+                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                        {
+
+                            <a href="@Url.Action("Update", "AssignRole", new { id = item.Id, roleId = item.RoleId })" class="btn btn-xs btn-success" target="_blank" title="Edit"><span class="fa fa-pencil"></span></a>
+                        }
+                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("Delete", "AssignRole", new { id = item.Id, role = item.Role })" class="btn btn-xs btn-danger" target="_blank" title="Delete"><span class="fa fa-trash"></span></a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
+        <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
+        @Html.PagedListPager(Model, page => Url.Action("Index", "AssignRole", new { text = ViewBag.searchText, role= ViewBag.selRole, page }))
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _selectedRole = '@(ViewBag.selRole)';
+            getRoles();
+            function getRoles() {
+                $.ajax({
+                    url: '/Role/GetRoles',
+                    type: 'Get',
+                    dataType: 'Json',
+                    success: function (data) {
+                        var roleHtml = '<option value="">Select</option>';
+                        $.each(data, function (i, item) {
+                            // console.log(item);
+                            roleHtml += '<option value="' + item.name + '">' + item.name + '</option>'
+                        });
+                        $('#selRole').html(roleHtml).val(_selectedRole);
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $('#selRole').change(function () {
+                $('#SearchForm').submit();
+            });
+        });
+    </script>
+    }

@@ -1,0 +1,8 @@
+﻿<div class="tags_container">
+    <ul>
+        @foreach (var item in ViewBag.tags)
+        {
+            <li class="text-align"><a href="@Url.Action("Search", "Home", new {sector ="All", tag = item })" title="@item" class="tags">@item</a></li>
+        }
+    </ul>
+</div>

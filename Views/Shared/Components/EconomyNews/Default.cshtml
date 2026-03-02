@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.NewsViewModel>
+
+@if (ViewBag.Sector == "1" || ViewBag.Sector == "2" || ViewBag.Sector == "18" || ViewBag.Sector == "19")
+{
+    <div class="row">
+        <div class="col-md-7">
+            @foreach (var item in Model.Take(2))
+            {
+
+                string controller = "/article";
+                string action = item.Label ?? "agency-wire";
+                string id = item.GenerateSecondSlug();
+                var newsImage = "";
+                if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
+                {
+
+                    newsImage = $"/img?imageUrl={item.ImageUrl}";
+                }
+                <a href="@controller/@action/@id" class="text-decoration">
+                    <div style="padding-bottom:57%;background-size:cover;background-repeat:no-repeat;" class="lazy" data-src="@newsImage&width=360&height=240&mode=crop&format=jpeg">
+                        <p class="font-sans-serif text-uppercase badge-tag ls-1">
+                            @if (!String.IsNullOrEmpty(item.Country))
+                            {
+                                var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
+                                {
+                                    <small class="ls-1">@t</small>
+                                }
+                            }
+                            else
+                            {
+                                <small class="ls-1">Global</small>
+                            }
+                        </p>
+                    </div><h3 class="trend-title no-margin p-b-20 m-b-30 p-t-5">@item.Title</h3>
+                </a>
+            }
+        </div> <div class="col-md-5">
+            @foreach (var item in Model.Skip(2).Take(3))
+            {
+                string controller = "/article";
+                string action = item.Label ?? "agency-wire";
+                string id = item.GenerateSecondSlug();
+                //long id = item.NewsId;
+                var newsImage = "";
+                if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
+                {
+                    newsImage = $"/img?imageUrl={item.ImageUrl}";
+                }
+                <a href="@controller/@action/@id" class="text-decoration">
+                    <div style="padding-bottom:45%;background-size:cover;background-repeat:no-repeat;" class="lazy bg-highlight" data-src="@newsImage&width=250&height=120&mode=crop&format=jpeg">
+                        <small class="font-sans-serif text-uppercase badge-tag ls-1">
+                            @if (!String.IsNullOrEmpty(item.Country))
+                            {
+                                var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
+                                {
+                                    <text>@t</text>
+                                }
+                            }
+                            else
+                            {
+                                <text>Global</text>
+                            }
+                        </small>
+                    </div><h3 class="trend-title no-margin p-b-20 m-b-20 p-t-5">@item.Title</h3>
+                </a>
+            }
+        </div>
+    </div>
+}
+
+
+
+

@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Update Standing";
+    ViewBag.webEdition = ViewBag.region;
+}
+<div class="container">
+    <h2>Update Standing</h2>
+</div>
+<div class="container" id="main-container">
+</div>
+<div class="container m-t-40"><a href="/images/worldcup/data/standing.json" class="btn btn-primary" download=""><span class="fa fa-download"></span> Download Data</a></div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            getStanding();
+            function getStanding() {
+                $.ajax({
+                    cache: false,
+                    url: '/images/worldcup/data/standing.json',
+                    type: 'Get',
+                    data: {},
+                    dataType: 'Json',
+                    success: function (data) {
+                        var dataHtml = '';
+                        $.each(data.teams, function (i, item) {
+                            dataHtml += `<div class="row standing" id="${i}"><div class="col-md-6"><label>Team Name</label>
+                                        <h3 class="no-margin p-t-10 p-b-10">${item.Name }</h3>
+                                        <input type="hidden" value="${item.Name}" data-id="Name" class="form-control"/>
+                                        <label>Team Flag</label>
+                                        <div class="p-t-10 p-b-10"><img src="${item.Flag}"></div>
+                                        <input type="hidden" data-id="Flag" value="${item.Flag}" class="form-control"/>
+                                        <label>Position</label>
+                                        <input type="number" data-id="Pos" value="${item.Pos}" class="form-control"/>
+                                        <label>Played</label>
+                                        <input type="number" data-id="Played" value="${item.Played}" class="form-control"/>
+                                        <label>Won</label>
+                                        <input type="number" data-id="Won" value="${item.Won}" class="form-control"/>
+                                        <label>Lost</label>
+                                        <input type="number" data-id="Lost" value="${item.Lost}" class="form-control"/>
+                                        <label>N/R</label>
+                                        <input type="number" data-id="N_R" value="${item["N_R"]}" class="form-control"/>
+                                        <label>Tied</label>
+                                        <input type="number" data-id="Tied" value="${item["Tied"]}" class="form-control"/>
+                                        <label>Net RR</label>
+                                        <input type="number" data-id="Net_RR" value="${item.Net_RR}" class="form-control"/>
+                                        <label>Points</label>
+                                        <input type="number" data-id="Points" value="${item["Points"]}" class="form-control"/><hr /></div></div>`;
+                        });
+                        $("#main-container").html(dataHtml+'<buttton class="btn btn-success" id="savedata">Save</button>');
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $(document).on('click', '#savedata', function () {
+                var standingList = [];
+                $('.standing').each(function (i, item) {
+                    var teamName = $('#' + i + ' [data-id="Name"]').val();
+                    var teamPos = $('#' + i + ' [data-id="Pos"]').val();
+                    var teamFlag = $('#' + i + ' [data-id="Flag"]').val();
+                    var matchPlayed = $('#' + i + ' [data-id="Played"]').val();
+                    var matchWon = $('#' + i + ' [data-id="Won"]').val();
+                    var matchLost = $('#' + i + ' [data-id="Lost"]').val();
+                    var teamN_R = $('#' + i + ' [data-id="N_R"]').val();
+                    var matchTied = $('#' + i + ' [data-id="Tied"]').val();
+                    var teamNet_RR = $('#' + i + ' [data-id="Net_RR"]').val();
+                    var teamPoints = $('#' + i + ' [data-id="Points"]').val();
+                    standingList.push({
+                        "Pos": teamPos,
+                        "Name" : teamName,
+                        "Flag" : teamFlag,
+                        "Played" : matchPlayed,
+                        "Won" : matchWon,
+                        "Lost" : matchLost,
+                        "N_R" : teamN_R,
+                        "Tied" : matchTied,
+                        "Net_RR" : teamNet_RR,
+                        "Points" : teamPoints
+                    });
+                });
+                postStanding(standingList);
+            });
+            function postStanding(standingList) {
+                $.ajax({
+                    url: '/CricketWorldCup/postStanding',
+                    type: 'Post',
+                    data: { match: '{"teams":' + JSON.stringify(standingList) + '}' },
+                    dataType: 'Json',
+                    success: function (data) {
+                        console.log(JSON.parse(data));
+                        $.notify({ message: "Submit successfully!" }, { type: "success", delay: 1e3, placement: { from: "top", align: "right" } });
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        });
+    </script>
+    }

@@ -1,0 +1,323 @@
+﻿@{
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "Mediterranean Offshore Conference (MOC) - Egypt | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "Mediterranean Offshore Conference (MOC) - Egypt";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/moc_cover.jpg";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/power-week-africa";
+    ViewBag.pageKeywords = "Mediterranean Offshore Conference, MOC, MOC - Egypt, Egypt";
+    ViewBag.PageDescription = "POWER WEEK AFRICA is the 2nd annual international conference & summit specially designed for the African electric power & energy industry, promising 5 days of premium networking opportunities that is inclusive of a 2-day main conference, 6 supplementary workshops, multiple case studies from a wide array of perspectives, expert opinions and unrivalled insights into the African electric power & energy market prospects.";
+}
+<style>
+    .renderBody {
+        margin: 0;
+    }
+
+    .fg-color {
+        color: #0f76bc;
+    }
+
+    .bg-color {
+        color: #0f76bc;
+    }
+
+    .ev-loc {
+        padding-top: 10px;
+        font-weight:500;
+    }
+
+    .bg-container {
+        background-image: url('/images/mediapartners/moc_bg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 50px 10px 100px 10px;
+        background-position: center center;
+    }
+
+    .border-card {
+        background-color: #fff;
+        padding: 60px 25px;
+        font-weight: 500;
+        font-family: sans-serif;
+        -webkit-box-shadow: 0px 0px 25px -13px rgba(117,117,117,1);
+        -moz-box-shadow: 0px 0px 25px -13px rgba(117,117,117,1);
+        box-shadow: 0px 0px 25px -13px rgba(117,117,117,1);
+    }
+
+    .f-25 {
+        font-size: 32px;
+        font-weight: 600;
+        margin: 60px 0 40px 0;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .f-24 {
+        font-size: 26px;
+    }
+
+    .custom-hr {
+        margin-top: 45px;
+        margin-bottom: 45px;
+        border-top: 2px solid #5fb517;
+    }
+
+    .ev-text {
+        color: #0f76bc;
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.33;
+    }
+
+    .why-abu {
+        color: #234e5e;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .news-container {
+        background: #fff;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #0f76bc;
+    }
+
+    .mid-container {
+        background: #0f76bc;
+        color: #fff;
+    }
+
+    .btn-css {
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+        background-color: #0f76bc;
+        color: #fff;
+        margin-top: 30px;
+        font-weight: 500;
+        padding: 10px 45px;
+        border: 0;
+        border-radius: 0;
+        font-size: 22px;
+        font-family: sans-serif;
+    }
+
+        .btn-css:active {
+            background-color: #0f76bc;
+            color: #fff;
+        }
+
+        .btn-css:hover {
+            background-color: #045993;
+            color: #fff;
+        }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+    }
+    /*nav.navscrollmenubar .linkBtn:hover {
+            background-color: #234e5e;
+        }*/
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .why-abu {
+            margin-top: 30px;
+        }
+
+        .f-24 {
+            font-size: 18px;
+        }
+
+        .bg-container {
+            padding: 10px 0;
+        }
+
+        .border-card {
+            padding: 10px;
+        }
+
+        .ev-text {
+            font-size: 16px;
+        }
+
+        .custom-hr {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .ev-loc {
+            padding-top: 10px;
+        }
+
+        .btn-css {
+            margin-top: 10px;
+        }
+    }
+</style>
+<div class="bg-container">
+    <div class="container p-t-20">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-8 col-xs-12">
+                <div class="border-card">
+                    <div class="f-18 text-center m-b-20">Devdiscourse is proud media partner of </div>
+                    <img src="~/images/mediapartners/moc_logo.jpg" class="img-responsive center-block" />
+                    <div class="f-18 ev-loc text-center">15 / 17 OCTOBER 2019  |  ALEXANDRA - EGYPT</div>
+                    <p class="text-center f-16">Bibliotheca Alexandrina Conference Centre</p>
+                    <div class="ev-text text-center font-sans-serif m-t-40">
+                        THE ONLY OFFICIAL EVENT OF THE MINISTRY OF PETROLEUM AND MINERAL RESOURCES OF EGYPT
+                    </div>
+                    <a href="https://www.moc-egypt.com/book-a-stand/" target="_blank" class="btn center-block btn-css">BOOK YOUR STAND</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="https://www.moc-egypt.com/" target="_blank" class="linkBtn" title="Mediterranean Offshore Conference">HOME</a>
+            </div>
+            <div class="item">
+                <a href="https://www.moc-egypt.com/organising-committee/" target="_blank" class="linkBtn" title="Orgainizing Committee">ORGANIZING COMMITTEE</a>
+            </div>
+            <div class="item">
+                <a href="https://www.moc-egypt.com/venue/" target="_blank" class="linkBtn" title="Vanue">VANUE</a>
+            </div>
+            <div class="item">
+                <a href="https://www.moc-egypt.com/advertising-sponsorship/" target="_blank" class="linkBtn" title="Advertising and Sponsorship">ADVERTISING & SPONSORSHIP</a>
+            </div>
+            <div class="item">
+                <a href="https://www.moc-egypt.com/supporters/" target="_blank" class="linkBtn" title="Supporters">SUPPORTERS</a>
+            </div>
+            <div class="item">
+                <a href="https://www.moc-egypt.com/contact-us/" target="_blank" class="linkBtn" title="Contact Us">CONTACT US</a>
+            </div>
+        </nav>
+    </div>
+</div>
+@*<div class="news-container">
+    <div class="p-t-30 container content-container">
+        <h2 class="font-sans-serif">EVENT NEWS</h2>
+        <div>
+            <div id="moreEventNews">
+                @{ Html.RenderAction("EventNews", "Events", new { id = "26", skip = 0, take = 5 });}
+            </div>
+            <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+        </div>
+    </div>
+</div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=26&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,327 @@
+﻿@{
+    ViewBag.Title = "Knowing is Life: Let us fight COVID 19, our invisible enemy - Devdiscourse";
+    ViewBag.alternateHeadline = "Knowing is Life: Let us fight COVID 19, our invisible enemy";
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = "/images/Campaign/corona/cororna_virus_campaign_card.jpg";
+    ViewBag.PageDescription = "A Global Communication Campaign to help you in protecting your family and community from COVID 19 infection and emerge as a pandemic resilience society.";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.PostUrl = "https://www.devdiscourse.com/";
+    ViewBag.pageKeywords = "COVID 19, Corona Virus, Corona, Global Communication Campaign, pandemic";
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage + "?width=960";
+}
+<style>
+    .renderBody {
+        margin: 0;
+    }
+
+    .heading {
+        margin-top: 5rem;
+        font-size: 5rem;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: 3px;
+    }
+
+    .quote-div {
+        padding-top: 5rem;
+    }
+
+    .campaign-img {
+        max-height: 500px;
+    }
+
+    .bg-color-theme {
+        background-color: #fbfbfb;
+    }
+
+    .bg-white.p-t-20 {
+        padding-top: 0;
+    }
+
+    .panel-default > .panel-heading {
+        background-color: #fff;
+    }
+
+    .fg-color {
+        color: #050ae0;
+    }
+
+    .bg-orange {
+        background-color: #050ae0;
+    }
+
+    .b-b-white {
+        border-bottom: 35px solid #fff;
+    }
+
+    .fg-secondary {
+        color: #f3f580
+    }
+
+    #NewsSector {
+        box-shadow: 0px 9px 18px 0 rgba(89, 81, 69, 0.05);
+    }
+
+    .main-section {
+        min-height: 520px;
+        background-image: url('/images/Campaign/corona/coronavirus_banner.jpg');
+        background-size: cover;
+    }
+
+    .section-padding {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    .heading-para {
+        font-size: 2.4rem;
+        margin-top: 30px
+    }
+
+    .camp-section-title {
+        color: #050ae0;
+        position: relative;
+        font-size: 3.428rem;
+        font-style: normal;
+    }
+
+        .camp-section-title::after {
+            content: '';
+            height: 4px;
+            width: 65px;
+            display: block;
+            text-align: left;
+            position: relative;
+            margin-top: 0.5em;
+            background-color: #050ae0;
+        }
+
+    .para-container p {
+        font-size: 1.7rem;
+        line-height: 1.7;
+        margin-bottom: 17px;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    }
+
+    .para-container li {
+        font-size: 1.7rem;
+        line-height: 1.7;
+        margin-bottom: 10px;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    }
+
+    .para-container a {
+        color: #050ae0;
+    }
+
+    .para-container strong {
+        font-weight: 500;
+    }
+
+    .custom-input {
+        border-color: #fff;
+        border-radius: 1px !important;
+    }
+
+    .btn-submit {
+        outline: none;
+        border-top-right-radius: 1px !important;
+        border-bottom-right-radius: 1px !important;
+        color: #fff !important;
+        background-color: #050ae0;
+        font-family: 'oswald';
+    }
+
+        .btn-submit:active, .btn-submit:hover {
+            background-color: #6c6ff8;
+        }
+
+    .sign_petition {
+        font-size: 4.2rem;
+        margin-bottom: 40px;
+    }
+
+    .anatomy {
+        float: left;
+        max-width: 200px;
+        margin: 0 10px 10px 0;
+    }
+
+    .fact_banner {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: #f3f2ee;
+        background-repeat: no-repeat;
+        background-image: url('/images/Campaign/facts_bg.png');
+    }
+
+    .pl-35 {
+        padding-left: 32%;
+    }
+
+    .fact_banner p, .fact_banner ul {
+        color: #aa1636;
+        font-size: 1.7rem;
+    }
+
+    .f-17 {
+        font-size: 1.7rem;
+    }
+
+    .panel-title a {
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    @@media(max-width:425px) {
+        .heading {
+            font-size: 5rem;
+        }
+
+        .fact_banner {
+            background-image: none;
+        }
+
+        .pl-35 {
+            padding-left: 15px;
+        }
+
+        .heading-para {
+            font-size: 1.6rem;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+    }
+
+    .mini-card {
+        height: 120px;
+        margin-top: 5px;
+        border-bottom: 1px solid #ddd
+    }
+
+    .infocus-badge {
+        padding: 3px 5px;
+        margin-top: 5px;
+        font-size: 12px;
+        background-color: #ff7b00;
+        color: #fff;
+    }
+
+    .mini-card .image-card {
+        width: 100px;
+        height: 90px;
+        background-size: cover
+    }
+    iframe #twitter-widget-0 {
+        height:512px !important;
+    }
+    .centerDiv {
+        margin: auto;
+        width: 50%;
+        border: 1px solid #ff7b00;
+        padding: 10px;
+        float:none;
+    }
+</style>
+<div class="bg-color-theme main-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-8 p-t-50">
+                <h1 class="fg-white heading">Knowing is Life: Let us Fight COVID 19, Our Invisible Enemy</h1>
+                <p class="heading-para fg-secondary m-t-20">
+                    A Global Communication Campaign to help you in protecting your family and community from COVID 19 infection and emerge as a pandemic resilience society.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section-padding">
+    <div class="container para-container">
+        <h2 class="camp-section-title">Why the campaign?</h2>
+        <img src="~/images/Campaign/corona/corona_virus.jpg" class="hidden-xs" style="float:right;max-height:320px;margin:10px 0 10px 20px" />
+        <p>Friends! This is a war of a different kind. The enemy is invisible but very close to you. If fails to harm you, it will use you as a carrier to harm your loved ones. Primarily a health crisis, implications of the COVID 19 pandemic are multi-dimensional. The economies are falling.</p>
+        <p>Presently, the governments have owned up the responsibility of maintaining essential commodities but it's not a sustainable option for the long term.  Every member of the community needs to stand up against the pandemic and join the cause of COVID 19 warriors by spreading awareness and combating miscommunication caused by fake news items. How long a stalled economy will be able to bear the burden of its population? Millions have been jobless. If global lockdown continues, millions will suffer from poverty, indebtedness, and food insecurity.</p>
+        <p>There is an urgent need to join the COVID 19 warriors in helping the governments to ease out restrictions. As there is no vaccine, prevention is the only way to save communities as well as economies.</p>
+        <p>The communication campaign of Devdiscourse (Discourse on Development) is aimed at creating awareness across communities about COVID 19 pandemic thereby contribute in minimizing infections and controlling new outbreaks. Besides, the long term objectives include creating a platform to learn lessons from the ensuing global crisis and translating them into policy formulations to help the economies in developing pandemic resilient systems and plan better for prevention of potential outbreaks in the future. </p>
+    </div>
+</div>
+<div class="section-padding bg-color-theme">
+    <div class="container para-container">
+        <h2 class="camp-section-title">What to do?</h2>
+        <p>Friends! it’s time to take sides. If you are not with the COVID 19 warriors, you are virtually helping the invisible enemy - COVID 19.</p>
+        <p>All you need to do is - follow the don’ts because you really don’t know how close the enemy is to you? And, who/what can infect you?  You may be infected just by touching an object which an infected person had touched before 24 hours or a few days back. S/he may be your vendor, milkman, vegetable seller, fruit seller, sweeper, driver, family doctor, teacher, neighbour, co-passenger, colleague, or any friend or relative coming to your home or somebody touching you outside your home or causing you to touch the infected objects.</p>
+        <p>Devdiscourse appeals every human being to maintain maximum social distance, don’t shake hands, don’t touch common objects, don’t touch your nose, frequently wash your hands with soap for 20 seconds, and follow the guidelines of World Health Organization (WHO).</p>
+        <p>Join us as a COVID 19 Communication Warrior to disseminate this message to the maximum people around you through social media.</p>
+        <p>Together! We, humans, shall win.</p>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <p>
+                <a href="/Account/Register" target="_blank" class="">Sign up <i class="fa fa-external-link"></i></a> as COVID 19 Communication Warrior
+            </p>
+        }
+    </div>
+</div>
+<div class="section-padding">
+    <div class="container para-container">
+        <h4 class="section-title">
+            <span style="text-transform:none;">COVID-19 SYMPTOMS</span>
+        </h4>
+        <div class="container">
+            <img src="~/images/Campaign/corona/corona_symptoms.png" style="width:100%;height:auto" />
+        </div>
+    </div>
+</div>
+<div class="section-padding">
+    <div class="container para-container">
+        <h4 class="section-title">
+            <span style="text-transform:none;">Covid-19 Cases</span>
+        </h4>
+        <div class="container">
+            <div class="flourish-embed flourish-map" data-src="story/225979">
+                <script src="https://public.flourish.studio/resources/embed.js"></script>
+            </div>
+            <div class="flourish-embed flourish-table" data-src="story/230195">
+                <script src="https://public.flourish.studio/resources/embed.js"></script>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section-padding">
+    <div class="container para-container">
+        <h4 class="section-title">
+            <span style="text-transform:none;">COVID-19 STORIES</span>
+        </h4>
+        @{
+            // Html.RenderAction("GetCoronaNews", "Coronavirus");
+            await Component.InvokeAsync("Coronanews");
+
+        }
+        <a href="/coronavirus-awareness-news" class="read-more-btn m-t-5 fg-black">Read More</a>
+    </div>
+</div>
+<div class="section-padding">
+    <div class="container para-container">
+        <h4 class="section-title">
+            <span style="text-transform:none;">COVID-19 Tweets</span>
+        </h4>
+        <div class="col-md-6 centerDiv">
+            <a class="twitter-timeline" href="https://twitter.com/dev_discourse/lists/covid-19?ref_src=twsrc%5Etfw">A Twitter List by dev_discourse</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+        });
+    </script>
+}
+

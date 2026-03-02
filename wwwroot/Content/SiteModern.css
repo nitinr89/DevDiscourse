@@ -1,0 +1,833 @@
+/* ============================================================
+   SiteModern.css — UI Modernization Layer
+   Loaded AFTER SiteNew.css to override dated styles.
+   Colors are preserved — only layout, spacing, typography,
+   shadows, borders, and transitions are updated.
+   ============================================================ */
+
+/* ---------- Global Resets & Smoothing ---------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+}
+
+a {
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+img {
+    transition: opacity 0.3s ease;
+}
+
+/* ---------- Header Modernization ---------- */
+.header-cont {
+    border-bottom: none;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+.devdiscourse_logo {
+    width: auto;
+    transition: opacity 0.2s ease;
+}
+
+.header-list > li {
+    border-right: 1px solid #e0e0e0;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    .header-list > li > a {
+        font-size: 12px;
+        letter-spacing: 0.3px;
+        transition: color 0.2s ease;
+    }
+
+    .header-list > li > a:hover {
+        color: #ff7b00;
+    }
+
+/* Main Navigation */
+.main-nav {
+    margin-top: 0;
+    gap: 2px;
+}
+
+    .main-nav .item a.linkBtn {
+        font-size: 13px;
+        letter-spacing: 0.8px;
+        padding: 6px 8px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .main-nav .item a.linkBtn:hover {
+        background-color: rgba(255, 123, 0, 0.06);
+        color: #ff7b00;
+    }
+
+    .main-nav .item a.linkBtn.active {
+        position: relative;
+        color: #ff7b00;
+    }
+
+    .main-nav .item a.linkBtn.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 2px;
+        background-color: #ff7b00;
+        border-radius: 1px;
+    }
+
+/* Sector Navigation */
+nav.navscrollmenu {
+    border-radius: 0;
+}
+
+.sector-nav-bar {
+    background-color: #4d4d4d;
+}
+
+ul.scrollmenu {
+    padding: 8px 0;
+}
+
+    ul.scrollmenu a {
+        font-size: 11px;
+        letter-spacing: 1px;
+        padding-right: 12px;
+        padding-bottom: 6px;
+        transition: color 0.2s ease;
+        position: relative;
+        color: #ccc;
+    }
+
+    ul.scrollmenu a:hover {
+        color: #ff7b00;
+    }
+
+/* ---------- Section Titles ---------- */
+.section-title,
+.section-title2 {
+    font-size: 22px;
+    letter-spacing: 1.8px;
+    border-left: 4px solid #ff7b00;
+    margin-bottom: 28px;
+    margin-top: 36px;
+    padding-left: 0;
+    font-weight: 500;
+}
+
+    .section-title span,
+    .section-title2 span {
+        padding-left: 14px;
+        padding-right: 20px;
+    }
+
+    .section-title span::after {
+        height: 1px;
+        background-color: #e0e0e0;
+    }
+
+/* Article page section titles */
+.section-title3 {
+    font-size: 20px;
+    letter-spacing: 1.2px;
+    border-bottom: none;
+    border-left: 4px solid #ff7b00;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    padding-left: 14px;
+    font-weight: 500;
+    color: #222;
+}
+
+/* ---------- News Cards ---------- */
+.news-media-card {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 14px 8px;
+    margin-top: 0;
+    transition: all 0.25s ease;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+}
+
+    .news-media-card:hover {
+        background-color: #fafafa;
+        border-left-color: #ff7b00;
+    }
+
+    .news-media-card .media-title {
+        font-size: 16px;
+        line-height: 1.4;
+        font-weight: 400;
+        transition: color 0.2s ease;
+        color: #222;
+    }
+
+    .news-media-card:hover .media-title {
+        color: #ff7b00;
+    }
+
+    .news-media-card .media-meta {
+        font-size: 12px;
+        color: #999;
+        margin-top: 4px;
+        font-family: sans-serif;
+    }
+
+    .news-media-card .image-card,
+    .news-media-card .image-card-2 {
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .news-media-card:hover .image-card,
+    .news-media-card:hover .image-card-2 {
+        transform: scale(1.04);
+    }
+
+/* Sector News Cards */
+.sectorNewsCard {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 14px 8px;
+    margin-top: 0;
+    transition: all 0.25s ease;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+}
+
+    .sectorNewsCard:hover {
+        background-color: #fafafa;
+        border-left-color: #ff7b00;
+    }
+
+    .sectorNewsCard .image-card {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        transition: transform 0.3s ease;
+    }
+
+    .sectorNewsCard:hover .image-card {
+        transform: scale(1.04);
+    }
+
+/* Infocus Cards */
+.infocus-card {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 12px 10px;
+    margin-bottom: 0;
+    transition: all 0.25s ease;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+}
+
+    .infocus-card:hover {
+        background-color: #fafafa;
+        border-left-color: #ff7b00;
+        padding-left: 14px;
+    }
+
+    .infocus-card .title {
+        font-size: 16px;
+        line-height: 1.35;
+        transition: color 0.2s ease;
+        color: #222;
+    }
+
+    .infocus-card:hover .title {
+        color: #ff7b00;
+    }
+
+/* Blog Cards */
+.blog-card {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #eee;
+    background: #fff;
+    transition: all 0.3s cubic-bezier(.25,.46,.45,.94);
+}
+
+    .blog-card:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        transform: translateY(-4px);
+        border-color: rgba(255,123,0,.2);
+    }
+
+/* Mini Cards */
+.mini-card {
+    transition: background-color 0.2s ease;
+    border-radius: 4px;
+}
+
+    .mini-card:hover {
+        background-color: #fafafa;
+    }
+
+    .mini-card .image-card {
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+/* Global Development Cards */
+.globalDevelopmentCard {
+    border-bottom: 1px solid #ebebeb;
+    padding: 10px 0;
+    transition: background-color 0.2s ease;
+}
+
+    .globalDevelopmentCard:hover {
+        background-color: #fafafa;
+    }
+
+/* Infocus Background Cards (Hero) */
+.infocus-bg {
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.infocus-bg:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,.18);
+}
+
+.infocus-bg .badge-tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    float: none;
+    z-index: 5;
+}
+
+.infocus-bg-heading {
+    padding: 14px 18px;
+    line-height: 1.35;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.infocus-bg-overlay {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.7) 100%);
+    border-radius: 14px;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+/* ---------- Opinion/Blog Section ---------- */
+.video-container {
+    border-top: none;
+    border-bottom: none;
+    background-color: #f4f5f7;
+    padding: 40px 0 48px 0;
+}
+
+.center-title {
+    font-size: 24px;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+    .center-title span {
+        background-color: #f4f5f7;
+        padding: 0 22px;
+    }
+
+    .center-title::after {
+        border-bottom: 2px solid rgba(255, 123, 0, 0.3);
+    }
+
+.opinion-card {
+    border-right: 1px solid #e8e8e8;
+    padding: 16px 20px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+    .opinion-card:hover {
+        background-color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0,0,0,.06);
+    }
+
+    .opinion-card img {
+        border: 2px solid #eee;
+        transition: border-color 0.2s ease;
+    }
+
+    .opinion-card:hover img {
+        border-color: #ff7b00;
+    }
+
+.opinion-title {
+    border-bottom: 1px solid #d0d0d0;
+    padding-bottom: 12px;
+    margin-bottom: 0;
+}
+
+/* ---------- Buttons ---------- */
+.read-more-btn {
+    border-radius: 22px;
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 6px 22px;
+    border-width: 1.5px;
+    border-color: #ff7b00;
+    color: #ff7b00;
+    transition: all 0.25s ease;
+    font-weight: 600;
+    font-family: 'Oswald', sans-serif;
+    background-color: transparent;
+}
+
+    .read-more-btn:hover {
+        color: #fff;
+        background-color: #ff7b00;
+        border-color: #ff7b00;
+        transform: translateY(-2px);
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(255,123,0,.25);
+    }
+
+.btn-primary {
+    border-radius: 6px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(255, 123, 0, 0.3);
+    }
+
+/* Social Connect Buttons */
+.btn-connect {
+    border-radius: 20px;
+    transition: all 0.2s ease;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+    .btn-connect:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        opacity: 0.9;
+    }
+
+/* ---------- Breadcrumbs ---------- */
+.breadcrumb_new {
+    font-size: 13px;
+    padding: 8px 0;
+    margin-bottom: 8px;
+}
+
+    .breadcrumb_new > li + li::before {
+        font-size: 14px;
+        color: #999;
+    }
+
+/* ---------- Tags ---------- */
+.tag {
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    display: inline-block;
+    margin-bottom: 6px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    color: #444;
+}
+
+    .tag:hover {
+        background-color: #ff7b00;
+        color: #fff;
+        border-color: #ff7b00;
+        text-decoration: none;
+    }
+
+/* Badge Tags */
+.badge-tag {
+    border-radius: 3px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+/* ---------- Advertisement Areas ---------- */
+.advertisement-area {
+    border-radius: 6px;
+    border: 1px solid #ebebeb;
+    background-color: #fafafa;
+    min-height: 0;
+}
+
+/* Collapse ad area when it only has the title and no actual ad content */
+.advertisement-area:not(:has(iframe)):not(:has(img)):not(:has(.ad-slot)) {
+    padding: 0;
+    border: none;
+    background: transparent;
+    margin-bottom: 0 !important;
+}
+
+.advertisement-area:not(:has(iframe)):not(:has(img)):not(:has(.ad-slot)) .advertisement-title {
+    display: none;
+}
+
+.advertisement-title {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #aaa;
+    margin-bottom: 6px;
+}
+
+/* ---------- Trending Section ---------- */
+.trend-title {
+    font-size: 17px;
+    line-height: 1.35;
+    transition: color 0.2s ease;
+}
+
+.trend-number {
+    font-size: 48px;
+    line-height: 28px;
+    color: #f0f2f5;
+}
+
+/* ---------- Breaking News Ticker ---------- */
+.breaking-news-ticker {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(255,123,0,.12);
+}
+
+/* ---------- Images ---------- */
+.article-cont .img-responsive,
+figure .img-responsive {
+    border-radius: 10px;
+}
+
+.news-media-card .img-responsive,
+.sectorNewsCard .img-responsive,
+.infocus-card .img-responsive {
+    border-radius: 8px;
+}
+
+/* Media-left image thumbnails */
+.media-left .imgOne,
+.media-left img {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+/* ---------- Floating Buttons ---------- */
+.floating-btn {
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+    border: none;
+}
+
+    .floating-btn:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+    }
+
+/* ---------- Footer Modernization ---------- */
+.footer-body {
+    padding-top: 48px;
+    padding-bottom: 36px;
+}
+
+.footer-menu ul li a {
+    padding: 8px 0;
+    font-size: 14px;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+    .footer-menu ul li a:hover {
+        padding-left: 4px;
+    }
+
+.footer-head .nav li {
+    letter-spacing: 1.5px;
+    padding: 0 10px;
+    border-right: 1px solid rgba(136, 136, 136, 0.5);
+}
+
+    .footer-head .nav li a {
+        transition: color 0.2s ease;
+    }
+
+/* ---------- Forms ---------- */
+.form-control {
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .form-control:focus {
+        border-color: #ff7b00;
+        box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.1);
+        outline: none;
+    }
+
+/* ---------- Feedback Popup ---------- */
+.feedbackPopup {
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 24px;
+    border: 1px solid #e0e0e0;
+    background-color: #fff;
+}
+
+/* ---------- Login Dropdown ---------- */
+.login-dropdown {
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border: 1px solid #ebebeb;
+    overflow: hidden;
+}
+
+    .login-dropdown li a {
+        padding: 10px 20px;
+        font-size: 14px;
+        transition: background-color 0.15s ease;
+    }
+
+    .login-dropdown li a:hover {
+        background-color: #f7f7f7;
+    }
+
+/* ---------- Dropdown Menus ---------- */
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ebebeb;
+    padding: 6px 0;
+}
+
+    .dropdown-menu > li > a {
+        padding: 8px 18px;
+        transition: background-color 0.15s ease;
+    }
+
+    .dropdown-menu > li > a:hover {
+        background-color: #f7f7f7;
+    }
+
+/* ---------- Scrollbar Styling ---------- */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #ff7b00;
+    }
+
+/* ---------- Connect List ---------- */
+.connect-list li {
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+    .connect-list li:hover {
+        border-color: #ff7b00;
+        transform: translateY(-1px);
+    }
+
+/* ---------- Owl Carousel ---------- */
+.owl-carousel .owl-nav .owl-prev,
+.owl-carousel .owl-nav .owl-next {
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+    .owl-carousel .owl-nav .owl-prev:hover,
+    .owl-carousel .owl-nav .owl-next:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+/* ---------- Separator ---------- */
+hr.seperator {
+    border-top: 1px solid #e8e8e8;
+    margin: 12px 0;
+}
+
+/* ---------- Selection Highlight ---------- */
+::selection {
+    background-color: rgba(255, 123, 0, 0.15);
+    color: inherit;
+}
+
+/* ---------- Article Page Specific ---------- */
+.article-cont {
+    line-height: 1.8;
+}
+
+    .article-cont p {
+        margin-bottom: 1.4em;
+    }
+
+    .article-cont blockquote {
+        border-left: 3px solid #ff7b00;
+        padding: 16px 24px;
+        margin: 24px 0;
+        background-color: #fafafa;
+        border-radius: 0 8px 8px 0;
+        font-style: italic;
+    }
+
+/* Figure & Figcaption */
+figure.figure {
+    margin-bottom: 24px;
+}
+
+.fig-caption {
+    font-size: 13px;
+    color: #888;
+    padding: 8px 0;
+    line-height: 1.5;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Social Share Buttons */
+.social-btn {
+    transition: all 0.2s ease;
+}
+
+    .social-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+.share-button-list {
+    float: right;
+}
+
+    .share-button-list li {
+        margin-left: 2px;
+    }
+
+/* Comment Button */
+.commentbox {
+    border-radius: 8px;
+}
+
+/* Admin Section */
+.admin-section {
+    padding: 8px 0;
+    margin-bottom: 12px;
+}
+
+    .admin-section .btn {
+        border-radius: 6px;
+    }
+
+/* Left Section (Country + Share) */
+.left-section {
+    padding: 12px 0;
+}
+
+/* ---------- Responsive Refinements ---------- */
+@media screen and (max-width: 768px) {
+    .section-title,
+    .section-title2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        margin-top: 24px;
+    }
+
+    .section-title3 {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    .news-media-card .media-title {
+        font-size: 15px;
+    }
+
+    .blog-card {
+        margin-bottom: 12px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .section-title,
+    .section-title2 {
+        font-size: 18px;
+        letter-spacing: 1px;
+        margin-bottom: 16px;
+        margin-top: 20px;
+    }
+
+    .section-title3 {
+        font-size: 18px;
+    }
+
+    .infocus-bg-heading {
+        padding: 12px 16px;
+        font-size: 20px;
+    }
+
+    .header-cont {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .devdiscourse_logo {
+        max-height: 36px;
+    }
+
+    .tag {
+        font-size: 12px;
+        padding: 3px 10px;
+    }
+
+    .read-more-btn {
+        font-size: 10px;
+        padding: 4px 14px;
+    }
+
+    .social-btn {
+        width: 28px;
+        height: 28px;
+        padding: 4px;
+        font-size: 13px;
+    }
+}

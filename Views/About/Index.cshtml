@@ -1,0 +1,413 @@
+﻿@model Devdiscourse.Models.ViewModel.EmailFormModel
+@{
+	ViewBag.Title = "About Us | Brand - Devdiscourse";
+	string domainUrl = "https://www.devdiscourse.com";
+	string imageUrl = "/AdminFiles/Logo/devediscourse_banner.png";
+	ViewBag.PageDescription = "International Development News, Breaking News, Technology News, Business News, Sports News, Science News, Entertainment News and Political News";
+	ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+	ViewBag.PostUrl = "https://www.devdiscourse.com/aboutus";
+	ViewBag.webEdition = ViewBag.edition;
+	ViewBag.pageKeywords = "About Us, International Development News, Devdiscourse";
+}
+<style>
+	input, select, textarea {
+		max-width: 100%
+	}
+
+	ol {
+		font-size: 16px
+	}
+
+	.input-margin10 {
+		margin-top: 10px
+	}
+
+	.send-btn {
+		background-color: #ff9c46;
+		color: #fff;
+		border-radius: 0
+	}
+
+	.btn.focus, .btn:focus, .btn:hover {
+		background-color: #dc761d;
+		color: #fff !important
+	}
+
+	.media-left div {
+		width: 50px;
+		text-align: center
+	}
+
+	.media-body {
+		padding-left: 20px
+	}
+
+	.message-textarea {
+		min-height: 120px
+	}
+
+	.custom-input {
+		border-width: 0 0 1px;
+		border-bottom: 1px solid #999 !important;
+		background-color: transparent;
+		box-shadow: none !important;
+		color: #eee;
+		border-radius: 0;
+		outline-color: transparent
+	}
+
+	.box-shadow {
+		box-shadow: 0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)
+	}
+
+	.icon-color {
+		color: #f5f5f5;
+		font-size: 1.5em;
+		padding-top: 10px
+	}
+
+	#social-icon-container {
+		text-align: center;
+		padding: 20px 0
+	}
+
+	.social-icon {
+		font-size: 2.2em;
+		padding: 10px;
+		color: #4d4d4d
+	}
+
+	.my-iframe {
+		height: 370px
+	}
+
+	.ad-form {
+		margin-top: -225px;
+		padding: 80px 40px
+	}
+
+	.field-validation-error {
+		color: #ff9c46
+	}
+
+	.about-banner-container {
+		margin-top: -25px;
+		background-color: #f1ded0
+	}
+
+	#abt_vri {
+		padding-top: 40px;
+	}
+
+	#adWithUs {
+		padding-top: 70px;
+		padding-bottom: 70px
+	}
+
+	.team-tile {
+		height: 280px;
+		box-shadow: 0 2px 2px 0 rgba(0,0,0,.16),0 0 0 1px rgba(0,0,0,.08);
+		padding: 8px
+	}
+
+	.profile-img {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		height: 160px;
+		width: 160px;
+		background-repeat: no-repeat;
+		background-size: cover;
+		border-radius: 50%
+	}
+
+	.no-padding-right {
+		padding-right: 0;
+	}
+
+	@@media(max-width:1024px) {
+
+		.profile-img {
+			height: 150px;
+			width: 150px
+		}
+	}
+
+	@@media(max-width:768px) {
+
+
+		.my-iframe {
+			height: 300px
+		}
+
+		.team-tile {
+			height: 240px
+		}
+
+		.profile-img {
+			height: 120px;
+			width: 120px
+		}
+
+		.ad-form {
+			padding: 60px 30px
+		}
+	}
+
+	@@media(max-width:425px) {
+		.message-textarea {
+			min-height: 80px
+		}
+
+		.my-iframe {
+			height: 300px
+		}
+
+		.ad-form {
+			margin-top: 0;
+			padding: 35px 20px
+		}
+
+		.about-banner-container {
+			margin-top: -10px
+		}
+
+		#abt_vri {
+			padding-top: 60px
+		}
+
+		.team-tile {
+			height: 220px;
+			padding: 5px
+		}
+
+		.profile-img {
+			height: 120px;
+			width: 120px;
+			margin-top: 15px;
+			margin-bottom: 15px
+		}
+
+		.f-20 {
+			font-size: 17px !important
+		}
+
+		.f-18 {
+			font-size: 15px !important
+		}
+
+		select.input-lg {
+			height: 26px !important
+		}
+
+		#submitBtn {
+			font-size: 1em;
+			padding: 6px 12px
+		}
+
+		#adWithUs {
+			padding-top: 35px;
+			padding-bottom: 35px
+		}
+	}
+
+	@@media(max-width:320px) {
+		.team-tile {
+			height: 175px;
+			padding: 4px
+		}
+
+		.profile-img {
+			margin-bottom: 10px;
+			margin-top: 10px;
+			width: 100px;
+			height: 100px
+		}
+
+		.f-18 {
+			font-size: 14px
+		}
+
+		.member-name {
+			font-size: 15px;
+			margin-bottom: 5px
+		}
+
+		.member-desig {
+			font-size: 12px
+		}
+	}
+</style>
+<div class="about-banner-container">
+	<div class="container">
+		<h1 class="hidden">Devdiscourse: International Development News</h1>
+		<img src="/images/About_dev.jpg" class="img-responsive center-block" alt="About Devdiscourse" title="About Devdiscourse" />
+	</div>
+</div>
+<div class="container">
+	<div class="p-t-30 p-b-20 f-18">
+		<p class="text-justify">Devdiscourse is a media platform for development stakeholders. Be it scanning the knowledge tides, doing stories on diverse developmental themes, approaches, policies, programs or sophisticated IT and big data analytics tools to catalyse the developmental landscape or simply facilitating discussions to rejuvenate intellectual energies – all is done here.</p>
+		<p class="text-justify">Our media team supported by domain specialists of VisionRI meticulously cover the development news across the globe to maintain and enhance intellectual reflexes and competencies, and share the same at Devdiscourse.</p>
+		<p class="text-justify">The portal as well as Android app is designed and developed on the framework of deep machine learning technologies which facilitate delivery of smart content based on user interests, browsing behaviour and location. Devdiscourse - News is available globally on web as well as Android platform to deliver smart and personalised content to users.</p>
+	</div>
+</div>
+<div style="background-color:#d3d3d3;" id="devteam">
+	<img src="/images/Core_Team_banner.png" alt="Devdiscourse Team" class="img-responsive center-block" />
+</div>
+<div class="container">
+	<div class="p-t-40 p-b-20 f-18">
+		<p class="text-justify">Devdiscourse team is composed of media mavens, domain experts and technical connoisseurs that boast of being only one of their type in the world. Besides the core team, we have correspondents based in cities such as Delhi, Jakarta, Hanoi, Nairobi, Harare, Abuja, London and Washington DC who provide the news stories for Devdiscourse.</p>
+	</div>
+	<div class="p-t-30">
+		@* @{Html.RenderAction("GetTeam", "About");} *@
+		@* @await Html.PartialAsync("GetTeam", "About") *@
+		@await Component.InvokeAsync("Team")
+	</div>
+</div>
+<div class="m-t-30" style="background-color:#e3e3e3;padding-bottom:30px">
+	<div class="container" id="abt_vri">
+		<img src="/images/About-VRI.png" alt="About VisionRI" class="img-responsive center-block" />
+	</div>
+	<div class="container">
+		<div class="f-18 p-t-30">
+			<p class="text-justify"><a href="http://visionri.com/" target="_blank">VisionRI</a>, an ISO 9001:2015 and ISO 27001:2013 certified consulting firm, is a mission to contribute in the sustainable development of society by playing the role of catalyst in the process of generation and dissemination of knowledge; and providing specialized multidisciplinary consulting services.</p>
+			<p class="text-justify">We provide specialized consulting services under four marques, i.e. Economic and Planning Advisory, Design and Engineering Advisory, Social Development and Management Advisory, and Environment and Natural Resources Management Advisory with a focus on markets such as Energy, Transport, Urban Development, Natural Resources Management, Public Health and Digital Development.</p>
+		</div>
+	</div>
+</div>
+<div class="bg-gray p-t-40" id="meet">
+	<div class="container" style="padding-bottom:50px;">
+		<div class="row">
+			<div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 col-lg-offset-1 col-md-offset-1 col-sm-offset-0">
+				<div class="box-shadow" style="background-color:#4d4d4d;">
+					@* @using reCAPTCHA.MVC *@
+					@using (Html.BeginForm())
+					{
+						<div style="color:white;padding:30px;font-size:30px;font-family: 'Oswald', sans-serif;">
+							<span style="border-bottom:2px solid #ff9c46;">Contact Us</span>
+						</div>
+						<div style="padding:30px;" class="clearfix">
+							<div class="row">
+								<label class="col-xs-2 col-md-1 no-padding-right" for="inputname"><span class="fa fa-user icon-color"></span><span class="sr-only">Name</span></label>
+								<div class="col-xs-10 col-md-11">
+									@Html.TextBoxFor(a=>a.FromName, new { @class= "form-control custom-input input-lg", @placeholder="Name*" })
+									@Html.ValidationMessageFor(s=>s.FromName)
+								</div>
+							</div>
+							<div class="row input-margin10">
+								<label class="col-xs-2 col-md-1 no-padding-right" for="inputemail"><span class="fa fa-at icon-color"></span><span class="sr-only">Email</span></label>
+								<div class="col-xs-10 col-md-11">
+									@Html.TextBoxFor(a => a.FromEmail, new { @class = "form-control custom-input input-lg", @placeholder = "Email*" })
+									@Html.ValidationMessageFor(s => s.FromEmail)
+								</div>
+							</div>
+							<div class="row input-margin10">
+								<label class="col-xs-2 col-md-1 no-padding-right" for="inputmessage"><span class="fa fa-envelope icon-color"></span><span class="sr-only">Message</span></label>
+								<div class="col-xs-10 col-md-11">
+									@Html.TextAreaFor(a => a.Message, new { @class = "form-control custom-input input-lg message-textarea", @placeholder = "Message*" })
+									@Html.ValidationMessageFor(s => s.Message)
+								</div>
+							</div>
+							<div class="row input-margin10">
+								@* @Html.Recaptcha(theme: CaptchaTheme.Dark) *@
+								@Html.ValidationMessage("ReCaptcha")
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<button type="submit" id="contactBtn" class="btn btn-lg btn-block send-btn"><span class="fa fa-paper-plane fa-2x"></span><span class="sr-only">Send</span></button>
+							</div>
+						</div>
+					}
+				</div>
+				@if (ViewBag.msg != null && ViewBag.msg == "Success")
+				{
+					<div class="alert alert-success m-t-10">
+						<strong>Success!</strong> Thank you for contacting us.
+					</div>
+				}
+			</div>
+			<div class="col-lg-offset-1 col-xs-12 col-sm-6 col-lg-5">
+				<div class="p-20" style="font-size:30px;padding-left:10px;font-family: 'Oswald', sans-serif;">
+					<span><img src="/images/location.png" alt="" /></span>
+					<span>Find us at our office</span>
+				</div>
+				<div class="p-10">
+					<iframe class="box-shadow my-iframe" title="VisionRI Loaction on Map" id="map-iframe" style="width:100%;border:1px solid #eee;margin-bottom:-7px;border-width:0;" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyARBC8sr3yVYJd6UMT_QnFF_9UOIscG3gE&q=VisionRI+Connexion+Services+Private+Limited,+Sonipat,+Haryana,+India" allowfullscreen></iframe>
+				</div>
+				<div id="social-icon-container">
+					<a target="_blank" href="https://www.facebook.com/devdiscourse" rel="noopener"><i class="fa fa-facebook social-icon fg-hover"></i><span class="sr-only">f</span></a>
+					<a target="_blank" href="https://twitter.com/dev_discourse" rel="noopener"><i class="fa fa-twitter social-icon tw-hover"></i><span class="sr-only">t</span></a>
+					<a target="_blank" href="https://www.linkedin.com/showcase/dev_discourse/" rel="noopener"><i class="fa fa-linkedin social-icon lin-hover"></i><span class="sr-only">l</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@section scripts{
+	<script>
+		var _msg = '@(ViewBag.msg)';
+		console.log(_msg);
+		$(document).ready(function () {
+			var _name, _email, _advertisement, _phone, _code, _contactName, _contactEmail, _contactMessage = "";
+			// Region Search
+			$(document).find('#regDropDown').change(function () {
+				var date = new Date();
+				date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+				document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString() + "; path=/";
+				window.location.href = $(this).find('option:selected').attr('data-to');
+			});
+			$(".scroll-btn").click(function () {
+				var position = $("#" + $(this).attr("tabindex")).offset().top;
+				$('html,body').animate({
+					scrollTop: position
+				}, 'slow');
+			});
+			if (_msg != "") {
+				var position = $("#meet").offset().top;
+				$('html,body').animate({
+					scrollTop: position
+				}, 'slow');
+			}
+			// Contact With Us
+			//$('#contactBtn').click(function () {
+			//    _contactName = $('#inputname').val();
+			//    _contactEmail = $('#inputemail').val();
+			//    _contactMessage = $('#inputmessage').val();
+			//    if (_contactName == "") {
+			//        showAlert("Please enter your name", "danger");
+			//    }
+			//    else if (!(/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(_contactEmail))) {
+			//        showAlert("Please enter your valid email", "danger");
+			//    }
+			//    else if (_contactMessage == "") {
+			//        showAlert("Please enter message details", "danger");
+			//    }
+			//    else {
+			//        $('#contactBtn').prop('disabled', true);
+			//        submitContact();
+			//    }
+			//});
+			//function submitContact() {
+			//    $.ajax({
+			//        url: '/About/ContactWithUS',
+			//        type: 'Post',
+			//        data: { name: _contactName, email: _contactEmail, messagetext: _contactMessage },
+			//        dataType: 'Json',
+			//        success: function (data) {
+			//            $('#contactBtn').prop('disabled', false);
+			//            $('#inputname').val("");
+			//            $('#inputemail').val("");
+			//            $('#inputmessage').val("");
+			//            _contactName = "";
+			//            _contactEmail = "";
+			//            _contactMessage = "";
+			//            alert("Your message has been send.");
+			//        },
+			//        error: function () {
+			//        },
+			//    });
+			//}
+		});
+	</script>
+}
+

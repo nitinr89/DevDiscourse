@@ -1,0 +1,14 @@
+﻿<div class="p-10 media">
+    <div class="media-left">
+        <div class="profile-image-card lazy" data-src="@ViewBag.userInfo.ProfilePic?width=160&height=160&mode=crop"></div>
+    </div>
+    <div class="p-l-10 media-body">
+        <h3 class="media-heading text-primary">@ViewBag.userInfo.FirstName @ViewBag.userInfo.LastName</h3>
+        <p class="no-margin"><small>CONTENT WRITER</small></p>
+        <p>@ViewBag.userInfo.AboutMe</p>
+        <div class="p-t-10">
+            <span style="color:#0073c4;font-size:20px;font-weight:500">@ViewBag.totalViews</span><span> READS</span>
+            <span style="color:#0073c4;font-size:20px;margin-left:10px;font-weight:500">@ViewBag.totalStories</span><span> STORIES</span>
+        </div>
+    </div>
+</div>

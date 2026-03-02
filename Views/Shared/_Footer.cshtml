@@ -1,0 +1,169 @@
+﻿<div class="footer">
+	<div class="footer-head bg-highlight">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-1 col-sm-offset-0 col-sm-12 text-center">
+					<ul class="nav navbar-nav">
+						<li> <a href="@Url.Action("Index", "Home")" title="Home">HOME</a> </li>
+						<li> <a href="/aboutus" title="About Us">ABOUT</a> </li>
+						<li> <a href="@Url.RouteUrl("Career_Create")" title="Career">CAREER</a> </li>
+						<li> <a href="@Url.RouteUrl("Advertisement")" title="Advertisement">ADVERTISEMENT</a> </li>
+						<li> <a href="/aboutus#devteam" title="Team">TEAM</a> </li>
+						<li> <a href="/partners/knowledge-partners" title="Knowwledge Partnership">KNOWLEDGE PARTNERSHIP</a> </li>
+						<li> <a href="/partners/media-partners" title="Media Partnership">MEDIA PARTNERSHIP</a> </li>
+						<li> <a href="/internship" title="Internship with Devdiscourse">INTERNSHIP</a> </li>
+						<li> <a href="/aboutus#meet" title="Contact Us">CONTACT US</a> </li>
+					</ul>
+				</div>
+				<div class="col-md-4 col-sm-12 text-right">
+					<div class="form-inline" style="text-align:left;">
+						<span>Subscribe to our Newsletter &nbsp;</span>
+						<div class="input-group">
+							<input type="text" class="form-control b-left-r b-r-0" aria-label="Subscribe For Email" id="subscribeEmail" placeholder="Email*">
+							<div class="input-group-btn">
+								<button class="btn btn-primary b-right-r b-l-0" id="subscribeBtn" type="button"> SUBSCRIBE </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@*<div class="bg-highlight" style="border-top:1px solid #d5d5d5;">
+	<div class="container">
+	<h4 class="font-oswald" style="color:#ff6a00">Key Development Players</h4>
+	<div class="p-t-10 p-b-20"> @{string[] keyPlayers={"UN", "ADB", "World Health Organization (WHO)",
+	"World Bank", "European Union", "United Nations Children's Fund (UNICEF)", "AfDB", "USAID",
+	"United Nations System Standing Committee on Nutrition", "Bill & Melinda Gates Foundation",
+	"The Children's Investment Fund Foundation (CIFF)", "World Food Programme (WFP)"};}
+	@foreach (var item in keyPlayers){
+	<span class="keyplayer"><a href="">@item</a></span>
+	}</div>
+	<div class="p-b-10"> @{
+	string[] keyPlayersAlphabet={"#", "A", "B","C","D","E","F","G","H","I","J","K","L",
+	"M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+	};
+	}<b class="font-oswald" style="padding-right:10px;">Browse all :
+
+	</b> @foreach (var item in keyPlayersAlphabet){<span class="keyplayer">
+	<a href="">@item</a></span>}</div></div></div>*@
+	<div class="footer-body">
+		<div class="container">
+			<div class="row" style="margin-top:0;">
+				<div class="col-md-4 col-sm-8 col-xs-12">
+					<div class="footer-menu">
+						<h4>SECTORS</h4>
+						<div id="footer-sector" class="row">
+							<div class="col-xs-6">
+								<ul>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="agro-forestry"})" title="AGRO-Forestry">Agro-Forestry</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="art-culture"})" title="Art & Culture">Art &amp; Culture</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="technology"})" title="Technology">Technology</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="economy-business"})" title="Economy & Business">Economy & Business</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="education"})" title="Education">Education</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="energy-extractives"})" title="Energy &amp; Extractives">Energy &amp; Extractives</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="politics"})" title="Politics">Politics</a> </li>
+								</ul>
+							</div>
+							<div class="col-xs-6">
+								<ul>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="law-governance"})" title="Law & Governance">Law & Governance</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="health"})" title="Health">Health</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="science-environment"})" title="Science & Environment">Science & Environment</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="socialgender"})" title="Social &amp; Gender">Social &amp; Gender</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="sports"})" title="Sports">Sports</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="transport"})" title="Transport">Transport</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="urban-development"})" title="Urban Development">Urban Development</a> </li>
+									<li> <a href="@Url.RouteUrl("NewsSector", new{sector="wash"})" title="WASH">WASH</a> </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-12">
+					<div class="footer-menu">
+						<h4>EDITIONS</h4>
+						<div>
+							<ul>
+								<li> <a href="/pacific">Pacific</a> </li>
+								<li> <a href="/south-asia">South Asia</a> </li>
+								<li> <a href="/south-east-asia">East and South East Asia</a> </li>
+								<li> <a href="/europe-central-asia">Europe and Central Asia</a> </li>
+								<li> <a href="/central-africa">Central Africa</a> </li>
+								<li> <a href="/east-africa">East Africa</a> </li>
+								<li> <a href="/southern-africa">Southern Africa</a> </li>
+								<li> <a href="/west-africa">West Africa</a> </li>
+								<li> <a href="/middle-east-north-africa">Middle East and North Africa</a> </li>
+								<li> <a href="/north-america">North America</a> </li>
+								<li> <a href="/latin-america">Latin America and Caribbean</a> </li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-8 col-xs-12">
+					<div class="footer-menu">
+						<h4>OTHER LINKS</h4>
+						<div class="row">
+							<div class="col-xs-6">
+								<ul>
+									<li class="text-align"> <a href="@Url.Action("Contribute", "Home")" class="tags">Write for us</a> </li>
+									<li class="text-align"> <a href="@Url.Action("Index", "NewsWire")" class="tags">Submit Press Release</a> </li>
+									<li class="text-align"> <a href="@Url.Action("DevBlogs", "Home")" class="tags">Opinion / Blog / Analysis</a> </li>
+									<li class="text-align"> <a href="@Url.RouteUrl("NewsLabel",new{label="business"})" class="tags">Business News</a> </li>
+									<li class="text-align"> <a href="@Url.RouteUrl("NewsLabel",new{label="entertainment"})" class="tags">Entertainment News</a> </li>
+									<li class="text-align"> <a href="@Url.RouteUrl("NewsLabel",new{label="technology"})" class="tags">Technology News</a> </li>
+								</ul>
+							</div><div class="col-xs-6">
+								<ul>
+									<li class="text-align"> <a href="@Url.RouteUrl("NewsLabel",new{label="law-order"})" class="tags">Law-order News</a> </li>
+									<li class="text-align"> <a href="@Url.RouteUrl("NewsLabel",new{label="lifestyle"})" class="tags">Lifestyle News</a> </li>
+									<li class="text-align"> <a href="@Url.RouteUrl("NewsLabel",new{label="national"})" class="tags">National News</a> </li>
+									<li class="text-align"> <a href="@Url.RouteUrl("NewsLabel",new{label="international"})" class="tags">International News</a> </li>
+									<li class="text-align"> <a href="@Url.RouteUrl("NewsLabel",new{label="headlines"})" class="tags">Headlines</a> </li>
+									<li class="text-align"> <a href="@Url.RouteUrl("NewsLabel",new{label="other"})" class="tags">Other</a> </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-12">
+					<div class="footer-menu">
+						<h4>OTHER PRODUCTS</h4>
+						<div>
+							<ul>
+								<li> <a href="http://www.visionri.com/Home/Vithi" rel="noreferrer" title="VITHI - Road Asset Management System" target="_blank">VITHI</a> </li>
+								<li> <a href="http://www.visionri.com/Home/Vyoma" rel="noreferrer" title="VYOMA - Water Asset Management System" target="_blank">VYOMA</a> </li>
+								<li> <a href="http://www.visionri.com/Home/Vyapad" rel="noreferrer" title="VYAPAD - Sustaintable Road Crash Data Management System" target="_blank">VYAPAD</a> </li>
+								<li> <a href="http://www.visionri.com/Home/IdeaKM" rel="noreferrer" title="IDEA - Knowledge Management Syatem" target="_blank">IDEA-KM</a> </li>
+								<li> <a href="http://www.visionri.com/Home/IdeaME" rel="noreferrer" title="IDEA - Monitoring and Evalution" target="_blank">IDEA-M&E</a> </li>
+							</ul>
+						</div>
+						<h4>CONNECT</h4>
+						<div>
+							<ul class="list-inline connect-list">
+								<li> <a target="_blank" href="https://www.facebook.com/devdiscourse" rel="noreferrer" aria-label="Devdiscourse Facebook Page"><span class="fa fa-facebook" aria-hidden="true"></span></a> </li>
+								<li> <a target="_blank" href="https://twitter.com/dev_discourse" rel="noreferrer" aria-label="Devdiscourse Twitter Page"><span class="fa fa-twitter" aria-hidden="true"></span></a> </li>
+								<li> <a target="_blank" href="https://www.linkedin.com/showcase/dev_discourse/" rel="noreferrer" aria-label="Devdiscourse LinkedIn Page"><span class="fa fa-linkedin" aria-hidden="true"></span></a> </li>
+								<li> <a target="_blank" href="https://www.quora.com/profile/DevDiscourse" rel="noreferrer" aria-label="Devdiscourse Quora Page"><span class="fa fa-quora" aria-hidden="true"></span></a> </li>
+								<li> <a target="_blank" href="http://feeds.feedburner.com/devdiscourse/NCFS" rel="noreferrer" aria-label="Devdiscourse RSS Feed"><span class="fa fa-rss" aria-hidden="true"></span></a> </li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="p-20 clearfix">
+		<img src="/AdminFiles/Logo/devdiscourse_logo.svg" width="200" height="45" title="Devdiscourse" alt="Devdiscourse" class="center-block img-responsive" />
+	</div>
+	<div class="clearfix container text-center m-t-10">
+		<p id="footer-text"> Email: info@devdiscourse.com <br />Phone: +91-720-6444012, +91-7027739813, 14, 15 </p>
+	</div>
+	<div class="clearfix text-center footer-link m-t-10 bg-highlight">
+		<span><a href="http://www.visionri.com" target="_blank" rel="noreferrer" title="VisionRI Connexion Services Private Limited"> VisionRI</a></span> |
+		<span><a href="@Url.Action("disclaimer", "home")" title="Disclaimer">Disclaimer</a></span> |
+		<span><a href="@Url.Action("privacypolicy", "home")" title="Terms & Conditions">Terms of use </a></span> |
+		<span><a href="/home/privacypolicy#use" title="Privacy Policy">Privacy Policy</a></span>
+		<p class="no-margin">© Copyright @DateTime.UtcNow.Year</p>
+	</div>
+</div>

@@ -1,0 +1,260 @@
+﻿@model Devdiscourse.Models.BasicModels.DevNews
+@using Devdiscourse.Models;
+@using System.Text.RegularExpressions;
+@using Microsoft.AspNetCore.Http.Extensions
+@{
+    ViewBag.Title = @Model.Title;
+    var text = Regex.Replace(Model.Description, @"<[^>]+>|&nbsp;", "").Trim();
+    string domainUrl = "https://www.devdiscourse.com";
+    string imageUrl = @Model.ImageUrl;
+    ViewBag.PageDescription = text.Length > 140 ? text.Substring(0, 140) : text;
+
+    // ViewBag.PostUrl = string.Concat(domainUrl, @Request.Url.PathAndQuery);
+    ViewBag.PostUrl = string.Concat(domainUrl, Context.Request.GetEncodedUrl());
+
+    ViewBag.webEdition = ViewBag.region;
+    string pageUrl = "/article/" + Model.GenerateSecondSlug();
+    ViewBag.pageUrl = pageUrl;
+    string metadatadescription = text.Length > 140 ? text.Substring(0, 140) : text;
+    var regex = new Regex(@"twitter\.com\/.*\/status(?:es)?\/([^\/\?]+)", RegexOptions.IgnoreCase);
+    var match = regex.Match(Model.Description);
+    string data = match.Groups[1].Value;
+
+    var newsImage = imageUrl.IndexOf("devdiscourse.blob.core.windows.net") != -1 ? imageUrl : string.Concat(domainUrl, imageUrl);
+    ViewBag.PageImage = newsImage;
+}
+@functions {
+    async Task Truncate(string input, int length)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            <text> </text>
+        }
+        else if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)
+
+            <text>..</text>
+        }
+    }
+}
+@{
+    Layout = "~/Views/Shared/_ampLayout.cshtml";
+}
+<script type="application/ld+json">
+    {
+    "@@context": "http://schema.org",
+    "@@type": "NewsArticle",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "@domainUrl@pageUrl",
+    "thumbnailUrl":"@newsImage"
+    },
+    "headline": "@Model.Title",
+    "description": "@Model.SubTitle",
+    "keywords":["@Model.Tags"],
+    "articleSection":"@Model.Sector",
+    "image": [
+    "@domainUrl@newsImage?w=320&h=240&mode=crop",
+    "@domainUrl@newsImage?w=640&h=480&mode=crop",
+    "@domainUrl@newsImage?w=800&h=600&mode=crop"
+    ],
+    "datePublished": "@Model.CreatedOn",
+    "dateModified": "@Model.ModifiedOn",
+    "author": {
+    "@@type": "Person",
+    "name": "@Model.Source"
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Devdiscourse",
+    "url": "https://www.devdiscourse.com/",
+    "sameAs": [
+    "https://www.facebook.com/devdiscourse",
+    "https://twitter.com/dev_discourse",
+    "https://plus.google.com/u/1/115595246144382616671",
+    "https://www.linkedin.com/showcase/dev_discourse",
+    "https://www.instagram.com/devdiscourse"
+    ],
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://www.devdiscourse.com/AdminFiles/Logo/logo_200.png",
+        "width": "320px",
+        "height": "240px"
+      }
+    }
+    }
+</script>
+@section headerScripts {
+    @if (Model.Type == "LiveBlog")
+    {
+        <script async custom-element="amp-live-list" src="https://cdn.ampproject.org/v0/amp-live-list-0.1.js"></script>
+    }
+    <script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>
+    <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
+    <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
+    <script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
+    <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+    <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+}
+@section customCss {
+    .news-box {background: #fff; padding: 8px; margin: 0 auto; border-bottom:1px solid #ccc; }
+    .news-box-content-sub{ line-height: 1.4em; font-weight: 400; color: #444; font-size: 16px; margin-bottom: 10px;font-family:sans-serif; }
+    .datetime{font-family:monospace;font-size: 15px;line-height: 2em;}
+    .single-news-post .relative-post-thumbnail { -webkit-box-flex: 0; -ms-flex: 0 0 100px; flex: 0 0 100px; min-width: 100px; margin-right: 10px; position: relative; z-index: 1; background-color:#eee;}
+    .single-news-post{border: none;}
+    .tag-container{background-color:#eee;padding:20px;}.tag-container h3{margin-top:0;} .tag-container .badge{margin-right:5px;margin-top:5px;display:inline-block;font-size: 14px;border-radius: 15px;border-radius:8px;text-decoration:none;background-color:#fff;color:#222;padding:0.28em .7em;border:1px solid #ccc;}
+    .news-box amp-img img{object-fit:contain;}
+    .amp-live-list-item {justify-content: center;display: flex;}
+    .blog {padding: 0;background: #fff; width: 300px;}
+    .blog p {padding: 8px;margin: 0;color:#000}
+    .match {background: #fff;min-width: 0%;}
+    .side {display: flex;align-items: center;justify-content: space-around;}
+    .content {font-size: 2rem;padding: 8px; }
+    .flag {padding-top: 8px;padding-bottom: 8px;}
+    .live-blog{border-top:2px solid #ff6a00;}
+     .twitter-tweet{ display: none;}
+}
+<div class="news-box">
+    <h2 class="news-box-content-title">@Model.Title</h2>
+    <p class="news-box-content-sub">
+        @Model.SubTitle
+    </p>
+    @{
+        string country = "";
+        if (!string.IsNullOrEmpty(@Model.Country))
+        {
+            country = Model.Country.Replace(",", ", ");
+        }
+    }
+    <div class="datetime">@Model.Source | @country | @Model.CreatedOn.ToClientTime().ToString("dd MMM yyyy, hh:mm tt")</div>
+    <amp-social-share type="twitter"
+                      width="45"
+                      height="33"
+                      aria-label="Share on twitter"></amp-social-share>
+    <amp-social-share type="facebook"
+                      width="45"
+                      height="33"
+                      data-param-app_id="1962446954071172"
+                      data-attribution="1962446954071172"
+                      aria-label="Share on facebook"></amp-social-share>
+    <amp-social-share type="gplus"
+                      width="45"
+                      height="33"
+                      aria-label="Share on google+"></amp-social-share>
+    <amp-social-share type="email"
+                      width="45"
+                      height="33"
+                      aria-label="Share on email"></amp-social-share>
+    <amp-social-share type="pinterest"
+                      width="45"
+                      height="33"
+                      aria-label="Share on pintrest"></amp-social-share>
+    @if (!string.IsNullOrEmpty(Model.ImageUrl) && Model.ImageUrl != "/images/defaultImage.jpg")
+    {
+        <amp-img class="full-bottom" src="@Model.ImageUrl" alt="@Model.Title" layout="responsive" width="650" height="300"></amp-img>
+    }
+    <div>@Html.Raw(@ViewBag.AmpDescriptoion)</div>
+    @if (!String.IsNullOrEmpty(@data))
+    {
+        <amp-twitter width="375"
+                     height="472"
+                     layout="responsive"
+                     data-tweetid="@data">
+        </amp-twitter>
+    }
+    @if (Model.Type == "LiveBlog")
+    {
+        <amp-live-list layout="container"
+        data-poll-interval="15000"
+        data-max-items-per-page="10"
+        id="amp-live-list-insert-blog">
+            <button update
+            on="tap:amp-live-list-insert-blog.update"
+            class="ampstart-btn ml1 caps">
+                You have updates
+            </button>
+            <div items>
+                @{
+                    /* Html.RenderAction("GetLiveBlogsamp", "LiveBlogs", new { id = Model.NewsId }); */
+                    await Component.InvokeAsync("LiveBlogsamp", new { id = Model.NewsId });
+                }
+            </div>
+        </amp-live-list>
+    }
+    @*@if (!string.IsNullOrEmpty(Model.Tags))
+    {
+    <div class="tag-container">
+    <h3>Read More on</h3>
+    @{
+    var tag = Model.Tags.Split(',');
+    }
+    @foreach (var t in tag)
+    {
+    <a href="/News?amp&tag=@t" class="badge text-center fb-btn">@t</a>
+    }
+
+    </div>
+    }*@
+    @*<amp-ad width="100vw" height=320
+    type="adsense"
+    data-ad-client="ca-pub-9223441306935540"
+    data-ad-slot="9045186551"
+    data-auto-format="auto"
+    data-full-width>
+    <div overflow></div>
+    </amp-ad>*@
+    <div><a href="https://play.google.com/store/apps/details?id=com.visionri.devdiscourse"><amp-img src="~/images/SDGs/research-add_mobile.jpg" width="420" height="90" layout="responsive"></amp-img></a></div>
+    <h2 class="page-title">RELATED POST</h2>
+    <amp-list src="@Url.Action("AmpRelatedNews","Home",new { id = @Model.NewsId, reg = "Global Edition", sector = @Model.Sector })" width="auto" height="485" class="blogList">
+        <template type="amp-mustache">
+            <a href="{{url}}?amp" title="{{title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    <div class="relative-post-thumbnail">
+                        <amp-img src="{{image}}?w=100&h=85&mode=crop" layout="responsive" width="100" alt="{{title}}" height="85"></amp-img>
+                    </div>
+                    <div class="post-content">
+                        <h4 class="title">{{title}}</h4>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+    <h2 class="page-title">LATEST NEWS</h2>
+    <amp-list src="@Url.Action("GetAmpLatestNewsItems","Home",new { sector = "All", moreItemsPageIndex = 1 })" width="auto" height="350" class="blogList">
+        <template type="amp-mustache">
+            <a href="{{Url}}?amp" title="{{Title}}" class="no-text-decoration">
+                <div class="single-news-post">
+                    <div class="post-content">
+                        <h4 class="title">{{Title}}</h4>
+                        <p class="country">{{Country}}</p>
+                    </div>
+                </div>
+            </a>
+        </template>
+    </amp-list>
+</div>
+<amp-analytics type="googleanalytics">
+    <script type="application/json">
+        {
+        "vars": {
+        "account": "UA-106388823-1"
+        },
+        "triggers": {
+        "default pageview": {
+        "on": "visible",
+        "request": "pageview",
+        "vars": {
+        "title": "@ViewBag.Title"
+        }
+        }
+        }
+        }
+    </script>
+</amp-analytics>

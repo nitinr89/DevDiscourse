@@ -1,0 +1,328 @@
+﻿@{
+    string domainUrl = "https://www.devdiscourse.com";
+    ViewBag.Title = "Africa Oil Week - Cape Town International Convention Centre 2, South Africa | Devdiscourse";
+    ViewBag.webEdition = ViewBag.region;
+    ViewBag.alternateHeadline = "Africa Oil Week - Cape Town International Convention Centre 2, South Africa";
+    ViewBag.pageType = "webpage";
+    string imageUrl = "/images/mediapartners/event_africa_oil_week.jpg";
+    ViewBag.PageImage = string.Concat(domainUrl, imageUrl);
+    ViewBag.PostUrl = "https://www.devdiscourse.com/events/africa-oil-week";
+    ViewBag.pageKeywords = "Africa Oil Week, AOW 2019, AOW, Cape Town International Convention Centre 2, ";
+    ViewBag.PageDescription = "Africa Oil Week - The leading business intelligence and transactional platform for Africa's oil and gas sector";
+}
+<style>
+    .renderBody {
+        margin: 0;
+    }
+
+    .fg-color {
+        color: #6c191f;
+    }
+
+    .bg-color {
+        color: #6c191f;
+    }
+
+    .ev-loc {
+        padding-top: 30px;
+    }
+
+    .bg-container {
+        background-image: url('/images/mediapartners/africa_oil_week_bg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 50px 10px 100px 10px;
+        background-position: center center;
+    }
+
+    .border-card {
+        background-color: #fff;
+        padding: 30px 45px;
+        font-weight: 500;
+        font-family: sans-serif;
+        -webkit-box-shadow: 0px 0px 25px -13px rgba(117,117,117,1);
+        -moz-box-shadow: 0px 0px 25px -13px rgba(117,117,117,1);
+        box-shadow: 0px 0px 25px -13px rgba(117,117,117,1);
+    }
+
+    .f-25 {
+        font-size: 32px;
+        font-weight: 600;
+        margin: 60px 0 40px 0;
+    }
+
+    .font-sans-serif {
+        font-family: sans-serif;
+    }
+
+    .f-24 {
+        font-size: 26px;
+    }
+
+    .custom-hr {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        border-top: 2px solid #6c191f;
+    }
+
+    .ev-text {
+        color: #c87400;
+        font-size: 26px;
+        font-weight: 500;
+        line-height: 35px;
+    }
+
+    .why-abu {
+        color: #234e5e;
+        font-size: 28px;
+        font-weight: 500;
+    }
+
+    .news-container {
+        background: #fff;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 30px;
+        color: #6c191f;
+    }
+
+    .mid-container {
+        background-color: #6c191f;
+        color: #fff;
+    }
+
+    .btn-css {
+        box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.34);
+        background-color: #6c191f;
+        color: #fff;
+        margin-top: 30px;
+        font-weight: 500;
+        padding: 10px 45px;
+        border: 0;
+        border-radius: 0;
+        font-size: 22px;
+        font-family: sans-serif;
+    }
+
+        .btn-css:active {
+            background-color: #6c191f;
+            color: #fff;
+        }
+
+        .btn-css:hover {
+            background-color: #9c020d;
+            color: #fff;
+        }
+
+    nav.navscrollmenubar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        z-index: 500;
+        text-align: center
+    }
+
+        nav.navscrollmenubar .item {
+            display: inline-block
+        }
+
+        nav.navscrollmenubar .dropdown {
+            float: right
+        }
+
+    .item-right {
+        float: right
+    }
+
+    nav.navscrollmenubar .linkBtn {
+        display: inline-block;
+        text-align: center;
+        padding: 14px 17px;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 18px;
+        font-family: 'Oswald',sans-serif
+    }
+
+    .event-news {
+        height: 240px;
+        background-repeat: no-repeat;
+        background-size: cover
+    }
+
+    .eventcard-title {
+        height: 90px;
+        color: #222;
+        background-color: #fff;
+        font-stretch: condensed;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .loadMoreButton {
+        font-size: 16px;
+        color: #222;
+        background-color: #fff;
+        display: block;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+
+    @@media (max-width: 2560px) and (min-width: 1500px) {
+        .content-container {
+            width: 1100px !important;
+        }
+    }
+
+    @@media(max-width:1440px) {
+        .eventcard-title {
+            height: 100px;
+        }
+    }
+    /*nav.navscrollmenubar .linkBtn:hover {
+            background-color: #234e5e;
+        }*/
+    @@media screen and (max-width:1200px) {
+        nav.navscrollmenu .dropdown, .item-right {
+            float: none
+        }
+    }
+
+    @@media(max-width:1024px) {
+        .eventcard-title {
+            height: 110px;
+        }
+    }
+
+    @@media screen and (max-width:768px) {
+        nav.navscrollmenu {
+            padding-left: 35px
+        }
+
+        .eventcard-title {
+            height: 120px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+
+    @@media screen and (max-width:425px) {
+        .why-abu {
+            margin-top: 30px;
+        }
+
+        .f-24 {
+            font-size: 18px;
+        }
+
+        .bg-container {
+            padding: 10px 0;
+        }
+
+        .border-card {
+            padding: 10px;
+        }
+
+        .ev-text {
+            font-size: 22px;
+            line-height: 28px;
+        }
+
+        .custom-hr {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .ev-loc {
+            padding-top: 10px;
+        }
+
+        .btn-css {
+            margin-top: 10px;
+        }
+    }
+</style>
+<div class="bg-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-xs-12">
+                <div class="border-card">
+                    <div class="f-24">Devdiscourse is proud media partner of </div>
+                    <img src="~/images/mediapartners/africa_oil_week_logo.svg" class="img-responsive center-block m-t-10"/>
+                    <p class="f-24 ev-loc text-center fg-color">04−08 November 2019</p>
+                    <p class="text-center f-16 fg-color m-t-5">Cape Town International Convention Centre 2, South Africa</p>
+                    <hr class="custom-hr" />
+                    <div class="ev-text text-center font-sans-serif">
+                        The leading business intelligence and transactional platform for Africa's oil and gas sector
+                    </div>
+                    <a href="https://www.africa-oilweek.com/Page/registration" target="_blank" class="btn center-block btn-css">REGISTER NOW</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mid-container">
+    <div class="container">
+        <nav class="navscrollmenubar">
+            <div class="item">
+                <a href="https://www.africa-oilweek.com/Home" target="_blank" class="linkBtn" title="Africa Oil Week">HOME</a>
+            </div>
+            <div class="item">
+                <a href="https://www.africa-oilweek.com/Page/about-africa-oil-week" target="_blank" class="linkBtn" title="About">ABOUT</a>
+            </div>
+            <div class="item">
+                <a href="https://africa-oilweek.com/business-programme" target="_blank" class="linkBtn" title="Agenda">AGENDA</a>
+            </div>
+            <div class="item">
+                <a href="https://africa-oilweek.com/Speaker-list" target="_blank" class="linkBtn" title="Speakers">SPEAKERS</a>
+            </div>
+            <div class="item">
+                <a href="https://africa-oilweek.com/Sponsor-list/" target="_blank" class="linkBtn" title="Sponsor / Exhibit">SPONSOR LIST</a>
+            </div>
+            <div class="item">
+                <a href="https://africa-oilweek.com/Exhibitor-list" target="_blank" class="linkBtn" title="Exhibitors">EXHIBITORS</a>
+            </div>
+            <div class="item">
+                <a href="https://www.africa-oilweek.com/Contact-Us" target="_blank" class="linkBtn" title="Contact Us">CONTACT US</a>
+            </div>
+        </nav>
+    </div>
+</div>
+@*<div class="news-container">
+    <div class="p-t-30 container content-container">
+        <h2 class="font-sans-serif">EVENT NEWS</h2>
+        <div>
+            <div id="moreEventNews">
+                @{ Html.RenderAction("EventNews", "Events", new { id = "26", skip = 0, take = 5 });}
+            </div>
+            <div class="text-center loadmore f-16" style="display:none;"><span class="fa fa-circle-o-notch fa-spin fa-fw"></span>Loading</div>
+        </div>
+    </div>
+</div>*@
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var _skip = 0;
+            $('.lazy').lazy();
+            $(document).find('#regDropDown').change(function () {
+                var date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                document.cookie = "Edition=" + $(this).val() + "; expires=" + date.toGMTString();
+                window.location.href = $(this).find('option:selected').attr('data-to');
+            });
+            $(document).on("click", ".load_more", function () {
+                $(this).remove();
+                $('.loadmore').show();
+                _skip = _skip + 6;
+                $.ajax("/Events/GetEventNews?id=26&skip=" + _skip + "&take=6").done(function (data) { $('#moreEventNews').append(data); $('.loadmore').hide(); });
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+<div class="container">
+    <h2>Dashboard</h2>
+    <div class="p-t-30 p-b-20 row">
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="p-20 media" style="background-color:#3f9adc; color:#fff;height:150px;border-radius:5px">
+                <div class="media-left">
+                    <h3>
+                        Today Views
+                    </h3>
+                </div>
+                <div class="media-body">
+                    <h3>
+                        <span class="pull-right">@ViewBag.todayCount</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="p-20 media" style="background-color:#4cd75e; color:#fff;height:150px;border-radius:5px">
+                <div class="media-left">
+                    <h3>
+                        Yesterday Views
+                    </h3>
+                </div>
+                <div class="media-body">
+                    <h3>
+                        <span class="pull-right">@ViewBag.yesterdayCount</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="p-20 media" style="background-color:#ff6a00; color:#fff;height:150px;border-radius:5px">
+                <div class="media-left">
+                    <h3>
+                        Weekly Views
+                    </h3>
+                </div>
+                <div class="media-body">
+                    <h3>
+                        <span class="pull-right">@ViewBag.monthlyCount</span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

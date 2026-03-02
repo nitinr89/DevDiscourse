@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Devdiscourse.Models.BasicModels.Region>
+@if (ViewBag.filter == "")
+{
+    <option value="">Select Edition</option>
+    foreach (var item in Model)
+    {
+        <option value="@item.Title">@item.Title</option>
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+        if (item.Title != "Global Edition")
+        {
+            <li class="text-align"><a href="@Url.Action("Index", "Home", new { reg = item.Title })" title="@item.Title">@item.Title</a></li>
+        }
+    }
+}

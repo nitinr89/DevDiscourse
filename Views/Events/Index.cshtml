@@ -1,0 +1,261 @@
+﻿@using Devdiscourse.Models;
+@using X.PagedList
+@model IPagedList<Devdiscourse.Models.BasicModels.Event>
+@using X.PagedList.Mvc.Core
+@{
+    IPagedList<Devdiscourse.Models.BasicModels.Event> model = Model;
+}
+@using System.Text.RegularExpressions;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout _plain.cshtml";
+}
+@functions {
+    async Task Truncate(string input, int length)
+    {
+
+        if (string.IsNullOrEmpty(input))
+        {
+            <text> </text>
+        }
+        else if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)
+
+            <text>..</text>
+        }
+    }
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/admin.css" rel="stylesheet" />
+<style>
+    input, textarea, select {
+        max-width: 100% !important;
+    }
+</style>
+<div class="bg-white p-20">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Events")">Events</a></li>
+        <li class="breadcrumb-item active"><a href="@Url.Action("Create", "Events")">Create New</a></li>
+    </ol>
+    <div class="row m-b-30">
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Region</label>
+            <select class="form-control newsfilter" id="selRegion">
+                @*  @{
+                Html.RenderAction("GetRegion", "Home");
+                } *@
+                @await Component.InvokeAsync("Region");
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Country</label>
+            <select class="form-control newsfilter" id="selCountry"></select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Sector</label>
+            <select class="form-control newsfilter" id="selSector">
+                <option value="0">All Sector</option>
+                @*   @{
+                Html.RenderAction("GetSectorMenu", "Home", new { filter = "AdminPage" });
+                } *@
+                @await Component.InvokeAsync("SectorMenu", new { filter = "AdminPage" });
+            </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Text Search</label>
+            <div class="input-group" id="searchDiv">
+                <label for="searchBtn"></label>
+                <input type="text" class="form-control" style="border-right:none !important;border-top-left-radius:4px;border-bottom-left-radius:4px;" id="inputText" placeholder="Search...">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" name="searchBtn" id="textBtn" style="border-left:none !important;color:#aeaeae;" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-6">
+            <label for="beforeDate">Before Date </label>
+            <input type="date" id="beforeDate" class="form-control newsfilter" style="padding:0px 4px; font-size:12px;" />
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-6">
+            <label for="afterDate">After Date </label>
+            <input type="date" id="afterDate" class="form-control newsfilter" style="padding:0px 4px; font-size:12px;" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <label>Author</label>
+            <select class="form-control newsfilter" id="selUser">
+                @*  @{
+                Html.RenderAction("GetUsers", "AssignRole");
+                } *@
+                @await Component.InvokeAsync("Users");
+            </select>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>Sector</th>
+                @*<th>Theme</th>*@
+                <th>Title</th>
+                <th>SubTitle</th>
+                <th>Description</th>
+                <th>ImageUrl</th>
+                <th>Tags</th>
+                <th>Country</th>
+                <th>Location</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>AdminCheck</th>
+                <th>IsGlobal</th>
+                <th>CreatedOn</th>
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @*  @{
+                    Html.RenderAction("GetSector", "Home", new { sector = item.Sector, filter = "Plane" });
+                    } *@
+                        @await Component.InvokeAsync("Sector", new { sector = item.Sector, filter = "Plane" });
+                    </td>
+                    @*<td>
+                @if (!String.IsNullOrEmpty(item.Themes))
+                {
+                { Html.RenderAction("GetThemes", "Home", new { theme = item.Themes, filter = "Plane" }); }
+                }
+                </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubTitle)
+                    </td>
+                    <td>
+                        @{
+                            string description = Regex.Replace(item.Description, @"<[^>]+>|&nbsp;", "").Trim();
+                        }
+                        @Truncate(description, 150)
+                    </td>
+                    <td>
+                        <img src="@Html.DisplayFor(modelItem => item.FileUrl)?w=70&h=70&mode=crop" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tags)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AdminCheck)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsGlobal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedOn)
+                    </td>
+                    <td>
+                        @*@if (User.IsInRole("Admin"))
+                    {
+                    <a href="@Url.Action("Create","Infocus", new { id = item.EventId, ft = "evt" })">Add To Infocus</a>
+                    } |*@
+                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin") || item.Creator == ViewBag.loginId)
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        } |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        |
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div class="panel-footer" style="padding-top: 20px; background-color: transparent; border-top: none;">
+        <small>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</small>
+        @Html.PagedListPager(Model, page => Url.Action("Index", "Events", new { bfd = ViewBag.bfDate, afd = ViewBag.afDate, page, region = ViewBag.region, sector = ViewBag.sector, country = ViewBag.country, text = ViewBag.text, uid = ViewBag.uid }))
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var _selSector = '@(ViewBag.sector)';
+            var _region = '@(ViewBag.region)';
+            var _country = '@(ViewBag.country)';
+            var _inputSearchText = '@(ViewBag.text)';
+            var _afterDate = '@(ViewBag.afDate)';
+            var _beforeDate = '@(ViewBag.bfDate)';
+            var _selUser = '@(ViewBag.uid)';
+
+            $("#selSector").val(_selSector)
+            $('#selRegion').val(_region);
+            $('#inputText').val(_inputSearchText);
+            $("#beforeDate").val(_beforeDate);
+            $("#afterDate").val(_afterDate);
+            $('#selUser').val(_selUser);
+
+            getCountries();
+            function getCountries() {
+                $.ajax({
+                    url: '/Home/GetCountry',
+                    type: 'Post',
+                    data: { region: _region },
+                    dataType: 'Json',
+                    success: function (data) {
+                        $('#selCountry').html("").append('<option value="">Select</option>');
+                        $.each(data, function (i, item) {
+                            $('#selCountry').append('<option value="' + item.title + '">' + item.title + '</option>');
+                        });
+                        $('#selCountry').val(_country);
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            $('.newsfilter').on("input", function () {
+                updateVarible();
+            });
+            function updateVarible() {
+                _selSector = $("#selSector option:selected").val();
+                _region = $("#selRegion option:selected").val();
+                _country = $("#selCountry").val();
+                _beforeDate = $("#beforeDate").val();
+                _afterDate = $("#afterDate").val();
+                _selUser = $('#selUser').val();
+                window.location.href = "/Events/Index?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&sector=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText + "&uid=" + _selUser;
+            }
+            $('#textBtn').click(function () {
+                _inputSearchText = $('#inputText').val();
+                window.location.href = "/Events/Index?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&sector=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText + "&uid=" + _selUser;
+            });
+            $("#inputText").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    _inputSearchText = $('#inputText').val();
+                    window.location.href = "/Events/Index?bfd=" + _beforeDate + "&afd=" + _afterDate + "&region=" + _region + "&sector=" + _selSector + "&country=" + _country + "&text=" + _inputSearchText + "&uid=" + _selUser;
+                }
+            });
+        });
+    </script>
+}

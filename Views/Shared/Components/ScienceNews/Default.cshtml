@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Devdiscourse.Models.ViewModel.NewsViewModel>
+
+@if (ViewBag.Sector == "15")
+{
+    foreach (var item in Model.Take(6))
+    {
+        string controller = "/article";
+        string action = item.Label ?? "agency-wire";
+        string id = item.GenerateSecondSlug();
+        var newsImage = ""; if (!string.IsNullOrEmpty(item.ImageUrl) && item.ImageUrl != "/images/defaultImage.jpg" && item.ImageUrl != "/images/newstheme.jpg" && item.ImageUrl != "/images/sector/all_sectors.jpg")
+        {
+            newsImage = $"/img?imageUrl={item.ImageUrl}";
+        }
+        <div class="media p-b-20 m-t-20">
+            <div class="media-left">
+                <a href="@controller/@action/@id" aria-label="@item.Title">
+                    <img class="lazy width-100" src="/Content/transparent.png?width=330&height=185&mode=crop" data-src="@newsImage&width=330&height=185&mode=crop&format=jpeg" alt="@item.Title" />
+                </a>
+            </div><div class="media-body">
+                <p class="font-sans-serif text-uppercase text-muted ls-1 hidden-xs">
+                    @if (!string.IsNullOrEmpty(item.Country))
+                    {
+                        var countryArr = item.Country.Split(','); foreach (var t in countryArr.Take(1))
+                        {
+                            <small class="ls-1">@t</small>
+                        }
+                    }
+                    else
+                    {
+                        <small class="ls-1">Global</small>
+                    }
+                </p>
+                <a href="@controller/@action/@id" title="@item.Title" class="text-decoration">
+                    <h3 class="no-margin trend-title">@item.Title</h3>
+                </a> <p class="font-oswald p-t-10">@item.TimeAgo()</p>
+            </div>
+        </div>
+    }
+}

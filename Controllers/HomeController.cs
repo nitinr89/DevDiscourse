@@ -1,43 +1,58 @@
 ﻿using Devdiscourse.Data;
 using Devdiscourse.Models;
 using Devdiscourse.Models.ViewModel;
+using Devdiscourse.Services;
 using Devdiscourse.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Caching.Distributed;
 using ServiceStack.Host;
 using System.Net;
-using System.Net.NetworkInformation;
+using System.Text.Json;
 using X.PagedList;
 
 namespace DevDiscourse.Controllers
 {
-    public class HomeController : Controller, IDisposable
+    public class HomeController : Controller
     {
-        private ApplicationDbContext _db;
+        private static readonly IReadOnlyDictionary<string, string> EditionRedirects = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["Central Africa"] = nameof(CentralAfrica),
+            ["East Africa"] = nameof(EastAfrica),
+            ["North America"] = nameof(NorthAmerica),
+            ["Southern Africa"] = nameof(SouthernAfrica),
+            ["West Africa"] = nameof(WestAfrica),
+            ["South Asia"] = nameof(SouthAsia),
+            ["East and South East Asia"] = nameof(EastAndSouthEastAsia),
+            ["Pacific"] = nameof(Pacific),
+            ["Europe and Central Asia"] = nameof(EuropeAndCentralAsia),
+            ["Latin America and Caribbean"] = nameof(LatinAmericaAndCaribbean),
+            ["Middle East and North Africa"] = nameof(MiddleEastAndNorthAfrica)
+        };
+
+        private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IpAddressHelper _ipAddressHelper;
-        public HomeController(ApplicationDbContext _db, UserManager<ApplicationUser> userManager, IpAddressHelper ipAddressHelper)
+        private readonly IDistributedCache _cache;
+        private readonly IGeoLocationService _geoLocationService;
+        private readonly INewsLookupService _newsLookupService;
+
+        public HomeController(
+            ApplicationDbContext db,
+            UserManager<ApplicationUser> userManager,
+            IpAddressHelper ipAddressHelper,
+            IDistributedCache cache,
+            IGeoLocationService geoLocationService,
+            INewsLookupService newsLookupService)
         {
-            this._db = _db;
+            _db = db;
             this.userManager = userManager;
             this._ipAddressHelper = ipAddressHelper;
-        }
-        public string GetMACAddress()
-        {
-            string sMacAddress = string.Empty;
-            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
-            foreach (NetworkInterface adapter in nics)
-            {
-                if (adapter.OperationalStatus == OperationalStatus.Up)
-                {
-                    sMacAddress = adapter.GetPhysicalAddress().ToString();
-                    break;
-                }
-            }
-            return sMacAddress;
+            _cache = cache;
+            _geoLocationService = geoLocationService;
+            _newsLookupService = newsLookupService;
         }
         public ActionResult Disclaimer()
         {
@@ -82,73 +97,38 @@ namespace DevDiscourse.Controllers
 
         }
         [Route("/")]
-        public ActionResult Index()
+        public async Task<ActionResult> Index(CancellationToken cancellationToken)
         {
+            string? editionCookie = Request.Cookies["Edition"];
+            if (TryGetEditionRedirect(editionCookie, out string? redirectAction))
+            {
+                return RedirectToAction(redirectAction, "Home");
+            }
+
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
-            var MACAddress = GetMACAddress();
-            var geolocation = GetGeoLocation();
-            if (isCrawler || geolocation.IPv4 == "34.76.160.84" || MACAddress == "000D3AC9E8D7" || MACAddress == "000D3A0AB624")
+            if (isCrawler || IsLocalRequest())
             {
                 ViewBag.edition = "Global Edition";
+                return View();
             }
-            else
+
+            if (!string.IsNullOrWhiteSpace(editionCookie))
             {
-                string? cookie = Request.Cookies["Edition"];
-                if (cookie == null)
-                {
-                    string? UserCountry = geolocation.country_name;
-                    if (string.IsNullOrEmpty(UserCountry))
-                    {
-                        ViewBag.edition = "Global Edition";
-                    }
-                    else
-                    {
-                        string? userRegion = (from c in _db.Countries
-                                              join r in _db.Regions on c.RegionId equals r.Id
-                                              where c.Title != null && c.Title.Contains(UserCountry)
-                                              select new { r.Title }).FirstOrDefault()?.Title;
-                        string cookieName = "Edition";
-                        string cookieValue = userRegion ?? "Global Edition";
-                        ViewBag.edition = userRegion ?? "Global Edition";
-                        CookieOptions options = new()
-                        {
-                            Expires = DateTime.UtcNow.AddDays(1)
-                        };
-                        Response.Cookies.Append(cookieName, cookieValue, options);
-                    }
-                }
-                else
-                {
-                    string edition = cookie;
-                    switch (edition)
-                    {
-                        case "Central Africa":
-                            return RedirectToAction("CentralAfrica", "Home");
-                        case "East Africa":
-                            return RedirectToAction("EastAfrica", "Home");
-                        case "North America":
-                            return RedirectToAction("NorthAmerica", "Home");
-                        case "Southern Africa":
-                            return RedirectToAction("SouthernAfrica", "Home");
-                        case "West Africa":
-                            return RedirectToAction("WestAfrica", "Home");
-                        case "South Asia":
-                            return RedirectToAction("SouthAsia", "Home");
-                        case "East and South East Asia":
-                            return RedirectToAction("EastAndSouthEastAsia", "Home");
-                        case "Pacific":
-                            return RedirectToAction("Pacific", "Home");
-                        case "Europe and Central Asia":
-                            return RedirectToAction("EuropeAndCentralAsia", "Home");
-                        case "Latin America and Caribbean":
-                            return RedirectToAction("LatinAmericaAndCaribbean", "Home");
-                        case "Middle East and North Africa":
-                            return RedirectToAction("MiddleEastAndNorthAfrica", "Home");
-                    }
-                    ViewBag.edition = edition.Replace("Edition=", "") ?? "Global Edition";
-                }
+                ViewBag.edition = editionCookie;
+                return View();
             }
+
+            var geolocation = await _geoLocationService.GetGeoLocationAsync(_ipAddressHelper.GetVisitorIp(), cancellationToken);
+            if (geolocation.IPv4 == "34.76.160.84" || string.IsNullOrWhiteSpace(geolocation.country_name))
+            {
+                ViewBag.edition = "Global Edition";
+                return View();
+            }
+
+            string edition = await _newsLookupService.GetRegionByCountryAsync(geolocation.country_name, cancellationToken) ?? "Global Edition";
+            SetEditionCookie(edition);
+            ViewBag.edition = edition;
             return View();
         }
         public ActionResult Contribute()
@@ -165,33 +145,6 @@ namespace DevDiscourse.Controllers
             return View();
         }
 
-        public GeoLocationViewModel GetGeoLocation()
-        {
-            GeoLocationViewModel location = new GeoLocationViewModel();
-            string visitorIp = _ipAddressHelper.GetVisitorIp();
-            try
-            {
-                var json = "";
-                string Url = $"https://pro.ip-api.com/json/{visitorIp}?fields=query,country,city&key=DUmVyqfXtgPOLyL";
-                using (WebClient wc = new WebClient())
-                {
-                    json = wc.DownloadString(Url);
-                }
-                var obj = JObject.Parse(json);
-                if (obj["country"] != null)
-                {
-                    location.country_name = (string)obj["country"];
-                    location.city_name = (string)obj["city"];
-                    location.IPv4 = (string)obj["query"];
-                }
-            }
-            catch
-            {
-
-            }
-            return location;
-        }
-
         public async Task<ActionResult> Detail(Guid? id, string reg = "Global Edition", string fl = "")
         {
             ViewBag.region = reg;
@@ -200,20 +153,31 @@ namespace DevDiscourse.Controllers
             {
                 throw new HttpException(404, "Error 404");
             }
-            var search = await _db.DevNews.FirstOrDefaultAsync(a => a.Id == id);
-            if (search == null)
+            var article = await _db.DevNews
+                .AsNoTracking()
+                .Where(a => a.Id == id)
+                .Select(a => new { a.NewsId, a.Title })
+                .FirstOrDefaultAsync();
+            if (article == null)
             {
                 throw new HttpException(404, "Error 404");
             }
             var scheme = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.Path}{this.Request.QueryString}";
             var suffix = scheme.IndexOf("?amp");
+            string articleSlug = new Devdiscourse.Models.BasicModels.DevNews
+            {
+                Title = article.Title,
+                Description = string.Empty,
+                Sector = string.Empty,
+                NewsId = article.NewsId
+            }.GenerateSecondSlug();
             if (suffix == -1)
             {
-                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = "agency-wire", id = search.GenerateSecondSlug() });
+                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = "agency-wire", id = articleSlug });
             }
             else
             {
-                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = "agency-wire", id = search.GenerateSecondSlug(), amp = "" });
+                return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = "agency-wire", id = articleSlug, amp = "" });
             }
         }
         public ActionResult UserProfile()
@@ -238,7 +202,7 @@ namespace DevDiscourse.Controllers
             string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
             if (sector != "All" && sector != "Videos" && sector != "EditorPic" && sector != "Sponsored")
             {
-                var sectorSearch = await _db.DevSectors.FirstOrDefaultAsync(a => a.Slug == sector);
+                var sectorSearch = await _newsLookupService.GetSectorBySlugAsync(sector);
                 if (sectorSearch != null)
                 {
                     ViewBag.sectorName = sectorSearch.Title;
@@ -298,6 +262,34 @@ namespace DevDiscourse.Controllers
                 ViewBag.region = cookie ?? "Global Edition";
             }
             return View();
+        }
+
+        private bool IsLocalRequest()
+        {
+            IPAddress? remoteIp = HttpContext.Connection.RemoteIpAddress;
+            return remoteIp == null || IPAddress.IsLoopback(remoteIp);
+        }
+
+        private void SetEditionCookie(string edition)
+        {
+            Response.Cookies.Append("Edition", edition, new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddDays(1),
+                IsEssential = true,
+                SameSite = SameSiteMode.Lax
+            });
+        }
+
+        private static bool TryGetEditionRedirect(string? edition, out string? action)
+        {
+            if (!string.IsNullOrWhiteSpace(edition) && EditionRedirects.TryGetValue(edition, out string? redirectAction))
+            {
+                action = redirectAction;
+                return true;
+            }
+
+            action = null;
+            return false;
         }
         public ActionResult DevBlogs(string type = "")
         {
@@ -755,27 +747,59 @@ namespace DevDiscourse.Controllers
         //    var resultList = _db.DevNews.Where(a => a.Id != id && a.AdminCheck == true && a.IsSponsored == true).OrderByDescending(a => a.CreatedOn).Select(a => new LatestNewsView { Id = a.Id, Title = a.Title, CreatedOn = a.ModifiedOn, ImageUrl = a.ImageUrl, Sector = a.Tags, NewId = a.NewsId, Label = a.NewsLabels }).AsNoTracking().Take(take).ToList();
         //    return PartialView("_getSponsoredNews", resultList);
         //}
-        public PartialViewResult GetNewsItems(string sector, string region, string country, string tag, string cat, string label, int? page)
+        public async Task<IActionResult> GetNewsItems(string sector, string region, string country, string tag, string cat, string label, int? page)
         {
-            DateTime oneMonth = DateTime.Today.AddDays(-10);
+            DateTime tenDaysAgo = DateTime.Today.AddDays(-10);
             cat = cat ?? "";
             int pageSize = 20;
             int pageNumber = (page ?? 1);
-            var resultList = _db.RegionNewsRankings.AsNoTracking().Where(a => a.DevNews.AdminCheck == true && a.DevNews.NewsLabels == label && a.Region.Title == region && a.DevNews.IsSponsored == false).OrderByDescending(a => a.DevNews.CreatedOn).Select(a => new NewsViewModel
-            {
-                Title = a.DevNews.Title,
-                NewsId = a.DevNews.NewsId,
-                ImageUrl = a.DevNews.ImageUrl,
-                Subtitle = a.DevNews.SubTitle,
-                Country = a.DevNews.Country,
-                CreatedOn = a.DevNews.ModifiedOn,
-                Sector = a.DevNews.Type,
-                SubType = a.DevNews.SubType,
-                Label = a.DevNews.NewsLabels,
-                Ranking = a.Ranking
-            }).ToPagedList(pageNumber, pageSize);
 
-            return PartialView("getNewsItems", resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking));
+            // Redis cache for page 1 only (most common hit)
+            string? cacheKey = pageNumber == 1 ? $"home:newsItems:{label}:{region}:{pageNumber}" : null;
+            if (cacheKey != null)
+            {
+                var cached = await _cache.GetStringAsync(cacheKey);
+                if (cached != null)
+                {
+                    var cachedResult = JsonSerializer.Deserialize<List<NewsViewModel>>(cached);
+                    if (cachedResult != null)
+                        return PartialView("getNewsItems", cachedResult);
+                }
+            }
+
+            var resultList = _db.RegionNewsRankings.AsNoTracking()
+                .Where(a => a.DevNews.AdminCheck == true
+                    && a.DevNews.NewsLabels == label
+                    && a.Region.Title == region
+                    && a.DevNews.IsSponsored == false
+                    && a.DevNews.CreatedOn > tenDaysAgo)
+                .OrderByDescending(a => a.DevNews.CreatedOn)
+                .Select(a => new NewsViewModel
+                {
+                    Title = a.DevNews.Title,
+                    NewsId = a.DevNews.NewsId,
+                    ImageUrl = a.DevNews.ImageUrl,
+                    Subtitle = a.DevNews.SubTitle,
+                    Country = a.DevNews.Country,
+                    CreatedOn = a.DevNews.ModifiedOn,
+                    Sector = a.DevNews.Type,
+                    SubType = a.DevNews.SubType,
+                    Label = a.DevNews.NewsLabels,
+                    Ranking = a.Ranking
+                }).ToPagedList(pageNumber, pageSize);
+
+            var sorted = resultList.OrderByDescending(s => s.CreatedOn.Date).ThenByDescending(o => o.Ranking).ToList();
+
+            if (cacheKey != null)
+            {
+                var cacheOptions = new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3)
+                };
+                await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(sorted), cacheOptions);
+            }
+
+            return PartialView("getNewsItems", sorted);
         }
         public JsonResult GetAmpNewsItems(string __amp_source_origin, string sector, string region, string tag, string label, int? moreItemsPageIndex)
         {
@@ -2756,15 +2780,5 @@ namespace DevDiscourse.Controllers
         //    news = news.Select(o => new { o.Title, ImageUrl = $"/img?imageUrl={item.ImageUrl}&width=224" });
         //    return Json(news.ToList(), JsonRequestBehavior.AllowGet);
         //}
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && _db != null)
-            {
-                _db.Dispose();
-                _db = null;
-            }
-            base.Dispose(disposing);
-        }
-    
     }
 }

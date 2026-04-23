@@ -2,22 +2,38 @@ using Devdiscourse.Data;
 using Devdiscourse.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
 
 namespace Devdiscourse.Controllers.ViewComponents
 {
     public class SectorMostPopularViewComponent : ViewComponent
     {
         private readonly ApplicationDbContext _db;
+        private readonly IDistributedCache _cache;
+        private static readonly DistributedCacheEntryOptions _cacheOptions = new()
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+        };
 
-        public SectorMostPopularViewComponent(ApplicationDbContext db)
+        public SectorMostPopularViewComponent(ApplicationDbContext db, IDistributedCache cache)
         {
             _db = db;
+            _cache = cache;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(int sector, string reg = "Global Edition")
         {
             try
             {
+                string cacheKey = $"vc:sectorMostPopular:{sector}:{reg}";
+                var cached = await _cache.GetStringAsync(cacheKey);
+                if (cached != null)
+                {
+                    var cachedResult = JsonSerializer.Deserialize<List<SearchView>>(cached);
+                    if (cachedResult != null) return View(cachedResult);
+                }
+
                 var sectorText = sector.ToString();
                 DateTime recentWindow = DateTime.Today.AddDays(-4);
 
@@ -57,6 +73,7 @@ namespace Devdiscourse.Controllers.ViewComponents
                     })
                     .ToListAsync();
 
+                await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(resultList), _cacheOptions);
                 return View(resultList);
             }
             catch (Exception ex)

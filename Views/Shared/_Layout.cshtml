@@ -76,9 +76,9 @@
     <meta name="google-site-verification" content="T2QGF08VVCLWLtsJ-h-jYXkQe8sRf0czEYcgiaTUXi4" />
     @RenderSection("lastModified", required: false)
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" async />
-    <link rel="stylesheet" href="~/Content/OwlCarousel/assets/owl.carousel.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/SiteNew.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/SiteModern.css" />
+    <link rel="stylesheet" href="~/Content/OwlCarousel/assets/owl.carousel.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/Content/SiteNew.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/Content/SiteModern.css" asp-append-version="true" />
     <style>
         body {
             font-family: 'Frank Ruhl Libre',serif;
@@ -427,6 +427,42 @@
                 padding-left: 15px;
                 padding-right: 15px;
             }
+
+            #NewsSector {
+                transition: left 0.3s ease;
+                z-index: 99999 !important;
+            }
+
+            #NewsSector .sector-nav-bar {
+                background-color: #fff !important;
+                padding: 10px 0 !important;
+            }
+
+            #NewsSector ul.scrollmenu {
+                text-align: left !important;
+            }
+
+            #NewsSector ul.scrollmenu a {
+                color: #333 !important;
+                display: block !important;
+                text-align: left !important;
+                font-size: 15px !important;
+                padding: 10px 15px !important;
+                border-bottom: 1px solid #eee;
+                text-decoration: none;
+            }
+
+            #NewsSector ul.scrollmenu a:hover {
+                color: #ff7b00 !important;
+                background-color: #f9f9f9;
+            }
+
+            #navBtn {
+                position: relative;
+                z-index: 99999;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
         }
 
         @@media screen and (max-width:425px) {
@@ -544,27 +580,27 @@
                 </div>
             </div>
         </div>
-        <div id="NewsSector">
-            <nav class="container-fluid text-center sector-nav-bar">
-                <ul class="scrollmenu no-margin">
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="agro-forestry"})" title="AGRO-Forestry">Agro-Forestry</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="art-culture"})" title="Art &amp; Culture">Art &amp; Culture</a> </li
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="technology"})" title="Technology">Technology</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="economy-business"})" title="Economy & Business">Economy</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="education"})" title="Education">Education</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="energy-extractives"})" title="Energy &amp; Extractives">Energy</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="politics"})" title="Politics">Politics</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="law-governance"})" title="Law & Governance">Law & Governance</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="health"})" title="Health">Health</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="science-environment"})" title="Science & Environment">Science</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="socialgender"})" title="Social &amp; Gender">Social</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="sports"})" title="Sports">Sports</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="transport"})" title="Transport">Transport</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="urban-development"})" title="Urban Development">Urban Development</a> </li>
-                    <li> <a href="@Url.RouteUrl("NewsSector", new{sector="wash"})" class="lastSector" title="WASH">WASH</a> </li>
-                </ul>
-            </nav>
-        </div>
+    </div>
+    <div id="NewsSector">
+        <nav class="container-fluid text-center sector-nav-bar">
+            <ul class="scrollmenu no-margin">
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="agro-forestry"})" title="AGRO-Forestry">Agro-Forestry</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="art-culture"})" title="Art &amp; Culture">Art &amp; Culture</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="technology"})" title="Technology">Technology</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="economy-business"})" title="Economy & Business">Economy</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="education"})" title="Education">Education</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="energy-extractives"})" title="Energy &amp; Extractives">Energy</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="politics"})" title="Politics">Politics</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="law-governance"})" title="Law & Governance">Law & Governance</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="health"})" title="Health">Health</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="science-environment"})" title="Science & Environment">Science</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="socialgender"})" title="Social &amp; Gender">Social</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="sports"})" title="Sports">Sports</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="transport"})" title="Transport">Transport</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="urban-development"})" title="Urban Development">Urban Development</a> </li>
+                <li> <a href="@Url.RouteUrl("NewsSector", new{sector="wash"})" class="lastSector" title="WASH">WASH</a> </li>
+            </ul>
+        </nav>
     </div>
 
     <div class="renderBody" tabindex="-1">@RenderBody()</div>
@@ -588,15 +624,18 @@
         </div>
     </div>
 
+    <!-- Mobile sidebar backdrop -->
+    <div id="sidebarBackdrop" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;opacity:0;transition:opacity 0.3s ease;"></div>
+
     <button type="button" id="myBtn" class="floating-btn" title="Back to Top"><span class="fa fa-angle-up fa-2x" style="margin-top:-3px"></span></button>
     <button type="button" id="feedbackBtn" class="hidden-xs floating-btn" title="Give Feedback"><span class="fa fa-envelope-open"></span></button>
 
     <div class="bg-white p-t-20"> @Html.Partial("_Footer") </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
-    <script src="~/Content/OwlCarousel/owl.carousel.js"></script>
-    <script src="~/Scripts/bootstrap-notify.js"></script>
-    <script src="~/Scripts/jquery.lazy.min.js"></script>
+    <script src="~/Content/OwlCarousel/owl.carousel.js" asp-append-version="true"></script>
+    <script src="~/Scripts/bootstrap-notify.js" asp-append-version="true"></script>
+    <script src="~/Scripts/jquery.lazy.min.js" asp-append-version="true"></script>
     <script>
     (function(){
         var fallbackSrc='/AdminFiles/Logo/ic_notFound.svg';
@@ -621,7 +660,50 @@
     @RenderSection("scripts", required: false)
     <script>(function (i, s, o, g, r, a, m) { i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o), m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga'); ga('create', 'UA-123167123-1', 'auto'); ga('send', { hitType: 'pageview', page: location.pathname });</script>
     <script>var __webEdition = "@(ViewBag.webEdition)";</script>
-    <script src="~/Scripts/layout.min.js"></script>
+    <script src="~/Scripts/layout.min.js" asp-append-version="true"></script>
+    <script>
+    // Complete mobile sidebar toggle — self-contained, no dependency on layout.min.js
+    (function(){
+        if (typeof jQuery === 'undefined') return;
+        $(function(){
+            var $nav = $('#NewsSector');
+            var $btn = $('#navBtn');
+            var $backdrop = $('#sidebarBackdrop');
+            var isOpen = false;
+
+            function openMenu() {
+                isOpen = true;
+                $nav[0].style.setProperty('left', '0px', 'important');
+                $nav[0].style.setProperty('z-index', '9999', 'important');
+                $backdrop.css({ display: 'block' });
+                requestAnimationFrame(function(){
+                    $backdrop.css({ opacity: 1 });
+                });
+            }
+
+            function closeMenu() {
+                isOpen = false;
+                $nav[0].style.setProperty('left', '-250px', 'important');
+                $backdrop.css({ opacity: 0 });
+                setTimeout(function(){ $backdrop.css({ display: 'none' }); }, 300);
+            }
+
+            $btn.on('click', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                if (isOpen) closeMenu(); else openMenu();
+            });
+
+            $backdrop.on('click', function(){
+                closeMenu();
+            });
+
+            $nav.on('click', 'a', function(){
+                closeMenu();
+            });
+        });
+    })();
+    </script>
     <style>
         @@import "https://fonts.googleapis.com/css?family=Oswald:400,500|Frank+Ruhl+Libre:400,500,700&display=swap";
     </style>

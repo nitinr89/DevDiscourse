@@ -1,30 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/neeraj/Library/CloudStorage/OneDrive-TriyogInnovationsPvtLtd/Desktop/Project/Devdiscourse/DevDiscourse/Devdiscourse.csproj": {}
+    "/Users/neeraj/Projects/DevDiscourse/Devdiscourse.csproj": {}
   },
   "projects": {
-    "/Users/neeraj/Library/CloudStorage/OneDrive-TriyogInnovationsPvtLtd/Desktop/Project/Devdiscourse/DevDiscourse/Devdiscourse.csproj": {
+    "/Users/neeraj/Projects/DevDiscourse/Devdiscourse.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/neeraj/Library/CloudStorage/OneDrive-TriyogInnovationsPvtLtd/Desktop/Project/Devdiscourse/DevDiscourse/Devdiscourse.csproj",
+        "projectUniqueName": "/Users/neeraj/Projects/DevDiscourse/Devdiscourse.csproj",
         "projectName": "Devdiscourse",
-        "projectPath": "/Users/neeraj/Library/CloudStorage/OneDrive-TriyogInnovationsPvtLtd/Desktop/Project/Devdiscourse/DevDiscourse/Devdiscourse.csproj",
+        "projectPath": "/Users/neeraj/Projects/DevDiscourse/Devdiscourse.csproj",
         "packagesPath": "/Users/neeraj/.nuget/packages/",
-        "outputPath": "/Users/neeraj/Library/CloudStorage/OneDrive-TriyogInnovationsPvtLtd/Desktop/Project/Devdiscourse/DevDiscourse/obj/",
+        "outputPath": "/Users/neeraj/Projects/DevDiscourse/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/neeraj/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net8.0"
+          "net9.0"
         ],
         "sources": {
+          "/opt/homebrew/Cellar/dotnet@9/9.0.115/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {}
           }
         },
@@ -37,11 +38,12 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
             "ClosedXML": {
               "target": "Package",
@@ -133,7 +135,7 @@
             },
             "SixLabors.ImageSharp": {
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[3.1.7, )"
             },
             "WindowsAzure.Storage": {
               "target": "Package",
@@ -167,7 +169,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet@9/9.0.115/libexec/sdk/9.0.115/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -146,7 +146,7 @@
                             addBannerUrlHtml = '<div class="advertisement-area m-b-10"> <div class="advertisement-title">Advertisement</div>' + adBanners + '</div>';
                         }
                         var disclaimer = "";
-                        if ((data.source == "Reuters" || data.source == "PTI" || data.source == "IANS" || data.source == "ANI") && !data.description.Contains("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)")) {
+                        if ((data.source == "Reuters" || data.source == "PTI" || data.source == "IANS" || data.source == "ANI") && !data.description.includes("(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)")) {
                             disclaimer = "<p>(This story has not been edited by Devdiscourse staff and is auto-generated from a syndicated feed.)</p>";
                         }
                         else if (data.source == "Devdiscourse News Desk" && (data.originalSource == "Reuters" || data.originalSource == "PTI" || data.originalSource == "IANS" || data.originalSource == "ANI")) {

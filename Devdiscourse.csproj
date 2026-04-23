@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>aspnet-Devdiscourse-229fe5bf-aca3-4f13-8faf-34ce370545bf</UserSecretsId>
@@ -40,7 +40,7 @@
 		</PackageReference>
 		<PackageReference Include="Nancy" Version="2.0.0" />
 		<PackageReference Include="NReco.VideoConverter" Version="1.2.1" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
 		<PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
 		<PackageReference Include="X.PagedList" Version="10.2.1" />
 		<PackageReference Include="X.PagedList.Mvc.Core" Version="10.2.1" />

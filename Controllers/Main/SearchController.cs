@@ -1,4 +1,5 @@
 ﻿using Devdiscourse.Data;
+using Devdiscourse.Services;
 using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,36 +9,19 @@ namespace Devdiscourse.Controllers.Main
     public class SearchController : Controller
     {
         private readonly ApplicationDbContext _db;
-        public SearchController(ApplicationDbContext db)
+        private readonly INewsLookupService _newsLookupService;
+
+        public SearchController(ApplicationDbContext db, INewsLookupService newsLookupService)
         {
             _db = db;
+            _newsLookupService = newsLookupService;
         }
         public async Task<ActionResult> Index(string sector = "all", string tag = "")
         {
-            string? cookie = Request.Cookies["Edition"];  
-            var reg = cookie;
-            var regs = (from c in _db.Countries join r in _db.Regions on c.RegionId equals r.Id where c.Title == reg select new { r.Title }).FirstOrDefault();
-            string regionTitle = string.Empty;
-            var region = string.Empty;
-            if (reg == "")
-            {
-                region = "Global Edition";
-            }
-            else
-            {
-                region = regs != null && regs.Title != null ? regionTitle = regs.Title : regionTitle = reg;
-            }
+            string? cookie = Request.Cookies["Edition"];
             if (string.IsNullOrWhiteSpace(sector)) sector = "all";
             ViewBag.sectorSlug = sector;
-            if (cookie == null)
-            {
-                ViewBag.region = "Global Edition";
-            }
-            else
-            {
-                ViewBag.region = region ?? "Global Edition";
-
-            }
+            ViewBag.region = cookie ?? "Global Edition";
             if (!string.IsNullOrEmpty(tag))
             {
                 ViewBag.sectorName = "";
@@ -51,7 +35,7 @@ namespace Devdiscourse.Controllers.Main
             }
             else
             {
-                var sectorSearch = await _db.DevSectors.FirstOrDefaultAsync(a => a.Slug == sector);
+                var sectorSearch = await _newsLookupService.GetSectorBySlugAsync(sector);
                 if (sectorSearch != null)
                 {
                     ViewBag.sectorName = sectorSearch.Title;
@@ -77,19 +61,24 @@ namespace Devdiscourse.Controllers.Main
         [Route("news/videos/{id?}")]
         public async Task<ActionResult> Videos(long? id)
         {
-            var videoNews = await _db.VideoNews.FindAsync(id);
-            if (videoNews != null && videoNews.VideoNewsTags != null)
+            var videoNews = await _db.VideoNews
+                .AsNoTracking()
+                .Include(video => video.VideoNewsTags!)
+                .ThenInclude(tag => tag.Tagstb)
+                .FirstOrDefaultAsync(video => video.Id == id);
+
+            if (videoNews != null)
             {
                 ViewBag.videoNews = videoNews;
-                  ViewBag.Tags = string.Join(", ", videoNews.VideoNewsTags.Select(s => s.Tagstb?.TagTitle).ToArray());
+                ViewBag.Tags = string.Join(", ", videoNews.VideoNewsTags?.Select(s => s.Tagstb?.TagTitle).Where(title => !string.IsNullOrWhiteSpace(title)).ToArray() ?? Array.Empty<string>());
 
                 var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
                 bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
                 if (!isCrawler)
                 {
-                    videoNews.ViewCount = videoNews.ViewCount + 1;
-                    _db.Entry(videoNews).State = EntityState.Modified;
-                    await _db.SaveChangesAsync();
+                    await _db.VideoNews
+                        .Where(video => video.Id == videoNews.Id)
+                        .ExecuteUpdateAsync(setters => setters.SetProperty(video => video.ViewCount, video => video.ViewCount + 1));
                 }
             }
             string? cookie = Request.Cookies["Edition"];
@@ -102,14 +91,6 @@ namespace Devdiscourse.Controllers.Main
                 ViewBag.region = cookie ?? "Global Edition";
             }
             return View();
-        }
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -6,7 +6,10 @@ using Microsoft.Extensions.FileProviders;
 using Devdiscourse.Helper;
 using Devdiscourse.Hubs;
 using DNTCaptcha.Core;
+using Devdiscourse.Services;
 using Devdiscourse.Utility;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,15 +17,35 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddMemoryCache();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddSignalR();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient<IGeoLocationService, GeoLocationService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(2);
+});
+builder.Services.AddScoped<INewsLookupService, NewsLookupService>();
 builder.Services.AddSingleton<SitemapService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IpAddressHelper>();
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+});
+builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;
+});
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;
+});
 builder.Services.Configure<PasswordHasherOptions>(o =>
 {
     o.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2;
@@ -79,7 +102,7 @@ builder.Services.AddDNTCaptcha(option =>
     option.WithEncryptionKey("thisisasecretkey@12345");
 });
 
-IFileProvider physicalProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
+IFileProvider physicalProvider = new PhysicalFileProvider(builder.Environment.ContentRootPath);
 builder.Services.AddSingleton<IFileProvider>(physicalProvider);
 
 var app = builder.Build();
@@ -101,7 +124,14 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseResponseCompression();
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=3600");
+    }
+});
 app.UseCors("AllowSpecificOrigin");
 app.UseRouting();
 app.UseAuthorization();

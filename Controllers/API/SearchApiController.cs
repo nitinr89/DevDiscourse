@@ -8,8 +8,10 @@ using Html2Amp.Sanitization.Implementation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Globalization;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Devdiscourse.Controllers.API
@@ -19,9 +21,13 @@ namespace Devdiscourse.Controllers.API
     public class SearchApiController : Controller
     {
         public ApplicationDbContext db;
-        public SearchApiController(ApplicationDbContext _db)
+        private readonly IDistributedCache _cache;
+        private readonly IConfiguration _config;
+        public SearchApiController(ApplicationDbContext _db, IDistributedCache cache, IConfiguration config)
         {
             db = _db;
+            _cache = cache;
+            _config = config;
         }
         [HttpGet]
         [Route("GetVideoNews/{reg}/{page}")]
@@ -86,11 +92,20 @@ namespace Devdiscourse.Controllers.API
             const int pageSize = 10;
             var skipCount = (page - 1) * pageSize;
 
+            // Redis cache – short TTL so latest news still appears quickly for SEO
+            string cacheKey = $"api:sectorNews:{sector}:{reg}:{page}";
+            var cached = await _cache.GetStringAsync(cacheKey);
+            if (cached != null)
+                return Ok(JsonSerializer.Deserialize<List<NewsViewModel>>(cached));
+
+            DateTime ninetyDays = DateTime.UtcNow.AddDays(-90);
+
             var result = await db.RegionNewsRankings
                 .AsNoTracking()
                 .Where(a => a.DevNews.AdminCheck == true && a.DevNews.Sector == sector
                 && a.Region.Title == reg
-                && a.DevNews.IsSponsored == false)
+                && a.DevNews.IsSponsored == false
+                && a.DevNews.CreatedOn > ninetyDays)
                 .OrderByDescending(a => a.DevNews.CreatedOn)
                 .ThenByDescending(s => s.Ranking)
                 .Skip(skipCount)
@@ -109,6 +124,12 @@ namespace Devdiscourse.Controllers.API
                 })
                 .Take(pageSize)
                 .ToListAsync();
+
+            var cacheOptions = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+            };
+            await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(result), cacheOptions);
 
             return Ok(result);
         }
@@ -709,15 +730,21 @@ namespace Devdiscourse.Controllers.API
         }
         [OutputCache(Duration = 120, VaryByRouteValueNames = new[] { "reg", "edition" })]
         [Route("GetEditionNews/{reg}/{edition}")]
-        public IActionResult GetEditionNews(string reg = "South Asia", string edition = "")
+        public async Task<IActionResult> GetEditionNews(string reg = "South Asia", string edition = "")
         {
+            // Redis cache – edition sidebar, 5 min TTL
+            string cacheKey = $"api:editionNews:{reg}:{edition}";
+            var cached = await _cache.GetStringAsync(cacheKey);
+            if (cached != null)
+                return Ok(JsonSerializer.Deserialize<object>(cached));
+
             DateTime todayDate = DateTime.Today.AddDays(1).AddTicks(-1);
             DateTime weekend = todayDate.AddDays(-3).AddTicks(1);
             var regionNewsIds = db.RegionNewsRankings
                 .AsNoTracking()
                 .Where(r => r.Region.Title == reg)
                 .Select(r => r.NewsId);
-            var result = db.DevNews
+            var result = await db.DevNews
                 .AsNoTracking()
                 .Where(a => a.AdminCheck == true && a.CreatedOn > weekend && regionNewsIds.Contains(a.Id))
                 .Select(a => new
@@ -732,19 +759,32 @@ namespace Devdiscourse.Controllers.API
                     a.Region,
                     a.Type,
                     a.SubType
-                }).OrderByDescending(m => m.CreatedOn).Take(5);
-            return Ok(new { news = result, edition });
+                }).OrderByDescending(m => m.CreatedOn).Take(5).ToListAsync();
+
+            var cacheOptions = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+            };
+            var responseData = new { news = result, edition };
+            await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(responseData), cacheOptions);
+            return Ok(responseData);
         }
 
         [OutputCache(Duration = 120, VaryByRouteValueNames = new[] { "reg", "id" })]
         [Route("GetAnalysis/{reg}/{id?}")]
-        public IActionResult GetAnalysis(long? id, string reg)
+        public async Task<IActionResult> GetAnalysis(long? id, string reg)
         {
+            // Redis cache – analysis/opinion rarely changes, cache 10 minutes
+            string cacheKey = $"api:analysis:{reg}:{id ?? 0}";
+            var cached = await _cache.GetStringAsync(cacheKey);
+            if (cached != null)
+                return Ok(System.Text.Json.JsonSerializer.Deserialize<object>(cached));
+
             DateTime thirtyDays = DateTime.Today.AddDays(-90);
+            object result;
             if (reg == "Global Edition")
             {
-                var result = db.DevNews.Where(a => a.Type == "Blog" && a.CreatedOn > thirtyDays && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn).Select(a => new { a.Id, a.Title, a.CreatedOn, ImageUrl = a.ApplicationUsers.ProfilePic, Image = a.ImageUrl, a.Description, Name = a.Author, a.NewsId, Label = a.NewsLabels }).AsNoTracking().Take(5);
-                return Ok(result);
+                result = await db.DevNews.Where(a => a.Type == "Blog" && a.CreatedOn > thirtyDays && a.NewsId != id && a.AdminCheck == true).OrderByDescending(o => o.ModifiedOn).Select(a => new { a.Id, a.Title, a.CreatedOn, ImageUrl = a.ApplicationUsers.ProfilePic, Image = a.ImageUrl, a.Description, Name = a.Author, a.NewsId, Label = a.NewsLabels }).AsNoTracking().Take(5).ToListAsync();
             }
             else
             {
@@ -752,14 +792,21 @@ namespace Devdiscourse.Controllers.API
                     .AsNoTracking()
                     .Where(r => r.Region.Title == reg)
                     .Select(r => r.NewsId);
-                var result = db.DevNews
+                result = await db.DevNews
                     .Where(a => a.Type == "Blog" && regionNewsIds.Contains(a.Id) && a.CreatedOn > thirtyDays && a.NewsId != id && a.AdminCheck == true)
                     .OrderByDescending(o => o.ModifiedOn)
                     .Select(a => new { a.Id, a.Title, a.CreatedOn, ImageUrl = a.ApplicationUsers.ProfilePic, Image = a.ImageUrl, a.Description, Name = a.Author, a.NewsId, Label = a.NewsLabels })
                     .AsNoTracking()
-                    .Take(5);
-                return Ok(result);
+                    .Take(5)
+                    .ToListAsync();
             }
+
+            var cacheOptions = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+            };
+            await _cache.SetStringAsync(cacheKey, System.Text.Json.JsonSerializer.Serialize(result), cacheOptions);
+            return Ok(result);
         }
         [Route("GetInterview/{reg}")]
         public IActionResult GetInterview(string reg)
@@ -1089,6 +1136,236 @@ namespace Devdiscourse.Controllers.API
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        // ── AI Summary endpoint ──
+        [HttpGet]
+        [Route("GetAiSummary/{sector}/{reg}")]
+        public async Task<IActionResult> GetAiSummary(string sector, string reg = "Global Edition")
+        {
+            try
+            {
+                // Check cache first (10-minute TTL)
+                string cacheKey = $"api:aiSummary:{sector}:{reg}";
+                var cached = await _cache.GetStringAsync(cacheKey);
+                if (cached != null)
+                    return Ok(new { success = true, summary = cached });
+
+                DateTime thirtyDays = DateTime.UtcNow.AddDays(-30);
+
+                // Get top news titles for this sector
+                var topNews = await db.RegionNewsRankings
+                    .AsNoTracking()
+                    .Where(a => a.DevNews.AdminCheck == true
+                        && a.DevNews.Sector == sector
+                        && a.Region.Title == reg
+                        && a.DevNews.IsSponsored == false
+                        && a.DevNews.CreatedOn > thirtyDays)
+                    .OrderByDescending(a => a.DevNews.CreatedOn)
+                    .ThenByDescending(s => s.Ranking)
+                    .Take(10)
+                    .Select(a => a.DevNews.Title)
+                    .ToListAsync();
+
+                if (topNews.Count == 0)
+                    return Ok(new { success = false, summary = "No recent news available for this sector." });
+
+                var titlesText = string.Join("\n", topNews.Select((t, i) => $"{i + 1}. {t}"));
+
+                var prompt = $"You are a concise news analyst for Devdiscourse. Based on these recent headlines, write exactly 4 short bullet-point summaries (one sentence each) capturing the key developments. Return ONLY a JSON array of 4 strings, no extra text.\n\nHeadlines:\n{titlesText}";
+
+                string ApiKey = $"Bearer {_config["OpenAI:ApiKey"]}";
+                var messages = new[] {
+                    new { role = "system", content = "You are a helpful news summarization assistant. Always respond with valid JSON only." },
+                    new { role = "user", content = prompt }
+                };
+                var payload = new { model = "gpt-4o-mini", messages, temperature = 0.5, max_tokens = 300 };
+                string jsonString = JsonSerializer.Serialize(payload);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("Authorization", ApiKey);
+                client.Timeout = TimeSpan.FromSeconds(15);
+
+                var response = await client.PostAsync("https://api.openai.com/v1/chat/completions", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Fallback: generate a simple extractive summary from titles
+                    var fallback = GenerateFallbackSummary(topNews);
+                    return Ok(new { success = true, summary = fallback, fallback = true });
+                }
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(responseContent);
+                var aiText = doc.RootElement
+                    .GetProperty("choices")[0]
+                    .GetProperty("message")
+                    .GetProperty("content")
+                    .GetString() ?? "[]";
+
+                // Clean markdown fences if present
+                aiText = aiText.Trim();
+                if (aiText.StartsWith("```json")) aiText = aiText[7..];
+                if (aiText.StartsWith("```")) aiText = aiText[3..];
+                if (aiText.EndsWith("```")) aiText = aiText[..^3];
+                aiText = aiText.Trim();
+
+                // Cache for 10 minutes
+                await _cache.SetStringAsync(cacheKey, aiText, new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+                });
+
+                return Ok(new { success = true, summary = aiText });
+            }
+            catch (Exception)
+            {
+                // Fallback: use titles as bullet points
+                try
+                {
+                    DateTime thirtyDays = DateTime.UtcNow.AddDays(-30);
+                    var topNews = await db.RegionNewsRankings
+                        .AsNoTracking()
+                        .Where(a => a.DevNews.AdminCheck == true
+                            && a.DevNews.Sector == sector
+                            && a.Region.Title == reg
+                            && a.DevNews.IsSponsored == false
+                            && a.DevNews.CreatedOn > thirtyDays)
+                        .OrderByDescending(a => a.DevNews.CreatedOn)
+                        .ThenByDescending(s => s.Ranking)
+                        .Take(4)
+                        .Select(a => a.DevNews.Title)
+                        .ToListAsync();
+
+                    var fallback = GenerateFallbackSummary(topNews);
+                    return Ok(new { success = true, summary = fallback, fallback = true });
+                }
+                catch
+                {
+                    return Ok(new { success = false, summary = "Unable to generate summary at this time." });
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetArticleAiSummary/{newsId:long}")]
+        public async Task<IActionResult> GetArticleAiSummary(long newsId, bool refresh = false)
+        {
+            try
+            {
+                // Check cache first (7-day TTL — article content rarely changes)
+                string cacheKey = $"api:articleAiSummary:{newsId}";
+                if (!refresh)
+                {
+                    var cached = await _cache.GetStringAsync(cacheKey);
+                    if (cached != null)
+                        return Ok(new { success = true, summary = cached, cached = true });
+                }
+
+                var article = await db.DevNews
+                    .AsNoTracking()
+                    .Where(a => a.NewsId == newsId && a.AdminCheck == true)
+                    .Select(a => new { a.Title, a.Description, a.SubTitle, a.Sector, a.Tags })
+                    .FirstOrDefaultAsync();
+
+                if (article == null)
+                    return Ok(new { success = false, summary = "Article not found." });
+
+                // Strip HTML from description to get plain text
+                var plainText = Regex.Replace(article.Description ?? "", "<[^>]*>", " ");
+                plainText = System.Net.WebUtility.HtmlDecode(plainText);
+                plainText = Regex.Replace(plainText, @"\s+", " ").Trim();
+
+                // Limit to 1200 chars to minimize token usage
+                if (plainText.Length > 1200)
+                    plainText = plainText[..1200];
+
+                if (string.IsNullOrWhiteSpace(plainText))
+                    return Ok(new { success = false, summary = "Article content not available." });
+
+                var prompt = $"Summarize this news in exactly 4 bullet points (1 sentence each). Return ONLY a JSON array of 4 strings.\n\nTitle: {article.Title}\n\n{plainText}";
+
+                string apiKey = $"Bearer {_config["OpenAI:ApiKey"]}";
+                var messages = new[] {
+                    new { role = "system", content = "Respond with valid JSON array only." },
+                    new { role = "user", content = prompt }
+                };
+                var payload = new { model = "gpt-4o-mini", messages, temperature = 0.0, max_tokens = 200 };
+                string jsonString = JsonSerializer.Serialize(payload);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("Authorization", apiKey);
+                client.Timeout = TimeSpan.FromSeconds(15);
+
+                var response = await client.PostAsync("https://api.openai.com/v1/chat/completions", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Fallback: extract first sentences (no OpenAI cost)
+                    var fallback = GenerateArticleFallbackSummary(article.Title, plainText);
+                    // Cache fallback for 1 day so we don't keep retrying
+                    await _cache.SetStringAsync(cacheKey, fallback, new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1)
+                    });
+                    return Ok(new { success = true, summary = fallback, fallback = true });
+                }
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(responseContent);
+                var aiText = doc.RootElement
+                    .GetProperty("choices")[0]
+                    .GetProperty("message")
+                    .GetProperty("content")
+                    .GetString() ?? "[]";
+
+                // Clean markdown fences if present
+                aiText = aiText.Trim();
+                if (aiText.StartsWith("```json")) aiText = aiText[7..];
+                if (aiText.StartsWith("```")) aiText = aiText[3..];
+                if (aiText.EndsWith("```")) aiText = aiText[..^3];
+                aiText = aiText.Trim();
+
+                // Cache for 7 days — article content is static
+                await _cache.SetStringAsync(cacheKey, aiText, new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7)
+                });
+
+                return Ok(new { success = true, summary = aiText });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, summary = "Unable to generate summary at this time." });
+            }
+        }
+
+        private static string GenerateArticleFallbackSummary(string title, string plainText)
+        {
+            // Extract first few sentences as fallback
+            var sentences = Regex.Split(plainText, @"(?<=[.!?])\s+")
+                .Where(s => s.Length > 20)
+                .Take(4)
+                .Select(s => s.Trim())
+                .ToList();
+
+            if (sentences.Count == 0)
+                sentences.Add(title);
+
+            return JsonSerializer.Serialize(sentences);
+        }
+
+        private static string GenerateFallbackSummary(List<string> titles)
+        {
+            var bullets = titles.Take(4).Select(t =>
+            {
+                // Trim to one sentence
+                var idx = t.IndexOfAny(new[] { '.', '!', '?' });
+                return idx > 0 && idx < t.Length - 1 ? t[..(idx + 1)] : t;
+            });
+            return JsonSerializer.Serialize(bullets);
         }
     }
 }

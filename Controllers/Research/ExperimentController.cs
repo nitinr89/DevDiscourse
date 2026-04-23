@@ -19,10 +19,12 @@ namespace Devdiscourse.Controllers.Research
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ImageResizer imageResizer = new(new HttpClient());
-        public ExperimentController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        private readonly IConfiguration _config;
+        public ExperimentController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration config)
         {
             this.db = db;
             this.userManager = userManager;
+            _config = config;
         }
 
         [HttpGet]
@@ -275,7 +277,7 @@ namespace Devdiscourse.Controllers.Research
             {
                 if (!string.IsNullOrWhiteSpace(title))
                 {
-                    const string ApiKey = "Bearer api_key";
+                    string ApiKey = $"Bearer {_config["OpenAI:ApiKey"]}";
                     try
                     {
                         var messages = new[] { new { role = "user", content = "What noun is this material about?, Is it a name of person?, your response should be json string like '{noun:'virat kohli',isNameOfPerson:'true'}'. Content: " + title } };

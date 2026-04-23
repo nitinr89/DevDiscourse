@@ -16,6 +16,7 @@ using Devdiscourse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
 using Microsoft.Data.SqlClient;
@@ -28,12 +29,16 @@ namespace DevDiscourse.Controllers.API
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IHubContext<ChatHub> context;
-        public DevNewsApiController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> context)
+        private readonly IDistributedCache _cache;
+        private readonly IConfiguration _config;
+        public DevNewsApiController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment, IHubContext<ChatHub> context, IDistributedCache cache, IConfiguration config)
         {
             this.db = db;
             this.userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
             this.context = context;
+            _cache = cache;
+            _config = config;
         }
 
         //GET: api/InfocusApi
@@ -322,44 +327,61 @@ namespace DevDiscourse.Controllers.API
         }
 
         [Route("api/DevNews/GetRelatedDevNews/{sector}/{region}/{newsId}")]
-        public IQueryable<NewsView> GetRelatedDevNews(string sector, string region, long newsId)
+        public async Task<IActionResult> GetRelatedDevNews(string sector, string region, long newsId)
         {
+            // Redis cache – related news changes slowly; cache for 5 minutes
+            string cacheKey = $"api:relatedNews:{sector}:{region}:{newsId}";
+            var cached = await _cache.GetStringAsync(cacheKey);
+            if (cached != null)
+                return Ok(System.Text.Json.JsonSerializer.Deserialize<List<NewsView>>(cached));
+
+            DateTime sevenDays = DateTime.UtcNow.AddDays(-7);
             var secArr = sector.Split(',').ToList();
             var regArr = region.Split(',').ToList();
+
+            IQueryable<NewsView> search;
             if (region.Contains("Global Edition"))
             {
-                var search = from m in db.DevNews
-                             where secArr.Contains(m.Sector) && m.NewsId != newsId && m.AdminCheck == true && m.Type == "News"
-                             orderby m.CreatedOn descending
-                             select new NewsView
-                             {
-                                 Id = m.NewsId,
-                                 Title = m.Title,
-                                 ImageUrl = m.ImageUrl,
-                                 CreatedOn = m.ModifiedOn,
-                                 Sector = m.Sector,
-                                 Country = m.Country,
-                                 NewsType = m.Type
-                             };
-                return search.OrderByDescending(a => a.CreatedOn).Take(3);
+                search = db.DevNews.AsNoTracking()
+                    .Where(m => secArr.Contains(m.Sector) && m.NewsId != newsId && m.AdminCheck == true && m.Type == "News" && m.CreatedOn > sevenDays)
+                    .OrderByDescending(m => m.CreatedOn)
+                    .Select(m => new NewsView
+                    {
+                        Id = m.NewsId,
+                        Title = m.Title,
+                        ImageUrl = m.ImageUrl,
+                        CreatedOn = m.ModifiedOn,
+                        Sector = m.Sector,
+                        Country = m.Country,
+                        NewsType = m.Type
+                    })
+                    .Take(3);
             }
             else
             {
-                var search = from m in db.DevNews
-                             where secArr.Contains(m.Sector) && regArr.Contains(m.Region) && m.NewsId != newsId && m.AdminCheck == true && m.Type == "News"
-                             orderby m.CreatedOn descending
-                             select new NewsView
-                             {
-                                 Id = m.NewsId,
-                                 Title = m.Title,
-                                 ImageUrl = m.ImageUrl,
-                                 CreatedOn = m.ModifiedOn,
-                                 Sector = m.Sector,
-                                 Country = m.Country,
-                                 NewsType = m.Type
-                             };
-                return search.OrderByDescending(a => a.CreatedOn).Take(3);
+                search = db.DevNews.AsNoTracking()
+                    .Where(m => secArr.Contains(m.Sector) && regArr.Contains(m.Region) && m.NewsId != newsId && m.AdminCheck == true && m.Type == "News" && m.CreatedOn > sevenDays)
+                    .OrderByDescending(m => m.CreatedOn)
+                    .Select(m => new NewsView
+                    {
+                        Id = m.NewsId,
+                        Title = m.Title,
+                        ImageUrl = m.ImageUrl,
+                        CreatedOn = m.ModifiedOn,
+                        Sector = m.Sector,
+                        Country = m.Country,
+                        NewsType = m.Type
+                    })
+                    .Take(3);
             }
+
+            var result = await search.ToListAsync();
+            var cacheOptions = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+            };
+            await _cache.SetStringAsync(cacheKey, System.Text.Json.JsonSerializer.Serialize(result), cacheOptions);
+            return Ok(result);
         }
 
         [Route("api/DevNews/GetRecommendedNews/{page}/{id}/{sectors}")]
@@ -677,7 +699,7 @@ namespace DevDiscourse.Controllers.API
                     };
 
                     using var client = new HttpClient();
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "api_key");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _config["OpenAI:ApiKey"]);
                     var jsonPayload = JsonConvert.SerializeObject(requestData);
                     var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
 

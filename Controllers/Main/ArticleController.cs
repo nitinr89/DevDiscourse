@@ -3,6 +3,7 @@ using Devdiscourse.Hubs;
 using Devdiscourse.Models;
 using Devdiscourse.Models.BasicModels;
 using Devdiscourse.Models.ViewModel;
+using Devdiscourse.Services;
 using Devdiscourse.Utility;
 using Html2Amp;
 using Html2Amp.Sanitization;
@@ -16,7 +17,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ServiceStack.Host;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 
 namespace Devdiscourse.Controllers.Main
@@ -26,6 +26,7 @@ namespace Devdiscourse.Controllers.Main
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IpAddressHelper _ipAddressHelper;
+        private readonly IGeoLocationService _geoLocationService;
         private readonly IViewTrackingQueue _viewTrackingQueue;
         private readonly IDistributedCache _cache;
         private static readonly TimeSpan ArticleCacheDuration = TimeSpan.FromMinutes(5);
@@ -33,6 +34,7 @@ namespace Devdiscourse.Controllers.Main
             ApplicationDbContext db,
             UserManager<ApplicationUser> userManager,
             IpAddressHelper ipAddressHelper,
+            IGeoLocationService geoLocationService,
             IViewTrackingQueue viewTrackingQueue,
             IDistributedCache cache)
         {
@@ -40,22 +42,9 @@ namespace Devdiscourse.Controllers.Main
             this.db = db;
             this.userManager = userManager;
             _ipAddressHelper = ipAddressHelper;
+            _geoLocationService = geoLocationService;
             _viewTrackingQueue = viewTrackingQueue;
             _cache = cache;
-        }
-        public string GetMACAddress()
-        {
-            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
-            string sMacAddress = string.Empty;
-            foreach (NetworkInterface adapter in nics)
-            {
-                if (sMacAddress == string.Empty)// only return MAC Address from first card  
-                {
-                    IPInterfaceProperties properties = adapter.GetIPProperties();
-                    sMacAddress = adapter.GetPhysicalAddress().ToString();
-                }
-            }
-            return sMacAddress;
         }
         public string GetDeviceInfo()
         {
@@ -91,9 +80,7 @@ namespace Devdiscourse.Controllers.Main
         }
         public async Task<ActionResult> Index(string? prefix, long id, string reg = "")
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string scheme = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}{HttpContext.Request.QueryString}";
-            string absoluteUri = HttpContext.Request.GetDisplayUrl();
             if (id == 0)
             {
                 if (int.TryParse(prefix, out int result))
@@ -139,35 +126,14 @@ namespace Devdiscourse.Controllers.Main
                 return RedirectToRoutePermanent("ArticleDetailswithprefix", new { prefix = "agency-wire", id = search.GenerateSecondSlug() });
             }
             ViewBag.label = search.NewsLabels ?? "";
-            var converter = new HtmlToAmpConverter();
-            converter.WithSanitizers(
-                new HashSet<ISanitizer>
-                {
-                    new InstagramSanitizer(),
-                    new TwitterSanitizer(),
-                    new AudioSanitizer(),
-                    new HrefJavaScriptSanitizer(),
-                    new ImageSanitizer(),
-                    new JavaScriptRelatedAttributeSanitizer(),
-                    new StyleAttributeSanitizer(),
-                    new ScriptElementSanitizer(),
-                    new TargetAttributeSanitizer(),
-                    new XmlAttributeSanitizer(),
-                    new YouTubeVideoSanitizer(),
-                    new AmpIFrameSanitizer()
-                });
-            string ampHtml = converter.ConvertFromHtml(search.Description).AmpHtml;
-            ViewBag.ampHtml = ampHtml;
+            ViewBag.ampHtml = await GetCachedAmpHtmlAsync(search);
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             bool isCrawler = userAgent.Contains("bot", StringComparison.OrdinalIgnoreCase);
             if (!isCrawler)
             {
-                // Fire-and-forget: geo lookup + view tracking in background
-                var geolocation = await GetGeoLocationAsync();
-                var MACAddress = GetMACAddress();
+                var geolocation = await _geoLocationService.GetGeoLocationAsync(_ipAddressHelper.GetVisitorIp(), HttpContext.RequestAborted);
                 ViewBag.publicIP = geolocation.IPv4;
-                ViewBag.MACAddress = MACAddress;
-                QueueViewCount(search, geolocation, MACAddress);
+                QueueViewCount(search, geolocation);
             }
             string? cookie = Request.Cookies["Edition"];
             if (reg != "")
@@ -197,37 +163,53 @@ namespace Devdiscourse.Controllers.Main
             if (scheme.EndsWith("?amp")) return View("Index.amp", search);
             else return View(search);
         }
-        public async Task<GeoLocationViewModel> GetGeoLocationAsync()
+        private async Task<string> GetCachedAmpHtmlAsync(DevNews search)
         {
-            GeoLocationViewModel location = new GeoLocationViewModel();
-            string visitorIp = _ipAddressHelper.GetVisitorIp();
-            try
+            string cacheKey = $"article_amp_{search.NewsId}_{search.ModifiedOn.Ticks}";
+            var cachedAmpHtml = await _cache.GetStringAsync(cacheKey, HttpContext.RequestAborted);
+            if (!string.IsNullOrWhiteSpace(cachedAmpHtml))
             {
-                using var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(3) };
-                string Url = $"https://pro.ip-api.com/json/{visitorIp}?fields=query,country,city&key=DUmVyqfXtgPOLyL";
-                var json = await httpClient.GetStringAsync(Url);
-                var obj = JObject.Parse(json);
-                if (obj["country"] != null)
-                {
-                    location.country_name = (string)obj["country"];
-                    location.city_name = (string)obj["city"];
-                    location.IPv4 = (string)obj["query"];
-                }
+                return cachedAmpHtml;
             }
-            catch
-            {
 
-            }
-            return location;
+            var converter = new HtmlToAmpConverter();
+            converter.WithSanitizers(
+                new HashSet<ISanitizer>
+                {
+                    new InstagramSanitizer(),
+                    new TwitterSanitizer(),
+                    new AudioSanitizer(),
+                    new HrefJavaScriptSanitizer(),
+                    new ImageSanitizer(),
+                    new JavaScriptRelatedAttributeSanitizer(),
+                    new StyleAttributeSanitizer(),
+                    new ScriptElementSanitizer(),
+                    new TargetAttributeSanitizer(),
+                    new XmlAttributeSanitizer(),
+                    new YouTubeVideoSanitizer(),
+                    new AmpIFrameSanitizer()
+                });
+            string ampHtml = converter.ConvertFromHtml(search.Description).AmpHtml;
+            await _cache.SetStringAsync(
+                cacheKey,
+                ampHtml,
+                new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = ArticleCacheDuration,
+                    SlidingExpiration = TimeSpan.FromMinutes(2)
+                },
+                HttpContext.RequestAborted);
+
+            return ampHtml;
         }
-        private void QueueViewCount(DevNews devNews, GeoLocationViewModel location, string? MACAddress)
+        private void QueueViewCount(DevNews devNews, GeoLocationViewModel location)
         {
             _viewTrackingQueue.Enqueue(new ViewTrackingItem(
                 devNews.Id,
                 location.IPv4,
                 location.country_name,
                 location.city_name,
-                MACAddress,
+                null,
                 DateTime.UtcNow));
         }
         public async Task<ActionResult> Mobile(string prefix, long? id)
@@ -236,7 +218,7 @@ namespace Devdiscourse.Controllers.Main
             {
                 throw new HttpException(404, "Error 404");
             }
-            var search = db.DevNews.AsNoTracking().FirstOrDefault(a => a.NewsId == id);
+            var search = await db.DevNews.AsNoTracking().FirstOrDefaultAsync(a => a.NewsId == id);
             if (search == null)
             {
                 throw new HttpException(404, "Error 404");
@@ -281,7 +263,7 @@ namespace Devdiscourse.Controllers.Main
         public async Task<ActionResult> MobileAmp(long? id, string reg = "Global Edition")
         {
             ViewBag.region = reg;
-            var search = await db.DevNews.FirstOrDefaultAsync(a => a.NewsId == id && a.AdminCheck == true);
+            var search = await db.DevNews.AsNoTracking().FirstOrDefaultAsync(a => a.NewsId == id && a.AdminCheck == true);
             if (search != null)
             {
                 string description = Regex.Replace(search.Description, "style[^>]*", "");
@@ -299,9 +281,8 @@ namespace Devdiscourse.Controllers.Main
         }
         public async Task<ActionResult> Amp(long id, string reg)
         {
-            ViewBag.macAddress = GetMACAddress();
             ViewBag.region = reg;
-            var search = await db.DevNews.FirstOrDefaultAsync(a => a.NewsId == id);
+            var search = await db.DevNews.AsNoTracking().FirstOrDefaultAsync(a => a.NewsId == id);
             if (User.Identity.IsAuthenticated)
             {
                 string userId = userManager.GetUserId(User);
@@ -312,17 +293,18 @@ namespace Devdiscourse.Controllers.Main
         public async Task<string> AddAutoDefinedInterest(string sector, string type, string userId)
         {
             var sectorList = sector.Split(',').ToList();
+            List<UserInterest> interests = new List<UserInterest>(sectorList.Count);
             foreach (var _sector in sectorList)
             {
-                UserInterest interest = new UserInterest
+                interests.Add(new UserInterest
                 {
                     UserId = userId,
                     Sector = _sector,
                     InterestType = type
-                };
-                db.UserInterests.Add(interest);
-                await db.SaveChangesAsync();
+                });
             }
+            db.UserInterests.AddRange(interests);
+            await db.SaveChangesAsync();
             return "Success!";
         }
         private string GetFileName(string hrefLink)

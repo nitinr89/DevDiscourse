@@ -25,6 +25,8 @@ Thumbs.db
 # Logs and local db files
 *.log
 *.db
+appsettings.Development.json
+
 
 # Dotnet test/build caches
 TestResults/
